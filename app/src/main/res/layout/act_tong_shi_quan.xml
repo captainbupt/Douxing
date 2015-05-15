@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_tab_contrainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_layout_bg"
+    >
+
+    <include
+        android:id="@+id/action_lay"
+        layout="@layout/actionbar" />
+
+    <FrameLayout
+        android:layout_below="@id/action_lay"
+        android:id="@+id/fragment_around"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent" />
+    
+   <include 
+       layout="@layout/bottom_layout_comment"/>
+    
+</RelativeLayout>

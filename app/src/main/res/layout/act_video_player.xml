@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:background="@color/color_white">
+
+    <include
+        android:id="@+id/layout_action"
+        layout="@layout/actionbar" />
+
+    <include
+        android:id="@+id/layout_bottom"
+        layout="@layout/wei_pei_xun_bottom" />
+
+    <TextView
+        android:id="@+id/tvTop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layout_action"
+        android:layout_marginLeft="@dimen/media_paddingLR"
+        android:layout_marginRight="@dimen/media_paddingLR"
+        android:paddingTop="@dimen/offset_lless"
+        android:text=""
+        android:textColor="@color/color_question_share_content"
+        android:textSize="@dimen/text_size_xlarge" />
+
+    <TextView
+        android:id="@+id/tvTips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/tvTop"
+        android:layout_marginLeft="@dimen/media_paddingLR"
+        android:layout_marginRight="@dimen/media_paddingLR"
+        android:paddingBottom="@dimen/offset_lless"
+        android:paddingTop="@dimen/offset_lless"
+        android:text=""
+        android:textColor="@color/color_blue" />
+
+    <View
+        android:id="@+id/view_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/tvTips"
+        android:background="@color/color_edit_line" />
+
+    <TextView
+        android:id="@+id/wifi_tips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/view_line"
+        android:layout_marginLeft="@dimen/media_paddingLR"
+        android:layout_marginRight="@dimen/media_paddingLR"
+        android:paddingBottom="@dimen/offset_small"
+        android:paddingTop="@dimen/offset_lless"
+        android:text="建议在WIFI环境下浏览"
+        android:textColor="@color/color_question_share_content" />
+
+    <RelativeLayout
+        android:id="@+id/screen_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/wifi_tips"
+        android:layout_marginLeft="@dimen/media_paddingLR"
+        android:layout_marginRight="@dimen/media_paddingLR" >
+
+        <RelativeLayout
+            android:id="@+id/rl_download"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <com.badou.mworking.widget.FullScreenVideoView
+                android:id="@+id/videoview"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/music_pic_h"
+                android:background="@color/color_black"
+                 />
+
+            <ImageView
+                android:id="@+id/img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/btn_download"
+                android:layout_centerInParent="true"
+                android:visibility="gone"
+                 />
+            
+            <ProgressBar 
+                android:id="@+id/pro_downloading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="gone"
+                />
+            
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/bottom_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:background="@color/bg_layout_media_ctrl"
+            android:paddingBottom="@dimen/offset_less"
+            android:paddingTop="@dimen/offset_less" 
+            android:layout_below="@+id/rl_download"
+            >
+
+            <TextView
+                android:id="@+id/tvPlayer"
+                android:layout_width="@dimen/music_player_start_size"
+                android:layout_height="@dimen/music_player_start_size"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/offset_medium"
+                android:layout_marginTop="@dimen/offset_small"
+                android:background="@drawable/btn_start" />
+
+            <TextView
+                android:id="@+id/tvCurrentTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/tvPlayer"
+                android:paddingLeft="@dimen/offset_small"
+                android:singleLine="true"
+                android:text="" />
+
+            <SeekBar
+                android:id="@+id/seekbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxHeight="5dp"
+                android:minHeight="5dp"
+                android:paddingLeft="6dp"
+                android:paddingRight="6dp"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/layoyt_right"
+                android:layout_toRightOf="@id/tvCurrentTime"
+                android:progressDrawable="@drawable/bg_seekbar_down_media"
+                android:thumb="@null" />
+
+            <LinearLayout
+                android:id="@+id/layoyt_right"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_alignParentRight="true"
+                android:gravity="center_vertical" >
+            
+            <TextView
+                android:id="@id/tvTotalTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="@dimen/offset_small"
+                android:singleLine="true"
+                android:text="" />
+            
+            <CheckBox 
+                android:id="@+id/chkZoom"
+                android:layout_width="@dimen/media_player_zoom"
+                android:layout_height="@dimen/media_player_zoom"
+                android:background="@drawable/selector_video_zoom"
+                android:layout_marginRight="@dimen/offset_medium"
+                android:button="@null"
+                />
+            </LinearLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

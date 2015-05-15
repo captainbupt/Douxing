@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_bg_blue"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+     >
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:layout_marginTop="@dimen/chatInfo_item_marginTB"
+        android:gravity="center"
+        android:text=""
+        android:textColor="#989898"
+        android:textSize="@dimen/text_size_medium"
+        android:background="@drawable/chattime"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/rl_other_chat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/chatInfo_item_marginTB"
+            android:layout_marginTop="@dimen/chatInfo_item_marginTB"
+            android:layout_weight="9" >
+
+            <ImageView
+                android:id="@+id/other_head_img"
+                android:layout_width="@dimen/chat_icon_head_size"
+                android:layout_height="@dimen/chat_icon_head_size"
+                android:layout_alignParentLeft="true"
+                android:src="@drawable/user_detail_head_icon" />
+
+            <TextView
+                android:id="@+id/tvOtherMSG"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/other_head_img"
+                android:background="@drawable/whom"
+                android:gravity="center_vertical"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="10dp"
+                android:paddingTop="10dp"
+                android:text=""
+                android:textSize="@dimen/text_size_medium" />
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/right"
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:layout_weight="1.2"
+            android:visibility="invisible" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/rl_mychat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <View
+            android:id="@+id/left"
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:layout_weight="1.2"
+            android:visibility="invisible" />
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/chatInfo_item_marginTB"
+            android:layout_marginTop="@dimen/chatInfo_item_marginTB"
+            android:layout_weight="9" >
+
+            <ImageView
+                android:id="@+id/my_head_img"
+                android:layout_width="@dimen/chat_icon_head_size"
+                android:layout_height="@dimen/chat_icon_head_size"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/user_detail_head_icon" />
+
+            <TextView
+                android:id="@+id/tvMyMSG"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/my_head_img"
+                android:background="@drawable/mychat"
+                android:gravity="center_vertical"
+                android:paddingBottom="10dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="18dp"
+                android:paddingTop="10dp"
+                android:text=""
+                android:textColor="@color/color_white"
+                android:textSize="@dimen/text_size_medium" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>

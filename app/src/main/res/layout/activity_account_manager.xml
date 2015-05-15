@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_layout_bg"
+    android:orientation="vertical"
+>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10"
+        android:gravity="center_vertical"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical" >
+
+        <LinearLayout style="@style/ll_account_manager_input" >
+
+            <ImageView
+                android:layout_width="@dimen/change_pass_image_size"
+                android:layout_height="@dimen/change_pass_image_size"
+                android:padding="6dp"
+                android:src="@drawable/username" />
+
+            <TextView
+                style="@style/tv_account_manager_input"
+                android:text="@string/text_account" />
+
+            <TextView
+                android:id="@+id/tv_change_password_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_change_password"
+                android:textSize="@dimen/text_size_medium" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/color_border" />
+
+        <LinearLayout style="@style/ll_account_manager_input" >
+
+            <ImageView
+                android:layout_width="@dimen/change_pass_image_size"
+                android:layout_height="@dimen/change_pass_image_size"
+                android:padding="6dp"
+                android:src="@drawable/oldpass" />
+
+            <TextView
+                style="@style/tv_account_manager_input"
+                android:text="@string/text_oldPass" />
+
+            <EditText
+                android:id="@+id/et_change_password_original"
+                style="@style/et_account_manager_input"
+                android:hint="@string/change_hint_password_original" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/color_border" />
+
+        <LinearLayout style="@style/ll_account_manager_input" >
+
+            <ImageView
+                android:layout_width="@dimen/change_pass_image_size"
+                android:layout_height="@dimen/change_pass_image_size"
+                android:padding="6dp"
+                android:src="@drawable/newpass" />
+
+            <TextView
+                style="@style/tv_account_manager_input"
+                android:text="@string/text_newPass" />
+
+            <EditText
+                android:id="@+id/et_change_password_new"
+                style="@style/et_account_manager_input"
+                android:hint="@string/change_hint_password_new" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/color_border" />
+
+        <LinearLayout style="@style/ll_account_manager_input" >
+
+            <ImageView
+                android:layout_width="@dimen/change_pass_image_size"
+                android:layout_height="@dimen/change_pass_image_size"
+                android:padding="6dp"
+                android:src="@drawable/newpass" />
+
+            <TextView
+                style="@style/tv_account_manager_input"
+                android:text="@string/text_newPass" />
+
+            <EditText
+                android:id="@+id/et_change_password_confirm"
+                style="@style/et_account_manager_input"
+                android:hint="@string/change_hint_password_confirm" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_change_password_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/offset_large"
+            android:background="@drawable/btn_bg_blue"
+            android:layout_marginLeft="@dimen/offset_lless"
+            android:layout_marginRight="@dimen/offset_lless"
+            android:gravity="center"
+            android:text="@string/change_button_confirm"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/text_size_large" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="6"
+        android:layout_marginTop="10dp"
+        android:gravity="top"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/btn_logout_password_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_radius_center_whtie"
+            android:layout_marginLeft="@dimen/offset_lless"
+            android:layout_marginRight="@dimen/offset_lless"
+            android:gravity="center"
+            android:text="@string/accountManger_logout"
+            android:textColor="@color/color_blue"
+            android:textSize="@dimen/text_size_large" />
+    </LinearLayout>
+
+</LinearLayout>

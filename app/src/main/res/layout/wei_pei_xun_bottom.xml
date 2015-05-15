@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/weipeixuncomment_relat"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dianzan_layout_height"
+    android:layout_alignParentBottom="true"
+    android:layout_gravity="bottom"
+    android:background="@drawable/comment_bg"
+    android:gravity="center" >
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_weight="0.1"
+        android:visibility="invisible" />
+    <!-- 点赞 -->
+
+    <LinearLayout
+        android:id="@+id/ll_dianZan"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/layout_dianzan_comment_h"
+        android:layout_marginRight="@dimen/dianzan_layout_marginLR"
+        android:layout_weight="0.6"
+        android:background="@drawable/bg_dianzan_btn"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/Zan_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_medium" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="@string/pingfen"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_medium" />
+    </LinearLayout>
+    <!-- 评论 -->
+
+    <LinearLayout
+        android:id="@+id/ll_comment"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/layout_dianzan_comment_h"
+        android:layout_marginLeft="@dimen/dianzan_layout_marginLR"
+        android:layout_weight="0.6"
+        android:background="@drawable/pinglu_bg"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/comment_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_medium" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="@string/taolun"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_medium" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_weight="0.1"
+        android:visibility="invisible" />
+
+</LinearLayout>

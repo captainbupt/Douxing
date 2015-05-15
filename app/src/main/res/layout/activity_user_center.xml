@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/user_center_linear"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_layout_bg"
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/actionbar" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bg_top_user_center_h"
+        android:background="@drawable/bg_usercneter"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/offset_small"
+        android:paddingRight="@dimen/offset_small" >
+
+        <ImageView
+            android:id="@+id/ivUserSecondHeadIcon"
+            android:layout_width="@dimen/user_center_image_head_size"
+            android:layout_height="@dimen/user_center_image_head_size"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/user_center_Top_layout_PadB"
+            android:scaleType="centerInside"
+            android:src="@drawable/user_detail_head_icon" />
+        
+        <TextView
+            android:id="@+id/lv_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/ivUserSecondHeadIcon"
+            android:layout_marginBottom="@dimen/offset_small"
+            android:layout_marginRight="@dimen/offset_lless"
+            android:layout_toRightOf="@id/ivUserSecondHeadIcon"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/text_size_small" />
+
+        <TextView
+            android:id="@+id/tvActivityUserSecondName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ivUserSecondHeadIcon"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/offset_less"
+            android:gravity="center_horizontal"
+            android:text=""
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_large" />
+
+        <TextView
+            android:id="@+id/tvActivityUserSecondPart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvActivityUserSecondName"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/offset_small"
+            android:gravity="center_horizontal"
+            android:text=""
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_less" />
+
+        <ImageView
+            android:id="@+id/iv_about"
+            android:layout_width="@dimen/user_center_about_size"
+            android:layout_height="@dimen/user_center_about_size"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="@dimen/user_center_about_marginR"
+            android:layout_marginTop="@dimen/user_center_about_marginT"
+            android:src="@drawable/icon_main_grid_about_us" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_layout_bg"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/offset_medium"
+            android:paddingTop="@dimen/offset_less" >
+
+            <RelativeLayout
+                android:id="@+id/llUserSecondStudyProgress"
+                style="@style/styleUser_center_item_layout" >
+
+                <ImageView
+                    android:id="@+id/iv_1"
+                    android:layout_width="@dimen/user_center_icon_content"
+                    android:layout_height="@dimen/user_center_icon_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/total_study_progress" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/arrow_1"
+                    android:layout_toRightOf="@+id/iv_1"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/offset_less"
+                    android:paddingRight="@dimen/offset_less" >
+
+                    <TextView
+                        android:id="@+id/textview_xuexizongjidu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true"
+                        android:text="@string/my_study_progress"
+                        android:textColor="@color/color_user_center_textcolor_black"
+                        android:textSize="@dimen/text_size_less" />
+
+                    <TextView
+                        android:id="@+id/studyTotalPercent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/textview_xuexizongjidu"
+                        android:layout_alignParentRight="true"
+                        android:gravity="center"
+                        android:text="0/0"
+                        android:textColor="@color/color_user_center_textcolor_black"
+                        android:textSize="@dimen/text_size_less" />
+
+                    <ProgressBar
+                        android:id="@+id/proBarTotalUser"
+                        style="@style/ProgressBar_Mini"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/user_center_progress_height"
+                        android:layout_below="@+id/textview_xuexizongjidu"
+                        android:layout_marginRight="@dimen/offset_micro"
+                        android:layout_marginTop="@dimen/offset_micro"
+                        android:max="100" />
+                </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/arrow_1"
+                    android:layout_width="@dimen/user_center_icon_forward_width"
+                    android:layout_height="@dimen/user_center_icon_forward_height"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/user_detail_forward" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/llUserSecondExam"
+                style="@style/styleUser_center_item_layout" >
+
+                <ImageView
+                    android:id="@+id/iv_2"
+                    android:layout_width="@dimen/user_center_icon_content"
+                    android:layout_height="@dimen/user_center_icon_content"
+                    android:src="@drawable/user_detail_exam" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/arrow_2"
+                    android:layout_toRightOf="@+id/iv_2"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/offset_less"
+                    android:paddingRight="@dimen/offset_less" >
+
+                    <TextView
+                        android:id="@+id/textview_wodekaos"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true"
+                        android:text="@string/my_exam"
+                        android:textColor="@color/color_user_center_textcolor_black"
+                        android:textSize="@dimen/text_size_less" />
+
+                    <TextView
+                        android:id="@+id/tvUserSecondAvrScoreUser"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/textview_wodekaos"
+                        android:layout_alignParentRight="true"
+                        android:gravity="center"
+                        android:text="@string/ucneter_text_pingJunFen"
+                        android:textColor="@color/color_user_center_textcolor_black"
+                        android:textSize="@dimen/text_size_less" />
+                </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/arrow_2"
+                    android:layout_width="@dimen/user_center_icon_forward_width"
+                    android:layout_height="@dimen/user_center_icon_forward_height"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/user_detail_forward" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/llUserMyGroup"
+                style="@style/styleUser_center_item_layout" >
+
+                <ImageView
+                    android:layout_width="@dimen/user_center_icon_content"
+                    android:layout_height="@dimen/user_center_icon_content"
+                    android:src="@drawable/user_center_icon_account" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/offset_micro"
+                    android:paddingLeft="@dimen/offset_less"
+                    android:text="@string/activity_my_around_name"
+                    android:textColor="@color/color_user_center_textcolor_black"
+                    android:textSize="@dimen/text_size_less" />
+
+                <TextView
+                    android:id="@+id/posts_num_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/offset_medium"
+                    android:layout_weight="1.0"
+                    android:gravity="right"
+                    android:textColor="@color/color_user_center_textcolor_black"
+                    android:textSize="@dimen/text_size_less" />
+
+                <ImageView
+                    android:layout_width="@dimen/user_center_icon_forward_width"
+                    android:layout_height="@dimen/user_center_icon_forward_height"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/user_detail_forward" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/chat_linear"
+                style="@style/styleUser_center_item_layout" >
+
+                <ImageView
+                    android:layout_width="@dimen/user_center_icon_content"
+                    android:layout_height="@dimen/user_center_icon_content"
+                    android:src="@drawable/chat" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/offset_micro"
+                    android:paddingLeft="@dimen/offset_less"
+                    android:text="@string/my_sixing"
+                    android:textColor="@color/color_user_center_textcolor_black"
+                    android:textSize="@dimen/text_size_less" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/offset_medium"
+                    android:layout_weight="1.0"
+                    android:gravity="right"
+                    android:text=""
+                    android:textColor="@color/color_user_center_textcolor_black"
+                    android:textSize="@dimen/text_size_less" />
+
+                <TextView
+                    android:id="@+id/chat_num_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/icon_chat_unread"
+                    android:textSize="12sp"
+            		android:gravity="center"
+                    android:textColor="@android:color/white"
+                    android:visibility="gone"
+                     />
+
+                <ImageView
+                    android:layout_width="@dimen/user_center_icon_forward_width"
+                    android:layout_height="@dimen/user_center_icon_forward_height"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/user_detail_forward" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llUserMyAccount"
+                style="@style/styleUser_center_item_layout" >
+
+                <ImageView
+                    android:layout_width="@dimen/user_center_icon_content"
+                    android:layout_height="@dimen/user_center_icon_content"
+                    android:src="@drawable/user_center_icon_setting" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/offset_micro"
+                    android:paddingLeft="@dimen/offset_less"
+                    android:text="@string/text_MyAccount"
+                    android:textColor="@color/color_user_center_textcolor_black"
+                    android:textSize="@dimen/text_size_less" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/offset_medium"
+                    android:layout_weight="1.0"
+                    android:gravity="right"
+                    android:text=""
+                    android:textColor="@color/color_user_center_textcolor_black"
+                    android:textSize="@dimen/text_size_less" />
+
+                <ImageView
+                    android:layout_width="@dimen/user_center_icon_forward_width"
+                    android:layout_height="@dimen/user_center_icon_forward_height"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/user_detail_forward" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent" >
+
+    <RelativeLayout
+        android:id="@+id/rl_item_bg_isread"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/offset_small"
+        android:layout_marginLeft="@dimen/offset_medium"
+        android:layout_marginRight="@dimen/offset_less"
+        android:layout_marginTop="@dimen/offset_small"
+        android:background="@drawable/icon_unread_orange"
+        android:paddingBottom="@dimen/list_item_notice_rl_padB" >
+
+        <TextView
+            android:id="@+id/tv_adapter_base_item_subject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignTop="@+id/tv_unFinish"
+            android:layout_marginLeft="@dimen/list_item_notice_content_marginL"
+            android:layout_marginRight="@dimen/offset_medium"
+            android:layout_toLeftOf="@+id/tv_unFinish"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text=""
+            android:textColor="@color/color_question_share_content"
+            android:textSize="@dimen/text_size_less" />
+
+        <TextView
+            android:id="@+id/tv_unFinish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="@dimen/list_item_exam_unread_tv_marginR"
+            android:layout_marginTop="@dimen/itme_margin_top"
+            android:gravity="center_vertical|right"
+            android:text=""
+            android:textColor="@color/color_question_share_content"
+            android:textSize="@dimen/text_size_less"/>
+
+        <TextView
+            android:id="@+id/tv_adapter_item_dpt_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tv_adapter_base_item_subject"
+            android:layout_below="@+id/tv_adapter_base_item_subject"
+            android:layout_marginTop="@dimen/task_item_text_margin_Top"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text=""
+            android:textColor="@color/color_list_item_text_time"
+            android:textSize="@dimen/text_size_small" />
+
+        <TextView
+            android:id="@+id/tv_adapter_item_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tv_adapter_item_dpt_date"
+            android:layout_alignRight="@+id/tv_unFinish"
+            android:layout_below="@+id/tv_adapter_item_dpt_date"
+            android:layout_marginTop="@dimen/task_item_text_margin_Top"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text=""
+            android:textColor="@color/color_list_item_text_time"
+            android:textSize="@dimen/text_size_small" />
+
+        <ImageView
+            android:id="@+id/tv_adapter_base_item_top"
+            android:layout_width="@dimen/list_item_top_pic_size"
+            android:layout_height="@dimen/list_item_top_pic_size"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="@dimen/list_item_train_top_marginR"
+            android:layout_marginTop="@dimen/list_item_notice_top_marginB"
+            android:scaleType="fitXY"
+            android:src="@drawable/icon_item_top"
+            android:visibility="visible"
+             />
+    </RelativeLayout>
+
+</RelativeLayout>

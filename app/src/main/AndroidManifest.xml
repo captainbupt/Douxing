@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.badou.mworking"
+    android:installLocation="auto"
+    android:versionCode="15"
+    android:versionName="1.5.6" >
+
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <!-- 百度地图权限 -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <!-- 获取网络状况 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- 获取电话状态 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- Required 一些系统要求的权限，如访问网络等 -->
+
+
+    <!-- 通过反射机制调用系统隐藏函数获得程序大小时需要该权限 -->
+    <uses-permission android:name="android.permission.GET_PACKAGE_SIZE" />
+    <!-- 清除缓存时需要此权限 -->
+    <uses-permission android:name="android.permission.CLEAR_APP_CACHE" />
+
+    <!-- Required -->
+    <permission
+        android:name="com.badou.mworking.permission.JPUSH_MESSAGE"
+        android:protectionLevel="signature" />
+    <!-- Required -->
+    <uses-permission android:name="com.badou.mworking.permission.JPUSH_MESSAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <!-- Optional. Required for location feature -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_UPDATES" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+
+    <uses-permission
+        android:name="android.permission.INSTALL_PACKAGES"
+        tools:ignore="ProtectedPermissions" />
+
+    <application
+        android:name="com.badou.mworking.base.AppApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/My.Transparent" >
+        <!-- 百度地图 -->
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="cOglBpj1mqT9z75ZA1xy6h5p" />
+        <!-- 友盟统计 -->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="541fe599fd98c52f3d0047c1" />
+
+        <activity
+            android:name="com.badou.mworking.IntroductionActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyTheme.NoTitleBar.CustomBackground" >
+        </activity>
+        <activity
+            android:name="com.badou.mworking.SplashActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyTheme.NoTitleBar.CustomBackground"
+            >
+        </activity>
+        <activity
+            android:name="com.badou.mworking.AccountManageActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.badou.mworking.MainGridActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/My.NoTitel">
+        </activity>
+        <activity
+            android:name="com.badou.mworking.SheXActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/My.NoTitel">
+        </activity>
+        <activity
+            android:name="com.badou.mworking.LoginActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/My.NoTitel"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="com.badou.mworking.widget.LoginErrorDialogActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/DiallogStyle" >
+        </activity>
+        <activity
+            android:name="com.badou.mworking.AboutUsActivity"
+            android:screenOrientation="portrait"
+            android:exported="true" >
+        </activity>
+        <activity
+            android:name="com.badou.mworking.FirstActivity"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.badou.mworking.QuestionActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="com.badou.mworking.BackWebActivity"
+            android:screenOrientation="portrait"
+            android:hardwareAccelerated="true" />
+        <activity
+            android:name="com.badou.mworking.WenDActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/My.NoTitel.Transparent"/>
+        <activity
+            android:name="com.badou.mworking.WenDaDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/My.NoTitel.Transparent"/>
+        <activity
+            android:name="com.badou.mworking.MyRatingActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/My.NoTitel.Transparent"/>
+        <activity
+            android:name="com.badou.mworking.WenDaAnswerActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.badou.mworking.TrainActivity"
+            android:theme="@style/My.NoTitel.Transparent"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.badou.mworking.NoticesActivity"
+            android:theme="@style/My.NoTitel.Transparent"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.badou.mworking.ExamActivity"
+            android:theme="@style/My.NoTitel.Transparent"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.badou.mworking.ClearCacheActivity"
+            android:theme="@style/My.NoTitel.Transparent"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.badou.mworking.AroundActivity"
+            android:theme="@style/My.NoTitel.Transparent"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.badou.mworking.CommentActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.badou.mworking.PhotoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+        <activity
+            android:name="com.badou.mworking.UserCenterActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@style/My.NoTitel.Transparent" />
+        <activity
+            android:name="com.badou.mworking.SignActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/My.NoTitel.Transparent"/>
+        <activity
+            android:name="com.badou.mworking.TaskActivity"
+            android:theme="@style/My.NoTitel.Transparent"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.badou.mworking.ChangeLanguageActivity"
+            android:theme="@style/My.NoTitel.Transparent"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.badou.mworking.ExperienceActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name="com.badou.mworking.AroundDetailActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="com.badou.mworking.AroundUserActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.badou.mworking.ForgetPassWordActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name="com.badou.mworking.TongSHQVideoPlayActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/My.NoTitel.Transparent"
+            />
+        <activity
+            android:name="com.badou.mworking.HistoryExamActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/My.NoTitel.Transparent"
+            />
+        <activity
+            android:name="com.badou.mworking.UserVerifyAct"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.badou.mworking.MyExamAct"
+            android:theme="@style/My.NoTitel.Transparent"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.badou.mworking.MyStudyProgressAct"
+            android:theme="@style/My.NoTitel.Transparent"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.badou.mworking.PutQuestionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.badou.mworking.ChatInfoActivity"
+            android:theme="@style/My.NoTitel.Transparent"
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.badou.mworking.TitleSearchAct"
+            android:theme="@style/My.NoTitel.Transparent"
+            android:windowSoftInputMode="stateAlwaysVisible"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.badou.mworking.WenDaSearchActivity"
+            android:windowSoftInputMode="stateAlwaysVisible"
+            android:theme="@style/My.NoTitel"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.badou.mworking.ChattingActivity"
+            android:theme="@style/My.NoTitel.Transparent"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.badou.mworking.BaseViewerActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/My.NoTitel.Transparent"/>
+        <activity
+            android:name="com.badou.mworking.NoticePdfViewerActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/My.NoTitel.Transparent"/>
+        <activity
+            android:name="com.badou.mworking.TipsWebView"
+            android:theme="@style/My.NoTitel.Transparent"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <activity
+            android:name="com.badou.mworking.TrainMusicActivity"
+            android:theme="@style/My.NoTitel.Transparent"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.badou.mworking.TrainVideoPlayerAct"
+            android:theme="@style/My.NoTitel.Transparent"
+            android:screenOrientation="portrait"
+            />
+
+        <!-- stateVisible| -->
+
+        <!-- Required SDK核心功能 -->
+        <activity
+            android:name="cn.jpush.android.ui.PushActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+            <intent-filter>
+                <action android:name="cn.jpush.android.ui.PushActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="com.badou.mworking" />
+            </intent-filter>
+        </activity>
+        <!-- Required  SDK核心功能 -->
+        <service
+            android:name="cn.jpush.android.service.DownloadService"
+            android:enabled="true"
+            android:exported="false" >
+        </service>
+
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" >
+            <intent-filter>
+                <action android:name="com.baidu.location.service_v2.2" >
+                </action>
+            </intent-filter>
+        </service>
+
+        <service android:name="com.badou.mworking.services.DownloadService" >
+            <intent-filter >
+                <action android:name="com.badou.mworking.services.IDownloadService" />
+            </intent-filter>
+        </service>
+
+        <!-- Required SDK 核心功能 -->
+        <service
+            android:name="cn.jpush.android.service.PushService"
+            android:enabled="true"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.REGISTER" />
+                <action android:name="cn.jpush.android.intent.REPORT" />
+                <action android:name="cn.jpush.android.intent.PushService" />
+                <action android:name="cn.jpush.android.intent.PUSH_TIME" />
+            </intent-filter>
+        </service>
+
+        <!-- Required SDK核心功能 -->
+        <receiver
+            android:name="cn.jpush.android.service.PushReceiver"
+            android:enabled="true" >
+            <intent-filter android:priority="1000" >
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" /> <!-- Required  显示通知栏 -->
+                <category android:name="com.badou.mworking" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.USER_PRESENT" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+            <!-- Optional -->
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name="com.badou.mworking.receiver.AlarmReceiver"
+            android:process=":remote" >
+            <intent-filter>
+                <action android:name="alarmreceiver" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Required SDK核心功能 -->
+        <receiver android:name="cn.jpush.android.service.AlarmReceiver" />
+
+        <!-- User defined.  For test only  用户自定义的广播接收器-->
+        <receiver
+            android:name="com.badou.mworking.receiver.JPushReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.REGISTRATION" /> <!--Required  用户注册SDK的intent-->
+                <action android:name="cn.jpush.android.intent.UNREGISTRATION" />
+                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" /> <!--Required  用户接收SDK消息的intent-->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" /> <!--Required  用户接收SDK通知栏信息的intent-->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" /> <!--Required  用户打开自定义通知栏的intent-->
+                <action android:name="cn.jpush.android.intent.ACTION_RICHPUSH_CALLBACK" /> <!--Optional 用户接受Rich Push Javascript 回调函数的intent-->
+                <action android:name="cn.jpush.android.intent.CONNECTION" /><!-- 接收网络变化 连接/断开 since 1.6.3 -->
+                <category android:name="com.badou.mworking" />
+            </intent-filter>
+        </receiver>
+
+
+        <!-- Required  . Enable it you can get statistics data with channel -->
+        <meta-data
+            android:name="JPUSH_CHANNEL"
+            android:value="developer-default" />
+        <meta-data
+            android:name="JPUSH_APPKEY"
+            android:value="c43c58514e4fbabafcc6d930" /> <!-- </>值来自开发者平台取得的AppKey -->
+
+    </application>
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="11" />
+
+</manifest>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_corner_radius_medium_ff000000"
+    android:minWidth="@dimen/dialog_min_width"
+    android:orientation="vertical"
+    android:padding="@dimen/offset_large" >
+
+    <TextView
+        android:id="@+id/tv_dialog_login_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/color_login_error_tip"
+        android:textSize="@dimen/text_size_login_error_tip" />
+
+    <Button
+        android:id="@+id/btn_dialog_login_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/offset_large"
+        android:background="@drawable/background_corner_radius_small_ffffffff"
+        android:paddingBottom="@dimen/offset_small"
+        android:paddingLeft="@dimen/offset_xlarge"
+        android:paddingRight="@dimen/offset_xlarge"
+        android:paddingTop="@dimen/offset_small"
+        android:text="@string/login_error_button_confirm"
+        android:textColor="@color/color_login_error_button_text"
+        android:textSize="@dimen/text_size_login_error_button" />
+
+</LinearLayout>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/background_list_item"
+    android:baselineAligned="false"
+    android:orientation="horizontal"
+    android:paddingLeft="@dimen/offset_medium" >
+
+    
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignLeft="@+id/rl_top"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="@dimen/offset_medium"
+        android:background="@color/color_comment_divider" />
+    <!-- 课件评论item -->
+
+	<RelativeLayout 
+	    android:id="@+id/rl_top"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:paddingTop="@dimen/offset_lless"
+	    android:paddingBottom="@dimen/offset_lless"
+	    >
+	    
+     <ImageView
+        android:id="@+id/ivAdapterQuestionShareIcon"
+        android:layout_width="@dimen/around_icon_head_size"
+        android:layout_height="@dimen/around_icon_head_size"
+        android:layout_gravity="top|left"
+        android:src="@drawable/user_detail_head_icon" />
+
+    <RelativeLayout
+        android:id="@+id/rl_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/ivAdapterQuestionShareIcon"
+        android:layout_marginLeft="@dimen/offset_less"
+        android:layout_alignTop="@id/ivAdapterQuestionShareIcon"
+        android:paddingRight="@dimen/offset_lless"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/tvQuestionShareName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lineSpacingMultiplier="0.9"
+            android:textColor="@color/color_blue"
+            android:textSize="@dimen/text_size_less" />
+
+        <TextView
+            android:id="@+id/tvQuestionShareContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvQuestionShareName"
+            android:layout_marginTop="@dimen/offset_less"
+            android:gravity="center_vertical"
+            android:paddingRight="@dimen/offset_medium"
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/text_size_list_subject" />
+        
+        <TextView
+            android:layout_marginRight="@dimen/offset_less"
+            android:layout_below="@id/tvQuestionShareContent"
+            android:id="@+id/tvFloor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/offset_micro"
+            android:textColor="@color/color_text_grey"
+            android:textSize="@dimen/text_size_small" />
+
+        <TextView
+            android:layout_marginTop="@dimen/offset_micro"
+            android:layout_below="@id/tvQuestionShareContent"
+            android:layout_toRightOf="@id/tvFloor"
+            android:id="@+id/tvQuestionShareDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_text_grey"
+            android:textSize="@dimen/text_size_small" />
+    </RelativeLayout>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
