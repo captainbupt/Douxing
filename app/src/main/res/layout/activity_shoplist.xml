@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/classification_linear"
+    android:layout_width="match_parent"
+    android:layout_height="350dp"
+    android:orientation="horizontal"
+     >
+
+    <ListView
+        android:id="@+id/Shoplist_onelist1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="20"
+        android:background="#F4F4F4"
+        android:divider="#bcbcbc"
+        android:dividerHeight="1px"
+        android:listSelector="@android:color/transparent"
+        android:scrollbars="none" />
+
+    <ListView
+        android:id="@+id/Shoplist_twolist1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="17"
+        android:background="#FFFFFF"
+        android:divider="@null"
+        android:listSelector="@android:color/transparent"
+        />
+
+</LinearLayout>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp" >
+
+    <com.swipe.delete.SwipeLayout
+        android:id="@+id/swipe"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:id="@+id/ll_menu"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:gravity="center" 
+            android:background="@color/color_red"
+            >
+
+            <ImageView
+                android:id="@+id/trash"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/trash" />
+
+            <TextView
+                android:id="@+id/delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="删除"
+                android:textColor="#ffffff"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <RelativeLayout
+                android:id="@+id/rl_head"
+                android:layout_width="@dimen/chat_img_head_size"
+                android:layout_height="@dimen/chat_img_head_size"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="6dp"
+                android:padding="@dimen/offset_small" >
+
+                <ImageView
+                    android:id="@+id/img_head"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/user_detail_head_icon" />
+
+                <TextView
+                    android:id="@+id/tv_unreadNum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:background="@drawable/icon_chat_unread"
+                    android:gravity="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/rl_head"
+                android:layout_marginLeft="6dp"
+                android:layout_marginTop="12dp"
+                android:layout_toRightOf="@id/rl_head"
+                android:singleLine="true"
+                android:text=""
+                android:textColor="#3d3d3d"
+                android:textSize="@dimen/text_size_less" />
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/tv_name"
+                android:layout_alignBottom="@id/tv_name"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="17dp"
+                android:text=""
+                android:textColor="@color/color_text_grey"
+                android:textSize="@dimen/text_size_small" />
+
+            <TextView
+                android:id="@+id/tv_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/tv_name"
+                android:layout_alignRight="@id/tv_time"
+                android:layout_below="@id/tv_name"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text=""
+                android:textColor="@color/color_text_grey"
+                android:textSize="@dimen/text_size_small" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignLeft="@id/tv_name"
+                android:layout_alignRight="@id/tv_time"
+                android:layout_below="@id/rl_head"
+                android:layout_marginRight="3dp"
+                android:background="@color/color_edit_line" />
+        </RelativeLayout>
+    </com.swipe.delete.SwipeLayout>
+
+</LinearLayout>

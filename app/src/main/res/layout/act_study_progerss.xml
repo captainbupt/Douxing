@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_bg_blue"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/layout_action"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/actionbar" />
+
+    <RelativeLayout
+        android:id="@+id/ll_top"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bg_top_my_study_h"
+        android:layout_below="@+id/layout_action"
+        android:background="@drawable/bg_usercneter"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/offset_less"
+        android:paddingLeft="@dimen/offset_small"
+        android:paddingTop="@dimen/my_study_top_progress_padT" >
+        
+        
+         <TextView
+            android:layout_marginTop="26dp"
+            android:id="@+id/tv_PaiMingtext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="@dimen/text_size_xxlarge" />
+
+        <TextView
+            android:id="@+id/tv_PaiMing"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_PaiMingtext"
+            android:textSize="@dimen/text_size_medium" />
+       
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_top"
+        android:background="@android:color/transparent"
+        android:gravity="center"
+        android:paddingBottom="@dimen/my_examOrStudy_center_tv_padB"
+        android:paddingTop="@dimen/my_examOrStudy_center_tv_padT"
+        android:text="@string/study_YiXueXiKeCheng"
+        android:textColor="@color/color_blue"
+        android:textSize="@dimen/text_size_large" />
+
+     <com.handmark.pulltorefresh.library.PullToRefreshListView
+        android:layout_below="@id/textView3"
+        android:id="@+id/PullToRefreshListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@android:color/transparent"
+        android:scrollbars="none"
+        android:visibility="visible" 
+        /> 
+
+    <include
+        android:layout_alignParentBottom="true"
+        layout="@layout/bottom_layout_comment" />
+
+</RelativeLayout>

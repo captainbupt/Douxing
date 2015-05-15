@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+        <!-- 点击时的背景 -->
+    <item android:state_pressed="true" android:drawable="@drawable/tab_bg_p"><shape>
+        </shape></item>
+        <!-- 选择时的背景 -->
+    <item android:state_selected="true" android:drawable="@drawable/tab_bg_p"><shape>
+        </shape></item>
+        <!-- <item android:state_checkable="true"><shape>
+            <gradient android:angle="270.0" android:endColor="#46f94b" android:startColor="#46f94b" />
+
+            <corners android:radius="2.0dip" />
+        </shape></item> -->
+    <item><shape>
+            <gradient android:angle="270.0" android:endColor="#00000000" android:startColor="#00000000" />
+
+            <corners android:radius="2.0dip" />
+        </shape></item>
+    
+
+</selector>

@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="text_size_small">14sp</dimen>
+    <dimen name="text_size_less">16sp</dimen>
+    <dimen name="text_size_medium">18sp</dimen>
+    <dimen name="text_size_large">20sp</dimen>
+    <dimen name="text_size_xlarge">22sp</dimen>
+    <dimen name="text_size_xxlarge">24sp</dimen>
+    <dimen name="offset_micro">1dp</dimen>
+    <dimen name="offset_small">6dp</dimen>
+    <dimen name="offset_less">10dp</dimen>
+    <dimen name="offset_lless">12dp</dimen>
+    <dimen name="offset_medium">14dp</dimen>
+    <dimen name="offset_large">27dp</dimen>
+    <dimen name="offset_xlarge">43dp</dimen>
+    <dimen name="offset_xxlarge">57dp</dimen>
+    <dimen name="main_offset_less">28dp</dimen>
+    <dimen name="main_offset_less_right">28dp</dimen>
+    <dimen name="offset_medium_top">60dp</dimen>
+    <dimen name="icon_size_small">40dp</dimen>
+    <dimen name="icon_size_medium">50dp</dimen>
+    <dimen name="icon_size_large">75dp</dimen>
+    <dimen name="icon_size_xlarge">90dp</dimen>
+    <dimen name="radius_small">3dp</dimen>
+    <dimen name="radius_medium">6dp</dimen>
+    <dimen name="dialog_min_width">250dp</dimen>
+    
+     <!-- 在线考试  考试内容布局-->
+    <dimen name="time_maging_top">32dp</dimen>
+    <dimen name="time_maging_right">30dp</dimen>
+    <dimen name="offset_maging_left">30dp</dimen>
+    <dimen name="offset_maging_right">30dp</dimen>
+    <dimen name="offset_maging_top">48dp</dimen>
+    <dimen name="offset_maging_bottom">26dp</dimen>
+
+    <dimen name="text_surecore_marignL">1dp</dimen>
+    <!-- activity welcome -->
+
+    <dimen name="icon_size_welcome_rb">8dp</dimen>
+    <dimen name="text_size_welcome_button">@dimen/text_size_medium</dimen>
+
+    <!-- activity login -->
+
+    <dimen name="text_size_login_info">@dimen/text_size_medium</dimen>
+    <dimen name="text_size_login_button">@dimen/text_size_large</dimen>
+    <dimen name="text_size_login_forget">@dimen/text_size_small</dimen>
+    <dimen name="icon_size_login_logo_width">95dp</dimen>
+    <dimen name="icon_size_login_logo_height">112dp</dimen>
+    <dimen name="icon_size_login_info_width">207dp</dimen>
+    <dimen name="icon_size_login_info_height">53dp</dimen>
+    <dimen name="login_logon_margin_left_or_right">@dimen/offset_micro</dimen>
+    <dimen name="login_system_haier_system_margin_top">@dimen/offset_small</dimen>
+    <dimen name="login_logon_user_margin_left">@dimen/offset_micro</dimen>
+
+    <!-- 登录8-11 -->
+    <dimen name="login_logo_layout_big_marginB">34dp</dimen>
+    <dimen name="login_logo_layout_big_marginT">65dp</dimen>
+    <dimen name="login_logo_pic_big_size">125dp</dimen>
+    <dimen name="login_text_pic_big_h">24dp</dimen>
+    <dimen name="login_logo_layout_small_marginB">11dp</dimen>
+    <dimen name="login_logo_layout_small_marginT">16dp</dimen>
+    <dimen name="login_logo_pic_small_size">42dp</dimen>
+    <dimen name="login_text_pic_small_w">93dp</dimen>
+    <dimen name="login_text_pic_small_h">30dp</dimen>
+    <dimen name="login_edit_H">55dp</dimen>
+    <dimen name="login_edit_padL">15dp</dimen>
+    <dimen name="login_edit_padR">80dp</dimen>
+    <dimen name="login_view_line_marginL">15dp</dimen>
+    
+    <dimen name="login_btnlogin_marginT">35dp</dimen>
+    <!-- activity main grid -->
+
+    <dimen name="text_size_main_grid_text">@dimen/text_size_medium</dimen>
+    <dimen name="icon_size_main_grid_category">110dp</dimen>
+    <dimen name="icon_size_main_grid_logo_width">146dp</dimen>
+    <dimen name="icon_size_main_grid_logo_height">60dp</dimen>
+    <dimen name="icon_size_main_grid_about_us">55dp</dimen>
+    <dimen name="offset_main_grid_number_top">14dp</dimen>
+    <dimen name="offset_main_grid_number_right">21dp</dimen>
+
+    <!-- activity base -->
+
+    <dimen name="text_size_title_bar_title">@dimen/text_size_xxlarge</dimen>
+    <dimen name="text_size_title_bar_right">@dimen/text_size_medium</dimen>
+    <dimen name="icon_size_title_bar">45dp</dimen>
+    <dimen name="text_size_radio_tab">@dimen/text_size_medium</dimen>
+
+    <!-- list -->
+
+    <dimen name="icon_size_list_item_unread">16dp</dimen>
+    <dimen name="icon_size_list_item_unread_offset">-8dp</dimen>
+    <dimen name="icon_size_list_icon">55dp</dimen>
+    <dimen name="icon_size_list_feedback">@dimen/icon_size_small</dimen>
+    <dimen name="text_size_list_subject">@dimen/text_size_medium</dimen>
+    <dimen name="text_size_list_department">@dimen/text_size_less</dimen>
+    <dimen name="text_size_list_time">@dimen/text_size_small</dimen>
+    <dimen name="text_size_list_feedback_count">@dimen/text_size_small</dimen>
+    <dimen name="text_size_list_score">@dimen/text_size_medium</dimen>
+
+    <!-- about -->
+
+    <dimen name="icon_size_about_logo">@dimen/icon_size_medium</dimen>
+    <dimen name="text_size_about_info">@dimen/text_size_medium</dimen>
+    <dimen name="text_size_about_category">@dimen/text_size_medium</dimen>
+    <dimen name="text_size_about_button">@dimen/text_size_large</dimen>
+
+    <!-- login error dialog -->
+
+    <dimen name="text_size_login_error_tip">@dimen/text_size_medium</dimen>
+    <dimen name="text_size_login_error_button">@dimen/text_size_medium</dimen>
+
+    <!-- user center -->
+
+    <dimen name="text_size_user_center_tip">@dimen/text_size_large</dimen>
+    <dimen name="text_size_user_center_info">@dimen/text_size_less</dimen>
+    <dimen name="user_center_image_head_size">110dp</dimen>
+    <dimen name="user_center_icon_content">@dimen/icon_size_small</dimen>
+    <dimen name="user_center_progress_height">10dp</dimen>
+    <dimen name="user_center_icon_forward_width">18dp</dimen>
+    <dimen name="user_center_icon_forward_height">24dp</dimen>
+    <dimen name="about_us_icon_logo_width">117dp</dimen>
+    <dimen name="about_us_icon_logo_height">117dp</dimen>
+
+    <!-- comments -->
+
+    <dimen name="text_size_comment_content">@dimen/text_size_medium</dimen>
+    <dimen name="text_size_comment_time">@dimen/text_size_less</dimen>
+    <dimen name="comment_size_send">50dp</dimen>
+
+    <!-- task -->
+
+    <dimen name="text_size_sign_task_tips">@dimen/text_size_medium</dimen>
+    <dimen name="text_size_sign_task_info">@dimen/text_size_less</dimen>
+    <dimen name="icon_size_sign_task_map_width">20dp</dimen>
+    <dimen name="icon_size_sign_task_map_height">25dp</dimen>
+    <dimen name="icon_size_sign_task_success">@dimen/icon_size_small</dimen>
+
+    <!-- around -->
+
+    <dimen name="layout_qas_question">8dp</dimen>
+    <dimen name="around_icon_head_size">40dp</dimen>
+    <dimen name="around_icon_reply_width">21dp</dimen>
+    <dimen name="around_icon_reply_height">20dp</dimen>
+    <dimen name="around_icon_question_image">110dp</dimen>
+    <dimen name="around_icon_question_image_delete">18dp</dimen>
+    <dimen name="around_button_bottom">80dp</dimen>
+	<dimen name="around_comment_num_width">37dp</dimen>
+	
+	<!-- train item -->
+	<dimen name="train_tv_content_width">240dp</dimen>
+	<dimen name="train_checkbox_size_W">19dp</dimen>
+	<dimen name="train_checkbox_size_H">17dp</dimen>
+	<dimen name="train_icon_new_marginL">39dp</dimen>
+	<dimen name="train_icon_img_size">37dp</dimen>
+	<dimen name="train_relayout_paddingB">6dp</dimen>
+	<dimen name="train_edit_marginL">20dp</dimen>
+	<dimen name="train_gv_marginL">28dp</dimen>
+	<dimen name="train_tv_marginL">35dp</dimen>
+	<dimen name="train_top_h">20dp</dimen>
+	<dimen name="train_top_w">52dp</dimen>
+	<dimen name="train_top_marginR">20dp</dimen>
+	<dimen name="train_icon_new_width">37dp</dimen>
+	<dimen name="train_icon_new_height">20dp</dimen>
+	
+	<!-- experience  8-11-->
+	<dimen name="exp_margin">20dp</dimen>
+	<dimen name="exp_edit_h">45dp</dimen>
+	
+	<!-- list 8-15 -->
+	<dimen name="list_item_notice_pic_width">92dp</dimen>
+	<dimen name="list_item_notice_pic_height">80dp</dimen>
+	<dimen name="list_item_top_pic_size">45dp</dimen>
+	
+	<!-- item 8-16 -->
+	<dimen name="list_item_notice_rl_padR">5dp</dimen>
+	<dimen name="list_item_notice_rl_padB">20dp</dimen>
+	<dimen name="list_item_notice_top_marginR">1dp</dimen>
+	<dimen name="list_item_notice_top_marginB">-1dp</dimen>
+	
+	<dimen name="tab_text_size">6sp</dimen>
+	
+	<!-- item 8-19 -->
+	<dimen name="list_item_train_top_marginR">4dp</dimen>
+	<dimen name="list_item_train_pic_width">290dp</dimen>
+	<dimen name="list_item_train_pic_height">170dp</dimen>
+	
+	<dimen name="login_logo_center_h">24dp</dimen>
+	<dimen name="bg_top_user_center_h">220dp</dimen>
+	<dimen name="user_center_layout_PadB">12dp</dimen>
+	<dimen name="user_center_layout_PadT">12dp</dimen>
+	
+	<dimen name="bg_top_my_exam_h">200dp</dimen>
+	  
+	 <dimen name="my_examOrStudy_center_tv_padT">9dp</dimen>
+     <dimen name="my_examOrStudy_center_tv_padB">3dp</dimen>
+     <dimen name="exam_datika_layout_btn_h">45dp</dimen>
+     <dimen name="my_examAndStudy_lvFooter_h">65dp</dimen>
+        
+    
+</resources>

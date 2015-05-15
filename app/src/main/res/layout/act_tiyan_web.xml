@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/color_layout_bg"
+     >
+    <include 
+        android:id="@+id/top"
+        layout="@layout/actionbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <WebView
+        android:id="@+id/webView1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/tv_bottom"
+        android:layout_below="@+id/top"
+        android:visibility="visible" />
+
+    <LinearLayout
+        android:id="@+id/llNetException"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <ImageView
+            android:id="@+id/ivNetException"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="11.0"
+            android:padding="@dimen/offset_xlarge"
+            android:scaleType="centerInside"
+            android:src="@drawable/net_exception"
+            android:visibility="visible" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="6.0"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1.0"
+                android:orientation="horizontal" 
+                android:visibility="visible"
+                >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.0" />
+
+                <TextView
+                    android:id="@+id/tvBadouNetExceptionRepeat"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/btn_bg_blue"
+                    android:gravity="center"
+                    android:text="@string/web_retry"
+                    android:textColor="@color/color_white"
+                    android:textSize="@dimen/text_size_large" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.0" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="3.0" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_bottom"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text=""
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/text_size_large"
+        android:background="@color/color_blue"
+        android:gravity="center"
+         />
+    
+</RelativeLayout>

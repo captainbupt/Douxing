@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_bottom"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:background="@android:color/white"
+     >
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_edit_line" />
+
+    <LinearLayout
+        android:layout_below="@id/view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/offset_small"
+        android:paddingLeft="@dimen/offset_less"
+        android:paddingRight="@dimen/offset_less"
+        android:paddingTop="@dimen/offset_small" >
+
+        <EditText
+            android:id="@+id/et_comment_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/background_border_radius_small_ffe0e0e3"
+            android:hint="@string/comment_hint"
+            android:padding="@dimen/offset_less"
+            android:textColor="@color/color_comment_content"
+            android:textSize="@dimen/text_size_comment_content" />
+
+        <TextView
+            android:id="@+id/tv_comment_submit"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/comment_layout_btn_height"
+            android:layout_marginLeft="@dimen/offset_small"
+            android:layout_marginRight="@dimen/offset_small"
+            android:layout_weight="0.22"
+            android:background="@drawable/comment_send_blue"
+            android:gravity="center"
+            android:text="@string/text_send"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/text_size_comment_content" />
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_bg_blue" >
+
+    <RelativeLayout
+        android:id="@+id/rl_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/action_bg"
+        android:padding="@dimen/offset_small" >
+
+        <RelativeLayout
+            android:id="@+id/rl_top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginTop="4dp" >
+
+            <EditText
+                android:id="@+id/wenda_et_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp"
+                android:layout_marginTop="6dp"
+                android:layout_toLeftOf="@+id/wenda_search_btn"
+                android:layout_toRightOf="@+id/wenda_back_Img"
+                android:background="@android:color/transparent"
+                android:hint="@string/search_edit_hint"
+                android:imeOptions="actionSearch"
+                android:singleLine="true"
+                android:textColor="@android:color/white"
+                android:textColorHint="@color/color_grey" />
+
+            <ImageView
+                android:id="@+id/wenda_back_Img"
+                android:layout_width="@dimen/actionBar_img_size"
+                android:layout_height="@dimen/actionBar_img_size"
+                android:layout_alignBottom="@+id/wenda_et_search"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="2dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/title_bar_back_normal" />
+
+            <TextView
+                android:id="@+id/wenda_search_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/wenda_et_search"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="3dp"
+                android:background="@drawable/bg_radius_white_cneter_transp"
+                android:paddingBottom="@dimen/offset_micro"
+                android:paddingLeft="@dimen/offset_less"
+                android:paddingRight="@dimen/offset_less"
+                android:paddingTop="@dimen/offset_micro"
+                android:text="@string/text_search"
+                android:textColor="@color/color_white"
+                android:textSize="@dimen/text_size_less" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignLeft="@+id/rl_top"
+            android:layout_alignRight="@+id/rl_top"
+            android:layout_below="@+id/rl_top"
+            android:background="@android:color/white"
+            android:paddingBottom="@dimen/offset_lless" />
+    </RelativeLayout>
+
+ <!--    <FrameLayout
+        android:id="@+id/fl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/rl_title"
+        android:visibility="visible" />
+    
+    <RelativeLayout
+        android:id="@+id/relayout_lv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/rl_title"
+        android:visibility="gone"
+         >
+
+        <ListView
+            android:id="@+id/lv_tips_subject"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/color_layout_bg"
+            android:cacheColorHint="@android:color/transparent"
+            android:visibility="visible" />
+    </RelativeLayout> -->
+    
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        android:id="@+id/pullListView"
+        android:layout_below="@id/rl_title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:divider="@null" />
+
+</RelativeLayout>

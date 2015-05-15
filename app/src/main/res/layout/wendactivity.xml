@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_bg_blue"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/action_lay"
+        layout="@layout/actionbar" />
+
+    <RelativeLayout
+        android:id="@+id/wenda_noproblem_ralay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/action_lay" 
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/wenda_noproblem"
+             />
+    </RelativeLayout>
+
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        android:id="@+id/pullListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/action_lay"
+        android:background="@android:color/transparent"
+        android:divider="@null" />
+
+    <include layout="@layout/bottom_layout_comment" />
+
+</RelativeLayout>

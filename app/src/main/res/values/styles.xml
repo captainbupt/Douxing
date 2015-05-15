@@ -1,0 +1,131 @@
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Base application theme. -->
+    <style name="AppWelcome.Theme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="android:windowActionBar" tools:ignore="NewApi">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:background">@color/transparent</item>
+    </style>
+
+    <style name="DiallogStyle" parent="@android:style/Theme.Dialog">
+        <item name="windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:background">@color/transparent</item>
+    </style>
+
+    <style name="ll_account_manager_input">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingBottom">@dimen/offset_less</item>
+        <item name="android:paddingTop">@dimen/offset_less</item>
+        <item name="android:background">@color/color_white</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="tv_account_manager_input">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginRight">@dimen/offset_small</item>
+        <item name="android:textColor">@color/color_change_password</item>
+        <item name="android:textSize">@dimen/text_size_medium</item>
+    </style>
+
+    <style name="et_account_manager_input">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#c2c2c2</item>
+        <item name="android:textSize">@dimen/text_size_medium</item>
+        <item name="android:background">@null</item>
+        <item name="android:inputType">textPassword</item>
+    </style>
+
+    <style name="MyTheme.NoTitleBar.CustomBackground" parent="@style/Theme.AppCompat.Light">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="MyTheme.NoTitleBar.MainActivity" parent="@style/Theme.AppCompat.Light">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+    
+    <!-- progress的颜色 -->
+    <style name="ProgressBar_Mini" parent="@android:style/Widget.ProgressBar.Horizontal">
+        <item name="android:maxHeight">50dip</item>
+        <item name="android:minHeight">8dip</item>
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:indeterminateDrawable">@android:drawable/progress_indeterminate_horizontal</item>
+        <item name="android:progressDrawable">@drawable/progressbar_mini</item>
+    </style>
+    
+    <!-- 设置透明 -->
+    <style name="My.Transparent" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+    
+    <!-- 设置不要标题&&背景透明 -->
+    <style name="My.NoTitel.Transparent" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+    
+    <!-- 设置不要标题 -->
+    <style name="My.NoTitel" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <!-- 星星评分 -->
+    <style name="foodRatingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/myratingbar</item>
+        <item name="android:minHeight">15dip</item>
+        <item name="android:maxHeight">15dip</item>
+    </style>
+    
+    <style name="coursewarescorerrb" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/coursewarescorerrb</item>
+        <item name="android:minHeight">45dip</item>
+        <item name="android:maxHeight">45dip</item>
+    </style>
+    
+    <!-- 考试的 dialog -->
+    <style name="dialog_Translucent_NoTitle" parent="android:style/Theme.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:background">#00000000</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+    
+    <!-- 个人中心 下发的layout -->
+	<style name="styleUser_center_item_layout">
+	    <item name="android:layout_width">match_parent</item>
+	    <item name="android:layout_height">wrap_content</item>
+	    <item name="android:layout_marginLeft">@dimen/user_center_layout_MarginL</item>
+	    <item name="android:layout_marginRight">@dimen/user_center_layout_MarginL</item>
+	    <item name="android:layout_marginTop">@dimen/offset_lless</item>
+	    <item name="android:background">@drawable/bg_zhijiao_center_whtie</item>
+	    <item name="android:gravity">center_vertical</item>
+	    <item name="android:orientation">horizontal</item>
+	    <item name="android:paddingBottom">@dimen/user_center_layout_PadB</item>
+	    <item name="android:paddingLeft">@dimen/user_center_layout_PadL</item>
+	    <item name="android:paddingRight">@dimen/user_center_layout_PadR</item>
+	    <item name="android:paddingTop">@dimen/user_center_layout_PadT</item>
+	</style>
+	
+	<style name="update_progress_style" >
+	　　 <item name="android:indeterminateDrawable">@drawable/update_progress</item>
+	　　 <item name="android:minWidth">20dip</item>
+	　　 <item name="android:maxWidth">20dip</item>
+	　　 <item name="android:minHeight">20dip</item>
+	　　 <item name="android:maxHeight">20dip</item>
+	</style>
+	
+</resources>
