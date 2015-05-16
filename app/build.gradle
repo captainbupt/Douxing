@@ -2,12 +2,12 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 21
-    buildToolsVersion "21.1.2"
+    buildToolsVersion '21.1.2'
 
     defaultConfig {
         applicationId "com.badou.mworking"
         minSdkVersion 9
-        targetSdkVersion 21
+        targetSdkVersion 19
         versionCode 1
         versionName "1.0"
     }
@@ -24,11 +24,11 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:21.0.3'
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile files('libs/baidumapapi_v3_3_0.jar')
     compile files('libs/jpush-sdk-release1.6.1.jar')
     compile files('libs/locSDK_3.1.jar')
     compile files('libs/umeng-analytics-v5.4.1.jar')
     compile files('libs/volley.jar')
+    compile project(':ActionBarSherlock')
 }
