@@ -1,10 +1,8 @@
 package com.badou.mworking.base;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -14,17 +12,20 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.util.AppManager;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.SwipeBackLayout;
 
-public class BaseActionBarActivity extends SherlockActivity  {
+public class BaseActionBarActivity extends SherlockFragmentActivity {
 
     protected SwipeBackLayout layout;
 
     protected Context mContext;
-    protected ActionBarActivity mActivity;
+    protected Activity mActivity;
     protected ViewGroup layout_action;
 
     protected TextView mTxtTitle;
@@ -49,7 +50,7 @@ public class BaseActionBarActivity extends SherlockActivity  {
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setCustomView(mCustomView);
         //getSupportActionBar().setDisplayShowCustomEnabled(true);
-        ((Toolbar)(mCustomView.getParent())).setContentInsetsAbsolute(0, 0);// set padding programmatically to 0dp
+        //((Toolbar)(mCustomView.getParent())).setContentInsetsAbsolute(0, 0);// set padding programmatically to 0dp
 
         layout_action = (ViewGroup) mCustomView.findViewById(R.id.layout_action_bg);
 
