@@ -21,7 +21,7 @@ import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.badou.mworking.base.AppApplication;
-import com.badou.mworking.base.BaseFragmentActivity;
+import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.model.Train;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ResponseParams;
@@ -51,7 +51,7 @@ import java.io.IOException;
  * 类: <code> BaseViewerActivity </code> 功能描述: pdf 显示页面 创建人: 葛建锋 创建日期: 2014年9月11日
  * 上午11:35:02 开发环境: JDK7.0
  */
-public class BaseViewerActivity extends BaseFragmentActivity implements OnClickListener {
+public class BaseViewerActivity extends BaseNoTitleActivity implements OnClickListener {
 
 	public static final String VALUE_TRAIN = "train";
 	
@@ -215,7 +215,7 @@ public class BaseViewerActivity extends BaseFragmentActivity implements OnClickL
 		super.onStop();
 	}
 
-	private void initView() {
+	protected void initView() {
 		pdfView = (PDFView) this.findViewById(R.id.pdfview);
 		ll_comment = (LinearLayout) findViewById(R.id.ll_comment);
 		ll_dianZan = (LinearLayout) findViewById(R.id.ll_dianZan);
@@ -367,7 +367,6 @@ public class BaseViewerActivity extends BaseFragmentActivity implements OnClickL
 	
 	/**
 	 * c初始化action 布局
-	 * @param onclick
 	 */
 	private void initAction() {
 		actionbarLeftLv = (ImageView) this.findViewById(R.id.iv_actionbar_left);

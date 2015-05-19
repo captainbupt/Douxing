@@ -81,6 +81,7 @@
 	<string name="gengxin_">Update&#160; </string>
 	<string name="_gengxin"> &#160;new content</string>
 	<string name="floor_num"> </string>
+	<string name="chatter_num"> </string>
 	<string name="text_fen">min</string>
 	<string name="text_miao">sec</string>
 	<string name="text_YongShi">Time use:</string>
@@ -117,6 +118,8 @@
 	<string name="title_name_keCheng">About Course</string>
 	<string name="title_name_kaoShi">About Test</string>
 	<string name="title_name_task">Schedule</string>
+	<string name="title_name_level">Level Introduction</string>
+	<string name="title_name_user_center">User Center</string>
 	<string name="about_tips_phone">Customer service number:\n400-8233-773\nWeekdays only</string>
 	<string name="about_btn_tophone">OK</string>
 	<string name="about_btn_update">OK</string>
@@ -222,8 +225,8 @@ APP will lock the page until reacquire network connection and will automatically
 	<string name="text_piyue">批语：</string>
 	<string name="text_citidefen">此题得分在</string>
 	<string name="text_houkejian">后可见</string>
-	<string name="tips_username_input_CuoWu">用户名格式非法</string>
-    <string name="tips_username_input_MiMa">密码格式非法</string>
+	<string name="tips_username_input_invalid">用户名格式非法</string>
+    <string name="tips_password_input_invalid">密码格式非法</string>
 	<string name="tips_username_input_New_MiMa">新密码格式非法</string>
 	<string name="tips_liuliang">当前为省流量模式</string>
 	<string name="no_more">没有更多了</string>

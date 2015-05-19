@@ -21,11 +21,10 @@ import com.badou.mworking.adapter.ExamAdapter;
 import com.badou.mworking.adapter.SearchMainAdapter;
 import com.badou.mworking.adapter.SearchMoreAdapter;
 import com.badou.mworking.base.AppApplication;
-import com.badou.mworking.base.BaseFragmentActivity;
+import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.model.Category;
 import com.badou.mworking.model.Classification;
 import com.badou.mworking.model.Exam;
-import com.badou.mworking.model.MainIcon;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.RequestParams;
 import com.badou.mworking.net.ResponseParams;
@@ -53,7 +52,7 @@ import cn.jpush.android.api.JPushInterface;
  * @author gejianfeng
  * ExamActivity 考试页面
  */ 
-public class ExamActivity extends BaseFragmentActivity implements OnClickListener,OnRefreshListener2<ListView>{
+public class ExamActivity extends BaseNoTitleActivity implements OnClickListener,OnRefreshListener2<ListView>{
 	
 	private SearchMainAdapter oneadapter1 = null;
 	private SearchMoreAdapter twoadapter1 = null;
@@ -101,8 +100,7 @@ public class ExamActivity extends BaseFragmentActivity implements OnClickListene
 		ivRight.setVisibility(View.VISIBLE);
 		triangleDownImg.setVisibility(View.VISIBLE);
 		String titleName = SP.getStringSP(ExamActivity.this,SP.DEFAULTCACHE, RequestParams.CHK_UPDATA_PIC_EXAM, "");
-		MainIcon mainIcon = new MainIcon();
-		tvTitle.setText(mainIcon.getMainIcon(titleName).getName());
+
 		if (getIntent().getIntExtra(MyExamAct.VALUE_EXAM,0) == 1) {
 			ivLeft.setImageResource(R.drawable.title_bar_back_normal);
 		}else {
@@ -172,17 +170,17 @@ public class ExamActivity extends BaseFragmentActivity implements OnClickListene
 	
 	/**
 	 * 初始化view
-	 * @param view
 	 */
-	private void initView() {
-		updatePro = (ProgressBar) findViewById(R.id.update_pro);
+	protected void initView() {
+		super.initView();
+		updatePro = (ProgressBar) findViewById(R.id.pb_action_bar);
 		tvSearchNull = (ImageView)findViewById(R.id.tv_tishi);
 		ivLeft = (ImageView) this.findViewById(R.id.iv_actionbar_left);
 		ivLeft.setOnClickListener(this);
 		tvTitle = (TextView) this.findViewById(R.id.txt_actionbar_title);
 		ivRight = (ImageView) this.findViewById(R.id.iv_actionbar_right);
-		triangleDownImg = (ImageView) findViewById(R.id.triangle_down_img);
-		titleLay = (LinearLayout) findViewById(R.id.title_lay);
+		triangleDownImg = (ImageView) findViewById(R.id.iv_action_bar_triangle);
+		titleLay = (LinearLayout) findViewById(R.id.ll_action_bar_title);
 		ivRight.setVisibility(View.VISIBLE);
 		ivRight.setImageResource(R.drawable.search);
 		triangleDownImg.setVisibility(View.VISIBLE);
@@ -358,7 +356,8 @@ public class ExamActivity extends BaseFragmentActivity implements OnClickListene
 	/**
 	 * 初始化item点击监听
 	 */
-	private void initListener() {
+	protected void initListener() {
+		super.initListener();
 		pullToRefreshListView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1,

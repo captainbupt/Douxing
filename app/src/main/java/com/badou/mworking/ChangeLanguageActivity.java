@@ -12,7 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.badou.mworking.base.AppApplication;
-import com.badou.mworking.base.BaseFragmentActivity;
+import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.util.AppManager;
 import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.SP;
@@ -26,7 +26,7 @@ import com.umeng.analytics.MobclickAgent;
  * 创建日期: 2014年10月20日 上午10:06:42
  * 开发环境: JDK7.0
  */
-public class ChangeLanguageActivity extends BaseFragmentActivity implements OnClickListener{
+public class ChangeLanguageActivity extends BaseNoTitleActivity implements OnClickListener{
 	
 	private TextView actionbarTitleTv;
 	private RelativeLayout chineseRelay;  //中文
@@ -57,7 +57,8 @@ public class ChangeLanguageActivity extends BaseFragmentActivity implements OnCl
 		MobclickAgent.onPause(this);
 	}
 	
-	private void initView(){
+	protected void initView(){
+		super.initView();
 		actionbarTitleTv = (TextView) findViewById(R.id.txt_actionbar_title);
 		ivBack = (ImageView) findViewById(R.id.iv_actionbar_left);
 		actionbarTitleTv.setText(getResources().getString(R.string.more_laguage));

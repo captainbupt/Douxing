@@ -1,7 +1,5 @@
 package com.badou.mworking;
 
-import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -37,6 +35,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.umeng.analytics.MobclickAgent;
 
+import org.holoeverywhere.app.ProgressDialog;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -112,7 +111,8 @@ public class CommentActivity extends BaseBackActionBarActivity{
 	 * pullToRefreshListView.setMode(Mode.BOTH);
 	 * 功能描述:实例化view
 	 */
-	private void initView() {
+	protected void initView() {
+		super.initView();
 		// 隐藏输入法
 		imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
 		tishiImg = (ImageView) findViewById(R.id.tishi_img);
@@ -132,7 +132,8 @@ public class CommentActivity extends BaseBackActionBarActivity{
 	 * 
 	 * 功能描述:设置监听
 	 */
-	private void initListener() {
+	protected void initListener() {
+		super.initView();
 		// 字符长度监听
 		contentEditText.setFilters(new InputFilter[] { new InputFilter() {
 			@Override
@@ -176,13 +177,12 @@ public class CommentActivity extends BaseBackActionBarActivity{
 		});
 
 		submitButton.setOnClickListener(new OnClickListener() {
-			@SuppressLint("NewApi")
 			@Override
 			public void onClick(View arg0) {
 				String comment = contentEditText.getText().toString();
 				if (TextUtils.isEmpty(comment.trim()) || comment == null
 						|| comment.isEmpty() || comment.length() <= 0) {
-					showToast("评论内容不能为空！"); 
+					ToastUtil.showToast(mContext, "评论内容不能为空！");
 					return;
 				}
 				if (comment.length()<5) {
@@ -265,7 +265,7 @@ public class CommentActivity extends BaseBackActionBarActivity{
 								return;
 							}
 							if (code != Net.SUCCESS) {
-								showToast(R.string.result_comment_update_fail);
+								ToastUtil.showToast(mContext, R.string.result_comment_update_fail);
 								return;
 							}
 							
@@ -377,7 +377,7 @@ public class CommentActivity extends BaseBackActionBarActivity{
 				return;
 			}
 			if (code != Net.SUCCESS) {
-				showToast(R.string.result_comment_submit_fail);
+				ToastUtil.showToast(mContext, R.string.result_comment_submit_fail);
 				return;
 			}
 			refreshComment(1);

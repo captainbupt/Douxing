@@ -7,9 +7,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.badou.mworking.R;
-import com.badou.mworking.base.BaseFragmentActivity;
+import com.badou.mworking.base.BaseNoTitleActivity;
 
-public class LoginErrorDialogActivity extends BaseFragmentActivity {
+public class LoginErrorDialogActivity extends BaseNoTitleActivity {
 	
 	private TextView tipTextView;
 	private Button confirmButton;

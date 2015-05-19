@@ -21,7 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.badou.mworking.base.AppApplication;
-import com.badou.mworking.base.BaseFragmentActivity;
+import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.model.user.UserInfo;
 import com.badou.mworking.util.MD5;
 import com.badou.mworking.util.NetUtils;
@@ -30,7 +30,7 @@ import com.badou.mworking.util.SP;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class TipsWebView extends BaseFragmentActivity {
+public class TipsWebView extends BaseNoTitleActivity {
 
 	public static final String KEY_TipsWebView = "key_Tips";
 	public static final String VALUE_TipsWebView_JSON = "key_json";

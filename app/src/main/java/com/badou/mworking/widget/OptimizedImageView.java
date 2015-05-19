@@ -1,30 +1,36 @@
 package com.badou.mworking.widget;
 
+import android.app.Activity;
 import android.content.Context;
-import android.util.AttributeSet;
+import android.view.Display;
+import android.view.WindowManager;
 import android.widget.ImageView;
+
+import com.badou.mworking.util.BitmapUtil;
 
 public class OptimizedImageView extends ImageView {
 
-	@Override
-	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-		// TODO Auto-generated method stub
-		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-		int widthSpecMode = MeasureSpec.getMode(widthMeasureSpec);
-		int heightSpecMode = MeasureSpec.getMode(heightMeasureSpec);
-		boolean resizeWidth = widthSpecMode == MeasureSpec.EXACTLY;
-		boolean resizeHeight = heightSpecMode == MeasureSpec.EXACTLY;
-		if (resizeWidth && resizeHeight) {
-			width = MeasureSpec.getSize(widthMeasureSpec);
-			height = MeasureSpec.getSize(heightMeasureSpec);
-		}
+	private Context mContext;
+
+	public OptimizedImageView(Context context) {
+		super(context);
+		this.mContext = context;
 	}
 
-	private int width;
-	private int height;
+	public void setImageResourceFullScreen(int resId){
+		WindowManager manage = ((Activity)mContext).getWindowManager();
+		Display display = manage.getDefaultDisplay();
+		int screenWidth = display.getWidth();
+		int screenHeight = display.getHeight();
+		setImageResource(resId, screenWidth, screenHeight);
+	}
 
-	public OptimizedImageView(Context context, AttributeSet attrs) {
-		super(context, attrs);
+	public void setImageResource(int resId, int width, int height){
+		setScaleType(ScaleType.CENTER_CROP);
+		setImageBitmap(BitmapUtil
+				.decodeSampledBitmapFromResource(getResources(),
+						resId, width,
+						height));
 	}
 
 }

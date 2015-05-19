@@ -1,6 +1,5 @@
 package com.badou.mworking;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -15,7 +14,6 @@ import com.android.volley.VolleyError;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.database.MTrainingDBHelper;
-import com.badou.mworking.model.MainIcon;
 import com.badou.mworking.model.user.UserInfo;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.RequestParams;
@@ -27,6 +25,7 @@ import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.WaitProgressDialog;
 import com.umeng.analytics.MobclickAgent;
 
+import org.holoeverywhere.app.ProgressDialog;
 import org.json.JSONObject;
 
 import java.util.regex.Pattern;
@@ -117,8 +116,6 @@ public class AccountManageActivity extends BaseBackActionBarActivity {
 		((AppApplication) getApplication()).clearUserInfo();
 		AppManager.getAppManager().finishAllActivity();
 		Intent intent = new Intent(mContext, LoginActivity.class);
-		MainIcon mainIcon = new MainIcon();
-		mainIcon.clear(this);
 		startActivity(intent);
 		overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
 		this.finish();
@@ -137,14 +134,14 @@ public class AccountManageActivity extends BaseBackActionBarActivity {
 		boolean a= pattern.matcher(newPassword).matches();
 		
 		if (TextUtils.isEmpty(originalPassword)) {
-			showToast(R.string.change_error_empty_password_original);
+			ToastUtil.showToast(mContext, R.string.change_error_empty_password_original);
 		} else if (TextUtils.isEmpty(newPassword)
 				|| TextUtils.isEmpty(confirmPassword)) {
-			showToast(R.string.change_error_empty_password_new);
+			ToastUtil.showToast(mContext, R.string.change_error_empty_password_new);
 		} else if (originalPassword.length() < 6) {
-			showToast(R.string.change_error_short_password_original);
+			ToastUtil.showToast(mContext, R.string.change_error_short_password_original);
 		} else if (newPassword.length() < 6) {
-			showToast(R.string.change_error_short_password_new);
+			ToastUtil.showToast(mContext, R.string.change_error_short_password_new);
 		}
 		else if (!a) {
 			ToastUtil.showToast(mContext, R.string.tips_username_input_New_MiMa);
@@ -153,12 +150,12 @@ public class AccountManageActivity extends BaseBackActionBarActivity {
 		 * chygt 修改于2014.6.12 判断新旧密码是否一致的问题 如果一致需要重新输入
 		 * **/
 		else if (originalPassword.equals(newPassword)) {
-			showToast(R.string.change_error_same_new_original);
+			ToastUtil.showToast(mContext, R.string.change_error_same_new_original);
 		}
 
 		else if (TextUtils.isEmpty(confirmPassword)
 				|| !newPassword.equals(confirmPassword)) {
-			showToast(R.string.change_error_different_password);
+			ToastUtil.showToast(mContext, R.string.change_error_different_password);
 		} else {
 			if (null != mProgressDialog && AccountManageActivity.this != null
 					&& !AccountManageActivity.this.isFinishing()) {
@@ -184,7 +181,7 @@ public class AccountManageActivity extends BaseBackActionBarActivity {
 									return;
 								}
 								if (code != Net.SUCCESS) {
-									showToast(mActivity
+									ToastUtil.showToast(mContext, mActivity
 											.getString(R.string.change_error_incorrect_password));
 									return;
 								}
@@ -217,7 +214,7 @@ public class AccountManageActivity extends BaseBackActionBarActivity {
 		SP.putStringSP(mContext,SP.DEFAULTCACHE, UserInfo.USER_ID, data.optString(RequestParams.USER_ID));
 		MTrainingDBHelper.getMTrainingDBHelper().createUserTable(
 				userInfo.getUserId());
-		showToast(mActivity
+		ToastUtil.showToast(mContext, mActivity
 				.getString(R.string.change_result_change_password_success));
 		finish();
 	}

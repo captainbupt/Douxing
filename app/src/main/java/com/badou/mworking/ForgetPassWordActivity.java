@@ -73,7 +73,9 @@ public class ForgetPassWordActivity extends BaseBackActionBarActivity implements
 	 * 功能描述:初始化控件
 	 *
 	 */
-	private void initView() {
+	protected void initView() {
+		super.initView();
+
 		etPhone = (EditText) this.findViewById(R.id.et_input_phone);
 		etVerify = (EditText) this.findViewById(R.id.et_Verify);
 		etCompany = (EditText) findViewById(R.id.et_company);
@@ -129,7 +131,8 @@ public class ForgetPassWordActivity extends BaseBackActionBarActivity implements
 	/**
 	 * 功能描述: 设置控件的监听
 	 */
-	private void initListener() {
+	protected void initListener() {
+		super.initListener();
 		btnGetMsg.setOnClickListener(this);
 		btnOK.setOnClickListener(this);
 		tvWuFaHuoQu.setOnClickListener(this);

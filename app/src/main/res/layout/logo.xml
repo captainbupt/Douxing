@@ -6,7 +6,7 @@
     android:background="@drawable/action_bg" >
     
     <ImageView
-        android:id="@+id/right_img"
+        android:id="@+id/left_img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scaleType="centerCrop"
@@ -17,8 +17,8 @@
         android:visibility="gone"
       />
     
-    <ImageView
-        android:id="@+id/left_img"
+<!--    <ImageView
+        android:id="@+id/left_img1"
         android:layout_width="@dimen/actionBar_img_size"
         android:layout_height="@dimen/actionBar_img_size"
         android:layout_alignParentLeft="true"
@@ -27,7 +27,7 @@
         android:scaleType="centerInside"
         android:src="@drawable/title_bar_back_normal" 
         android:visibility="gone"
-        />
+        />-->
    
     <ImageView
         android:id="@+id/icon_top"

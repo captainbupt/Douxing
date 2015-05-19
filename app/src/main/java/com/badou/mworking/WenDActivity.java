@@ -18,7 +18,7 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.badou.mworking.adapter.WenDAdapter;
 import com.badou.mworking.base.AppApplication;
-import com.badou.mworking.base.BaseFragmentActivity;
+import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.model.Ask;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
@@ -42,7 +42,7 @@ import java.util.ArrayList;
  * @author gejianfeng
  * 问答页面
  */
-public class WenDActivity extends BaseFragmentActivity implements OnClickListener,OnRefreshListener2<ListView>{
+public class WenDActivity extends BaseNoTitleActivity implements OnClickListener,OnRefreshListener2<ListView>{
 	
 	private ImageView actionbarLeftImg;
 	private ImageView actionbarRightImg;
@@ -107,7 +107,7 @@ public class WenDActivity extends BaseFragmentActivity implements OnClickListene
 	private void init(){
 		userNum = ((AppApplication)getApplicationContext())
 				.getUserInfo().getUserNumber();
-		updatePro = (ProgressBar) findViewById(R.id.update_pro);
+		updatePro = (ProgressBar) findViewById(R.id.pb_action_bar);
 		actionbarLeftImg = (ImageView) findViewById(R.id.iv_actionbar_left);
 		actionbarTitleTv = (TextView) findViewById(R.id.txt_actionbar_title);
 		actionbarRightImg = (ImageView) findViewById(R.id.iv_actionbar_right);

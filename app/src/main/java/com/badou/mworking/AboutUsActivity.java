@@ -1,7 +1,6 @@
 package com.badou.mworking;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -25,9 +24,11 @@ import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.AlarmUtil;
 import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.SP;
+import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.WaitProgressDialog;
 import com.umeng.analytics.MobclickAgent;
 
+import org.holoeverywhere.app.ProgressDialog;
 import org.json.JSONObject;
 
 import cn.jpush.android.api.JPushInterface;
@@ -67,7 +68,8 @@ public class AboutUsActivity extends BaseBackActionBarActivity implements OnClic
 		initOption();
 	}
 
-	private void initView(){
+	protected void initView(){
+		super.initView();
 		infoTextView = (TextView) findViewById(R.id.tv_user_setting_info);
 		chkPicShow = (CheckBox) findViewById(R.id.chk_pic);
 		pushChk = (CheckBox) findViewById(R.id.push_chk);
@@ -149,8 +151,8 @@ public class AboutUsActivity extends BaseBackActionBarActivity implements OnClic
 				try {
 					int code = response.optInt(Net.CODE);
 					if (code != Net.SUCCESS) {
-						showToast("code:" + code);
-						showToast(R.string.result_update_check_fail);
+						ToastUtil.showToast(mContext, "code:" + code);
+						ToastUtil.showToast(mContext, R.string.result_update_check_fail);
 						return;
 					}
 					JSONObject data = response.optJSONObject(Net.DATA);
@@ -179,7 +181,7 @@ public class AboutUsActivity extends BaseBackActionBarActivity implements OnClic
 										}).setNegativeButton(R.string.text_cancel, null)
 								.create().show();
 					} else {
-						showToast(R.string.result_update_check_noneed);
+						ToastUtil.showToast(mContext, R.string.result_update_check_noneed);
 					}
 				} catch (Exception e) {
 					e.printStackTrace();

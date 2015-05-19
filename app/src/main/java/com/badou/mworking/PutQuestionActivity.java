@@ -1,8 +1,5 @@
 package com.badou.mworking;
 
-import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -35,10 +32,13 @@ import com.badou.mworking.net.ResponseParams;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.FileUtils;
+import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.SwipeBackLayout;
 import com.badou.mworking.widget.WaitProgressDialog;
 import com.umeng.analytics.MobclickAgent;
 
+import org.holoeverywhere.app.AlertDialog;
+import org.holoeverywhere.app.ProgressDialog;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -205,7 +205,6 @@ public class PutQuestionActivity extends BaseBackActionBarActivity implements On
 	 * @param uri The Uri to query.
 	 * @author paulburke
 	 */
-	@SuppressLint("NewApi")
 	public static String getPath(final Context context, final Uri uri) {
 
 	    final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
@@ -448,10 +447,10 @@ public class PutQuestionActivity extends BaseBackActionBarActivity implements On
   	private void sendWenDaContent() {
   		String content = tiwenEt.getText().toString();
   		if(TextUtils.isEmpty(content)){
-			showToast("提问内容不能为空");
+			ToastUtil.showToast(mContext, "提问内容不能为空");
 			return;
   		}else if(content.length()<5){
-  			showToast("提问内容不少于5个字");
+			ToastUtil.showToast(mContext, "提问内容不少于5个字");
   			return;
   		}
   		// 提交提问内容
@@ -475,7 +474,7 @@ public class PutQuestionActivity extends BaseBackActionBarActivity implements On
   								WenDActivity.ISREBOOLEANWENDALIST = true;
   								PutQuestionActivity.this.finish();
   							} else {
-  								showToast("提交失败");
+								ToastUtil.showToast(mContext, "提交失败");
   							}
   						}
   					}

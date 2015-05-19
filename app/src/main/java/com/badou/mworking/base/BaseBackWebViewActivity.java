@@ -31,8 +31,6 @@ public abstract class BaseBackWebViewActivity extends BaseBackActionBarActivity 
 	protected TextView tvBadouNetExceptionRepeat;
 	
 	protected ImageView ivNetException;
-	
-	protected String mCurrentUrl;
 
 	protected WebView mWebView;
 
@@ -88,5 +86,6 @@ public abstract class BaseBackWebViewActivity extends BaseBackActionBarActivity 
 	@Override
 	public void finish() {
 		super.finish();
+
 	}
 }

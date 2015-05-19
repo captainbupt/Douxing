@@ -13,7 +13,6 @@
  */
 package com.badou.mworking;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -41,6 +40,7 @@ import com.badou.mworking.widget.SwipeBackLayout;
 import com.badou.mworking.widget.WaitProgressDialog;
 import com.umeng.analytics.MobclickAgent;
 
+import org.holoeverywhere.app.ProgressDialog;
 import org.json.JSONObject;
 
 /**
@@ -96,7 +96,8 @@ public class ExperienceActivity extends BaseBackActionBarActivity implements
 	 * 
 	 * @param view
 	 */
-	private void initView() {
+	protected void initView() {
+		super.initView();
 		mp = new WaitProgressDialog(mContext, R.string.login_action_login_ing);
 		etPhone = (EditText) findViewById(R.id.et_input_phone);
 		etVerify = (EditText) findViewById(R.id.et_Verify);
@@ -119,7 +120,8 @@ public class ExperienceActivity extends BaseBackActionBarActivity implements
 	 * 
 	 * 功能描述: 设置控件的监听
 	 */
-	private void initListener() {
+	protected void initListener() {
+		super.initListener();
 		btnGetMsg.setOnClickListener(this);
 		btnOK.setOnClickListener(this);
 		tvWuFaHuoQu.setOnClickListener(this);

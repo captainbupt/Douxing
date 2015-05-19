@@ -29,7 +29,7 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.badou.mworking.adapter.ChatInfoAdapter;
 import com.badou.mworking.base.AppApplication;
-import com.badou.mworking.base.BaseFragmentActivity;
+import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.model.ChatInfo;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
@@ -53,7 +53,7 @@ import java.util.ArrayList;
  * 类: <code> ChatInfoActivity </code> 功能描述: 聊天页面 创建人: 葛建锋 创建日期: 2014年9月18日
  * 下午3:47:22 开发环境: JDK7.0
  */
-public class ChatInfoActivity extends BaseFragmentActivity implements
+public class ChatInfoActivity extends BaseNoTitleActivity implements
 		OnClickListener {
 
 	private TextView submitTv; // 提交按钮
@@ -127,7 +127,8 @@ public class ChatInfoActivity extends BaseFragmentActivity implements
 		submitTv.setBackgroundColor(getResources().getColor(R.color.color_grey));
 	}
 
-	private void initListener() {
+	protected void initListener() {
+		super.initListener();
 		pullListView.setOnRefreshListener(new OnRefreshListener<ListView>() {
 			@Override
 			public void onRefresh(PullToRefreshBase<ListView> refreshView) {

@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.badou.mworking.adapter.ExamAdapter;
 import com.badou.mworking.base.AppApplication;
-import com.badou.mworking.base.BaseFragmentActivity;
+import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.model.Category;
 import com.badou.mworking.model.Exam;
 import com.badou.mworking.model.user.UserDetail;
@@ -42,7 +42,7 @@ import java.util.ArrayList;
  * 创建日期: 2014年12月4日 上午11:03:06
  * 开发环境: JDK7.0
  */
-public class MyExamAct extends BaseFragmentActivity implements OnClickListener,OnRefreshListener2<ListView>{
+public class MyExamAct extends BaseNoTitleActivity implements OnClickListener,OnRefreshListener2<ListView>{
 
 	public ImageView ivLeft;  //action 左侧iv 
 	public ImageView ivRight; 	//action 右侧 iv 
@@ -106,7 +106,8 @@ public class MyExamAct extends BaseFragmentActivity implements OnClickListener,O
 	/**
 	 * 初始化控件
 	 */
-	private void initView() {
+	protected void initView() {
+		super.initView();
 		tvScore = (TextView) this.findViewById(R.id.tv_my_score);
 		tvRank = (TextView) this.findViewById(R.id.tv_my_exam_rank);
 		user = (UserDetail) getIntent()
@@ -130,7 +131,8 @@ public class MyExamAct extends BaseFragmentActivity implements OnClickListener,O
 	/**
 	 * 初始化监听
 	 */
-	private void initListener() {
+	protected void initListener() {
+		super.initListener();
 		TextView rlGoExam = (TextView) this.findViewById(R.id.comment_relat);
 		rlGoExam.setText(MyExamAct.this.getResources().getString(R.string.myexam_btn));
 		rlGoExam.setOnClickListener(new OnClickListener() {

@@ -1,32 +1,128 @@
 package com.badou.mworking;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 
-import com.badou.mworking.base.BaseFragmentActivity;
+import com.badou.mworking.base.AppApplication;
+import com.badou.mworking.base.BaseNoTitleActivity;
+import com.badou.mworking.model.user.UserInfo;
+import com.badou.mworking.util.Constant;
+import com.badou.mworking.util.SP;
+import com.badou.mworking.util.ToastUtil;
+import com.umeng.analytics.MobclickAgent;
+
+import org.holoeverywhere.widget.Toast;
+
+import cn.jpush.android.api.JPushInterface;
 
 /**
- * 类:  <code> SplashActivity </code>
- * 功能描述: 启动页面
- * 创建人: 葛建锋
- * 创建日期: 2013-11-8 上午10:11:14
- * 开发环境: JDK6.0
+ * 启动页面
  */
-public class SplashActivity extends BaseFragmentActivity{
-	
+public class SplashActivity extends BaseNoTitleActivity {
+
+	public static final String KEY_IS_FIRST = AppApplication.appVersion;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.splashactivity);
-		 new Handler().postDelayed(new Runnable() {  
-	            public void run() {  
-	                Intent mainIntent = new Intent(SplashActivity.this,  
-	                        IntroductionActivity.class);  
-	                SplashActivity.this.startActivity(mainIntent);  
-	                SplashActivity.this.finish();  
-	            }
-	        }, 2000);  
+		setContentView(R.layout.activity_splash);
+		String lang = SP.getStringSP(this, SP.DEFAULTCACHE, Constant.LANGUAGE, "zh");
+		//en为英文版，取值zh为中文版。
+		changeLanguage(lang);
+
+		// 等待1-2秒后进入后续界面
+		new Handler().postDelayed(new JumpRunnable(mContext), 1500);
+	}
+
+	class JumpRunnable implements Runnable{
+
+		private Context mContext;
+
+		public JumpRunnable(Context context){
+			this.mContext = context;
+		}
+
+		@Override
+		public void run() {
+			//判断是否是第一次启动程序
+			if (!SP.getBooleanSP(mContext, SP.DEFAULTCACHE, KEY_IS_FIRST, true)) {
+				//查看shareprefernces中是否保存的UserInfo(登录时保存的)
+				ToastUtil.showToast(mContext, "Not First");
+				UserInfo userInfo = UserInfo.getUserInfo(getApplicationContext());
+				if (userInfo == null) {
+					goLogin();
+				} else {
+					goMain(userInfo);
+				}
+			} else {
+				ToastUtil.showToast(mContext, "First");
+				SP.clearSP(mContext, SP.DEFAULTCACHE);
+				//软件运行过sp中记录
+				SP.putBooleanSP(mContext, SP.DEFAULTCACHE, KEY_IS_FIRST, false);
+				goIntroduction();
+			}
+		}
+	}
+
+
+	@Override
+	public void startActivity(Intent intent) {
+		super.startActivity(intent);
+		overridePendingTransition(R.anim.in_from_left, R.anim.out_to_right);
+	}
+
+	/**
+	 * 功能描述:跳转到登录页面
+	 */
+	private void goLogin() {
+		Intent intent = new Intent(this, LoginActivity.class);
+		startActivity(intent);
+		finish();
+	}
+
+	/**
+	 * 功能描述: 跳转到主页面
+	 */
+	private void goMain(UserInfo userInfo) {
+		Intent intent = new Intent(this, MainGridActivity.class);
+		//把用户信息保存到Application
+		((AppApplication) getApplication()).setUserInfo(userInfo);
+		startActivity(intent);
+		finish();
+	}
+
+	/**
+	 * 功能描述: 跳转到引导页面
+	 */
+	private void goIntroduction() {
+		Intent intent = new Intent(this, IntroductionActivity.class);
+		startActivity(intent);
+		finish();
+	}
+
+	/**
+	 * 功能描述: 更换语言
+	 */
+	private void changeLanguage(String lang){
+		Resources resources = getResources();// 获得res资源对象
+		((AppApplication) getApplication()).changeAppLanguage(resources,lang);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		//极光推送
+		JPushInterface.onPause(this);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		// 极光推送
+		JPushInterface.onResume(this);
 	}
 }
 

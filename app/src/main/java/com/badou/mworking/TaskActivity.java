@@ -21,7 +21,7 @@ import com.badou.mworking.adapter.SearchMainAdapter;
 import com.badou.mworking.adapter.SearchMoreAdapter;
 import com.badou.mworking.adapter.TaskAdapter;
 import com.badou.mworking.base.AppApplication;
-import com.badou.mworking.base.BaseFragmentActivity;
+import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.model.Category;
 import com.badou.mworking.model.Classification;
 import com.badou.mworking.model.Task;
@@ -48,9 +48,8 @@ import java.util.ArrayList;
  * @author gejianfeng
  * 任务签到界面
  */
-public class TaskActivity extends BaseFragmentActivity implements OnClickListener,OnRefreshListener2<ListView>{
-	
-	public static final int REFRESH_EXAM_LV = 0x00003;
+public class TaskActivity extends BaseNoTitleActivity implements OnClickListener,OnRefreshListener2<ListView>{
+
 	private static final int LISTVIEW_RESULT_REFRESH = 0x00001;
 
 	private int beginIndex = 0;
@@ -60,7 +59,7 @@ public class TaskActivity extends BaseFragmentActivity implements OnClickListene
 	
 	private String userNum = "";
 	
-	private ImageView tvSearchNull;
+	private ImageView tvSearchNull1;
 	private TaskAdapter taskAdapter;
 	private PullToRefreshListView pullToRefreshListView;
 	
@@ -166,17 +165,16 @@ public class TaskActivity extends BaseFragmentActivity implements OnClickListene
 	
 	/**
 	 * c初始化action 布局
-	 * @param onclick
 	 */
 	private void initAction(){
-		updatePro = (ProgressBar) findViewById(R.id.update_pro);
+		updatePro = (ProgressBar) findViewById(R.id.pb_action_bar);
 		tvSearchNull = (ImageView) this.findViewById(R.id.tv_tishi);
 		ivLeft = (ImageView) this.findViewById(R.id.iv_actionbar_left);
 		ivLeft.setOnClickListener(this);
 		tvTitle = (TextView) this.findViewById(R.id.txt_actionbar_title);
 		ivRight = (ImageView) this.findViewById(R.id.iv_actionbar_right);
-		triangleDownImg = (ImageView) findViewById(R.id.triangle_down_img);
-		titleLay = (LinearLayout) findViewById(R.id.title_lay);
+		triangleDownImg = (ImageView) findViewById(R.id.iv_action_bar_triangle);
+		titleLay = (LinearLayout) findViewById(R.id.ll_action_bar_title);
 		mShoplist_onelist1 = (ListView) findViewById(R.id.Shoplist_onelist1);
 		mShoplist_twolist1 = (ListView) findViewById(R.id.Shoplist_twolist1);
 		classificationLinear = (LinearLayout) findViewById(R.id.classification_linear);
@@ -334,7 +332,7 @@ public class TaskActivity extends BaseFragmentActivity implements OnClickListene
 	/**
 	 * 初始化监听
 	 */
-	private void initListener(){
+	protected void initListener(){
 		pullToRefreshListView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position,

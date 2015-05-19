@@ -12,7 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.badou.mworking.base.AppApplication;
-import com.badou.mworking.base.BaseFragmentActivity;
+import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.model.Notice;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ResponseParams;
@@ -32,7 +32,7 @@ import java.io.File;
  * 类: <code> BaseViewerActivity </code> 功能描述: pdf 显示页面 创建人: 葛建锋 创建日期: 2014年9月11日
  * 上午11:35:02 开发环境: JDK7.0
  */
-public class NoticePdfViewerActivity extends BaseFragmentActivity implements OnClickListener {
+public class NoticePdfViewerActivity extends BaseNoTitleActivity implements OnClickListener {
 	
 	public static final String VALUE_NOTICE = "notice";
 	
@@ -108,7 +108,8 @@ public class NoticePdfViewerActivity extends BaseFragmentActivity implements OnC
 		super.onStop();
 	}
 
-	private void initView() {
+	protected void initView() {
+		super.initView();
 		pdfView = (PDFView) findViewById(R.id.pdfview);
 		commentRelat = (LinearLayout) findViewById(R.id.comment_relat);
 		commentNum = (TextView) findViewById(R.id.click_num);

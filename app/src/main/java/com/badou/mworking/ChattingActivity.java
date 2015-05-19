@@ -10,7 +10,7 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.badou.mworking.base.BaseFragmentActivity;
+import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.fragment.ChattingFragment;
 import com.badou.mworking.widget.SwipeBackLayout;
 import com.umeng.analytics.MobclickAgent;
@@ -24,7 +24,7 @@ import java.io.Serializable;
  * 创建日期: 2014年9月18日 下午7:05:20
  * 开发环境: JDK7.0
  */
-public class ChattingActivity extends BaseFragmentActivity implements OnClickListener{
+public class ChattingActivity extends BaseNoTitleActivity implements OnClickListener{
 	
 	public static final String CHAT_TAG = "ChattingActivity_";
 	ChattingFragment fragment;

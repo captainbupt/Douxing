@@ -1,7 +1,6 @@
 package com.badou.mworking;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -43,6 +42,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.umeng.analytics.MobclickAgent;
 
+import org.holoeverywhere.app.ProgressDialog;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -125,8 +125,8 @@ public class AroundDetailActivity extends BaseBackActionBarActivity{
 	 * 
 	 * 功能描述:实例化自定义listview,设置显示的内容
 	 */
-	private void initView() {
-		
+	protected void initView() {
+		super.initView();
 		imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
 		
 		// 自定义LinearLayout
@@ -361,7 +361,7 @@ public class AroundDetailActivity extends BaseBackActionBarActivity{
 	 * 
 	 * 功能描述:发送回复TextView设置监听,pullToRefreshScrollView设置下拉刷新监听
 	 */
-	private void initListener() {
+	protected void initListener() {
 
 		// 点击图片放大显示
 		imgTitlePic.setOnClickListener(new OnClickListener() {
@@ -601,10 +601,10 @@ public class AroundDetailActivity extends BaseBackActionBarActivity{
 	 */
 	private void contentReplay(String content) {
 		if(TextUtils.isEmpty(content)){
-			showToast("提问内容不能为空");
+			ToastUtil.showToast(mContext, "提问内容不能为空");
 			return;
   		}else if(content.length()<5){
-  			showToast("内容不少于5个字");
+			ToastUtil.showToast(mContext, "内容不少于5个字");
   			return;
   		}
 		mProgressDialog = new WaitProgressDialog(mContext,

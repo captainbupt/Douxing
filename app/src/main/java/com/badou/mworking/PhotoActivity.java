@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 
-import com.badou.mworking.base.BaseFragmentActivity;
+import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.net.bitmap.BitmapLruCache;
 import com.badou.mworking.net.bitmap.PicImageListener;
 import com.badou.mworking.net.volley.MyVolley;
@@ -30,7 +30,7 @@ import uk.co.senab.photoview.PhotoViewAttacher.OnViewTapListener;
  * 创建日期: 2014年7月21日 上午10:04:34
  * 开发环境: JDK7.0
  */
-public class PhotoActivity extends BaseFragmentActivity {
+public class PhotoActivity extends BaseNoTitleActivity {
 	
 	public static final String MODE_PICZOMM = "pic_zoom";
 	private PhotoView photoView;
