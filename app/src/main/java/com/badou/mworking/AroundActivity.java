@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.badou.mworking.base.BaseFragmentActivity;
+import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.fragment.TongSHQFragments;
 import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.SP;
@@ -24,7 +24,7 @@ import com.umeng.analytics.MobclickAgent;
  * 类: <code> AroundActivity </code> 功能描述: 同事圈页面 创建人: 葛建锋 创建日期: 2014年8月21日
  * 下午3:56:38 开发环境: JDK7.0
  */
-public class AroundActivity extends BaseFragmentActivity implements OnClickListener {
+public class AroundActivity extends BaseNoTitleActivity implements OnClickListener {
 
 	
 	public ImageView ivLeft;	// action 左侧iv 
@@ -81,7 +81,7 @@ public class AroundActivity extends BaseFragmentActivity implements OnClickListe
 	 * @param onclick
 	 */
 	private void initAction(OnClickListener onclick) {
-		updatePro = (ProgressBar) findViewById(R.id.update_pro);
+		updatePro = (ProgressBar) findViewById(R.id.pb_action_bar);
 		ivLeft = (ImageView)findViewById(R.id.iv_actionbar_left);
 		tvTitle = (TextView)findViewById(R.id.txt_actionbar_title);
 		ivRight = (ImageView)findViewById(R.id.iv_actionbar_right);

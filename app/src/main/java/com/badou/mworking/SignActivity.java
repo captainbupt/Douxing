@@ -1,8 +1,6 @@
 package com.badou.mworking;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,7 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.badou.mworking.base.AppApplication;
-import com.badou.mworking.base.BaseFragmentActivity;
+import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.model.Task;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.RequestParams;
@@ -63,6 +61,8 @@ import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.umeng.analytics.MobclickAgent;
 
+import org.holoeverywhere.app.AlertDialog;
+import org.holoeverywhere.app.ProgressDialog;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -75,7 +75,7 @@ import java.io.IOException;
  * 创建日期: 2014年7月18日 下午9:37:30
  * 开发环境: JDK7.0
  */
-public class SignActivity extends BaseFragmentActivity implements OnClickListener,BDLocationListener,OnGetGeoCoderResultListener{
+public class SignActivity extends BaseNoTitleActivity implements OnClickListener,BDLocationListener,OnGetGeoCoderResultListener{
 	
 	public static final String VALUE_URL = "url";
 	public static final String INTENT_TASK = "detailTask";
@@ -191,7 +191,8 @@ public class SignActivity extends BaseFragmentActivity implements OnClickListene
 		mLocationClient.setLocOption(option);
 	}
 
-	private void initView() {
+	protected void initView() {
+		super.initView();
 		actionbarTitleTv = (TextView) findViewById(R.id.txt_actionbar_title);
 		actionbarTitleTv.setText(getIntent().getStringExtra("title")+"");
 		ivBack = (ImageView) findViewById(R.id.iv_actionbar_left);

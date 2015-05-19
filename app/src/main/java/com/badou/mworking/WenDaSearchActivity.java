@@ -19,7 +19,7 @@ import android.widget.TextView.OnEditorActionListener;
 
 import com.badou.mworking.adapter.WenDAdapter;
 import com.badou.mworking.base.AppApplication;
-import com.badou.mworking.base.BaseFragmentActivity;
+import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.model.Ask;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
@@ -42,7 +42,7 @@ import java.util.ArrayList;
  * @author 葛建锋
  * 问答搜索页面
  */
-public class WenDaSearchActivity  extends BaseFragmentActivity implements OnClickListener,OnRefreshListener2<ListView>{
+public class WenDaSearchActivity  extends BaseNoTitleActivity implements OnClickListener,OnRefreshListener2<ListView>{
 	
 	private EditText etInput;
 	private TextView searchBtn;
@@ -74,7 +74,8 @@ public class WenDaSearchActivity  extends BaseFragmentActivity implements OnClic
 		MobclickAgent.onPause(this);
 	}
 
-	private void initView() {
+	protected void initView() {
+		super.initView();
 		// 隐藏输入法
 		imm = (InputMethodManager) WenDaSearchActivity.this
 				.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -101,7 +102,8 @@ public class WenDaSearchActivity  extends BaseFragmentActivity implements OnClic
 		pullToRefreshListView.setAdapter(wenDAdapter);
 	}
 
-	private void initListener() {
+	protected void initListener() {
+		super.initListener();
 		// 输入法下标的点击响应事件
 		etInput.setOnEditorActionListener(new OnEditorActionListener() {
 

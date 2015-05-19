@@ -69,7 +69,8 @@ public abstract class TrainBaseActivity extends BaseNoTitleActivity {
 	public abstract Train getTrain();
 
 	
-	private void initView(){
+	protected void initView(){
+		super.initView();
 		/**可点击的布局(点赞)**/
 		llZanBtn = (LinearLayout) this.findViewById(R.id.ll_dianZan);
 		/**显示点赞数量的 tv**/

@@ -1,7 +1,5 @@
 package com.badou.mworking.net;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -33,6 +31,8 @@ import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.FileEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.holoeverywhere.app.Activity;
+import org.holoeverywhere.app.ProgressDialog;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -77,10 +77,6 @@ public class ServiceProvider {
 	/**
 	 * 
 	 * 功能描述: 2. 发送短信获取验证码
-	 * @param context
-	 * @param username
-	 * @param password
-	 * @param volleyListener
 	 */
 	public static void getVerificationCode(Context context, String phoneNum, VolleyListener volleyListener) {
 		JSONObject jsonObject = new JSONObject();
@@ -98,7 +94,7 @@ public class ServiceProvider {
 	
 	/**
 	 * 3.忘记密码重置
-	 * @param contex
+	 * @param context
 	 * @param serial 手机号
 	 * @param vcode 验证码
 	 * @param newpwd 新密码
@@ -844,10 +840,6 @@ public class ServiceProvider {
 	
 	/**
 	 * 29. 发送消息(聊天)
-	 * @param context
-	 * @param msg 消息
-	 * @param whom 对方的id
-	 * @param volleyListener
 	 */
 	public static void doSendChat(Context context ,String content,String whom ,VolleyListener volleyListener) {
 		String uid = ((AppApplication) context.getApplicationContext())
@@ -976,11 +968,6 @@ public class ServiceProvider {
 	
 	/**
 	 * 获取回答列表
-	 * @param context
-	 * @param page   第几页
-	 * @param limit  每次请求条目数
-	 * @param searchStr 搜索的内容
-	 * @param volleyListener
 	 */
 	public static void updateAnswerList(Context context,int page, int limit,String aid,VolleyListener volleyListener) {
 		String uid = ((AppApplication) context.getApplicationContext())
@@ -1003,11 +990,6 @@ public class ServiceProvider {
 	
 	/**
 	 * 删除问答
-	 * @param context
-	 * @param page   第几页
-	 * @param limit  每次请求条目数
-	 * @param searchStr 搜索的内容
-	 * @param volleyListener
 	 */
 	public static void deleteAsk(Context context,String aid,VolleyListener volleyListener) {
 		String uid = ((AppApplication) context.getApplicationContext())
@@ -1073,10 +1055,6 @@ public class ServiceProvider {
 	
 	/**
 	 * 获取用户历史等级考试
-	 * @param context
-	 * @param aid
-	 * @param ts
-	 * @param volleyListener
 	 */
 	public static void getPastrank(Context context,String tag,VolleyListener volleyListener){
 		String uid = ((AppApplication) context.getApplicationContext())

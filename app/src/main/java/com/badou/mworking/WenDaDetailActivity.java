@@ -1,7 +1,5 @@
 package com.badou.mworking;
 
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -16,7 +14,7 @@ import android.widget.TextView;
 
 import com.badou.mworking.adapter.WenDaDetailAdapter;
 import com.badou.mworking.base.AppApplication;
-import com.badou.mworking.base.BaseFragmentActivity;
+import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.model.Ask;
 import com.badou.mworking.model.WenDaAnswer;
 import com.badou.mworking.net.LVUtil;
@@ -38,6 +36,8 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.umeng.analytics.MobclickAgent;
 
+import org.holoeverywhere.app.AlertDialog;
+import org.holoeverywhere.app.ProgressDialog;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -46,7 +46,7 @@ import java.util.ArrayList;
 /**
  * @author 葛建锋 问答详情页面
  */
-public class WenDaDetailActivity extends BaseFragmentActivity implements
+public class WenDaDetailActivity extends BaseNoTitleActivity implements
 		OnClickListener {
 	
 	private Ask ask;
@@ -262,9 +262,7 @@ public class WenDaDetailActivity extends BaseFragmentActivity implements
 
 	/**
 	 * 功能描述:删除我的圈中的item
-	 * 
-	 * @param pos
-	 * @param qid
+	 *
 	 */
 	private void deleteASK() {
 		ServiceProvider.deleteAsk(WenDaDetailActivity.this, ask.getAid(), new VolleyListener(WenDaDetailActivity.this) {
@@ -297,8 +295,8 @@ public class WenDaDetailActivity extends BaseFragmentActivity implements
 	/**
 	 * 功能描述:发送回复TextView设置监听,pullToRefreshScrollView设置下拉刷新监听
 	 */
-	private void initListener() {
-
+	protected void initListener() {
+		super.initListener();
 		// 点击图片放大显示
 		imgTitlePic.setOnClickListener(new OnClickListener() {
 			@Override

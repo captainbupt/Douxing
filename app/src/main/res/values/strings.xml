@@ -75,6 +75,7 @@
     <string name="user_detail_icon_upload_failed">头像上传失败</string>
     <string name="login_error_empty_password">密码不能为空</string>
     <string name="floor_num">楼</string>
+    <string name="chatter_num">条</string>
     <string name="exam_isFinish">已考完</string>
     <string name="exam_daipiyue">待批阅</string>
     <string name="exam_notExam">未考试</string>
@@ -101,6 +102,8 @@
     <string name="title_name_chanPin">产品建议</string>
     <string name="title_name_keCheng">课程建议</string>
     <string name="title_name_kaoShi">考试建议</string>
+    <string name="title_name_level">等级介绍</string>
+    <string name="title_name_user_center">个人中心</string>
     <string name="about_tips_phone">客服电话：400-8233-773\n工作日时间：10:00-18:00</string>
     <string name="about_btn_tophone">呼叫</string>
     <string name="about_btn_update">更新</string>
@@ -168,8 +171,8 @@
     <string name="web_error">加载失败</string>
     <string name="tips_reLogin_msg">您的信息已更新，请重新登录</string>
     <string name="comment_tips_length">内容不能少于5个字</string>
-    <string name="tips_username_input_CuoWu">用户名格式非法</string>
-    <string name="tips_username_input_MiMa">密码格式非法</string>
+    <string name="tips_username_input_invalid">用户名格式非法</string>
+    <string name="tips_password_input_invalid">密码格式非法</string>
 	<string name="tips_username_input_New_MiMa">新密码格式非法</string>
 	<string name="tips_liuliang">当前为省流量模式</string>
 	<string name="no_more">没有更多了</string>
@@ -203,6 +206,17 @@
     <string name="xlistview_header_last_time">上次更新时间：</string>
     <string name="xlistview_footer_hint_normal">查看更多</string>
     <string name="xlistview_footer_hint_ready">松开载入更多</string>
+
+
+    <string name="module_default_title_notice">通知公告</string>
+    <string name="module_default_title_chatter">同事圈</string>
+    <string name="module_default_title_exam">在线考试</string>
+    <string name="module_default_title_survey">培训调研</string>
+    <string name="module_default_title_task">任务签到</string>
+    <string name="module_default_title_training">微培训</string>
+    <string name="module_default_title_ask">问答</string>
+    <string name="module_default_title_shelf">橱窗</string>
+
 </resources>
 
 

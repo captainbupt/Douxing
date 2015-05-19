@@ -29,10 +29,9 @@ import com.badou.mworking.adapter.SearchMainAdapter;
 import com.badou.mworking.adapter.SearchMoreAdapter;
 import com.badou.mworking.adapter.TrainAdapter;
 import com.badou.mworking.base.AppApplication;
-import com.badou.mworking.base.BaseFragmentActivity;
+import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.model.Category;
 import com.badou.mworking.model.Classification;
-import com.badou.mworking.model.MainIcon;
 import com.badou.mworking.model.Train;
 import com.badou.mworking.net.DownloadListener;
 import com.badou.mworking.net.HttpDownloader;
@@ -64,7 +63,7 @@ import java.util.ArrayList;
  * @author gejianfeng
  * 微培训页面
  */
-public class TrainActivity extends BaseFragmentActivity implements OnClickListener,OnRefreshListener2<ListView>{
+public class TrainActivity extends BaseNoTitleActivity implements OnClickListener,OnRefreshListener2<ListView>{
 
 	private SearchMainAdapter oneadapter1 = null;
 	private SearchMoreAdapter twoadapter1 = null;
@@ -118,8 +117,8 @@ public class TrainActivity extends BaseFragmentActivity implements OnClickListen
 		TrainActivity.tag = 0;
 		initView();
 		String titleName= SP.getStringSP(TrainActivity.this,SP.DEFAULTCACHE, RequestParams.CHK_UPDATA_PIC_TRAIN, "");
-		MainIcon mainIcon = new MainIcon();
-		tvTitle.setText(mainIcon.getMainIcon(titleName).getName());
+		//MainIcon mainIcon = new MainIcon();
+		//tvTitle.setText(mainIcon.getMainIcon(titleName).getName());
 		if (getIntent().getIntExtra(MyStudyProgressAct.VALUE_STUDY,0) == 1) {
 			ivLeft.setImageResource(R.drawable.title_bar_back_normal);
 		}else {
@@ -179,15 +178,16 @@ public class TrainActivity extends BaseFragmentActivity implements OnClickListen
 	 *  初始化view
 	 * @param view
 	 */
-	private void initView() {
-		updatePro = (ProgressBar) findViewById(R.id.update_pro);
+	protected void initView() {
+		super.initView();
+		updatePro = (ProgressBar) findViewById(R.id.pb_action_bar);
 		tvSearchNull = (ImageView) this.findViewById(R.id.tv_tishi);
 		ivLeft = (ImageView) this.findViewById(R.id.iv_actionbar_left);
 		ivLeft.setOnClickListener(this);
 		tvTitle = (TextView) this.findViewById(R.id.txt_actionbar_title);
 		ivRight = (ImageView) this.findViewById(R.id.iv_actionbar_right);
-		triangleDownImg = (ImageView) findViewById(R.id.triangle_down_img);
-		titleLay = (LinearLayout) findViewById(R.id.title_lay);
+		triangleDownImg = (ImageView) findViewById(R.id.iv_action_bar_triangle);
+		titleLay = (LinearLayout) findViewById(R.id.ll_action_bar_title);
 		mShoplist_onelist1 = (ListView) findViewById(R.id.Shoplist_onelist1);
 		mShoplist_twolist1 = (ListView) findViewById(R.id.Shoplist_twolist1);
 		classificationLinear = (LinearLayout) findViewById(R.id.classification_linear);
@@ -386,7 +386,8 @@ public class TrainActivity extends BaseFragmentActivity implements OnClickListen
 		}
 	}
 
-	private void initListener() {
+	protected void initListener() {
+		super.initListener();
 		pullToRefreshListView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position,

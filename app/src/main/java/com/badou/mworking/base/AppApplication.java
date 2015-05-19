@@ -1,8 +1,5 @@
 package com.badou.mworking.base;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -16,12 +13,15 @@ import android.util.DisplayMetrics;
 import com.badou.mworking.LoginActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.database.MTrainingDBHelper;
-import com.badou.mworking.model.MainIcon;
 import com.badou.mworking.model.user.UserInfo;
 import com.badou.mworking.net.bitmap.BitmapLruCache;
 import com.badou.mworking.net.volley.MyVolley;
 import com.badou.mworking.util.CrashHandler;
 import com.baidu.mapapi.SDKInitializer;
+
+import org.holoeverywhere.app.Activity;
+import org.holoeverywhere.app.AlertDialog;
+import org.holoeverywhere.app.Application;
 
 import java.util.HashSet;
 import java.util.Locale;
@@ -57,9 +57,13 @@ public class AppApplication extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
+
+		// Bitmap初始化必须在MyVolley之前，否则会丢出异常
+        BitmapLruCache.init(getApplicationContext());
+		MyVolley.init(getApplicationContext());
 		//开启异常捕获
-		CrashHandler crashHandler = CrashHandler.getInstance();
-		crashHandler.init(this);
+		//CrashHandler crashHandler = CrashHandler.getInstance();
+		//crashHandler.init(this);
 		//获取程序版本
 		try {
 			appVersion = getVersionName();
@@ -67,14 +71,13 @@ public class AppApplication extends Application {
 			appVersion = "1.0";
 			e.printStackTrace();
 		}
-		// Bitmap初始化必须在MyVolley之前，否则会丢出异常
-		BitmapLruCache.init(getApplicationContext());
-		MyVolley.init(getApplicationContext());
-		MTrainingDBHelper.init(getApplicationContext());
-		JPushInterface.setDebugMode(false);
+
+
+        MTrainingDBHelper.init(getApplicationContext());
+        JPushInterface.setDebugMode(false);
 		JPushInterface.init(this);
 		getScreenLevel();
-		// 在使用 SDK 各组间之前初始化 context 信息，传入 ApplicationContext
+        // 在使用 SDK 各组间之前初始化 context 信息，传入 ApplicationContext
 		SDKInitializer.initialize(this);
 	}
 
@@ -197,8 +200,6 @@ public class AppApplication extends Application {
 				Intent intent = new Intent(context, LoginActivity.class);
 				((Activity)context).startActivity(intent);
 				((Activity)context).finish();
-				MainIcon mainIcon = new MainIcon();
-				mainIcon.clear(context);
 			}
 		}).show();
 	}

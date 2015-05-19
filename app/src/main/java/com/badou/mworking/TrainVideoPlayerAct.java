@@ -194,7 +194,8 @@ public class TrainVideoPlayerAct extends TrainBaseActivity implements
 	/**
 	 * 功能描述: 布局初始化
 	 */
-	private void initView() {
+	protected void initView() {
+		super.initView();
 		rotationTv = (CheckBox) findViewById(R.id.chkZoom);
 		mVideo = (FullScreenVideoView) findViewById(R.id.videoview);
 		currentTimeTv = (TextView) findViewById(R.id.tvCurrentTime);
@@ -224,7 +225,8 @@ public class TrainVideoPlayerAct extends TrainBaseActivity implements
 	/**
 	 * 功能描述: 数据初始化
 	 */
-	private void initData() {
+	protected void initData() {
+		super.initData();
 		try {
 			train = (Train) getIntent().getBundleExtra("train")
 					.getSerializable("train");

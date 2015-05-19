@@ -134,7 +134,8 @@ public class TrainMusicActivity extends TrainBaseActivity{
 	 * 
 	 * 功能描述:初始化控件和路径
 	 */
-	private void initView() {
+	protected void initView() {
+		super.initView();
 		saveFilePath = FileUtils.getTrainCacheDir(TrainMusicActivity.this)+train.getRid() + ENDWITH_MP3;
 		file = new File(saveFilePath);
 		tvPlayer = (TextView) findViewById(R.id.tvPlayer);

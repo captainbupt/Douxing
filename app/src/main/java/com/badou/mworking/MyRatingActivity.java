@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.badou.mworking.adapter.MakeupExaminationAdapter;
 import com.badou.mworking.base.AppApplication;
-import com.badou.mworking.base.BaseFragmentActivity;
+import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.model.Exam;
 import com.badou.mworking.model.MyExamRating;
 import com.badou.mworking.net.Net;
@@ -34,7 +34,7 @@ import java.util.ArrayList;
  * @author 葛建锋
  * 等级考试进入的等级页面
  */
-public class MyRatingActivity extends BaseFragmentActivity implements OnClickListener,OnItemClickListener{
+public class MyRatingActivity extends BaseNoTitleActivity implements OnClickListener,OnItemClickListener{
 	
 	protected SwipeBackLayout layout;
 	private ImageView ivActionbarLeft;
@@ -66,7 +66,8 @@ public class MyRatingActivity extends BaseFragmentActivity implements OnClickLis
 		getViewrank();
 	}
 	
-	private void initView(){
+	protected void initView(){
+		super.initView();
 		ivActionbarLeft = (ImageView) findViewById(R.id.iv_actionbar_left);
 		RatingTtips = (ImageView) findViewById(R.id.Rating_tips);
 		actionbarTitle = (TextView) findViewById(R.id.txt_actionbar_title);
@@ -169,7 +170,6 @@ public class MyRatingActivity extends BaseFragmentActivity implements OnClickLis
 	
 	/**
 	 * 功能描述:
-	 * @param beginNum
 	 */
 	private void getViewrank() {
 		// 等级页面的tag返回时是负值，然后请求的时候需要变成正数

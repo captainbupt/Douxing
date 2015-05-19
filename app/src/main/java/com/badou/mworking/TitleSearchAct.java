@@ -34,7 +34,7 @@ import com.badou.mworking.adapter.SearchAdapter;
 import com.badou.mworking.adapter.TaskAdapter;
 import com.badou.mworking.adapter.TrainAdapter;
 import com.badou.mworking.base.AppApplication;
-import com.badou.mworking.base.BaseFragmentActivity;
+import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.fragment.ChattingFragment;
 import com.badou.mworking.model.Category;
 import com.badou.mworking.model.ContanctsList;
@@ -69,7 +69,7 @@ import java.util.ArrayList;
  * 类: <code> TitleSearchAct </code> 功能描述: 搜索页面activity 创建人: 葛建锋 创建日期: 2014年9月4日
  * 下午7:19:21 开发环境: JDK7.0
  */
-public class TitleSearchAct extends BaseFragmentActivity implements OnRefreshListener2<ListView>{
+public class TitleSearchAct extends BaseNoTitleActivity implements OnRefreshListener2<ListView>{
 	
 	public static final String SEARCH_KEY_VALUE = "search_key";
 	public static final String SEARCH_CHAT = "SEARCH_CHAT";
@@ -137,7 +137,8 @@ public class TitleSearchAct extends BaseFragmentActivity implements OnRefreshLis
 		MobclickAgent.onPause(this);
 	}
 	
-	private void initView() {
+	protected void initView() {
+		super.initView();
 		// 隐藏输入法
 		imm = (InputMethodManager) mContext
 				.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -562,7 +563,9 @@ public class TitleSearchAct extends BaseFragmentActivity implements OnRefreshLis
 		return dialog;
 	}
 	
-	private void initListener() {
+	protected void initListener() {
+		super.initListener();
+
 		searchBtn.setOnClickListener(new OnClickListener() {
 
 			@Override

@@ -21,7 +21,7 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.badou.mworking.adapter.TrainAdapter;
 import com.badou.mworking.base.AppApplication;
-import com.badou.mworking.base.BaseFragmentActivity;
+import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.model.Category;
 import com.badou.mworking.model.Train;
 import com.badou.mworking.model.user.UserDetail;
@@ -51,7 +51,7 @@ import java.util.ArrayList;
 /**
  * 我的学习 类: MyStudyProgressAct 时间:2014年8月26日 | 下午1:52:16
  */
-public class MyStudyProgressAct extends BaseFragmentActivity implements OnClickListener,OnRefreshListener2<ListView>{
+public class MyStudyProgressAct extends BaseNoTitleActivity implements OnClickListener,OnRefreshListener2<ListView>{
 
 	
 	public ImageView ivLeft;  // action 左侧iv 
@@ -91,7 +91,8 @@ public class MyStudyProgressAct extends BaseFragmentActivity implements OnClickL
 		MobclickAgent.onPause(this);
 	}
 
-	private void initView() {
+	protected void initView() {
+		super.initView();
 		tvRank = (TextView) this.findViewById(R.id.tv_PaiMing);
 		UserDetail userDetail = (UserDetail) getIntent().getSerializableExtra(
 				UserCenterActivity.KEY_USERINFO);
@@ -301,8 +302,8 @@ public class MyStudyProgressAct extends BaseFragmentActivity implements OnClickL
 		return list;
 	}
 	
-	private void initListener() {
-		
+	protected void initListener() {
+		super.initListener();
 		TextView rlGoAct = (TextView) findViewById(R.id.comment_relat);
 		rlGoAct.setText(mContext.getResources().getString(R.string.mystudy_btn));
 		rlGoAct.setOnClickListener(new OnClickListener() {

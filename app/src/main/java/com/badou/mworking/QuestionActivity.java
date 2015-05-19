@@ -118,7 +118,7 @@ public class QuestionActivity extends BaseBackActionBarActivity implements
 		//  发送btn
 		// 断网判断
 		if (!NetUtils.isNetConnected(this)) {
-			showToast(R.string.error_service);
+			ToastUtil.showToast(mContext, R.string.error_service);
 			return;
 		}
 		String content = etContent.getText().toString().replaceAll("\\n", "")
@@ -544,7 +544,7 @@ public class QuestionActivity extends BaseBackActionBarActivity implements
   					@Override
   					public void onResponse(Object arg0) {
   						if (arg0 == null) {
-  							showToast(R.string.tongShiQuan_submit_fail);
+							ToastUtil.showToast(mContext, R.string.tongShiQuan_submit_fail);
   							return;
   						}
   						if (arg0 instanceof JSONObject) {
@@ -561,7 +561,7 @@ public class QuestionActivity extends BaseBackActionBarActivity implements
 //  								}
   								return;
   							} else {
-  								showToast(R.string.tongShiQuan_submit_fail);
+								ToastUtil.showToast(mContext, R.string.tongShiQuan_submit_fail);
   							}
   						}
   					}

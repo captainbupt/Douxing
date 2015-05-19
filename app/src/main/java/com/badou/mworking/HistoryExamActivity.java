@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.badou.mworking.adapter.ExamAdapter;
 import com.badou.mworking.base.AppApplication;
-import com.badou.mworking.base.BaseFragmentActivity;
+import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.model.Exam;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
@@ -37,7 +37,7 @@ import java.util.ArrayList;
  * @author Administrator
  * 历史试题页面
  */
-public class HistoryExamActivity extends BaseFragmentActivity implements OnClickListener,OnRefreshListener2<ListView>{
+public class HistoryExamActivity extends BaseNoTitleActivity implements OnClickListener,OnRefreshListener2<ListView>{
 	
 	protected SwipeBackLayout layout;
 	private ImageView ivActionbarLeft;
@@ -62,7 +62,9 @@ public class HistoryExamActivity extends BaseFragmentActivity implements OnClick
 		initView();
 	}
 	
-	private void initView(){
+	protected void initView(){
+		super.initView();
+
 		ivActionbarLeft = (ImageView) findViewById(R.id.iv_actionbar_left);
 		actionbarTitle = (TextView) findViewById(R.id.txt_actionbar_title);
 		ivActionbarLeft.setOnClickListener(this);
@@ -178,7 +180,8 @@ public class HistoryExamActivity extends BaseFragmentActivity implements OnClick
 	/**
 	 * 初始化item点击监听
 	 */
-	private void initListener() {
+	protected void initListener() {
+		super.initListener();;
 		pullToRefreshListView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1,

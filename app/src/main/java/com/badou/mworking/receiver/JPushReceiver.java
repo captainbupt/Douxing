@@ -11,7 +11,7 @@ import com.badou.mworking.AroundDetailActivity;
 import com.badou.mworking.AroundUserActivity;
 import com.badou.mworking.ChattingActivity;
 import com.badou.mworking.ExamActivity;
-import com.badou.mworking.NoticesActivity;
+import com.badou.mworking.NoticeActivity;
 import com.badou.mworking.TaskActivity;
 import com.badou.mworking.TrainActivity;
 import com.badou.mworking.model.Category;
@@ -122,7 +122,7 @@ public class JPushReceiver extends BroadcastReceiver {
 					// 通知公告
 					} else if (type.equals(TYPE_NOTICE)) {
 						Category.CLICKMAINICON = Category.CATEGORY_NOTICE;
-						Intent noticeIntent = new Intent(context,NoticesActivity.class);
+						Intent noticeIntent = new Intent(context,NoticeActivity.class);
 						noticeIntent.putExtras(bundle);
 						noticeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 						context.startActivity(noticeIntent);

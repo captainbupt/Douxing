@@ -1,6 +1,5 @@
 package com.badou.mworking;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -22,6 +21,7 @@ import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.WaitProgressDialog;
 import com.umeng.analytics.MobclickAgent;
 
+import org.holoeverywhere.app.ProgressDialog;
 import org.json.JSONObject;
 
 import java.util.regex.Pattern;
@@ -59,7 +59,8 @@ public class UserVerifyAct extends BaseBackActionBarActivity implements OnClickL
 		MobclickAgent.onPause(this);
 	}
 	
-	private void initView(){
+	protected void initView(){
+		super.initView();
 		etPass = (EditText) this.findViewById(R.id.et_input_password);
 		etVerPass = (EditText) this.findViewById(R.id.et_Verify_password);
 		tvOK = (TextView) this.findViewById(R.id.btn_ok);
@@ -83,18 +84,18 @@ public class UserVerifyAct extends BaseBackActionBarActivity implements OnClickL
 			}else if (!p1.equals(p2)) {
 				ToastUtil.showToast(mContext, R.string.change_error_different_password);
 			}else if (p1.length() < 6) {
-				showToast(R.string.change_error_short_password_original);
+				ToastUtil.showToast(mContext, R.string.change_error_short_password_original);
 			}else if (p2.length() < 6) {
-				showToast(R.string.change_error_short_password_new);
+				ToastUtil.showToast(mContext, R.string.change_error_short_password_new);
 			}
 			else if (!a) {
-				ToastUtil.showToast(mContext, R.string.tips_username_input_MiMa);
+				ToastUtil.showToast(mContext, R.string.tips_password_input_invalid);
 			}else if (!b) {
-				ToastUtil.showToast(mContext, R.string.tips_username_input_MiMa);
+				ToastUtil.showToast(mContext, R.string.tips_password_input_invalid);
 			}
 			
 			else if (TextUtils.isEmpty(phone) || TextUtils.isEmpty(vcode)) {
-				showToast(R.string.act_expri_verify_err_vcode);
+				ToastUtil.showToast(mContext, R.string.act_expri_verify_err_vcode);
 			}else {
 //				Log.v(LOG+"badou", " ForgetPass   跳转传过来的值--- 电话 -->> " + intent.getStringExtra(VERIFY_PHONE) +  "   ****      验证码 --->> "+ intent.getStringExtra(VERIFY_VCODE));
 				ChangePass(phone, vcode, p1);
@@ -165,9 +166,7 @@ public class UserVerifyAct extends BaseBackActionBarActivity implements OnClickL
 
 	/**
 	 * 登录成功 保存信息
-	 * 
-	 * @param username
-	 * @param password
+	 *
 	 * @param jsonObject
 	 *            登录成功返回的json
 	 */
