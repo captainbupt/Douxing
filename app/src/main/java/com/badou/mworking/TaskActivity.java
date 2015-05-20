@@ -30,6 +30,7 @@ import com.badou.mworking.net.ResponseParams;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.Constant;
+import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.SP;
 import com.badou.mworking.util.ToastUtil;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -48,8 +49,8 @@ import java.util.ArrayList;
  * @author gejianfeng
  * 任务签到界面
  */
-public class TaskActivity extends BaseNoTitleActivity implements OnClickListener,OnRefreshListener2<ListView>{
-
+public class TaskActivity extends BaseNoTitleActivity{// implements OnClickListener,OnRefreshListener2<ListView>{
+/*
 	private static final int LISTVIEW_RESULT_REFRESH = 0x00001;
 
 	private int beginIndex = 0;
@@ -59,7 +60,7 @@ public class TaskActivity extends BaseNoTitleActivity implements OnClickListener
 	
 	private String userNum = "";
 	
-	private ImageView tvSearchNull1;
+	private ImageView tvSearchNull;
 	private TaskAdapter taskAdapter;
 	private PullToRefreshListView pullToRefreshListView;
 	
@@ -134,7 +135,8 @@ public class TaskActivity extends BaseNoTitleActivity implements OnClickListener
 		});
 		initListener();
 		getClassifications();
-		if(ToastUtil.showNetExc(TaskActivity.this)){
+		if (NetUtils.isNetConnected(mContext)) {
+			ToastUtil.showNetExc(mContext);
 			String classificationStr =  SP.getStringSP(TaskActivity.this, SP.TASK,Task.CATEGORY_TASK, "");
 			try {
 				JSONArray jsonArray = new JSONArray(classificationStr);
@@ -163,9 +165,9 @@ public class TaskActivity extends BaseNoTitleActivity implements OnClickListener
 		}
 	}
 	
-	/**
+	*//**
 	 * c初始化action 布局
-	 */
+	 *//*
 	private void initAction(){
 		updatePro = (ProgressBar) findViewById(R.id.pb_action_bar);
 		tvSearchNull = (ImageView) this.findViewById(R.id.tv_tishi);
@@ -279,9 +281,9 @@ public class TaskActivity extends BaseNoTitleActivity implements OnClickListener
 		twoadapter1.notifyDataSetChanged();
 	}
 	
-	/**
+	*//**
 	 * 功能描述:通过网络获取 类别 列表
-	 */
+	 *//*
 	private void getClassifications() {
 		ServiceProvider.doGetCategorys(TaskActivity.this, Category.CATEGORY_TASK , new VolleyListener(TaskActivity.this) {
 			@Override
@@ -303,10 +305,10 @@ public class TaskActivity extends BaseNoTitleActivity implements OnClickListener
 		});
 	}
 	
-	/**
+	*//**
 	 * @param resultArray
 	 * 解析jsonArray
-	 */
+	 *//*
 	private void setClassifications(JSONArray resultArray){
 		classifications = new ArrayList<Classification>();
 		if (resultArray != null && resultArray.length() != 0) {
@@ -324,14 +326,14 @@ public class TaskActivity extends BaseNoTitleActivity implements OnClickListener
 			initAdapter1(classificationsFirst);
 		}
 		// 如果没有二级分类的话，只显示左边的一栏
-		if(!Classification.isHasErjiClassification){
+		if(!Classification.hasErjiClassification){
 			mShoplist_twolist1.setVisibility(View.GONE);
 		}
 	}
 	
-	/**
+	*//**
 	 * 初始化监听
-	 */
+	 *//*
 	protected void initListener(){
 		pullToRefreshListView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
@@ -359,10 +361,10 @@ public class TaskActivity extends BaseNoTitleActivity implements OnClickListener
 		});
 	}
 	
-	/**
+	*//**
 	 * 功能描述:
 	 * @param beginNum
-	 */
+	 *//*
 	private void upDateListView(final int beginNum) {
 		updatePro.setVisibility(View.VISIBLE);
 		userNum = ((AppApplication) mContext.getApplicationContext())
@@ -476,14 +478,15 @@ public class TaskActivity extends BaseNoTitleActivity implements OnClickListener
 		};
 	};
 	
-	/**
+	*//**
 	 * 功能描述:  获取缓存
-	 */
+	 *//*
 	public void getCash(int tag){
 		ArrayList<Task> list = new ArrayList<Task>();
 		userNum = ((AppApplication) mContext.getApplicationContext()).getUserInfo().getUserNumber();
 		String sp = SP.getStringSP(mContext,SP.TASK, userNum+TaskActivity.tag, "");
-		if(ToastUtil.showNetExc(TaskActivity.this)){
+		if(NetUtils.isNetConnected(mContext)){
+			ToastUtil.showNetExc(mContext);
 			if(TextUtils.isEmpty(sp)){
 				taskAdapter.setDatas(list);
 				tvSearchNull.setVisibility(View.VISIBLE);
@@ -511,10 +514,10 @@ public class TaskActivity extends BaseNoTitleActivity implements OnClickListener
 	protected void onDestroy() {
 		super.onDestroy();
 		// 以免该值被下次重用，所以在这里还原一下
-		Classification.isHasErjiClassification = false;
+		Classification.hasErjiClassification = false;
 		TaskActivity.tag = 0;
 		SP.putIntSP(TaskActivity.this, SP.TASK, "main", 0);
 		SP.putIntSP(TaskActivity.this, SP.TASK, "more", 0);
-	}
+	}*/
 }
 

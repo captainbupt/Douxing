@@ -20,6 +20,7 @@ import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.Constant;
+import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.SwipeBackLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -32,6 +33,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Administrator
@@ -48,7 +50,7 @@ public class HistoryExamActivity extends BaseNoTitleActivity implements OnClickL
 	private PullToRefreshListView pullToRefreshListView; // 下拉刷新listview
 	
 	private ExamAdapter examAdapter;
-	public static ArrayList<Exam> list;        // 获取到的list集合
+	public static List<Object> list;        // 获取到的list集合
 
 	
 	@Override
@@ -58,13 +60,11 @@ public class HistoryExamActivity extends BaseNoTitleActivity implements OnClickL
 		layout = (SwipeBackLayout) LayoutInflater.from(this).inflate(
 				R.layout.base, null);
 		layout.attachToActivity(this);
-		ExamAdapter.isHistoryTest = true;
+		ExamAdapter.isHistory = true;
 		initView();
 	}
 	
 	protected void initView(){
-		super.initView();
-
 		ivActionbarLeft = (ImageView) findViewById(R.id.iv_actionbar_left);
 		actionbarTitle = (TextView) findViewById(R.id.txt_actionbar_title);
 		ivActionbarLeft.setOnClickListener(this);
@@ -73,7 +73,7 @@ public class HistoryExamActivity extends BaseNoTitleActivity implements OnClickL
 		pullToRefreshListView.setOnRefreshListener(this);
 		pullToRefreshListView.setMode(Mode.BOTH);
 		if (examAdapter == null) {
-			examAdapter = new ExamAdapter(HistoryExamActivity.this, null,null);
+			examAdapter = new ExamAdapter(HistoryExamActivity.this, false, true);
 		}
 		pullToRefreshListView.setAdapter(examAdapter);
 		pullToRefreshListView.setRefreshing();
@@ -105,14 +105,14 @@ public class HistoryExamActivity extends BaseNoTitleActivity implements OnClickL
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		ExamAdapter.isHistoryTest = false;
+		ExamAdapter.isHistory = false;
 	}
 	
 	/**
 	 * 获取历史考试
 	 */
 	private void getHistoryExam(int beginIndex){
-		ServiceProvider.getPastrank(HistoryExamActivity.this,Math.abs(ExamActivity.tag)+"",new VolleyListener(HistoryExamActivity.this) {
+		ServiceProvider.getPastrank(HistoryExamActivity.this,/*Math.abs(ExamActivity.tag)+""*/"",new VolleyListener(HistoryExamActivity.this) {
 			
 			@Override
 			public void onResponse(Object responseObject) {
@@ -129,7 +129,7 @@ public class HistoryExamActivity extends BaseNoTitleActivity implements OnClickL
 	}
 	
 	private void getDataFromJsonObject(Object responseObject,int beginNum){
-		list = new ArrayList<Exam>();
+		list = new ArrayList<>();
 		JSONObject responseJson = (JSONObject) responseObject;
 		try {
 			JSONObject data = responseJson
@@ -155,9 +155,9 @@ public class HistoryExamActivity extends BaseNoTitleActivity implements OnClickL
 			}
 			if (beginNum <= 0) {
 				beginIndex = resultArray.length();
-				examAdapter.setDatas(list);
+				examAdapter.setList(list);
 			} else {
-				examAdapter.addData(list);
+				examAdapter.addList(list);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -181,27 +181,28 @@ public class HistoryExamActivity extends BaseNoTitleActivity implements OnClickL
 	 * 初始化item点击监听
 	 */
 	protected void initListener() {
-		super.initListener();;
 		pullToRefreshListView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1,
 					int position, long arg3) {
 				BackWebActivity.PAGEFLAG = BackWebActivity.EXAM;
-				Exam exam = examAdapter.getItem(position - 1);
+				Exam exam = (Exam) examAdapter.getItem(position - 1);
 				int subtype = exam.getType();
 				if (Constant.MWKG_FORAMT_TYPE_XML != subtype) {
 					return;
 				}
 				// 考试没有联网
-				if(ToastUtil.showNetExc(HistoryExamActivity.this)){
+				if(NetUtils.isNetConnected(mContext)){
+					ToastUtil.showNetExc(mContext);
 					return;
 				}
 				String uid = ((AppApplication) HistoryExamActivity.this.getApplicationContext()).getUserInfo().getUserId();
 				String url =  Net.getRunHost(HistoryExamActivity.this)+Net.EXAM_ITEM(uid, exam.getExamId());
 				Intent intents = new Intent(HistoryExamActivity.this, BackWebActivity.class);
 				intents.putExtra(BackWebActivity.VALUE_URL,url);
-				String title = ExamActivity.CLASSIFICATIONNAME;
-				intents.putExtra(BackWebActivity.VALUE_TITLE,title); 
+				//String title = ExamActivity.CLASSIFICATIONNAME;
+				String title = "";
+				intents.putExtra(BackWebActivity.VALUE_TITLE,title);
 				startActivity(intents);
 				// 设置切换动画，从右边进入，左边退出
 				overridePendingTransition(R.anim.in_from_right,

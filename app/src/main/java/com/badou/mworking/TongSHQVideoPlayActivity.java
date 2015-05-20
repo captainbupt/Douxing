@@ -199,23 +199,23 @@ public class TongSHQVideoPlayActivity extends Activity implements
 						@Override
 						public void onDownloadSizeChange(int downloadSize) {
 							// 已下载的大小
-							Message.obtain(mHandler,
+							/*Message.obtain(mHandler,
 									TrainActivity.PROGRESS_CHANGE, downloadSize)
-									.sendToTarget();
+									.sendToTarget();*/
 						}
 
 						@Override
 						public void onDownloadFinish(String filePath) {
 							// 下载完成
-							mHandler.sendEmptyMessage(TrainActivity.PROGRESS_FINISH);
+							//mHandler.sendEmptyMessage(TrainActivity.PROGRESS_FINISH);
 						}
 
 						@Override
 						public void onGetTotalSize(int totalSize) {
 							// 文件大小
-							Message.obtain(mHandler,
+							/*Message.obtain(mHandler,
 									TrainActivity.PROGRESS_MAX, totalSize)
-									.sendToTarget();
+									.sendToTarget();*/
 						}
 					});
 		}
@@ -283,7 +283,7 @@ public class TongSHQVideoPlayActivity extends Activity implements
 					}
 				}
 				break;
-			case TrainActivity.PROGRESS_MAX:
+/*			case TrainActivity.PROGRESS_MAX:
 				if (mSeekBar != null) {
 					mSeekBar.setMax((int) msg.obj);
 				}
@@ -305,7 +305,7 @@ public class TongSHQVideoPlayActivity extends Activity implements
 				mVideo.setVideoPath(fileMedia.toString());
 				statuDownFinish();
 				startPlay();
-				break;
+				break;*/
 			case TongSHQVideoPlayActivity.VIDEOPLAY:    //视屏播放时，进度条的改变
 				if (mVideo.getCurrentPosition() > 0) {
 					tvCurrentTime.setText(formatTime(mVideo

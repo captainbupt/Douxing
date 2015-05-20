@@ -69,7 +69,6 @@ public class AboutUsActivity extends BaseBackActionBarActivity implements OnClic
 	}
 
 	protected void initView(){
-		super.initView();
 		infoTextView = (TextView) findViewById(R.id.tv_user_setting_info);
 		chkPicShow = (CheckBox) findViewById(R.id.chk_pic);
 		pushChk = (CheckBox) findViewById(R.id.push_chk);

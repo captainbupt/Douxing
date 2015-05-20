@@ -3,8 +3,6 @@ package com.badou.mworking.base;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Window;
 
@@ -15,7 +13,6 @@ import com.badou.mworking.widget.WaitProgressDialog;
 import com.umeng.analytics.MobclickAgent;
 
 import org.holoeverywhere.app.Activity;
-import org.holoeverywhere.app.ProgressDialog;
 
 public class BaseNoTitleActivity extends Activity{
 	
@@ -30,15 +27,13 @@ public class BaseNoTitleActivity extends Activity{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		mContext = this;
 		mActivity = this;
 		mReceivedIntent = getIntent();
 		layout = (SwipeBackLayout) LayoutInflater.from(this).inflate(R.layout.base, null);
 		AppManager.getAppManager().addActivity(this);
 		mProgressDialog = new WaitProgressDialog(mContext);
-
+		getSupportActionBar().hide();
 	}
 
 	@Override

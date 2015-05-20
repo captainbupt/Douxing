@@ -34,6 +34,7 @@ import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.BitmapUtil;
 import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.FileUtils;
+import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.SP;
 import com.badou.mworking.util.TimeTransfer;
 import com.badou.mworking.util.ToastUtil;
@@ -192,7 +193,6 @@ public class SignActivity extends BaseNoTitleActivity implements OnClickListener
 	}
 
 	protected void initView() {
-		super.initView();
 		actionbarTitleTv = (TextView) findViewById(R.id.txt_actionbar_title);
 		actionbarTitleTv.setText(getIntent().getStringExtra("title")+"");
 		ivBack = (ImageView) findViewById(R.id.iv_actionbar_left);
@@ -321,7 +321,8 @@ public class SignActivity extends BaseNoTitleActivity implements OnClickListener
 		switch (v.getId()) {
 		case R.id.llSignConfirm:
 			//无网络状态下不允许点击
-			if(ToastUtil.showNetExc(this)){
+			if (NetUtils.isNetConnected(mContext)) {
+				ToastUtil.showNetExc(mContext);
 				return;
 			}
 			long timeNow = System.currentTimeMillis();

@@ -60,7 +60,6 @@ public class UserVerifyAct extends BaseBackActionBarActivity implements OnClickL
 	}
 	
 	protected void initView(){
-		super.initView();
 		etPass = (EditText) this.findViewById(R.id.et_input_password);
 		etVerPass = (EditText) this.findViewById(R.id.et_Verify_password);
 		tvOK = (TextView) this.findViewById(R.id.btn_ok);

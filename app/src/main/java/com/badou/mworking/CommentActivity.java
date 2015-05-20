@@ -112,7 +112,6 @@ public class CommentActivity extends BaseBackActionBarActivity{
 	 * 功能描述:实例化view
 	 */
 	protected void initView() {
-		super.initView();
 		// 隐藏输入法
 		imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
 		tishiImg = (ImageView) findViewById(R.id.tishi_img);
@@ -133,7 +132,6 @@ public class CommentActivity extends BaseBackActionBarActivity{
 	 * 功能描述:设置监听
 	 */
 	protected void initListener() {
-		super.initView();
 		// 字符长度监听
 		contentEditText.setFilters(new InputFilter[] { new InputFilter() {
 			@Override

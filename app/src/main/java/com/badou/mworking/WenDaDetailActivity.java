@@ -296,7 +296,6 @@ public class WenDaDetailActivity extends BaseNoTitleActivity implements
 	 * 功能描述:发送回复TextView设置监听,pullToRefreshScrollView设置下拉刷新监听
 	 */
 	protected void initListener() {
-		super.initListener();
 		// 点击图片放大显示
 		imgTitlePic.setOnClickListener(new OnClickListener() {
 			@Override

@@ -26,6 +26,7 @@ import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.AppManager;
 import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.MD5;
+import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.SP;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.InputMethodRelativeLayout;
@@ -348,14 +349,16 @@ public class LoginActivity extends BaseNoTitleActivity implements
                 }
                 break;
             case R.id.tv_login_forget_password:
-                if (ToastUtil.showNetExc(this)) {
+                if (NetUtils.isNetConnected(mContext)) {
+                    ToastUtil.showNetExc(mContext);
                     return;
                 }
                 Intent intent1 = new Intent(mContext, ForgetPassWordActivity.class);
                 startActivity(intent1);
                 break;
             case R.id.experience:
-                if (ToastUtil.showNetExc(this)) {
+                if (NetUtils.isNetConnected(mContext)) {
+                    ToastUtil.showNetExc(mContext);
                     return;
                 }
                 userName = "anonymous";

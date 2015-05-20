@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.fragment.TongSHQFragments;
 import com.badou.mworking.util.NetUtils;
@@ -51,7 +52,7 @@ public class AroundActivity extends BaseNoTitleActivity implements OnClickListen
 		layout.attachToActivity(this);
 		mContext = AroundActivity.this;
 		initAction(this);
-		tvTitle.setText(getIntent().getStringExtra(MainGridActivity.KEY_TITLE_NAME)+"");
+		tvTitle.setText(getIntent().getStringExtra(BaseActionBarActivity.KEY_TITLE)+"");
 		af = new TongSHQFragments();
 		FragmentManager fm = getSupportFragmentManager();
 		FragmentTransaction ft = fm.beginTransaction();

@@ -126,7 +126,6 @@ public class AroundDetailActivity extends BaseBackActionBarActivity{
 	 * 功能描述:实例化自定义listview,设置显示的内容
 	 */
 	protected void initView() {
-		super.initView();
 		imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
 		
 		// 自定义LinearLayout

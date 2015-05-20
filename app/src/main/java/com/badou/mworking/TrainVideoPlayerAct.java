@@ -226,7 +226,6 @@ public class TrainVideoPlayerAct extends TrainBaseActivity implements
 	 * 功能描述: 数据初始化
 	 */
 	protected void initData() {
-		super.initData();
 		try {
 			train = (Train) getIntent().getBundleExtra("train")
 					.getSerializable("train");
@@ -387,10 +386,10 @@ public class TrainVideoPlayerAct extends TrainBaseActivity implements
 					}
 				}
 				break;
-			case TrainActivity.PROGRESS_FINISH:
+			/*case TrainActivity.PROGRESS_FINISH:
 				statuDownFinish();
 				startPlay();
-				break;
+				break;*/
 			case FILE_SIZE:
 				musicFileSizeTv.setText("视频文件(" + filesize + ")");
 				break;

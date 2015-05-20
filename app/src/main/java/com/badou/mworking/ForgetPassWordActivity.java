@@ -22,6 +22,7 @@ import com.android.volley.VolleyError;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
+import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.SwipeBackLayout;
 import com.umeng.analytics.MobclickAgent;
@@ -74,7 +75,6 @@ public class ForgetPassWordActivity extends BaseBackActionBarActivity implements
 	 *
 	 */
 	protected void initView() {
-		super.initView();
 
 		etPhone = (EditText) this.findViewById(R.id.et_input_phone);
 		etVerify = (EditText) this.findViewById(R.id.et_Verify);
@@ -132,7 +132,6 @@ public class ForgetPassWordActivity extends BaseBackActionBarActivity implements
 	 * 功能描述: 设置控件的监听
 	 */
 	protected void initListener() {
-		super.initListener();
 		btnGetMsg.setOnClickListener(this);
 		btnOK.setOnClickListener(this);
 		tvWuFaHuoQu.setOnClickListener(this);
@@ -241,7 +240,8 @@ public class ForgetPassWordActivity extends BaseBackActionBarActivity implements
 
 	@Override
 	public void onClick(View arg0) {
-		if (ToastUtil.showNetExc(this)) {
+		if (NetUtils.isNetConnected(mContext)) {
+			ToastUtil.showNetExc(this);
 			return;
 		}
 		String str = etPhone.getText().toString().trim();

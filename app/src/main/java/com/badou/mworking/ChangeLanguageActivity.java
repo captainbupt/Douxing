@@ -58,7 +58,6 @@ public class ChangeLanguageActivity extends BaseNoTitleActivity implements OnCli
 	}
 	
 	protected void initView(){
-		super.initView();
 		actionbarTitleTv = (TextView) findViewById(R.id.txt_actionbar_title);
 		ivBack = (ImageView) findViewById(R.id.iv_actionbar_left);
 		actionbarTitleTv.setText(getResources().getString(R.string.more_laguage));

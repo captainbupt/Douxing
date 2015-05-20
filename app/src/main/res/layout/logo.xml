@@ -14,7 +14,6 @@
         android:src="@drawable/icon_user"
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
-        android:visibility="gone"
       />
     
 <!--    <ImageView

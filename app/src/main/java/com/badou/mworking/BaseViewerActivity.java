@@ -92,9 +92,10 @@ public class BaseViewerActivity extends BaseNoTitleActivity implements OnClickLi
 		initAction();
 		initView();
 		initLisener();
-		String webGone = getIntent().getStringExtra(
-				TrainActivity.KEY_webView_pdf);
-		if (webGone == null || "".equals(webGone) || !webGone.equals(TrainActivity.KEY_webView_pdf)) {
+		String webGone = "";
+/*		String webGone = getIntent().getStringExtra(
+				TrainActivity.KEY_webView_pdf);*/
+		if (webGone == null || "".equals(webGone)){// || !webGone.equals(TrainActivity.KEY_webView_pdf)) {
 			// 显示pdf
 			try {
 				String filePath = FileUtils.getTrainCacheDir(mContext) + train.getRid() + ".pdf";
@@ -347,7 +348,7 @@ public class BaseViewerActivity extends BaseNoTitleActivity implements OnClickLi
 				public void positiveListener(int coursewareScore) {
 					train.setCoursewareScore(coursewareScore+"");
 					tvZan.setText(train.getEcnt() + 1 + "");
-					TrainActivity.pingfen = coursewareScore;
+					//TrainActivity.pingfen = coursewareScore;
 				}
 			}).show();
 		}

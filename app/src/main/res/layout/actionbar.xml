@@ -39,7 +39,7 @@
             android:id="@+id/iv_action_bar_triangle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/icon_triangle_down"
+            android:src="@drawable/icon_triangle_down"
             android:visibility="gone" />
 
     </LinearLayout>
