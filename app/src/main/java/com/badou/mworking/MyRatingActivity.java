@@ -21,6 +21,7 @@ import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.Constant;
+import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.SwipeBackLayout;
 import com.umeng.analytics.MobclickAgent;
@@ -61,13 +62,12 @@ public class MyRatingActivity extends BaseNoTitleActivity implements OnClickList
 		layout = (SwipeBackLayout) LayoutInflater.from(this).inflate(R.layout.base, null);
 		layout.attachToActivity(this);
 		exams = new ArrayList<Exam>();
-		exams.addAll(ExamActivity.list);
+		//exams.addAll(ExamActivity.list);
 		initView();
 		getViewrank();
 	}
 	
 	protected void initView(){
-		super.initView();
 		ivActionbarLeft = (ImageView) findViewById(R.id.iv_actionbar_left);
 		RatingTtips = (ImageView) findViewById(R.id.Rating_tips);
 		actionbarTitle = (TextView) findViewById(R.id.txt_actionbar_title);
@@ -157,14 +157,15 @@ public class MyRatingActivity extends BaseNoTitleActivity implements OnClickList
 			return;
 		}
 		// 考试没有联网
-		if(ToastUtil.showNetExc(mContext)){
+		if (NetUtils.isNetConnected(mContext)) {
+			ToastUtil.showNetExc(mContext);
 			return;
 		}
 		String uid = ((AppApplication) mContext.getApplicationContext()).getUserInfo().getUserId();
 		String url =  Net.getRunHost(mContext)+Net.EXAM_ITEM(uid, exam.getExamId());
 		Intent intents = new Intent(mContext, BackWebActivity.class);
 		intents.putExtra(BackWebActivity.VALUE_URL,url);
-		intents.putExtra(BackWebActivity.VALUE_TITLE, ExamActivity.CLASSIFICATIONNAME);
+		//intents.putExtra(BackWebActivity.VALUE_TITLE, ExamActivity.CLASSIFICATIONNAME);
 		startActivity(intents);
 	}
 	
@@ -173,7 +174,7 @@ public class MyRatingActivity extends BaseNoTitleActivity implements OnClickList
 	 */
 	private void getViewrank() {
 		// 等级页面的tag返回时是负值，然后请求的时候需要变成正数
-		ServiceProvider.getViewrank(MyRatingActivity.this,Math.abs(ExamActivity.tag)+"",new VolleyListener(mContext) {
+		ServiceProvider.getViewrank(MyRatingActivity.this,/*Math.abs(ExamActivity.tag)+""*/"",new VolleyListener(mContext) {
 			
 			@Override
 			public void onResponse(Object responseObject) {

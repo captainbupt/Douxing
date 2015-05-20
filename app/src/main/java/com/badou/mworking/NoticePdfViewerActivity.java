@@ -109,7 +109,6 @@ public class NoticePdfViewerActivity extends BaseNoTitleActivity implements OnCl
 	}
 
 	protected void initView() {
-		super.initView();
 		pdfView = (PDFView) findViewById(R.id.pdfview);
 		commentRelat = (LinearLayout) findViewById(R.id.comment_relat);
 		commentNum = (TextView) findViewById(R.id.click_num);

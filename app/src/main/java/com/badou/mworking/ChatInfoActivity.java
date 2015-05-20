@@ -128,7 +128,6 @@ public class ChatInfoActivity extends BaseNoTitleActivity implements
 	}
 
 	protected void initListener() {
-		super.initListener();
 		pullListView.setOnRefreshListener(new OnRefreshListener<ListView>() {
 			@Override
 			public void onRefresh(PullToRefreshBase<ListView> refreshView) {

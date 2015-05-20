@@ -75,7 +75,6 @@ public class WenDaSearchActivity  extends BaseNoTitleActivity implements OnClick
 	}
 
 	protected void initView() {
-		super.initView();
 		// 隐藏输入法
 		imm = (InputMethodManager) WenDaSearchActivity.this
 				.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -103,7 +102,6 @@ public class WenDaSearchActivity  extends BaseNoTitleActivity implements OnClick
 	}
 
 	protected void initListener() {
-		super.initListener();
 		// 输入法下标的点击响应事件
 		etInput.setOnEditorActionListener(new OnEditorActionListener() {
 

@@ -64,6 +64,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 类: <code> TitleSearchAct </code> 功能描述: 搜索页面activity 创建人: 葛建锋 创建日期: 2014年9月4日
@@ -96,10 +97,10 @@ public class TitleSearchAct extends BaseNoTitleActivity implements OnRefreshList
 	
 	private PullToRefreshListView pullToRefreshListView;
 	
-	private ArrayList<Notice> notices;     //通知公告
+	private List<Object> notices;     //通知公告
 	private ArrayList<Task> tasks ;     //通知公告
-	private ArrayList<Exam> exams ;     //通知公告
-	private ArrayList<Train> trains ;     //通知公告
+	private List<Object> exams ;     //通知公告
+	private List<Object> trains ;     //通知公告
 	
 	private NoticeAdapter noticeAdapter = null;
 	private TaskAdapter taskAdapter = null;
@@ -138,7 +139,6 @@ public class TitleSearchAct extends BaseNoTitleActivity implements OnRefreshList
 	}
 	
 	protected void initView() {
-		super.initView();
 		// 隐藏输入法
 		imm = (InputMethodManager) mContext
 				.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -155,12 +155,12 @@ public class TitleSearchAct extends BaseNoTitleActivity implements OnRefreshList
 		
 		// 考试
 		if(keyValue.equals(Category.CATEGORY_EXAM)){
-			examAdapter = new ExamAdapter(this, null,"0");
+			examAdapter = new ExamAdapter(mContext, true, false);
 			pullToRefreshListView.setAdapter(examAdapter);
 		}
 		// 通知
 		if(keyValue.equals(Category.CATEGORY_NOTICE)){
-			noticeAdapter = new NoticeAdapter(TitleSearchAct.this,null);
+			noticeAdapter = new NoticeAdapter(TitleSearchAct.this);
 			pullToRefreshListView.setAdapter(noticeAdapter);
 		}
 		// 签到
@@ -170,7 +170,7 @@ public class TitleSearchAct extends BaseNoTitleActivity implements OnRefreshList
 		}
 		// 培训
 		if(keyValue.equals(Category.CATEGORY_TRAIN)){
-			trainAdapter = new TrainAdapter(this, null, "train");
+			trainAdapter = new TrainAdapter(mContext, false);
 			pullToRefreshListView.setAdapter(trainAdapter);
 		}
 		
@@ -205,7 +205,7 @@ public class TitleSearchAct extends BaseNoTitleActivity implements OnRefreshList
 	 * 
 	 */
 	private void noticeItemClick(int position){
-		Notice notice = noticeAdapter.getItem(position - 1);
+		Notice notice = (Notice) noticeAdapter.getItem(position - 1);
 		if (Constant.MWKG_FORAMT_TYPE_HTML!=notice.getSubType()) {
 			return;
 		}
@@ -249,13 +249,14 @@ public class TitleSearchAct extends BaseNoTitleActivity implements OnRefreshList
 	
 	private void examItemClick(int position){
 		BackWebActivity.PAGEFLAG = BackWebActivity.EXAM;
-		Exam exam = examAdapter.getItem(position - 1);
+		Exam exam = (Exam) examAdapter.getItem(position - 1);
 		int subtype = exam.getType();
 		if (Constant.MWKG_FORAMT_TYPE_XML != subtype) {
 			return;
 		}
 		// 考试没有联网
-		if(ToastUtil.showNetExc(TitleSearchAct.this)){
+		if(NetUtils.isNetConnected(mContext)){
+			ToastUtil.showNetExc(mContext);
 			return;
 		}
 		String uid = ((AppApplication) TitleSearchAct.this.getApplicationContext()).getUserInfo().getUserId();
@@ -268,7 +269,7 @@ public class TitleSearchAct extends BaseNoTitleActivity implements OnRefreshList
 			// 获取分类名
 			title = SP.getStringSP(TitleSearchAct.this, SP.NOTICE, tag+"", "");
 		}else{
-			title = ExamActivity.CLASSIFICATIONNAME;
+			//title = ExamActivity.CLASSIFICATIONNAME;
 		}
 		intents.putExtra(BackWebActivity.VALUE_TITLE,title); 
 		startActivity(intents);
@@ -302,7 +303,7 @@ public class TitleSearchAct extends BaseNoTitleActivity implements OnRefreshList
 	}
 	
 	private void trainItemClick(int position){
-		Train train = trainAdapter.getItem(position - 1);
+		Train train = (Train) trainAdapter.getItem(position - 1);
 		int subtype = train.getSubtype();
 		if (NetUtils.isNetConnected(TitleSearchAct.this)) {
 			// 向服务提交课件信息
@@ -385,7 +386,7 @@ public class TitleSearchAct extends BaseNoTitleActivity implements OnRefreshList
 			Bundle bundle = new Bundle();
 			bundle.putSerializable("train", train);
 			intent.putExtra("train", bundle);
-			intent.putExtra(TrainActivity.KEY_webView_pdf, TrainActivity.KEY_webView_pdf);
+			//intent.putExtra(TrainActivity.KEY_webView_pdf, TrainActivity.KEY_webView_pdf);
 			startActivity(intent);
 		}
 	}
@@ -422,22 +423,22 @@ public class TitleSearchAct extends BaseNoTitleActivity implements OnRefreshList
 						@Override
 						public void onDownloadSizeChange(int downloadSize) {
 							// 已下载的大小
-							Message.obtain(handler, TrainActivity.PROGRESS_CHANGE,
-									downloadSize).sendToTarget();
+							/*Message.obtain(handler, TrainActivity.PROGRESS_CHANGE,
+									downloadSize).sendToTarget();*/
 						}
 
 						@Override
 						public void onDownloadFinish(String filePath) {
 							// 下载完成
-							Message.obtain(handler, TrainActivity.PROGRESS_FINISH, "")
-									.sendToTarget();
+							/*Message.obtain(handler, TrainActivity.PROGRESS_FINISH, "")
+									.sendToTarget();*/
 						}
 
 						@Override
 						public void onGetTotalSize(int totalSize) {
 							// 文件大小
-							Message.obtain(handler, TrainActivity.PROGRESS_MAX, totalSize)
-									.sendToTarget();
+							/*Message.obtain(handler, TrainActivity.PROGRESS_MAX, totalSize)
+									.sendToTarget();*/
 						}
 					});
 			// 下载成功,向handler传递消息
@@ -487,6 +488,7 @@ public class TitleSearchAct extends BaseNoTitleActivity implements OnRefreshList
 				}
 			}
 			switch (msg.what) {
+/*
 			case TrainActivity.REFRESH_EXAM_LV:
 				if (Constant.setAdapterRefresh) {
 					// 刷新 listview
@@ -512,6 +514,7 @@ public class TitleSearchAct extends BaseNoTitleActivity implements OnRefreshList
 					dialog.dismiss();
 				}
 				break;
+*/
 
 			default:
 				break;
@@ -564,8 +567,6 @@ public class TitleSearchAct extends BaseNoTitleActivity implements OnRefreshList
 	}
 	
 	protected void initListener() {
-		super.initListener();
-
 		searchBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -759,7 +760,7 @@ public class TitleSearchAct extends BaseNoTitleActivity implements OnRefreshList
 		}
 		// 考试
 		if(keyValue.equals(Category.CATEGORY_EXAM)){
-			exams = new ArrayList<Exam>();
+			exams = new ArrayList<>();
 			for (int i = 0 ; i < resultArray.length(); i++) {
 				JSONObject jsonObject = resultArray
 						.optJSONObject(i);
@@ -769,26 +770,26 @@ public class TitleSearchAct extends BaseNoTitleActivity implements OnRefreshList
 			}
 			if (beginNum <= 0) {
 				beginIndex = resultArray.length();
-				examAdapter.setDatas(exams);
+				examAdapter.setList(exams);
 			} else {
-				examAdapter.addData(exams);
+				examAdapter.addList(exams);
 			}
 		}
 		// 通知
 		if(keyValue.equals(Category.CATEGORY_NOTICE)){
-			notices = new ArrayList<Notice>();
+			notices = new ArrayList<>();
 			for (int i = 0 ; i < resultArray.length(); i++) {
 				JSONObject jsonObject = resultArray
 						.optJSONObject(i);
-				Notice entity = new Notice(jsonObject);
+				Object entity = new Notice(jsonObject);
 				notices.add(entity);
 				beginIndex++;
 			}
 			if (beginNum <= 0) {
 				beginIndex = resultArray.length();
-				noticeAdapter.setDatas(notices);
+				noticeAdapter.setList(notices);
 			} else {
-				noticeAdapter.addData(notices);
+				noticeAdapter.addList(notices);
 			}
 		}
 		// 签到
@@ -810,7 +811,7 @@ public class TitleSearchAct extends BaseNoTitleActivity implements OnRefreshList
 		}
 		// 培训
 		if(keyValue.equals(Category.CATEGORY_TRAIN)){
-			trains = new ArrayList<Train>();
+			trains = new ArrayList<>();
 			for (int i = 0 ; i < resultArray.length(); i++) {
 				JSONObject jsonObject = resultArray
 						.optJSONObject(i);
@@ -819,9 +820,9 @@ public class TitleSearchAct extends BaseNoTitleActivity implements OnRefreshList
 				beginIndex++;
 			}
 			if (beginNum <= 0) {
-				trainAdapter.setData(updateFeedback(trains));
+				trainAdapter.setList(updateFeedback(trains));
 			} else {
-				trainAdapter.addData(updateFeedback(trains));
+				trainAdapter.addList(updateFeedback(trains));
 			}
 		}
 	}
@@ -829,11 +830,11 @@ public class TitleSearchAct extends BaseNoTitleActivity implements OnRefreshList
 	/**
 	 * 功能描述:通过网络获取课件点赞数量的list
 	 */
-	private ArrayList<Train> updateFeedback(final ArrayList<Train> list) {
+	private List<Object> updateFeedback(final List<Object> list) {
 		int length = list.size();
 		String[] rids = new String[length];
 		for (int i = 0; i < length; i++) {
-			rids[i] = list.get(i).getRid();
+			rids[i] = ((Train)list.get(i)).getRid();
 		}
 		// 获取资源的点赞数／评论数／评分
 		ServiceProvider.doUpdateFeedbackCount(TitleSearchAct.this, rids, new VolleyListener(
@@ -861,7 +862,7 @@ public class TitleSearchAct extends BaseNoTitleActivity implements OnRefreshList
 						int eval = jsonObject
 								.optInt(ResponseParams.EVAL); //评分总分
 						for (int j = 0; j < list.size(); j++) {
-							Train t = list.get(j);
+							Train t = (Train) list.get(j);
 							if (rid.equals(t.getRid())) {
 								t.setCommentNum(comment);
 								t.setFeedbackCount(feedbackCount);

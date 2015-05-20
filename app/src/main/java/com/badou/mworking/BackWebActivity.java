@@ -474,7 +474,7 @@ public class BackWebActivity extends BaseBackWebViewActivity {
 					public void positiveListener(int coursewareScore) {
 						train.setCoursewareScore(coursewareScore+"");
 						tvZan.setText(train.getEcnt() + 1 + "");
-						TrainActivity.pingfen = coursewareScore;
+						//TrainActivity.pingfen = coursewareScore;
 					}
 				}).show();
 			}

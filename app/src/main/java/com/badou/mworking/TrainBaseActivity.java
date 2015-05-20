@@ -70,7 +70,6 @@ public abstract class TrainBaseActivity extends BaseNoTitleActivity {
 
 	
 	protected void initView(){
-		super.initView();
 		/**可点击的布局(点赞)**/
 		llZanBtn = (LinearLayout) this.findViewById(R.id.ll_dianZan);
 		/**显示点赞数量的 tv**/
@@ -86,8 +85,7 @@ public abstract class TrainBaseActivity extends BaseNoTitleActivity {
 	
 	/**
 	 * c初始化action 布局
-	 * 
-	 * @param onclick
+	 *
 	 */
 	private void initAction() {
 		ivLeft = (ImageView) this.findViewById(R.id.iv_actionbar_left);
@@ -146,7 +144,7 @@ public abstract class TrainBaseActivity extends BaseNoTitleActivity {
 					public void positiveListener(int coursewareScore) {
 						train.setCoursewareScore(coursewareScore+"");
 						tvZanNum.setText(train.getEcnt() + 1 + "");
-						TrainActivity.pingfen = coursewareScore;
+						//TrainActivity.pingfen = coursewareScore;
 					}
 				}).show();
 			}else{

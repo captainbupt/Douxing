@@ -1,6 +1,5 @@
 package com.badou.mworking.base;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
@@ -12,13 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.badou.mworking.R;
-import com.badou.mworking.util.AppManager;
-import com.badou.mworking.widget.SwipeBackLayout;
 import com.badou.mworking.widget.WaitProgressDialog;
-import com.umeng.analytics.MobclickAgent;
-
-import org.holoeverywhere.app.Activity;
-import org.holoeverywhere.app.ProgressDialog;
 
 public class BaseActionBarActivity extends BaseNoTitleActivity {
 
@@ -43,6 +36,7 @@ public class BaseActionBarActivity extends BaseNoTitleActivity {
     private void initActionBarView(){
         actionBarView = LayoutInflater.from(this).inflate(R.layout.actionbar, new LinearLayout(mContext), false);
         ActionBar actionBar = getSupportActionBar();
+        actionBar.show();
         //actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setDisplayShowTitleEnabled(false);
@@ -75,10 +69,11 @@ public class BaseActionBarActivity extends BaseNoTitleActivity {
     }
 
     private void initActionBarData(){
+        mReceivedIntent = getIntent();
         if(mReceivedIntent != null){
             String title = mReceivedIntent.getStringExtra(KEY_TITLE);
             if(!TextUtils.isEmpty(title)){
-                setTitle(title);
+                setActionbarTitle(title);
             }
         }
     }

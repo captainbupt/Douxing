@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -18,9 +19,9 @@ import com.android.volley.VolleyError;
 import com.badou.mworking.adapter.BannerAdapter;
 import com.badou.mworking.adapter.MainGridAdapter;
 import com.badou.mworking.base.AppApplication;
+import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.database.MTrainingDBHelper;
-import com.badou.mworking.factory.MainGridFactory;
 import com.badou.mworking.model.MainBanner;
 import com.badou.mworking.model.MainIcon;
 import com.badou.mworking.net.Net;
@@ -35,6 +36,7 @@ import com.badou.mworking.util.AlarmUtil;
 import com.badou.mworking.util.AppManager;
 import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.SP;
+import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.BannerGallery;
 
 import org.holoeverywhere.app.AlertDialog;
@@ -43,6 +45,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -54,7 +60,6 @@ public class MainGridActivity extends BaseNoTitleActivity {
 
     private long exitTime = 0; // 记录系统时间
     private MainGridAdapter mainGridAdapter;
-    public static final String KEY_TITLE_NAME = "KEY_TITLE_NAME";
 
     private GridView gridView;
 
@@ -131,8 +136,7 @@ public class MainGridActivity extends BaseNoTitleActivity {
                                     long arg3) {
                 Intent intent = new Intent();
                 MainIcon mainIcon = (MainIcon) mainGridAdapter.getItem(arg2);
-
-                switch (mainIcon.getName()) {
+                switch (mainIcon.getMainIconId()) {
                     case RequestParams.CHK_UPDATA_PIC_NOTICE: // 通知公告
                         intent.setClass(mContext, NoticeActivity.class);
                         break;
@@ -162,7 +166,7 @@ public class MainGridActivity extends BaseNoTitleActivity {
                         intent.setClass(mContext, TrainActivity.class);
                         break;
                 }
-                intent.putExtra(KEY_TITLE_NAME, mainIcon.getName());
+                intent.putExtra(BaseActionBarActivity.KEY_TITLE, mainIcon.getName());
                 startActivity(intent);
                 overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
             }
@@ -171,7 +175,7 @@ public class MainGridActivity extends BaseNoTitleActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, UserCenterActivity.class);
-                intent.putExtra(KEY_TITLE_NAME, getResources().getString(R.string.title_name_user_center));
+                intent.putExtra(BaseActionBarActivity.KEY_TITLE, getResources().getString(R.string.title_name_user_center));
                 startActivity(intent);
             }
         });
@@ -192,7 +196,7 @@ public class MainGridActivity extends BaseNoTitleActivity {
         }
         updateBanner(bannerList);
 
-        mainGridAdapter = new MainGridAdapter(mContext, new MainGridFactory(mContext));
+        mainGridAdapter = new MainGridAdapter(mContext, getMainIconList());
         gridView.setAdapter(mainGridAdapter);
     }
 
@@ -405,6 +409,82 @@ public class MainGridActivity extends BaseNoTitleActivity {
             portImg.add(localImageView);
             this.ll_focus_indicator_container.addView(localImageView);
         }
+    }
+
+    /**
+     * 功能描述:初始化MainIcon的数据
+     */
+    private List<Object> getMainIconList() {
+        List<Object> mainIconList = new ArrayList<>();
+
+        mainIconList.add(getMainIcon(RequestParams.CHK_UPDATA_PIC_NOTICE, R.drawable.button_notice, R.string.module_default_title_notice));
+        mainIconList.add(getMainIcon(RequestParams.CHK_UPDATA_PIC_TRAIN, R.drawable.button_training, R.string.module_default_title_training));
+        mainIconList.add(getMainIcon(RequestParams.CHK_UPDATA_PIC_EXAM, R.drawable.button_exam, R.string.module_default_title_exam));
+        mainIconList.add(getMainIcon(RequestParams.CHK_UPDATA_PIC_TASK, R.drawable.button_task, R.string.module_default_title_task));
+        mainIconList.add(getMainIcon(RequestParams.CHK_UPDATA_PIC_SURVEY, R.drawable.button_survey, R.string.module_default_title_survey));
+        mainIconList.add(getMainIcon(RequestParams.CHK_UPDATA_PIC_CHATTER, R.drawable.button_chatter, R.string.module_default_title_chatter));
+        mainIconList.add(getMainIcon(RequestParams.CHK_UPDATA_PIC_SHELF, R.drawable.button_shelf, R.string.module_default_title_shelf));
+        mainIconList.add(getMainIcon(RequestParams.CHK_UPDATA_PIC_ASK, R.drawable.button_ask, R.string.module_default_title_ask));
+
+        /**
+         * 权限， 设置隐藏显示
+         * @param access 后台返回的十进制权限制
+         */
+        int access = ((AppApplication) mContext.getApplicationContext())
+                .getUserInfo().getAccess();
+
+        char[] accessArray = Integer.toBinaryString(access).toCharArray();
+        for (int i = accessArray.length-1; i >= 0 ; i--) {
+            if(accessArray[i] == '0')
+                mainIconList.remove(i);
+        }
+
+        Collections.sort(mainIconList, new Comparator<Object>() {
+            @Override
+            public int compare(Object t1, Object t2) {
+                return Integer.valueOf(((MainIcon) t1).getPriority()) < Integer.valueOf(((MainIcon)t2).getPriority()) ? 1 : -1;
+            }
+        }); //对list进行排序
+        return mainIconList;
+    }
+
+    /**
+     * @param key               icon键值
+     * @param resId             本地图片
+     * @param defaultTitleResId 默认名称
+     */
+    private MainIcon getMainIcon(String key, int resId, int defaultTitleResId) {
+        JSONObject mainIconJSONObject = getMainIconJSONObject(key);
+        String title = mainIconJSONObject.optString("name");
+        String priority = mainIconJSONObject.optString("priority");
+        if (TextUtils.isEmpty(title)) {
+            title = mContext.getResources().getString(defaultTitleResId);
+        }
+        MainIcon mainIcon = new MainIcon(key, resId, title, priority);
+        return mainIcon;
+    }
+
+    /**
+     * 功能描述: 更新数据库中mainIcon的name 字段和 priority 字段
+     */
+    private JSONObject getMainIconJSONObject(String key) {
+        String shuffleStr = SP.getStringSP(mContext, SP.DEFAULTCACHE, LoginActivity.SHUFFLE, "");
+        if (TextUtils.isEmpty(shuffleStr)) {
+            return null;
+        }
+        try {
+            JSONObject shuffle = new JSONObject(shuffleStr);
+            Iterator it = shuffle.keys();
+            while (it.hasNext()) {
+                String IconKey = (String) it.next();
+                if (key.equals(IconKey)) {
+                    return shuffle.optJSONObject(IconKey);
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

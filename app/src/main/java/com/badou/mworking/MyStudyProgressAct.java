@@ -47,6 +47,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 我的学习 类: MyStudyProgressAct 时间:2014年8月26日 | 下午1:52:16
@@ -92,7 +93,6 @@ public class MyStudyProgressAct extends BaseNoTitleActivity implements OnClickLi
 	}
 
 	protected void initView() {
-		super.initView();
 		tvRank = (TextView) this.findViewById(R.id.tv_PaiMing);
 		UserDetail userDetail = (UserDetail) getIntent().getSerializableExtra(
 				UserCenterActivity.KEY_USERINFO);
@@ -145,7 +145,7 @@ public class MyStudyProgressAct extends BaseNoTitleActivity implements OnClickLi
 		pullToRefreshListView.setVisibility(View.VISIBLE);
 		pullToRefreshListView.setOnRefreshListener(this);
 		if (trainAdapter== null) {
-			trainAdapter = new TrainAdapter(this, null, TrainAdapter.VALUE_ACT_STUDY);
+			trainAdapter = new TrainAdapter(mContext, true);
 		}
 		pullToRefreshListView.setAdapter(trainAdapter);
 		pullToRefreshListView.setRefreshing();
@@ -190,7 +190,7 @@ public class MyStudyProgressAct extends BaseNoTitleActivity implements OnClickLi
 					@Override
 					public void onResponse(Object responseObject) {
 						pullToRefreshListView.onRefreshComplete();
-						final ArrayList<Train> list = new ArrayList<Train>();
+						final List<Object> list = new ArrayList<>();
 						JSONObject response = (JSONObject) responseObject;
 						try {
 							int code = response.optInt(Net.CODE);
@@ -220,9 +220,9 @@ public class MyStudyProgressAct extends BaseNoTitleActivity implements OnClickLi
 								beginIndex++;
 							}
 							if (beginNum <= 0) {
-								trainAdapter.setData(updateFeedback(list));
+								trainAdapter.setList(updateFeedback(list));
 							} else {
-								trainAdapter.addData(updateFeedback(list));
+								trainAdapter.addList(updateFeedback(list));
 							}
 							
 						} catch (Exception e) {
@@ -244,11 +244,11 @@ public class MyStudyProgressAct extends BaseNoTitleActivity implements OnClickLi
 	/**
 	 * 功能描述:通过网络获取课件点赞数量的list
 	 */
-	private ArrayList<Train> updateFeedback(final ArrayList<Train> list) {
+	private List<Object> updateFeedback(final List<Object> list) {
 		int length = list.size();
 		String[] rids = new String[length];
 		for (int i = 0; i < length; i++) {
-			rids[i] = list.get(i).getRid();
+			rids[i] = ((Train)list.get(i)).getRid();
 		}
 		// 获取资源的点赞数／评论数／评分
 		ServiceProvider.doUpdateFeedbackCount(MyStudyProgressAct.this, rids, new VolleyListener(
@@ -276,7 +276,7 @@ public class MyStudyProgressAct extends BaseNoTitleActivity implements OnClickLi
 						int eval = jsonObject
 								.optInt(ResponseParams.EVAL); //评分总分
 						for (int j = 0; j < list.size(); j++) {
-							Train t = list.get(j);
+							Train t = (Train) list.get(j);
 							if (rid.equals(t.getRid())) {
 								t.setCommentNum(comment);
 								t.setFeedbackCount(feedbackCount);
@@ -303,7 +303,6 @@ public class MyStudyProgressAct extends BaseNoTitleActivity implements OnClickLi
 	}
 	
 	protected void initListener() {
-		super.initListener();
 		TextView rlGoAct = (TextView) findViewById(R.id.comment_relat);
 		rlGoAct.setText(mContext.getResources().getString(R.string.mystudy_btn));
 		rlGoAct.setOnClickListener(new OnClickListener() {
@@ -321,7 +320,7 @@ public class MyStudyProgressAct extends BaseNoTitleActivity implements OnClickLi
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 					long arg3) {
-				train = trainAdapter.getItem(position - 1);
+				train = (Train) trainAdapter.getItem(position - 1);
 				int subtype = train.getSubtype();
 				if (NetUtils.isNetConnected(MyStudyProgressAct.this)) {
 					// 向服务提交课件信息
@@ -426,7 +425,7 @@ public class MyStudyProgressAct extends BaseNoTitleActivity implements OnClickLi
 			Bundle bundle = new Bundle();
 			bundle.putSerializable("train", train);
 			intent.putExtra("train", bundle);
-			intent.putExtra(TrainActivity.KEY_webView_pdf, TrainActivity.KEY_webView_pdf);
+			//intent.putExtra(TrainActivity.KEY_webView_pdf, TrainActivity.KEY_webView_pdf);
 			startActivity(intent);
 		}
 	}
@@ -491,7 +490,7 @@ public class MyStudyProgressAct extends BaseNoTitleActivity implements OnClickLi
 				}
 			}
 			switch (msg.what) {
-			case TrainActivity.REFRESH_EXAM_LV:
+			/*case TrainActivity.REFRESH_EXAM_LV:
 				if (Constant.setAdapterRefresh) {
 					// 刷新 listview
 					pullToRefreshListView.setRefreshing();
@@ -516,7 +515,7 @@ public class MyStudyProgressAct extends BaseNoTitleActivity implements OnClickLi
 					dialog.dismiss();
 				}
 				break;
-
+*/
 			default:
 				break;
 			}
@@ -556,22 +555,22 @@ public class MyStudyProgressAct extends BaseNoTitleActivity implements OnClickLi
 						@Override
 						public void onDownloadSizeChange(int downloadSize) {
 							// 已下载的大小
-							Message.obtain(handler, TrainActivity.PROGRESS_CHANGE,
-									downloadSize).sendToTarget();
+							/*Message.obtain(handler, TrainActivity.PROGRESS_CHANGE,
+									downloadSize).sendToTarget();*/
 						}
 
 						@Override
 						public void onDownloadFinish(String filePath) {
 							// 下载完成
-							Message.obtain(handler, TrainActivity.PROGRESS_FINISH, "")
-									.sendToTarget();
+							/*Message.obtain(handler, TrainActivity.PROGRESS_FINISH, "")
+									.sendToTarget();*/
 						}
 
 						@Override
 						public void onGetTotalSize(int totalSize) {
 							// 文件大小
-							Message.obtain(handler, TrainActivity.PROGRESS_MAX, totalSize)
-									.sendToTarget();
+							/*Message.obtain(handler, TrainActivity.PROGRESS_MAX, totalSize)
+									.sendToTarget();*/
 						}
 					});
 			// 下载成功,向handler传递消息

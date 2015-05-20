@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.badou.mworking.base.AppApplication;
+import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.model.user.UserDetail;
 import com.badou.mworking.net.LVUtil;
@@ -117,7 +118,7 @@ public class UserCenterActivity extends BaseNoTitleActivity {
         settingsImageView.setVisibility(View.GONE);
 
         // 设置actionbar标题
-        ((TextView) findViewById(R.id.txt_actionbar_title)).setText(getIntent().getStringExtra(MainGridActivity.KEY_TITLE_NAME));
+        ((TextView) findViewById(R.id.txt_actionbar_title)).setText(getIntent().getStringExtra(BaseActionBarActivity.KEY_TITLE));
         // 用户头像
         ivUserHeadIcon = (ImageView) findViewById(R.id.ivUserSecondHeadIcon);
         levelTextView = (TextView) findViewById(R.id.lv_tv);

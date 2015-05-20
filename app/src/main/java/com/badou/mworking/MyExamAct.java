@@ -22,6 +22,7 @@ import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.Constant;
+import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.SP;
 import com.badou.mworking.util.ToastUtil;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -34,6 +35,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 类:  <code> MyExamAct </code>
@@ -58,7 +60,7 @@ public class MyExamAct extends BaseNoTitleActivity implements OnClickListener,On
 	private PullToRefreshListView pullToRefreshListView; // 下拉刷新listview
 	private ExamAdapter examAdapter;
 	
-	public static ArrayList<Exam> list;        // 获取到的list集合
+	public static List<Object> list;        // 获取到的list集合
 	private int beginIndex = 0;
 	
 	@Override
@@ -97,7 +99,7 @@ public class MyExamAct extends BaseNoTitleActivity implements OnClickListener,On
 		pullToRefreshListView.setOnRefreshListener(this);
 		pullToRefreshListView.setMode(Mode.BOTH);
 		if (examAdapter == null) {
-			examAdapter = new ExamAdapter(MyExamAct.this, null,"1");
+			examAdapter = new ExamAdapter(MyExamAct.this, true, false);
 		}
 		pullToRefreshListView.setAdapter(examAdapter);
 		pullToRefreshListView.setRefreshing();
@@ -107,7 +109,6 @@ public class MyExamAct extends BaseNoTitleActivity implements OnClickListener,On
 	 * 初始化控件
 	 */
 	protected void initView() {
-		super.initView();
 		tvScore = (TextView) this.findViewById(R.id.tv_my_score);
 		tvRank = (TextView) this.findViewById(R.id.tv_my_exam_rank);
 		user = (UserDetail) getIntent()
@@ -132,7 +133,6 @@ public class MyExamAct extends BaseNoTitleActivity implements OnClickListener,On
 	 * 初始化监听
 	 */
 	protected void initListener() {
-		super.initListener();
 		TextView rlGoExam = (TextView) this.findViewById(R.id.comment_relat);
 		rlGoExam.setText(MyExamAct.this.getResources().getString(R.string.myexam_btn));
 		rlGoExam.setOnClickListener(new OnClickListener() {
@@ -150,13 +150,14 @@ public class MyExamAct extends BaseNoTitleActivity implements OnClickListener,On
 			public void onItemClick(AdapterView<?> arg0, View arg1,
 					int position, long arg3) {
 				BackWebActivity.PAGEFLAG = BackWebActivity.EXAM;
-				Exam exam = examAdapter.getItem(position - 1);
+				Exam exam = (Exam) examAdapter.getItem(position - 1);
 				int subtype = exam.getType();
 				if (Constant.MWKG_FORAMT_TYPE_XML != subtype) {
 					return;
 				}
 				// 考试没有联网
-				if(ToastUtil.showNetExc(MyExamAct.this)){
+				if (NetUtils.isNetConnected(mContext)) {
+					ToastUtil.showNetExc(mContext);
 					return;
 				}
 				String uid = ((AppApplication) MyExamAct.this.getApplicationContext()).getUserInfo().getUserId();
@@ -230,7 +231,7 @@ public class MyExamAct extends BaseNoTitleActivity implements OnClickListener,On
 	}
 	
 	private void getDataFromJsonObject(Object responseObject,int beginNum){
-		list = new ArrayList<Exam>();
+		list = new ArrayList<>();
 		JSONObject responseJson = (JSONObject) responseObject;
 		try {
 			JSONObject data = responseJson
@@ -256,9 +257,9 @@ public class MyExamAct extends BaseNoTitleActivity implements OnClickListener,On
 			}
 			if (beginNum <= 0) {
 				beginIndex = resultArray.length();
-				examAdapter.setDatas(list);
+				examAdapter.setList(list);
 			} else {
-				examAdapter.addData(list);
+				examAdapter.addList(list);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

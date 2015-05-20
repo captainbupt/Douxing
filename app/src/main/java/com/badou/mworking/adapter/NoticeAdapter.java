@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.badou.mworking.R;
 import com.badou.mworking.base.AppApplication;
+import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.model.Notice;
 import com.badou.mworking.net.bitmap.BitmapLruCache;
 import com.badou.mworking.net.bitmap.IconLoadListener;
@@ -21,61 +22,16 @@ import com.badou.mworking.util.SP;
 import com.badou.mworking.util.TimeTransfer;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 类: <code> NoticeAdapter </code> 功能描述: 通知公告adapter 创建人: 葛建锋 创建日期: 2014年7月17日
  * 下午4:48:05 开发环境: JDK7.0
  */
-public class NoticeAdapter extends BaseAdapter {
+public class NoticeAdapter extends MyBaseAdapter {
 
-	private ArrayList<Notice> mData;
-	private LayoutInflater mInflater;
-
-	private Context mContext;
-
-	public NoticeAdapter(Context mContext, ArrayList<Notice> mData) {
-		this.mData = null == mData ? new ArrayList<Notice>() : mData;
-		this.mInflater = LayoutInflater.from(mContext);
-		this.mContext = mContext;
-		notifyDataSetChanged();
-	}
-
-	public void setDatas(ArrayList<Notice> mData) {
-		if (mData == null)
-			this.mData = new ArrayList<Notice>();
-		else
-			this.mData = mData;
-		notifyDataSetChanged();
-	}
-	
-	public void addData(ArrayList<Notice> newData){
-		if (this.mData == null){
-			this.mData = new ArrayList<Notice>();
-		}
-		this.mData.addAll(newData);
-		notifyDataSetChanged();
-	}
-
-	public ArrayList<Notice> getmData() {
-		if (mData == null) {
-			mData = new ArrayList<Notice>();
-		}
-		return mData;
-	}
-
-	@Override
-	public int getCount() {
-		return mData.size();
-	}
-
-	@Override
-	public Notice getItem(int position) {
-		return mData.get(position);
-	}
-
-	@Override
-	public long getItemId(int position) {
-		return position;
+	public NoticeAdapter(Context context) {
+		super(context);
 	}
 
 	@Override
@@ -88,7 +44,7 @@ public class NoticeAdapter extends BaseAdapter {
 		TextView department_time= ViewHolder.getVH(convertView, R.id.tv_adapter_item_dpt_date);
 		ImageView isTop = ViewHolder.getVH(convertView, R.id.tv_adapter_base_item_top);
 		RelativeLayout rl_isReadbg = ViewHolder.getVH(convertView, R.id.rl_item_bg_isread);
-		final Notice notice = mData.get(position);
+		final Notice notice = (Notice) getItem(position);
 
 		// 加载图片
 		if (null == notice.getImgUrl() || "".equals(notice.getImgUrl())) {
@@ -133,8 +89,9 @@ public class NoticeAdapter extends BaseAdapter {
 	 */
 	public void read(int position) {
 		String userNum = ((AppApplication) mContext.getApplicationContext()).getUserInfo().getUserNumber();
-		if (mData.get(position).getIsRead() == Constant.READ_NO) {
-			mData.get(position).setIsRead(Constant.READ_YES);
+		Notice notice = (Notice) getItem(position);
+		if (notice.getIsRead() == Constant.READ_NO) {
+			notice.setIsRead(Constant.READ_YES);
 			this.notifyDataSetChanged();
 			int unreadNum = SP.getIntSP(mContext, SP.DEFAULTCACHE,userNum+Notice.UNREAD_NUM_NOTICE, 0);
 			if (unreadNum > 0 ) {

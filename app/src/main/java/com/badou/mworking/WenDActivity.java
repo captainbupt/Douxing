@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.badou.mworking.adapter.WenDAdapter;
 import com.badou.mworking.base.AppApplication;
+import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.model.Ask;
 import com.badou.mworking.net.Net;
@@ -119,7 +120,7 @@ public class WenDActivity extends BaseNoTitleActivity implements OnClickListener
 		actionbarRightImg.setImageResource(R.drawable.search);
 		actionbarLeftImg.setOnClickListener(this);
 		actionbarRightImg.setOnClickListener(this);
-		String titleName = getIntent().getStringExtra(MainGridActivity.KEY_TITLE_NAME);
+		String titleName = getIntent().getStringExtra(BaseActionBarActivity.KEY_TITLE);
 		if(!TextUtils.isEmpty(titleName)){
 			actionbarTitleTv.setText(titleName);
 		}

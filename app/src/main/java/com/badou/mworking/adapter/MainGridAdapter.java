@@ -4,13 +4,12 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.badou.mworking.R;
 import com.badou.mworking.base.AppApplication;
-import com.badou.mworking.factory.MainGridFactory;
+import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.model.Exam;
 import com.badou.mworking.model.MainIcon;
 import com.badou.mworking.model.Notice;
@@ -19,6 +18,8 @@ import com.badou.mworking.model.Train;
 import com.badou.mworking.net.RequestParams;
 import com.badou.mworking.util.SP;
 
+import java.util.List;
+
 /**
  * 类:  <code> MainGridAdapter </code>
  * 功能描述:  主页面adapter
@@ -26,30 +27,10 @@ import com.badou.mworking.util.SP;
  * 创建日期: 2014年7月18日 上午9:39:08
  * 开发环境: JDK7.0
  */
-public class MainGridAdapter extends BaseAdapter {
+public class MainGridAdapter extends MyBaseAdapter {
 
-    private Context mContext;
-    private MainGridFactory mFactory;
-
-    public MainGridAdapter(Context mContext, MainGridFactory factory) {
-        super();
-        this.mContext = mContext;
-        this.mFactory = factory;
-    }
-
-    @Override
-    public int getCount() {
-        return mFactory.getCount();
-    }
-
-    @Override
-    public Object getItem(int arg0) {
-        return mFactory.getMainIconByPosition(arg0);
-    }
-
-    @Override
-    public long getItemId(int arg0) {
-        return arg0;
+    public MainGridAdapter(Context context, List<Object> list) {
+        super(context, list);
     }
 
     @Override

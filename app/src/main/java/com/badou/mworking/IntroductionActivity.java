@@ -1,16 +1,18 @@
 package com.badou.mworking;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.badou.mworking.adapter.IntroductionPagerAdapter;
 import com.badou.mworking.base.BaseNoTitleActivity;
-import com.badou.mworking.factory.IntroductionViewFactory;
+import com.badou.mworking.widget.OptimizedImageView;
 
 /**
  * 第一次启动程序的引导页面
@@ -31,7 +33,7 @@ public class IntroductionActivity extends BaseNoTitleActivity {
 
     private void initView() {
         viewPager = (ViewPager) findViewById(R.id.vp_introduction);
-        viewPager.setAdapter(new IntroductionPagerAdapter(mContext, new IntroductionViewFactory(mContext)));
+        viewPager.setAdapter(new IntroductionPagerAdapter(mContext, createViews(mContext)));
         viewPager.setCurrentItem(0);
         button = (Button) findViewById(R.id.btn_introduction);
     }
@@ -67,6 +69,19 @@ public class IntroductionActivity extends BaseNoTitleActivity {
                 finish();
             }
         });
+    }
+
+    private View[] createViews(Context context) {
+        View[] views = new View[COUNT_IMAGE];
+
+        for (int i = 0; i < COUNT_IMAGE; i++) {
+            OptimizedImageView imageView = new OptimizedImageView(context);
+            imageView.setLayoutParams(new ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            imageView.setImageResourceFullScreen(R.drawable.background_welcome_1 + i);
+            views[i] = imageView;
+        }
+        return views;
     }
 
     @Override

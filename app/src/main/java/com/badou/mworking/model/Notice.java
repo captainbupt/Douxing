@@ -156,23 +156,6 @@ public class Notice implements Serializable{
 		this.tag = tag;
 	}
 	
-	public static void putSPJsonArray(Context context, String tag,String userNum,String SPJSONArray,JSONArray jsonArray){
-		try {
-			if(TextUtils.isEmpty(SPJSONArray)){
-				SP.putStringSP(context, SP.NOTICE,userNum+tag, jsonArray.toString());
-			}else{
-				JSONArray SPJsonArray2 = new JSONArray(SPJSONArray);
-				int length = jsonArray.length();
-				for(int i = 0; i<length; i++){
-					SPJsonArray2.put(jsonArray.opt(i));
-				}
-				SP.putStringSP(context,SP.NOTICE, userNum+tag, SPJsonArray2.toString());
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
 	/**
 	 * 功能描述:  获取缓存
 	 */

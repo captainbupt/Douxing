@@ -5,8 +5,6 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
-import com.badou.mworking.factory.IntroductionViewFactory;
-
 /**
  * Created by Administrator on 2015/5/19.
  * 多个引导页adapter
@@ -14,11 +12,12 @@ import com.badou.mworking.factory.IntroductionViewFactory;
 public class IntroductionPagerAdapter extends PagerAdapter {
 
     private Context mContext;
-    private IntroductionViewFactory mFactory;
 
-    public IntroductionPagerAdapter(Context context, IntroductionViewFactory factory){
+    private View[] mViewArray;
+
+    public IntroductionPagerAdapter(Context context, View[] viewArray) {
         this.mContext = context;
-        this.mFactory = factory;
+        this.mViewArray = viewArray;
     }
 
     /**
@@ -26,7 +25,7 @@ public class IntroductionPagerAdapter extends PagerAdapter {
      */
     @Override
     public void destroyItem(View arg0, int postion, Object arg2) {
-        ((ViewPager) arg0).removeView(mFactory.getViewByPosition(postion));
+        ((ViewPager) arg0).removeView(mViewArray[postion]);
     }
 
     /**
@@ -34,7 +33,7 @@ public class IntroductionPagerAdapter extends PagerAdapter {
      */
     @Override
     public int getCount() {
-        return IntroductionViewFactory.COUNT_IMAGE;
+        return mViewArray.length;
     }
 
     /**
@@ -43,9 +42,9 @@ public class IntroductionPagerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(View arg0, int arg1) {
 
-        ((ViewPager) arg0).addView(mFactory.getViewByPosition(arg1), 0);
+        ((ViewPager) arg0).addView(mViewArray[arg1], 0);
 
-        return mFactory.getViewByPosition(arg1);
+        return mViewArray[arg1];
     }
 
     /**

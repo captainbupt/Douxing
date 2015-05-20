@@ -36,12 +36,8 @@ public class ToastUtil {
      * 功能描述:  网络异常提醒方法
      * @param context
      */
-    public static boolean showNetExc(Context context){
-    	if(!NetUtils.isNetConnected(context)){
-			ToastUtil.showToast(context, R.string.error_service); 
-			return true;
-		}
-		return false;
+    public static void showNetExc(Context context){
+        ToastUtil.showToast(context, R.string.error_service);
     }
     
     public static void showUpdateToast(Context context){

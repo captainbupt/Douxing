@@ -34,6 +34,7 @@ import com.badou.mworking.net.ResponseParams;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.MD5;
+import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.SP;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.SwipeBackLayout;
@@ -93,11 +94,9 @@ public class ExperienceActivity extends BaseBackActionBarActivity implements
 	/**
 	 * 
 	 * 功能描述:初始化控件
-	 * 
-	 * @param view
+	 *
 	 */
 	protected void initView() {
-		super.initView();
 		mp = new WaitProgressDialog(mContext, R.string.login_action_login_ing);
 		etPhone = (EditText) findViewById(R.id.et_input_phone);
 		etVerify = (EditText) findViewById(R.id.et_Verify);
@@ -121,7 +120,6 @@ public class ExperienceActivity extends BaseBackActionBarActivity implements
 	 * 功能描述: 设置控件的监听
 	 */
 	protected void initListener() {
-		super.initListener();
 		btnGetMsg.setOnClickListener(this);
 		btnOK.setOnClickListener(this);
 		tvWuFaHuoQu.setOnClickListener(this);
@@ -237,7 +235,8 @@ public class ExperienceActivity extends BaseBackActionBarActivity implements
 
 	@Override
 	public void onClick(View arg0) {
-		if (ToastUtil.showNetExc(this)) {
+		if (NetUtils.isNetConnected(mContext)){
+			ToastUtil.showNetExc(this);
 			return;
 		}
 		// 点击监听事件
@@ -433,9 +432,7 @@ public class ExperienceActivity extends BaseBackActionBarActivity implements
 
 	/**
 	 * 登录成功 保存信息
-	 * 
-	 * @param username
-	 * @param password
+	 *
 	 * @param jsonObject
 	 *            登录成功返回的json
 	 */

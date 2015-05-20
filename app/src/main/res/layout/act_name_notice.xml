@@ -2,21 +2,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_layout_bg">
- 
-   <include
-        android:id="@+id/acionbar_lay"
-        layout="@layout/actionbar" />
-     
-     <com.handmark.pulltorefresh.library.PullToRefreshListView
-        android:layout_marginTop="@dimen/offset_lless"
-        android:layout_below="@id/acionbar_lay"
+
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:id="@+id/PullToRefreshListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="@dimen/offset_lless"
         android:divider="@color/color_layout_bg"
         android:scrollbars="none"
-        android:visibility="visible" 
-        /> 
+        android:visibility="visible" />
 
     <ImageView
         android:id="@+id/tv_tishi"
@@ -25,30 +20,25 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:background="@drawable/no_content"
-        android:visibility="gone"
-        />
-    
+        android:visibility="gone" />
+
     <LinearLayout
-        android:layout_below="@id/acionbar_lay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
-       
-    <include
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        layout="@layout/activity_shoplist" 
-        android:visibility="gone"
-        />
-    
-     <View
-        android:layout_below="@id/acionbar_lay"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="invisible"
-        android:background="@color/color_layout_bg"
-        />
- </LinearLayout>
+        android:layout_alignParentTop="true"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/activity_shoplist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/color_layout_bg"
+            android:visibility="invisible" />
+    </LinearLayout>
 
 </RelativeLayout>
