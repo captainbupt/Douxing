@@ -136,11 +136,11 @@ public class SignActivity extends BaseNoTitleActivity implements OnClickListener
 		initView();
 		initlocation();
 		
-		if(task.getLatitude()==0||task.getLongitude()==0){
+		if(task.latitude==0||task.longitude==0){
 			isFreeSign = true;
 			mLocationClient.start();
 		}else{
-			LatLng location = new LatLng(task.getLatitude(), task.getLongitude());
+			LatLng location = new LatLng(task.latitude, task.longitude);
 			MapStatusUpdate u1 = MapStatusUpdateFactory.newLatLng(location);
 			MapStatusUpdate u2 = MapStatusUpdateFactory.zoomTo(16);
 			SupportMapFragment map = (SupportMapFragment) (getSupportFragmentManager()
@@ -235,15 +235,15 @@ public class SignActivity extends BaseNoTitleActivity implements OnClickListener
 		
 		if (task != null) {
 			boolean finish = task.isFinish();
-			String comment = task.getComment();
+			String comment = task.comment;
 			if (comment == null || comment.equals("")) {
 				tvTaskDesc.setText(mContext.getResources().getString(R.string.text_null));
 			} else {
 				tvTaskDesc.setText(comment);
 			}
-			String place = task.getPlace();
-			taskDetailStartline = task.getStartline();      //任务开始时间
-			long taskDetailDeadline = task.getDeadline();      //任务结束时间
+			String place = task.place;
+			taskDetailStartline = task.startline;      //任务开始时间
+			long taskDetailDeadline = task.deadline;      //任务结束时间
 			
 			long timeNow = System.currentTimeMillis();
 			// 已签到
@@ -259,7 +259,7 @@ public class SignActivity extends BaseNoTitleActivity implements OnClickListener
 					tvSignTaskPassed.setVisibility(View.VISIBLE);
 					llSignConfirmOrIgnor.setVisibility(View.GONE);
 					llSignSmile.setVisibility(View.GONE);
-					task.setRead(Constant.FINISH_YES);	
+					task.read = Constant.FINISH_YES;
 				// 未签到
 				}else{
 					llSignConfirm.setEnabled(true);
@@ -277,35 +277,35 @@ public class SignActivity extends BaseNoTitleActivity implements OnClickListener
 			} else {
 				tvTaskAdd.setText(place);
 			}
-			if (task.getPhoto() == 0 || task.isFinish()) {
+			if (task.photo == 0 || task.isFinish()) {
 				layoutCarmea.setVisibility(View.GONE);
 				
 				File file = new File(mActivity
 						.getExternalCacheDir()
 						.getAbsolutePath()
-						+ File.separator + task.getRid()+".png");
+						+ File.separator + task.rid+".png");
 				if(file.exists()){
 					BitmapFactory.Options option = new BitmapFactory.Options();
 					option.inSampleSize = 2;
 					Bitmap bitmap = BitmapFactory.decodeFile(file.toString(), option); //根据Path读取资源图片 
 					showLocImg.setImageBitmap(bitmap);
 				}else{
-					String imgUrl = task.getPhotoUrl();
+					String imgUrl = task.photoUrl;
 					if(!TextUtils.isEmpty(imgUrl)){
 						MyVolley.getImageLoader().get(
-								task.getPhotoUrl(),
-								new PicImageListener(mContext, showLocImg, task.getPhotoUrl()));
+								task.photoUrl,
+								new PicImageListener(mContext, showLocImg, task.photoUrl));
 					}
 				}
 				showLocImg.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						if(task!=null&&task.getPhoto() == 0){
+						if(task!=null&&task.photo == 0){
 							return;
 						}
-						File file = new File(mActivity.getExternalCacheDir().getAbsolutePath()+ File.separator + task.getRid()+".png");
+						File file = new File(mActivity.getExternalCacheDir().getAbsolutePath()+ File.separator + task.rid+".png");
 						Intent intent = new Intent(mContext, PhotoActivity.class);
-						intent.putExtra(PhotoActivity.MODE_PICZOMM, task.getPhotoUrl());
+						intent.putExtra(PhotoActivity.MODE_PICZOMM, task.photoUrl);
 						intent.putExtra("filePath", file.toString());
 						((Activity)mContext).startActivity(intent);
 					}
@@ -330,7 +330,7 @@ public class SignActivity extends BaseNoTitleActivity implements OnClickListener
 				ToastUtil.showToast(this, R.string.task_notStart);
 				return;
 			}
-			if (task.getPhoto()==1&&photo == null) {
+			if (task.photo==1&&photo == null) {
 				ToastUtil.showToast(this, R.string.sign_needUpload);
 				return;
 			}
@@ -344,7 +344,7 @@ public class SignActivity extends BaseNoTitleActivity implements OnClickListener
 		case R.id.iv_actionbar_right:
 			String titleStr = getResources().getString(R.string.statistical_data);
 			String uid = ((AppApplication) getApplicationContext()).getUserInfo().getUserId();
-			String url = Net.getRunHost(SignActivity.this)+Net.getTongji(uid,task.getRid());
+			String url = Net.getRunHost(SignActivity.this)+Net.getTongji(uid,task.rid);
 			Intent intent = new Intent();
 			intent.setClass(SignActivity.this, BackWebActivity.class);
 			intent.putExtra(BackWebActivity.VALUE_URL,url);
@@ -363,7 +363,7 @@ public class SignActivity extends BaseNoTitleActivity implements OnClickListener
 			case CAMERA_REQUEST_CODE:
 				if (FileUtils.hasSdcard()) {
 					File file = new File(mActivity.getExternalCacheDir()
-							.getAbsolutePath() + File.separator + task.getRid()+".png");
+							.getAbsolutePath() + File.separator + task.rid+".png");
 					BitmapFactory.Options option = new BitmapFactory.Options();
 					option.inSampleSize = 2;
 					//图片取出后压缩
@@ -435,7 +435,7 @@ public class SignActivity extends BaseNoTitleActivity implements OnClickListener
 		String uid = ((AppApplication) getApplicationContext())
 				.getUserInfo().getUserId();
 				ServiceProvider.doUpdateBitmap(mContext, photo,
-						Net.getRunHost(mContext) + Net.SIGN(task.getRid(), uid, lat,lon),
+						Net.getRunHost(mContext) + Net.SIGN(task.rid, uid, lat,lon),
 						new VolleyListener(mContext) {
 							@Override
 							public void onResponse(Object responseObject) {
@@ -456,16 +456,16 @@ public class SignActivity extends BaseNoTitleActivity implements OnClickListener
 										.optInt(RequestParams.ERRCODE);
 								if (errcode == 0) {
 									// 签到成功
-									task.setRead(Constant.FINISH_YES);
+									task.read = Constant.FINISH_YES;
 									if(isFreeSign){
-										task.setPlace(locationStr);
+										task.place = locationStr;
 									}
 									// 签到成功， 减去1
 									String userNum = ((AppApplication) getApplicationContext())
 											.getUserInfo().getUserNumber();
-									int unreadNum = SP.getIntSP(mContext,SP.DEFAULTCACHE, userNum+Task.UNREAD_NUM_TASK, 0);
+									int unreadNum = SP.getIntSP(mContext,SP.DEFAULTCACHE, userNum+Task.CATEGORY_KEY_UNREAD_NUM, 0);
 									if (unreadNum > 0 ) {
-										SP.putIntSP(mContext,SP.DEFAULTCACHE, userNum+Task.UNREAD_NUM_TASK, unreadNum - 1);
+										SP.putIntSP(mContext,SP.DEFAULTCACHE, userNum+Task.CATEGORY_KEY_UNREAD_NUM, unreadNum - 1);
 									}
 									
 									llSignConfirmOrIgnor
@@ -515,7 +515,7 @@ public class SignActivity extends BaseNoTitleActivity implements OnClickListener
 			File file = new File(mActivity
 					.getExternalCacheDir()
 					.getAbsolutePath()
-					+ File.separator + task.getRid()+".png");
+					+ File.separator + task.rid+".png");
 			if (file.exists())
 				file.delete();
 			try {

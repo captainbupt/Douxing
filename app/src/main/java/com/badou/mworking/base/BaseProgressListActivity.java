@@ -15,9 +15,7 @@ import com.badou.mworking.R;
 import com.badou.mworking.TitleSearchAct;
 import com.badou.mworking.adapter.SearchMainAdapter;
 import com.badou.mworking.adapter.SearchMoreAdapter;
-import com.badou.mworking.model.Category;
 import com.badou.mworking.model.Classification;
-import com.badou.mworking.model.Notice;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ResponseParams;
 import com.badou.mworking.net.ServiceProvider;
@@ -37,8 +35,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import u.aly.be;
-
 public abstract class BaseProgressListActivity extends BaseBackActionBarActivity implements PullToRefreshBase.OnRefreshListener2<ListView> {
 
     private ProgressBar progressBar;
@@ -46,7 +42,6 @@ public abstract class BaseProgressListActivity extends BaseBackActionBarActivity
     private LinearLayout titleLinearLayout;
     private boolean status_menu_show = false;
 
-    protected String CATEGORY_SP_KEY = "";
     protected String CATEGORY_NAME = "";
     protected String CATEGORY_UNREAD_NUM = "";
 
@@ -100,8 +95,8 @@ public abstract class BaseProgressListActivity extends BaseBackActionBarActivity
     protected void onDestroy() {
         super.onDestroy();
         // 以免该值被下次重用，所以在这里还原一下
-        SP.putIntSP(mContext, CATEGORY_SP_KEY, SP_KEY_CATEGORY_MAIN, 0);
-        SP.putIntSP(mContext, CATEGORY_SP_KEY, SP_KEY_CATEGORY_MORE, 0);
+        SP.putIntSP(mContext, CATEGORY_NAME, SP_KEY_CATEGORY_MAIN, 0);
+        SP.putIntSP(mContext, CATEGORY_NAME, SP_KEY_CATEGORY_MORE, 0);
     }
 
     /**
@@ -177,8 +172,8 @@ public abstract class BaseProgressListActivity extends BaseBackActionBarActivity
                 setActionbarTitle(title);
                 hideMenu();
                 updataListView(0);
-                SP.putIntSP(mContext, CATEGORY_SP_KEY, SP_KEY_CATEGORY_MAIN, mMainIndex);
-                SP.putIntSP(mContext, CATEGORY_SP_KEY, SP_KEY_CATEGORY_MORE, 0);
+                SP.putIntSP(mContext, CATEGORY_NAME, SP_KEY_CATEGORY_MAIN, mMainIndex);
+                SP.putIntSP(mContext, CATEGORY_NAME, SP_KEY_CATEGORY_MORE, 0);
             }
         }
 
@@ -187,8 +182,8 @@ public abstract class BaseProgressListActivity extends BaseBackActionBarActivity
     private class OnMoreClassificationClickListener implements AdapterView.OnItemClickListener {
         public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
                                 long arg3) {
-            SP.putIntSP(mContext, CATEGORY_SP_KEY, SP_KEY_CATEGORY_MAIN, mMainIndex);
-            SP.putIntSP(mContext, CATEGORY_SP_KEY, SP_KEY_CATEGORY_MORE, arg2);
+            SP.putIntSP(mContext, CATEGORY_NAME, SP_KEY_CATEGORY_MAIN, mMainIndex);
+            SP.putIntSP(mContext, CATEGORY_NAME, SP_KEY_CATEGORY_MORE, arg2);
             Classification classification = (Classification) mMoreClassificationAdapter.getItem(arg2);
             String title = classification.getName();
             tag = classification.getTag();
@@ -212,7 +207,7 @@ public abstract class BaseProgressListActivity extends BaseBackActionBarActivity
     public void setCategoryItemFromCache(int tag) {
         List<Object> list = new ArrayList<>();
         String userNum = ((AppApplication) getApplicationContext()).getUserInfo().getUserNumber();
-        String sp = SP.getStringSP(mContext, CATEGORY_SP_KEY, userNum + tag, "");
+        String sp = SP.getStringSP(mContext, CATEGORY_NAME, userNum + tag, "");
         if (TextUtils.isEmpty(sp)) {
             tvSearchNull.setVisibility(View.VISIBLE);
             return;
@@ -250,7 +245,7 @@ public abstract class BaseProgressListActivity extends BaseBackActionBarActivity
                 }
                 JSONArray resultArray = response.optJSONArray(Net.DATA);
                 // 缓存分类信息
-                SP.putStringSP(mContext, CATEGORY_SP_KEY, CATEGORY_NAME, resultArray.toString());
+                SP.putStringSP(mContext, CATEGORY_NAME, CATEGORY_NAME, resultArray.toString());
                 setClassificationListFromJson(resultArray);
             }
 
@@ -264,7 +259,7 @@ public abstract class BaseProgressListActivity extends BaseBackActionBarActivity
     }
 
     private void setClassificationListFromCache() {
-        String classificationStr = SP.getStringSP(mContext, CATEGORY_SP_KEY, CATEGORY_NAME, "");
+        String classificationStr = SP.getStringSP(mContext, CATEGORY_NAME, CATEGORY_NAME, "");
         try {
             JSONArray jsonArray = new JSONArray(classificationStr);
             setClassificationListFromJson(jsonArray);
@@ -282,7 +277,7 @@ public abstract class BaseProgressListActivity extends BaseBackActionBarActivity
         if (resultArray != null && resultArray.length() != 0) {
             for (int i = 0; i < resultArray.length(); i++) {
                 JSONObject jsonObject = resultArray.optJSONObject(i);
-                Classification category = new Classification(mContext, jsonObject, CATEGORY_SP_KEY);
+                Classification category = new Classification(mContext, jsonObject, CATEGORY_NAME);
                 mMainClassificationList.add(category);
                 if (category.hasErjiClassification) {
                     this.hasErjiClassification = true;
@@ -361,9 +356,9 @@ public abstract class BaseProgressListActivity extends BaseBackActionBarActivity
         //添加缓存
         if (mCategoryAdapter.getCount() == 0) {
             //添加缓存
-            SP.putStringSP(mContext, CATEGORY_SP_KEY, userNum + tag, resultArray.toString());
+            SP.putStringSP(mContext, CATEGORY_NAME, userNum + tag, resultArray.toString());
         } else {
-            String SPJSONArray = SP.getStringSP(mContext, CATEGORY_SP_KEY, userNum + tag, "");
+            String SPJSONArray = SP.getStringSP(mContext, CATEGORY_NAME, userNum + tag, "");
             addJsonArrayToSP(userNum + tag, SPJSONArray, resultArray);
         }
         for (int i = 0; i < resultArray.length(); i++) {
@@ -387,14 +382,14 @@ public abstract class BaseProgressListActivity extends BaseBackActionBarActivity
     private void addJsonArrayToSP(String userNum, String SPJSONArray, JSONArray jsonArray) {
         try {
             if (TextUtils.isEmpty(SPJSONArray)) {
-                SP.putStringSP(mContext, CATEGORY_SP_KEY, userNum + tag, jsonArray.toString());
+                SP.putStringSP(mContext, CATEGORY_NAME, userNum + tag, jsonArray.toString());
             } else {
                 JSONArray SPJsonArray2 = new JSONArray(SPJSONArray);
                 int length = jsonArray.length();
                 for (int i = 0; i < length; i++) {
                     SPJsonArray2.put(jsonArray.opt(i));
                 }
-                SP.putStringSP(mContext, CATEGORY_SP_KEY, userNum + tag, SPJsonArray2.toString());
+                SP.putStringSP(mContext, CATEGORY_NAME, userNum + tag, SPJsonArray2.toString());
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -423,8 +418,8 @@ public abstract class BaseProgressListActivity extends BaseBackActionBarActivity
         triangleImageView.setImageResource(R.drawable.icon_triangle_up);
         classificationLinear.setVisibility(View.VISIBLE);
         if (mMainClassificationAdapter.getCount() > 0) {
-            int main = SP.getIntSP(mContext, CATEGORY_SP_KEY, SP_KEY_CATEGORY_MAIN, 0);
-            int more = SP.getIntSP(mContext, CATEGORY_SP_KEY, SP_KEY_CATEGORY_MORE, 0);
+            int main = SP.getIntSP(mContext, CATEGORY_NAME, SP_KEY_CATEGORY_MAIN, 0);
+            int more = SP.getIntSP(mContext, CATEGORY_NAME, SP_KEY_CATEGORY_MORE, 0);
             mMainClassificationAdapter.setSelectItem(main);
             mMoreClassificationAdapter.setList(((Classification) mMainClassificationAdapter.getItem(main)).getClassifications());
             if (mMoreClassificationAdapter.getCount() > 0) {

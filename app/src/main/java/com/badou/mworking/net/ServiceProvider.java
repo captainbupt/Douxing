@@ -264,7 +264,7 @@ public class ServiceProvider {
 				.getUserInfo().getUserId();
 		MyVolley.getRequestQueue().add(
 				new MyJsonRequest(Request.Method.POST, Net.getRunHost(context)
-						+ Net.SUBMIT_PERSON_COMMENT(uid,rid,whom), content,
+						+ Net.SUBMIT_PERSON_COMMENT(uid, rid, whom), content,
 						volleyListener, volleyListener));
 		MyVolley.getRequestQueue().start();
 	}
@@ -292,8 +292,8 @@ public class ServiceProvider {
 						volleyListener));
 		
 		System.out.println("jsonObject---------》"+jsonObject);
-		System.out.println("-------->"+Net.getRunHost(context)
-						+ Net.CHECK_UPDATE(uid,AppApplication.screenlg));
+		System.out.println("-------->" + Net.getRunHost(context)
+				+ Net.CHECK_UPDATE(uid, AppApplication.screenlg));
 		
 		MyVolley.getRequestQueue().start();
 	}
@@ -351,14 +351,6 @@ public class ServiceProvider {
 					}
 
 					@Override
-					public void onDownloadFinish(String filePath) {
-						Message msg = new Message();
-						msg.what = 2;
-						msg.obj = filePath;
-						handler.sendMessage(msg);
-					}
-
-					@Override
 					public void onGetTotalSize(int totalSize) {
 						Message msg = new Message();
 						msg.what = 0;
@@ -366,6 +358,10 @@ public class ServiceProvider {
 						handler.sendMessage(msg);
 					}
 				});
+				Message msg = new Message();
+				msg.what = 2;
+				msg.obj = path;
+				handler.sendMessage(msg);
 			}
 		};
 		thread.start();
@@ -861,16 +857,9 @@ public class ServiceProvider {
 	
 	/**
 	 * 功能描述:   资源更新v2 接口          2014-12-15
-	 * @param context
-	 * @param type
-	 * @param tag
-	 * @param begin
-	 * @param limit
-	 * @param searchStr
-	 * @param volleyListener
 	 */
 	public static void doUpdateLocalResource2(Context context, String type,int tag,
-			int begin, int limit,String searchStr, String done,VolleyListener volleyListener) {
+			int begin, int limit,String searchStr, String done,VolleyListener volleyListener){
 		String uid = ((AppApplication) context.getApplicationContext())
 				.getUserInfo().getUserId();
 		// url 编码，    url请求不支持中问，需要将中文进行url编码
@@ -881,6 +870,8 @@ public class ServiceProvider {
 				e.printStackTrace();
 			}
 		}
+
+		System.out.println("url: "+Net.UPDATE_RESOURCES_2(uid,type,tag,begin,limit,searchStr,done));
 		MyVolley.getRequestQueue().add(
 				new JsonObjectRequest(Request.Method.GET, Net.getRunHost(context)
 						+ Net.UPDATE_RESOURCES_2(uid,type,tag,begin,limit,searchStr,done),
@@ -929,6 +920,31 @@ public class ServiceProvider {
 		System.out.println(Net.getRunHost(context)
 				+ Net.ReplyComment());
 		
+		MyVolley.getRequestQueue().start();
+	}
+
+	/**
+	 * 功能描述:  删除评论回复
+	 */
+	public static void deleteReplyComment(Context context,String qid,int floor,VolleyListener volleyListener) {
+		String uid = ((AppApplication) context.getApplicationContext())
+				.getUserInfo().getUserId();
+		JSONObject json = new JSONObject();
+		try {
+			json.put("uid", uid);
+			json.put("qid", qid);
+			json.put("no", floor);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println(Net.getRunHost(context)
+				+ Net.DeleteReplyComment());
+
+		MyVolley.getRequestQueue().add(
+				new JsonObjectRequest(Request.Method.POST,  Net.getRunHost(context)
+						+ Net.DeleteReplyComment(), json,
+						volleyListener, volleyListener));
+
 		MyVolley.getRequestQueue().start();
 	}
 	

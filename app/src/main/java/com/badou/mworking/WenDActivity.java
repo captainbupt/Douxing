@@ -1,5 +1,11 @@
 package com.badou.mworking;
 
+import java.util.ArrayList;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -7,8 +13,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -33,14 +37,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.umeng.analytics.MobclickAgent;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-
 /**
- * @author gejianfeng
  * 问答页面
  */
 public class WenDActivity extends BaseNoTitleActivity implements OnClickListener,OnRefreshListener2<ListView>{
@@ -100,6 +97,7 @@ public class WenDActivity extends BaseNoTitleActivity implements OnClickListener
 		}
 	}
 
+	@Override
 	public void onPause() {
 		super.onPause();
 		MobclickAgent.onPause(this);
@@ -127,19 +125,6 @@ public class WenDActivity extends BaseNoTitleActivity implements OnClickListener
 		pullToRefreshListView = (PullToRefreshListView)findViewById(R.id.pullListView);
 		pullToRefreshListView.setMode(Mode.BOTH);
 		pullToRefreshListView.setOnRefreshListener(this);
-		
-		pullToRefreshListView.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
-					long arg3) {
-				Intent intent =  new Intent();
-				intent.setClass(WenDActivity.this, WenDaDetailActivity.class);
-				ask = asks.get(position-1);
-				intent.putExtra("ask", ask);
-				startActivity(intent);
-			}
-		});
 		
 		wenDAdapter = new WenDAdapter(WenDActivity.this,asks);
 		pullToRefreshListView.setAdapter(wenDAdapter);

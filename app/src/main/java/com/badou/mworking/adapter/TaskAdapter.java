@@ -1,6 +1,7 @@
 package com.badou.mworking.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.badou.mworking.R;
+import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.model.Task;
 import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.SP;
@@ -18,64 +20,11 @@ import com.badou.mworking.util.TimeTransfer;
 import java.util.ArrayList;
 
 
-public class TaskAdapter extends BaseAdapter {
+public class TaskAdapter extends MyBaseAdapter {
 
-	private ArrayList<Task> mData;
-	private Context mContext;
-	private LayoutInflater mInflater;
 
-	public TaskAdapter(Context mContext, ArrayList<Task> mData) {
-		this.mContext = mContext;
-		this.mInflater = LayoutInflater.from(mContext);
-		this.mData = mData == null ? new ArrayList<Task>() : mData;
-	}
-
-	/**
-	 * 功能描述: 重新设置list
-	 * @param mData
-	 */
-	public void setDatas(ArrayList<Task> mData) {
-		this.mData = mData == null ? new ArrayList<Task>() : mData;
-		notifyDataSetChanged();
-	}
-	/**
-	 * 
-	 * 功能描述:添加上拉新加载的 list
-	 * @param mData
-	 */
-	public void addData(ArrayList<Task> mData) {
-		if (null!=mData) {
-			this.mData.addAll(mData);
-		} 
-		notifyDataSetChanged();
-	}
-	
-	/**
-	 * 功能描述:替换一个item
-	 * @param position
-	 * @param task
-	 */
-	public void changeItem(int position,Task task){
-		if (task!=null) {
-			//替换指定元素
-			this.mData.set(position, task);
-		}
-		notifyDataSetChanged();
-	}
-
-	@Override
-	public int getCount() {
-		return this.mData.size();
-	}
-
-	@Override
-	public Task getItem(int position) {
-		return this.mData.get(position);
-	}
-
-	@Override
-	public long getItemId(int position) {
-		return position;
+	public TaskAdapter(Context context) {
+		super(context);
 	}
 
 	@Override
@@ -84,7 +33,7 @@ public class TaskAdapter extends BaseAdapter {
 			convertView = mInflater.inflate(R.layout.adapter_list_tasks, parent,
 					false);
 		} 
-		Task task = this.mData.get(position);
+		Task task = (Task) getItem(position);
 		// 一定要保证else if 语句的顺序，应为在这一块，优先级别  已签到>已过期>未签到   然后 因为未过期  可能已经签过到了，
 		//也可能没有，  如果已经签过到了，显示已签到，如果没有，才显示已过期，所以要注意else if语句的顺序
 		
@@ -113,14 +62,14 @@ public class TaskAdapter extends BaseAdapter {
 				tvFinish.setText(mContext.getResources().getString(R.string.task_nottask));
 			}
 		}	
-		if (task.getPlace() != null && !task.getPlace().equals("")) {
-			address.setText(task.getPlace()+"");
+		if (TextUtils.isEmpty(task.place)) {
+			address.setText(task.place+"");
 		} else {
 			address.setText(""); 
 		}
-		subject.setText(task.getSubject()+"");
-		publishTime.setText( ""+ TimeTransfer.long2StringDetailDate(mContext,task.getTime()));
-		if (task.getTop()== Constant.TOP_YES) {
+		subject.setText(task.subject+"");
+		publishTime.setText( ""+ TimeTransfer.long2StringDetailDate(mContext,task.time));
+		if (task.top== Constant.TOP_YES) {
 			top.setVisibility(View.VISIBLE);
 		} else {
 			top.setVisibility(View.GONE);
@@ -132,13 +81,14 @@ public class TaskAdapter extends BaseAdapter {
 	 * 功能描述:设置已读
 	 * @param position
 	 */
-	public void read(int position) {
-		if (mData.get(position).getRead() == Constant.FINISH_NO) {
-			mData.get(position).setRead(Constant.FINISH_YES);
+	public void setRead(int position) {
+		Task task = (Task) getItem(position);
+		if (task.read == Constant.FINISH_NO) {
+			task.read = Constant.FINISH_YES;
 			this.notifyDataSetChanged();
-			int unreadNum = SP.getIntSP(mContext,SP.DEFAULTCACHE,Task.UNREAD_NUM_TASK, 0);
+			int unreadNum = SP.getIntSP(mContext,SP.DEFAULTCACHE,Task.CATEGORY_KEY_UNREAD_NUM, 0);
 			if (unreadNum > 0 ) {
-				SP.putIntSP(mContext,SP.DEFAULTCACHE, Task.UNREAD_NUM_TASK, unreadNum - 1);
+				SP.putIntSP(mContext,SP.DEFAULTCACHE, Task.CATEGORY_KEY_UNREAD_NUM, unreadNum - 1);
 			}
 		}
 	}

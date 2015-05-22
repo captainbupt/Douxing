@@ -1,7 +1,14 @@
 package com.badou.mworking.adapter;
 
+import java.util.ArrayList;
+
+import org.json.JSONObject;
+
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.text.TextUtils;
@@ -16,10 +23,13 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
 import com.badou.mworking.PhotoActivity;
 import com.badou.mworking.R;
+import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.database.WenDaManage;
 import com.badou.mworking.model.WenDaAnswer;
+import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.bitmap.BitmapLruCache;
 import com.badou.mworking.net.bitmap.CircleImageListener;
@@ -29,10 +39,8 @@ import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.TimeTransfer;
-
-import org.json.JSONObject;
-
-import java.util.ArrayList;
+import com.badou.mworking.util.ToastUtil;
+import com.badou.mworking.widget.WaitProgressDialog;
 
 /**
  * @author 葛建锋
@@ -44,12 +52,16 @@ public class WenDaDetailAdapter extends BaseAdapter{
 	private Context context;
 	private int count = 0 ;
 	private LayoutInflater mInflater;
+	private WaitProgressDialog mProgressDialog;
+	private String qid;
 	
-	public WenDaDetailAdapter(Context context,ArrayList<WenDaAnswer> wenDaAnswers) {
+	public WenDaDetailAdapter(Context context,ArrayList<WenDaAnswer> wenDaAnswers,String qid) {
 		super();
+		this.qid = qid;
 		this.context = context;
 		this.wenDaAnswers = wenDaAnswers;
 		this.mInflater = LayoutInflater.from(context);
+		mProgressDialog = new WaitProgressDialog(context,"删除中，请稍后...");
 	}
 
 	@Override
@@ -153,8 +165,42 @@ public class WenDaDetailAdapter extends BaseAdapter{
 			}
 		});
 		
-		int floorNum = count - position;
+		final int floorNum = count - position;
 		holder.tvFloor.setText(floorNum+ context.getResources().getString(R.string.floor_num)+"   ·");
+		
+		if (((AppApplication) context.getApplicationContext()).getUserInfo()
+				.isAdmin() || name.equals("我")) {
+			holder.tvQuestionShareDelete
+					.setOnClickListener(new OnClickListener() {
+
+						@Override
+						public void onClick(View arg0) {
+							new AlertDialog.Builder(context)
+									.setTitle(R.string.myQuan_dialog_title_tips)
+									.setMessage(
+											context.getResources().getString(
+													R.string.my_group_tishi))
+									.setPositiveButton(
+											R.string.text_ok,
+											new DialogInterface.OnClickListener() {
+
+												@Override
+												public void onClick(
+														DialogInterface arg0,
+														int arg1) {
+													deleteReply(floorNum);
+												}
+
+											})
+									.setNegativeButton(R.string.text_cancel,
+											null).show();
+
+						}
+					});
+		} else {
+			holder.tvQuestionShareDelete.setVisibility(View.GONE);
+		}
+		
 		return convertView;
 	}
 
@@ -173,6 +219,7 @@ public class WenDaDetailAdapter extends BaseAdapter{
 		TextView tvFloor;
 		TextView zanNum; 	//点赞数量 
 		CheckBox zanChk;   //点赞checkbox
+		TextView tvQuestionShareDelete;
 
 		public AllViewHolder(View view) {
 			imgContentPic = (ImageView) view.findViewById(R.id.imgQuestionShare);
@@ -187,6 +234,8 @@ public class WenDaDetailAdapter extends BaseAdapter{
 			tvFloor = (TextView) view.findViewById(R.id.tv_floor);
 			zanNum = (TextView) view.findViewById(R.id.zan_num);
 			zanChk = (CheckBox) view.findViewById(R.id.zan_chk);
+			tvQuestionShareDelete = (TextView) view
+					.findViewById(R.id.tvQuestionShareDelete);
 		}
 	}
 	
@@ -232,6 +281,44 @@ public class WenDaDetailAdapter extends BaseAdapter{
 //				int errcode = response.optInt(Net.CODE);
 //				if(errcode == Net.SUCCESS){
 //				}
+			}
+		});
+	}
+	
+	private void deleteReply(final int floor){
+		ServiceProvider.deleteReplyComment(context,qid,floor,new VolleyListener(context) {
+			
+			@Override
+			public void onResponse(Object responseObject) {
+				if (null != mProgressDialog && context != null) {
+					mProgressDialog.dismiss();
+				}
+				JSONObject response = (JSONObject) responseObject;
+				if (responseObject == null) {
+					ToastUtil.showNetExc(context);
+					return;
+				}
+				int code = response.optInt(Net.CODE);
+				if (code==Net.LOGOUT) {
+					AppApplication.logoutShow(context);
+					return;
+				}
+				if (Net.SUCCESS != code) {
+					ToastUtil.showNetExc(context);
+					return;
+				}
+				ToastUtil.showToast(context, "删除评论成功！");
+				int position = count-floor;
+				wenDaAnswers.remove(position);
+				notifyDataSetChanged();
+			}
+
+			@Override
+			public void onErrorResponse(VolleyError arg0) {
+				super.onErrorResponse(arg0);
+				if (null != mProgressDialog && context != null) {
+					mProgressDialog.dismiss();
+				}
 			}
 		});
 	}

@@ -19,6 +19,10 @@ import java.net.URL;
 
 public class HttpDownloader {
 
+	public static int STATU_FAIL = -1;
+	public static int STATU_SUCCESS = 0;
+	public static int STATU_EXISTED = 1;
+
 	/**
 	 * 根据URL下载文件,前提是这个文件当中的内容是文本,函数的返回值就是文本当中的内容 1.创建一个URL对象
 	 * 2.通过URL对象,创建一个HttpURLConnection对象 3.得到InputStream 4.从InputStream当中读取数据
@@ -112,8 +116,6 @@ public class HttpDownloader {
 				e.printStackTrace();
 			}
 		}
-		if (downloadListener != null)
-			downloadListener.onDownloadFinish(path);
 		return 0;
 	}
 

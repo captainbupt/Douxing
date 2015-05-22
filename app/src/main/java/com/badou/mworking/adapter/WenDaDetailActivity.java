@@ -1,4 +1,4 @@
-package com.badou.mworking;
+package com.badou.mworking.adapter;
 
 import java.util.ArrayList;
 
@@ -19,7 +19,11 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.badou.mworking.adapter.WenDaDetailAdapter;
+import com.badou.mworking.ChatInfoActivity;
+import com.badou.mworking.PhotoActivity;
+import com.badou.mworking.R;
+import com.badou.mworking.WenDActivity;
+import com.badou.mworking.WenDaAnswerActivity;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.model.Ask;
@@ -44,7 +48,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.umeng.analytics.MobclickAgent;
 
 /**
- * 问答详情页面
+ * @author 葛建锋 问答详情页面
  */
 public class WenDaDetailActivity extends BaseNoTitleActivity implements
 		OnClickListener {

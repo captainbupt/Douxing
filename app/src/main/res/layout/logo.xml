@@ -16,8 +16,8 @@
         android:layout_marginLeft="10dp"
       />
     
-<!--    <ImageView
-        android:id="@+id/left_img1"
+    <ImageView
+        android:id="@+id/right_img"
         android:layout_width="@dimen/actionBar_img_size"
         android:layout_height="@dimen/actionBar_img_size"
         android:layout_alignParentLeft="true"
@@ -26,7 +26,7 @@
         android:scaleType="centerInside"
         android:src="@drawable/title_bar_back_normal" 
         android:visibility="gone"
-        />-->
+        />
    
     <ImageView
         android:id="@+id/icon_top"

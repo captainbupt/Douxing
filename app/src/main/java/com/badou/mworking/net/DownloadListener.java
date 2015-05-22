@@ -12,5 +12,4 @@ public abstract class DownloadListener {
 	}
 	public abstract void onGetTotalSize(int totalSize);
 	public abstract void onDownloadSizeChange(int downloadSize);
-	public abstract void onDownloadFinish(String filePath);
 }

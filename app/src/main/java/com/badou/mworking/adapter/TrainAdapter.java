@@ -3,6 +3,7 @@ package com.badou.mworking.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +43,16 @@ public class TrainAdapter extends MyBaseAdapter {
         this.isUserCenter = userCenter;
     }
 
+    public void updateRating(String rid, int rating) {
+        for (Object o : mItemList) {
+            Train train = (Train) o;
+            if (train.rid.equals(rid)) {
+                train.ecnt++;
+                train.eval += rating;
+            }
+        }
+    }
+
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         final ViewHolder holder;
@@ -57,8 +68,8 @@ public class TrainAdapter extends MyBaseAdapter {
             TextView tvDpt = (TextView) convertView
                     .findViewById(R.id.lv_item_study_dpt_time);
 
-            tvSubject.setText(train.getSubject() + "");
-            tvDpt.setText(TimeTransfer.long2StringDetailDate(mContext,train.getTime()));
+            tvSubject.setText(train.subject + "");
+            tvDpt.setText(TimeTransfer.long2StringDetailDate(mContext, train.time));
             return convertView;
         } else {
             /** 微培训列表页显示的布局 **/
@@ -71,44 +82,44 @@ public class TrainAdapter extends MyBaseAdapter {
                 convertView.setTag(holder);
             }
         }
-        if (train.getImgUrl() == null || train.getImgUrl().equals("")) {
+        if (TextUtils.isEmpty(train.imgUrl)) {
             holder.logoImage.setImageResource(R.drawable.pic_train_item);
         } else {
-            holder.logoImage.setTag(train.getImgUrl());
+            holder.logoImage.setTag(train.imgUrl);
             /** 加载图片 **/
             Bitmap bm = BitmapLruCache.getBitmapLruCache().getBitmap(
-                    train.getImgUrl());
+                    train.imgUrl);
             if (bm != null
-                    && holder.logoImage.getTag().equals(train.getImgUrl())) {
+                    && holder.logoImage.getTag().equals(train.imgUrl)) {
                 holder.logoImage.setImageBitmap(bm);
                 bm = null;
             } else {
                 /** 设置默认图在IconLoadListener 中 **/
                 MyVolley.getImageLoader().get(
-                        train.getImgUrl(),
+                        train.imgUrl,
                         new IconLoadListener(mContext, holder.logoImage, train
-                                .getImgUrl(), R.drawable.pic_train_item));
+                                .imgUrl, R.drawable.pic_train_item));
             }
         }
 
         // 显示标题
-        holder.subject.setText(train.getSubject());
+        holder.subject.setText(train.subject);
         // 显示时间和部门
-        holder.bumenAndDateTv.setText(TimeTransfer.long2StringDetailDate(mContext,train.getTime()));
+        holder.bumenAndDateTv.setText(TimeTransfer.long2StringDetailDate(mContext, train.time));
         // 显示评分人数
-        holder.pingfenrenshuTv.setText(" ("+train.getEcnt()+")");
+        holder.pingfenrenshuTv.setText(" (" + train.ecnt + ")");
         // 显示评分星星
-        if(train.getEcnt()!=0){
-            holder.pingfenRatingbar.setRating((float)train.getEval()/train.getEcnt());
+        if (train.ecnt != 0) {
+            holder.pingfenRatingbar.setRating((float) train.eval / train.ecnt);
         }
         // 该课件是否已读
-        if (train.getIsRead() == Constant.READ_YES) {
+        if (train.isRead == Constant.READ_YES) {
             holder.rl_bg.setBackgroundResource(R.drawable.icon_read_);
         } else {
             holder.rl_bg.setBackgroundResource(R.drawable.icon_unread_orange);
         }
         /** 显示是否置顶 **/
-        if (train.getTop()== Constant.TOP_YES) {
+        if (train.top == Constant.TOP_YES) {
             holder.top.setVisibility(View.VISIBLE);
         } else {
             holder.top.setVisibility(View.GONE);
@@ -125,12 +136,12 @@ public class TrainAdapter extends MyBaseAdapter {
         String userNum = ((AppApplication) mContext.getApplicationContext())
                 .getUserInfo().getUserNumber();
         Train train = (Train) getItem(position);
-        if (train.getIsRead() == Constant.READ_NO) {
-            train.setIsRead(Constant.READ_YES);
+        if (train.isRead == Constant.READ_NO) {
+            train.isRead = Constant.READ_YES;
             this.notifyDataSetChanged();
-            int unreadNum = SP.getIntSP(mContext, SP.DEFAULTCACHE, userNum + Train.UNREAD_NUM_TRAIN, 0);
+            int unreadNum = SP.getIntSP(mContext, SP.DEFAULTCACHE, userNum + Train.CATEGORY_KEY_UNREAD_NUM, 0);
             if (unreadNum > 0) {
-                SP.putIntSP(mContext, SP.DEFAULTCACHE, userNum + Train.UNREAD_NUM_TRAIN, unreadNum - 1);
+                SP.putIntSP(mContext, SP.DEFAULTCACHE, userNum + Train.CATEGORY_KEY_UNREAD_NUM, unreadNum - 1);
             }
         }
     }

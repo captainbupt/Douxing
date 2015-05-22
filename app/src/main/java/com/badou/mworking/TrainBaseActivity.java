@@ -78,9 +78,6 @@ public abstract class TrainBaseActivity extends BaseNoTitleActivity {
 		llCommBtn = (LinearLayout) this.findViewById(R.id.ll_comment);
 		/**显示评论数量**/
 		tvCommNum = (TextView) this.findViewById(R.id.comment_num);
-		
-		tvCommNum.setText(train.getCommentNum() + "");
-		tvZanNum.setText(train.getEcnt() + "");
 	}
 	
 	/**
@@ -102,7 +99,7 @@ public abstract class TrainBaseActivity extends BaseNoTitleActivity {
 				public void onClick(View arg0) {
 					String titleStr = getResources().getString(R.string.statistical_data);
 					String uid = ((AppApplication) getApplicationContext()).getUserInfo().getUserId();
-					String url = Net.getRunHost(TrainBaseActivity.this)+Net.getTongji(uid,train.getRid());
+					String url = Net.getRunHost(TrainBaseActivity.this)+Net.getTongji(uid,train.rid);
 					Intent intent = new Intent();
 					intent.setClass(TrainBaseActivity.this, BackWebActivity.class);
 					intent.putExtra(BackWebActivity.VALUE_URL,url);
@@ -119,7 +116,7 @@ public abstract class TrainBaseActivity extends BaseNoTitleActivity {
 			}
 		});
 		// 获取分类名
-		String title = SP.getStringSP(TrainBaseActivity.this, SP.TRAINING, train.getTag()+"", "");
+		String title = SP.getStringSP(TrainBaseActivity.this, SP.TRAINING, train.tag+"", "");
 		tvTitle.setText(title);
 		ivLeft.setImageResource(R.drawable.title_bar_back_normal);
 	}
@@ -130,21 +127,24 @@ public abstract class TrainBaseActivity extends BaseNoTitleActivity {
 	public void showPingfenDilog(){
 		// 课件评分
 		if(train!=null){
-			String coursewareScore = train.getCoursewareScore();
+			String coursewareScore = train.coursewareScore;
 			String saveFilePath = FileUtils.getTrainCacheDir(TrainBaseActivity.this);
-			String mp3fileStr = saveFilePath + train.getRid()+".mp3";
-			String mp4fileStr = saveFilePath + train.getRid()+".mp4";
+			String mp3fileStr = saveFilePath + train.rid+".mp3";
+			String mp4fileStr = saveFilePath + train.rid+".mp4";
 			File mp3file = new File(mp3fileStr);
 			File mp4file = new File(mp4fileStr);
 			// 如果文件存在则显示评分，或者显示了多少分，否则不让评分并作提醒
 			if(mp3file.exists()||mp4file.exists()){
-				new CoursewareScoreDilog(TrainBaseActivity.this,train.getRid(),coursewareScore,new CoursewareScoreDilogListener() {
-					
+				new CoursewareScoreDilog(mContext, train.rid, coursewareScore, new CoursewareScoreDilogListener() {
+
 					@Override
 					public void positiveListener(int coursewareScore) {
-						train.setCoursewareScore(coursewareScore+"");
-						tvZanNum.setText(train.getEcnt() + 1 + "");
-						//TrainActivity.pingfen = coursewareScore;
+						train.coursewareScore = coursewareScore + "";
+						tvZanNum.setText(train.ecnt + 1 + "");
+						Intent intent = new Intent();
+						intent.putExtra(TrainActivity.KEY_RATING, coursewareScore);
+						intent.putExtra(TrainActivity.KEY_RID, train.rid);
+						setResult(RESULT_OK, intent);
 					}
 				}).show();
 			}else{

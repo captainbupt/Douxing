@@ -1,5 +1,14 @@
 package com.badou.mworking;
 
+import java.io.File;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -15,6 +24,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -46,17 +56,11 @@ import com.badou.mworking.widget.FullScreenVideoView;
 import com.badou.mworking.widget.SwipeBackLayout;
 import com.umeng.analytics.MobclickAgent;
 
-import java.io.File;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
-
 public class TrainVideoPlayerAct extends TrainBaseActivity implements
 		OnClickListener {
+
+	public static final String KEY_CATEGORY_VALUE = "content";
+
 
 	/** 实体类 **/
 	private Train train;
@@ -106,16 +110,17 @@ public class TrainVideoPlayerAct extends TrainBaseActivity implements
 
 	// 自动隐藏顶部和底部View的时间
 	private static final int HIDE_TIME = 5000;
-	
-    private MyReceiver mReceiver;
-    
-    private String url = "";
-	
+
+	private MyReceiver mReceiver;
+
+	private String url = "";
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//页面滑动关闭
-		layout = (SwipeBackLayout) LayoutInflater.from(this).inflate(R.layout.base, null);
+		// 页面滑动关闭
+		layout = (SwipeBackLayout) LayoutInflater.from(this).inflate(
+				R.layout.base, null);
 		layout.attachToActivity(this);
 		initView();
 		initData();
@@ -128,10 +133,12 @@ public class TrainVideoPlayerAct extends TrainBaseActivity implements
 				if (NetUtils.isNetConnected(mContext)) {
 					statuDownloading();
 					// 开启下载服务，进行的是添加操作
-	                Intent downloadIntent = new Intent("com.badou.mworking.services.IDownloadService");
-	                downloadIntent.putExtra(MyIntents.TYPE, MyIntents.Types.ADD);
-	                downloadIntent.putExtra(MyIntents.URL, url);
-	                startService(downloadIntent);
+					Intent downloadIntent = new Intent(
+							"com.badou.mworking.services.IDownloadService");
+					downloadIntent
+							.putExtra(MyIntents.TYPE, MyIntents.Types.ADD);
+					downloadIntent.putExtra(MyIntents.URL, url);
+					startService(downloadIntent);
 				} else {
 					ToastUtil.showNetExc(mContext);
 				}
@@ -156,36 +163,40 @@ public class TrainVideoPlayerAct extends TrainBaseActivity implements
 				}
 			}
 		});
-	        
-        //开启下载服务，进行的是开始下载操作
-        Intent downloadIntent = new Intent("com.badou.mworking.services.IDownloadService");
-        downloadIntent.putExtra(MyIntents.TYPE, MyIntents.Types.START);
-        startService(downloadIntent);
 
-        //广播，接收
-        mReceiver = new MyReceiver();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction("com.badou.mworking.TrainVideoPlayerAct");
-        registerReceiver(mReceiver, filter);
-        
-     // 这里加个保护，就是在下载中，退出界面，广播也关了，下载完之后没有重命名
- 		String fileNames[] = url.split("=");
- 		FileUtils.renameFile(FileUtils.getTrainCacheDir(mContext), fileNames[fileNames.length-1], train.getRid() + ENDWITH_MP4);
- 		// 文件存在，下载完成
- 		if (fileMedia.exists()) {
- 			statuDownFinish();
- 		} else {
- 			statuNotDown();
- 			allTimeTv.setText("0%");
- 		}
-		
+		// 开启下载服务，进行的是开始下载操作
+		Intent downloadIntent = new Intent(
+				"com.badou.mworking.services.IDownloadService");
+		downloadIntent.putExtra(MyIntents.TYPE, MyIntents.Types.START);
+		startService(downloadIntent);
+
+		// 广播，接收
+		mReceiver = new MyReceiver();
+		IntentFilter filter = new IntentFilter();
+		filter.addAction("com.badou.mworking.TrainVideoPlayerAct");
+		registerReceiver(mReceiver, filter);
+
+		// 这里加个保护，就是在下载中，退出界面，广播也关了，下载完之后没有重命名
+		String fileNames[] = url.split("=");
+		FileUtils.renameFile(FileUtils.getTrainCacheDir(mContext),
+				fileNames[fileNames.length - 1], train.rid + ENDWITH_MP4);
+		// 文件存在，下载完成
+		if (fileMedia.exists()) {
+			statuDownFinish();
+		} else {
+			statuNotDown();
+			allTimeTv.setText("0%");
+		}
+
 	}
-	
+
+	@Override
 	public void onResume() {
 		super.onResume();
 		MobclickAgent.onResume(this);
 	}
 
+	@Override
 	public void onPause() {
 		super.onPause();
 		MobclickAgent.onPause(this);
@@ -214,11 +225,13 @@ public class TrainVideoPlayerAct extends TrainBaseActivity implements
 		screenWidth = DensityUtil.getWidthInPx(this);
 		screenHeight = DensityUtil.getHeightInPx(this);
 		threshold = DensityUtil.dip2px(this, 18);
-		LayoutParams screenLR = (LayoutParams) screenView.getLayoutParams();
+		LayoutParams screenLR = (LayoutParams) screenView
+				.getLayoutParams();
 		mraginLR = screenLR.leftMargin;
 		tvPlayer.setOnClickListener(this);
 
-		fileDir = FileUtils.getTrainCacheDir(mContext) + train.getRid() + ENDWITH_MP4;
+		fileDir = FileUtils.getTrainCacheDir(mContext) + train.rid
+				+ ENDWITH_MP4;
 		fileMedia = new File(fileDir);
 	}
 
@@ -229,12 +242,12 @@ public class TrainVideoPlayerAct extends TrainBaseActivity implements
 		try {
 			train = (Train) getIntent().getBundleExtra("train")
 					.getSerializable("train");
-			String title = train.getSubject();
+			String title = train.subject;
 			if (!TextUtils.isEmpty(title)) {
 				tvTop.setText(title);
 			}
 
-			url = train.getUrl()
+			url = train.url
 					+ "&uid="
 					+ ((AppApplication) mContext.getApplicationContext())
 							.getUserInfo().getUserId();
@@ -244,17 +257,17 @@ public class TrainVideoPlayerAct extends TrainBaseActivity implements
 				@Override
 				public void run() {
 					try {
-						if(fileMedia.exists()){
-							float fileLength = fileMedia.length();	
+						if (fileMedia.exists()) {
+							float fileLength = fileMedia.length();
 							filesize = (float) (Math
 									.round(fileLength / 1024 / 1024 * 10))
 									/ 10
 									+ "M";
-						}else{
+						} else {
 							URL DownRul = new URL(url);
 							HttpURLConnection urlcon = (HttpURLConnection) DownRul
 									.openConnection();
-							float fileLength = urlcon.getContentLength();	
+							float fileLength = urlcon.getContentLength();
 							filesize = (float) (Math
 									.round(fileLength / 1024 / 1024 * 10))
 									/ 10
@@ -280,6 +293,15 @@ public class TrainVideoPlayerAct extends TrainBaseActivity implements
 		tvTop.setVisibility(View.VISIBLE);
 		musicFileSizeTv.setVisibility(View.VISIBLE);
 		wifiTips.setVisibility(View.VISIBLE);
+		int height = getResources().getDimensionPixelSize(R.dimen.music_pic_h);
+		mVideo.setLayoutParams(new LayoutParams(
+				LayoutParams.MATCH_PARENT, height));
+		
+		LayoutParams bottomLayout = new LayoutParams(
+				LayoutParams.MATCH_PARENT,
+				LayoutParams.WRAP_CONTENT);
+		bottomLayout.addRule(RelativeLayout.BELOW, R.id.rl_download);
+		mBottomView.setLayoutParams(bottomLayout);
 	}
 
 	/**
@@ -291,12 +313,22 @@ public class TrainVideoPlayerAct extends TrainBaseActivity implements
 		tvTop.setVisibility(View.GONE);
 		musicFileSizeTv.setVisibility(View.GONE);
 		wifiTips.setVisibility(View.GONE);
+		int height = mContext.getResources().getDisplayMetrics().heightPixels;
+
+		mVideo.setLayoutParams(new LayoutParams(
+				LayoutParams.MATCH_PARENT, height));
+
+		LayoutParams bottomLayout = new LayoutParams(
+				LayoutParams.MATCH_PARENT,
+				LayoutParams.WRAP_CONTENT);
+		bottomLayout.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+		mBottomView.setLayoutParams(bottomLayout);
 	}
 
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		/***
-		 *  屏幕大小改变监听
+		 * 屏幕大小改变监听
 		 */
 		if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
 			setVideoHeng();
@@ -357,11 +389,9 @@ public class TrainVideoPlayerAct extends TrainBaseActivity implements
 		mHandler.removeMessages(0);
 		mHandler.removeCallbacksAndMessages(null);
 	}
-	
-	
-	
-	Handler mHandler = new Handler(){
-		
+
+	Handler mHandler = new Handler() {
+
 		@Override
 		public void handleMessage(Message msg) {
 			super.handleMessage(msg);
@@ -386,7 +416,8 @@ public class TrainVideoPlayerAct extends TrainBaseActivity implements
 					}
 				}
 				break;
-			/*case TrainActivity.PROGRESS_FINISH:
+// 也许没用
+/*			case TrainActivity.PROGRESS_FINISH:
 				statuDownFinish();
 				startPlay();
 				break;*/
@@ -398,7 +429,7 @@ public class TrainVideoPlayerAct extends TrainBaseActivity implements
 			}
 		}
 	};
-	
+
 	/***
 	 * 
 	 * 功能描述:初始化播放器
@@ -411,10 +442,10 @@ public class TrainVideoPlayerAct extends TrainBaseActivity implements
 		mVideo.setOnPreparedListener(new OnPreparedListener() {
 			@Override
 			public void onPrepared(MediaPlayer mp) {
-				//  设置大小
+				// 设置大小
 				mVideo.setVideoWidth(mp.getVideoWidth());
 				mVideo.setVideoHeight(mp.getVideoHeight());
-				//  开始播放
+				// 开始播放
 				// mVideo.start();
 				if (playTime != 0) {
 					mVideo.seekTo(playTime);
@@ -427,7 +458,7 @@ public class TrainVideoPlayerAct extends TrainBaseActivity implements
 				timer.schedule(new TimerTask() {
 					@Override
 					public void run() {
-						//  更新播放时间
+						// 更新播放时间
 						mHandler.sendEmptyMessage(TrainMusicActivity.STATU_START_PLAY);
 					}
 				}, 0, 1000);
@@ -520,7 +551,7 @@ public class TrainVideoPlayerAct extends TrainBaseActivity implements
 				}
 				mLastMotionX = 0;
 				mLastMotionY = 0;
-				startX = (int) 0;
+				startX = 0;
 				if (isClick) {
 					showOrHide();
 				}
@@ -548,12 +579,11 @@ public class TrainVideoPlayerAct extends TrainBaseActivity implements
 		}
 	}
 
-	
 	/**
 	 * 功能描述: 视屏开始播放
 	 */
 	@SuppressLint("NewApi")
-	private void startPlay(){
+	private void startPlay() {
 		if (mVideo.isPlaying()) {
 			mVideo.pause();
 			tvPlayer.setBackgroundResource(R.drawable.btn_start);
@@ -563,8 +593,7 @@ public class TrainVideoPlayerAct extends TrainBaseActivity implements
 			tvPlayer.setBackgroundResource(R.drawable.btn_stop);
 		}
 	}
-	
-	
+
 	private void showOrHide() {
 		if (mBottomView.getVisibility() == View.VISIBLE) {
 			Animation animation = AnimationUtils.loadAnimation(this,
@@ -629,7 +658,7 @@ public class TrainVideoPlayerAct extends TrainBaseActivity implements
 		}
 		// 跳转到评论页面
 		Intent intent = new Intent(mContext, CommentActivity.class);
-		intent.putExtra(CommentActivity.VALUE_RID, train.getRid());
+		intent.putExtra(CommentActivity.VALUE_RID, train.rid);
 		startActivity(intent);
 	}
 
@@ -685,11 +714,13 @@ public class TrainVideoPlayerAct extends TrainBaseActivity implements
 			lp.topMargin = -h;
 			mBottomView.setLayoutParams(lp);
 			mVideo.setLayoutParams(new LayoutParams(
-					LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+					android.view.ViewGroup.LayoutParams.MATCH_PARENT,
+					android.view.ViewGroup.LayoutParams.MATCH_PARENT));
 			mVideo.setVideoWidth(screenWidth);
 			mVideo.setVideoHeight(screenHeight);
 			mVideo.invalidate();
-			LayoutParams lps = (LayoutParams) screenView.getLayoutParams();
+			LayoutParams lps = (LayoutParams) screenView
+					.getLayoutParams();
 			lps.leftMargin = 0;
 			lps.rightMargin = 0;
 			screenView.setLayoutParams(lps);
@@ -699,82 +730,87 @@ public class TrainVideoPlayerAct extends TrainBaseActivity implements
 
 	private void setVideoShu() {
 		if (mVideo != null & mBottomView != null) {
-			int h = (int)getResources().getDimension(R.dimen.music_pic_h);
+			int h = (int) getResources().getDimension(R.dimen.music_pic_h);
 			LayoutParams lp = (LayoutParams) mBottomView
 					.getLayoutParams();
 			lp.topMargin = 0;
 			mBottomView.setLayoutParams(lp);
 			mVideo.setLayoutParams(new LayoutParams(
-					LayoutParams.MATCH_PARENT, h));
+					android.view.ViewGroup.LayoutParams.MATCH_PARENT, h));
 			mVideo.setVideoWidth(screenWidth);
 			mVideo.setVideoHeight(h);
 			mVideo.invalidate();
-			LayoutParams lps = (LayoutParams) screenView.getLayoutParams();
+			LayoutParams lps = (LayoutParams) screenView
+					.getLayoutParams();
 			lps.leftMargin = mraginLR;
 			lps.rightMargin = mraginLR;
 			screenView.setLayoutParams(lps);
 		}
 	}
-	
-	/**
-     * 注意，下面的url就是标示符
-     * */
-    public class MyReceiver extends BroadcastReceiver {
-    	
-    	@Override
-    	public void onReceive(Context context, Intent intent) {
-    		handleIntent(intent);
-    	}
 
-    	private void handleIntent(Intent intent) {
-    		
-    		if (intent != null
-    				&& intent.getAction().equals("com.badou.mworking.TrainVideoPlayerAct")) {
-    			int type = intent.getIntExtra(MyIntents.TYPE, -1);
-    			String url;
-    			
-    			switch (type) {
-    			// 添加下载
-    			case MyIntents.Types.ADD:
-    				url = intent.getStringExtra(MyIntents.URL);
-    				break;
-    			// 下载完成
-    			case MyIntents.Types.COMPLETE:
-    				url = intent.getStringExtra(MyIntents.URL);
-    				if(url.equals(TrainVideoPlayerAct.this.url)){
-    					// 下载完成之后，对文件进行重命名
-    					try {
-    				        String fileNames[] = url.split("=");
-    						FileUtils.renameFile(FileUtils.getTrainCacheDir(mContext), fileNames[fileNames.length-1], train.getRid() + ENDWITH_MP4);
-    						startPlay();
-    					} catch (Exception e) {
-    						e.printStackTrace();
-    					}
-        				if (!TextUtils.isEmpty(url)) {
-        					statuDownFinish();
-        				}
-    				}
-    				break;
-    			// 正在下载
-    			case MyIntents.Types.PROCESS:
-    				url = intent.getStringExtra(MyIntents.URL);
-    				mProgressBar.setVisibility(View.VISIBLE);
-    				imgStartDown.setVisibility(View.GONE);
-    				if(url.equals(TrainVideoPlayerAct.this.url)){
-    					int downPer = Integer.valueOf(intent
-        						.getStringExtra(MyIntents.PROCESS_PROGRESS));
-        				mSeekBar.setProgress(downPer);
-        				allTimeTv.setText(downPer+"%");
-    				}
-    				break;
-    			// 下载出错
-    			case MyIntents.Types.ERROR:
-    				url = intent.getStringExtra(MyIntents.URL);
-    				break;
-    			default:
-    				break;
-    			}
-    		}
-    	}
-    }
+	/**
+	 * 注意，下面的url就是标示符
+	 * */
+	public class MyReceiver extends BroadcastReceiver {
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			handleIntent(intent);
+		}
+
+		private void handleIntent(Intent intent) {
+
+			if (intent != null
+					&& intent.getAction().equals(
+							"com.badou.mworking.TrainVideoPlayerAct")) {
+				int type = intent.getIntExtra(MyIntents.TYPE, -1);
+				String url;
+
+				switch (type) {
+				// 添加下载
+				case MyIntents.Types.ADD:
+					url = intent.getStringExtra(MyIntents.URL);
+					break;
+				// 下载完成
+				case MyIntents.Types.COMPLETE:
+					url = intent.getStringExtra(MyIntents.URL);
+					if (url.equals(TrainVideoPlayerAct.this.url)) {
+						// 下载完成之后，对文件进行重命名
+						try {
+							String fileNames[] = url.split("=");
+							FileUtils.renameFile(
+									FileUtils.getTrainCacheDir(mContext),
+									fileNames[fileNames.length - 1],
+									train.rid + ENDWITH_MP4);
+							startPlay();
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						if (!TextUtils.isEmpty(url)) {
+							statuDownFinish();
+						}
+					}
+					break;
+				// 正在下载
+				case MyIntents.Types.PROCESS:
+					url = intent.getStringExtra(MyIntents.URL);
+					mProgressBar.setVisibility(View.VISIBLE);
+					imgStartDown.setVisibility(View.GONE);
+					if (url.equals(TrainVideoPlayerAct.this.url)) {
+						int downPer = Integer.valueOf(intent
+								.getStringExtra(MyIntents.PROCESS_PROGRESS));
+						mSeekBar.setProgress(downPer);
+						allTimeTv.setText(downPer + "%");
+					}
+					break;
+				// 下载出错
+				case MyIntents.Types.ERROR:
+					url = intent.getStringExtra(MyIntents.URL);
+					break;
+				default:
+					break;
+				}
+			}
+		}
+	}
 }

@@ -481,4 +481,13 @@ public class Net {
     	return "/delchat?sys=android"
 				+ AppApplication.SYSVERSION + "&ver=" + AppApplication.appVersion;
     }
+
+	/**
+	 * 功能描述: 删除同事圈的某条评论
+	 * @return
+	 */
+	public static String DeleteReplyComment(){
+		return "/delreply?sys=android"
+				+ AppApplication.SYSVERSION + "&ver=" + AppApplication.appVersion;
+	}
 }

@@ -1,21 +1,31 @@
 package com.badou.mworking.fragment;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
 
 import com.android.volley.VolleyError;
 import com.badou.mworking.AroundActivity;
@@ -35,13 +45,6 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * 类: <code> AroundFragment </code> 功能描述: 同事圈列表页 创建人:董奇 创建日期: 2014年7月15日
  * 下午6:27:28 开发环境: JDK7.0
@@ -60,7 +63,7 @@ public class TongSHQFragments extends Fragment implements OnRefreshListener2<Lis
 	private String userNum = "";
 	
 	private boolean isUser = false;// 区分 我的圈/同事圈
-	private boolean lvIsEnable = true;//listview 的 item 可以点击
+	public boolean lvIsEnable = true;//listview 的 item 可以点击
 	
 	private TongShiQuanAdapter aroundAdapter;
 	private PullToRefreshListView pullToRefreshListView;
@@ -104,26 +107,7 @@ public class TongSHQFragments extends Fragment implements OnRefreshListener2<Lis
 		pullToRefreshListView.setOnRefreshListener(this);
 		setAdapterData();
 		pullToRefreshListView.setAdapter(aroundAdapter);
-		pullToRefreshListView.setOnItemClickListener(new OnItemClickListener() {
 
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1,
-					int position, long arg3) {
-				if (lvIsEnable) {
-					lvIsEnable = false;
-					Constant.is_refresh = false;
-					clickPostion = position - 1;
-					// 跳转到单条的Item的页面，并传递数据
-					Question question = aroundAdapter.getItem(clickPostion);
-					Intent intent = new Intent(getActivity(),AroundDetailActivity.class);
-					intent.putExtra(AroundDetailActivity.VALUE_QUESTION, question);
-					getActivity().startActivityForResult(intent, requestCode);
-					// 设置切换动画，从右边进入，左边退出
-					getActivity().overridePendingTransition(R.anim.in_from_right,
-							R.anim.out_to_left);
-				}
-			}
-		}); 
 		getCash();
 		addFooterView();
 		currentPage = 1;
@@ -156,7 +140,7 @@ public class TongSHQFragments extends Fragment implements OnRefreshListener2<Lis
 	 */
 	private void setAdapterData() {
 		if (aroundAdapter == null) {
-			aroundAdapter = new TongShiQuanAdapter(getActivity());
+			aroundAdapter = new TongShiQuanAdapter(getActivity(),this);
 		}
 	}
 

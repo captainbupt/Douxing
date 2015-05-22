@@ -138,7 +138,7 @@ public class MyExamAct extends BaseNoTitleActivity implements OnClickListener,On
 		rlGoExam.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				Category.CLICKMAINICON = Category.CATEGORY_EXAM;
+				//Category.CLICKMAINICON = Category.CATEGORY_EXAM;
 				Intent goAct = new Intent(MyExamAct.this, ExamActivity.class);
 				goAct.putExtra(VALUE_EXAM, 1);
 				startActivity(goAct);
@@ -151,7 +151,7 @@ public class MyExamAct extends BaseNoTitleActivity implements OnClickListener,On
 					int position, long arg3) {
 				BackWebActivity.PAGEFLAG = BackWebActivity.EXAM;
 				Exam exam = (Exam) examAdapter.getItem(position - 1);
-				int subtype = exam.getType();
+				int subtype = exam.subtype;
 				if (Constant.MWKG_FORAMT_TYPE_XML != subtype) {
 					return;
 				}
@@ -161,11 +161,11 @@ public class MyExamAct extends BaseNoTitleActivity implements OnClickListener,On
 					return;
 				}
 				String uid = ((AppApplication) MyExamAct.this.getApplicationContext()).getUserInfo().getUserId();
-				String url =  Net.getRunHost(MyExamAct.this)+Net.EXAM_ITEM(uid, exam.getExamId());
+				String url =  Net.getRunHost(MyExamAct.this)+Net.EXAM_ITEM(uid, exam.rid);
 				Intent intents = new Intent(MyExamAct.this, BackWebActivity.class);
 				intents.putExtra(BackWebActivity.VALUE_URL,url);
 				// 获取分类名
-				String title = SP.getStringSP(MyExamAct.this, SP.EXAM, exam.getTag()+"", "");
+				String title = SP.getStringSP(MyExamAct.this, SP.EXAM, exam.tag+"", "");
 				intents.putExtra(BackWebActivity.VALUE_TITLE,title); 
 				startActivity(intents);
 				// 设置切换动画，从右边进入，左边退出
@@ -215,7 +215,7 @@ public class MyExamAct extends BaseNoTitleActivity implements OnClickListener,On
 	}
 	
 	private void getExam(final int beginNum){
-		ServiceProvider.doUpdateLocalResource2(MyExamAct.this, Category.CATEGORY_EXAM,0, beginNum, Constant.LIST_ITEM_NUM, "","1",
+		ServiceProvider.doUpdateLocalResource2(MyExamAct.this, Exam.CATEGORY_KEY_NAME,0, beginNum, Constant.LIST_ITEM_NUM, "","1",
 				new VolleyListener(MyExamAct.this) {
 					@Override
 					public void onResponse(Object responseObject) {

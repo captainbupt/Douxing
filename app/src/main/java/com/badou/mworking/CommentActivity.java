@@ -49,7 +49,6 @@ import java.util.ArrayList;
 public class CommentActivity extends BaseBackActionBarActivity{
 
 	public static final String VALUE_RID = "rid";
-	public static final String VALUE_FEEDBACK_COUNT = "count";
 	private PullToRefreshListView contentListView;//下拉刷新
 	private CommentAdapter commentAdapter;
 	private ProgressDialog mProgressDialog;

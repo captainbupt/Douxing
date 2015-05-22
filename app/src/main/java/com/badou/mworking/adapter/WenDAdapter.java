@@ -1,32 +1,44 @@
 package com.badou.mworking.adapter;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.text.ClipboardManager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
 
+import com.badou.mworking.AroundDetailActivity;
 import com.badou.mworking.PhotoActivity;
 import com.badou.mworking.R;
+import com.badou.mworking.WenDActivity;
 import com.badou.mworking.WenDaDetailActivity;
+import com.badou.mworking.fragment.TongSHQFragments;
 import com.badou.mworking.model.Ask;
+import com.badou.mworking.model.Question;
 import com.badou.mworking.net.LVUtil;
 import com.badou.mworking.net.bitmap.BitmapLruCache;
 import com.badou.mworking.net.bitmap.CircleImageListener;
 import com.badou.mworking.net.bitmap.PicImageListener;
 import com.badou.mworking.net.volley.MyVolley;
+import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.SP;
 import com.badou.mworking.util.TimeTransfer;
-
-import java.util.ArrayList;
+import com.badou.mworking.util.ToastUtil;
 
 /**
  * @author 葛建锋
@@ -71,7 +83,7 @@ public class WenDAdapter extends BaseAdapter{
 			holder = new AllViewHolder(convertView);
 			convertView.setTag(holder);
 		}
-		Ask ask = asks.get(position);
+		final Ask ask = asks.get(position);
 		String headImgUrl = ask.getImgurl();
 		int size = context.getResources().getDimensionPixelSize(
 				R.dimen.around_icon_head_size);
@@ -150,6 +162,44 @@ public class WenDAdapter extends BaseAdapter{
 		holder.wendaPictureImg.setOnClickListener(new ImageClickListener(
 				ask));
 		holder.showAllContentTv.setOnClickListener(new ShowAllContent(ask));
+		
+
+		
+		
+		convertView.setOnLongClickListener(new OnLongClickListener() {
+
+			@Override
+			public boolean onLongClick(View arg0) {
+				AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+				builder.setTitle("请选择操作")
+						.setItems(new String[] { "复制" },
+								new DialogInterface.OnClickListener() {
+
+									@Override
+									public void onClick(DialogInterface dialog,
+											int which) {
+										ClipboardManager clip = (ClipboardManager) context
+												.getSystemService(Context.CLIPBOARD_SERVICE);
+										clip.setText(ask.getContent()); // 复制
+										ToastUtil.showToast(context,
+												"内容已复制到剪切板");
+									}
+								}).show();
+				return true;
+			}
+		});
+
+		convertView.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				Intent intent =  new Intent();
+				intent.setClass(context, WenDaDetailActivity.class);
+				intent.putExtra("ask", ask);
+				context.startActivity(intent);
+			}
+		});
 		return convertView;
 	}
 	

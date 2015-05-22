@@ -225,10 +225,7 @@
 
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.badou.mworking.BaseViewerActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.badou.mworking.NoticePdfViewerActivity"
+            android:name=".PDFViewerActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.badou.mworking.TipsWebView"

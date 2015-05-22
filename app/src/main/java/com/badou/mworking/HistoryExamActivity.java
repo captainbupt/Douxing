@@ -187,7 +187,7 @@ public class HistoryExamActivity extends BaseNoTitleActivity implements OnClickL
 					int position, long arg3) {
 				BackWebActivity.PAGEFLAG = BackWebActivity.EXAM;
 				Exam exam = (Exam) examAdapter.getItem(position - 1);
-				int subtype = exam.getType();
+				int subtype = exam.subtype;
 				if (Constant.MWKG_FORAMT_TYPE_XML != subtype) {
 					return;
 				}
@@ -197,7 +197,7 @@ public class HistoryExamActivity extends BaseNoTitleActivity implements OnClickL
 					return;
 				}
 				String uid = ((AppApplication) HistoryExamActivity.this.getApplicationContext()).getUserInfo().getUserId();
-				String url =  Net.getRunHost(HistoryExamActivity.this)+Net.EXAM_ITEM(uid, exam.getExamId());
+				String url =  Net.getRunHost(HistoryExamActivity.this)+Net.EXAM_ITEM(uid, exam.rid);
 				Intent intents = new Intent(HistoryExamActivity.this, BackWebActivity.class);
 				intents.putExtra(BackWebActivity.VALUE_URL,url);
 				//String title = ExamActivity.CLASSIFICATIONNAME;

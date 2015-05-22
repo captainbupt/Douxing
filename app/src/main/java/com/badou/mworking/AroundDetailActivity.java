@@ -70,7 +70,7 @@ public class AroundDetailActivity extends BaseBackActionBarActivity{
 	private TextView ivQuestionAnswerContent;// 底部发送 按钮
 	private TextView tvDelComment;
 	private TextView sixinTv;  	//私信
-	private ProgressDialog mProgressDialog;
+	private WaitProgressDialog mProgressDialog;
 	private ImageView imgTitlePic;// title显示的图片
 	private ImageView aroundDitailSHPImg; //表示视屏的图片
 	private NoScrollListView lvQuestion;
@@ -131,7 +131,7 @@ public class AroundDetailActivity extends BaseBackActionBarActivity{
 		// 自定义LinearLayout
 		lvQuestion = (NoScrollListView) findViewById(R.id.lvQuestionAnswers);
 		sixinTv = (TextView) findViewById(R.id.sixin_tv);
-		replyAdapter = new AroundReplaAdapter(mContext,0);
+		replyAdapter = new AroundReplaAdapter(mContext,0,question.getQid(),mProgressDialog);
 		lvQuestion.setAdapter(replyAdapter);
 		tvDelComment = (TextView) findViewById(R.id.tv_delete_comment);
 		aroundDitailSHPImg = (ImageView) findViewById(R.id.around_ditail_shiping_img);
@@ -278,7 +278,6 @@ public class AroundDetailActivity extends BaseBackActionBarActivity{
 	
 	/**
 	 * 功能描述:删除我的圈中的item
-	 * @param pos
 	 * @param qid
 	 */
 	private void deleteComment(final String qid) {
