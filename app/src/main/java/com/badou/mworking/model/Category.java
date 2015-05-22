@@ -1,99 +1,51 @@
 package com.badou.mworking.model;
 
-import android.content.Context;
-import android.text.TextUtils;
+import com.badou.mworking.net.ResponseParams;
 
-import com.badou.mworking.util.SP;
+import org.json.JSONObject;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 
 /**
- * 类:  <code> Category </code>
  * 功能描述:  通知公告，在线考试，微培训，任务签到分类信息
- * 创建人:  葛建锋
- * 创建日期: 2014年10月14日 上午10:15:08
- * 开发环境: JDK7.0
  */
-public class Category {
-	
-	public static String CLICKMAINICON = "";
-	public static final String CATEGORY_NOTICE = "notice";     //通知公告
-	public static final String CATEGORY_EXAM = "exam";        //在线考试
-	public static final String CATEGORY_TASK = "task";        //任务签到
-	public static final String CATEGORY_TRAIN = "training";   //微培训
-	public static final String CATEGORY_RANK = "rank";      //等级考试
+public abstract class Category implements Serializable {
 
-	private int tag;
-	private String name;
-	
-	/**
-	 * 功能描述:
-	 */
-	public Category() {
-		super();
-	}
+    public static final int CATEGORY_NOTICE = 0;     //通知公告
+    public static final int CATEGORY_EXAM = 1;        //在线考试
+    public static final int CATEGORY_TASK = 2;        //任务签到
+    public static final int CATEGORY_TRAIN = 3;   //微培训
+    public static final int CATEGORY_SHELF = 4;   //橱窗
 
-	public Category(String name,int tag) {
-		super();
-		this.tag = tag;
-		this.name = name;
-	}
-	
-	/**
-	 * 功能描述: 封装 sp中存放内容的String字符串
-	 */
-	public String categoryToString(String name,int tag){
-		return name+"@"+tag+",";
-	}
-	
-	public static ArrayList<Category> getCategoryList(String categoryInfoStr){
-		if(categoryInfoStr!=null&&!categoryInfoStr.equals("")){
-			ArrayList<Category> categorys = new ArrayList<Category>();
-			String[] category = categoryInfoStr.split(",");
-			try {
-				for (String string : category) {
-					String[] categoryInfo = string.split("@");
-					categorys.add(new Category(categoryInfo[0],Integer.valueOf(categoryInfo[1])));
-				}
-				return categorys;
-			} catch (ArrayIndexOutOfBoundsException e) {
-				e.printStackTrace();
-				return new ArrayList<Category>();
-			}
-		}
-		return new ArrayList<Category>();
-	}
-	
-	public int getTag() {
-		return tag;
-	}
+    public static final String[] CATEGORY_KEY_NAMES = new String[]{"notice", "exam", "task", "training", "shelf"};
+    public static final String[] CATEGORY_KEY_UNREADS = new String[]{"noticeUnreadNum", "examUnreadNum", "taskUnreadNum", "trainUnreadNum", "shelfUnreadNum"};
 
-	public String getName() {
-		return name;
-	}
-	
-	public static String getTitleName(Context mContext,String key,int tag){
-		String title = "";
-		ArrayList<Category> list = getCategoryList(SP.getStringSP(mContext,SP.DEFAULTCACHE, key, "0"));
-		for (int i = 0; i < list.size(); i++) {
-			if (list.get(i).getTag() == tag) {
-				title = list.get(i).getName();
-			}
-		}
-		return title;
-	}
-	
-	public static int getTitleTag(Context mContext,String key,String name){
-		if(TextUtils.isEmpty(name)){
-			return 0;
-		}
-		int tag = 0;
-		ArrayList<Category> list = getCategoryList(SP.getStringSP(mContext,SP.DEFAULTCACHE, key, "0"));
-		for (int i = 0; i < list.size(); i++) {
-			if (list.get(i).getName().equals(name)) {
-				tag = list.get(i).getTag();
-			}
-		}
-		return tag;
-	}
+    public int tag; // 类别id
+    public String subject; // 标题
+    public String rid; // 资源唯一标识 主键id ，资源id
+    public String department;// 部门
+    public int top; // 是否置顶 top 默认为0，1表示置顶
+    public long time; // 发布时间
+    public String url; // 资源url 对应不同类型
+    public int subtype; // 资源类型
+
+    public Category(JSONObject jsonObject) {
+        this.rid = jsonObject.optString(ResponseParams.CATEGORY_RID);
+        this.subject = jsonObject.optString(ResponseParams.CATEGORY_SUBJECT);
+        this.department = jsonObject
+                .optString(ResponseParams.CATEGORY_DEPARTMENT);
+        this.time = jsonObject.optLong(ResponseParams.CATEGORY_TIME) * 1000;
+        this.top = jsonObject.optInt(ResponseParams.CATEGORY_TOP);
+        this.tag = jsonObject
+                .optInt(ResponseParams.CATEGORY_TAG);
+        this.url = jsonObject.optString(ResponseParams.CATEGORY_URL);
+        this.subtype = jsonObject.optInt(ResponseParams.CATEGORY_SUBTYPE);
+    }
+
+    public abstract int getCategoryType();
+
+    public abstract String getCategoryKeyName();
+
+    public abstract String getCategoryKeyUnread();
+
 }

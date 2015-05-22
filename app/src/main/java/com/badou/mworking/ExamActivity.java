@@ -52,8 +52,7 @@ import java.util.ArrayList;
 import cn.jpush.android.api.JPushInterface;
 
 /**
- * @author gejianfeng
- *         ExamActivity 考试页面
+ * ExamActivity 考试页面
  */
 public class ExamActivity extends BaseProgressListActivity {
 
@@ -64,9 +63,8 @@ public class ExamActivity extends BaseProgressListActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        CATEGORY_SP_KEY = SP.EXAM;
-        CATEGORY_NAME = Exam.CATEGORY_EXAM;
-        CATEGORY_UNREAD_NUM = Exam.UNREAD_NUM_EXAM;
+        CATEGORY_NAME = Exam.CATEGORY_KEY_NAME;
+        CATEGORY_UNREAD_NUM = Exam.CATEGORY_KEY_UNREAD_NUM;
         super.onCreate(savedInstanceState);
         try {
             ExamActivity.examRid = "";       //先清空ExamActivity.examRid对象ExamActivity
@@ -95,7 +93,7 @@ public class ExamActivity extends BaseProgressListActivity {
     protected void onItemClick(int position) {
         BackWebActivity.PAGEFLAG = BackWebActivity.EXAM;
         Exam exam = (Exam) mCategoryAdapter.getItem(position - 1);
-        int subtype = exam.getType();
+        int subtype = exam.subtype;
         if (Constant.MWKG_FORAMT_TYPE_XML != subtype) {
             return;
         }
@@ -105,11 +103,11 @@ public class ExamActivity extends BaseProgressListActivity {
             return;
         }
         String uid = ((AppApplication) getApplicationContext()).getUserInfo().getUserId();
-        String url = Net.getRunHost(mContext) + Net.EXAM_ITEM(uid, exam.getExamId());
+        String url = Net.getRunHost(mContext) + Net.EXAM_ITEM(uid, exam.rid);
         Intent intents = new Intent(mContext, BackWebActivity.class);
         intents.putExtra(BackWebActivity.VALUE_URL, url);
         intents.putExtra(BackWebActivity.ISSHOWTONGJI, true);
-        int tag = exam.getTag();
+        int tag = exam.tag;
         String title = "";
         if (tag >= 0) {
             // 获取分类名

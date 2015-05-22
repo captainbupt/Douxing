@@ -92,6 +92,7 @@
     <string name="text_cancel">取消</string>
     <string name="text_search">搜索</string>
     <string name="train_readPdf_fail">您的系统暂不支持阅读课件。</string>
+    <string name="train_unsupport_type">当前版本暂不支持该操作</string>
     <string name="title_name_about">关于我们</string>
     <string name="title_name_Myzhanghao">账号管理</string>
     <string name="title_name_NeiRongXiangQing">内容详情</string>
@@ -187,8 +188,8 @@
     <string name="score_thi">一般吧</string>
 	<string name="score_fou">哎呦，不错哦～</string>
 	<string name="score_fif">太棒了，非常实用！</string>
-	<string name="pingfen">&#160;&#160;给个评分</string>
-	<string name="taolun">&#160;&#160;参与讨论</string>  
+	<string name="pingfen">给个评分</string>
+	<string name="taolun">参与讨论</string>
 	<string name="kejian_tips">您还没有浏览课件，看过了再来评价吧！</string>
 	<string name="exam_rating_title">加权平均分计算方法</string>
 	<string name="exam_rating_content">考试科目1*对应科目学分+考试科目2*对应科目学分+.../总学分数。</string>

@@ -21,11 +21,7 @@ import com.badou.mworking.util.SP;
 import java.util.List;
 
 /**
- * 类:  <code> MainGridAdapter </code>
  * 功能描述:  主页面adapter
- * 创建人:  葛建锋
- * 创建日期: 2014年7月18日 上午9:39:08
- * 开发环境: JDK7.0
  */
 public class MainGridAdapter extends MyBaseAdapter {
 
@@ -80,13 +76,13 @@ public class MainGridAdapter extends MyBaseAdapter {
         String userNum = ((AppApplication) mContext.getApplicationContext())
                 .getUserInfo().getUserNumber();
         if (RequestParams.CHK_UPDATA_PIC_NOTICE.equals(tag)) {//通知公告
-            num = SP.getIntSP(mContext, SP.DEFAULTCACHE, userNum + Notice.UNREAD_NUM_NOTICE, 0);
+            num = SP.getIntSP(mContext, SP.DEFAULTCACHE, userNum + Notice.CATEGORY_KEY_UNREAD_NUM, 0);
         } else if (RequestParams.CHK_UPDATA_PIC_TRAIN.equals(tag)) {//微培训
-            num = SP.getIntSP(mContext, SP.DEFAULTCACHE, userNum + Train.UNREAD_NUM_TRAIN, 0);
+            num = SP.getIntSP(mContext, SP.DEFAULTCACHE, userNum + Train.CATEGORY_KEY_UNREAD_NUM, 0);
         } else if (RequestParams.CHK_UPDATA_PIC_EXAM.equals(tag)) {//在线考试
-            num = SP.getIntSP(mContext, SP.DEFAULTCACHE, userNum + Exam.UNREAD_NUM_EXAM, 0);
+            num = SP.getIntSP(mContext, SP.DEFAULTCACHE, userNum + Exam.CATEGORY_KEY_UNREAD_NUM, 0);
         } else if (RequestParams.CHK_UPDATA_PIC_TASK.equals(tag)) {//任务签到
-            num = SP.getIntSP(mContext, SP.DEFAULTCACHE, userNum + Task.UNREAD_NUM_TASK, 0);
+            num = SP.getIntSP(mContext, SP.DEFAULTCACHE, userNum + Task.CATEGORY_KEY_UNREAD_NUM, 0);
         }
         //主页没有聊天模块，默认这个数量就没有了
 //		else if (RequestParams.CHK_UPDATA_PIC_CHAT.equals(tag)) { //聊天

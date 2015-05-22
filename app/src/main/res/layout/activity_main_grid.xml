@@ -1,61 +1,52 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_layout_bg" >
+    android:background="@color/color_layout_bg"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <include layout="@layout/logo" />
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical" >
+        android:layout_height="0dp"
+        android:layout_weight="4.4">
 
-        <include 
-            layout="@layout/logo"
-            />
-
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="4.4" >
+            android:layout_height="240dp"
+            android:orientation="vertical">
+
+            <com.badou.mworking.widget.BannerGallery
+                android:id="@+id/gallery"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_bottomNavPoint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
+            android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="240dp"
-                android:orientation="vertical" >
-
-                <com.badou.mworking.widget.BannerGallery
-                    android:id="@+id/gallery"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_bottomNavPoint"
-                android:layout_width="match_parent"
+                android:id="@+id/ll_focus_indicator_container"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
                 android:gravity="center"
-                android:orientation="vertical" >
+                android:orientation="horizontal" />
+        </LinearLayout>
+    </RelativeLayout>
 
-                <LinearLayout
-                    android:id="@+id/ll_focus_indicator_container"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="horizontal" />
-            </LinearLayout>
-        </RelativeLayout>
-
-        <GridView
-            android:id="@+id/gv_main_grid_second"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_margin="@dimen/offset_small"
-            android:layout_weight="8"
-            android:horizontalSpacing="@dimen/offset_less"
-            android:numColumns="3"
-            android:scrollbars="none"
-            android:verticalSpacing="@dimen/offset_small" >
-        </GridView>
-    </LinearLayout>
-
-</RelativeLayout>
+    <GridView
+        android:id="@+id/gv_main_grid_second"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/offset_small"
+        android:layout_weight="8"
+        android:horizontalSpacing="@dimen/offset_less"
+        android:numColumns="3"
+        android:scrollbars="none"
+        android:verticalSpacing="@dimen/offset_small"></GridView>
+</LinearLayout>

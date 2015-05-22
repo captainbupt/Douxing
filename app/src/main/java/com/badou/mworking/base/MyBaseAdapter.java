@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.widget.BaseAdapter;
 
+import com.badou.mworking.model.Task;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,11 +29,17 @@ public abstract class MyBaseAdapter extends BaseAdapter {
         this.mInflater = LayoutInflater.from(mContext);
     }
 
+    /**
+     * 功能描述: 重新设置list
+     */
     public void setList(List<Object> list) {
         this.mItemList = list;
         notifyDataSetChanged();
     }
 
+    /**
+     * 功能描述:添加上拉新加载的 list
+     */
     public void addList(List<Object> list) {
         if (list == null || list.size() == 0) {
             return;
@@ -39,13 +47,15 @@ public abstract class MyBaseAdapter extends BaseAdapter {
         if (mItemList == null) {
             setList(list);
             return;
-        }
-        for (Object o : list) {
-            mItemList.add(o);
+        }else{
+            mItemList.addAll(list);
         }
         notifyDataSetChanged();
     }
 
+    /**
+     * 功能描述: 添加一个item
+     */
     public void addItem(Object object) {
         if (object == null)
             return;
@@ -53,6 +63,17 @@ public abstract class MyBaseAdapter extends BaseAdapter {
             mItemList = new ArrayList<>();
         }
         mItemList.add(object);
+        notifyDataSetChanged();
+    }
+
+    /**
+     * 功能描述:替换一个item
+     */
+    public void changeItem(int position, Object object){
+        if (object!=null) {
+            //替换指定元素
+            mItemList.set(position, object);
+        }
         notifyDataSetChanged();
     }
 

@@ -47,7 +47,7 @@ public class MakeupExaminationAdapter extends BaseAdapter{
 		convertView = layoutInflater.inflate(R.layout.makeupexaminationadapter, null);
 		TextView examTitleTv= (TextView) convertView.findViewById(R.id.exam_title_tv);
 		Exam exam = exams.get(position);
-		examTitleTv.setText(exam.getSubject());
+		examTitleTv.setText(exam.subject);
 		return convertView;
 	}
 }

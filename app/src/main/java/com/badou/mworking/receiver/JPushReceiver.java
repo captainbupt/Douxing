@@ -114,28 +114,24 @@ public class JPushReceiver extends BroadcastReceiver {
 					// 在线考试
 					if (type.equals(TYPE_EXAM)) {
 						AppManager.finishActivity(ExamActivity.class);
-						Category.CLICKMAINICON = Category.CATEGORY_EXAM;
 						Intent examIntent = new Intent(context,ExamActivity.class);
 						examIntent.putExtras(bundle);
 						examIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 						context.startActivity(examIntent);
 					// 通知公告
 					} else if (type.equals(TYPE_NOTICE)) {
-						Category.CLICKMAINICON = Category.CATEGORY_NOTICE;
 						Intent noticeIntent = new Intent(context,NoticeActivity.class);
 						noticeIntent.putExtras(bundle);
 						noticeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 						context.startActivity(noticeIntent);
 					//微培训
 					} else if (type.equals(TYPE_TRAIN)) {
-						Category.CLICKMAINICON = Category.CATEGORY_TRAIN;
 						Intent trainIntent = new Intent(context,TrainActivity.class);
 						trainIntent.putExtras(bundle);
 						trainIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 						context.startActivity(trainIntent);
 					// 任务签到
 					}else if (type.equals(TYPE_TASK)){
-						Category.CLICKMAINICON = Category.CATEGORY_TASK;
 						Intent taskIntent = new Intent(context,TaskActivity.class);
 						taskIntent.putExtras(bundle);
 						taskIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -13,32 +13,22 @@ public class ResponseParams {
 	public static final String USER_NAME = "name";//用户名称
 	public static final String USER_PHONE = "phone";//手机号
 	public static final String USER_DESC = "desc";//推送信息
-	public static final String RESOURCE_ID = "rid";//资源id
-	public static final String RESOURCE_TIME = "ts";//资源时间戳
-	public static final String RESOURCE_STATU = "status";//资源后台是否存在
-	public static final String RESOURCE_TOP = "top";//资源置顶
 	
 	/**
 	 * notice
 	 */
-	public static final String NOTICE_SUBJECT = "subject";//标题
-	public static final String NOTICE_DEPARTMENT = "department";//部门
-	public static final String NOTICE_URL = "url";//网页地址
 	public static final String NOTICE_TYPE = "subtype";//类型
 	/**
 	 * training
 	 */
-	public static final String TRAIN_SUBJECT = "subject";//标题
-	public static final String TRAIN_DEPARTMENT = "department";//部门
 	public static final String TRAIN_URL = "url";//pdf下载地址
-	public static final String TRAIN_TYPE = "subtype";//类型
 	public static final String TRAIN_TAG = "tag";//分类
 	public static final String TRAIN_FEEDBACK_COUNT = "cnt";//点赞数
 	/**
 	 * 课件点赞和评论
 	 */
 	public static final String COMMENT_NUM = "ccnt";//评论数量
-	public static final String ZAN_NUM = "mcnt";//点赞数量
+	public static final String RATING_NUM = "mcnt";//点赞数量
 	public static final String ECNT = "ecnt";//评分人数
 	public static final String EVAL = "eval";//评分总分
 	/**
@@ -61,8 +51,6 @@ public class ResponseParams {
 	/**
 	 * task
 	 * */
-	public static final String TASK_SUBJECT = "subject";//标题
-	public static final String TASK_DEPARTMENT = "department";//部门
 	public static final String TASK_URL = "url";//
 	public static final String TASK_DEADTIME = "deadtime";//截止时间
 	public static final String TASK_SUBTYPE = "subtype";//分类 
@@ -98,9 +86,6 @@ public class ResponseParams {
 	/**
 	 * question
 	 * */
-	public static final String QUESTION_DATA = "data";//数据
-	public static final String QUESTION_TTLCNT = "ttlcnt";//评论总数
-	public static final String QUESTION_RESULT = "result";//获取同事圈
 
 	public static final String QUESTION_CONTENT = "content";//内容
 	public static final String QUESTION_ID = "id";//id
@@ -114,9 +99,6 @@ public class ResponseParams {
 	public static final String QUESTION_TYPE = "type";//类型
 	public static final String QUESTION_EMPLOYEE_ID = "employee_id";//员工号
 	public static final String QUESTION_ERRCODE = "errcode";//错误码
-	public static final String QUESTION_DETAIL_ERRCODE = "errcode";//错误码
-	public static final String QUESTION_DETAIL_DATA = "data";//数据
-	public static final String QUESTION_DETTAIL_RESULT = "result";//同事圈数据
 	public static final String QUESTION_DETAIL_ANSWER_CONTENT = "c";
 	public static final String QUESTION_DETAIL_EMPLOYEE = "e";//员工号
 	public static final String QUESTION_DETAIL_TIME = "t";//时间
@@ -128,8 +110,15 @@ public class ResponseParams {
 	/**
 	 * categorys
 	 */
+	public static final String CATEGORY_SUBJECT = "subject";//标题
+	public static final String CATEGORY_DEPARTMENT = "department";//部门
+	public static final String CATEGORY_RID = "rid";//资源id
+	public static final String CATEGORY_TIME = "ts";//资源时间戳
 	public static final String CATEGORY_TAG = "tag";//类别tag
 	public static final String CATEGORY_NAME = "name";//名称
+	public static final String CATEGORY_TOP = "top"; // 是否置顶
+	public static final String CATEGORY_URL = "url";//网页地址
+	public static final String CATEGORY_SUBTYPE = "subtype";//类型
 
 	/**
 	 * knowledge library

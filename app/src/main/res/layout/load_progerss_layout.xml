@@ -13,7 +13,7 @@
         android:textSize="@dimen/text_size_medium"
         android:textColor="@android:color/black" />
 
-    <org.holoeverywhere.widget.ProgressBar
+    <ProgressBar
         android:id="@+id/load_progressBar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"

@@ -344,7 +344,7 @@ public class UserCenterActivity extends BaseNoTitleActivity {
                 headWidth, headHeight);
         if (headBmp != null) {
             ivUserHeadIcon.setImageBitmap(headBmp);
-            BitmapLruCache.getBitmapLruCache().putCircleBitmap(imgUrl, headBmp);
+            BitmapLruCache.getBitmapLruCache().putCircleBitmap(imgCacheUrl, headBmp);
             return;
         } else {
             MyVolley.getImageLoader().get(

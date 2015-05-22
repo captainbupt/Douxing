@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_white">
+    android:background="@color/color_white"
+    >
 
     <include
         android:id="@+id/layout_action"
@@ -57,13 +58,13 @@
         android:layout_below="@id/textView1"
         android:layout_marginLeft="@dimen/media_paddingLR"
         android:layout_marginRight="@dimen/media_paddingLR"
-        android:background="@color/color_bg_blue">
+        android:background="@color/color_bg_blue" >
 
         <RelativeLayout
             android:id="@+id/rl_player"
             android:layout_width="match_parent"
             android:layout_height="@dimen/music_pic_h"
-            android:background="@drawable/bg_music">
+            android:background="@drawable/bg_music" >
 
             <ImageView
                 android:id="@+id/imgDownLoad"
@@ -71,13 +72,13 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:src="@drawable/btn_download" />
-
-            <ProgressBar
+            <ProgressBar 
                 android:id="@+id/pro_downloading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:visibility="gone" />
+                android:visibility="gone"
+                />
         </RelativeLayout>
 
         <RelativeLayout
@@ -87,7 +88,8 @@
             android:gravity="center_vertical"
             android:paddingBottom="@dimen/offset_less"
             android:paddingTop="@dimen/offset_less"
-            android:background="@color/bg_layout_media_ctrl">
+            android:background="@color/bg_layout_media_ctrl"
+             >
 
             <TextView
                 android:id="@+id/tvPlayer"
@@ -98,7 +100,8 @@
                 android:layout_marginLeft="@dimen/offset_medium"
                 android:layout_marginTop="@dimen/offset_small"
                 android:background="@drawable/btn_start"
-                android:visibility="gone" />
+                android:visibility="gone"
+                 />
 
             <TextView
                 android:id="@+id/tvCurrentTime"
@@ -109,8 +112,9 @@
                 android:paddingLeft="@dimen/offset_small"
                 android:paddingRight="@dimen/offset_small"
                 android:singleLine="true"
-                android:text=""
-                android:visibility="gone" />
+                android:text="" 
+                android:visibility="gone"
+                />
 
             <SeekBar
                 android:id="@+id/seekbar"

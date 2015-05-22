@@ -55,7 +55,7 @@ public class ExamAdapter extends MyBaseAdapter {
                     isFinsh.setText(mContext.getResources().getString(R.string.exam_isFinish));
                     myscoreTv.setVisibility(View.VISIBLE);
                 } else {
-                    isFinsh.setText(exam.getScore() + mContext.getResources().getString(R.string.text_score));
+                    isFinsh.setText(exam.score + mContext.getResources().getString(R.string.text_score));
                     myscoreTv.setVisibility(View.INVISIBLE);
                 }
             }
@@ -64,7 +64,7 @@ public class ExamAdapter extends MyBaseAdapter {
         } else {
             myscoreTv.setVisibility(View.INVISIBLE);
             //显示:已过期
-            if (exam.getOffline() == Constant.OVERDUE_YES) {
+            if (exam.offline == Constant.OVERDUE_YES) {
                 isFinsh.setText(mContext.getResources().getString(R.string.isDeadtime));
                 isFinsh.setTextColor(mContext.getResources()
                         .getColor(R.color.color_exam_grey));
@@ -75,13 +75,13 @@ public class ExamAdapter extends MyBaseAdapter {
                         .getColor(R.color.color_exam_grey));
             }
         }
-        if (exam.getTop() == Constant.TOP_YES && !isUserCenter) {
+        if (exam.top == Constant.TOP_YES && !isUserCenter) {
             top.setVisibility(View.VISIBLE);
         } else {
             top.setVisibility(View.INVISIBLE);
         }
         // 考试已完成或者已过期
-        if (exam.isFinish() || (exam.getOffline() == Constant.OVERDUE_YES)) {
+        if (exam.isFinish() || (exam.offline == Constant.OVERDUE_YES)) {
             rl_isReadbg.setBackgroundResource(R.drawable.icon_read_);
         } else {
             rl_isReadbg
@@ -97,17 +97,17 @@ public class ExamAdapter extends MyBaseAdapter {
 			}
 		}*/
         //我的分数 * 5 / 总分 = ratBar的长度
-        myscoreTv.setText(exam.getScore() + "分");
+        myscoreTv.setText(exam.score + "分");
         // 个人中心进入不显示星星
         if (isUserCenter) {
             myscoreTv.setVisibility(View.INVISIBLE);
         }
-        subject.setText(exam.getSubject());
+        subject.setText(exam.subject);
         if (ExamAdapter.isHistory) {
-            department_time.setText(exam.getCredit() + "学分  "
-                    + TimeTransfer.long2StringDetailDate(mContext, exam.getTime()));
+            department_time.setText(exam.credit + "学分  "
+                    + TimeTransfer.long2StringDetailDate(mContext, exam.time));
         } else {
-            department_time.setText(TimeTransfer.long2StringDetailDate(mContext, exam.getTime()));
+            department_time.setText(TimeTransfer.long2StringDetailDate(mContext, exam.time));
         }
         return convertView;
     }
