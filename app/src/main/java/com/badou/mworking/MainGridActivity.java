@@ -40,6 +40,7 @@ import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.SP;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.BannerGallery;
+import com.badou.mworking.widget.TopFadeScrollView;
 
 import org.holoeverywhere.widget.RadioButton;
 import org.json.JSONArray;
@@ -78,6 +79,8 @@ public class MainGridActivity extends BaseNoTitleActivity {
      */
     private RadioGroup mIndicatorRadioGroup;
     private List<RadioButton> mIndicatorRadioButtonList;
+
+    private TopFadeScrollView mScrollView;
 
     private ImageView mUserCentertImageView;    //logo 布局左边图标，点击进入个人中心
     private ImageView mSearchImageView;    //logo 布局右边图标，点击进入搜索页面
@@ -127,6 +130,8 @@ public class MainGridActivity extends BaseNoTitleActivity {
         mBannerGallery = (BannerGallery) findViewById(R.id.gallery_main_banner);
         int height = AppApplication.getScreenWidth(mContext) * 400 / 720; // 按屏幕宽度，计算banner高度
         mBannerGallery.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, height));
+        mScrollView = (TopFadeScrollView) findViewById(R.id.tfsv_main_grid);
+        mScrollView.setTopViewId(R.id.rl_main_grid_banner);
     }
 
     /**

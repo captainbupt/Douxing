@@ -6,7 +6,8 @@
 
     <include layout="@layout/activity_main_title_bar" />
 
-    <ScrollView
+    <com.badou.mworking.widget.TopFadeScrollView
+        android:id="@+id/tfsv_main_grid"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -16,6 +17,7 @@
             android:orientation="vertical">
 
             <org.holoeverywhere.widget.RelativeLayout
+                android:id="@+id/rl_main_grid_banner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -43,5 +45,5 @@
                 android:numColumns="2"
                 android:scrollbars="none" />
         </org.holoeverywhere.widget.LinearLayout>
-    </ScrollView>
+    </com.badou.mworking.widget.TopFadeScrollView>
 </LinearLayout>
