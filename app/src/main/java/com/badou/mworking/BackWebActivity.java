@@ -135,7 +135,7 @@ public class BackWebActivity extends BaseBackWebViewActivity {
      */
     private void bannerDate() {
         setActionbarTitle("");
-        getSupportActionBar().setCustomView(R.layout.logo);
+        getSupportActionBar().setCustomView(R.layout.activity_main_title_bar);
         ViewGroup layout_action = (ViewGroup) getSupportActionBar().getCustomView().findViewById(R.id.logo_bg);
         ImageView logoImg = (ImageView) layout_action.findViewById(R.id.icon_top);
         // 调用缓存中的企业logoUrl图片，这样断网的情况也会显示出来了，如果本地没有的话，网络获取
@@ -149,15 +149,6 @@ public class BackWebActivity extends BaseBackWebViewActivity {
                     new IconLoadListener(mContext, logoImg, logoUrl,
                             R.drawable.logo));
         }
-        ImageView leftImg = (ImageView) layout_action.findViewById(R.id.left_img);
-        leftImg.setVisibility(View.VISIBLE);
-        leftImg.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-                BackWebActivity.this.finish();
-            }
-        });
     }
 
     /**

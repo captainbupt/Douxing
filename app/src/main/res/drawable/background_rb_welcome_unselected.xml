@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="oval" >
-
-    <size
-        android:height="@dimen/icon_size_welcome_rb"
-        android:width="@dimen/icon_size_welcome_rb" />
-
-    <solid android:color="#999999" />
-
+    android:shape="oval">
+    <solid android:color="@color/color_white" />
 </shape>

@@ -14,11 +14,8 @@ import org.holoeverywhere.app.AlertDialog;
 import org.holoeverywhere.widget.GridView;
 
 import android.widget.ImageView;
-import android.widget.ImageView.ScaleType;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
-
-import org.holoeverywhere.widget.LinearLayout;
 
 import com.android.volley.VolleyError;
 import com.badou.mworking.adapter.BannerAdapter;
@@ -122,8 +119,8 @@ public class MainGridActivity extends BaseNoTitleActivity {
 
 
     protected void initView() {
-        mUserCentertImageView = (ImageView) findViewById(R.id.left_img);
-        mSearchImageView = (ImageView) findViewById(R.id.right_img);
+        mUserCentertImageView = (ImageView) findViewById(R.id.iv_actionbar_left);
+        mSearchImageView = (ImageView) findViewById(R.id.iv_actionbar_right);
         mIconTopImageView = (ImageView) findViewById(R.id.icon_top);
         mMainGridView = (GridView) findViewById(R.id.gv_main_grid_second);
         mIndicatorRadioGroup = (RadioGroup) findViewById(R.id.rg_main_focus_indicator_container);
@@ -143,7 +140,7 @@ public class MainGridActivity extends BaseNoTitleActivity {
                                     long arg3) {
                 Intent intent = new Intent();
                 MainIcon mainIcon = (MainIcon) mMainGridAdapter.getItem(arg2);
-                switch (mainIcon.getMainIconId()) {
+                switch (mainIcon.mainIconId) {
                     case RequestParams.CHK_UPDATA_PIC_NOTICE: // 通知公告
                         intent.setClass(mContext, NoticeActivity.class);
                         break;
@@ -173,7 +170,7 @@ public class MainGridActivity extends BaseNoTitleActivity {
                         intent.setClass(mContext, TrainActivity.class);
                         break;
                 }
-                intent.putExtra(BaseActionBarActivity.KEY_TITLE, mainIcon.getName());
+                intent.putExtra(BaseActionBarActivity.KEY_TITLE, mainIcon.name);
                 startActivity(intent);
                 overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
             }
@@ -184,6 +181,12 @@ public class MainGridActivity extends BaseNoTitleActivity {
                 Intent intent = new Intent(mContext, UserCenterActivity.class);
                 intent.putExtra(BaseActionBarActivity.KEY_TITLE, getResources().getString(R.string.title_name_user_center));
                 startActivity(intent);
+            }
+        });
+        mSearchImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
     }
@@ -203,7 +206,7 @@ public class MainGridActivity extends BaseNoTitleActivity {
             }
         }
         mBannerGallery.setAdapter(mBannerAdapter);
-        InitFocusIndicatorContainer(mBannerList);
+        updateIndicator(mBannerList);
         updateBanner(mBannerList);
         mMainGridAdapter = new MainGridAdapter(mContext, getMainIconList());
         mMainGridView.setAdapter(mMainGridAdapter);
@@ -246,6 +249,31 @@ public class MainGridActivity extends BaseNoTitleActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    /**
+     * 功能描述: 定义底部滑动的小点
+     */
+    private void updateIndicator(List<Object> bannerList) {
+        this.mIndicatorRadioGroup.removeAllViews();
+        if (bannerList == null || bannerList.size() <= 0) {
+            return;
+        }
+        int size = getResources().getDimensionPixelSize(R.dimen.icon_size_main_grid_rb);
+        mIndicatorRadioButtonList = new ArrayList<>();
+        for (int i = 0; i < bannerList.size(); i++) {
+            RadioButton radioButton = new RadioButton(mContext);
+            radioButton.setId(i);
+            RadioGroup.LayoutParams localLayoutParams = new RadioGroup.LayoutParams(
+                    size, size);
+            localLayoutParams.setMargins(size/2, 0, size/2, 0);
+            radioButton.setLayoutParams(localLayoutParams);
+            radioButton.setButtonDrawable(android.R.color.transparent);
+            radioButton
+                    .setBackgroundResource(R.drawable.background_rb_welcome);
+            mIndicatorRadioButtonList.add(radioButton);
+            this.mIndicatorRadioGroup.addView(radioButton);
+        }
     }
 
     @Override
@@ -388,31 +416,6 @@ public class MainGridActivity extends BaseNoTitleActivity {
     }
 
     /**
-     * 功能描述: 定义底部滑动的小点
-     */
-    private void InitFocusIndicatorContainer(List<Object> blist) {
-        this.mIndicatorRadioGroup.removeAllViews();
-        if (blist == null || blist.size() <= 0) {
-            return;
-        }
-        int padding = getResources().getDimensionPixelOffset(R.dimen.offset_small);
-        int size = getResources().getDimensionPixelSize(R.dimen.icon_size_tiny);
-        mIndicatorRadioButtonList = new ArrayList<>();
-        for (int i = 0; i < blist.size(); i++) {
-            RadioButton localImageView = new RadioButton(mContext);
-            localImageView.setId(i);
-            LinearLayout.LayoutParams localLayoutParams = new LinearLayout.LayoutParams(
-                    size, size);
-            localImageView.setLayoutParams(localLayoutParams);
-            localImageView.setPadding(padding, padding, padding, padding);
-            localImageView
-                    .setBackgroundResource(R.drawable.background_rb_welcome);
-            mIndicatorRadioButtonList.add(localImageView);
-            this.mIndicatorRadioGroup.addView(localImageView);
-        }
-    }
-
-    /**
      * 功能描述:初始化MainIcon的数据
      */
     private List<Object> getMainIconList() {
@@ -443,7 +446,7 @@ public class MainGridActivity extends BaseNoTitleActivity {
         Collections.sort(mainIconList, new Comparator<Object>() {
             @Override
             public int compare(Object t1, Object t2) {
-                return Integer.valueOf(((MainIcon) t1).getPriority()) < Integer.valueOf(((MainIcon) t2).getPriority()) ? 1 : -1;
+                return Integer.valueOf(((MainIcon) t1).priority) < Integer.valueOf(((MainIcon) t2).priority) ? 1 : -1;
             }
         }); //对list进行排序
         return mainIconList;
@@ -461,8 +464,7 @@ public class MainGridActivity extends BaseNoTitleActivity {
         if (TextUtils.isEmpty(title)) {
             title = mContext.getResources().getString(defaultTitleResId);
         }
-        MainIcon mainIcon = new MainIcon(key, resId, title, priority);
-        return mainIcon;
+        return new MainIcon(key, resId, title, priority);
     }
 
     /**

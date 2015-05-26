@@ -38,7 +38,7 @@
 
     <!-- activity welcome -->
 
-    <dimen name="icon_size_welcome_rb">8dp</dimen>
+    <dimen name="icon_size_main_grid_rb">7dp</dimen>
     <dimen name="text_size_welcome_button">@dimen/text_size_medium</dimen>
 
     <!-- activity login -->
@@ -72,12 +72,7 @@
     <!-- activity main grid -->
 
     <dimen name="text_size_main_grid_text">@dimen/text_size_medium</dimen>
-    <dimen name="icon_size_main_grid_category">110dp</dimen>
-    <dimen name="icon_size_main_grid_logo_width">146dp</dimen>
-    <dimen name="icon_size_main_grid_logo_height">60dp</dimen>
-    <dimen name="icon_size_main_grid_about_us">55dp</dimen>
-    <dimen name="offset_main_grid_number_top">16dp</dimen>
-    <dimen name="offset_main_grid_number_right">22dp</dimen>
+    <dimen name="icon_size_main_grid_category">45dp</dimen>
 
     <!-- activity base -->
 
