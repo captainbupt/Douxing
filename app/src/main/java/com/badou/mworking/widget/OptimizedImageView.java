@@ -2,6 +2,7 @@ package com.badou.mworking.widget;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.AttributeSet;
 import android.view.Display;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -14,6 +15,11 @@ public class OptimizedImageView extends ImageView {
 
 	public OptimizedImageView(Context context) {
 		super(context);
+		this.mContext = context;
+	}
+
+	public OptimizedImageView(Context context, AttributeSet attrs) {
+		super(context, attrs);
 		this.mContext = context;
 	}
 

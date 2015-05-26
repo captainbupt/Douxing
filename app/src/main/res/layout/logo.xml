@@ -3,37 +3,32 @@
     android:id='@+id/logo_bg'
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/action_bg" >
-    
+    android:background="@color/color_bg_grey">
+
     <ImageView
-        android:id="@+id/left_img"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:scaleType="centerCrop"
-        android:layout_alignParentLeft="true"
-        android:src="@drawable/icon_user"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="10dp"
-      />
-    
-    <ImageView
-        android:id="@+id/right_img"
+        android:id="@+id/iv_actionbar_left"
         android:layout_width="@dimen/actionBar_img_size"
         android:layout_height="@dimen/actionBar_img_size"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:padding="@dimen/offset_less"
         android:scaleType="centerInside"
-        android:src="@drawable/title_bar_back_normal" 
-        android:visibility="gone"
-        />
-   
+        android:src="@drawable/icon_user" />
+
     <ImageView
         android:id="@+id/icon_top"
         android:layout_width="wrap_content"
-        android:layout_height="78px"
+        android:layout_height="actionBar_img_size"
         android:layout_centerInParent="true"
+        android:scaleType="centerInside" />
+
+    <ImageView
+        android:id="@+id/iv_actionbar_right"
+        android:layout_width="@dimen/actionBar_img_size"
+        android:layout_height="actionBar_img_size"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
         android:scaleType="centerInside"
-      />
+        android:visibility="gone" />
 
 </RelativeLayout>

@@ -9,11 +9,16 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.GridView;
+
+import org.holoeverywhere.app.AlertDialog;
+import org.holoeverywhere.widget.GridView;
+
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
-import android.widget.LinearLayout;
-import android.widget.Toast;
+import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
+
+import org.holoeverywhere.widget.LinearLayout;
 
 import com.android.volley.VolleyError;
 import com.badou.mworking.adapter.BannerAdapter;
@@ -39,7 +44,7 @@ import com.badou.mworking.util.SP;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.BannerGallery;
 
-import org.holoeverywhere.app.AlertDialog;
+import org.holoeverywhere.widget.RadioButton;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -53,33 +58,32 @@ import java.util.List;
 import cn.jpush.android.api.JPushInterface;
 
 /**
- * 类: <code> MainGridActivity </code> 功能描述: 主页面 创建人: 葛建锋 创建日期: 2014年7月15日
- * 下午3:37:14 开发环境: JDK7.0
+ * 功能描述: 主页面
  */
 public class MainGridActivity extends BaseNoTitleActivity {
 
-    private long exitTime = 0; // 记录系统时间
-    private MainGridAdapter mainGridAdapter;
+    private long mExitTime = 0; // 记录系统时间
+    private MainGridAdapter mMainGridAdapter;
 
-    private GridView gridView;
+    private GridView mMainGridView;
 
-    private ImageView iconTop; // 企业log imageview
+    private ImageView mIconTopImageView; // 企业log imageview
     /**
-     * 保存banner的list*
+     * 保存banner的adapter
      */
-    private ArrayList<MainBanner> bannerList;
+    private BannerAdapter mBannerAdapter;
     /**
      * 显示bannner*
      */
-    private BannerGallery bannerGallery = null;
+    private BannerGallery mBannerGallery = null;
     /**
      * 小原点*
      */
-    private ArrayList<ImageView> portImg;
-    private int preSelImgIndex = 0; // 存储上一个选择项的Index
-    private LinearLayout ll_focus_indicator_container = null;
+    private RadioGroup mIndicatorRadioGroup;
+    private List<RadioButton> mIndicatorRadioButtonList;
 
-    private ImageView leftImageView;    //logo 布局左边图表，点击进入个人中心
+    private ImageView mUserCentertImageView;    //logo 布局左边图标，点击进入个人中心
+    private ImageView mSearchImageView;    //logo 布局右边图标，点击进入搜索页面
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +110,7 @@ public class MainGridActivity extends BaseNoTitleActivity {
 
     }
 
-    private void initJPush(){
+    private void initJPush() {
 
         JPushInterface.init(getApplicationContext());
         //push 推送默认开启，如果用户关闭掉推送的话，在这里停掉推送
@@ -118,24 +122,27 @@ public class MainGridActivity extends BaseNoTitleActivity {
 
 
     protected void initView() {
-        leftImageView = (ImageView) findViewById(R.id.left_img);
-        iconTop = (ImageView) findViewById(R.id.icon_top);
-        gridView = (GridView) findViewById(R.id.gv_main_grid_second);
-        ll_focus_indicator_container = (LinearLayout) findViewById(R.id.ll_focus_indicator_container);
-        bannerGallery = (BannerGallery) findViewById(R.id.gallery);
+        mUserCentertImageView = (ImageView) findViewById(R.id.left_img);
+        mSearchImageView = (ImageView) findViewById(R.id.right_img);
+        mIconTopImageView = (ImageView) findViewById(R.id.icon_top);
+        mMainGridView = (GridView) findViewById(R.id.gv_main_grid_second);
+        mIndicatorRadioGroup = (RadioGroup) findViewById(R.id.rg_main_focus_indicator_container);
+        mBannerGallery = (BannerGallery) findViewById(R.id.gallery_main_banner);
+        int height = AppApplication.getScreenWidth(mContext) * 400 / 720; // 按屏幕宽度，计算banner高度
+        mBannerGallery.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, height));
     }
 
     /**
      * 功能描述:设置view的监听
      */
     protected void initListener() {
-        gridView.setOnItemClickListener(new OnItemClickListener() {
+        mMainGridView.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
                                     long arg3) {
                 Intent intent = new Intent();
-                MainIcon mainIcon = (MainIcon) mainGridAdapter.getItem(arg2);
+                MainIcon mainIcon = (MainIcon) mMainGridAdapter.getItem(arg2);
                 switch (mainIcon.getMainIconId()) {
                     case RequestParams.CHK_UPDATA_PIC_NOTICE: // 通知公告
                         intent.setClass(mContext, NoticeActivity.class);
@@ -171,7 +178,7 @@ public class MainGridActivity extends BaseNoTitleActivity {
                 overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
             }
         });
-        leftImageView.setOnClickListener(new View.OnClickListener() {
+        mUserCentertImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, UserCenterActivity.class);
@@ -183,7 +190,8 @@ public class MainGridActivity extends BaseNoTitleActivity {
 
     protected void initData() {
         // 取出SP中的banner内容
-        bannerList = new ArrayList<>();
+        mBannerAdapter = new BannerAdapter(mContext);
+        List<Object> mBannerList = new ArrayList<>();
         String bannerStr = SP.getStringSP(this, SP.DEFAULTCACHE, "banner", "");
         if (bannerStr != null && !bannerStr.equals("")) {
             String[] bannerInfos = bannerStr.split(",");
@@ -191,56 +199,49 @@ public class MainGridActivity extends BaseNoTitleActivity {
                 String[] bannerInfo = string.split("@");
                 MainBanner mainBanner = new MainBanner(bannerInfo[0],
                         bannerInfo[1], bannerInfo[2]);
-                bannerList.add(mainBanner);
+                mBannerList.add(mainBanner);
             }
         }
-        updateBanner(bannerList);
-
-        mainGridAdapter = new MainGridAdapter(mContext, getMainIconList());
-        gridView.setAdapter(mainGridAdapter);
+        mBannerGallery.setAdapter(mBannerAdapter);
+        InitFocusIndicatorContainer(mBannerList);
+        updateBanner(mBannerList);
+        mMainGridAdapter = new MainGridAdapter(mContext, getMainIconList());
+        mMainGridView.setAdapter(mMainGridAdapter);
     }
 
     /**
      * 功能描述: 更新显示的banner
-     *
-     * @param bList
      */
-    private void updateBanner(final ArrayList<MainBanner> bList) {
-        InitFocusIndicatorContainer(bList);
-        bannerGallery.setAdapter(new BannerAdapter(MainGridActivity.this,
-                bList));
-        bannerGallery.setFocusable(true);
-        if (bList.size() <= 0) {
+    private void updateBanner(final List<Object> bList) {
+        mBannerAdapter.setList(bList);
+        mBannerGallery.setFocusable(true);
+        if (bList.size() <= 0) { // 如果没有banner，则取消点击事件
+            mBannerGallery.setOnItemSelectedListener(null);
+            mBannerGallery.setOnItemClickListener(null);
             return;
         }
-        bannerGallery.setOnItemSelectedListener(new OnItemSelectedListener() {
+        mBannerGallery.setOnItemSelectedListener(new OnItemSelectedListener() {
 
             public void onItemSelected(AdapterView<?> arg0, View arg1,
                                        int selIndex, long arg3) {
-
                 selIndex = selIndex % bList.size();
-                // 修改上一次选中项的背景
-                portImg.get(preSelImgIndex).setImageResource(
-                        R.drawable.background_rb_welcome_unselected);
-                // 修改当前选中项的背景
-                portImg.get(selIndex).setImageResource(
-                        R.drawable.background_rb_welcome_selected);
-                preSelImgIndex = selIndex;
+                mIndicatorRadioButtonList.get(selIndex).setChecked(true);
             }
 
             public void onNothingSelected(AdapterView<?> arg0) {
+                mIndicatorRadioButtonList.get(0).setChecked(true);
             }
         });
         /**
          * 点击跳转到webview页
          */
-        bannerGallery.setOnItemClickListener(new OnItemClickListener() {
+        mBannerGallery.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 int pos = position % bList.size();
                 Intent intent = new Intent(mContext, BackWebActivity.class);
-                intent.putExtra(BackWebActivity.VALUE_URL, bList.get(pos).getBannerContentURL() + "");
+                intent.putExtra(BackWebActivity.VALUE_URL, ((MainBanner) bList.get(pos)).getBannerContentURL() + "");
                 BackWebActivity.PAGEFLAG = BackWebActivity.BANNER;
                 startActivity(intent);
             }
@@ -250,8 +251,8 @@ public class MainGridActivity extends BaseNoTitleActivity {
     @Override
     public void onResume() {
         super.onResume();
-        if (mainGridAdapter != null) {
-            mainGridAdapter.notifyDataSetChanged();
+        if (mMainGridAdapter != null) {
+            mMainGridAdapter.notifyDataSetChanged();
         }
     }
 
@@ -261,10 +262,9 @@ public class MainGridActivity extends BaseNoTitleActivity {
     @Override
     public void onBackPressed() {
         // 应为系统当前的系统毫秒数一定小于2000
-        if ((System.currentTimeMillis() - exitTime) > 2000) {
-            Toast.makeText(getApplicationContext(), R.string.main_exit_tips,
-                    Toast.LENGTH_SHORT).show();
-            exitTime = System.currentTimeMillis();
+        if ((System.currentTimeMillis() - mExitTime) > 2000) {
+            ToastUtil.showToast(mContext, R.string.main_exit_tips);
+            mExitTime = System.currentTimeMillis();
         } else {
             AppManager.getAppManager().AppExit(this, false);
         }
@@ -291,7 +291,7 @@ public class MainGridActivity extends BaseNoTitleActivity {
 
             @Override
             public void onResponse(Object responseObject) {
-                ArrayList<MainBanner> list = new ArrayList<MainBanner>();
+                List<Object> list = new ArrayList<>();
                 JSONObject response = (JSONObject) responseObject;
                 try {
                     int code = response.optInt(Net.CODE);
@@ -378,11 +378,11 @@ public class MainGridActivity extends BaseNoTitleActivity {
     private void initCompanyLog(String logoUrl) {
         Bitmap logBmp = BitmapLruCache.getBitmapLruCache().get(logoUrl);
         if (logBmp != null && logBmp.isRecycled()) {
-            iconTop.setImageBitmap(logBmp);
+            mIconTopImageView.setImageBitmap(logBmp);
         } else {
             MyVolley.getImageLoader().get(
                     logoUrl,
-                    new IconLoadListener(mContext, iconTop, logoUrl,
+                    new IconLoadListener(mContext, mIconTopImageView, logoUrl,
                             R.drawable.logo));
         }
     }
@@ -390,24 +390,25 @@ public class MainGridActivity extends BaseNoTitleActivity {
     /**
      * 功能描述: 定义底部滑动的小点
      */
-    private void InitFocusIndicatorContainer(ArrayList<MainBanner> blist) {
-        this.ll_focus_indicator_container.removeAllViews();
+    private void InitFocusIndicatorContainer(List<Object> blist) {
+        this.mIndicatorRadioGroup.removeAllViews();
         if (blist == null || blist.size() <= 0) {
             return;
         }
-        portImg = new ArrayList<ImageView>();
+        int padding = getResources().getDimensionPixelOffset(R.dimen.offset_small);
+        int size = getResources().getDimensionPixelSize(R.dimen.icon_size_tiny);
+        mIndicatorRadioButtonList = new ArrayList<>();
         for (int i = 0; i < blist.size(); i++) {
-            ImageView localImageView = new ImageView(MainGridActivity.this);
+            RadioButton localImageView = new RadioButton(mContext);
             localImageView.setId(i);
-            localImageView.setScaleType(ScaleType.FIT_XY);
             LinearLayout.LayoutParams localLayoutParams = new LinearLayout.LayoutParams(
-                    24, 24);
+                    size, size);
             localImageView.setLayoutParams(localLayoutParams);
-            localImageView.setPadding(5, 5, 5, 5);
+            localImageView.setPadding(padding, padding, padding, padding);
             localImageView
-                    .setImageResource(R.drawable.background_rb_welcome_unselected);
-            portImg.add(localImageView);
-            this.ll_focus_indicator_container.addView(localImageView);
+                    .setBackgroundResource(R.drawable.background_rb_welcome);
+            mIndicatorRadioButtonList.add(localImageView);
+            this.mIndicatorRadioGroup.addView(localImageView);
         }
     }
 
@@ -434,15 +435,15 @@ public class MainGridActivity extends BaseNoTitleActivity {
                 .getUserInfo().getAccess();
 
         char[] accessArray = Integer.toBinaryString(access).toCharArray();
-        for (int i = accessArray.length-1; i >= 0 ; i--) {
-            if(accessArray[i] == '0')
+        for (int i = accessArray.length - 1; i >= 0; i--) {
+            if (accessArray[i] == '0')
                 mainIconList.remove(i);
         }
 
         Collections.sort(mainIconList, new Comparator<Object>() {
             @Override
             public int compare(Object t1, Object t2) {
-                return Integer.valueOf(((MainIcon) t1).getPriority()) < Integer.valueOf(((MainIcon)t2).getPriority()) ? 1 : -1;
+                return Integer.valueOf(((MainIcon) t1).getPriority()) < Integer.valueOf(((MainIcon) t2).getPriority()) ? 1 : -1;
             }
         }); //对list进行排序
         return mainIconList;

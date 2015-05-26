@@ -107,7 +107,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/offset_large"
-            android:background="@drawable/btn_bg_blue"
+            android:background="@drawable/background_button_enable_blue_normal"
             android:layout_marginLeft="@dimen/offset_lless"
             android:layout_marginRight="@dimen/offset_lless"
             android:gravity="center"

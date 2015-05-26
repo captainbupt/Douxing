@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.ImageView;
 
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseNoTitleActivity;
@@ -12,6 +13,7 @@ import com.badou.mworking.model.user.UserInfo;
 import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.SP;
 import com.badou.mworking.util.ToastUtil;
+import com.badou.mworking.widget.OptimizedImageView;
 import com.umeng.analytics.MobclickAgent;
 
 import org.holoeverywhere.widget.Toast;
@@ -29,6 +31,9 @@ public class SplashActivity extends BaseNoTitleActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_splash);
+		OptimizedImageView backgroundImage = (OptimizedImageView) findViewById(R.id.iv_activity_splash);
+		backgroundImage.setImageResourceFullScreen(R.drawable.background_splash);
+		
 		String lang = SP.getStringSP(this, SP.DEFAULTCACHE, Constant.LANGUAGE, "zh");
 		//en为英文版，取值zh为中文版。
 		changeLanguage(lang);
@@ -50,7 +55,6 @@ public class SplashActivity extends BaseNoTitleActivity {
 			//判断是否是第一次启动程序
 			if (!SP.getBooleanSP(mContext, SP.DEFAULTCACHE, KEY_IS_FIRST, true)) {
 				//查看shareprefernces中是否保存的UserInfo(登录时保存的)
-				ToastUtil.showToast(mContext, "Not First");
 				UserInfo userInfo = UserInfo.getUserInfo(getApplicationContext());
 				if (userInfo == null) {
 					goLogin();

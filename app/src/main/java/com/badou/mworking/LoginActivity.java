@@ -1,8 +1,9 @@
 package com.badou.mworking;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
-import android.graphics.Color;
+import android.content.res.XmlResourceParser;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -10,9 +11,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
+
+import org.holoeverywhere.widget.Button;
+import org.holoeverywhere.widget.EditText;
+import org.holoeverywhere.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.badou.mworking.base.AppApplication;
@@ -31,14 +33,12 @@ import com.badou.mworking.util.SP;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.InputMethodRelativeLayout;
 import com.badou.mworking.widget.InputMethodRelativeLayout.OnSizeChangedListenner;
-import com.badou.mworking.widget.LoginErrorDialogActivity;
-import com.badou.mworking.widget.WaitProgressDialog;
+import com.badou.mworking.widget.LoginErrorDialog;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 
-import org.holoeverywhere.app.ProgressDialog;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -54,11 +54,11 @@ public class LoginActivity extends BaseNoTitleActivity implements
     private ViewGroup boot;
     private ViewGroup login_logo_layout_h;
     private ViewGroup login_logo_layout_v;
-    private EditText mUsername; // 账号输入框
-    private EditText mPassword; // 密码输入框
-    private Button loginButton; // 登录按钮
-    private TextView forgetBtn; // 忘记密码textview
-    private TextView experienceBtn;// 快速体验
+    private EditText mUsernameEditText; // 账号输入框
+    private EditText mPasswordEdiText; // 密码输入框
+    private Button mLoginButton; // 登录按钮
+    private TextView mForgetTextView; // 忘记密码textview
+    private TextView mExperienceTextView;// 快速体验
     public static final String KEY_ACCOUNT = "user_account";
     public static final String SHUFFLE = "shuffle";
 
@@ -104,11 +104,11 @@ public class LoginActivity extends BaseNoTitleActivity implements
 
     protected void initView() {
         // 实例化控件
-        mUsername = (EditText) findViewById(R.id.et_login_username);
-        mPassword = (EditText) findViewById(R.id.et_login_password);
-        loginButton = (Button) findViewById(R.id.btn_login_sign_in);
-        forgetBtn = (TextView) findViewById(R.id.tv_login_forget_password);
-        experienceBtn = (TextView) this.findViewById(R.id.experience);
+        mUsernameEditText = (EditText) findViewById(R.id.et_login_username);
+        mPasswordEdiText = (EditText) findViewById(R.id.et_login_password);
+        mLoginButton = (Button) findViewById(R.id.btn_login_sign_in);
+        mForgetTextView = (TextView) findViewById(R.id.tv_login_forget_password);
+        mExperienceTextView = (TextView) this.findViewById(R.id.btn_login_experience);
         // 取得InputMethodRelativeLayout组件
         layout = (InputMethodRelativeLayout) this.findViewById(R.id.loginpage);
         // 设置监听事件
@@ -127,7 +127,7 @@ public class LoginActivity extends BaseNoTitleActivity implements
          * 隐藏键盘
          */
         InputMethodManager imm = (InputMethodManager) getSystemService(mContext.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(mUsername.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(mUsernameEditText.getWindowToken(), 0);
 
 
     }
@@ -136,22 +136,21 @@ public class LoginActivity extends BaseNoTitleActivity implements
         /**
          * Username 添加文本改变监听
          */
-        mUsername.addTextChangedListener(new TextChangeListener(mUsername,
-                mPassword));
-        mPassword.addTextChangedListener(new TextChangeListener(mUsername,
-                mPassword));
+        mUsernameEditText.addTextChangedListener(new TextChangeListener(mUsernameEditText,
+                mPasswordEdiText));
+        mPasswordEdiText.addTextChangedListener(new TextChangeListener(mUsernameEditText,
+                mPasswordEdiText));
 
         // 忘记密码
-        forgetBtn.setOnClickListener(this);
-        experienceBtn.setOnClickListener(this);
+        mForgetTextView.setOnClickListener(this);
+        mExperienceTextView.setOnClickListener(this);
         // 登录button
-        loginButton.setOnClickListener(this);
+        mLoginButton.setOnClickListener(this);
 
     }
 
     protected void initData() {
-        mUsername.setText(SP.getStringSP(mContext, SP.DEFAULTCACHE, KEY_ACCOUNT, ""));
-        mProgressDialog.setContent(R.string.login_action_login_ing);
+        mUsernameEditText.setText(SP.getStringSP(mContext, SP.DEFAULTCACHE, KEY_ACCOUNT, ""));
     }
 
     /**
@@ -197,8 +196,7 @@ public class LoginActivity extends BaseNoTitleActivity implements
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // 响应错误
-                        if (null != mProgressDialog && mContext != null
-                                && !mActivity.isFinishing()) {
+                        if (!mActivity.isFinishing()) {
                             mProgressDialog.dismiss();
                         }
                         if (error instanceof ResponseError) {
@@ -216,10 +214,9 @@ public class LoginActivity extends BaseNoTitleActivity implements
      * @param tips 提示信息的String
      */
     private void showErrorDialog(String tips) {
-        Intent intent = new Intent(mContext, LoginErrorDialogActivity.class);
-        intent.putExtra(LoginErrorDialogActivity.VALUE_TIPS, tips);
-        startActivity(intent);
-        mPassword.setText("");
+        LoginErrorDialog dialog = new LoginErrorDialog(mContext, tips);
+        dialog.show();
+        mPasswordEdiText.setText("");
     }
 
     /**
@@ -298,12 +295,14 @@ public class LoginActivity extends BaseNoTitleActivity implements
             Resources res = mContext.getResources();
             if (editUser.getText().length() == 0
                     || editPass.getText().length() == 0) {
-                loginButton.setEnabled(false);
-                loginButton.setTextColor(res
-                        .getColor(R.color.color_text_qian_grey));
+                mLoginButton.setEnabled(false);
+                mLoginButton.setTextColor(res
+                        .getColor(R.color.color_black));
+                mLoginButton.setBackgroundResource(R.drawable.background_button_disable);
             } else {
-                loginButton.setEnabled(true);
-                loginButton.setTextColor(Color.WHITE);
+                mLoginButton.setEnabled(true);
+                mLoginButton.setTextColor(getResources().getColorStateList(R.color.color_button_text_blue));
+                mLoginButton.setBackgroundResource(R.drawable.background_button_enable_blue);
             }
         }
     }
@@ -313,13 +312,14 @@ public class LoginActivity extends BaseNoTitleActivity implements
      */
     @Override
     public void onSizeChange(boolean flag, int w, int h) {
+        int padding = getResources().getDimensionPixelOffset(R.dimen.login_margin);
         if (flag) {// 键盘弹出时
-            layout.setPadding(0, -10, 0, 0);
+            layout.setPadding(padding, padding, padding, padding);
             boot.setVisibility(View.GONE);
             login_logo_layout_v.setVisibility(View.GONE);
             login_logo_layout_h.setVisibility(View.VISIBLE);
         } else { // 键盘隐藏时
-            layout.setPadding(0, 0, 0, 0);
+            layout.setPadding(padding, padding, padding, padding);
             boot.setVisibility(View.VISIBLE);
             login_logo_layout_v.setVisibility(View.VISIBLE);
             login_logo_layout_h.setVisibility(View.GONE);
@@ -330,8 +330,8 @@ public class LoginActivity extends BaseNoTitleActivity implements
     public void onClick(View arg0) {
         switch (arg0.getId()) {
             case R.id.btn_login_sign_in:
-                userName = mUsername.getText().toString();
-                passWord = mPassword.getText().toString();
+                userName = mUsernameEditText.getText().toString();
+                passWord = mPasswordEdiText.getText().toString();
                 Pattern pattern = Pattern.compile("^[A-Za-z0-9@\\_\\-\\.]+$");
                 boolean a = pattern.matcher(userName).matches(); // true 为格式正确
                 boolean b = pattern.matcher(passWord).matches(); // true 为格式正确
@@ -342,22 +342,21 @@ public class LoginActivity extends BaseNoTitleActivity implements
                 } else {
                     mLocationClient.start();
                     //发起请求时调用 显示ProgressDialog
-                    if (null != mProgressDialog && mContext != null
-                            && !mActivity.isFinishing()) {
+                    if (mActivity.isFinishing()) {
+                        mProgressDialog.setContent(R.string.login_action_login_ing);
                         mProgressDialog.show();
                     }
                 }
                 break;
             case R.id.tv_login_forget_password:
-                if (NetUtils.isNetConnected(mContext)) {
+                if (!NetUtils.isNetConnected(mContext)) {
                     ToastUtil.showNetExc(mContext);
                     return;
                 }
-                Intent intent1 = new Intent(mContext, ForgetPassWordActivity.class);
-                startActivity(intent1);
+                startActivity(new Intent(mContext, ForgetPassWordActivity.class));
                 break;
-            case R.id.experience:
-                if (NetUtils.isNetConnected(mContext)) {
+            case R.id.btn_login_experience:
+                if (!NetUtils.isNetConnected(mContext)) {
                     ToastUtil.showNetExc(mContext);
                     return;
                 }
@@ -366,8 +365,7 @@ public class LoginActivity extends BaseNoTitleActivity implements
                 //快速体验使用默认的账号和密码直接登录进入，不在采集用户名和公司等信息
                 mLocationClient.start();
                 //发起请求时调用 显示ProgressDialog
-                if (null != mProgressDialog && mContext != null
-                        && !mActivity.isFinishing()) {
+                if (!mActivity.isFinishing()) {
                     mProgressDialog.show();
                 }
                 break;

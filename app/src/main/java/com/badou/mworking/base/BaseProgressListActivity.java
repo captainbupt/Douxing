@@ -108,7 +108,7 @@ public abstract class BaseProgressListActivity extends BaseBackActionBarActivity
         triangleImageView = (ImageView) findViewById(R.id.iv_action_bar_triangle);
         titleLinearLayout = (LinearLayout) findViewById(R.id.ll_action_bar_title);
         triangleImageView.setVisibility(View.VISIBLE);
-        tvSearchNull = (ImageView) findViewById(R.id.tv_tishi);
+        tvSearchNull = (ImageView) findViewById(R.id.tv_forget_password_tips);
         mMainListView = (ListView) findViewById(R.id.Shoplist_onelist1);
         mMoreListView = (ListView) findViewById(R.id.Shoplist_twolist1);
         classificationLinear = (android.widget.LinearLayout) findViewById(R.id.classification_linear);

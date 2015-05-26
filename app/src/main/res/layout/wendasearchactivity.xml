@@ -2,13 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_bg_blue" >
+    android:background="@color/color_blue" >
 
     <RelativeLayout
         android:id="@+id/rl_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/action_bg"
+        android:background="@color/color_blue"
         android:padding="@dimen/offset_small" >
 
         <RelativeLayout

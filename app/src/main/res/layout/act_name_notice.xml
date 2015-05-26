@@ -15,7 +15,7 @@
         android:visibility="visible" />
 
     <ImageView
-        android:id="@+id/tv_tishi"
+        android:id="@+id/tv_forget_password_tips"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"

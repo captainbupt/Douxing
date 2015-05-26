@@ -4,8 +4,8 @@
     <!-- 8-27 -->
     <!-- 程序页面背景蓝色 -->
     <color name="color_bg_blue">#e7f2f7</color>
-   	<!-- 背景蓝色 -->
-    <color name="color_blue">#0079d6</color>
+    <!-- 背景蓝色 -->
+    <color name="color_blue">#017ad7</color>
     <color name="color_blue_qian">#0099d5</color>
     <!-- 背景橙色 -->
     <color name="color_orange">#f7ab32</color>
@@ -17,17 +17,18 @@
     <color name="color_edit_line">#d1d3d1</color>
     <color name="color_layout_bg">@color/color_bg_blue</color>
     <color name="color_closeBtn_bg_grey">#616161</color>
-     
+    <color name="color_border">@color/color_grey</color>
+
     <color name="transparent">#00000000</color>
     <color name="color_white">#ffffffff</color>
     <color name="color_light_white">#FFFFffF0</color>
     <color name="color_black">#ff000000</color>
     <color name="color_background">#fff8f8f8</color>
-    <color name="color_border">#ffe5e5e5</color>
+    <color name="color_border_gray">@color/color_grey</color>
     <color name="color_red">#DD523f</color>
-    <color name="color_grey">#ffdfdfdf</color>
-   	<color name="color_li_item_name_grey">#787878</color>
-   	<color name="color_tongshiquanbiqian_grey">#828282</color>
+    <color name="color_grey">#ffa5a5a5</color>
+    <color name="color_li_item_name_grey">#787878</color>
+    <color name="color_tongshiquanbiqian_grey">#828282</color>
     <!-- activity login -->
     <color name="color_login_button_bg_n">#0079d6</color>
     <color name="color_login_background">#efefef</color>
@@ -36,8 +37,6 @@
     <color name="color_login_text_button">@color/color_white</color>
     <color name="color_login_text_input">@color/color_white</color>
     <color name="color_login_edit_line">#e2e1e1</color>
-    <color name="color_login_button_bg_p">#0064d0</color>
-    <color name="color_login_button_bg_not">#ACACAC</color>
 
     <drawable name="login_background_info">#33000000</drawable>
     <drawable name="login_divier_info">#ffd0d3d6</drawable>
@@ -117,30 +116,30 @@
     <color name="color_question_share_name">#1b82de</color>
     <color name="color_question_share_content">@color/color_black</color>
     <color name="color_question_share_date">#979faa</color>
-    
+
     <color name="color_examtype">#3984CC</color>
     <color name="color_examtitle">#0095d6</color>
     <color name="color_score">#ff757575</color>
     <!-- 通知公告页  -->
     <color name="color_bg_grey">#efefef</color>
-    
+
     <!-- 8-15  -->
-	<color name="color_exam_grey">#888383</color>
-	<color name="color_exam_orange">#f49b31</color>
-	
-	<!-- 8-16 -->
-	<color name="color_exam_blue">#0099d6</color>
-	<!-- 8-18 -->
-	<color name="color_trian_item_dpt">#5d5e5b</color>
-	<!-- 8-20 -->
-	<color name="color_usercenter_top_bg">#333b3d</color>
-	<color name="color_user_center_textcolor_black">#3d3d3d</color>
-	
-	<!-- 媒体播放的seekBar 色值 -->
-	<color name="color_seekBG_grey">#5e5f65</color>
-	<color name="color_seekBG_blue">#1975bc</color>
-	<color name="color_seekBG_Light_blue">#2599f2</color>
-	<color name="bg_layout_media_ctrl">#c0bfbf</color>
-	
-	<color name="color_seekBG_TongShiQuan_grey">#999797</color>
+    <color name="color_exam_grey">#888383</color>
+    <color name="color_exam_orange">#f49b31</color>
+
+    <!-- 8-16 -->
+    <color name="color_exam_blue">#0099d6</color>
+    <!-- 8-18 -->
+    <color name="color_trian_item_dpt">#5d5e5b</color>
+    <!-- 8-20 -->
+    <color name="color_usercenter_top_bg">#333b3d</color>
+    <color name="color_user_center_textcolor_black">#3d3d3d</color>
+
+    <!-- 媒体播放的seekBar 色值 -->
+    <color name="color_seekBG_grey">#5e5f65</color>
+    <color name="color_seekBG_blue">#1975bc</color>
+    <color name="color_seekBG_Light_blue">#2599f2</color>
+    <color name="bg_layout_media_ctrl">#c0bfbf</color>
+
+    <color name="color_seekBG_TongShiQuan_grey">#999797</color>
 </resources>

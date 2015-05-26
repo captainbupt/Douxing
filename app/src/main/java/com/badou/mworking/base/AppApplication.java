@@ -30,11 +30,7 @@ import java.util.Set;
 import cn.jpush.android.api.JPushInterface;
 
 /**
- * 类:  <code> AppApplication </code>
  * 功能描述: 程序入口application类
- * 创建人:  葛建锋
- * 创建日期: 2014年7月15日 下午4:15:55
- * 开发环境: JDK7.0
  */
 public class AppApplication extends Application {
 	
@@ -132,7 +128,7 @@ public class AppApplication extends Application {
 	 * 功能描述: 获取屏幕高度
 	 * @return 屏幕高度
 	 */
-	public int getScreenHeight(Context context){
+	public static int getScreenHeight(Context context){
 		// 获得手机分辨率
 		DisplayMetrics dm=context.getResources().getDisplayMetrics();
 		return dm.heightPixels;
@@ -142,7 +138,7 @@ public class AppApplication extends Application {
 	 * 功能描述: 获取屏幕宽度
 	 * @return 屏幕宽度
 	 */
-	public int getScreenWidth(Context context){
+	public static int getScreenWidth(Context context){
 		// 获得手机分辨率
 		DisplayMetrics dm=context.getResources().getDisplayMetrics();
 		return dm.widthPixels;
