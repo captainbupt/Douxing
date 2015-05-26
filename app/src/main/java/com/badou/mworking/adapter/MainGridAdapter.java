@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -39,13 +40,13 @@ public class MainGridAdapter extends MyBaseAdapter {
                     R.layout.adapter_main_grid, parent, false);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
+            int margin = mContext.getResources().getDimensionPixelOffset(R.dimen.offset_small);
+            convertView.setLayoutParams(new AbsListView.LayoutParams(AppApplication.getScreenWidth(mContext) / 2 - margin, AbsListView.LayoutParams.WRAP_CONTENT));
         }
         MainIcon mainIcon = (MainIcon) getItem(position);
-        holder.imageView.setTag(mainIcon.getMainIconId());
-        holder.imageView.setImageResource(R.drawable.icon_default);
-        int mainIconId = mainIcon.getResId();
-        holder.imageView.setImageDrawable(mContext.getResources().getDrawable(mainIconId));
-        holder.textView.setText(mainIcon.getName() + "");
+        holder.imageView.setTag(mainIcon.mainIconId);
+        holder.imageView.setImageResource(mainIcon.resId);
+        holder.textView.setText(mainIcon.name);
         setIconUnreadNum(holder.tvUnreadNum, (String) holder.imageView.getTag());
         return convertView;
     }
