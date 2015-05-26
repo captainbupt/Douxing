@@ -18,6 +18,7 @@
     <dimen name="offset_medium_top">60dp</dimen>
     <dimen name="main_offset_less">28dp</dimen>
     <dimen name="main_offset_less_right">28dp</dimen>
+    <dimen name="icon_size_tiny">20dp</dimen>
     <dimen name="icon_size_small">35dp</dimen>
     <dimen name="icon_size_medium">45dp</dimen>
     <dimen name="icon_size_large">70dp</dimen>
@@ -54,7 +55,7 @@
     <dimen name="login_logon_user_margin_left">@dimen/offset_micro</dimen>
     <!-- 登录8-11 -->
     <dimen name="login_logo_layout_big_marginB">35dp</dimen>
-    <dimen name="login_logo_layout_big_marginT">60dp</dimen>
+    <dimen name="login_logo_layout_big_marginT">52dp</dimen>
     <dimen name="login_logo_pic_big_size">80dp</dimen>
     <dimen name="login_text_pic_big_h">20dp</dimen>
     <dimen name="login_logo_layout_small_marginB">22dp</dimen>
@@ -62,7 +63,7 @@
     <dimen name="login_logo_pic_small_size">48dp</dimen>
     <dimen name="login_text_pic_small_w">80dp</dimen>
     <dimen name="login_text_pic_small_h">30dp</dimen>
-    <dimen name="login_edit_H">53dp</dimen>
+    <dimen name="login_input_icon_size">27dp</dimen>
     <dimen name="login_edit_padL">15dp</dimen>
     <dimen name="login_edit_padR">80dp</dimen>
     <dimen name="login_view_line_marginL">15dp</dimen>

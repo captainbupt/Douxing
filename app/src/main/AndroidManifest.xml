@@ -60,7 +60,8 @@
         android:name="com.badou.mworking.base.AppApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name">
+        android:label="@string/app_name"
+        android:theme="@style/Holo.Theme.Light">
         <!-- 百度地图 -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
@@ -72,12 +73,10 @@
 
         <activity
             android:name="com.badou.mworking.IntroductionActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.badou.mworking.SplashActivity"
-            android:screenOrientation="portrait"
-            >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -86,26 +85,26 @@
         </activity>
         <activity
             android:name="com.badou.mworking.AccountManageActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.badou.mworking.MainGridActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.badou.mworking.SheXActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.badou.mworking.LoginActivity"
             android:screenOrientation="portrait"
-            
+
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name="com.badou.mworking.widget.LoginErrorDialogActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/Holo.AlertDialog" />
         <activity
             android:name="com.badou.mworking.AboutUsActivity"
             android:exported="true"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.badou.mworking.QuestionActivity"
             android:screenOrientation="portrait"
@@ -128,7 +127,7 @@
         <activity
             android:name="com.badou.mworking.TrainActivity"
 
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.badou.mworking.NoticeActivity"
             android:screenOrientation="portrait" />
@@ -156,7 +155,7 @@
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
 
-             />
+            />
         <activity
             android:name="com.badou.mworking.SignActivity"
             android:screenOrientation="portrait" />
@@ -167,9 +166,6 @@
         <activity
             android:name="com.badou.mworking.ChangeLanguageActivity"
 
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.badou.mworking.ExperienceActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.badou.mworking.AroundDetailActivity"
@@ -192,7 +188,7 @@
 
             />
         <activity
-            android:name="com.badou.mworking.UserVerifyAct"
+            android:name=".ForgetPasswordVerificationActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.badou.mworking.MyExamAct"
@@ -230,7 +226,7 @@
         <activity
             android:name="com.badou.mworking.TipsWebView"
 
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <activity
             android:name="com.badou.mworking.TrainMusicActivity"
@@ -258,14 +254,14 @@
         <service
             android:name="cn.jpush.android.service.DownloadService"
             android:enabled="true"
-            android:exported="false"/>
+            android:exported="false" />
 
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote">
             <intent-filter>
-                <action android:name="com.baidu.location.service_v2.2"/>
+                <action android:name="com.baidu.location.service_v2.2" />
             </intent-filter>
         </service>
 

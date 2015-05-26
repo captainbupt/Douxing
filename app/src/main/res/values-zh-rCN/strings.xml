@@ -3,12 +3,12 @@
 
     <!--空格 -->
     <string name="act_exprience_top_msg">填写信息后，您即可进入体验环境试用兜行</string>
-    <string name="act_exprience_next">下一步</string>
-    <string name="act_exprience_wuxinxi">未收到短信？点击这里</string>
-    <string name="act_forget_verify_top_tishi_1">如果您以员工号登录，请拨打客服电话400-8233-773求助。\n\n如果您以手机号登录，请按照下方提示操作。</string>
-    <string name="act_forget_verify_top_tishi_2">请重置密码，点击进入应用</string>
-    <string name="act_user_verify_hint_newPass">请输入新密码</string>
-    <string name="act_user_verify_hint_verifyNewPass">请再次输入新密码</string>
+    <string name="forget_password_button_next">下一步</string>
+    <string name="forget_passwrod_bottom_cannot_receive">未收到短信？点击这里</string>
+    <string name="act_forget_verify_top_tip">如果您以员工号登录，请拨打客服电话400-8233-773求助。\n\n如果您以手机号登录，请按照下方提示操作。</string>
+    <string name="forget_password_verification_top_tip">请重置密码，点击进入应用</string>
+    <string name="forget_password_verification_hint_new">请输入新密码</string>
+    <string name="forget_password_verification_hint_confirm">请再次输入新密码</string>
     <string name="change_hint_password_original">请输入当前密码</string>
     <string name="change_hint_password_new">新密码(长度>=6)</string>
     <string name="change_hint_password_confirm">确认新密码</string>
@@ -110,8 +110,8 @@
     <string name="about_btn_update">更新</string>
     <string name="send_fail">发送失败</string>
     <string name="title_name_Comment">评论</string>
-    <string name="TiYan_btn_getCode">获取验证码</string>
-    <string name="TiYan_btn_RegetCode">秒</string>
+    <string name="forget_password_get_code">获取验证码</string>
+    <string name="forget_passwrod_get_code_unit">秒</string>
     <string name="main_tips_olduser">若想体验模拟企业环境,还请用其他手机号码进入快速体验</string>
     <string name="main_exit_tips">再按一次退出程序</string>
     <string name="main_tips_update_title">版本更新</string>
@@ -141,7 +141,6 @@
     <string name="study_YiXueXiKeCheng">已学习课程</string>
     <string name="myExam_YiKaoKeMu">已考试科目</string>
     <string name="web_retry">重试</string>
-    <string name="hint_tiYan_inputPhone">手机号</string>
     <string name="text_account">账&#160;&#160;&#160;&#160;&#160;&#160;号:</string>
     <string name="text_oldPass">旧&#160;密&#160;码:</string>
     <string name="text_newPass">新&#160;密&#160;码:</string>
@@ -162,10 +161,11 @@
     <string name="more_laguage">多语言</string>
     <string name="text_score">分</string>
     <string name="sign_needUpload">您需要上传图片</string>
-    <string name="loging">登录</string>
+    <string name="login">登录</string>
     <string name="feekback_submit">提交</string>
     <string name="password_success">验证成功</string>
-    <string name="hint_input_code">验证码</string>
+    <string name="hint_input_phone">请输入您的手机号</string>
+    <string name="hint_input_code">请输入您的验证码</string>
     <string name="tips_phone_woring">手机号格式不正确</string>
     <string name="text_splasha_center">提升的不只是效率</string>
     <string name="text_splasha_bottom">正在载入,行入兜中&#8230;</string>

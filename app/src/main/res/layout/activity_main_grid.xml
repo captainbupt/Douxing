@@ -8,35 +8,21 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="4.4">
+        android:layout_height="wrap_content">
 
-        <LinearLayout
+        <com.badou.mworking.widget.BannerGallery
+            android:id="@+id/gallery_main_banner"
             android:layout_width="match_parent"
-            android:layout_height="240dp"
-            android:orientation="vertical">
+            android:layout_height="wrap_content" />
 
-            <com.badou.mworking.widget.BannerGallery
-                android:id="@+id/gallery"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_bottomNavPoint"
-            android:layout_width="match_parent"
+        <RadioGroup
+            android:id="@+id/rg_main_focus_indicator_container"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/offset_less"
             android:gravity="center"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:id="@+id/ll_focus_indicator_container"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal" />
-        </LinearLayout>
+            android:orientation="horizontal" />
     </RelativeLayout>
 
     <GridView

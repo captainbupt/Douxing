@@ -18,6 +18,7 @@
     <dimen name="offset_large">22dp</dimen>
     <dimen name="offset_xlarge">34dp</dimen>
     <dimen name="offset_xxlarge">48dp</dimen>
+    <dimen name="icon_size_tiny">15dp</dimen>
     <dimen name="icon_size_small">30dp</dimen>
     <dimen name="icon_size_medium">40dp</dimen>
     <dimen name="icon_size_large">60dp</dimen>
@@ -42,7 +43,7 @@
     
     <!-- 登录 8-11  -->
     <dimen name="login_logo_layout_big_marginB">34dp</dimen>
-    <dimen name="login_logo_layout_big_marginT">43dp</dimen>
+    <dimen name="login_logo_layout_big_marginT">38dp</dimen>
     <dimen name="login_logo_pic_big_size">125dp</dimen>
     <dimen name="login_text_pic_big_h">35dp</dimen>
     <dimen name="login_logo_layout_small_marginB">11dp</dimen>
@@ -50,12 +51,9 @@
     <dimen name="login_logo_pic_small_size">42dp</dimen>
     <dimen name="login_text_pic_small_w">93dp</dimen>
     <dimen name="login_text_pic_small_h">30dp</dimen>
-    <dimen name="login_edit_H">45dp</dimen>
-    <dimen name="login_edit_padL">15dp</dimen>
-    <dimen name="login_edit_padR">80dp</dimen>
+    <dimen name="login_input_icon_size">23dp</dimen>
+    <dimen name="login_margin">@dimen/offset_large</dimen>
     <dimen name="login_view_line_marginL">15dp</dimen>
-    
-    <dimen name="login_btnlogin_marginT">20dp</dimen>
     
     <!-- activity main grid -->
     <dimen name="text_size_main_grid_text">@dimen/text_size_medium</dimen>

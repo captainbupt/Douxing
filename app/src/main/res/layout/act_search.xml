@@ -8,7 +8,7 @@
         android:id="@+id/rl_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/action_bg"
+        android:background="@color/color_blue"
         android:padding="@dimen/offset_small" >
 
         <RelativeLayout

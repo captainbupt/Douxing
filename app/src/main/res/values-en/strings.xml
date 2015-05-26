@@ -2,12 +2,12 @@
 <resources>
 	 <!-- &#160; 空格 -->
     <string name="act_exprience_top_msg">填写信息后，您即可进入体验环境试用兜行</string>
-    <string name="act_exprience_next">Next</string>
-    <string name="act_exprience_wuxinxi">Click here if no SMS Received</string>
-    <string name="act_forget_verify_top_tishi_1">For those who use their cellphone number as account, please follow the instruction to get the verification number.For those who use their working-ID as account please call 400-8233-773 for help.</string>
-    <string name="act_forget_verify_top_tishi_2">Please enter your cellphone number and verification code.</string>
-    <string name="act_user_verify_hint_newPass">Enter new password</string>
-    <string name="act_user_verify_hint_verifyNewPass">Enter new password again</string>
+    <string name="forget_password_button_next">Next</string>
+    <string name="forget_passwrod_bottom_cannot_receive">Click here if no SMS Received</string>
+    <string name="act_forget_verify_top_tip">For those who use their cellphone number as account, please follow the instruction to get the verification number.For those who use their working-ID as account please call 400-8233-773 for help.</string>
+    <string name="forget_password_verification_top_tip">Please enter your cellphone number and verification code.</string>
+    <string name="forget_password_verification_hint_new">Enter new password</string>
+    <string name="forget_password_verification_hint_confirm">Enter new password again</string>
     <string name="change_hint_password_original"> </string>
     <string name="change_hint_password_new">length>= 6</string>
     <string name="change_hint_password_confirm">Confirm </string>
@@ -132,8 +132,8 @@
 	<string name="exam_tips_SuoDing">Submit failed.Your answer sheet has been stored.</string>
 	<string name="exam_btn_submitExam">Submit</string>
 	<string name="exam_btn_Exit">Log out</string>
-	<string name="TiYan_btn_getCode">Get verification code</string>
-	<string name="TiYan_btn_RegetCode">sec remain</string>
+	<string name="forget_password_get_code">Get verification code</string>
+	<string name="forget_passwrod_get_code_unit">sec remain</string>
 	<string name="main_tips_olduser">Welcome back!Please use another phone number to enter the TRY IT FIRST to experience the simulated enterprise environment.</string>
 	<string name="main_exit_tips">Press again to exit</string>
 	<string name="main_tips_update_title">Version Update</string>
@@ -172,7 +172,7 @@
 	<string name="study_YiXueXiKeCheng">Course learned</string>
 	<string name="myExam_YiKaoKeMu">Test completed</string>
 	<string name="web_retry">Try again</string>
-	<string name="hint_tiYan_inputPhone">Phone number</string>
+	<string name="hint_input_phone">Phone number</string>
 	<string name="text_account">My Account:</string>
 	<string name="text_oldPass">Current password:</string>
 	<string name="text_newPass">New password:</string>
@@ -205,7 +205,7 @@ APP will lock the page until reacquire network connection and will automatically
     <string name="push_notifications">推送提醒</string>
 	<string name="text_score"> </string>
 	<string name="sign_needUpload">Please take a photo and upload.</string>
-	<string name="loging">Log in</string>
+	<string name="login">Log in</string>
 	<string name="feekback_submit">Submit</string>
 	<string name="password_success">Success</string>
 	<string name="hint_input_code">Verification code</string>

@@ -179,7 +179,7 @@
                 android:layout_marginLeft="@dimen/offset_lless"
                 android:layout_marginRight="@dimen/offset_lless"
                 android:layout_marginTop="@dimen/offset_lless"
-                android:background="@drawable/btn_bg_blue"
+                android:background="@drawable/background_button_enable_blue_normal"
                 android:gravity="center"
                 android:padding="@dimen/offset_medium"
                 android:text="@string/sign_task_button_sign"

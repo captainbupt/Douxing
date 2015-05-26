@@ -3,7 +3,8 @@
     android:id="@+id/loginpage"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/logo_bg" >
+    android:background="@color/color_bg_grey"
+    android:padding="@dimen/login_margin">
 
     <!-- com.badou.mworking.widget.InputMethodRelativeLayout -->
 
@@ -12,9 +13,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/offset_medium"
-        android:paddingRight="@dimen/offset_medium" >
+        android:orientation="vertical">
 
         <!-- 大logo -->
 
@@ -26,7 +25,7 @@
             android:layout_marginTop="@dimen/login_logo_layout_big_marginT"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:visibility="visible" >
+            android:visibility="visible">
 
             <ImageView
                 android:id="@+id/login_logoimg"
@@ -47,14 +46,6 @@
                 android:scaleType="centerInside"
                 android:src="@drawable/logo_text_zh" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/login_text_pic_big_h"
-                android:layout_marginTop="@dimen/offset_small"
-                android:adjustViewBounds="true"
-                android:gravity="center"
-                android:scaleType="centerInside"
-                android:src="@drawable/mworking" />
         </LinearLayout>
         <!-- 小LOGO -->
 
@@ -67,7 +58,7 @@
             android:layout_marginTop="@dimen/login_logo_layout_small_marginT"
             android:gravity="left|center"
             android:orientation="horizontal"
-            android:visibility="gone" >
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="@dimen/login_logo_pic_small_size"
@@ -83,153 +74,113 @@
                 android:adjustViewBounds="true"
                 android:src="@drawable/logo_text_zh" />
 
-            <ImageView
-                android:layout_width="@dimen/login_text_pic_small_w"
-                android:layout_height="@dimen/login_text_pic_small_h"
-                android:layout_marginLeft="@dimen/offset_small"
-                android:adjustViewBounds="true"
-                android:src="@drawable/mworking" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_login_edit"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
-            <FrameLayout
+            <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="@dimen/login_edit_H" >
-<!-- android:digits="@string/input_restrict" -->
+                android:layout_height="wrap_content"
+                android:gravity="bottom"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/login_input_icon_size"
+                    android:layout_height="@dimen/login_input_icon_size"
+                    android:scaleType="fitEnd"
+                    android:src="@drawable/icon_activity_login_username" />
+
                 <EditText
                     android:id="@+id/et_login_username"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:background="@android:color/transparent"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/login_input_icon_size"
+                    android:layout_marginLeft="@dimen/offset_small"
+                    android:background="@drawable/background_login_edit_text"
                     android:hint="@string/login_tip_username"
                     android:imeOptions="actionNext"
                     android:maxLines="1"
-                    android:paddingLeft="@dimen/login_edit_padL"
-                    android:paddingRight="@dimen/login_edit_padR"
+                    android:paddingLeft="@dimen/offset_small"
                     android:singleLine="true"
-                    android:text=""
-                    android:textColor="#ff000000"
-                    android:textColorHint="#ffbbbbbb"
-                    android:textSize="@dimen/text_size_less" />
+                    android:textColor="@color/color_text_black"
+                    android:textColorHint="@color/color_grey"
+                    android:textSize="@dimen/text_size_medium" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/offset_less"
+                android:gravity="bottom"
+                android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/uin_close"
-                    android:layout_width="30.0dip"
-                    android:layout_height="45.0dip"
-                    android:layout_gravity="right|center"
-                    android:layout_marginRight="40.0dip"
-                    android:background="@android:color/transparent"
-                    android:clickable="true"
-                    android:scaleType="center"
-                    android:src="@drawable/ic_launcher"
-                    android:visibility="invisible" />
-
-                <ImageView
-                    android:id="@+id/selectId"
-                    android:layout_width="40.0dip"
-                    android:layout_height="45.0dip"
-                    android:layout_gravity="right|center"
-                    android:background="@android:color/transparent"
-                    android:clickable="true"
-                    android:paddingLeft="5.0dip"
-                    android:paddingRight="15.0dip"
-                    android:scaleType="center"
-                    android:src="@drawable/ic_launcher"
-                    android:visibility="invisible" />
-            </FrameLayout>
-
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="@dimen/login_view_line_marginL"
-                android:layout_marginRight="@dimen/login_view_line_marginL"
-                android:background="@color/color_login_edit_line" />
-
-            <FrameLayout
-                android:layout_width="fill_parent"
-                android:layout_height="@dimen/login_edit_H" >
+                    android:layout_width="@dimen/login_input_icon_size"
+                    android:layout_height="@dimen/login_input_icon_size"
+                    android:scaleType="fitEnd"
+                    android:src="@drawable/icon_activity_login_password" />
 
                 <EditText
                     android:id="@+id/et_login_password"
                     android:layout_width="fill_parent"
-                    android:layout_height="@dimen/login_edit_H"
-                    android:background="@android:color/transparent"
+                    android:layout_height="@dimen/login_input_icon_size"
+                    android:layout_marginLeft="@dimen/offset_small"
+                    android:background="@drawable/background_login_edit_text"
                     android:hint="@string/login_tip_password"
                     android:inputType="textPassword"
-                    android:paddingLeft="@dimen/login_edit_padL"
-                    android:paddingRight="@dimen/login_edit_padL"
+                    android:paddingLeft="@dimen/offset_small"
                     android:singleLine="true"
-                    android:textColor="#ff000000"
-                    android:textColorHint="#ffbbbbbb"
-                    android:textSize="@dimen/text_size_less" />
-
-                <ImageView
-                    android:id="@+id/psw_close"
-                    android:layout_width="30.0dip"
-                    android:layout_height="45.0dip"
-                    android:layout_gravity="right|center"
-                    android:layout_marginRight="15.0dip"
-                    android:background="@android:color/transparent"
-                    android:clickable="true"
-                    android:scaleType="center"
-                    android:src="@drawable/ic_launcher"
-                    android:visibility="invisible" />
-            </FrameLayout>
+                    android:textColor="@color/color_text_black"
+                    android:textColorHint="@color/color_grey"
+                    android:textSize="@dimen/text_size_medium" />
+            </LinearLayout>
         </LinearLayout>
         <!-- 登录按钮在java中修改的背景色 -->
 
         <Button
             android:id="@+id/btn_login_sign_in"
-            android:layout_width="fill_parent"
-            android:layout_height="@dimen/login_edit_H"
-            android:layout_marginTop="@dimen/login_btnlogin_marginT"
-            android:background="@drawable/color_login_button_bg_n"
-            android:text="@string/loging"
-            android:textColor="@color/color_text_qian_grey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/offset_large"
+            android:background="@drawable/background_button_disable"
+            android:gravity="center"
+            android:padding="@dimen/offset_small"
+            android:text="@string/login"
+            android:textColor="@color/color_text_black"
             android:textSize="@dimen/text_size_large" />
     </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/reg_and_forget_password_layout"
-        android:layout_width="fill_parent"
-        android:layout_height="80dp"
-        android:layout_alignParentBottom="true"
-        android:gravity="center_vertical" >
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/login_container"
+        android:layout_marginTop="@dimen/offset_less">
 
-        <LinearLayout
-            android:id="@+id/linearLayout1"
+        <TextView
+            android:id="@+id/btn_login_experience"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:orientation="horizontal" >
+            android:layout_alignParentLeft="true"
+            android:paddingBottom="@dimen/offset_small"
+            android:paddingRight="@dimen/offset_small"
+            android:paddingTop="@dimen/offset_small"
+            android:text="@string/login_name_experience"
+            android:textColor="@color/color_text_black"
+            android:textSize="@dimen/text_size_less" />
 
-            <TextView
-                android:id="@+id/experience"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="6dp"
-                android:text="@string/login_name_experience" />
-
-            <View
-                android:id="@+id/View2"
-                android:layout_width="1.0dp"
-                android:layout_height="15dp"
-                android:layout_marginLeft="3dp"
-                android:layout_marginRight="3dp"
-                android:background="#999999" />
-
-            <TextView
-                android:id="@+id/tv_login_forget_password"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="6dp"
-                android:text="@string/login_button_forget_password" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_login_forget_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:paddingBottom="@dimen/offset_small"
+            android:paddingRight="@dimen/offset_small"
+            android:paddingTop="@dimen/offset_small"
+            android:text="@string/login_button_forget_password"
+            android:textColor="@color/color_text_black"
+            android:textSize="@dimen/text_size_less" />
     </RelativeLayout>
 </com.badou.mworking.widget.InputMethodRelativeLayout>

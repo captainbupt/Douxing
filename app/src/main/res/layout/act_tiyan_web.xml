@@ -61,7 +61,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1.0"
-                    android:background="@drawable/btn_bg_blue"
+                    android:background="@drawable/background_button_enable_blue_normal"
                     android:gravity="center"
                     android:text="@string/web_retry"
                     android:textColor="@color/color_white"
