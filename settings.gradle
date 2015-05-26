@@ -1,1 +1,1 @@
-include ':app', 'HoloEverywhere'
+include 'HoloEverywhere', ':HoloEverywhere', ':app'
