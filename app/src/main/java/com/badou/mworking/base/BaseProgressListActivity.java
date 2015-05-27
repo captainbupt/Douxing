@@ -69,7 +69,7 @@ public abstract class BaseProgressListActivity extends BaseBackActionBarActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.act_name_notice);
+        setContentView(R.layout.activity_base_progress_list);
         layout.attachToActivity(this);
         initProgressView();
         initProgressListener();

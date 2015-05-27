@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<org.holoeverywhere.widget.RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id='@+id/logo_bg'
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -7,8 +7,8 @@
 
     <ImageView
         android:id="@+id/iv_actionbar_left"
-        android:layout_width="@dimen/actionBar_img_size"
-        android:layout_height="@dimen/actionBar_img_size"
+        android:layout_width="@dimen/action_bar_img_size"
+        android:layout_height="@dimen/action_bar_img_size"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:padding="@dimen/offset_less"
@@ -16,20 +16,20 @@
         android:src="@drawable/button_main_user" />
 
     <ImageView
-        android:id="@+id/icon_top"
+        android:id="@+id/iv_actionbar_logo"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/actionBar_img_size"
+        android:layout_height="@dimen/action_bar_img_size"
         android:layout_centerInParent="true"
         android:scaleType="centerInside" />
 
     <ImageView
         android:id="@+id/iv_actionbar_right"
-        android:layout_width="@dimen/actionBar_img_size"
-        android:layout_height="@dimen/actionBar_img_size"
+        android:layout_width="@dimen/action_bar_img_size"
+        android:layout_height="@dimen/action_bar_img_size"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:padding="@dimen/offset_less"
         android:scaleType="centerInside"
         android:src="@drawable/button_main_search" />
 
-</RelativeLayout>
+</org.holoeverywhere.widget.RelativeLayout>

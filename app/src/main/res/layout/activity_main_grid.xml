@@ -1,49 +1,56 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<org.holoeverywhere.widget.FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fm_main_grid_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/color_layout_bg"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <include layout="@layout/activity_main_title_bar" />
-
-    <com.badou.mworking.widget.TopFadeScrollView
-        android:id="@+id/tfsv_main_grid"
+    <org.holoeverywhere.widget.LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/color_layout_bg"
+        android:orientation="vertical">
 
-        <org.holoeverywhere.widget.LinearLayout
+        <include layout="@layout/activity_main_title_bar" />
+
+        <com.badou.mworking.widget.TopFadeScrollView
+            android:id="@+id/tfsv_main_grid"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:scrollbars="none">
 
-            <org.holoeverywhere.widget.RelativeLayout
-                android:id="@+id/rl_main_grid_banner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <com.badou.mworking.widget.BannerGallery
-                    android:id="@+id/gallery_main_banner"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-                <RadioGroup
-                    android:id="@+id/rg_main_focus_indicator_container"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@id/gallery_main_banner"
-                    android:layout_marginBottom="@dimen/offset_less"
-                    android:gravity="center"
-                    android:orientation="horizontal" />
-            </org.holoeverywhere.widget.RelativeLayout>
-
-            <com.badou.mworking.widget.LineGridView
-                android:id="@+id/gv_main_grid_second"
+            <org.holoeverywhere.widget.LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/offset_small"
-                android:layout_marginRight="@dimen/offset_small"
-                android:numColumns="2"
-                android:scrollbars="none" />
-        </org.holoeverywhere.widget.LinearLayout>
-    </com.badou.mworking.widget.TopFadeScrollView>
-</LinearLayout>
+                android:orientation="vertical">
+
+                <org.holoeverywhere.widget.RelativeLayout
+                    android:id="@+id/rl_main_grid_banner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.badou.mworking.widget.BannerGallery
+                        android:id="@+id/gallery_main_banner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <RadioGroup
+                        android:id="@+id/rg_main_focus_indicator_container"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@id/gallery_main_banner"
+                        android:layout_marginBottom="@dimen/offset_less"
+                        android:gravity="center"
+                        android:orientation="horizontal" />
+                </org.holoeverywhere.widget.RelativeLayout>
+
+                <com.badou.mworking.widget.LineGridView
+                    android:id="@+id/gv_main_grid_second"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/offset_small"
+                    android:layout_marginRight="@dimen/offset_small"
+                    android:numColumns="2"
+                    android:scrollbars="none" />
+            </org.holoeverywhere.widget.LinearLayout>
+        </com.badou.mworking.widget.TopFadeScrollView>
+    </org.holoeverywhere.widget.LinearLayout>
+</org.holoeverywhere.widget.FrameLayout>

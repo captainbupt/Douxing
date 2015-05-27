@@ -11,6 +11,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 
 import org.holoeverywhere.app.AlertDialog;
+import org.holoeverywhere.widget.FrameLayout;
 import org.holoeverywhere.widget.GridView;
 
 import android.widget.ImageView;
@@ -40,6 +41,7 @@ import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.SP;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.BannerGallery;
+import com.badou.mworking.widget.SearchLinearView;
 import com.badou.mworking.widget.TopFadeScrollView;
 
 import org.holoeverywhere.widget.RadioButton;
@@ -124,7 +126,7 @@ public class MainGridActivity extends BaseNoTitleActivity {
     protected void initView() {
         mUserCentertImageView = (ImageView) findViewById(R.id.iv_actionbar_left);
         mSearchImageView = (ImageView) findViewById(R.id.iv_actionbar_right);
-        mIconTopImageView = (ImageView) findViewById(R.id.icon_top);
+        mIconTopImageView = (ImageView) findViewById(R.id.iv_actionbar_logo);
         mMainGridView = (GridView) findViewById(R.id.gv_main_grid_second);
         mIndicatorRadioGroup = (RadioGroup) findViewById(R.id.rg_main_focus_indicator_container);
         mBannerGallery = (BannerGallery) findViewById(R.id.gallery_main_banner);
@@ -191,7 +193,9 @@ public class MainGridActivity extends BaseNoTitleActivity {
         mSearchImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                SearchLinearView searchView = new SearchLinearView(mContext);
+                FrameLayout container = (FrameLayout) findViewById(R.id.fm_main_grid_container);
+                container.addView(searchView);
             }
         });
     }

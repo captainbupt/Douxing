@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.holoeverywhere.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <org.holoeverywhere.widget.LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/action_bar_img_size"
+        android:background="@color/color_blue"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/offset_less"
+        android:paddingLeft="@dimen/offset_medium"
+        android:paddingRight="@dimen/offset_medium"
+        android:paddingTop="@dimen/offset_less">
+
+        <org.holoeverywhere.widget.LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/background_corner_radius_small_ffffffff"
+            android:gravity="center_vertical"
+            android:paddingBottom="@dimen/offset_less"
+            android:paddingTop="@dimen/offset_less">
+
+            <ImageView
+                android:id="@+id/iv_main_search_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/button_main_search" />
+
+            <org.holoeverywhere.widget.EditText
+                android:id="@+id/et_main_search_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:textColor="@color/color_text_black"
+                android:textSize="@dimen/text_size_medium" />
+        </org.holoeverywhere.widget.LinearLayout>
+
+        <org.holoeverywhere.widget.TextView
+            android:id="@+id/tv_main_search_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/offset_less"
+            android:text="@string/main_search_cancel"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/text_size_medium" />
+
+    </org.holoeverywhere.widget.LinearLayout>
+
+    <org.holoeverywhere.widget.FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_white">
+
+        <org.holoeverywhere.widget.LinearLayout
+            android:id="@+id/ll_main_search_none"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/offset_xxlarge">
+
+            <org.holoeverywhere.widget.TextView
+                android:id="@+id/tv_main_search_none"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="@string/main_search_result_tip"
+                android:textColor="@color/color_text_black"
+                android:textSize="@dimen/text_size_medium" />
+
+            <ImageView
+                android:id="@+id/iv_main_search_none"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/offset_medium"
+                android:src="@drawable/icon_main_search_tip" />
+        </org.holoeverywhere.widget.LinearLayout>
+    </org.holoeverywhere.widget.FrameLayout>
+</org.holoeverywhere.widget.LinearLayout>
