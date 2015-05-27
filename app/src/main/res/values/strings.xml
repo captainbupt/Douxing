@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- 首页搜索 -->
+    <string name="main_search_cancel">取消</string>
+    <string name="main_search_result_tip">搜索你所需\n知识 | 经验 | 技能</string>
+    <string name="main_search_result_none">没有关于“***”的结果</string>
+
     <!--空格 -->
     <string name="act_exprience_top_msg">填写信息后，您即可进入体验环境试用兜行</string>
     <string name="forget_password_button_next">下一步</string>
@@ -174,33 +179,33 @@
     <string name="comment_tips_length">内容不能少于5个字</string>
     <string name="tips_username_input_invalid">用户名格式非法</string>
     <string name="tips_password_input_invalid">密码格式非法</string>
-	<string name="tips_username_input_New_MiMa">新密码格式非法</string>
-	<string name="tips_liuliang">当前为省流量模式</string>
-	<string name="no_more">没有更多了</string>
-	<string name="version">©2015 mworking.cn</string>
-	<string name="search_no_content">没有搜到相关内容</string>
-	<string name="current_no_content">暂时没有内容</string>
-	<string name="my_sixing">我的私信</string>
-	<string name="company">公司</string>
-	<string name="office">职位</string>
-	<string name="score_one">完全用不上</string>
-	<string name="score_two">看不太明白</string>
+    <string name="tips_username_input_New_MiMa">新密码格式非法</string>
+    <string name="tips_liuliang">当前为省流量模式</string>
+    <string name="no_more">没有更多了</string>
+    <string name="version">©2015 mworking.cn</string>
+    <string name="search_no_content">没有搜到相关内容</string>
+    <string name="current_no_content">暂时没有内容</string>
+    <string name="my_sixing">我的私信</string>
+    <string name="company">公司</string>
+    <string name="office">职位</string>
+    <string name="score_one">完全用不上</string>
+    <string name="score_two">看不太明白</string>
     <string name="score_thi">一般吧</string>
-	<string name="score_fou">哎呦，不错哦～</string>
-	<string name="score_fif">太棒了，非常实用！</string>
-	<string name="pingfen">给个评分</string>
-	<string name="taolun">参与讨论</string>
-	<string name="kejian_tips">您还没有浏览课件，看过了再来评价吧！</string>
-	<string name="exam_rating_title">加权平均分计算方法</string>
-	<string name="exam_rating_content">考试科目1*对应科目学分+考试科目2*对应科目学分+.../总学分数。</string>
-	<string name="exam_rating_button">我知道了</string>
-	<string name="makeup_examination">参加补考</string>
-	<string name="next_exam">考试晋级</string>   
-	<string name="bukaoshiti_str">补考试题</string>
-	<string name="yikaoshiti_str">已考试题</string>
-	<string name="statistical_data">统计数据</string>
-	<string name="tongshiquan_share">我要分享</string>
-	
+    <string name="score_fou">哎呦，不错哦～</string>
+    <string name="score_fif">太棒了，非常实用！</string>
+    <string name="pingfen">给个评分</string>
+    <string name="taolun">参与讨论</string>
+    <string name="kejian_tips">您还没有浏览课件，看过了再来评价吧！</string>
+    <string name="exam_rating_title">加权平均分计算方法</string>
+    <string name="exam_rating_content">考试科目1*对应科目学分+考试科目2*对应科目学分+.../总学分数。</string>
+    <string name="exam_rating_button">我知道了</string>
+    <string name="makeup_examination">参加补考</string>
+    <string name="next_exam">考试晋级</string>
+    <string name="bukaoshiti_str">补考试题</string>
+    <string name="yikaoshiti_str">已考试题</string>
+    <string name="statistical_data">统计数据</string>
+    <string name="tongshiquan_share">我要分享</string>
+
     <string name="xlistview_header_hint_normal">下拉刷新</string>
     <string name="xlistview_header_hint_ready">松开刷新数据</string>
     <string name="xlistview_header_hint_loading">正在加载...</string>

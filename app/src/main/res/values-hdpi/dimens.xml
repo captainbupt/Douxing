@@ -183,7 +183,7 @@
     <dimen name="user_study_progress_bg_H">10dp</dimen>
 
     <!-- action -->
-    <dimen name="actionBar_img_size">50dp</dimen>
+    <dimen name="action_bar_img_size">50dp</dimen>
     <dimen name="actionBar_R_img_width">70dp</dimen>
     <dimen name="actionBar_R_img_height">40dp</dimen>
 

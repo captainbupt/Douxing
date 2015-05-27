@@ -37,8 +37,8 @@
 
             <ImageView
                 android:id="@+id/back_Img"
-                android:layout_width="@dimen/actionBar_img_size"
-                android:layout_height="@dimen/actionBar_img_size"
+                android:layout_width="@dimen/action_bar_img_size"
+                android:layout_height="@dimen/action_bar_img_size"
                 android:layout_alignBottom="@+id/et_search"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
