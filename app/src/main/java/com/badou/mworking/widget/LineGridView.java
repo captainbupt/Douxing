@@ -5,10 +5,15 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.ScrollView;
 
 import com.badou.mworking.R;
+import com.badou.mworking.util.ToastUtil;
 
 import org.holoeverywhere.widget.GridView;
+import org.holoeverywhere.widget.LinearLayout;
 
 /**
  * Created by Administrator on 2015/5/26.
@@ -18,22 +23,33 @@ public class LineGridView extends GridView {
         super(context);
     }
 
-    public LineGridView(Context context, AttributeSet attrs) {
+    public LineGridView(final Context context, AttributeSet attrs) {
         super(context, attrs);
+
+        // 重置GridView高度，保证其至少满屏
+        getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                int height = (getHeight() + 1) * getCount() / 2; // 显示全部view所需高度
+                final ScrollView parentView = (ScrollView) getParent().getParent(); // 满屏高度
+                int parentHeight = parentView.getHeight();
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Math.max(height, parentHeight));
+                int margin = context.getResources().getDimensionPixelOffset(R.dimen.offset_small);
+                lp.setMargins(margin, 0, margin, 0);
+                setLayoutParams(lp);
+                // 设置scrollView到顶端
+                parentView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        parentView.scrollTo(0, 0);
+                    }
+                });
+            }
+        });
     }
 
-    public LineGridView(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-    }
-
-    @Override
-    public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-
-        int expandSpec = MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE >> 2,
-                MeasureSpec.AT_MOST);
-        super.onMeasure(widthMeasureSpec, expandSpec);
-    }
-
+    // 画网格方法，百度LineGridView可查到
     @Override
     protected void dispatchDraw(Canvas canvas) {
         super.dispatchDraw(canvas);
