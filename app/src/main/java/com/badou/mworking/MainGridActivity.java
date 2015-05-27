@@ -215,6 +215,7 @@ public class MainGridActivity extends BaseNoTitleActivity {
         updateBanner(mBannerList);
         mMainGridAdapter = new MainGridAdapter(mContext, getMainIconList());
         mMainGridView.setAdapter(mMainGridAdapter);
+        mScrollView.scrollTo(0, 0);
     }
 
     /**
@@ -271,7 +272,7 @@ public class MainGridActivity extends BaseNoTitleActivity {
             radioButton.setId(i);
             RadioGroup.LayoutParams localLayoutParams = new RadioGroup.LayoutParams(
                     size, size);
-            localLayoutParams.setMargins(size/2, 0, size/2, 0);
+            localLayoutParams.setMargins(size / 2, 0, size / 2, 0);
             radioButton.setLayoutParams(localLayoutParams);
             radioButton.setButtonDrawable(android.R.color.transparent);
             radioButton
