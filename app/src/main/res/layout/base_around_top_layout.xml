@@ -32,18 +32,18 @@
         android:visibility="gone" />
 
     <ImageView
-        android:id="@+id/ivUserSecondHeadIcon"
+        android:id="@+id/iv_user_center_top_head"
         android:layout_width="@dimen/user_center_image_head_size"
         android:layout_height="@dimen/user_center_image_head_size"
         android:layout_alignBottom="@+id/img_bottom_bg"
         android:layout_alignParentRight="true"
         android:layout_marginRight="22dp"
         android:scaleType="centerInside"
-        android:src="@drawable/user_detail_head_icon" />
+        android:src="@drawable/icon_user_detail_default_head" />
 
     <TextView
-        android:layout_toLeftOf="@id/ivUserSecondHeadIcon"
-        android:id="@+id/lv_tv"
+        android:layout_toLeftOf="@id/iv_user_center_top_head"
+        android:id="@+id/tv_user_center_top_level"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/img_top_bg"
@@ -58,8 +58,8 @@
     
     <TextView
         android:layout_marginBottom="@dimen/offset_small"
-        android:layout_toLeftOf="@id/lv_tv"
-        android:id="@+id/tvActivityUserSecondName"
+        android:layout_toLeftOf="@id/tv_user_center_top_level"
+        android:id="@+id/tv_user_center_top_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/img_top_bg"

@@ -53,7 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/user_detail_forward" />
+                android:src="@drawable/icon_user_center_forward" />
         </LinearLayout>
 
         <View
@@ -84,7 +84,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/user_detail_forward" />
+                android:src="@drawable/icon_user_center_forward" />
         </LinearLayout>
 
         <View
@@ -171,7 +171,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/user_detail_forward" />
+                android:src="@drawable/icon_user_center_forward" />
         </LinearLayout>
 
         <View
@@ -202,7 +202,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/user_detail_forward" />
+                android:src="@drawable/icon_user_center_forward" />
         </LinearLayout>
 
         <View
@@ -233,7 +233,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/user_detail_forward" />
+                android:src="@drawable/icon_user_center_forward" />
         </LinearLayout>
     </LinearLayout>
 

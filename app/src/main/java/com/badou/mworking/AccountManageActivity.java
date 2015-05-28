@@ -31,11 +31,7 @@ import org.json.JSONObject;
 import java.util.regex.Pattern;
 
 /**
- * 类:  <code> AccountManageActivity </code>
  * 功能描述: 账号管理页面（个人中心点击设置后进入）
- * 创建人:  葛建锋
- * 创建日期: 2014年7月16日 下午1:47:04
- * 开发环境: JDK7.0
  */
 public class AccountManageActivity extends BaseBackActionBarActivity {
 	

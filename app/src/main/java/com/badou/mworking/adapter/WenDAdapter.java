@@ -15,26 +15,19 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
 
-import com.badou.mworking.AroundDetailActivity;
 import com.badou.mworking.PhotoActivity;
 import com.badou.mworking.R;
-import com.badou.mworking.WenDActivity;
 import com.badou.mworking.WenDaDetailActivity;
-import com.badou.mworking.fragment.TongSHQFragments;
 import com.badou.mworking.model.Ask;
-import com.badou.mworking.model.Question;
 import com.badou.mworking.net.LVUtil;
 import com.badou.mworking.net.bitmap.BitmapLruCache;
 import com.badou.mworking.net.bitmap.CircleImageListener;
 import com.badou.mworking.net.bitmap.PicImageListener;
 import com.badou.mworking.net.volley.MyVolley;
-import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.SP;
 import com.badou.mworking.util.TimeTransfer;
@@ -217,7 +210,7 @@ public class WenDAdapter extends BaseAdapter{
 		public AllViewHolder(View view) {
 			wendaTouxiangImg = (ImageView) view.findViewById(R.id.wenda_touxiang_img);
 			wendaNameTv = (TextView) view.findViewById(R.id.wenda_name_tv);
-			lvTv = (TextView) view.findViewById(R.id.lv_tv);
+			lvTv = (TextView) view.findViewById(R.id.tv_user_center_top_level);
 			wendaData = (TextView) view.findViewById(R.id.wenda_data);
 			replayNum = (TextView) view.findViewById(R.id.replay_num);
 			wendaContent = (TextView) view.findViewById(R.id.wenda_content);

@@ -30,7 +30,7 @@ public class AroundUserActivity extends BaseBackActionBarActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.arounduseractivity);
 		setActionbarTitle(getResources().getString(
-				R.string.activity_my_around_name));
+				R.string.user_center_my_group));
 		setLeft(R.drawable.title_bar_back);
 		layout.attachToActivity(this);
 		MyGroupFragment af = new MyGroupFragment();

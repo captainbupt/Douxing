@@ -15,12 +15,12 @@ import com.badou.mworking.model.Classification;
  * 查找中的更多的界面中右边listview的适配器
  *
  */
-public class SearchMoreAdapter extends MyBaseAdapter {
+public class ClassificationMoreAdapter extends MyBaseAdapter {
 
 	private int mPosition = -1;
 	private int mLayoutResId = R.layout.search_more_morelist_item;
 
-	public SearchMoreAdapter(Context context) {
+	public ClassificationMoreAdapter(Context context) {
 		super(context);
 	}
 

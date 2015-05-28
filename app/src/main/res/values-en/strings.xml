@@ -9,8 +9,8 @@
     <string name="forget_password_verification_hint_new">Enter new password</string>
     <string name="forget_password_verification_hint_confirm">Enter new password again</string>
     <string name="change_hint_password_original"> </string>
-    <string name="change_hint_password_new">length>= 6</string>
-    <string name="change_hint_password_confirm">Confirm </string>
+    <string name="change_hint_password_new">Input new password</string>
+    <string name="change_hint_password_confirm">Confirm new password</string>
     <string name="change_button_confirm">Change password</string>
     <string name="comment_all">All comments</string>
     <string name="input_restrict">.@-_0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLIMNOPQRSTUVWXYZ</string>
@@ -24,9 +24,9 @@
     <string name="sign_task_button_sign">Check-in</string>
     <string name="sign_task_passed">Expired</string>
     <string name="sign_task_finished">Completed!</string>
-    <string name="my_exam">My Test</string>
-    <string name="my_study_progress">My Learning</string>
-    <string name="activity_my_around_name">My Posts</string>
+    <string name="user_center_my_exam">My Test</string>
+    <string name="user_center_my_study_progress">My Learning</string>
+    <string name="user_center_my_group">My Posts</string>
     <string name="login_error_button_confirm">OK</string>
     <string name="exam_dialog_min">min</string>
     <string name="search_not_data">No match content</string>
@@ -154,7 +154,7 @@
 	<string name="toPhone">Call : 400-8233-773</string>
 	<string name="title_name_WenXin">Tips</string>
 	<string name="tips_web_btn_toMain">Home page</string>
-	<string name="ucneter_text_pingJunFen">Score:</string>
+	<string name="user_center_exam_average">Score:</string>
 	<string name="uc_dialog_title_settingHead">Display setting</string>
 	<string name="more_text_JingQingQiDai">More features coming soon</string>
 	<string name="exam_text_DaTiKa">Answer sheet</string>
@@ -178,7 +178,7 @@
 	<string name="text_newPass">New password:</string>
 	<string name="accountManger_logout">Log out</string>
 	<string name="sign_time">Check-in time:</string>
-	<string name="text_MyAccount">My Account</string>
+	<string name="user_center_my_account">My Account</string>
 	<string name="text_send">Send</string>
 	<string name="pass_update_tips">Please re-set your password, confirm the changes and back to the login page</string>
 	<string name="hint_oldPass">Old password</string>
@@ -234,7 +234,7 @@ APP will lock the page until reacquire network connection and will automatically
 	<string name="version">©2015 mworking.cn</string>
 	<string name="search_no_content">没有搜到相关内容</string>
 	<string name="current_no_content">暂时没有内容</string>
-	<string name="my_sixing">我的私信</string>
+	<string name="user_center_message">我的私信</string>
 	<string name="company">公司</string>
 	<string name="office">职位</string>
 	<string name="score_one">完全用不上</string>

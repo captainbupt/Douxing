@@ -20,6 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="@dimen/action_bar_img_size"
         android:layout_centerInParent="true"
+        android:padding="@dimen/offset_less"
         android:scaleType="centerInside" />
 
     <ImageView

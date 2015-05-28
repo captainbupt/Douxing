@@ -20,7 +20,7 @@
             android:layout_width="@dimen/around_icon_head_size"
             android:layout_height="@dimen/around_icon_head_size"
             android:scaleType="fitXY"
-            android:src="@drawable/user_detail_head_icon" />
+            android:src="@drawable/icon_user_detail_default_head" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -42,7 +42,7 @@
                     android:textSize="@dimen/text_size_less" />
 
                 <TextView
-                    android:id="@+id/lv_tv"
+                    android:id="@+id/tv_user_center_top_level"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"

@@ -6,7 +6,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -126,7 +125,7 @@ public class WenDaDetailActivity extends BaseNoTitleActivity implements
 		actionbarTitleTv = (TextView) findViewById(R.id.txt_actionbar_title);
 		wendaNoanswearRelay = (ImageView) findViewById(R.id.wenda_noanswear_img);
 		sixinTv = (TextView) findViewById(R.id.sixin_tv);
-		lvTv = (TextView) findViewById(R.id.lv_tv);
+		lvTv = (TextView) findViewById(R.id.tv_user_center_top_level);
 		replayNum = (TextView) findViewById(R.id.replay_num);
 		actionbarLeftImg.setOnClickListener(this);
 		actionbarTitleTv.setText("问答详情");

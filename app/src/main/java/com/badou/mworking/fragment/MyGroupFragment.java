@@ -165,9 +165,9 @@ public class MyGroupFragment extends Fragment implements
 		pullToRefreshListView.setOnRefreshListener(this);
 		headView = LayoutInflater.from(getActivity()).inflate(
 				R.layout.base_around_top_layout, null);
-		headName = (TextView) headView.findViewById(R.id.tvActivityUserSecondName);
-		headImg = (ImageView) headView.findViewById(R.id.ivUserSecondHeadIcon);
-		lvTv = (TextView) headView.findViewById(R.id.lv_tv);
+		headName = (TextView) headView.findViewById(R.id.tv_user_center_top_name);
+		headImg = (ImageView) headView.findViewById(R.id.iv_user_center_top_head);
+		lvTv = (TextView) headView.findViewById(R.id.tv_user_center_top_level);
 		
 		ListView listview = pullToRefreshListView.getRefreshableView();
 		listview.setDividerHeight(0);

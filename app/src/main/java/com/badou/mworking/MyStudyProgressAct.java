@@ -22,7 +22,6 @@ import com.android.volley.VolleyError;
 import com.badou.mworking.adapter.TrainAdapter;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseNoTitleActivity;
-import com.badou.mworking.model.Category;
 import com.badou.mworking.model.Train;
 import com.badou.mworking.model.user.UserDetail;
 import com.badou.mworking.net.DownloadListener;
@@ -136,7 +135,7 @@ public class MyStudyProgressAct extends BaseNoTitleActivity implements OnClickLi
         ivLeft = (ImageView) this.findViewById(R.id.iv_actionbar_left);
         tvTitle = (TextView) this.findViewById(R.id.txt_actionbar_title);
         ivLeft.setOnClickListener(onclick);
-        tvTitle.setText(getResources().getString(R.string.my_study_progress));
+        tvTitle.setText(getResources().getString(R.string.user_center_my_study_progress));
         pullToRefreshListView = (PullToRefreshListView) findViewById(R.id.PullToRefreshListView);
         if (loadDialog == null) {
             // 初始化对话框

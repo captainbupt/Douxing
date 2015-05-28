@@ -14,15 +14,14 @@ import com.badou.mworking.model.Classification;
 import java.util.ArrayList;
 
 /**
- * @author gejianfeng
- *         查找中的更多的界面中左边listview的适配器
+ *  查找中的更多的界面中左边listview的适配器
  */
-public class SearchMainAdapter extends MyBaseAdapter {
+public class ClassificationMainAdapter extends MyBaseAdapter {
 
     private int mPosition = 0;
     private int mLayoutResId = R.layout.search_more_mainlist_item;
 
-    public SearchMainAdapter(Context context) {
+    public ClassificationMainAdapter(Context context) {
         super(context);
     }
 

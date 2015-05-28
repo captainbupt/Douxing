@@ -1,6 +1,5 @@
 package com.badou.mworking;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -14,8 +13,6 @@ import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.fragment.ChattingFragment;
 import com.badou.mworking.widget.SwipeBackLayout;
 import com.umeng.analytics.MobclickAgent;
-
-import java.io.Serializable;
 
 /**
  * 类:  <code> ChattingActivity </code>
@@ -60,7 +57,7 @@ public class ChattingActivity extends BaseNoTitleActivity implements OnClickList
 //		String titleName= SP.getStringSP(mContext, RequestParams.CHK_UPDATA_PIC_CHAT, "");
 //		MainIcon mainIcon = new MainIcon();
 //		tvTitle.setText(mainIcon.getMainIcon(titleName).getName());
-		tvTitle.setText(getResources().getString(R.string.my_sixing));
+		tvTitle.setText(getResources().getString(R.string.user_center_message));
 		ivRight.setOnClickListener(onclick);
 		ivRight.setVisibility(View.VISIBLE);
 		ivRight.setImageResource(R.drawable.search);
@@ -93,12 +90,6 @@ public class ChattingActivity extends BaseNoTitleActivity implements OnClickList
 		case R.id.iv_actionbar_left:
 			finish();
 			overridePendingTransition(R.anim.in_from_left, R.anim.out_to_right);
-			break;
-		case R.id.iv_actionbar_right:
-			Intent intent  = new Intent(mContext, TitleSearchAct.class);
-			intent.putExtra(TitleSearchAct.SEARCH_KEY_VALUE, TitleSearchAct.SEARCH_CHAT);
-			intent.putExtra(CHAT_TAG,(Serializable)fragment.getListData());
-			startActivity(intent);
 			break;
 		default:
 			break;

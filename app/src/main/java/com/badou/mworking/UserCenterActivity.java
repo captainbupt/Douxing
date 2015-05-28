@@ -17,19 +17,12 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.badou.mworking.base.AppApplication;
-import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.model.user.UserDetail;
 import com.badou.mworking.net.LVUtil;
@@ -44,9 +37,11 @@ import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.FileUtils;
 import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.ToastUtil;
-import com.badou.mworking.widget.SwipeBackLayout;
 
 import org.holoeverywhere.app.AlertDialog;
+import org.holoeverywhere.widget.LinearLayout;
+import org.holoeverywhere.widget.ProgressBar;
+import org.holoeverywhere.widget.TextView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -54,8 +49,7 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * 类: <code> UserCenterActivity </code> 功能描述: 个人中心页面 创建人: 葛建锋 创建日期: 2014年7月15日
- * 下午3:59:23 开发环境: JDK7.0
+ * 功能描述: 个人中心页面
  */
 public class UserCenterActivity extends BaseNoTitleActivity {
 
@@ -71,8 +65,6 @@ public class UserCenterActivity extends BaseNoTitleActivity {
 
     private UserDetail mUserDetail;
 
-    private ImageView homeImageView;
-    private ImageView settingsImageView;
     private ImageView ivUserHeadIcon;
     private TextView postsNumTextView;     // 我的圈帖子数量
     private TextView levelTextView;    //等级
@@ -80,27 +72,9 @@ public class UserCenterActivity extends BaseNoTitleActivity {
     private String imgCacheUrl = "";
     private TextView chatNumTextView;   //聊天未读数量
 
-    // Press the back button in mobile phone
-    @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.in_from_left, R.anim.out_to_right);
-    }
-
-    @Override
-    public void startActivity(Intent intent) {
-        super.startActivity(intent);
-        overridePendingTransition(R.anim.in_from_right,
-                R.anim.out_to_left);
-    }
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        layout = (SwipeBackLayout) LayoutInflater.from(this).inflate(
-                R.layout.base, null);
-        layout.attachToActivity(this);
         setContentView(R.layout.activity_user_center);
         initView();
         initListener();
@@ -108,53 +82,23 @@ public class UserCenterActivity extends BaseNoTitleActivity {
     }
 
     private void initView() {
-        postsNumTextView = (TextView) findViewById(R.id.posts_num_tv);
-        chatNumTextView = (TextView) findViewById(R.id.chat_num_tv);
-        // actionbar home 操作，返回主界面
-        homeImageView = (ImageView) findViewById(R.id.iv_actionbar_left);
-        homeImageView.setImageResource(R.drawable.title_bar_back_normal);
-        // 个人中心的设置操作
-        settingsImageView = (ImageView) findViewById(R.id.iv_actionbar_right);
-        settingsImageView.setVisibility(View.GONE);
+        postsNumTextView = (TextView) findViewById(R.id.tv_user_center_group_post_number);
+        chatNumTextView = (TextView) findViewById(R.id.tv_user_center_message_number);
 
-        // 设置actionbar标题
-        ((TextView) findViewById(R.id.txt_actionbar_title)).setText(getIntent().getStringExtra(BaseActionBarActivity.KEY_TITLE));
         // 用户头像
-        ivUserHeadIcon = (ImageView) findViewById(R.id.ivUserSecondHeadIcon);
-        levelTextView = (TextView) findViewById(R.id.lv_tv);
+        ivUserHeadIcon = (ImageView) findViewById(R.id.iv_user_center_top_head);
+        levelTextView = (TextView) findViewById(R.id.tv_user_center_top_level);
 
     }
 
     private void initListener() {
-        homeImageView.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (UserCenterActivity.this != null) {
-                    finish();
-                    overridePendingTransition(0, R.anim.base_slide_right_out);
-                }
-            }
-        });
-
-        settingsImageView.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mActivity,
-                        AccountManageActivity.class);
-                mActivity.startActivity(intent);
-                overridePendingTransition(R.anim.in_from_right,
-                        R.anim.out_to_left);
-            }
-        });
 
         ivUserHeadIcon.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 // 判断是否联网，如果没有联网的话，不进行拍照和相册选取图片的操作
-                if (!NetUtils.isNetConnected(UserCenterActivity.this)) {
+                if (!NetUtils.isNetConnected(mContext)) {
                     ToastUtil.showToast(mContext, R.string.error_service);
                     return;
                 }
@@ -170,8 +114,20 @@ public class UserCenterActivity extends BaseNoTitleActivity {
             }
         });
 
+        // actionbar home 操作，返回主界面
+        findViewById(R.id.iv_user_center_top_back).setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (mContext != null) {
+                    finish();
+                    overridePendingTransition(0, R.anim.base_slide_right_out);
+                }
+            }
+        });
+
         // 我的学习
-        ((RelativeLayout) findViewById(R.id.llUserSecondStudyProgress))
+        findViewById(R.id.ll_user_center_study_progress)
                 .setOnClickListener(new OnClickListener() {
 
                     @Override
@@ -185,7 +141,7 @@ public class UserCenterActivity extends BaseNoTitleActivity {
                     }
                 });
         // 进入我的圈页面
-        ((LinearLayout) findViewById(R.id.llUserMyGroup))
+        findViewById(R.id.ll_user_center_group)
                 .setOnClickListener(new OnClickListener() {
 
                     @Override
@@ -196,7 +152,7 @@ public class UserCenterActivity extends BaseNoTitleActivity {
                 });
 
         // 进入我的考试
-        ((RelativeLayout) findViewById(R.id.llUserSecondExam))
+        findViewById(R.id.ll_user_center_exam)
                 .setOnClickListener(new OnClickListener() {
 
                     @Override
@@ -211,7 +167,7 @@ public class UserCenterActivity extends BaseNoTitleActivity {
                 });
 
         // 进入我的直通车
-        ((LinearLayout) findViewById(R.id.chat_linear))
+        findViewById(R.id.ll_user_center_message)
                 .setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -220,7 +176,7 @@ public class UserCenterActivity extends BaseNoTitleActivity {
                     }
                 });
         // 进入我的账号
-        ((LinearLayout) findViewById(R.id.llUserMyAccount))
+        findViewById(R.id.ll_user_center_my_account)
                 .setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -229,7 +185,7 @@ public class UserCenterActivity extends BaseNoTitleActivity {
                     }
                 });
         // 进入关于我们
-        ((ImageView) findViewById(R.id.iv_about)).setOnClickListener(new OnClickListener() {
+        findViewById(R.id.iv_user_center_top_about).setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
@@ -366,18 +322,14 @@ public class UserCenterActivity extends BaseNoTitleActivity {
         // 用户信息
         imgCacheUrl = mUserDetail.getHeadimg();
         String strScore = mContext.getResources().getString(R.string.text_score);
-        String strPingJunFen = mContext.getResources().getString(R.string.ucneter_text_pingJunFen);
+        String strPingJunFen = mContext.getResources().getString(R.string.user_center_exam_average);
         setUserIcon(uid, mUserDetail.getHeadimg());
         if (!TextUtils.isEmpty(mUserDetail.getName())) {
-            ((TextView) findViewById(R.id.tvActivityUserSecondName))
-                    .setText(mUserDetail.getName());
-        }
-        if (!TextUtils.isEmpty(mUserDetail.getDpt())) {
-            ((TextView) findViewById(R.id.tvActivityUserSecondPart))
-                    .setText(mUserDetail.getDpt());
+            ((TextView) findViewById(R.id.tv_user_center_top_name))
+                    .setText(mUserDetail.getName() + "/" + mUserDetail.getDpt());
         }
         if (!TextUtils.isEmpty(String.valueOf(mUserDetail.getScore()))) {
-            ((TextView) findViewById(R.id.tvUserSecondAvrScoreUser))
+            ((TextView) findViewById(R.id.tv_user_center_exam_score))
                     .setText(strPingJunFen + String.valueOf(mUserDetail.getScore())
                             + strScore);
         }
@@ -386,7 +338,7 @@ public class UserCenterActivity extends BaseNoTitleActivity {
         if (!TextUtils.isEmpty(String.valueOf(mUserDetail.getStudy_total()))
                 && !TextUtils.isEmpty(String.valueOf(mUserDetail
                 .getTraining_total()))) {
-            ((TextView) findViewById(R.id.studyTotalPercent))
+            ((TextView) findViewById(R.id.tv_user_center_study_percent))
                     .setText(String.valueOf(mUserDetail.getStudy_total())
                             + "/"
                             + String.valueOf(mUserDetail.getTraining_total()));
@@ -395,7 +347,7 @@ public class UserCenterActivity extends BaseNoTitleActivity {
             int s = study * 100;
             if (training != 0) {
                 int progress = s / training;
-                ProgressBar pbTotalBar = (ProgressBar) findViewById(R.id.proBarTotalUser);
+                ProgressBar pbTotalBar = (ProgressBar) findViewById(R.id.pb_user_center_study_progress);
                 pbTotalBar.setProgress(progress);
             }
         }
@@ -510,8 +462,7 @@ public class UserCenterActivity extends BaseNoTitleActivity {
                                 file.toString());
                         startPhotoZoom(Uri.fromFile(file));
                     } else {
-                        Toast.makeText(UserCenterActivity.this, R.string.save_camera_fail,
-                                Toast.LENGTH_LONG).show();
+                        ToastUtil.showToast(mContext, R.string.save_camera_fail);
                     }
                     break;
                 case RESULT_REQUEST_CODE:
@@ -533,7 +484,7 @@ public class UserCenterActivity extends BaseNoTitleActivity {
      */
     public void startPhotoZoom(Uri uri) {
 
-        String filepath = getPath(UserCenterActivity.this, uri);
+        String filepath = getPath(mContext, uri);
         Uri newUri = Uri.fromFile(new File(filepath));
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(newUri, "image/*");

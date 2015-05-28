@@ -27,7 +27,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:padding="@dimen/offset_less"
-            android:text="@string/ucneter_text_pingJunFen"
+            android:text="@string/user_center_exam_average"
             android:textColor="@android:color/white" />
 
         <RelativeLayout

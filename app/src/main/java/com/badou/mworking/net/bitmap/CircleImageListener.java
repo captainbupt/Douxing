@@ -52,7 +52,7 @@ public class CircleImageListener implements ImageListener {
 		Resources res = mContext.getResources();
 		mImageView.setImageBitmap(BitmapUtil.getCirlBitmp(BitmapUtil
 				.decodeSampledBitmapFromResource(res,
-						R.drawable.user_detail_head_icon, width, height),
+						R.drawable.icon_user_detail_default_head, width, height),
 				width, height));
 	}
 
