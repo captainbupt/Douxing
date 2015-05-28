@@ -1,11 +1,7 @@
 package com.badou.mworking.model;
 
 /**
- * 类:  <code> MainPic </code>
- * 功能描述:主页的icon 
- * 创建人: dongqi
- * 创建日期: 2014年8月8日 上午11:51:24
- * 开发环境: JDK6.0
+ * 功能描述:主页的icon
  */
 public class MainIcon {
 	

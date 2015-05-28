@@ -1,53 +1,21 @@
 package com.badou.mworking;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
-import com.android.volley.VolleyError;
 import com.badou.mworking.adapter.ExamAdapter;
-import com.badou.mworking.adapter.SearchMainAdapter;
-import com.badou.mworking.adapter.SearchMoreAdapter;
 import com.badou.mworking.base.AppApplication;
-import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.base.BaseProgressListActivity;
 import com.badou.mworking.model.Category;
-import com.badou.mworking.model.Classification;
 import com.badou.mworking.model.Exam;
-import com.badou.mworking.model.Notice;
 import com.badou.mworking.net.Net;
-import com.badou.mworking.net.RequestParams;
-import com.badou.mworking.net.ResponseParams;
-import com.badou.mworking.net.ServiceProvider;
-import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.receiver.JPushReceiver;
 import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.SP;
 import com.badou.mworking.util.ToastUtil;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import com.umeng.analytics.MobclickAgent;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -123,10 +91,6 @@ public class ExamActivity extends BaseProgressListActivity {
     public void clickRight() {
         // tag 值大于 0 ，  代表在线考试，点击跳入搜索，    tag<0, 代表 等级考试， 点击跳入等级考试页面，  tag = 0 表示全部
         if (tag >= 0) {
-            Intent inten = new Intent(mContext, TitleSearchAct.class);
-            inten.putExtra(TitleSearchAct.SEARCH_KEY_VALUE, Category.CATEGORY_EXAM);
-            inten.putExtra(TitleSearchAct.SEARCH_TAG, tag);
-            startActivity(inten);
         } else {
             Intent inten = new Intent(mContext, MyRatingActivity.class);
             startActivity(inten);

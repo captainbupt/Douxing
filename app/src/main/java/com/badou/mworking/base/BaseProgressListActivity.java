@@ -12,9 +12,8 @@ import android.widget.ListView;
 
 import com.android.volley.VolleyError;
 import com.badou.mworking.R;
-import com.badou.mworking.TitleSearchAct;
-import com.badou.mworking.adapter.SearchMainAdapter;
-import com.badou.mworking.adapter.SearchMoreAdapter;
+import com.badou.mworking.adapter.ClassificationMainAdapter;
+import com.badou.mworking.adapter.ClassificationMoreAdapter;
 import com.badou.mworking.model.Classification;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ResponseParams;
@@ -52,8 +51,8 @@ public abstract class BaseProgressListActivity extends BaseBackActionBarActivity
     private static final String SP_KEY_CATEGORY_MAIN = "main";
     private static final String SP_KEY_CATEGORY_MORE = "more";
 
-    private SearchMainAdapter mMainClassificationAdapter = null;
-    private SearchMoreAdapter mMoreClassificationAdapter = null;
+    private ClassificationMainAdapter mMainClassificationAdapter = null;
+    private ClassificationMoreAdapter mMoreClassificationAdapter = null;
     protected MyBaseAdapter mCategoryAdapter = null;
 
     private ListView mMainListView;
@@ -143,8 +142,8 @@ public abstract class BaseProgressListActivity extends BaseBackActionBarActivity
     }
 
     private void initProgressData() {
-        mMainClassificationAdapter = new SearchMainAdapter(mContext);
-        mMoreClassificationAdapter = new SearchMoreAdapter(mContext);
+        mMainClassificationAdapter = new ClassificationMainAdapter(mContext);
+        mMoreClassificationAdapter = new ClassificationMoreAdapter(mContext);
         mMoreClassificationAdapter.setLayoutResId(R.layout.shop_list2_item);
         mMoreListView.setAdapter(mMoreClassificationAdapter);
         mMainClassificationAdapter.setLayoutResId(R.layout.shop_list1_item);
@@ -195,10 +194,6 @@ public abstract class BaseProgressListActivity extends BaseBackActionBarActivity
     }
 
     public void clickRight() {
-        Intent intent = new Intent(mContext, TitleSearchAct.class);
-        intent.putExtra(TitleSearchAct.SEARCH_KEY_VALUE, CATEGORY_NAME);
-        intent.putExtra(TitleSearchAct.SEARCH_TAG, tag);
-        startActivity(intent);
     }
 
     /**

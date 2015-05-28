@@ -152,9 +152,9 @@ public class ChatInfoAdapter extends BaseAdapter {
 		vh.layoutMy.setVisibility(View.VISIBLE);
 		vh.layoutOther.setVisibility(View.GONE); 
 		/** 设置头像 **/
-		vh.imgMyHead.setImageResource(R.drawable.user_detail_head_icon);
+		vh.imgMyHead.setImageResource(R.drawable.icon_user_detail_default_head);
 		if (myHeadImgUrl == null || myHeadImgUrl.equals("")) {
-			vh.imgMyHead.setImageResource(R.drawable.user_detail_head_icon);
+			vh.imgMyHead.setImageResource(R.drawable.icon_user_detail_default_head);
 		} else {
 			/** 设置头像 **/
 			Bitmap bm = BitmapLruCache.getBitmapLruCache().getCircleBitmap(
@@ -177,7 +177,7 @@ public class ChatInfoAdapter extends BaseAdapter {
 		vh.layoutMy.setVisibility(View.GONE);
 		vh.layoutOther.setVisibility(View.VISIBLE);
 		/** 设置头像 **/
-		vh.imgOtherHead.setImageResource(R.drawable.user_detail_head_icon);
+		vh.imgOtherHead.setImageResource(R.drawable.icon_user_detail_default_head);
 		/** 设置头像 **/
 		Bitmap bm = BitmapLruCache.getBitmapLruCache().getCircleBitmap(img);
 		if (bm != null && !bm.isRecycled()) {

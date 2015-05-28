@@ -3,8 +3,10 @@ package com.badou.mworking;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Display;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -25,6 +27,7 @@ import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.database.MTrainingDBHelper;
+import com.badou.mworking.model.Category;
 import com.badou.mworking.model.MainBanner;
 import com.badou.mworking.model.MainIcon;
 import com.badou.mworking.net.Net;
@@ -44,6 +47,7 @@ import com.badou.mworking.widget.BannerGallery;
 import com.badou.mworking.widget.SearchLinearView;
 import com.badou.mworking.widget.TopFadeScrollView;
 
+import org.holoeverywhere.widget.LinearLayout;
 import org.holoeverywhere.widget.RadioButton;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -86,6 +90,11 @@ public class MainGridActivity extends BaseNoTitleActivity {
 
     private ImageView mUserCentertImageView;    //logo 布局左边图标，点击进入个人中心
     private ImageView mSearchImageView;    //logo 布局右边图标，点击进入搜索页面
+
+    private FrameLayout mContainerLayout;
+    private SearchLinearView mSearchLinearView;
+    private boolean isSearching = false;
+    private LinearLayout mContentLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,6 +143,8 @@ public class MainGridActivity extends BaseNoTitleActivity {
         mBannerGallery.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, height));
         mScrollView = (TopFadeScrollView) findViewById(R.id.tfsv_main_grid);
         mScrollView.setTopViewId(R.id.rl_main_grid_banner);
+        mContainerLayout = (FrameLayout) findViewById(R.id.fm_main_grid_container);
+        mContentLayout = (LinearLayout) findViewById(R.id.ll_main_grid_content_layout);
     }
 
     /**
@@ -193,9 +204,22 @@ public class MainGridActivity extends BaseNoTitleActivity {
         mSearchImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SearchLinearView searchView = new SearchLinearView(mContext);
-                FrameLayout container = (FrameLayout) findViewById(R.id.fm_main_grid_container);
-                container.addView(searchView);
+                if (mSearchLinearView == null)
+                    mSearchLinearView = new SearchLinearView(mContext,
+                            new String[]{getMainIconTitle(RequestParams.CHK_UPDATA_PIC_TRAIN, R.string.module_default_title_training),
+                                    getMainIconTitle(RequestParams.CHK_UPDATA_PIC_EXAM, R.string.module_default_title_exam)},
+                            new int[]{Category.CATEGORY_TRAIN, Category.CATEGORY_EXAM},
+                            new SearchLinearView.OnRemoveListener() {
+                                @Override
+                                public void onRemove() {
+                                    mContainerLayout.removeView(mSearchLinearView);
+                                    isSearching = false;
+                                    mSearchLinearView.setStop(true);
+                                }
+                            });
+                mSearchLinearView.setStop(false);
+                mContainerLayout.addView(mSearchLinearView);
+                isSearching = true;
             }
         });
     }
@@ -299,12 +323,18 @@ public class MainGridActivity extends BaseNoTitleActivity {
      */
     @Override
     public void onBackPressed() {
-        // 应为系统当前的系统毫秒数一定小于2000
-        if ((System.currentTimeMillis() - mExitTime) > 2000) {
-            ToastUtil.showToast(mContext, R.string.main_exit_tips);
-            mExitTime = System.currentTimeMillis();
+        if (isSearching) {
+            mContainerLayout.removeView(mSearchLinearView);
+            isSearching = false;
+            mSearchLinearView.setStop(true);
         } else {
-            AppManager.getAppManager().AppExit(this, false);
+            // 应为系统当前的系统毫秒数一定小于2000
+            if ((System.currentTimeMillis() - mExitTime) > 2000) {
+                ToastUtil.showToast(mContext, R.string.main_exit_tips);
+                mExitTime = System.currentTimeMillis();
+            } else {
+                AppManager.getAppManager().AppExit(this, false);
+            }
         }
     }
 
@@ -478,6 +508,19 @@ public class MainGridActivity extends BaseNoTitleActivity {
     }
 
     /**
+     * @param key               icon键值
+     * @param defaultTitleResId 默认名称
+     */
+    private String getMainIconTitle(String key, int defaultTitleResId) {
+        JSONObject mainIconJSONObject = getMainIconJSONObject(key);
+        String title = mainIconJSONObject.optString("name");
+        if (TextUtils.isEmpty(title)) {
+            title = mContext.getResources().getString(defaultTitleResId);
+        }
+        return title;
+    }
+
+    /**
      * 功能描述: 更新数据库中mainIcon的name 字段和 priority 字段
      */
     private JSONObject getMainIconJSONObject(String key) {
@@ -498,6 +541,22 @@ public class MainGridActivity extends BaseNoTitleActivity {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public Bitmap myShot() {
+
+        mContentLayout.buildDrawingCache();
+        // 获取屏幕宽和高
+        int widths = mContentLayout.getWidth();
+        int heights = mContentLayout.getHeight();
+        // 允许当前窗口保存缓存信息
+        mContentLayout.setDrawingCacheEnabled(true);
+        // 去掉状态栏
+        Bitmap bmp = Bitmap.createBitmap(mContentLayout.getDrawingCache(), 0,
+                0, widths, heights);
+        // 销毁缓存信息
+        mContentLayout.destroyDrawingCache();
+        return bmp;
     }
 
 }

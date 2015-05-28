@@ -15,7 +15,6 @@ import com.android.volley.VolleyError;
 import com.badou.mworking.adapter.ExamAdapter;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseNoTitleActivity;
-import com.badou.mworking.model.Category;
 import com.badou.mworking.model.Exam;
 import com.badou.mworking.model.user.UserDetail;
 import com.badou.mworking.net.Net;
@@ -94,7 +93,7 @@ public class MyExamAct extends BaseNoTitleActivity implements OnClickListener,On
 		ivLeft = (ImageView) this.findViewById(R.id.iv_actionbar_left);
 		ivRight = (ImageView) this.findViewById(R.id.iv_actionbar_right);
 		ivLeft.setOnClickListener(onclick);
-		tvTitle.setText(getResources().getString(R.string.my_exam));
+		tvTitle.setText(getResources().getString(R.string.user_center_my_exam));
 		pullToRefreshListView = (PullToRefreshListView)findViewById(R.id.PullToRefreshListView);
 		pullToRefreshListView.setOnRefreshListener(this);
 		pullToRefreshListView.setMode(Mode.BOTH);

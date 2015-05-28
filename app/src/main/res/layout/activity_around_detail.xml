@@ -109,7 +109,7 @@
                     android:layout_height="@dimen/around_icon_head_size"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
-                    android:src="@drawable/user_detail_head_icon" />
+                    android:src="@drawable/icon_user_detail_default_head" />
 
                 <TextView
                     android:id="@+id/tvQuestionName"

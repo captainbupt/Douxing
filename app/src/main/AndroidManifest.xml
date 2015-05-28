@@ -98,10 +98,6 @@
 
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name="com.badou.mworking.widget.LoginErrorDialogActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Holo.AlertDialog" />
-        <activity
             android:name="com.badou.mworking.AboutUsActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
@@ -206,11 +202,6 @@
 
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name="com.badou.mworking.TitleSearchAct"
-
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysVisible" />
         <activity
             android:name="com.badou.mworking.WenDaSearchActivity"
             android:screenOrientation="portrait"
@@ -350,9 +341,5 @@
         <!-- </>值来自开发者平台取得的AppKey -->
 
     </application>
-
-    <uses-sdk
-        android:minSdkVersion="8"
-        android:targetSdkVersion="22" />
 
 </manifest>

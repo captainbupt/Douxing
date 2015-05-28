@@ -87,7 +87,7 @@ public class ChatAdapter extends BaseSwipeAdapter{
 		ViewHolder vh = new ViewHolder(convertView);
 		chat = mData.get(position);
 		/**设置头像**/
-		vh.imgHead.setImageResource(R.drawable.user_detail_head_icon);
+		vh.imgHead.setImageResource(R.drawable.icon_user_detail_default_head);
 		/**设置头像**/
 		int size = mContext.getResources().getDimensionPixelSize(
 				R.dimen.around_icon_head_size);

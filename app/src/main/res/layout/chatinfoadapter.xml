@@ -38,7 +38,7 @@
                 android:layout_width="@dimen/chat_icon_head_size"
                 android:layout_height="@dimen/chat_icon_head_size"
                 android:layout_alignParentLeft="true"
-                android:src="@drawable/user_detail_head_icon" />
+                android:src="@drawable/icon_user_detail_default_head" />
 
             <TextView
                 android:id="@+id/tvOtherMSG"
@@ -90,7 +90,7 @@
                 android:layout_width="@dimen/chat_icon_head_size"
                 android:layout_height="@dimen/chat_icon_head_size"
                 android:layout_alignParentRight="true"
-                android:src="@drawable/user_detail_head_icon" />
+                android:src="@drawable/icon_user_detail_default_head" />
 
             <TextView
                 android:id="@+id/tvMyMSG"

@@ -10,9 +10,9 @@
     <string name="forget_password_verification_hint_new">请输入新密码</string>
     <string name="forget_password_verification_hint_confirm">请再次输入新密码</string>
     <string name="change_hint_password_original">请输入当前密码</string>
-    <string name="change_hint_password_new">新密码(长度>=6)</string>
+    <string name="change_hint_password_new">输入新密码</string>
     <string name="change_hint_password_confirm">确认新密码</string>
-    <string name="change_button_confirm">修 改 密 码</string>
+    <string name="change_button_confirm">修改密码</string>
     <string name="comment_all">全部评论</string>
     <string name="input_restrict">.@-_0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLIMNOPQRSTUVWXYZ</string>
     <string name="app_name">兜行</string>
@@ -25,9 +25,9 @@
     <string name="sign_task_button_sign">签到</string>
     <string name="sign_task_passed">任务已经过期</string>
     <string name="sign_task_finished">您已完成签到</string>
-    <string name="my_exam">我的考试</string>
-    <string name="my_study_progress">我的学习</string>
-    <string name="activity_my_around_name">我的圈</string>
+    <string name="user_center_my_exam">我的考试</string>
+    <string name="user_center_my_study_progress">我的学习</string>
+    <string name="user_center_my_group">我的圈</string>
     <string name="login_error_button_confirm">确认</string>
     <string name="comment_hint">我来说两句（大于5个字）&#8230;</string>
     <string name="question_content_null">内容不能为空</string>
@@ -132,7 +132,7 @@
     <string name="toPhone">拨打客服电话:400-8233-773</string>
     <string name="title_name_WenXin">温馨提示</string>
     <string name="tips_web_btn_toMain">进入首页</string>
-    <string name="ucneter_text_pingJunFen">平均分:</string>
+    <string name="user_center_exam_average">平均分:</string>
     <string name="uc_dialog_title_settingHead">设置头像</string>
     <string name="more_text_JingQingQiDai">更多精彩,敬请期待&#8230;</string>
     <string name="search_edit_hint">请输入文字</string>
@@ -146,7 +146,7 @@
     <string name="text_newPass">新&#160;密&#160;码:</string>
     <string name="accountManger_logout">退 出 登 录</string>
     <string name="sign_time">签到时间:</string>
-    <string name="text_MyAccount">我的账号</string>
+    <string name="user_center_my_account">我的账号</string>
     <string name="text_send">发送</string>
     <string name="hint_feekback_edit">请写下您的建议...</string>
     <string name="text_downLoadFile">正在下载文件&#8230;</string>
@@ -180,7 +180,7 @@
 	<string name="version">©2015 mworking.cn</string>
 	<string name="search_no_content">没有搜到相关内容</string>
 	<string name="current_no_content">暂时没有内容</string>
-	<string name="my_sixing">我的私信</string>
+	<string name="user_center_message">我的私信</string>
 	<string name="company">公司</string>
 	<string name="office">职位</string>
 	<string name="score_one">完全用不上</string>

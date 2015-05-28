@@ -18,13 +18,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
 
 import com.android.volley.VolleyError;
 import com.badou.mworking.AroundDetailActivity;
@@ -331,7 +329,7 @@ public class TongShiQuanAdapter extends BaseAdapter {
 			chk = (CheckBox) view.findViewById(R.id.chb_credit);
 			tvChkNum = (TextView) view.findViewById(R.id.tv_credit_num);
 			layoutCredit = (LinearLayout) view.findViewById(R.id.layout_credit);
-			tvLv = (TextView) view.findViewById(R.id.lv_tv);
+			tvLv = (TextView) view.findViewById(R.id.tv_user_center_top_level);
 			showAllContentTv = (TextView) view
 					.findViewById(R.id.show_all_content_tv);
 			shenliuliangTv = (TextView) view.findViewById(R.id.shenliuliang_tv);

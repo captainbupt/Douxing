@@ -47,7 +47,7 @@
                     android:id="@+id/img_head"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/user_detail_head_icon" />
+                    android:src="@drawable/icon_user_detail_default_head" />
 
                 <TextView
                     android:id="@+id/tv_unreadNum"

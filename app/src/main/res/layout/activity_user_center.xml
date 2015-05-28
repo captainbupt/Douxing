@@ -1,50 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<org.holoeverywhere.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/user_center_linear"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_layout_bg"
+    android:background="@color/color_bg_grey"
     android:gravity="center_horizontal"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
-    <include
+    <org.holoeverywhere.widget.RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        layout="@layout/actionbar" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/bg_top_user_center_h"
-        android:background="@drawable/bg_usercneter"
+        android:background="@drawable/background_top_dark_blue"
         android:orientation="vertical"
-        android:paddingLeft="@dimen/offset_small"
-        android:paddingRight="@dimen/offset_small" >
+        android:paddingBottom="@dimen/offset_large"
+        android:paddingLeft="@dimen/offset_medium"
+        android:paddingRight="@dimen/offset_medium"
+        android:paddingTop="@dimen/offset_less">
 
         <ImageView
-            android:id="@+id/ivUserSecondHeadIcon"
+            android:id="@+id/iv_user_center_top_head"
             android:layout_width="@dimen/user_center_image_head_size"
             android:layout_height="@dimen/user_center_image_head_size"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/user_center_Top_layout_PadB"
+            android:layout_marginTop="@dimen/offset_large"
             android:scaleType="centerInside"
-            android:src="@drawable/user_detail_head_icon" />
-        
-        <TextView
-            android:id="@+id/lv_tv"
+            android:src="@drawable/icon_user_detail_default_head" />
+
+        <org.holoeverywhere.widget.TextView
+            android:id="@+id/tv_user_center_top_level"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/ivUserSecondHeadIcon"
-            android:layout_marginBottom="@dimen/offset_small"
-            android:layout_marginRight="@dimen/offset_lless"
-            android:layout_toRightOf="@id/ivUserSecondHeadIcon"
+            android:layout_alignTop="@id/iv_user_center_top_head"
+            android:layout_marginTop="@dimen/offset_small"
+            android:layout_toRightOf="@id/iv_user_center_top_head"
             android:textColor="#ffffff"
             android:textSize="@dimen/text_size_small" />
 
-        <TextView
-            android:id="@+id/tvActivityUserSecondName"
+        <org.holoeverywhere.widget.TextView
+            android:id="@+id/tv_user_center_top_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/ivUserSecondHeadIcon"
+            android:layout_below="@+id/iv_user_center_top_head"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/offset_less"
             android:gravity="center_horizontal"
@@ -52,274 +48,286 @@
             android:textColor="@android:color/white"
             android:textSize="@dimen/text_size_large" />
 
-        <TextView
-            android:id="@+id/tvActivityUserSecondPart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tvActivityUserSecondName"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/offset_small"
-            android:gravity="center_horizontal"
-            android:text=""
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/text_size_less" />
-
         <ImageView
-            android:id="@+id/iv_about"
+            android:id="@+id/iv_user_center_top_about"
             android:layout_width="@dimen/user_center_about_size"
             android:layout_height="@dimen/user_center_about_size"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:layout_marginRight="@dimen/user_center_about_marginR"
-            android:layout_marginTop="@dimen/user_center_about_marginT"
-            android:src="@drawable/icon_main_grid_about_us" />
-    </RelativeLayout>
+            android:src="@drawable/icon_user_center_about_us" />
+
+        <ImageView
+            android:id="@+id/iv_user_center_top_back"
+            android:layout_width="@dimen/user_center_about_size"
+            android:layout_height="@dimen/user_center_about_size"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:src="@drawable/title_bar_back_normal" />
+    </org.holoeverywhere.widget.RelativeLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="none" >
+        android:scrollbars="none">
 
-        <LinearLayout
+        <org.holoeverywhere.widget.LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/color_layout_bg"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/offset_medium"
-            android:paddingTop="@dimen/offset_less" >
+            android:orientation="vertical">
 
-            <RelativeLayout
-                android:id="@+id/llUserSecondStudyProgress"
-                style="@style/styleUser_center_item_layout" >
+            <org.holoeverywhere.widget.LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/offset_less"
+                android:background="@color/color_white"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/offset_medium"
+                android:paddingRight="@dimen/offset_medium">
 
-                <ImageView
-                    android:id="@+id/iv_1"
-                    android:layout_width="@dimen/user_center_icon_content"
-                    android:layout_height="@dimen/user_center_icon_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/total_study_progress" />
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
+                <org.holoeverywhere.widget.LinearLayout
+                    android:id="@+id/ll_user_center_study_progress"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@+id/arrow_1"
-                    android:layout_toRightOf="@+id/iv_1"
                     android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/offset_less"
                     android:paddingLeft="@dimen/offset_less"
-                    android:paddingRight="@dimen/offset_less" >
+                    android:paddingRight="@dimen/offset_small"
+                    android:paddingTop="@dimen/offset_less">
 
-                    <TextView
-                        android:id="@+id/textview_xuexizongjidu"
+                    <ImageView
+                        android:layout_width="@dimen/user_center_icon_content"
+                        android:layout_height="@dimen/user_center_icon_content"
+                        android:src="@drawable/icon_user_center_study_progress" />
+
+                    <org.holoeverywhere.widget.LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentTop="true"
-                        android:text="@string/my_study_progress"
-                        android:textColor="@color/color_user_center_textcolor_black"
-                        android:textSize="@dimen/text_size_less" />
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:paddingLeft="@dimen/offset_less"
+                        android:paddingRight="@dimen/offset_less">
 
-                    <TextView
-                        android:id="@+id/studyTotalPercent"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@+id/textview_xuexizongjidu"
-                        android:layout_alignParentRight="true"
-                        android:gravity="center"
-                        android:text="0/0"
-                        android:textColor="@color/color_user_center_textcolor_black"
-                        android:textSize="@dimen/text_size_less" />
+                        <org.holoeverywhere.widget.LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
 
-                    <ProgressBar
-                        android:id="@+id/proBarTotalUser"
-                        style="@style/ProgressBar_Mini"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/user_center_progress_height"
-                        android:layout_below="@+id/textview_xuexizongjidu"
-                        android:layout_marginRight="@dimen/offset_micro"
-                        android:layout_marginTop="@dimen/offset_micro"
-                        android:max="100" />
-                </RelativeLayout>
+                            <org.holoeverywhere.widget.TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/user_center_my_study_progress"
+                                android:textColor="@color/color_text_black"
+                                android:textSize="@dimen/text_size_medium" />
 
-                <ImageView
-                    android:id="@+id/arrow_1"
-                    android:layout_width="@dimen/user_center_icon_forward_width"
-                    android:layout_height="@dimen/user_center_icon_forward_height"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/user_detail_forward" />
-            </RelativeLayout>
+                            <org.holoeverywhere.widget.TextView
+                                android:id="@+id/tv_user_center_study_percent"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="right"
+                                android:text="0/0"
+                                android:textColor="@color/color_text_black"
+                                android:textSize="@dimen/text_size_medium" />
+                        </org.holoeverywhere.widget.LinearLayout>
 
-            <RelativeLayout
-                android:id="@+id/llUserSecondExam"
-                style="@style/styleUser_center_item_layout" >
+                        <org.holoeverywhere.widget.ProgressBar
+                            android:id="@+id/pb_user_center_study_progress"
+                            style="@style/ProgressBarUserCenter"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/user_center_progress_height"
+                            android:layout_marginTop="@dimen/offset_micro"
+                            android:max="100" />
+                    </org.holoeverywhere.widget.LinearLayout>
 
-                <ImageView
-                    android:id="@+id/iv_2"
-                    android:layout_width="@dimen/user_center_icon_content"
-                    android:layout_height="@dimen/user_center_icon_content"
-                    android:src="@drawable/user_detail_exam" />
+                    <ImageView
+                        android:layout_width="@dimen/user_center_icon_forward_width"
+                        android:layout_height="@dimen/user_center_icon_forward_height"
+                        android:src="@drawable/icon_user_center_forward" />
+                </org.holoeverywhere.widget.LinearLayout>
 
-                <RelativeLayout
-                    android:layout_width="wrap_content"
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/color_bg_grey" />
+
+                <org.holoeverywhere.widget.LinearLayout
+                    android:id="@+id/ll_user_center_exam"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@+id/arrow_2"
-                    android:layout_toRightOf="@+id/iv_2"
                     android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/offset_less"
                     android:paddingLeft="@dimen/offset_less"
-                    android:paddingRight="@dimen/offset_less" >
+                    android:paddingRight="@dimen/offset_small"
+                    android:paddingTop="@dimen/offset_less">
 
-                    <TextView
-                        android:id="@+id/textview_wodekaos"
+                    <ImageView
+                        android:layout_width="@dimen/user_center_icon_content"
+                        android:layout_height="@dimen/user_center_icon_content"
+                        android:src="@drawable/icon_user_center_exam" />
+
+
+                    <org.holoeverywhere.widget.TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentTop="true"
-                        android:text="@string/my_exam"
-                        android:textColor="@color/color_user_center_textcolor_black"
-                        android:textSize="@dimen/text_size_less" />
+                        android:layout_marginLeft="@dimen/offset_less"
+                        android:layout_weight="1"
+                        android:text="@string/user_center_my_exam"
+                        android:textColor="@color/color_text_black"
+                        android:textSize="@dimen/text_size_medium" />
 
-                    <TextView
-                        android:id="@+id/tvUserSecondAvrScoreUser"
+                    <org.holoeverywhere.widget.TextView
+                        android:id="@+id/tv_user_center_exam_score"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignBottom="@+id/textview_wodekaos"
-                        android:layout_alignParentRight="true"
-                        android:gravity="center"
-                        android:text="@string/ucneter_text_pingJunFen"
-                        android:textColor="@color/color_user_center_textcolor_black"
-                        android:textSize="@dimen/text_size_less" />
-                </RelativeLayout>
+                        android:layout_marginRight="@dimen/offset_less"
+                        android:text="@string/user_center_exam_average"
+                        android:textColor="@color/color_text_black"
+                        android:textSize="@dimen/text_size_medium" />
 
-                <ImageView
-                    android:id="@+id/arrow_2"
-                    android:layout_width="@dimen/user_center_icon_forward_width"
-                    android:layout_height="@dimen/user_center_icon_forward_height"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/user_detail_forward" />
-            </RelativeLayout>
+                    <ImageView
+                        android:layout_width="@dimen/user_center_icon_forward_width"
+                        android:layout_height="@dimen/user_center_icon_forward_height"
+                        android:src="@drawable/icon_user_center_forward" />
+                </org.holoeverywhere.widget.LinearLayout>
+            </org.holoeverywhere.widget.LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/llUserMyGroup"
-                style="@style/styleUser_center_item_layout" >
 
-                <ImageView
-                    android:layout_width="@dimen/user_center_icon_content"
-                    android:layout_height="@dimen/user_center_icon_content"
-                    android:src="@drawable/user_center_icon_account" />
+            <org.holoeverywhere.widget.LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/offset_small"
+                android:background="@color/color_white"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/offset_medium"
+                android:paddingRight="@dimen/offset_medium">
 
-                <TextView
-                    android:layout_width="wrap_content"
+
+                <org.holoeverywhere.widget.LinearLayout
+                    android:id="@+id/ll_user_center_group"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/offset_micro"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/offset_less"
                     android:paddingLeft="@dimen/offset_less"
-                    android:text="@string/activity_my_around_name"
-                    android:textColor="@color/color_user_center_textcolor_black"
-                    android:textSize="@dimen/text_size_less" />
+                    android:paddingRight="@dimen/offset_small"
+                    android:paddingTop="@dimen/offset_less">
 
-                <TextView
-                    android:id="@+id/posts_num_tv"
-                    android:layout_width="0dp"
+                    <ImageView
+                        android:layout_width="@dimen/user_center_icon_content"
+                        android:layout_height="@dimen/user_center_icon_content"
+                        android:src="@drawable/icon_user_center_group" />
+
+                    <org.holoeverywhere.widget.TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/offset_less"
+                        android:layout_weight="1"
+                        android:text="@string/user_center_my_group"
+                        android:textColor="@color/color_text_black"
+                        android:textSize="@dimen/text_size_medium" />
+
+                    <org.holoeverywhere.widget.TextView
+                        android:id="@+id/tv_user_center_group_post_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/offset_less"
+                        android:textColor="@color/color_text_black"
+                        android:textSize="@dimen/text_size_medium" />
+
+                    <ImageView
+                        android:layout_width="@dimen/user_center_icon_forward_width"
+                        android:layout_height="@dimen/user_center_icon_forward_height"
+                        android:src="@drawable/icon_user_center_forward" />
+                </org.holoeverywhere.widget.LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/color_bg_grey" />
+
+                <org.holoeverywhere.widget.LinearLayout
+                    android:id="@+id/ll_user_center_message"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/offset_medium"
-                    android:layout_weight="1.0"
-                    android:gravity="right"
-                    android:textColor="@color/color_user_center_textcolor_black"
-                    android:textSize="@dimen/text_size_less" />
-
-                <ImageView
-                    android:layout_width="@dimen/user_center_icon_forward_width"
-                    android:layout_height="@dimen/user_center_icon_forward_height"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/user_detail_forward" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/chat_linear"
-                style="@style/styleUser_center_item_layout" >
-
-                <ImageView
-                    android:layout_width="@dimen/user_center_icon_content"
-                    android:layout_height="@dimen/user_center_icon_content"
-                    android:src="@drawable/chat" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/offset_micro"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/offset_less"
                     android:paddingLeft="@dimen/offset_less"
-                    android:text="@string/my_sixing"
-                    android:textColor="@color/color_user_center_textcolor_black"
-                    android:textSize="@dimen/text_size_less" />
+                    android:paddingRight="@dimen/offset_small"
+                    android:paddingTop="@dimen/offset_less">
 
-                <TextView
-                    android:layout_width="0dp"
+                    <ImageView
+                        android:layout_width="@dimen/user_center_icon_content"
+                        android:layout_height="@dimen/user_center_icon_content"
+                        android:src="@drawable/icon_user_center_message" />
+
+                    <org.holoeverywhere.widget.TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/offset_less"
+                        android:layout_weight="1.0"
+                        android:text="@string/user_center_message"
+                        android:textColor="@color/color_text_black"
+                        android:textSize="@dimen/text_size_medium" />
+
+                    <org.holoeverywhere.widget.TextView
+                        android:id="@+id/tv_user_center_message_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/offset_less"
+                        android:textColor="@color/color_text_black"
+                        android:textSize="@dimen/text_size_medium"
+                        android:visibility="gone" />
+
+                    <ImageView
+                        android:layout_width="@dimen/user_center_icon_forward_width"
+                        android:layout_height="@dimen/user_center_icon_forward_height"
+                        android:src="@drawable/icon_user_center_forward" />
+                </org.holoeverywhere.widget.LinearLayout>
+            </org.holoeverywhere.widget.LinearLayout>
+
+            <org.holoeverywhere.widget.FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/offset_small"
+                android:background="@color/color_white"
+                android:paddingLeft="@dimen/offset_medium"
+                android:paddingRight="@dimen/offset_medium">
+
+                <org.holoeverywhere.widget.LinearLayout
+                    android:id="@+id/ll_user_center_my_account"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/offset_medium"
-                    android:layout_weight="1.0"
-                    android:gravity="right"
-                    android:text=""
-                    android:textColor="@color/color_user_center_textcolor_black"
-                    android:textSize="@dimen/text_size_less" />
-
-                <TextView
-                    android:id="@+id/chat_num_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="15dp"
-                    android:background="@drawable/icon_chat_unread"
-                    android:textSize="12sp"
-            		android:gravity="center"
-                    android:textColor="@android:color/white"
-                    android:visibility="gone"
-                     />
-
-                <ImageView
-                    android:layout_width="@dimen/user_center_icon_forward_width"
-                    android:layout_height="@dimen/user_center_icon_forward_height"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/user_detail_forward" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/llUserMyAccount"
-                style="@style/styleUser_center_item_layout" >
-
-                <ImageView
-                    android:layout_width="@dimen/user_center_icon_content"
-                    android:layout_height="@dimen/user_center_icon_content"
-                    android:src="@drawable/user_center_icon_setting" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/offset_micro"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/offset_less"
                     android:paddingLeft="@dimen/offset_less"
-                    android:text="@string/text_MyAccount"
-                    android:textColor="@color/color_user_center_textcolor_black"
-                    android:textSize="@dimen/text_size_less" />
+                    android:paddingRight="@dimen/offset_small"
+                    android:paddingTop="@dimen/offset_less">
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/offset_medium"
-                    android:layout_weight="1.0"
-                    android:gravity="right"
-                    android:text=""
-                    android:textColor="@color/color_user_center_textcolor_black"
-                    android:textSize="@dimen/text_size_less" />
+                    <ImageView
+                        android:layout_width="@dimen/user_center_icon_content"
+                        android:layout_height="@dimen/user_center_icon_content"
+                        android:src="@drawable/icon_user_center_my_account" />
 
-                <ImageView
-                    android:layout_width="@dimen/user_center_icon_forward_width"
-                    android:layout_height="@dimen/user_center_icon_forward_height"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/user_detail_forward" />
-            </LinearLayout>
-        </LinearLayout>
+                    <org.holoeverywhere.widget.TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/offset_less"
+                        android:layout_weight="1"
+                        android:text="@string/user_center_my_account"
+                        android:textColor="@color/color_text_black"
+                        android:textSize="@dimen/text_size_medium" />
+
+                    <ImageView
+                        android:layout_width="@dimen/user_center_icon_forward_width"
+                        android:layout_height="@dimen/user_center_icon_forward_height"
+                        android:src="@drawable/icon_user_center_forward" />
+                </org.holoeverywhere.widget.LinearLayout>
+            </org.holoeverywhere.widget.FrameLayout>
+        </org.holoeverywhere.widget.LinearLayout>
     </ScrollView>
 
-</LinearLayout>
+</org.holoeverywhere.widget.LinearLayout>

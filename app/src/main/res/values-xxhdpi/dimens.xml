@@ -19,7 +19,7 @@
     <dimen name="main_offset_less_right">28dp</dimen>
     <dimen name="offset_medium_top">60dp</dimen>
     <dimen name="icon_size_tiny">25dp</dimen>
-    <dimen name="icon_size_small">40dp</dimen>
+    <dimen name="icon_size_small">35dp</dimen>
     <dimen name="icon_size_medium">50dp</dimen>
     <dimen name="icon_size_large">75dp</dimen>
     <dimen name="icon_size_xlarge">90dp</dimen>
@@ -110,7 +110,7 @@
 
     <dimen name="text_size_user_center_tip">@dimen/text_size_large</dimen>
     <dimen name="text_size_user_center_info">@dimen/text_size_less</dimen>
-    <dimen name="user_center_image_head_size">110dp</dimen>
+    <dimen name="user_center_image_head_size">100dp</dimen>
     <dimen name="user_center_icon_content">@dimen/icon_size_small</dimen>
     <dimen name="user_center_progress_height">10dp</dimen>
     <dimen name="user_center_icon_forward_width">18dp</dimen>

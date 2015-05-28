@@ -870,8 +870,6 @@ public class ServiceProvider {
 				e.printStackTrace();
 			}
 		}
-
-		System.out.println("url: "+Net.UPDATE_RESOURCES_2(uid,type,tag,begin,limit,searchStr,done));
 		MyVolley.getRequestQueue().add(
 				new JsonObjectRequest(Request.Method.GET, Net.getRunHost(context)
 						+ Net.UPDATE_RESOURCES_2(uid,type,tag,begin,limit,searchStr,done),

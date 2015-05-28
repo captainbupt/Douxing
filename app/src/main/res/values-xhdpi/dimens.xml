@@ -19,7 +19,7 @@
     <dimen name="main_offset_less">28dp</dimen>
     <dimen name="main_offset_less_right">28dp</dimen>
     <dimen name="icon_size_tiny">20dp</dimen>
-    <dimen name="icon_size_small">35dp</dimen>
+    <dimen name="icon_size_small">30dp</dimen>
     <dimen name="icon_size_medium">45dp</dimen>
     <dimen name="icon_size_large">70dp</dimen>
     <dimen name="icon_size_xlarge">85dp</dimen>
@@ -109,7 +109,7 @@
 
     <dimen name="text_size_user_center_tip">@dimen/text_size_large</dimen>
     <dimen name="text_size_user_center_info">@dimen/text_size_less</dimen>
-    <dimen name="user_center_image_head_size">110dp</dimen>
+    <dimen name="user_center_image_head_size">100dp</dimen>
     <dimen name="user_center_icon_content">30dp</dimen>
     <dimen name="user_center_progress_height">12dp</dimen>
     <dimen name="user_center_icon_forward_width">15dp</dimen>
@@ -215,7 +215,7 @@
 
     <!-- list item 8-28 -->
     <dimen name="itme_margin_top">17dp</dimen>
-    <dimen name="change_pass_image_size">30dp</dimen>
+    <dimen name="account_manager_image_size">30dp</dimen>
     <dimen name="bg_top_user_center_h">220dp</dimen>
     <dimen name="bg_top_my_exam_h">200dp</dimen>
     <dimen name="bg_top_my_study_h">200dp</dimen>

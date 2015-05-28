@@ -4,6 +4,7 @@
     android:layout_height="match_parent">
 
     <org.holoeverywhere.widget.LinearLayout
+        android:id="@+id/ll_main_grid_content_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/color_layout_bg"
