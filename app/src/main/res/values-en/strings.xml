@@ -138,8 +138,8 @@
 	<string name="main_exit_tips">Press again to exit</string>
 	<string name="main_tips_update_title">Version Update</string>
 	<string name="main_tips_update_btn_ok">OK</string>
-	<string name="myexam_btn">My Test</string>
-	<string name="mystudy_btn">My learning</string>
+	<string name="user_progress_bottom_exam">My Test</string>
+	<string name="user_progress_bottom_training">My learning</string>
 	<string name="choose_sd_Pic">Choose Photo</string>
 	<string name="choose_camera">Take Photo</string>
 	<string name="choose_shexiang">摄像</string>
@@ -169,8 +169,8 @@
 	<string name="search_edit_hint">Search</string>
 	<string name="study_ZongJinDu">Overall</string>
 	<string name="study_zhouJinDu">Weekly</string>
-	<string name="study_YiXueXiKeCheng">Course learned</string>
-	<string name="myExam_YiKaoKeMu">Test completed</string>
+	<string name="user_progress_middle_training">Course learned</string>
+	<string name="user_progress_middle_exam">Test completed</string>
 	<string name="web_retry">Try again</string>
 	<string name="hint_input_phone">Phone number</string>
 	<string name="text_account">My Account:</string>

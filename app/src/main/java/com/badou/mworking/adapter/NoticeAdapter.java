@@ -83,7 +83,7 @@ public class NoticeAdapter extends MyBaseAdapter {
      * @param position
      */
     public void read(int position) {
-        String userNum = ((AppApplication) mContext.getApplicationContext()).getUserInfo().getUserNumber();
+        String userNum = ((AppApplication) mContext.getApplicationContext()).getUserInfo().account;
         Notice notice = (Notice) getItem(position);
         if (notice.isRead == Constant.READ_NO) {
             notice.isRead = Constant.READ_YES;

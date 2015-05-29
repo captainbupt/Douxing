@@ -583,7 +583,7 @@ public class QuestionActivity extends BaseBackActionBarActivity implements
   			return;
   		}
   		String uid = ((AppApplication) this.getApplicationContext())
-				.getUserInfo().getUserId();
+				.getUserInfo().userId;
   		final String url = Net.getRunHost(this)+Net.PUBVIDEO(uid, qid);
   		final File filePath = new File(SheXActivity.sheXPath);
   		

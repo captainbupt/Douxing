@@ -1,6 +1,5 @@
 package com.badou.mworking.base;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -111,7 +110,7 @@ public abstract class BaseProgressListActivity extends BaseBackActionBarActivity
         mMainListView = (ListView) findViewById(R.id.Shoplist_onelist1);
         mMoreListView = (ListView) findViewById(R.id.Shoplist_twolist1);
         classificationLinear = (android.widget.LinearLayout) findViewById(R.id.classification_linear);
-        pullToRefreshListView = (PullToRefreshListView) findViewById(R.id.PullToRefreshListView);
+        pullToRefreshListView = (PullToRefreshListView) findViewById(R.id.ptrlv_user_progress_content);
         pullToRefreshListView.setMode(PullToRefreshBase.Mode.BOTH);
         pullToRefreshListView.setVisibility(View.VISIBLE);
         tvSearchNull.setVisibility(View.GONE);
@@ -201,7 +200,7 @@ public abstract class BaseProgressListActivity extends BaseBackActionBarActivity
      */
     public void setCategoryItemFromCache(int tag) {
         List<Object> list = new ArrayList<>();
-        String userNum = ((AppApplication) getApplicationContext()).getUserInfo().getUserNumber();
+        String userNum = ((AppApplication) getApplicationContext()).getUserInfo().account;
         String sp = SP.getStringSP(mContext, CATEGORY_NAME, userNum + tag, "");
         if (TextUtils.isEmpty(sp)) {
             tvSearchNull.setVisibility(View.VISIBLE);
@@ -329,7 +328,7 @@ public abstract class BaseProgressListActivity extends BaseBackActionBarActivity
             return;
         }
         final String userNum = ((AppApplication) getApplicationContext())
-                .getUserInfo().getUserNumber();
+                .getUserInfo().account;
         List<Object> list = new ArrayList<>();
         JSONArray resultArray = data.optJSONArray(Net.LIST);
         if (resultArray == null

@@ -64,443 +64,440 @@ import java.util.List;
  * 开发环境: JDK6.0
  */
 public class MyGroupFragment extends Fragment implements
-		OnRefreshListener<ListView> {
+        OnRefreshListener<ListView> {
 
-	public static final String BUNDLE_MODE_USER_KEY = "mode_user";
-	public static final int MODE_ALL = 201;
-	public static final int MODE_USER = 202;
+    public static final String BUNDLE_MODE_USER_KEY = "mode_user";
+    public static final int MODE_ALL = 201;
+    public static final int MODE_USER = 202;
 
-	private int mode = 0;
-	private int currentPage = 1;// 当前页码
-	private int clickPosition = -1; 
-	
-	private boolean isFinish = false;
-	private boolean isRefreshing = false;
-	private boolean lvIsEnable = true;//listview 的 item 可以点击
-	
-	private String uid = "";     //用户id
-	
-	private MyGroupAdapter myGroupAdapter;
-	private PullToRefreshListView pullToRefreshListView;
-	private ProgressDialog mProgressDialog;
-	private UserDetail userDetail;
-	private Context mContext;
-	private List<Question> asksList = new ArrayList<Question>();
-	
-	private TextView lvTv;
+    private int mode = 0;
+    private int currentPage = 1;// 当前页码
+    private int clickPosition = -1;
 
-	private View headView;
-	TextView headName;
-	ImageView headImg ;
+    private boolean isFinish = false;
+    private boolean isRefreshing = false;
+    private boolean lvIsEnable = true;//listview 的 item 可以点击
 
-	public MyGroupFragment() {
-	}
+    private String uid = "";     //用户id
 
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		mContext = activity;
-	}
-	
-	@Override
-	public void onResume() {
-		super.onResume();
-		lvIsEnable = true;
-		if (Constant.is_del&&!pullToRefreshListView.isRefreshing()) {
-			try {
-				Constant.is_del = false;
-				if(clickPosition!=-1){
-					asksList.remove(clickPosition);
-					myGroupAdapter.setDatas(asksList);
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
+    private MyGroupAdapter myGroupAdapter;
+    private PullToRefreshListView pullToRefreshListView;
+    private ProgressDialog mProgressDialog;
+    private UserDetail userDetail;
+    private Context mContext;
+    private List<Question> asksList = new ArrayList<Question>();
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_my_group, null);
-		initView(view);
-		initListener();
-		return view;
-	}
+    private TextView lvTv;
 
-	@Override
-	public void onDetach() {
-		super.onDetach();
-		if (pullToRefreshListView != null && pullToRefreshListView.isRefreshing()) {
-			pullToRefreshListView.onRefreshComplete();
-		}
-		isFinish = true;
-		if (null != mProgressDialog && mContext != null) {
-			mProgressDialog.dismiss();
-		}
-	}
+    private View headView;
+    TextView headName;
+    ImageView headImg;
 
-	/**
-	 * 初始化控件
-	 * 
-	 * @param view
-	 */
-	private void initView(View view) {
-		
-		//获取传过来的uid
-		try {
-			uid = getActivity().getIntent().getExtras().getString("uid");
-			if(TextUtils.isEmpty(uid)){
-				uid = ((AppApplication) mContext.getApplicationContext())
-						.getUserInfo().getUserId();
-			}
-		} catch (NullPointerException e) {
-			uid = ((AppApplication) mContext.getApplicationContext())
-					.getUserInfo().getUserId();
-			e.printStackTrace();
-		}
-		pullToRefreshListView = (PullToRefreshListView) view
-				.findViewById(R.id.pullListView);
-		pullToRefreshListView.setMode(Mode.BOTH);
-		pullToRefreshListView.setOnRefreshListener(this);
-		headView = LayoutInflater.from(getActivity()).inflate(
-				R.layout.base_around_top_layout, null);
-		headName = (TextView) headView.findViewById(R.id.tv_user_center_top_name);
-		headImg = (ImageView) headView.findViewById(R.id.iv_user_center_top_head);
-		lvTv = (TextView) headView.findViewById(R.id.tv_user_center_top_level);
-		
-		ListView listview = pullToRefreshListView.getRefreshableView();
-		listview.setDividerHeight(0);
-		setHeadView();
-		listview.addHeaderView(headView,null,false);
-		setAdapterData();
-		pullToRefreshListView.setAdapter(myGroupAdapter);
-	}
+    public MyGroupFragment() {
+    }
 
-	/**
-	 * 绑定监听
-	 */
-	private void initListener() {
-		pullToRefreshListView.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1,
-					int position, long arg3) {
-				if (lvIsEnable) {
-					//防止同一个item多次点击但是页面没跳转
-					lvIsEnable = false;
-					//(position - 2) 下拉刷新的view 和 顶部头像布局view
-					clickPosition = position - 2;
-					// 跳转到单条的Item的页面，并传递数据
-					Question question = myGroupAdapter.getItem(clickPosition);
-					if (userDetail!=null && question!=null) {
-						question.setImgUrl(userDetail.getHeadimg()+"");
-					}
-					Intent intent = new Intent(mContext, AroundDetailActivity.class);
-					intent.putExtra(AroundDetailActivity.VALUE_QUESTION, question);
-					mContext.startActivity(intent);
-					// 设置切换动画，从右边进入，左边退出
-					getActivity().overridePendingTransition(R.anim.in_from_right,
-							R.anim.out_to_left);
-				}
-				
-			}
-		});
-	}
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mContext = activity;
+    }
 
-	/**
-	 * 
-	 * 功能描述:更新数据
-	 */
-	private void setAdapterData() {
-		if (myGroupAdapter == null) {
-			myGroupAdapter = new MyGroupAdapter(mContext,((AroundUserActivity)getActivity()).qid);
-		}
+    @Override
+    public void onResume() {
+        super.onResume();
+        lvIsEnable = true;
+        if (Constant.is_del && !pullToRefreshListView.isRefreshing()) {
+            try {
+                Constant.is_del = false;
+                if (clickPosition != -1) {
+                    asksList.remove(clickPosition);
+                    myGroupAdapter.setDatas(asksList);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
-		if (myGroupAdapter.getCount() == 0) {
-			pullToRefreshListView.setRefreshing();
-		}
-	}
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_my_group, null);
+        initView(view);
+        initListener();
+        return view;
+    }
 
-	public interface OnFragmentInteractionListener {
-		public void onFragmentInteraction(String id);
-	}
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        if (pullToRefreshListView != null && pullToRefreshListView.isRefreshing()) {
+            pullToRefreshListView.onRefreshComplete();
+        }
+        isFinish = true;
+        if (null != mProgressDialog && mContext != null) {
+            mProgressDialog.dismiss();
+        }
+    }
 
-	@Override
-	public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-		if (isFinish) {
-			return;
-		}
-		// 这里刷新listview数据,只加载第一页的数据
-		if (refreshView.getCurrentMode() == Mode.PULL_FROM_START ||0 == currentPage) {
-			// 这里刷新listview数据,只加载第一页的数据
+    /**
+     * 初始化控件
+     *
+     * @param view
+     */
+    private void initView(View view) {
+
+        //获取传过来的uid
+        try {
+            uid = getActivity().getIntent().getExtras().getString("uid");
+            if (TextUtils.isEmpty(uid)) {
+                uid = ((AppApplication) mContext.getApplicationContext())
+                        .getUserInfo().userId;
+            }
+        } catch (NullPointerException e) {
+            uid = ((AppApplication) mContext.getApplicationContext())
+                    .getUserInfo().userId;
+            e.printStackTrace();
+        }
+        pullToRefreshListView = (PullToRefreshListView) view
+                .findViewById(R.id.pullListView);
+        pullToRefreshListView.setMode(Mode.BOTH);
+        pullToRefreshListView.setOnRefreshListener(this);
+        headView = LayoutInflater.from(getActivity()).inflate(
+                R.layout.base_around_top_layout, null);
+        headName = (TextView) headView.findViewById(R.id.tv_user_center_top_name);
+        headImg = (ImageView) headView.findViewById(R.id.iv_user_center_top_head);
+        lvTv = (TextView) headView.findViewById(R.id.tv_user_center_top_level);
+
+        ListView listview = pullToRefreshListView.getRefreshableView();
+        listview.setDividerHeight(0);
+        setHeadView();
+        listview.addHeaderView(headView, null, false);
+        setAdapterData();
+        pullToRefreshListView.setAdapter(myGroupAdapter);
+    }
+
+    /**
+     * 绑定监听
+     */
+    private void initListener() {
+        pullToRefreshListView.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1,
+                                    int position, long arg3) {
+                if (lvIsEnable) {
+                    //防止同一个item多次点击但是页面没跳转
+                    lvIsEnable = false;
+                    //(position - 2) 下拉刷新的view 和 顶部头像布局view
+                    clickPosition = position - 2;
+                    // 跳转到单条的Item的页面，并传递数据
+                    Question question = myGroupAdapter.getItem(clickPosition);
+                    if (userDetail != null && question != null) {
+                        question.setImgUrl(userDetail.headimg + "");
+                    }
+                    Intent intent = new Intent(mContext, AroundDetailActivity.class);
+                    intent.putExtra(AroundDetailActivity.VALUE_QUESTION, question);
+                    mContext.startActivity(intent);
+                    // 设置切换动画，从右边进入，左边退出
+                    getActivity().overridePendingTransition(R.anim.in_from_right,
+                            R.anim.out_to_left);
+                }
+
+            }
+        });
+    }
+
+    /**
+     * 功能描述:更新数据
+     */
+    private void setAdapterData() {
+        if (myGroupAdapter == null) {
+            myGroupAdapter = new MyGroupAdapter(mContext, ((AroundUserActivity) getActivity()).qid);
+        }
+
+        if (myGroupAdapter.getCount() == 0) {
+            pullToRefreshListView.setRefreshing();
+        }
+    }
+
+    public interface OnFragmentInteractionListener {
+        public void onFragmentInteraction(String id);
+    }
+
+    @Override
+    public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+        if (isFinish) {
+            return;
+        }
+        // 这里刷新listview数据,只加载第一页的数据
+        if (refreshView.getCurrentMode() == Mode.PULL_FROM_START || 0 == currentPage) {
+            // 这里刷新listview数据,只加载第一页的数据
             asksList.removeAll(asksList);
-			updateDatas(1,uid);
-			if (null == userDetail) {
-				setHeadView();
-			}
-		} else if (refreshView.getCurrentMode() == Mode.PULL_FROM_END) {
-			updateDatas(currentPage + 1,uid);
-		}
-	}
+            updateDatas(1, uid);
+            if (null == userDetail) {
+                setHeadView();
+            }
+        } else if (refreshView.getCurrentMode() == Mode.PULL_FROM_END) {
+            updateDatas(currentPage + 1, uid);
+        }
+    }
 
-	/**
-	 * 
-	 * 功能描述:滚动到最底加载更多
-	 *
-	 */
-	private void updateDatas(final int page,String uid) {
-		String type;
-		type = "qas";
-		isRefreshing = true;
-		// 发起网络请求
-		ServiceProvider.doQuestionShareList(mContext,uid,type, page, TongSHQFragments.LOAD_PAGE_NUM, true,
-				new VolleyListener(mContext) {
+    /**
+     * 功能描述:滚动到最底加载更多
+     */
+    private void updateDatas(final int page, String uid) {
+        String type;
+        type = "qas";
+        isRefreshing = true;
+        // 发起网络请求
+        ServiceProvider.doQuestionShareList(mContext, uid, type, page, TongSHQFragments.LOAD_PAGE_NUM, true,
+                new VolleyListener(mContext) {
 
-					@Override
-					public void onResponse(Object responseObject) {
-						isRefreshing = false;
-						pullToRefreshListView.onRefreshComplete();
-						JSONObject response = (JSONObject) responseObject;
-						JSONObject contentObject = response
-								.optJSONObject(Net.DATA);
-						if (contentObject == null) {
-							ToastUtil.showNetExc(mContext);
-							return;
-						}
-						// 加载到最后时 提示无更新
-						JSONArray resultArray = contentObject
-								.optJSONArray(Net.RESULT);
-						if (resultArray == null || resultArray.length() == 0) {
-							ToastUtil.showNetExc(mContext);
-							return;
-						} else {
-							currentPage++;
-							// 新加载的内容添加到list
-							List<Question> asks = new ArrayList<Question>();   
-							for (int i = 0; i < resultArray.length(); i++) {
-								JSONObject jo2 = resultArray.optJSONObject(i);
-								if (jo2 == null) {
-									return;
-								}
-								asks.add(new Question(jo2, mode));
-							}
-							asksList.addAll(asks);
-							if (page == 1) {// 页码为1 重新加载第一页
-								myGroupAdapter.setDatas(asks);
-								currentPage = 1;
-							} else {// 继续加载
-								myGroupAdapter.addDatas(asks);
-							}
-						}
+                    @Override
+                    public void onResponse(Object responseObject) {
+                        isRefreshing = false;
+                        pullToRefreshListView.onRefreshComplete();
+                        JSONObject response = (JSONObject) responseObject;
+                        JSONObject contentObject = response
+                                .optJSONObject(Net.DATA);
+                        if (contentObject == null) {
+                            ToastUtil.showNetExc(mContext);
+                            return;
+                        }
+                        // 加载到最后时 提示无更新
+                        JSONArray resultArray = contentObject
+                                .optJSONArray(Net.RESULT);
+                        if (resultArray == null || resultArray.length() == 0) {
+                            ToastUtil.showNetExc(mContext);
+                            return;
+                        } else {
+                            currentPage++;
+                            // 新加载的内容添加到list
+                            List<Question> asks = new ArrayList<Question>();
+                            for (int i = 0; i < resultArray.length(); i++) {
+                                JSONObject jo2 = resultArray.optJSONObject(i);
+                                if (jo2 == null) {
+                                    return;
+                                }
+                                asks.add(new Question(jo2, mode));
+                            }
+                            asksList.addAll(asks);
+                            if (page == 1) {// 页码为1 重新加载第一页
+                                myGroupAdapter.setDatas(asks);
+                                currentPage = 1;
+                            } else {// 继续加载
+                                myGroupAdapter.addDatas(asks);
+                            }
+                        }
 
-						myGroupAdapter
-								.setOnAdapterItemListener(new OnAdapterItemListener() {
+                        myGroupAdapter
+                                .setOnAdapterItemListener(new OnAdapterItemListener() {
 
-									@Override
-									public void deleteItem(final int pos,
-											final String qid) {
-										new AlertDialog.Builder(mContext)
-												.setTitle(R.string.myQuan_dialog_title_tips)
-												.setMessage(
-														getActivity()
-																.getResources()
-																.getString(
-																		R.string.my_group_tishi))
-												.setPositiveButton(R.string.myQuan_dialog_del_tips,
-														new OnClickListener() {
+                                    @Override
+                                    public void deleteItem(final int pos,
+                                                           final String qid) {
+                                        new AlertDialog.Builder(mContext)
+                                                .setTitle(R.string.myQuan_dialog_title_tips)
+                                                .setMessage(
+                                                        getActivity()
+                                                                .getResources()
+                                                                .getString(
+                                                                        R.string.my_group_tishi))
+                                                .setPositiveButton(R.string.myQuan_dialog_del_tips,
+                                                        new OnClickListener() {
 
-															@Override
-															public void onClick(
-																	DialogInterface arg0,
-																	int arg1) {
-																deleteComment(
-																		pos,
-																		qid);
-															}
-														})
-												.setNegativeButton(R.string.text_cancel, null)
-												.show();
+                                                            @Override
+                                                            public void onClick(
+                                                                    DialogInterface arg0,
+                                                                    int arg1) {
+                                                                deleteComment(
+                                                                        pos,
+                                                                        qid);
+                                                            }
+                                                        })
+                                                .setNegativeButton(R.string.text_cancel, null)
+                                                .show();
 
-									}
-								});
-					}
+                                    }
+                                });
+                    }
 
-					@Override
-					public void onErrorResponse(VolleyError arg0) {
-						super.onErrorResponse(arg0);
-						isRefreshing = false;
-						pullToRefreshListView.onRefreshComplete();
-					}
-				});
+                    @Override
+                    public void onErrorResponse(VolleyError arg0) {
+                        super.onErrorResponse(arg0);
+                        isRefreshing = false;
+                        pullToRefreshListView.onRefreshComplete();
+                    }
+                });
 
-	}
+    }
 
-	/**
-	 * 
-	 * 功能描述:删除我的圈中的item
-	 * 
-	 * @param pos
-	 * @param qid
-	 */
-	private void deleteComment(final int pos, final String qid) {
-		if (mProgressDialog == null)
-			mProgressDialog = new WaitProgressDialog(mContext,
-					R.string.action_comment_update_ing);
-		mProgressDialog.setTitle(R.string.action_comment_update_ing);
-		if (null != mProgressDialog && mContext != null) {
-			mProgressDialog.show();
-		}
+    /**
+     * 功能描述:删除我的圈中的item
+     *
+     * @param pos
+     * @param qid
+     */
+    private void deleteComment(final int pos, final String qid) {
+        if (mProgressDialog == null)
+            mProgressDialog = new WaitProgressDialog(mContext,
+                    R.string.action_comment_update_ing);
+        mProgressDialog.setTitle(R.string.action_comment_update_ing);
+        if (null != mProgressDialog && mContext != null) {
+            mProgressDialog.show();
+        }
 
-		ServiceProvider.doMyGroup_del(mContext, qid, new VolleyListener(
-				mContext) {
-			@Override
-			public void onResponse(Object responseObject) {
-				if (null != mProgressDialog && mContext != null) {
-					mProgressDialog.dismiss();
-				}
-				isRefreshing = false;
-				pullToRefreshListView.onRefreshComplete();
-				JSONObject response = (JSONObject) responseObject;
-				int code = response.optInt(Net.CODE);
-				if (responseObject == null) {
-					ToastUtil.showNetExc(mContext);
-					return;
-				}
-				if (code==Net.LOGOUT) {
-					AppApplication.logoutShow(mContext);
-					return;
-				}
-				if (Net.SUCCESS != code) {
-					return;
-				}
-				myGroupAdapter.getDataList().remove(pos);
-				myGroupAdapter.notifyDataSetChanged();
+        ServiceProvider.doMyGroup_del(mContext, qid, new VolleyListener(
+                mContext) {
+            @Override
+            public void onResponse(Object responseObject) {
+                if (null != mProgressDialog && mContext != null) {
+                    mProgressDialog.dismiss();
+                }
+                isRefreshing = false;
+                pullToRefreshListView.onRefreshComplete();
+                JSONObject response = (JSONObject) responseObject;
+                int code = response.optInt(Net.CODE);
+                if (responseObject == null) {
+                    ToastUtil.showNetExc(mContext);
+                    return;
+                }
+                if (code == Net.LOGOUT) {
+                    AppApplication.logoutShow(mContext);
+                    return;
+                }
+                if (Net.SUCCESS != code) {
+                    return;
+                }
+                myGroupAdapter.getDataList().remove(pos);
+                myGroupAdapter.notifyDataSetChanged();
 
-			}
+            }
 
-			@Override
-			public void onErrorResponse(VolleyError arg0) {
-				super.onErrorResponse(arg0);
-				if (null != mProgressDialog && mContext != null) {
-					mProgressDialog.dismiss();
-				}
-				isRefreshing = false;
-				pullToRefreshListView.onRefreshComplete();
-			}
-		});
-	}
+            @Override
+            public void onErrorResponse(VolleyError arg0) {
+                super.onErrorResponse(arg0);
+                if (null != mProgressDialog && mContext != null) {
+                    mProgressDialog.dismiss();
+                }
+                isRefreshing = false;
+                pullToRefreshListView.onRefreshComplete();
+            }
+        });
+    }
 
-	/**
-	 * 给下拉刷新listview 添加个headview
-	 */
-	private void setHeadView() {
-		chankanLV();
-		final int headWidth = getResources().getDimensionPixelSize(
-				R.dimen.user_center_image_head_size);
-		// 根据uid拿到用户头像的路径
-		final String finalImgPath = mContext.getExternalFilesDir(
-				Environment.DIRECTORY_PICTURES).getAbsolutePath()
-				+ File.separator + uid + ".png";
+    /**
+     * 给下拉刷新listview 添加个headview
+     */
+    private void setHeadView() {
+        chankanLV();
+        final int headWidth = getResources().getDimensionPixelSize(
+                R.dimen.user_center_image_head_size);
+        // 根据uid拿到用户头像的路径
+        final String finalImgPath = mContext.getExternalFilesDir(
+                Environment.DIRECTORY_PICTURES).getAbsolutePath()
+                + File.separator + uid + ".png";
 
-		// 获取用户详情
-		ServiceProvider.doOptainUserDetail(mContext,uid,new VolleyListener(
-				mContext) {
-			@Override
-			public void onErrorResponse(VolleyError error) {
-				super.onErrorResponse(error);
-				if (null != mProgressDialog && mContext != null
-						&& !((Activity) mContext).isFinishing())
-					mProgressDialog.dismiss();
-			}
+        // 获取用户详情
+        ServiceProvider.doOptainUserDetail(mContext, uid, new VolleyListener(
+                mContext) {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                super.onErrorResponse(error);
+                if (null != mProgressDialog && mContext != null
+                        && !((Activity) mContext).isFinishing())
+                    mProgressDialog.dismiss();
+            }
 
-			@Override
-			public void onResponse(Object arg0) {
-				if (null != mProgressDialog && mContext != null
-						&& !((Activity) mContext).isFinishing())
-					mProgressDialog.dismiss();
-				JSONObject jsonObject = (JSONObject) arg0;
-				int errcode = jsonObject.optInt(Net.CODE);
-				if (errcode != 0) {
-					return;
-				}
-				JSONObject jObject = null;
-				try {
-					jObject = new JSONObject(jsonObject.optString(Net.DATA));
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
-				if (jObject == null) {
-					return;
-				}
- 
-				userDetail = new UserDetail(jObject);
-				LVUtil.setTextViewBg(lvTv,userDetail.getCircle_lv());
+            @Override
+            public void onResponse(Object arg0) {
+                if (null != mProgressDialog && mContext != null
+                        && !((Activity) mContext).isFinishing())
+                    mProgressDialog.dismiss();
+                JSONObject jsonObject = (JSONObject) arg0;
+                int errcode = jsonObject.optInt(Net.CODE);
+                if (errcode != 0) {
+                    return;
+                }
+                JSONObject jObject = null;
+                try {
+                    jObject = new JSONObject(jsonObject.optString(Net.DATA));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                if (jObject == null) {
+                    return;
+                }
 
-				if (!TextUtils.isEmpty(userDetail.getName())) {
-					headName.setText(userDetail.getName());
-					if((AroundUserActivity)getActivity()!=null&&!getActivity().isFinishing()){
-						((AroundUserActivity)getActivity()).setActionbarTitle(userDetail.getName());
-					}
-				}
-				Bitmap headBmp = null;
-				if (!TextUtils.isEmpty(userDetail.getHeadimg()))
-					headBmp = BitmapUtil.getCirlBitmp(
-							BitmapLruCache.getBitmapLruCache().getCircleBitmap(
-									userDetail.getHeadimg()), headWidth,
-							headWidth);
-				if (headBmp != null) {
-					headImg.setImageBitmap(headBmp);
-					headBmp = null;
-					return;
-				}
-				headBmp = BitmapUtil.getCirlBitmp(
-						getUserIconFromFile(finalImgPath, headWidth),
-						headWidth, headWidth);
-				if (headBmp != null) {
-					headImg.setImageBitmap(headBmp);
-					BitmapLruCache.getBitmapLruCache().putCircleBitmap(
-							userDetail.getHeadimg(), headBmp);
-					return;
-				} else {
-					MyVolley.getImageLoader().get(
-							userDetail.getHeadimg(),
-							new CircleImageListener(mContext, userDetail
-									.getHeadimg(), headImg, headWidth,
-									headWidth));
-				}
-			}
-		});
-	}
+                userDetail = new UserDetail(jObject);
+                LVUtil.setTextViewBg(lvTv, userDetail.circle_lv);
 
-	/**
-	 * 功能描述: 从文件中获取用户头像
-	 * @param path
-	 * @return
-	 */
-	private Bitmap getUserIconFromFile(String path, int wh) {
-		if (!FileUtils.hasSdcard()) {
-			return null;
-		}
-		return BitmapUtil.decodeSampledBitmapFromFile(path, wh, wh);
-	}
-	
-	/**
-	 * 功能描述: 等级查看
-	 */
-	public void chankanLV(){
-		if(lvTv!=null){
-			lvTv.setOnClickListener(new View.OnClickListener() {
-				
-				@Override
-				public void onClick(View arg0) {
-					String userId = ((AppApplication) mContext.getApplicationContext())
-							.getUserInfo().getUserId();
-					Intent intent = new Intent(mContext, BackWebActivity.class);
-					intent.putExtra("title", "等级介绍");
-					intent.putExtra(BackWebActivity.VALUE_URL,Constant.LV_URL+userId);
-					startActivity(intent);
-				}
-			});
-		}
-	}
+                if (!TextUtils.isEmpty(userDetail.name)) {
+                    headName.setText(userDetail.name);
+                    if ((AroundUserActivity) getActivity() != null && !getActivity().isFinishing()) {
+                        ((AroundUserActivity) getActivity()).setActionbarTitle(userDetail.name);
+                    }
+                }
+                Bitmap headBmp = null;
+                if (!TextUtils.isEmpty(userDetail.headimg))
+                    headBmp = BitmapUtil.getCirlBitmp(
+                            BitmapLruCache.getBitmapLruCache().getCircleBitmap(
+                                    userDetail.headimg), headWidth,
+                            headWidth);
+                if (headBmp != null) {
+                    headImg.setImageBitmap(headBmp);
+                    headBmp = null;
+                    return;
+                }
+                headBmp = BitmapUtil.getCirlBitmp(
+                        getUserIconFromFile(finalImgPath, headWidth),
+                        headWidth, headWidth);
+                if (headBmp != null) {
+                    headImg.setImageBitmap(headBmp);
+                    BitmapLruCache.getBitmapLruCache().putCircleBitmap(
+                            userDetail.headimg, headBmp);
+                    return;
+                } else {
+                    MyVolley.getImageLoader().get(
+                            userDetail.headimg,
+                            new CircleImageListener(mContext, userDetail
+                                    .headimg, headImg, headWidth,
+                                    headWidth));
+                }
+            }
+        });
+    }
+
+    /**
+     * 功能描述: 从文件中获取用户头像
+     *
+     * @param path
+     * @return
+     */
+    private Bitmap getUserIconFromFile(String path, int wh) {
+        if (!FileUtils.hasSdcard()) {
+            return null;
+        }
+        return BitmapUtil.decodeSampledBitmapFromFile(path, wh, wh);
+    }
+
+    /**
+     * 功能描述: 等级查看
+     */
+    public void chankanLV() {
+        if (lvTv != null) {
+            lvTv.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View arg0) {
+                    String userId = ((AppApplication) mContext.getApplicationContext())
+                            .getUserInfo().userId;
+                    Intent intent = new Intent(mContext, BackWebActivity.class);
+                    intent.putExtra("title", "等级介绍");
+                    intent.putExtra(BackWebActivity.VALUE_URL, Constant.LV_URL + userId);
+                    startActivity(intent);
+                }
+            });
+        }
+    }
 }

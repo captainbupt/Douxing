@@ -75,7 +75,7 @@ public class MainGridAdapter extends MyBaseAdapter {
         int num = 0;
         // 为了解决换帐号登录的问题
         String userNum = ((AppApplication) mContext.getApplicationContext())
-                .getUserInfo().getUserNumber();
+                .getUserInfo().account;
         if (RequestParams.CHK_UPDATA_PIC_NOTICE.equals(tag)) {//通知公告
             num = SP.getIntSP(mContext, SP.DEFAULTCACHE, userNum + Notice.CATEGORY_KEY_UNREAD_NUM, 0);
         } else if (RequestParams.CHK_UPDATA_PIC_TRAIN.equals(tag)) {//微培训

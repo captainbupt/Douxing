@@ -8,23 +8,18 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.android.volley.VolleyError;
@@ -60,7 +55,7 @@ public class TongSHQFragments extends Fragment implements OnRefreshListener2<Lis
 	private int currentPage = 1;// 当前页码
 	
 	private String uid="";
-	private String userNum = "";
+	private String account = "";
 	
 	private boolean isUser = false;// 区分 我的圈/同事圈
 	public boolean lvIsEnable = true;//listview 的 item 可以点击
@@ -98,9 +93,9 @@ public class TongSHQFragments extends Fragment implements OnRefreshListener2<Lis
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_my_group, null);
 		uid = ((AppApplication) mContext.getApplicationContext())
-				.getUserInfo().getUserId();
-		userNum = ((AppApplication)mContext.getApplicationContext())
-				.getUserInfo().getUserNumber();
+				.getUserInfo().userId;
+		account = ((AppApplication)mContext.getApplicationContext())
+				.getUserInfo().account;
 		pullToRefreshListView = (PullToRefreshListView) view
 				.findViewById(R.id.pullListView);
 		pullToRefreshListView.setMode(Mode.BOTH);
@@ -146,7 +141,6 @@ public class TongSHQFragments extends Fragment implements OnRefreshListener2<Lis
 
 	/**
 	 * 功能描述:滚动到最底加载更多
-	 * @param page要加载的页码
 	 */
 	private void updateDatas(final int page,String uid) {
 		((AroundActivity)getActivity()).updatePro.setVisibility(View.VISIBLE);
@@ -203,10 +197,10 @@ public class TongSHQFragments extends Fragment implements OnRefreshListener2<Lis
 								//添加缓存
 								if(page == 1){
 									//添加缓存
-									SP.putStringSP(mContext,SP.TONGSHIQUAN, userNum+Question.QUESTIONCACHE, resultArray.toString());
+									SP.putStringSP(mContext,SP.TONGSHIQUAN, account +Question.QUESTIONCACHE, resultArray.toString());
 								}else{
-									String SPJSONArray =  SP.getStringSP(mContext,SP.TONGSHIQUAN, userNum+Question.QUESTIONCACHE, "");
-									Question.putSPJsonArray(mContext,userNum+Question.QUESTIONCACHE, SPJSONArray, resultArray);
+									String SPJSONArray =  SP.getStringSP(mContext,SP.TONGSHIQUAN, account +Question.QUESTIONCACHE, "");
+									Question.putSPJsonArray(mContext, account +Question.QUESTIONCACHE, SPJSONArray, resultArray);
 								}
 							}
 						}
@@ -237,7 +231,7 @@ public class TongSHQFragments extends Fragment implements OnRefreshListener2<Lis
 	 */
 	public void getCash(){
 		ArrayList<Question> list = new ArrayList<Question>();
-		String sp = SP.getStringSP(getActivity(),SP.TONGSHIQUAN, userNum+Question.QUESTIONCACHE, "");    
+		String sp = SP.getStringSP(getActivity(),SP.TONGSHIQUAN, account +Question.QUESTIONCACHE, "");
 		if(TextUtils.isEmpty(sp)){
 			return;
 		}

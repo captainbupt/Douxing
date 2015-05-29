@@ -15,8 +15,6 @@ import com.badou.mworking.model.user.UserInfo;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
-import com.badou.mworking.util.MD5;
-import com.badou.mworking.util.SP;
 import com.badou.mworking.util.ToastUtil;
 
 import org.holoeverywhere.widget.EditText;
@@ -176,11 +174,8 @@ public class ForgetPasswordVerificationActivity extends BaseBackActionBarActivit
      */
     private void loginSuccess(String acount,
                               JSONObject jsonObject) {
-        String shuffleStr = jsonObject.optJSONObject("shuffle").toString();
-        SP.putStringSP(ForgetPasswordVerificationActivity.this, SP.DEFAULTCACHE, LoginActivity.SHUFFLE, shuffleStr);
         UserInfo userInfo = new UserInfo();
-        SP.putStringSP(mContext, SP.DEFAULTCACHE, LoginActivity.KEY_ACCOUNT, acount + "");
-        userInfo.setUserInfo(new MD5().getMD5ofStr(acount), jsonObject);
+        userInfo.setUserInfo(acount, jsonObject);
         // 保存用户登录成功返回的信息 到sharePreferncers
         ((AppApplication) getApplicationContext()).setUserInfo(userInfo);
         goMainGrid();

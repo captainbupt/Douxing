@@ -83,7 +83,7 @@ public class ChatInfoActivity extends BaseNoTitleActivity implements
 		chatInfoList = new ArrayList<ChatInfo>();
 		try {
 			myHeadImgUrl = SP.getStringSP(mContext,SP.DEFAULTCACHE, ((AppApplication) mContext
-					.getApplicationContext()).getUserInfo().getUserId(), "");
+					.getApplicationContext()).getUserInfo().userId, "");
 		} catch (Exception e) {
 			myHeadImgUrl = "";
 			e.printStackTrace();

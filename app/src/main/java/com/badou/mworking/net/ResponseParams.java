@@ -11,13 +11,14 @@ public class ResponseParams {
 	public static final String USER_ACCESS = "access";//用户权限
 	public static final String USER_TAG = "tag";//用户tag
 	public static final String USER_NAME = "name";//用户名称
-	public static final String USER_PHONE = "phone";//手机号
-	public static final String USER_DESC = "desc";//推送信息
-	
-	/**
-	 * notice
-	 */
-	public static final String NOTICE_TYPE = "subtype";//类型
+	public static final String USER_DESCRIPTION = "desc";//推送信息
+	public static final String USER_SHUFFLE = "shuffle";//各个模块优先级顺序
+	public static final String USER_ADMIN = "admin";//是否管理员
+	public static final String USER_HOST = "host";//访问主机
+	public static final String USER_LANGUAGE = "lang";//语言
+	public static final String USER_COMPANY = "company";//用户公司
+	public static final String USER_ACCOUNT = "account";//用户账号
+
 	/**
 	 * training
 	 */

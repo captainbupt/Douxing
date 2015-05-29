@@ -187,11 +187,7 @@
             android:name=".ForgetPasswordVerificationActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.badou.mworking.MyExamAct"
-
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.badou.mworking.MyStudyProgressAct"
+            android:name=".UserProgressActivity"
 
             android:screenOrientation="portrait" />
         <activity

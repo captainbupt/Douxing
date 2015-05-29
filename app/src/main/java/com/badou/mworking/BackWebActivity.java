@@ -87,8 +87,8 @@ public class BackWebActivity extends BaseBackWebViewActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         isAdmin = ((AppApplication) getApplicationContext())
-                .getUserInfo().isAdmin();
-        uid = ((AppApplication) getApplicationContext()).getUserInfo().getUserId();
+                .getUserInfo().isAdmin;
+        uid = ((AppApplication) getApplicationContext()).getUserInfo().userId;
         try {
             if (BackWebActivity.PAGEFLAG != BackWebActivity.EXAM) {
                 layout.attachToActivity(this);
@@ -126,7 +126,7 @@ public class BackWebActivity extends BaseBackWebViewActivity {
             rid = train.rid;
             url = train.url + "&uid="
                     + ((AppApplication) this.getApplicationContext())
-                    .getUserInfo().getUserId();
+                    .getUserInfo().userId;
         }
     }
 
@@ -503,7 +503,7 @@ public class BackWebActivity extends BaseBackWebViewActivity {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.comment_relat:
+            case R.id.tv_user_progress_bottom:
                 Intent intent = new Intent();
                 intent.setClass(BackWebActivity.this, CommentActivity.class);
                 intent.putExtra(CommentActivity.VALUE_RID, rid);

@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import com.android.volley.VolleyError;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseNoTitleActivity;
+import com.badou.mworking.model.Category;
 import com.badou.mworking.model.user.UserDetail;
 import com.badou.mworking.net.LVUtil;
 import com.badou.mworking.net.Net;
@@ -39,7 +40,6 @@ import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.ToastUtil;
 
 import org.holoeverywhere.app.AlertDialog;
-import org.holoeverywhere.widget.LinearLayout;
 import org.holoeverywhere.widget.ProgressBar;
 import org.holoeverywhere.widget.TextView;
 import org.json.JSONException;
@@ -121,7 +121,6 @@ public class UserCenterActivity extends BaseNoTitleActivity {
             public void onClick(View v) {
                 if (mContext != null) {
                     finish();
-                    overridePendingTransition(0, R.anim.base_slide_right_out);
                 }
             }
         });
@@ -133,10 +132,11 @@ public class UserCenterActivity extends BaseNoTitleActivity {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(mActivity,
-                                MyStudyProgressAct.class);
+                                UserProgressActivity.class);
                         Bundle bundle = new Bundle();
-                        bundle.putSerializable(KEY_USERINFO, mUserDetail);
+                        bundle.putSerializable(UserProgressActivity.KEY_USERINFO, mUserDetail);
                         intent.putExtras(bundle);
+                        intent.putExtra(UserProgressActivity.KEY_TYPE, Category.CATEGORY_TRAIN);
                         startActivity(intent);
                     }
                 });
@@ -158,10 +158,11 @@ public class UserCenterActivity extends BaseNoTitleActivity {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(mActivity,
-                                MyExamAct.class);
+                                UserProgressActivity.class);
                         Bundle bundle = new Bundle();
-                        bundle.putSerializable(KEY_USERINFO, mUserDetail);
+                        bundle.putSerializable(UserProgressActivity.KEY_USERINFO, mUserDetail);
                         intent.putExtras(bundle);
+                        intent.putExtra(UserProgressActivity.KEY_TYPE, Category.CATEGORY_EXAM);
                         startActivity(intent);
                     }
                 });
@@ -199,7 +200,7 @@ public class UserCenterActivity extends BaseNoTitleActivity {
         // 获取用户的uid
         try {
             uid = ((AppApplication) mContext.getApplicationContext())
-                    .getUserInfo().getUserId();
+                    .getUserInfo().userId;
             // 根据uid拿到用户头像的路径
             finalImgPath = mActivity.getExternalFilesDir(
                     Environment.DIRECTORY_PICTURES).getAbsolutePath()
@@ -320,30 +321,30 @@ public class UserCenterActivity extends BaseNoTitleActivity {
         }
 
         // 用户信息
-        imgCacheUrl = mUserDetail.getHeadimg();
+        imgCacheUrl = mUserDetail.headimg;
         String strScore = mContext.getResources().getString(R.string.text_score);
         String strPingJunFen = mContext.getResources().getString(R.string.user_center_exam_average);
-        setUserIcon(uid, mUserDetail.getHeadimg());
-        if (!TextUtils.isEmpty(mUserDetail.getName())) {
+        setUserIcon(uid, mUserDetail.headimg);
+        if (!TextUtils.isEmpty(mUserDetail.name)) {
             ((TextView) findViewById(R.id.tv_user_center_top_name))
-                    .setText(mUserDetail.getName() + "/" + mUserDetail.getDpt());
+                    .setText(mUserDetail.name + "/" + mUserDetail.dpt);
         }
-        if (!TextUtils.isEmpty(String.valueOf(mUserDetail.getScore()))) {
+        if (!TextUtils.isEmpty(String.valueOf(mUserDetail.score))) {
             ((TextView) findViewById(R.id.tv_user_center_exam_score))
-                    .setText(strPingJunFen + String.valueOf(mUserDetail.getScore())
+                    .setText(strPingJunFen + String.valueOf(mUserDetail.score)
                             + strScore);
         }
 
         // 学习进度
-        if (!TextUtils.isEmpty(String.valueOf(mUserDetail.getStudy_total()))
+        if (!TextUtils.isEmpty(String.valueOf(mUserDetail.study_total))
                 && !TextUtils.isEmpty(String.valueOf(mUserDetail
-                .getTraining_total()))) {
+                .training_total))) {
             ((TextView) findViewById(R.id.tv_user_center_study_percent))
-                    .setText(String.valueOf(mUserDetail.getStudy_total())
+                    .setText(String.valueOf(mUserDetail.study_total)
                             + "/"
-                            + String.valueOf(mUserDetail.getTraining_total()));
-            int study = mUserDetail.getStudy_total();
-            int training = mUserDetail.getTraining_total();
+                            + String.valueOf(mUserDetail.training_total));
+            int study = mUserDetail.study_total;
+            int training = mUserDetail.training_total;
             int s = study * 100;
             if (training != 0) {
                 int progress = s / training;
@@ -353,12 +354,12 @@ public class UserCenterActivity extends BaseNoTitleActivity {
         }
 
         // 同事圈
-        postsNumTextView.setText(mUserDetail.getAsk() + getResources().getString(R.string.chatter_num));
-        LVUtil.setTextViewBg(levelTextView, mUserDetail.getCircle_lv());
-        int nmsg = mUserDetail.getNmsg();
+        postsNumTextView.setText(mUserDetail.ask + getResources().getString(R.string.chatter_num));
+        LVUtil.setTextViewBg(levelTextView, mUserDetail.circle_lv);
+        int nmsg = mUserDetail.nmsg;
         if (nmsg > 0) {
             chatNumTextView.setVisibility(View.VISIBLE);
-            chatNumTextView.setText(mUserDetail.getNmsg() + "");
+            chatNumTextView.setText(nmsg + "");
             // 如果是两位数的话，换一个背景
             if (nmsg > 9) {
                 chatNumTextView.setBackgroundResource(R.drawable.icon_chat_unread_long);
@@ -706,7 +707,7 @@ public class UserCenterActivity extends BaseNoTitleActivity {
                 @Override
                 public void onClick(View arg0) {
                     String userId = ((AppApplication) mContext.getApplicationContext())
-                            .getUserInfo().getUserId();
+                            .getUserInfo().userId;
                     Intent intent = new Intent(mContext, BackWebActivity.class);
                     intent.putExtra("title", "等级介绍");
                     intent.putExtra(BackWebActivity.VALUE_URL, Constant.LV_URL + userId);

@@ -70,7 +70,7 @@ public class ExamActivity extends BaseProgressListActivity {
             ToastUtil.showNetExc(mContext);
             return;
         }
-        String uid = ((AppApplication) getApplicationContext()).getUserInfo().getUserId();
+        String uid = ((AppApplication) getApplicationContext()).getUserInfo().userId;
         String url = Net.getRunHost(mContext) + Net.EXAM_ITEM(uid, exam.rid);
         Intent intents = new Intent(mContext, BackWebActivity.class);
         intents.putExtra(BackWebActivity.VALUE_URL, url);

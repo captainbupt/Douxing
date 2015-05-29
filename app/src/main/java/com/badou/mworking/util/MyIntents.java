@@ -1,12 +1,5 @@
 package com.badou.mworking.util;
 
-/**
- * 类:  <code> MyIntents </code>
- * 功能描述: 
- * 创建人: 葛建锋
- * 创建日期: 2013-12-25 下午1:13:02
- * 开发环境: JDK6.0
- */
 public class MyIntents {
 
 	public static final String TYPE = "type";

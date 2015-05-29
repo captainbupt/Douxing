@@ -13,7 +13,7 @@
         android:background="@drawable/comment_bg" />
 
     <LinearLayout
-        android:id="@+id/comment_relat"
+        android:id="@+id/tv_user_progress_bottom"
         android:layout_marginTop="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

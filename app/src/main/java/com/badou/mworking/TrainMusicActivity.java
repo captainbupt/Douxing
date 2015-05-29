@@ -199,7 +199,7 @@ public class TrainMusicActivity extends TrainBaseActivity {
             url = train.url
                     + "&uid="
                     + ((AppApplication) mContext.getApplicationContext())
-                    .getUserInfo().getUserId();
+                    .getUserInfo().userId;
 
             new Thread(new Runnable() {
 

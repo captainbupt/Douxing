@@ -103,10 +103,10 @@
         android:layout_marginLeft="@dimen/offset_large"
         android:layout_marginRight="@dimen/offset_large"
         android:layout_marginTop="@dimen/offset_large"
-        android:background="@drawable/background_button_disable"
+        android:background="@drawable/background_button_enable_blue"
         android:gravity="center"
         android:text="@string/change_button_confirm"
-        android:textColor="@color/color_text_black"
+        android:textColor="@color/color_button_text_blue"
         android:textSize="@dimen/text_size_large" />
 
 
@@ -117,10 +117,10 @@
         android:layout_marginLeft="@dimen/offset_large"
         android:layout_marginRight="@dimen/offset_large"
         android:layout_marginTop="@dimen/offset_medium"
-        android:background="@drawable/background_button_disable"
+        android:background="@drawable/background_button_enable_red"
         android:gravity="center"
         android:text="@string/accountManger_logout"
-        android:textColor="@color/color_white"
+        android:textColor="@color/color_button_text_red"
         android:textSize="@dimen/text_size_large" />
 
 </org.holoeverywhere.widget.LinearLayout>

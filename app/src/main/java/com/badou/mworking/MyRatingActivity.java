@@ -79,7 +79,7 @@ public class MyRatingActivity extends BaseNoTitleActivity implements OnClickList
 		ratingTv = (TextView) findViewById(R.id.rating_tv);
 		aboveTv = (TextView) findViewById(R.id.above_tv);
 		examTips = (TextView) findViewById(R.id.exam_tips);
-		commentRelat = (TextView) findViewById(R.id.comment_relat);
+		commentRelat = (TextView) findViewById(R.id.tv_user_progress_bottom);
 		makeupExamLv = (ListView) findViewById(R.id.makeup_exam_lv);
 		makeupExamLv.setOnItemClickListener(this);
 		ivActionbarLeft.setOnClickListener(this);
@@ -121,7 +121,7 @@ public class MyRatingActivity extends BaseNoTitleActivity implements OnClickList
 			intentl.putExtra(BackWebActivity.VALUE_TITLE, "计算规则");
 			MyRatingActivity.this.startActivity(intentl);
 			break;
-		case R.id.comment_relat:
+		case R.id.tv_user_progress_bottom:
 			String buttonContent = commentRelat.getText().toString();
 			if(buttonContent.equals("参加补考")){
 				Exam exam =exams.get(0);
@@ -161,7 +161,7 @@ public class MyRatingActivity extends BaseNoTitleActivity implements OnClickList
 			ToastUtil.showNetExc(mContext);
 			return;
 		}
-		String uid = ((AppApplication) mContext.getApplicationContext()).getUserInfo().getUserId();
+		String uid = ((AppApplication) mContext.getApplicationContext()).getUserInfo().userId;
 		String url =  Net.getRunHost(mContext)+Net.EXAM_ITEM(uid, exam.rid);
 		Intent intents = new Intent(mContext, BackWebActivity.class);
 		intents.putExtra(BackWebActivity.VALUE_URL,url);
