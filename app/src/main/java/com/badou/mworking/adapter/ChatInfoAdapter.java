@@ -144,7 +144,7 @@ public class ChatInfoAdapter extends BaseAdapter {
 			layoutOther = (LinearLayout) view.findViewById(R.id.rl_other_chat);
 			imgOtherHead = (ImageView) view.findViewById(R.id.other_head_img);
 			tvOtherContent = (TextView) view.findViewById(R.id.tvOtherMSG);
-			tvTs = (TextView) view.findViewById(R.id.tv_time);
+			tvTs = (TextView) view.findViewById(R.id.tv_adapter_chat_list_time);
 		}
 	}
 

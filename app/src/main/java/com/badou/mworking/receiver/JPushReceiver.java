@@ -9,12 +9,11 @@ import android.util.Log;
 
 import com.badou.mworking.AroundDetailActivity;
 import com.badou.mworking.AroundUserActivity;
-import com.badou.mworking.ChattingActivity;
+import com.badou.mworking.ChatListActivity;
 import com.badou.mworking.ExamActivity;
 import com.badou.mworking.NoticeActivity;
 import com.badou.mworking.TaskActivity;
 import com.badou.mworking.TrainActivity;
-import com.badou.mworking.model.Category;
 import com.badou.mworking.util.AppManager;
 
 import org.json.JSONException;
@@ -137,7 +136,7 @@ public class JPushReceiver extends BroadcastReceiver {
 						taskIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 						context.startActivity(taskIntent);
 					}else if (type.equals(TYPE_CHAT)){
-						Intent intent1 = new Intent(context, ChattingActivity.class);
+						Intent intent1 = new Intent(context, ChatListActivity.class);
 						intent1.putExtras(bundle);
 						intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 						context.startActivity(intent1);

@@ -42,7 +42,6 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.umeng.analytics.MobclickAgent;
 
-import org.holoeverywhere.app.ProgressDialog;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -185,10 +184,10 @@ public class AroundDetailActivity extends BaseBackActionBarActivity{
 			
 			@Override
 			public void onClick(View arg0) {
-				Intent intent = new Intent(AroundDetailActivity.this, ChatInfoActivity.class);
-				intent.putExtra(ChatInfoActivity.KEY_NAME, question.getEmployee_id());
-				intent.putExtra(ChatInfoActivity.KEY_whom, question.getWhom());
-				intent.putExtra(ChatInfoActivity.KEY_img, question.getImgUrl());
+				Intent intent = new Intent(AroundDetailActivity.this, ChattingActivity.class);
+				intent.putExtra(ChattingActivity.KEY_NAME, question.getEmployee_id());
+				intent.putExtra(ChattingActivity.KEY_WHOM, question.getWhom());
+				intent.putExtra(ChattingActivity.KEY_OTHER_IMG, question.getImgUrl());
 				startActivity(intent);
 			}
 		});
@@ -226,7 +225,7 @@ public class AroundDetailActivity extends BaseBackActionBarActivity{
 		if (question != null) {
 			TextView tvQuestionContent = (TextView) findViewById(R.id.tvQuestionContent);
 			TextView tvQuestionName = (TextView) findViewById(R.id.tvQuestionName);
-			TextView tvTiem = (TextView) this.findViewById(R.id.tv_time);// 时间
+			TextView tvTiem = (TextView) this.findViewById(R.id.tv_adapter_chat_list_time);// 时间
 			ImageView ivHeadimg = (ImageView) this
 					.findViewById(R.id.iv_user_head_icon);
 

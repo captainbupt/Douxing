@@ -167,13 +167,15 @@ public class UserCenterActivity extends BaseNoTitleActivity {
                     }
                 });
 
-        // 进入我的直通车
+        // 进入我的私信
         findViewById(R.id.ll_user_center_message)
                 .setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startActivity(new Intent(mActivity,
-                                ChattingActivity.class));
+                        Intent intent = new Intent(mActivity,
+                                ChatListActivity.class);
+                        intent.putExtra(ChatListActivity.KEY_HEAD_URL, mUserDetail.headimg);
+                        startActivity(intent);
                     }
                 });
         // 进入我的账号

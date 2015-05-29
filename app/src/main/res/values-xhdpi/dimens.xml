@@ -244,7 +244,7 @@
     <dimen name="splash_textsize">12sp</dimen>
     <dimen name="welcome_btn_marginB">240dp</dimen>
     <!-- 9-18 -->
-    <dimen name="chat_img_head_size">60dp</dimen>
+    <dimen name="chat_img_head_size">50dp</dimen>
     <dimen name="tongShiQuan_zan_padding_h">0dp</dimen>
     <dimen name="chatInfo_item_marginTB">10dp</dimen>
 
