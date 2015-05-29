@@ -170,7 +170,7 @@ public class MainGridActivity extends BaseNoTitleActivity {
                         break;
                     case RequestParams.CHK_UPDATA_PIC_SURVEY: // 培训调研
                         String uid = ((AppApplication) getApplicationContext())
-                                .getUserInfo().getUserId();
+                                .getUserInfo().userId;
                         String url = Net.getWeiDiaoYanURl() + uid;
                         intent.setClass(mContext, BackWebActivity.class);
                         intent.putExtra(BackWebActivity.VALUE_URL, url);
@@ -461,21 +461,22 @@ public class MainGridActivity extends BaseNoTitleActivity {
     private List<Object> getMainIconList() {
         List<Object> mainIconList = new ArrayList<>();
 
-        mainIconList.add(getMainIcon(RequestParams.CHK_UPDATA_PIC_NOTICE, R.drawable.button_notice, R.string.module_default_title_notice));
-        mainIconList.add(getMainIcon(RequestParams.CHK_UPDATA_PIC_TRAIN, R.drawable.button_training, R.string.module_default_title_training));
-        mainIconList.add(getMainIcon(RequestParams.CHK_UPDATA_PIC_EXAM, R.drawable.button_exam, R.string.module_default_title_exam));
-        mainIconList.add(getMainIcon(RequestParams.CHK_UPDATA_PIC_TASK, R.drawable.button_task, R.string.module_default_title_task));
+        // 用此顺序，可以保证没有缓存的时候能够按顺序显示
+        mainIconList.add(getMainIcon(RequestParams.CHK_UPDATA_PIC_ASK, R.drawable.button_ask, R.string.module_default_title_ask));
+        mainIconList.add(getMainIcon(RequestParams.CHK_UPDATA_PIC_SHELF, R.drawable.button_shelf, R.string.module_default_title_shelf));
         mainIconList.add(getMainIcon(RequestParams.CHK_UPDATA_PIC_SURVEY, R.drawable.button_survey, R.string.module_default_title_survey));
         mainIconList.add(getMainIcon(RequestParams.CHK_UPDATA_PIC_CHATTER, R.drawable.button_chatter, R.string.module_default_title_chatter));
-        mainIconList.add(getMainIcon(RequestParams.CHK_UPDATA_PIC_SHELF, R.drawable.button_shelf, R.string.module_default_title_shelf));
-        mainIconList.add(getMainIcon(RequestParams.CHK_UPDATA_PIC_ASK, R.drawable.button_ask, R.string.module_default_title_ask));
+        mainIconList.add(getMainIcon(RequestParams.CHK_UPDATA_PIC_TASK, R.drawable.button_task, R.string.module_default_title_task));
+        mainIconList.add(getMainIcon(RequestParams.CHK_UPDATA_PIC_EXAM, R.drawable.button_exam, R.string.module_default_title_exam));
+        mainIconList.add(getMainIcon(RequestParams.CHK_UPDATA_PIC_TRAIN, R.drawable.button_training, R.string.module_default_title_training));
+        mainIconList.add(getMainIcon(RequestParams.CHK_UPDATA_PIC_NOTICE, R.drawable.button_notice, R.string.module_default_title_notice));
 
         /**
          * 权限， 设置隐藏显示
          * @param access 后台返回的十进制权限制
          */
         int access = ((AppApplication) mContext.getApplicationContext())
-                .getUserInfo().getAccess();
+                .getUserInfo().access;
 
         char[] accessArray = Integer.toBinaryString(access).toCharArray();
         for (int i = accessArray.length - 1; i >= 0; i--) {
@@ -499,10 +500,12 @@ public class MainGridActivity extends BaseNoTitleActivity {
      */
     private MainIcon getMainIcon(String key, int resId, int defaultTitleResId) {
         JSONObject mainIconJSONObject = getMainIconJSONObject(key);
+        if (mainIconJSONObject == null)
+            return new MainIcon(key, resId, getResources().getString(defaultTitleResId), "1");
         String title = mainIconJSONObject.optString("name");
         String priority = mainIconJSONObject.optString("priority");
         if (TextUtils.isEmpty(title)) {
-            title = mContext.getResources().getString(defaultTitleResId);
+            title = getResources().getString(defaultTitleResId);
         }
         return new MainIcon(key, resId, title, priority);
     }
@@ -524,21 +527,13 @@ public class MainGridActivity extends BaseNoTitleActivity {
      * 功能描述: 更新数据库中mainIcon的name 字段和 priority 字段
      */
     private JSONObject getMainIconJSONObject(String key) {
-        String shuffleStr = SP.getStringSP(mContext, SP.DEFAULTCACHE, LoginActivity.SHUFFLE, "");
-        if (TextUtils.isEmpty(shuffleStr)) {
-            return null;
-        }
-        try {
-            JSONObject shuffle = new JSONObject(shuffleStr);
-            Iterator it = shuffle.keys();
-            while (it.hasNext()) {
-                String IconKey = (String) it.next();
-                if (key.equals(IconKey)) {
-                    return shuffle.optJSONObject(IconKey);
-                }
+        JSONObject shuffle = ((AppApplication) getApplication()).getUserInfo().shuffleStr;
+        Iterator it = shuffle.keys();
+        while (it.hasNext()) {
+            String IconKey = (String) it.next();
+            if (key.equals(IconKey)) {
+                return shuffle.optJSONObject(IconKey);
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
         return null;
     }

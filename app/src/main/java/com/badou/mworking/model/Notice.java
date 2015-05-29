@@ -56,7 +56,7 @@ public class Notice extends Category{
 	 * 功能描述:  获取缓存
 	 */
 	public static boolean getUnreadNum(Context context){
-			String userNum = ((AppApplication) context.getApplicationContext()).getUserInfo().getUserNumber();
+			String userNum = ((AppApplication) context.getApplicationContext()).getUserInfo().account;
 			String sp = SP.getStringSP(context,SP.DEFAULTCACHE, userNum+ CATEGORY_KEY_UNREAD_NUM, "");
 			if(TextUtils.isEmpty(sp)){
 				return false;

@@ -55,7 +55,7 @@ public class ChattingFragment extends Fragment{
 		super.onAttach(activity);
 		mContext = activity;
 		KEY_HEAD_URL = ((AppApplication) mContext.getApplicationContext())
-				.getUserInfo().getUserId();
+				.getUserInfo().userId;
 		getUserInfo();
 	}
 
@@ -111,7 +111,7 @@ public class ChattingFragment extends Fragment{
 	 * @param view
 	 */
 	private void initView(View view){
-		pullListView = (XListView) view.findViewById(R.id.PullToRefreshListView);
+		pullListView = (XListView) view.findViewById(R.id.ptrlv_user_progress_content);
 		chatList = new ArrayList<ContanctsList>();
 		setAdapterData();
 		pullListView.setAdapter(mAdapter);
@@ -214,7 +214,7 @@ public class ChattingFragment extends Fragment{
 	 */
 	private void getUserInfo() {
 		String uid = ((AppApplication) mContext.getApplicationContext())
-				.getUserInfo().getUserId();
+				.getUserInfo().userId;
 		String headUrl = SP.getStringSP(mContext,SP.DEFAULTCACHE, KEY_HEAD_URL, "");
 		if (headUrl != null && !headUrl.equals("")) {
 			myHeadImgUrl = headUrl ;
@@ -243,7 +243,7 @@ public class ChattingFragment extends Fragment{
 						return;
 					}
 					UserDetail userDetail = new UserDetail(jObject);
-					SP.putStringSP(mContext,SP.DEFAULTCACHE, KEY_HEAD_URL, userDetail.getHeadimg());
+					SP.putStringSP(mContext,SP.DEFAULTCACHE, KEY_HEAD_URL, userDetail.headimg);
 				}
 			});
 		}
@@ -252,7 +252,7 @@ public class ChattingFragment extends Fragment{
 	
 	public void saveTotalUnread(int value) {
 		String userNum = ((AppApplication) mContext.getApplicationContext())
-				.getUserInfo().getUserNumber();
+				.getUserInfo().account;
 		int afterValue = SP.getIntSP(mContext, SP.DEFAULTCACHE,"chatUnread", 0);
 		afterValue = afterValue + value; 
 		SP.putIntSP(mContext, SP.DEFAULTCACHE, userNum+KEY_SP_UNREAD_NUM, afterValue);

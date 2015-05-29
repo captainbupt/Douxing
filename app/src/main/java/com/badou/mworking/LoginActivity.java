@@ -1,9 +1,8 @@
 package com.badou.mworking;
 
+import android.content.Context;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.content.res.Resources;
-import android.content.res.XmlResourceParser;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -22,12 +21,11 @@ import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.model.user.UserInfo;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.RequestParams;
+import com.badou.mworking.net.ResponseParams;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.ResponseError;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.AppManager;
-import com.badou.mworking.util.Constant;
-import com.badou.mworking.util.MD5;
 import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.SP;
 import com.badou.mworking.util.ToastUtil;
@@ -59,8 +57,6 @@ public class LoginActivity extends BaseNoTitleActivity implements
     private Button mLoginButton; // 登录按钮
     private TextView mForgetTextView; // 忘记密码textview
     private TextView mExperienceTextView;// 快速体验
-    public static final String KEY_ACCOUNT = "user_account";
-    public static final String SHUFFLE = "shuffle";
 
 
     private String userName = "";  // 用户名
@@ -126,7 +122,7 @@ public class LoginActivity extends BaseNoTitleActivity implements
         /**
          * 隐藏键盘
          */
-        InputMethodManager imm = (InputMethodManager) getSystemService(mContext.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(mUsernameEditText.getWindowToken(), 0);
 
 
@@ -150,16 +146,16 @@ public class LoginActivity extends BaseNoTitleActivity implements
     }
 
     protected void initData() {
-        mUsernameEditText.setText(SP.getStringSP(mContext, SP.DEFAULTCACHE, KEY_ACCOUNT, ""));
+        mUsernameEditText.setText(SP.getStringSP(mContext, SP.DEFAULTCACHE, ResponseParams.USER_ACCOUNT, ""));
     }
 
     /**
      * 功能描述:用户密码格式正确时,发起网络请求传递信息
      */
-    private void verify(final String username, final String password,
+    private void verify(final String account, final String password,
                         JSONObject localtion) {
         // 发起网络请求
-        ServiceProvider.doLogin(mContext, username, password, localtion,
+        ServiceProvider.doLogin(mContext, account, password, localtion,
                 new VolleyListener(mContext) {
                     @Override
                     public void onStart() {
@@ -186,7 +182,7 @@ public class LoginActivity extends BaseNoTitleActivity implements
                                 return;
                             }
                             // 返回码正确时 调用
-                            loginSuccess(username,
+                            loginSuccess(account,
                                     response.optJSONObject(Net.DATA));
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -234,24 +230,11 @@ public class LoginActivity extends BaseNoTitleActivity implements
      *
      * @param jsonObject 登录成功返回的json
      */
-    private void loginSuccess(String username, JSONObject jsonObject) {
-        String shuffleStr = jsonObject.optJSONObject("shuffle").toString();
-        SP.putStringSP(LoginActivity.this, SP.DEFAULTCACHE, LoginActivity.SHUFFLE, shuffleStr);
+    private void loginSuccess(String account, JSONObject jsonObject) {
+
         UserInfo userInfo = new UserInfo();
         /*** 保存没MD5的用户账户 **/
-        SP.putStringSP(mContext, SP.DEFAULTCACHE, KEY_ACCOUNT, username + "");
-        userInfo.setUserInfo(new MD5().getMD5ofStr(username), jsonObject);
-        String lang = jsonObject.optString("lang");
-        String company = jsonObject.optString("company");
-        SP.putStringSP(this, SP.DEFAULTCACHE, Constant.COMPANY, company); //保存公司的名称
-        SP.putStringSP(mContext, SP.DEFAULTCACHE, "host", jsonObject.optString("host"));
-        // en为英文版，取值zh为中文版。
-        AppApplication.changeAppLanguage(getResources(), lang);
-        try {
-            SP.putStringSP(mContext, SP.DEFAULTCACHE, "host", jsonObject.optString("host"));
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
+        userInfo.setUserInfo(account, jsonObject);
         // 保存用户登录成功返回的信息 到sharePreferncers
         ((AppApplication) getApplicationContext()).setUserInfo(userInfo);
         goMainGrid();

@@ -23,9 +23,7 @@ import android.widget.TextView;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.model.user.UserInfo;
-import com.badou.mworking.util.MD5;
 import com.badou.mworking.util.NetUtils;
-import com.badou.mworking.util.SP;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -139,8 +137,7 @@ public class TipsWebView extends BaseNoTitleActivity {
 
 	/**
 	 * c初始化action 布局
-	 * 
-	 * @param onclick
+	 *
 	 */
 	private View initAction() {
 		ImageView ivLeft = (ImageView) this
@@ -168,25 +165,19 @@ public class TipsWebView extends BaseNoTitleActivity {
 
 	/**
 	 * 登录成功 保存信息
-	 * 
-	 * @param username
-	 * @param password
+	 *
 	 * @param jsonObject
 	 *            登录成功返回的json
 	 */
 	private void loginSuccess(JSONObject jsonObject) {
-		String shuffleStr = jsonObject.optJSONObject("shuffle").toString();
-		SP.putStringSP(TipsWebView.this, SP.DEFAULTCACHE, LoginActivity.SHUFFLE, shuffleStr);
 		// 验证成功 跳转到ExperienceDetailAct
 		String acount = getIntent().getStringExtra(KEY_TipsWebView_PHONE);
 		UserInfo userInfo = new UserInfo();
 		/***保存没MD5的用户账户 **/
-		SP.putStringSP(mContext,SP.DEFAULTCACHE, LoginActivity.KEY_ACCOUNT, acount+"");
-		userInfo.setUserInfo(new MD5().getMD5ofStr(acount), jsonObject);
+		userInfo.setUserInfo(acount, jsonObject);
 		// 保存用户登录成功返回的信息 到sharePreferncers
-		((AppApplication) getApplicationContext()).setUserInfo(userInfo);
-		Intent intent = new Intent(mContext, MainGridActivity.class);
-		startActivity(intent);
+		((AppApplication) getApplication()).setUserInfo(userInfo);
+		startActivity(new Intent(mContext, MainGridActivity.class));
 	}
 	
 	protected String wrapUrl(String url) {

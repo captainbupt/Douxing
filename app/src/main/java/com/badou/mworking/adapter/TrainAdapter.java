@@ -38,9 +38,8 @@ public class TrainAdapter extends MyBaseAdapter {
      *
      * @param mContext
      */
-    public TrainAdapter(Context mContext, boolean userCenter) {
+    public TrainAdapter(Context mContext) {
         super(mContext);
-        this.isUserCenter = userCenter;
     }
 
     public void updateRating(String rid, int rating) {
@@ -56,32 +55,16 @@ public class TrainAdapter extends MyBaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         final ViewHolder holder;
-        final Train train = (Train) getItem(position);
-        if (isUserCenter) {
-            /** 学习进度显示的布局 **/
-            if (convertView == null) {
-                convertView = mInflater.inflate(
-                        R.layout.adapter_item_study_progress, null);
-            }
-            TextView tvSubject = (TextView) convertView
-                    .findViewById(R.id.lv_item_study_subject);
-            TextView tvDpt = (TextView) convertView
-                    .findViewById(R.id.lv_item_study_dpt_time);
-
-            tvSubject.setText(train.subject + "");
-            tvDpt.setText(TimeTransfer.long2StringDetailDate(mContext, train.time));
-            return convertView;
+        /** 微培训列表页显示的布局 **/
+        if (convertView != null) {
+            holder = (ViewHolder) convertView.getTag();
         } else {
-            /** 微培训列表页显示的布局 **/
-            if (convertView != null) {
-                holder = (ViewHolder) convertView.getTag();
-            } else {
-                convertView = mInflater.inflate(R.layout.adapter_train_item,
-                        parent, false);
-                holder = new ViewHolder(convertView);
-                convertView.setTag(holder);
-            }
+            convertView = mInflater.inflate(R.layout.adapter_train_item,
+                    parent, false);
+            holder = new ViewHolder(convertView);
+            convertView.setTag(holder);
         }
+        final Train train = (Train) getItem(position);
         if (TextUtils.isEmpty(train.imgUrl)) {
             holder.logoImage.setImageResource(R.drawable.pic_train_item);
         } else {
@@ -134,7 +117,7 @@ public class TrainAdapter extends MyBaseAdapter {
      */
     public void read(int position) {
         String userNum = ((AppApplication) mContext.getApplicationContext())
-                .getUserInfo().getUserNumber();
+                .getUserInfo().account;
         Train train = (Train) getItem(position);
         if (train.isRead == Constant.READ_NO) {
             train.isRead = Constant.READ_YES;

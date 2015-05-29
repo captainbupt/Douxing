@@ -4,7 +4,7 @@
     android:background="@color/color_layout_bg">
 
     <com.handmark.pulltorefresh.library.PullToRefreshListView
-        android:id="@+id/PullToRefreshListView"
+        android:id="@+id/ptrlv_user_progress_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"

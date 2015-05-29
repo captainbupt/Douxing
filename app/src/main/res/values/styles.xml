@@ -18,10 +18,11 @@
     </style>
 
     <style name="iv_account_manager_input">
+        <item name="android:scaleType">centerInside</item>
         <item name="android:layout_width">@dimen/account_manager_image_size</item>
         <item name="android:layout_height">@dimen/account_manager_image_size</item>
-        <item name="android:paddingLeft">@dimen/offset_medium</item>
-        <item name="android:paddingRight">@dimen/offset_medium</item>
+        <item name="android:layout_marginLeft">@dimen/offset_less</item>
+        <item name="android:layout_marginRight">@dimen/offset_less</item>
     </style>
 
     <style name="tv_account_manager_input">

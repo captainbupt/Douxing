@@ -75,7 +75,7 @@
 
    <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:layout_below="@id/rl_title"
-        android:id="@+id/PullToRefreshListView"
+        android:id="@+id/ptrlv_user_progress_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@android:color/transparent"

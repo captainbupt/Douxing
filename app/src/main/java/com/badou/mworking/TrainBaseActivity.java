@@ -89,7 +89,7 @@ public abstract class TrainBaseActivity extends BaseNoTitleActivity {
 		tvTitle = (TextView) this.findViewById(R.id.txt_actionbar_title);
 		ivRight = (ImageView) this.findViewById(R.id.iv_actionbar_right);
 		boolean isAdmin = ((AppApplication) getApplicationContext())
-				.getUserInfo().isAdmin();
+				.getUserInfo().isAdmin;
 		if(isAdmin){
 			ivRight.setBackgroundResource(R.drawable.admin_tongji);
 			ivRight.setVisibility(View.VISIBLE);
@@ -98,7 +98,7 @@ public abstract class TrainBaseActivity extends BaseNoTitleActivity {
 				@Override
 				public void onClick(View arg0) {
 					String titleStr = getResources().getString(R.string.statistical_data);
-					String uid = ((AppApplication) getApplicationContext()).getUserInfo().getUserId();
+					String uid = ((AppApplication) getApplicationContext()).getUserInfo().userId;
 					String url = Net.getRunHost(TrainBaseActivity.this)+Net.getTongji(uid,train.rid);
 					Intent intent = new Intent();
 					intent.setClass(TrainBaseActivity.this, BackWebActivity.class);

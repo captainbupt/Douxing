@@ -46,7 +46,7 @@ public abstract class BaseBackWebViewActivity extends BaseBackActionBarActivity 
 		tvBadouNetExceptionRepeat = (TextView) findViewById(R.id.tvBadouNetExceptionRepeat);
 		ivNetException = (ImageView) findViewById(R.id.ivNetException);
 		tvCommentNum = (TextView) findViewById(R.id.click_num);
-		commentRelat = (LinearLayout) findViewById(R.id.comment_relat);
+		commentRelat = (LinearLayout) findViewById(R.id.tv_user_progress_bottom);
 		weipeixuncommentRelat = (LinearLayout) findViewById(R.id.weipeixuncomment_relat);
 		rlComment = (RelativeLayout) findViewById(R.id.rl_comment);
 		

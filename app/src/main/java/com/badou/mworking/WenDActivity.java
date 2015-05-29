@@ -105,13 +105,13 @@ public class WenDActivity extends BaseNoTitleActivity implements OnClickListener
 	
 	private void init(){
 		userNum = ((AppApplication)getApplicationContext())
-				.getUserInfo().getUserNumber();
+				.getUserInfo().account;
 		updatePro = (ProgressBar) findViewById(R.id.pb_action_bar);
 		actionbarLeftImg = (ImageView) findViewById(R.id.iv_actionbar_left);
 		actionbarTitleTv = (TextView) findViewById(R.id.txt_actionbar_title);
 		actionbarRightImg = (ImageView) findViewById(R.id.iv_actionbar_right);
 		wendaNoproblemImg = (RelativeLayout) findViewById(R.id.wenda_noproblem_ralay);
-		commentTv = (TextView) findViewById(R.id.comment_relat);
+		commentTv = (TextView) findViewById(R.id.tv_user_progress_bottom);
 		commentTv.setText("我要提问");
 		commentTv.setOnClickListener(this);
 		actionbarRightImg.setVisibility(View.VISIBLE);
@@ -158,7 +158,7 @@ public class WenDActivity extends BaseNoTitleActivity implements OnClickListener
 			startActivity(intent);
 			overridePendingTransition(R.anim.in_from_right,R.anim.out_to_left);
 			break;
-		case R.id.comment_relat:
+		case R.id.tv_user_progress_bottom:
 			Intent intent1 = new Intent(this, PutQuestionActivity.class);
 			startActivity(intent1);
 			overridePendingTransition(R.anim.in_from_right,R.anim.out_to_left);

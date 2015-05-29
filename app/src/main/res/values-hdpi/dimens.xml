@@ -176,7 +176,8 @@
     <dimen name="user_center_about_marginR">18dp</dimen>
     <dimen name="user_center_about_marginT">18dp</dimen>
     <dimen name="user_center_myexam_top_score_marginT">40dp</dimen>
-    <dimen name="user_center_textSize_top_score">85sp</dimen>
+    <dimen name="text_user_progress_top_score">65sp</dimen>
+    <dimen name="text_user_progress_top_level">40sp</dimen>
     <dimen name="user_center_progress_width">200dp</dimen>
     <dimen name="user_study_progress_textSize_Top">26sp</dimen>
     <dimen name="user_study_progress_bg_size">130dp</dimen>

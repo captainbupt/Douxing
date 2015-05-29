@@ -69,7 +69,7 @@ public class HistoryExamActivity extends BaseNoTitleActivity implements OnClickL
 		actionbarTitle = (TextView) findViewById(R.id.txt_actionbar_title);
 		ivActionbarLeft.setOnClickListener(this);
 		actionbarTitle.setText(getResources().getString(R.string.yikaoshiti_str));
-		pullToRefreshListView = (PullToRefreshListView)findViewById(R.id.PullToRefreshListView);
+		pullToRefreshListView = (PullToRefreshListView)findViewById(R.id.ptrlv_user_progress_content);
 		pullToRefreshListView.setOnRefreshListener(this);
 		pullToRefreshListView.setMode(Mode.BOTH);
 		if (examAdapter == null) {
@@ -196,7 +196,7 @@ public class HistoryExamActivity extends BaseNoTitleActivity implements OnClickL
 					ToastUtil.showNetExc(mContext);
 					return;
 				}
-				String uid = ((AppApplication) HistoryExamActivity.this.getApplicationContext()).getUserInfo().getUserId();
+				String uid = ((AppApplication) HistoryExamActivity.this.getApplicationContext()).getUserInfo().userId;
 				String url =  Net.getRunHost(HistoryExamActivity.this)+Net.EXAM_ITEM(uid, exam.rid);
 				Intent intents = new Intent(HistoryExamActivity.this, BackWebActivity.class);
 				intents.putExtra(BackWebActivity.VALUE_URL,url);

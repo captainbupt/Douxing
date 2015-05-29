@@ -200,7 +200,7 @@ public class SignActivity extends BaseNoTitleActivity implements OnClickListener
 		
 		// 是否是管理员
 		boolean isAdmin = ((AppApplication) getApplicationContext())
-				.getUserInfo().isAdmin();
+				.getUserInfo().isAdmin;
 		ivActionbarRight = (ImageView) findViewById(R.id.iv_actionbar_right);
 		// 是否显示统计图标
 		if(isAdmin){
@@ -343,7 +343,7 @@ public class SignActivity extends BaseNoTitleActivity implements OnClickListener
 			break;
 		case R.id.iv_actionbar_right:
 			String titleStr = getResources().getString(R.string.statistical_data);
-			String uid = ((AppApplication) getApplicationContext()).getUserInfo().getUserId();
+			String uid = ((AppApplication) getApplicationContext()).getUserInfo().userId;
 			String url = Net.getRunHost(SignActivity.this)+Net.getTongji(uid,task.rid);
 			Intent intent = new Intent();
 			intent.setClass(SignActivity.this, BackWebActivity.class);
@@ -433,7 +433,7 @@ public class SignActivity extends BaseNoTitleActivity implements OnClickListener
 		String lat = String.valueOf(location.getLatitude());
 		String lon = String.valueOf(location.getLongitude());
 		String uid = ((AppApplication) getApplicationContext())
-				.getUserInfo().getUserId();
+				.getUserInfo().userId;
 				ServiceProvider.doUpdateBitmap(mContext, photo,
 						Net.getRunHost(mContext) + Net.SIGN(task.rid, uid, lat,lon),
 						new VolleyListener(mContext) {
@@ -462,7 +462,7 @@ public class SignActivity extends BaseNoTitleActivity implements OnClickListener
 									}
 									// 签到成功， 减去1
 									String userNum = ((AppApplication) getApplicationContext())
-											.getUserInfo().getUserNumber();
+											.getUserInfo().account;
 									int unreadNum = SP.getIntSP(mContext,SP.DEFAULTCACHE, userNum+Task.CATEGORY_KEY_UNREAD_NUM, 0);
 									if (unreadNum > 0 ) {
 										SP.putIntSP(mContext,SP.DEFAULTCACHE, userNum+Task.CATEGORY_KEY_UNREAD_NUM, unreadNum - 1);

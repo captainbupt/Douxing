@@ -3,6 +3,8 @@ package com.badou.mworking.widget;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Message;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -31,33 +33,32 @@ public class TopFadeScrollView extends ScrollView {
         mTopView = findViewById(id);
     }
 
+    Handler handler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            int lastY = msg.what;
+            if (lastY == getScrollY()) {
+                //停止了
+                int animTime = 100;
+                int height = originHeight - getScrollY();
+                if (height < originHeight / 2) {
+                    post(new AutoScrollRunnable(animTime, height, originHeight));
+                } else {
+                    post(new AutoScrollRunnable(animTime, height, 0));
+                }
+            } else {
+                handler.sendMessageDelayed(handler.obtainMessage(getScrollY()), 10);
+            }
+        }
+    };
+
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
+
         if (ev.getAction() == MotionEvent.ACTION_UP) {
-            int y = getScrollY();
-            int animTime = 100;
-            int height = originHeight - y;
-            if (height < originHeight / 2) {
-/*                AnimatorSet set = new AnimatorSet();
-                set.playTogether(
-                        ObjectAnimator.ofFloat(mTopView, "scaleX", 0),
-                        ObjectAnimator.ofFloat(mTopView, "scaleY", 0),
-                        ObjectAnimator.ofFloat(mTopView, "y", originHeight / 2),
-                        ObjectAnimator.ofFloat(mTopView, "alpha", 0)
-                );
-                set.setDuration(animTime).start();*/
-                post(new AutoScrollRunnable(animTime, height, originHeight));
-            } else {
-/*                AnimatorSet set = new AnimatorSet();
-                set.playTogether(
-                        ObjectAnimator.ofFloat(mTopView, "scaleX", 1),
-                        ObjectAnimator.ofFloat(mTopView, "scaleY", 1),
-                        ObjectAnimator.ofFloat(mTopView, "y", 0),
-                        ObjectAnimator.ofFloat(mTopView, "alpha", 1)
-                );
-                set.setDuration(animTime).start();*/
-                post(new AutoScrollRunnable(animTime, height, 0));
-            }
+            handler.sendMessageDelayed(handler.obtainMessage(getScrollY()), 10);
         }
         return super.onTouchEvent(ev);
     }

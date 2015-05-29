@@ -86,7 +86,7 @@ public class AroundActivity extends BaseNoTitleActivity implements OnClickListen
 		ivLeft = (ImageView)findViewById(R.id.iv_actionbar_left);
 		tvTitle = (TextView)findViewById(R.id.txt_actionbar_title);
 		ivRight = (ImageView)findViewById(R.id.iv_actionbar_right);
-		commentRelat = (TextView) findViewById(R.id.comment_relat);
+		commentRelat = (TextView) findViewById(R.id.tv_user_progress_bottom);
 		ivLeft.setOnClickListener(onclick);
 		ivLeft.setImageResource(R.drawable.title_bar_back_normal);
 		tvTitle.setText(getResources().getString(R.string.user_center_my_exam));
@@ -107,7 +107,7 @@ public class AroundActivity extends BaseNoTitleActivity implements OnClickListen
 		case R.id.iv_actionbar_left:
 			finish();
 			break;
-		case R.id.comment_relat:
+		case R.id.tv_user_progress_bottom:
 			Intent intent = new Intent(mContext, QuestionActivity.class);
 			intent.putExtra(KEY_TITLE_NAME, tvTitle.getText().toString()+"");
 			mContext.startActivity(intent);

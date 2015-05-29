@@ -169,7 +169,7 @@ public class WenDaDetailAdapter extends BaseAdapter{
 		holder.tvFloor.setText(floorNum+ context.getResources().getString(R.string.floor_num)+"   ·");
 		
 		if (((AppApplication) context.getApplicationContext()).getUserInfo()
-				.isAdmin() || name.equals("我")) {
+				.isAdmin || name.equals("我")) {
 			holder.tvQuestionShareDelete
 					.setOnClickListener(new OnClickListener() {
 

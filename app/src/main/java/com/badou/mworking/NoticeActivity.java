@@ -150,7 +150,7 @@ public class NoticeActivity extends BaseProgressListActivity {
             int status = HttpDownloader.downFile(notice.url
                             + "&uid="
                             + ((AppApplication) getApplicationContext())
-                            .getUserInfo().getUserId(), path,
+                            .getUserInfo().userId, path,
                     new DownloadListener() {
 
                         @Override
@@ -248,7 +248,7 @@ public class NoticeActivity extends BaseProgressListActivity {
         intent.putExtra(BackWebActivity.VALUE_URL, notice.url
                 + "&uid="
                 + ((AppApplication) getApplicationContext())
-                .getUserInfo().getUserId());
+                .getUserInfo().userId);
         // 获取分类名
         String title = SP.getStringSP(NoticeActivity.this, SP.NOTICE, notice.tag + "", "");
         intent.putExtra(BackWebActivity.VALUE_TITLE, title);

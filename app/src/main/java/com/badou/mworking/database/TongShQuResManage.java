@@ -19,7 +19,7 @@ public class TongShQuResManage {
 				.getMTrainingDBHelper();
 		SQLiteDatabase dbReader = mTrainingDBHelper.getDatabase();
 		String userNum = ((AppApplication) context.getApplicationContext())
-				.getUserInfo().getUserNumber();
+				.getUserInfo().account;
 		try {
 			
 			dbReader.insert(MTrainingDBHelper.TBL_NAME_TONG_SHI_QUAN + userNum, null, question.getValues());
@@ -44,7 +44,7 @@ public class TongShQuResManage {
 				.getMTrainingDBHelper();
 		SQLiteDatabase dbReader = mTrainingDBHelper.getDatabase();
 		String userNum = ((AppApplication) context.getApplicationContext())
-				.getUserInfo().getUserNumber();
+				.getUserInfo().account;
 		try {
 			
 			Cursor c1 = dbReader.query(MTrainingDBHelper.TBL_NAME_TONG_SHI_QUAN + userNum, 

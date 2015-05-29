@@ -112,7 +112,7 @@ public class PDFViewerActivity extends BaseBackActionBarActivity {
      */
     private void initData() {
         boolean isAdmin = ((AppApplication) getApplicationContext())
-                .getUserInfo().isAdmin();
+                .getUserInfo().isAdmin;
         mCategoryEntity = (Category) mReceivedIntent.getBundleExtra(KEY_CATEGORY_VALUE)
                 .getSerializable(KEY_CATEGORY_VALUE);
         if (isAdmin) {
@@ -218,7 +218,7 @@ public class PDFViewerActivity extends BaseBackActionBarActivity {
     public void clickRight() {
         super.clickRight();
         String titleStr = getResources().getString(R.string.statistical_data);
-        String uid = ((AppApplication) getApplicationContext()).getUserInfo().getUserId();
+        String uid = ((AppApplication) getApplicationContext()).getUserInfo().userId;
         String url = Net.getRunHost(PDFViewerActivity.this) + Net.getTongji(uid, mCategoryEntity.rid);
         Intent intent = new Intent();
         intent.setClass(PDFViewerActivity.this, BackWebActivity.class);

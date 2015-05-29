@@ -236,7 +236,7 @@ public class AroundDetailActivity extends BaseBackActionBarActivity{
 			}
 			/**删除和私信逻辑 */
 			String userUid = ((AppApplication) this.getApplicationContext())
-					.getUserInfo().getUserId();
+					.getUserInfo().userId;
 			String currentUid = question.getUid();     
 			// 点击进入是自己      (TextUtils.isEmpty(currentUid) 我的圈中没有返回uid字段，因为那是自己，当uid为空时，判断为是自己，也就是我的圈跳转进入的，只显示删除)
 			if(userUid.equals(currentUid)||TextUtils.isEmpty(currentUid)){

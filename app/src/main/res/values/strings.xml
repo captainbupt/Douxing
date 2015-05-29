@@ -121,8 +121,8 @@
     <string name="main_exit_tips">再按一次退出程序</string>
     <string name="main_tips_update_title">版本更新</string>
     <string name="main_tips_update_btn_ok">更新</string>
-    <string name="myexam_btn">进入我的考试</string>
-    <string name="mystudy_btn">进入我的学习</string>
+    <string name="user_progress_bottom_exam">进入我的考试</string>
+    <string name="user_progress_bottom_training">进入我的学习</string>
     <string name="choose_sd_Pic">选择本地图片</string>
     <string name="choose_camera">拍照</string>
     <string name="choose_shexiang">摄像</string>
@@ -143,8 +143,8 @@
     <string name="search_edit_hint">请输入文字</string>
     <string name="study_ZongJinDu">总体进度</string>
     <string name="study_zhouJinDu">本周进度</string>
-    <string name="study_YiXueXiKeCheng">已学习课程</string>
-    <string name="myExam_YiKaoKeMu">已考试科目</string>
+    <string name="user_progress_middle_training">已学习课程</string>
+    <string name="user_progress_middle_exam">已考试科目</string>
     <string name="web_retry">重试</string>
     <string name="text_account">账&#160;&#160;&#160;&#160;&#160;&#160;号:</string>
     <string name="text_oldPass">旧&#160;密&#160;码:</string>
@@ -156,8 +156,11 @@
     <string name="hint_feekback_edit">请写下您的建议...</string>
     <string name="text_downLoadFile">正在下载文件&#8230;</string>
     <string name="study_fir">进度超过了</string>
-    <string name="exam_fir">你的学习成绩打败了</string>
     <string name="study_sec">用户</string>
+    <string name="study_level_low">小小学渣</string>
+    <string name="study_level_middle">淡淡学屌</string>
+    <string name="study_level_high">五星学霸</string>
+    <string name="exam_fir">你的学习成绩打败了</string>
     <string name="sign_ChangJing">场景拍照:</string>
     <string name="change_laguage">语言设置</string>
     <string name="clear_cache">缓存管理</string>
@@ -217,7 +220,7 @@
     <string name="module_default_title_notice">通知公告</string>
     <string name="module_default_title_chatter">同事圈</string>
     <string name="module_default_title_exam">在线考试</string>
-    <string name="module_default_title_survey">培训调研</string>
+    <string name="module_default_title_survey">微调研</string>
     <string name="module_default_title_task">任务签到</string>
     <string name="module_default_title_training">微培训</string>
     <string name="module_default_title_ask">问答</string>

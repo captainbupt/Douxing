@@ -129,7 +129,7 @@ public class WenDaDetailActivity extends BaseNoTitleActivity implements
 		replayNum = (TextView) findViewById(R.id.replay_num);
 		actionbarLeftImg.setOnClickListener(this);
 		actionbarTitleTv.setText("问答详情");
-		commentTv = (TextView) findViewById(R.id.comment_relat);
+		commentTv = (TextView) findViewById(R.id.tv_user_progress_bottom);
 		commentTv.setText("我要回答");
 		commentTv.setOnClickListener(this);
 		sixinTv.setOnClickListener(this);
@@ -166,7 +166,7 @@ public class WenDaDetailActivity extends BaseNoTitleActivity implements
 		case R.id.iv_actionbar_left:
 			finish();
 			break;
-		case R.id.comment_relat:
+		case R.id.tv_user_progress_bottom:
 			Intent intent = new Intent(this, WenDaAnswerActivity.class);
 			intent.putExtra("aid", ask.getAid());
 			startActivity(intent);
@@ -224,7 +224,7 @@ public class WenDaDetailActivity extends BaseNoTitleActivity implements
 				
 			/**删除和私信逻辑 */
 			String userUid = ((AppApplication) this.getApplicationContext())
-					.getUserInfo().getUserId();
+					.getUserInfo().userId;
 			String currentUid = ask.getUid();   
 			int isGuanliYuan = ask.getDelop();      
 			// 点击进入是自己

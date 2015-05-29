@@ -180,7 +180,7 @@ public class AroundReplaAdapter extends BaseAdapter {
                 + "   ·");
 
         if (((AppApplication) mContext.getApplicationContext()).getUserInfo()
-                .isAdmin() || name.equals("我")) {
+                .isAdmin || name.equals("我")) {
             holder.tvQuestionShareDelete
                     .setOnClickListener(new OnClickListener() {
 
