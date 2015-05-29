@@ -194,7 +194,7 @@
             android:name="com.badou.mworking.PutQuestionActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.badou.mworking.ChatInfoActivity"
+            android:name=".ChattingActivity"
 
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
@@ -204,7 +204,7 @@
 
             android:windowSoftInputMode="stateAlwaysVisible" />
         <activity
-            android:name="com.badou.mworking.ChattingActivity"
+            android:name=".ChatListActivity"
 
             android:screenOrientation="portrait" />
         <activity

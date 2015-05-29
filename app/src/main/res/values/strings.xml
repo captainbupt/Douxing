@@ -216,6 +216,8 @@
     <string name="xlistview_footer_hint_normal">查看更多</string>
     <string name="xlistview_footer_hint_ready">松开载入更多</string>
 
+    <string name="operation_delete">删除</string>
+
 
     <string name="module_default_title_notice">通知公告</string>
     <string name="module_default_title_chatter">同事圈</string>

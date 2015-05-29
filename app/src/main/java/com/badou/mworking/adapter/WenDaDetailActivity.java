@@ -18,7 +18,7 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.badou.mworking.ChatInfoActivity;
+import com.badou.mworking.ChattingActivity;
 import com.badou.mworking.PhotoActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.WenDActivity;
@@ -192,10 +192,10 @@ public class WenDaDetailActivity extends BaseNoTitleActivity implements
 					}).setNegativeButton(R.string.text_cancel, null).show();
 			break;
 		case R.id.sixin_tv:
-			Intent intent2 = new Intent(WenDaDetailActivity.this, ChatInfoActivity.class);
-			intent2.putExtra(ChatInfoActivity.KEY_NAME, ask.getEid());
-			intent2.putExtra(ChatInfoActivity.KEY_whom, ask.getWhom());
-			intent2.putExtra(ChatInfoActivity.KEY_img, ask.getImgurl());
+			Intent intent2 = new Intent(WenDaDetailActivity.this, ChattingActivity.class);
+			intent2.putExtra(ChattingActivity.KEY_NAME, ask.getEid());
+			intent2.putExtra(ChattingActivity.KEY_WHOM, ask.getWhom());
+			intent2.putExtra(ChattingActivity.KEY_OTHER_IMG, ask.getImgurl());
 			startActivity(intent2);
 			break;
 		default:
@@ -213,7 +213,7 @@ public class WenDaDetailActivity extends BaseNoTitleActivity implements
 		if (ask != null) {
 			TextView tvQuestionContent = (TextView) findViewById(R.id.tvQuestionContent);
 			TextView tvQuestionName = (TextView) findViewById(R.id.tvQuestionName);
-			TextView tvTiem = (TextView) this.findViewById(R.id.tv_time);// 时间
+			TextView tvTiem = (TextView) this.findViewById(R.id.tv_adapter_chat_list_time);// 时间
 			ImageView ivHeadimg = (ImageView) this
 					.findViewById(R.id.iv_user_head_icon);
 

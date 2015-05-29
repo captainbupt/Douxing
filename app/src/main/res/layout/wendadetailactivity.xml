@@ -85,7 +85,7 @@
                             android:layout_marginTop="0dp" >
 
                             <TextView
-                                android:id="@+id/tv_time"
+                                android:id="@+id/tv_adapter_chat_list_time"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/color_list_item_text_time"
@@ -96,7 +96,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="20dp"
-                                android:layout_toRightOf="@id/tv_time"
+                                android:layout_toRightOf="@id/tv_adapter_chat_list_time"
                                 android:textColor="@color/color_list_item_text_time"
                                 android:textSize="@dimen/text_size_less" />
                         </RelativeLayout>

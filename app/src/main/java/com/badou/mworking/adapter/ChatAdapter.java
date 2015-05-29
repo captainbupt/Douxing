@@ -7,10 +7,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.badou.mworking.R;
-import com.badou.mworking.model.ContanctsList;
+import com.badou.mworking.base.MyBaseAdapter;
+import com.badou.mworking.model.ChattingListInfo;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.bitmap.BitmapLruCache;
@@ -18,145 +18,114 @@ import com.badou.mworking.net.bitmap.CircleImageListener;
 import com.badou.mworking.net.volley.MyVolley;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.TimeTransfer;
-import com.swipe.delete.SwipeLayout;
-import com.swipe.delete.adapters.BaseSwipeAdapter;
 
+import org.holoeverywhere.widget.TextView;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
+public class ChatAdapter extends MyBaseAdapter {
 
-public class ChatAdapter extends BaseSwipeAdapter{
 
-	private Context mContext;
-	private ArrayList<ContanctsList> mData;
-	private ContanctsList chat = null;
-	
-	public ChatAdapter(Context mContext,ArrayList<ContanctsList> mData) {
-		this.mContext = mContext;
-		this.mData = mData;
-	}
-	
-	public void setData(ArrayList<ContanctsList> mData) {
-		this.mData = mData;
-	}
-	
-	@Override
-	public int getCount() {
-		return mData.size() >0 ? mData.size() : 0;
-	}
+    public ChatAdapter(Context context) {
+        super(context);
+    }
 
-	@Override
-	public Object getItem(int arg0) {
-		return mData.get(arg0);
-	}
+    @Override
+    public View getView(final int position, View view, ViewGroup viewGroup) {
+        ViewHolder holder;
+        if (view == null) {
+            view = LayoutInflater.from(mContext).inflate(
+                    R.layout.adapter_chat_list, viewGroup, false);
+            holder = new ViewHolder(view);
+            view.setTag(holder);
+        } else {
+            holder = (ViewHolder) view.getTag();
+        }
 
-	@Override
-	public long getItemId(int arg0) {
-		return arg0;
-	}
+        final ChattingListInfo info = (ChattingListInfo) mItemList.get(position);
+        /**设置头像**/
+        holder.headImageView.setImageResource(R.drawable.icon_user_detail_default_head);
+        /**设置头像**/
+        int size = mContext.getResources().getDimensionPixelSize(
+                R.dimen.around_icon_head_size);
+        if (null != info && !"".equals(info.img)) {
+            Bitmap bm = BitmapLruCache.getBitmapLruCache().getCircleBitmap(info.img);
+            if (bm != null && !bm.isRecycled()) {
+                holder.headImageView.setImageBitmap(bm);
+            } else {
+                MyVolley.getImageLoader().get(info.img, new CircleImageListener(mContext,
+                        info.img, holder.headImageView, size, size));
+            }
+        }
 
-	class ViewHolder{
-		private ImageView imgHead;
-		private TextView tvUnreadNum;
-		private TextView tvTime;
-		private TextView tvName;
-		private TextView tvContent;
-		
-		public ViewHolder(View view) {
-			imgHead = (ImageView) view.findViewById(R.id.img_head);
-			tvName = (TextView) view.findViewById(R.id.tv_name);
-			tvTime = (TextView) view.findViewById(R.id.tv_time);
-			tvUnreadNum = (TextView) view.findViewById(R.id.tv_unreadNum);
-			tvContent = (TextView) view.findViewById(R.id.tv_content);
-		}
-	}
+        /**设置名字**/
+        holder.nameTextView.setText(info.name);
+        /**设置发布时间**/
+        if (info.ts == 0) {
+            holder.timeTextView.setText("");
+        } else {
+            holder.timeTextView.setText(TimeTransfer.long2StringDetailDate(mContext, info.ts * 1000));
+        }
 
-	@Override
-	public int getSwipeLayoutResourceId(int position) {
-		return R.id.swipe;
-	}
+        /**设置发布内容**/
+        holder.contentTextView.setText(info.content);
 
-	@Override
-	public View generateView(final int position, ViewGroup parent) {
-		View view = LayoutInflater.from(mContext).inflate(R.layout.adapter_chat_list, null);
-		return view;
-	}
+        /**设置未读数**/
+        if (info.msgcnt > 0) {
+            holder.unreadNumTextView.setVisibility(View.VISIBLE);
+            holder.unreadNumTextView.setText(info.msgcnt + "");
+        } else {
+            holder.unreadNumTextView.setVisibility(View.INVISIBLE);
+        }
+        if (info.msgcnt > 9) {
+            holder.unreadNumTextView.setBackgroundResource(R.drawable.icon_chat_unread_long);
+        } else {
+            holder.unreadNumTextView.setBackgroundResource(R.drawable.icon_chat_unread);
+        }
+        // 添加删除布局的点击事件
+        holder.deleteTextView.setOnClickListener(new OnClickListener() {
 
-	@Override
-	public void fillValues(final int position, View convertView) {
-		ViewHolder vh = new ViewHolder(convertView);
-		chat = mData.get(position);
-		/**设置头像**/
-		vh.imgHead.setImageResource(R.drawable.icon_user_detail_default_head);
-		/**设置头像**/
-		int size = mContext.getResources().getDimensionPixelSize(
-				R.dimen.around_icon_head_size);
-		if (null != chat && !"".equals(chat.getImg())) {
-			Bitmap bm = BitmapLruCache.getBitmapLruCache().getCircleBitmap(chat.getImg());
-			if (bm != null && !bm.isRecycled()) {
-				vh.imgHead.setImageBitmap(bm);
-				bm = null;
-			} else {
-				MyVolley.getImageLoader().get(chat.getImg(), new CircleImageListener(mContext,
-						chat.getImg(), vh.imgHead, size,size));
-			}
-		}
-		
-		/**设置名字**/
-		vh.tvName.setText(chat.getName()+"");
-		/**设置发布时间**/
-		if(chat.getTs()==0){
-			vh.tvTime.setText("");
-		}else{
-			vh.tvTime.setText(TimeTransfer.long2StringDetailDate(mContext,chat.getTs()*1000));
-		}
-		
-		/**设置发布内容**/
-		vh.tvContent.setText(chat.getContent());
-		
-		/**设置未读数**/
-		if (chat.getMsgcnt()>0) {
-			vh.tvUnreadNum.setVisibility(View.VISIBLE);
-			vh.tvUnreadNum.setText(chat.getMsgcnt()+"");
-		}else {
-			vh.tvUnreadNum.setVisibility(View.INVISIBLE);
-		}
-		if (chat.getMsgcnt()>9) {
-			vh.tvUnreadNum.setBackgroundResource(R.drawable.icon_chat_unread_long);
-		} else {
-			vh.tvUnreadNum.setBackgroundResource(R.drawable.icon_chat_unread);
-		}
-		final SwipeLayout swipeLayout = (SwipeLayout) convertView
-				.findViewById(getSwipeLayoutResourceId(position));
-		// 添加删除布局的点击事件
-		convertView.findViewById(R.id.ll_menu).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                deleteChat(info.whom);
+                mItemList.remove(position);
+                notifyDataSetChanged();
+            }
+        });
+        return view;
+    }
 
-			@Override
-			public void onClick(View arg0) {
-				deleteChat(position);				
-				// 点击完成之后，关闭删除menu
-				swipeLayout.close();
-			}
-		});
-	}
-	
-	/**
-	 *  删除会话
-	 */
-	private void deleteChat(final int position){
-		String whom = mData.get(position).getWhom();
-		mData.remove(position);
-		notifyDataSetChanged();
-		ServiceProvider.delChat(mContext, whom, new VolleyListener(mContext) {
-			
-			@Override
-			public void onResponse(Object responseObject) {
-				JSONObject response = (JSONObject) responseObject;
-				int code = response.optInt(Net.CODE);
-				if (code != Net.SUCCESS) {
-					return;
-				}
-			}
-		});
-	}
+    static class ViewHolder {
+        ImageView headImageView;
+        TextView unreadNumTextView;
+        TextView timeTextView;
+        TextView nameTextView;
+        TextView contentTextView;
+        TextView deleteTextView;
+
+        public ViewHolder(View view) {
+            headImageView = (ImageView) view.findViewById(R.id.iv_adapter_chat_list_head);
+            nameTextView = (TextView) view.findViewById(R.id.tv_adapter_chat_list_name);
+            timeTextView = (TextView) view.findViewById(R.id.tv_adapter_chat_list_time);
+            unreadNumTextView = (TextView) view.findViewById(R.id.tv_adapter_chat_list_unread);
+            contentTextView = (TextView) view.findViewById(R.id.tv_adapter_chat_list_content);
+            deleteTextView = (TextView) view.findViewById(R.id.tv_adapter_chat_list_delete);
+        }
+    }
+
+    /**
+     * 删除会话
+     */
+    private void deleteChat(String whom) {
+        ServiceProvider.delChat(mContext, whom, new VolleyListener(mContext) {
+
+            @Override
+            public void onResponse(Object responseObject) {
+                JSONObject response = (JSONObject) responseObject;
+                int code = response.optInt(Net.CODE);
+                if (code != Net.SUCCESS) {
+                    return;
+                }
+            }
+        });
+    }
 }
