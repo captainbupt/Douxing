@@ -57,17 +57,23 @@ public class ResponseParams {
 	public static final String TASK_PHOTO= "photo";//任务photo
 	public static final String C= "c";//是否完成
 	public static final String P= "p";//签到图片的URL
-	public static final String OFFLINE = "offline";//总数
-	public static final String IMG = "img";
+	public static final String TASK_OFFLINE = "offline";//总数
+	public static final String TASK_IMG = "img";
+
+
 
 	public static final String TRAIN_READ = "read";//已读
 	public static final String CONTENT = "content";//内容
 	public static final String M = "m";        // m 为 1 代表已点赞， 否则没有点赞
 	public static final String E = "e";        // e 课件评分
+
+	/**
+	 * exam
+	 */
 	public static final String EXAM_CONTENT = "content";//内容
-	public static final String EXAM_S = "s";   //考试得分
-	public static final String EXAM_T = "t";   //考试总分
-	public static final String EXAM_D = "d";   //是否批阅完成
+	public static final String EXAM_CONTENT_SCORE = "s";   //考试得分
+	public static final String EXAM_CONTENT_TOTAL = "t";   //考试总分
+	public static final String EXAM_CONTENT_GRADED = "d";   //是否批阅完成
 	public static final String EXAM_OFFLINE = "offline";//是否过期
 	public static final String EXAM_CREDIT = "credit";
 	public static final String EXAM_PASS = "pass";
@@ -110,6 +116,23 @@ public class ResponseParams {
 	public static final String CATEGORY_URL = "url";//网页地址
 	public static final String CATEGORY_SUBTYPE = "subtype";//类型
 	public static final String CATEGORY_UNREAD = "read"; // 是否已读
+
+
+	/**
+	 * resource detail
+	 */
+	public static final String RESOURCE_COMMENT_NUMBER = "ccnt";
+	public static final String RESOURCE_RATING_NUMBER = "ecnt";
+	public static final String RESOURCE_RATING_TOTAL = "eval";
+	public static final String RESOURCE_CONTENT = "content";
+	public static final String RESOURCE_CONTENT_RATING = "e";
+	public static final String RESOURCE_CONTENT_SIGNING = "c";
+	public static final String RESOURCE_URL = "url";
+	public static final String RESOURCE_TAG_NAME = "tag";
+	public static final String RESOURCE_FORMAT = "fmt";
+	public static final String RESOURCE_TASK = "task";
+
+
 
 	/**
 	 * knowledge library

@@ -15,7 +15,7 @@ import com.android.volley.VolleyError;
 import com.badou.mworking.adapter.ExamAdapter;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseNoTitleActivity;
-import com.badou.mworking.model.Exam;
+import com.badou.mworking.model.category.Exam;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
@@ -197,10 +197,10 @@ public class HistoryExamActivity extends BaseNoTitleActivity implements OnClickL
 				String uid = ((AppApplication) HistoryExamActivity.this.getApplicationContext()).getUserInfo().userId;
 				String url =  Net.getRunHost(HistoryExamActivity.this)+Net.EXAM_ITEM(uid, exam.rid);
 				Intent intents = new Intent(HistoryExamActivity.this, BackWebActivity.class);
-				intents.putExtra(BackWebActivity.VALUE_URL,url);
+				intents.putExtra(BackWebActivity.KEY_URL,url);
 				//String title = ExamActivity.CLASSIFICATIONNAME;
 				String title = "";
-				intents.putExtra(BackWebActivity.VALUE_TITLE,title);
+				intents.putExtra(BackWebActivity.KEY_TITLE,title);
 				startActivity(intents);
 				// 设置切换动画，从右边进入，左边退出
 				overridePendingTransition(R.anim.in_from_right,

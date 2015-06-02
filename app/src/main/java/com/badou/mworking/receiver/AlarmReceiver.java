@@ -3,14 +3,12 @@ package com.badou.mworking.receiver;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.text.TextUtils;
 
 import com.badou.mworking.ExamActivity;
 import com.badou.mworking.TrainActivity;
 import com.badou.mworking.base.AppApplication;
-import com.badou.mworking.model.Category;
-import com.badou.mworking.model.Exam;
-import com.badou.mworking.model.Train;
+import com.badou.mworking.model.category.Exam;
+import com.badou.mworking.model.category.Train;
 import com.badou.mworking.util.NotificationUtil;
 import com.badou.mworking.util.SP;
 

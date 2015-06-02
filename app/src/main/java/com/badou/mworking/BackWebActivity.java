@@ -25,7 +25,7 @@ import android.widget.ImageView;
 import com.android.volley.VolleyError;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseBackWebViewActivity;
-import com.badou.mworking.model.Train;
+import com.badou.mworking.model.category.Train;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ResponseParams;
 import com.badou.mworking.net.ServiceProvider;
@@ -36,8 +36,8 @@ import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.SP;
 import com.badou.mworking.util.ToastUtil;
-import com.badou.mworking.widget.CoursewareScoreDilog;
-import com.badou.mworking.widget.CoursewareScoreDilog.CoursewareScoreDilogListener;
+import com.badou.mworking.widget.RatingDilog;
+import com.badou.mworking.widget.RatingDilog.OnRatingCompletedListener;
 import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONArray;
@@ -51,10 +51,10 @@ import java.io.File;
 @SuppressLint("SetJavaScriptEnabled")
 public class BackWebActivity extends BaseBackWebViewActivity {
 
-    public static final String VALUE_URL = "url";
-    public static final String VALUE_TITLE = "title";
-    public static final String VALUE_RID = "rid";
-    public static final String ISSHOWTONGJI = "isShowTongji";
+    public static final String KEY_URL = "url";
+    public static final String KEY_TITLE = "title";
+    public static final String KEY_RID = "rid";
+    public static final String KEY_STATISTICAL = "statistical";
 
     public static int PAGEFLAG = BackWebActivity.GENERAL;  // 默认为普通页面   在onDestroy（）方法中还原
     public static final int GENERAL = 0;    //普通页面跳转进入
@@ -97,14 +97,14 @@ public class BackWebActivity extends BaseBackWebViewActivity {
             } else if (BackWebActivity.PAGEFLAG == BackWebActivity.BANNER) {
                 bannerDate();
             }
-            title = intent.getStringExtra(VALUE_TITLE);
-            url = intent.getStringExtra(VALUE_URL);
+            title = intent.getStringExtra(KEY_TITLE);
+            url = intent.getStringExtra(KEY_URL);
             if (title != null && !title.equals("")) {
                 setActionbarTitle(title);
             } else {
                 setActionbarTitle("");
             }
-            isShowTongji = intent.getBooleanExtra(ISSHOWTONGJI, false);
+            isShowTongji = intent.getBooleanExtra(KEY_STATISTICAL, false);
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
@@ -153,7 +153,7 @@ public class BackWebActivity extends BaseBackWebViewActivity {
     private void noticeDate(Intent intent) {
         if (intent != null) {
             try {
-                rid = intent.getStringExtra(VALUE_RID);
+                rid = intent.getStringExtra(KEY_RID);
             } catch (NullPointerException e) {
                 e.printStackTrace();
             }
@@ -422,7 +422,7 @@ public class BackWebActivity extends BaseBackWebViewActivity {
                             }
                         } finally {
                             if (BackWebActivity.PAGEFLAG == BackWebActivity.NOTICE) {
-                                tvCommentNum.setText(comment + getResources().getString(R.string.taolun));
+                                tvCommentNum.setText(comment + getResources().getString(R.string.tips_bottom_comment));
                             } else {
                             }
                         }
@@ -452,10 +452,10 @@ public class BackWebActivity extends BaseBackWebViewActivity {
         if (BackWebActivity.PAGEFLAG == BackWebActivity.TRAINING) {
             if (train != null) {
                 String coursewareScore = train.coursewareScore;
-                new CoursewareScoreDilog(mContext, train.rid, coursewareScore, new CoursewareScoreDilogListener() {
+                new RatingDilog(mContext, train.rid, coursewareScore, new OnRatingCompletedListener() {
 
                     @Override
-                    public void positiveListener(int coursewareScore) {
+                    public void onRatingCompleted(int coursewareScore) {
                         train.coursewareScore = coursewareScore + "";
                         tvZan.setText(train.ecnt + 1 + "");
                         Intent intent = new Intent();
@@ -491,8 +491,8 @@ public class BackWebActivity extends BaseBackWebViewActivity {
         String url = Net.getRunHost(BackWebActivity.this) + Net.getTongji(uid, rid);
         Intent intent = new Intent();
         intent.setClass(BackWebActivity.this, BackWebActivity.class);
-        intent.putExtra(BackWebActivity.VALUE_URL, url);
-        intent.putExtra(BackWebActivity.VALUE_TITLE, titleStr);
+        intent.putExtra(BackWebActivity.KEY_URL, url);
+        intent.putExtra(BackWebActivity.KEY_TITLE, titleStr);
         BackWebActivity.this.startActivity(intent);
     }
 

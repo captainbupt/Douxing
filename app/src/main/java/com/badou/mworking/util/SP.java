@@ -4,21 +4,14 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 /**
- * 类:  <code> SP </code>
  * 功能描述:  SharedPerences保存数据和读取数据封装之后的工具类
- * 创建人:  葛建锋
- * 创建日期: 2014年7月15日 下午4:07:22
- * 开发环境: JDK7.0
  */
 public class SP {
 
+    // 请勿随意更改值，会导致之前版本缓存异常
     public static final String DEFAULTCACHE = "douxing";  //默认普通缓存
     public static final String TONGSHIQUAN = "tongshiquan";  // 同事圈缓存
     public static final String WENDA = "wenda";  // 问答缓存
-    public static final String EXAM = "exam";  // 考试缓存
-    public static final String NOTICE = "notice";  // 通知公告缓存
-    public static final String TRAINING = "training";  // 微培训缓存
-    public static final String TASK = "task";  // 任务签到缓存
 
     // save shared preference values
     public static void putSP(Context context, String fileName, String key, Object value) {

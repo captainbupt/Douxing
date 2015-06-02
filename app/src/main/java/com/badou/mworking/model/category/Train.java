@@ -1,15 +1,10 @@
-package com.badou.mworking.model;
+package com.badou.mworking.model.category;
 
-import android.content.Context;
 import android.text.TextUtils;
 
-import com.badou.mworking.base.AppApplication;
-import com.badou.mworking.database.MTrainingDBHelper;
 import com.badou.mworking.net.ResponseParams;
 import com.badou.mworking.util.Constant;
-import com.badou.mworking.util.SP;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -18,9 +13,9 @@ import org.json.JSONObject;
  */
 public class Train extends Category {
 
-    public static final int CATEGORY_TYPE = Category.CATEGORY_TRAIN;
-    public static final String CATEGORY_KEY_NAME = Category.CATEGORY_KEY_NAMES[CATEGORY_TYPE];
-    public static final String CATEGORY_KEY_UNREAD_NUM = Category.CATEGORY_KEY_UNREADS[CATEGORY_TYPE];//训练 的 未读数量
+    public static final int CATEGORY_TYPE = CATEGORY_TRAIN;
+    public static final String CATEGORY_KEY_NAME = CATEGORY_KEY_NAMES[CATEGORY_TYPE];
+    public static final String CATEGORY_KEY_UNREAD_NUM = CATEGORY_KEY_UNREADS[CATEGORY_TYPE];//训练 的 未读数量
 
     public String imgUrl;//图片下载地址
     public String coursewareScore = ""; //课件打分

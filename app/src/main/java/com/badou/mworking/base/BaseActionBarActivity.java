@@ -15,7 +15,7 @@ import com.badou.mworking.widget.WaitProgressDialog;
 
 public class BaseActionBarActivity extends BaseNoTitleActivity {
 
-    public static String KEY_TITLE = "title";
+    public final static String KEY_TITLE = "title";
 
     protected View actionBarView;
     protected TextView mTxtTitle;

@@ -24,7 +24,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -46,7 +45,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 import com.badou.mworking.base.AppApplication;
-import com.badou.mworking.model.Train;
+import com.badou.mworking.model.category.Train;
 import com.badou.mworking.util.DensityUtil;
 import com.badou.mworking.util.FileUtils;
 import com.badou.mworking.util.MyIntents;
@@ -59,7 +58,8 @@ import com.umeng.analytics.MobclickAgent;
 public class TrainVideoPlayerAct extends TrainBaseActivity implements
         OnClickListener {
 
-    public static final String KEY_CATEGORY_VALUE = "content";
+    public static final String KEY_TITLE = "title";
+    public static final String KEY_RID = "rid";
 
 
     /**
@@ -679,11 +679,7 @@ public class TrainVideoPlayerAct extends TrainBaseActivity implements
 
     @Override
     public Train getTrain() {
-        if (train == null) {
-            train = (Train) getIntent().getBundleExtra(KEY_CATEGORY_VALUE)
-                    .getSerializable(KEY_CATEGORY_VALUE);
-        }
-        return train;
+        return null;
     }
 
     /**

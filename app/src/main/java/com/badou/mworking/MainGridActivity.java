@@ -3,10 +3,8 @@ package com.badou.mworking;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.Display;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -27,7 +25,7 @@ import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.database.MTrainingDBHelper;
-import com.badou.mworking.model.Category;
+import com.badou.mworking.model.category.Category;
 import com.badou.mworking.model.MainBanner;
 import com.badou.mworking.model.MainIcon;
 import com.badou.mworking.net.Net;
@@ -173,7 +171,7 @@ public class MainGridActivity extends BaseNoTitleActivity {
                                 .getUserInfo().userId;
                         String url = Net.getWeiDiaoYanURl() + uid;
                         intent.setClass(mContext, BackWebActivity.class);
-                        intent.putExtra(BackWebActivity.VALUE_URL, url);
+                        intent.putExtra(BackWebActivity.KEY_URL, url);
                         break;
                     case RequestParams.CHK_UPDATA_PIC_TASK: // 任务签到
                         intent.setClass(mContext, TaskActivity.class);
@@ -278,7 +276,7 @@ public class MainGridActivity extends BaseNoTitleActivity {
                                     int position, long id) {
                 int pos = position % bList.size();
                 Intent intent = new Intent(mContext, BackWebActivity.class);
-                intent.putExtra(BackWebActivity.VALUE_URL, ((MainBanner) bList.get(pos)).getBannerContentURL() + "");
+                intent.putExtra(BackWebActivity.KEY_URL, ((MainBanner) bList.get(pos)).getBannerContentURL() + "");
                 BackWebActivity.PAGEFLAG = BackWebActivity.BANNER;
                 startActivity(intent);
             }

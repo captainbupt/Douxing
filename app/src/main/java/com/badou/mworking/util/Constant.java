@@ -14,8 +14,7 @@
 package com.badou.mworking.util;
 
 /**
- * 类: <code> Constant </code> 功能描述: 常量类 创建人: 葛建锋 创建日期: 2014年7月18日 下午8:53:45
- * 开发环境: JDK7.0
+ * 功能描述: 常量类
  */
 public class Constant {
 
@@ -24,17 +23,12 @@ public class Constant {
 	 */
 	public static boolean is_refresh = false;
 	public static boolean is_del = false; //是否删除
-	
-	/**
-	 * 设置fragment 的adapter是否刷新
-	 */
-	public static boolean setAdapterRefresh = true;
-	
+
 	/**
 	 * 记录显示的tag
 	 */
-	public static int LIST_ITEM_NUM = 10;
-	public static int LIST_AROUND_NUM = 100;
+	public final static int LIST_ITEM_NUM = 10;
+	public final static int LIST_AROUND_NUM = 100;
 
 	
 	public static final String LANGUAGE = "language";
@@ -46,7 +40,7 @@ public class Constant {
     public static final int MWKG_FORAMT_TYPE_XML = 3;	    //xml格式
     public static final int MWKG_FORAMT_TYPE_MPEG = 4;  	//mpeg4格式，调系统播放器
     public static final int MWKG_FORAMT_TYPE_RAW = 5;		//自定义格式，程序解析处理
-    public static final int MWKG_FORAMT_TYPE_MP3 = 6;		//自定义格式，程序解析处理
+    public static final int MWKG_FORAMT_TYPE_MP3 = 6;		//MP3格式，程序解析处理
 
 	public static final int READ_YES = 1;
 	public static final int READ_NO = 0;
@@ -62,8 +56,5 @@ public class Constant {
 	public static final String TRAIN_IMG_FORMAT = ".png";
 	
 	public static final String PUSH_NOTIFICATIONS = "push_notifications";
-	
-//	public static final String serviceIntent = "com.badou.mworking.services.IDownloadService";
-//	public static final String receiverIntent = "com.badou.mworking.TrainVideoPlayerAct";
 
 }

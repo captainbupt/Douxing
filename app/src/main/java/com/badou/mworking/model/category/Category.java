@@ -1,7 +1,10 @@
-package com.badou.mworking.model;
+package com.badou.mworking.model.category;
+
+import android.content.Context;
 
 import com.badou.mworking.net.ResponseParams;
 import com.badou.mworking.util.Constant;
+import com.badou.mworking.util.SP;
 
 import org.json.JSONObject;
 
@@ -58,6 +61,22 @@ public abstract class Category implements Serializable {
         } else {
             return false;
         }
+    }
+
+    public boolean isTop() {
+        if (top == Constant.TOP_YES) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public String getClassificationName(Context context) {
+        return getClassificationName(context, getCategoryType(), tag);
+    }
+
+    public static String getClassificationName(Context context, int type, int tag) {
+        return SP.getStringSP(context, CATEGORY_KEY_NAMES[type], tag + "", "");
     }
 
 }

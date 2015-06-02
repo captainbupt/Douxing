@@ -101,7 +101,7 @@
 	<string name="myQuan_dialog_del_tips">Delete</string>
 	<string name="text_cancel">Cancel</string>
 	<string name="text_search">search</string>
-	<string name="train_readPdf_fail">Your system does not support reading courseware</string>
+	<string name="tips_pdf_view_unsupported">Your system does not support reading courseware</string>
 	<string name="category_unsupport_type">Current version does not support this operation</string>
 	<string name="exam_btn_ChaKanDaAn">View answer</string>
 	<string name="exam_btn_GuoQi_ChaKanDaAn">View answers</string>
@@ -242,8 +242,8 @@ APP will lock the page until reacquire network connection and will automatically
     <string name="score_thi">一般吧</string>
 	<string name="score_fou">哎呦，不错哦～</string>
 	<string name="score_fif">太棒了，非常实用！</string>
-	<string name="pingfen">给个评分</string>
-	<string name="taolun">参与讨论</string>
+	<string name="tips_bottom_rating">给个评分</string>
+	<string name="tips_bottom_comment">参与讨论</string>
 	<string name="kejian_tips">您还没有浏览课件，看过了再来评价吧！</string>
 	<string name="exam_rating_title">加权平均分计算方法</string>
 	<string name="exam_rating_content">考试科目1*对应科目学分+考试科目2*对应科目学分+.../总学分数。</string>

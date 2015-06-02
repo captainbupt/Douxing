@@ -51,7 +51,7 @@ public abstract class BaseBackWebViewActivity extends BaseBackActionBarActivity 
 		rlComment = (RelativeLayout) findViewById(R.id.rl_comment);
 		
 		ll_comment = (LinearLayout) findViewById(R.id.ll_comment);
-		ll_dianZan = (LinearLayout) findViewById(R.id.ll_dianZan);
+		ll_dianZan = (LinearLayout) findViewById(R.id.ll_bottom_rating);
 		tvComment = (TextView) findViewById(R.id.comment_num);
 		tvZan = (TextView) findViewById(R.id.Zan_num);
 		

@@ -10,7 +10,7 @@
         android:background="@color/color_white">
 
         <ImageView
-            android:id="@+id/iv_adapter_exam_top"
+            android:id="@+id/iv_adapter_task_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/flag_category_top" />
@@ -26,7 +26,7 @@
             android:paddingTop="@dimen/offset_less">
 
             <ImageView
-                android:id="@+id/iv_adapter_exam_icon"
+                android:id="@+id/iv_adapter_task_icon"
                 android:layout_width="@dimen/icon_size_category_item"
                 android:layout_height="@dimen/icon_size_category_item"
                 android:scaleType="centerInside" />
@@ -40,7 +40,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tv_adapter_exam_subject"
+                    android:id="@+id/tv_adapter_task_subject"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
@@ -49,7 +49,16 @@
                     android:textSize="@dimen/text_size_less" />
 
                 <TextView
-                    android:id="@+id/tv_adapter_exam_date"
+                    android:id="@+id/tv_adapter_task_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:textColor="@color/color_list_item_text_time"
+                    android:textSize="@dimen/text_size_small" />
+
+                <TextView
+                    android:id="@+id/tv_adapter_task_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/color_list_item_text_time"
@@ -57,12 +66,13 @@
             </org.holoeverywhere.widget.LinearLayout>
 
             <TextView
-                android:id="@+id/tv_adapter_exam_unread"
+                android:id="@+id/tv_adapter_task_unread"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/flag_category_unread"
                 android:gravity="center"
-                android:text="@string/category_unexam" />
+                android:text="@string/category_unread"
+                android:textColor="@color/color_white" />
         </org.holoeverywhere.widget.LinearLayout>
 
     </org.holoeverywhere.widget.FrameLayout>

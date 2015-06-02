@@ -4,8 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.widget.BaseAdapter;
 
-import com.badou.mworking.model.Task;
-
 import java.util.ArrayList;
 import java.util.List;
 

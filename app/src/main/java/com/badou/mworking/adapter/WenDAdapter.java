@@ -23,7 +23,7 @@ import com.badou.mworking.PhotoActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.WenDaDetailActivity;
 import com.badou.mworking.model.Ask;
-import com.badou.mworking.net.LVUtil;
+import com.badou.mworking.util.LVUtil;
 import com.badou.mworking.net.bitmap.BitmapLruCache;
 import com.badou.mworking.net.bitmap.CircleImageListener;
 import com.badou.mworking.net.bitmap.PicImageListener;

@@ -99,7 +99,7 @@ public class AboutUsActivity extends BaseBackActionBarActivity {
             public void onClick(View view) {
                 Intent intent1 = new Intent(mContext,
                         TipsWebView.class);
-                intent1.putExtra(BackWebActivity.VALUE_URL,
+                intent1.putExtra(BackWebActivity.KEY_URL,
                         Net.getRunHost(AboutUsActivity.this) + Net.FAQ);
                 intent1.putExtra(TipsWebView.KEY_TITLE,getResources().getString(R.string.about_us_frequent_question));
                 startActivity(intent1);

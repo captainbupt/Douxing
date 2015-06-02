@@ -26,7 +26,7 @@ import com.badou.mworking.adapter.MyGroupAdapter.OnAdapterItemListener;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.model.Question;
 import com.badou.mworking.model.user.UserDetail;
-import com.badou.mworking.net.LVUtil;
+import com.badou.mworking.util.LVUtil;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.bitmap.BitmapLruCache;
@@ -494,7 +494,7 @@ public class MyGroupFragment extends Fragment implements
                             .getUserInfo().userId;
                     Intent intent = new Intent(mContext, BackWebActivity.class);
                     intent.putExtra("title", "等级介绍");
-                    intent.putExtra(BackWebActivity.VALUE_URL, Constant.LV_URL + userId);
+                    intent.putExtra(BackWebActivity.KEY_URL, Constant.LV_URL + userId);
                     startActivity(intent);
                 }
             });

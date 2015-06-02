@@ -6,10 +6,9 @@ import android.os.Bundle;
 import com.badou.mworking.adapter.ExamAdapter;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseProgressListActivity;
-import com.badou.mworking.model.Category;
-import com.badou.mworking.model.Exam;
+import com.badou.mworking.model.category.Category;
+import com.badou.mworking.model.category.Exam;
 import com.badou.mworking.net.Net;
-import com.badou.mworking.receiver.JPushReceiver;
 import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.SP;
@@ -66,15 +65,15 @@ public class ExamActivity extends BaseProgressListActivity {
         String uid = ((AppApplication) getApplicationContext()).getUserInfo().userId;
         String url = Net.getRunHost(mContext) + Net.EXAM_ITEM(uid, exam.rid);
         Intent intents = new Intent(mContext, BackWebActivity.class);
-        intents.putExtra(BackWebActivity.VALUE_URL, url);
-        intents.putExtra(BackWebActivity.ISSHOWTONGJI, true);
+        intents.putExtra(BackWebActivity.KEY_URL, url);
+        intents.putExtra(BackWebActivity.KEY_STATISTICAL, true);
         int tag = exam.tag;
         String title = "";
         if (tag >= 0) {
             // 获取分类名
-            title = SP.getStringSP(mContext, SP.EXAM, tag + "", "");
+            title = Category.getClassificationName(mContext, Category.CATEGORY_EXAM, tag);
         }
-        intents.putExtra(BackWebActivity.VALUE_TITLE, title);
+        intents.putExtra(BackWebActivity.KEY_TITLE, title);
         startActivity(intents);
     }
 

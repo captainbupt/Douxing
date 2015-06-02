@@ -34,7 +34,7 @@ import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.database.TongShQuResManage;
 import com.badou.mworking.fragment.TongSHQFragments;
 import com.badou.mworking.model.Question;
-import com.badou.mworking.net.LVUtil;
+import com.badou.mworking.util.LVUtil;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.bitmap.BitmapLruCache;

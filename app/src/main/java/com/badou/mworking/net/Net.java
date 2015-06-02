@@ -7,11 +7,7 @@ import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.util.SP;
 
 /**
- * 类:  <code> Net </code>
  * 功能描述:  接口工具类
- * 创建人:  葛建锋
- * 创建日期: 2014年12月15日 下午4:12:49
- * 开发环境: JDK7.0
  */
 public class Net {
 	
@@ -488,6 +484,14 @@ public class Net {
 	 */
 	public static String DeleteReplyComment(){
 		return "/delreply?sys=android"
+				+ AppApplication.SYSVERSION + "&ver=" + AppApplication.appVersion;
+	}
+
+	/**
+	 * @return 查看资源详情
+	 */
+	public static String viewResourceDetail(){
+		return "/viewres?sys=android"
 				+ AppApplication.SYSVERSION + "&ver=" + AppApplication.appVersion;
 	}
 }

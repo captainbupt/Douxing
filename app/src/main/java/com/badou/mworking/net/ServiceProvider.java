@@ -43,8 +43,7 @@ import java.net.URLEncoder;
 import java.util.Calendar;
 
 /**
- * 类: <code> ServiceProvider </code> 功能描述: 网络获取 创建人: 葛建锋 创建日期: 2014年7月18日
- * 下午5:01:29 开发环境: JDK7.0
+ * 功能描述: 网络获取
  */
 public class ServiceProvider {
 
@@ -700,7 +699,7 @@ public class ServiceProvider {
 				.getUserInfo().userId;
 		MyVolley.getRequestQueue().add(
 				new JsonObjectRequest(Request.Method.GET, Net.getRunHost(context)
-						+ Net.GET_TAG(uid,type), null, volleyListener,
+						+ Net.GET_TAG(uid, type), null, volleyListener,
 						volleyListener));
 		MyVolley.getRequestQueue().start();
 	}
@@ -795,7 +794,7 @@ public class ServiceProvider {
 	public static void doSetCredit(Context context , String qid, VolleyListener volleyListener) {
 		String uid = ((AppApplication) context.getApplicationContext())
 				.getUserInfo().userId;
-		String url = Net.getRunHost(context) + Net.SET_CREDIT(uid,qid);
+		String url = Net.getRunHost(context) + Net.SET_CREDIT(uid, qid);
 		MyVolley.getRequestQueue().add(
 				new JsonObjectRequest(Request.Method.GET, url, null,
 						volleyListener, volleyListener));
@@ -811,7 +810,7 @@ public class ServiceProvider {
 	public static void dogetChatList(Context context , VolleyListener volleyListener) {
 		String uid = ((AppApplication) context.getApplicationContext())
 				.getUserInfo().userId;
-		String url = Net.getRunHost(context) + Net.GET_CHAT_LIST(uid,"");
+		String url = Net.getRunHost(context) + Net.GET_CHAT_LIST(uid, "");
 		MyVolley.getRequestQueue().add(
 				new JsonObjectRequest(Request.Method.GET, url, null,
 						volleyListener, volleyListener));
@@ -827,7 +826,7 @@ public class ServiceProvider {
 	public static void dogetChatInfo(Context context ,String whom ,VolleyListener volleyListener) {
 		String uid = ((AppApplication) context.getApplicationContext())
 				.getUserInfo().userId;
-		String url = Net.getRunHost(context) + Net.GET_CHAT_Info(uid,whom);
+		String url = Net.getRunHost(context) + Net.GET_CHAT_Info(uid, whom);
 		MyVolley.getRequestQueue().add(
 				new JsonObjectRequest(Request.Method.GET, url, null,
 						volleyListener, volleyListener));
@@ -939,7 +938,7 @@ public class ServiceProvider {
 				+ Net.DeleteReplyComment());
 
 		MyVolley.getRequestQueue().add(
-				new JsonObjectRequest(Request.Method.POST,  Net.getRunHost(context)
+				new JsonObjectRequest(Request.Method.POST, Net.getRunHost(context)
 						+ Net.DeleteReplyComment(), json,
 						volleyListener, volleyListener));
 
@@ -1108,4 +1107,24 @@ public class ServiceProvider {
 						json, volleyListener, volleyListener));
 		MyVolley.getRequestQueue().start();
 	}
+
+	/**
+	 * 获取资源
+	 */
+	public static void getResourceDetail(Context context,String rid,VolleyListener volleyListener){
+		String uid = ((AppApplication) context.getApplicationContext())
+				.getUserInfo().userId;
+		JSONObject json = new JSONObject();
+		try {
+			json.put("uid", uid);
+			json.put("rid", rid);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		MyVolley.getRequestQueue().add(
+				new JsonObjectRequest(Request.Method.POST, Net.getRunHost(context)+ Net.viewResourceDetail(),
+						json, volleyListener, volleyListener));
+		MyVolley.getRequestQueue().start();
+	}
+
 }

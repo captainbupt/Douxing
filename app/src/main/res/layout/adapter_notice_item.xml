@@ -71,5 +71,5 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/color_border_gray" />
+        android:background="@color/color_border_grey" />
 </org.holoeverywhere.widget.LinearLayout>

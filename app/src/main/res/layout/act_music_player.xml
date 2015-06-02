@@ -146,6 +146,6 @@
 
     <include
         android:id="@+id/layout_bottom"
-        layout="@layout/wei_pei_xun_bottom" />
+        layout="@layout/view_bottom_comment_and_rating" />
 
 </RelativeLayout>

@@ -61,14 +61,11 @@ public class TipsWebView extends BaseNoTitleActivity {
         llNetException = (LinearLayout) findViewById(R.id.llNetException);
         tvBadouNetExceptionRepeat = (TextView) findViewById(R.id.tvBadouNetExceptionRepeat);
         ivNetException = (ImageView) findViewById(R.id.ivNetException);
-        // intent.putExtra(BackWebActivity.VALUE_URL,
-        // "http://mworking.cn/badou/verify-help.html");
-        // intent.putExtra("tiyan", 1);
 
         TextView titleTv = (TextView) initAction();
         final int tag = ACT_TipsWebView;
         titleTv.setText(getIntent().getStringExtra(KEY_TITLE));
-        mCurrentUrl = getIntent().getStringExtra(BackWebActivity.VALUE_URL);
+        mCurrentUrl = getIntent().getStringExtra(BackWebActivity.KEY_URL);
 
         tvbottomBtn.setText(R.string.toPhone);
         tvbottomBtn.setVisibility(View.GONE);
