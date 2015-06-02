@@ -56,7 +56,7 @@ public class RequestParams {
 	public static final String USER_NAME = "name";//用户名称
 	public static final String USER_DATA = "data";//用户数据
 	public static final String USER_ERRCODE = "errcode";//错误码
-	public static final String NOTICE_READ = "read";//已读
+	public static final String USER_READ = "read";//已读
 	public static final String USER_STUDY_RANK = "study_rank";//学习排名
 	public static final String USER_SCORE_RANK = "score_rank";//考试排名
 	public static final String USER_STUDY_OVER = "study_over";//学习战胜多少人

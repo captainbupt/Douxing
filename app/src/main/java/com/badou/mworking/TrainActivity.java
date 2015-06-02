@@ -1,36 +1,22 @@
 package com.badou.mworking;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.text.TextUtils;
 
 import com.android.volley.VolleyError;
 import com.badou.mworking.adapter.TrainAdapter;
-import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseProgressListActivity;
 import com.badou.mworking.model.Train;
-import com.badou.mworking.net.DownloadListener;
-import com.badou.mworking.net.HttpDownloader;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ResponseParams;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.CategoryClickHandler;
-import com.badou.mworking.util.Constant;
-import com.badou.mworking.util.FileUtils;
 import com.badou.mworking.util.NetUtils;
-import com.badou.mworking.util.SP;
 import com.badou.mworking.util.ToastUtil;
-import com.badou.mworking.widget.HorizontalProgressDialog;
 
-import org.holoeverywhere.app.Activity;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.io.File;
 
 /**
  * @author gejianfeng
@@ -77,7 +63,7 @@ public class TrainActivity extends BaseProgressListActivity {
         Train train = (Train) mCategoryAdapter.getItem(position - 1);
 
         if (!CategoryClickHandler.categoryClicker(mContext, train)) {
-            ToastUtil.showToast(mContext, R.string.train_unsupport_type);
+            ToastUtil.showToast(mContext, R.string.category_unsupport_type);
             return;
         }
 
@@ -114,10 +100,10 @@ public class TrainActivity extends BaseProgressListActivity {
                     for (int i = 0; i < resultArray.length(); i++) {
                         JSONObject jsonObject = resultArray.optJSONObject(i);
                         String rid = jsonObject.optString(ResponseParams.CATEGORY_RID);
-/*                        int feedbackCount = jsonObject
+                        int feedbackCount = jsonObject
                                 .optInt(ResponseParams.RATING_NUM);
                         int comment = jsonObject
-                                .optInt(ResponseParams.COMMENT_NUM);*/
+                                .optInt(ResponseParams.COMMENT_NUM);
                         int ecnt = jsonObject
                                 .optInt(ResponseParams.ECNT); //评分人数
                         int eval = jsonObject
@@ -125,8 +111,7 @@ public class TrainActivity extends BaseProgressListActivity {
                         for (int j = 0; j < mCategoryAdapter.getCount(); j++) {
                             Train t = (Train) mCategoryAdapter.getItem(j);
                             if (rid.equals(t.rid)) {
-/*                                t.commentNum = comment;
-                                t.feedbackCount = feedbackCount;*/
+                                t.commentNum = comment;
                                 t.ecnt = ecnt;
                                 t.eval = eval;
                             }
@@ -136,7 +121,7 @@ public class TrainActivity extends BaseProgressListActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {
-                    pullToRefreshListView.onRefreshComplete();
+                    mContentListView.onRefreshComplete();
                     hideProgressBar();
                 }
             }
@@ -144,7 +129,7 @@ public class TrainActivity extends BaseProgressListActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 super.onErrorResponse(error);
-                pullToRefreshListView.onRefreshComplete();
+                mContentListView.onRefreshComplete();
                 hideProgressBar();
             }
 

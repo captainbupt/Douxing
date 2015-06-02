@@ -168,7 +168,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name="com.badou.mworking.AroundUserActivity"
+            android:name=".MyGroupActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.badou.mworking.ForgetPassWordActivity"

@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.badou.mworking.AroundDetailActivity;
-import com.badou.mworking.AroundUserActivity;
+import com.badou.mworking.MyGroupActivity;
 import com.badou.mworking.BackWebActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.adapter.MyGroupAdapter;
@@ -212,7 +212,7 @@ public class MyGroupFragment extends Fragment implements
      */
     private void setAdapterData() {
         if (myGroupAdapter == null) {
-            myGroupAdapter = new MyGroupAdapter(mContext, ((AroundUserActivity) getActivity()).qid);
+            myGroupAdapter = new MyGroupAdapter(mContext, ((MyGroupActivity) getActivity()).qid);
         }
 
         if (myGroupAdapter.getCount() == 0) {
@@ -434,8 +434,8 @@ public class MyGroupFragment extends Fragment implements
 
                 if (!TextUtils.isEmpty(userDetail.name)) {
                     headName.setText(userDetail.name);
-                    if ((AroundUserActivity) getActivity() != null && !getActivity().isFinishing()) {
-                        ((AroundUserActivity) getActivity()).setActionbarTitle(userDetail.name);
+                    if ((MyGroupActivity) getActivity() != null && !getActivity().isFinishing()) {
+                        ((MyGroupActivity) getActivity()).setActionbarTitle(userDetail.name);
                     }
                 }
                 Bitmap headBmp = null;

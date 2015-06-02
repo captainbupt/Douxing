@@ -97,7 +97,7 @@ public class ForgetPassWordActivity extends BaseBackActionBarActivity {
         public void updateDrawState(TextPaint ds) {
             super.updateDrawState(ds);
             ds.setUnderlineText(true); // 取消下划线
-            ds.setColor(getResources().getColor(R.color.color_red)); // 指定文字颜色
+            ds.setColor(getResources().getColor(R.color.color_blue)); // 指定文字颜色
         }
     }
 
@@ -142,8 +142,7 @@ public class ForgetPassWordActivity extends BaseBackActionBarActivity {
                 Intent intent = new Intent(mContext, TipsWebView.class);
                 intent.putExtra(BackWebActivity.VALUE_URL,
                         "http://mworking.cn/badou/verify-help.html");
-                intent.putExtra(TipsWebView.KEY_TipsWebView,
-                        TipsWebView.ACT_TipsWebView);
+                intent.putExtra(TipsWebView.KEY_TITLE,getResources().getString(R.string.notGetMsg));
                 startActivity(intent);
             }
         });
@@ -226,7 +225,7 @@ public class ForgetPassWordActivity extends BaseBackActionBarActivity {
     private void setButtonDisable(TextView textView) {
         textView.setEnabled(false);
         textView.setBackgroundResource(R.drawable.background_button_disable);
-        textView.setTextColor(getResources().getColor(R.color.color_text_black));
+        textView.setTextColor(getResources().getColor(R.color.color_white));
     }
 
     private void setButtonEnable(TextView textView) {

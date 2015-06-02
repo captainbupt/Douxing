@@ -14,13 +14,9 @@ import org.json.JSONObject;
 import cn.jpush.android.api.JPushInterface;
 
 /**
- * 类:  <code> AroundUserActivity </code>
  * 功能描述: 我的圈页面
- * 创建人:  葛建锋
- * 创建日期: 2014年8月21日 上午11:34:07
- * 开发环境: JDK7.0
  */
-public class AroundUserActivity extends BaseBackActionBarActivity implements
+public class MyGroupActivity extends BaseBackActionBarActivity implements
                  MyGroupFragment.OnFragmentInteractionListener {
 	
 	public static String qid = ""; 

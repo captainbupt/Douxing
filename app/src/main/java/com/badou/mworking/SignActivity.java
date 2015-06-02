@@ -234,7 +234,7 @@ public class SignActivity extends BaseNoTitleActivity implements OnClickListener
 				INTENT_TASK);
 		
 		if (task != null) {
-			boolean finish = task.isFinish();
+			boolean finish = task.isRead();
 			String comment = task.comment;
 			if (comment == null || comment.equals("")) {
 				tvTaskDesc.setText(mContext.getResources().getString(R.string.text_null));
@@ -254,7 +254,7 @@ public class SignActivity extends BaseNoTitleActivity implements OnClickListener
 				tvSignTaskPassed.setVisibility(View.GONE);
 			}else {
 				// 已过期
-				if(task.isOverdue()){
+				if(task.getOffline()){
 					llSignConfirm.setEnabled(false);
 					tvSignTaskPassed.setVisibility(View.VISIBLE);
 					llSignConfirmOrIgnor.setVisibility(View.GONE);
@@ -277,7 +277,7 @@ public class SignActivity extends BaseNoTitleActivity implements OnClickListener
 			} else {
 				tvTaskAdd.setText(place);
 			}
-			if (task.photo == 0 || task.isFinish()) {
+			if (task.photo == 0 || task.isRead()) {
 				layoutCarmea.setVisibility(View.GONE);
 				
 				File file = new File(mActivity

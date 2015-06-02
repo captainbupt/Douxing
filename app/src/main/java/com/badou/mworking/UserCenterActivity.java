@@ -147,7 +147,7 @@ public class UserCenterActivity extends BaseNoTitleActivity {
                     @Override
                     public void onClick(View v) {
                         startActivity(new Intent(mActivity,
-                                AroundUserActivity.class));
+                                MyGroupActivity.class));
                     }
                 });
 
@@ -329,7 +329,7 @@ public class UserCenterActivity extends BaseNoTitleActivity {
         setUserIcon(uid, mUserDetail.headimg);
         if (!TextUtils.isEmpty(mUserDetail.name)) {
             ((TextView) findViewById(R.id.tv_user_center_top_name))
-                    .setText(mUserDetail.name + "/" + mUserDetail.dpt);
+                    .setText(mUserDetail.name + "\n" + mUserDetail.dpt);
         }
         if (!TextUtils.isEmpty(String.valueOf(mUserDetail.score))) {
             ((TextView) findViewById(R.id.tv_user_center_exam_score))

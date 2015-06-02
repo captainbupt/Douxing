@@ -1,6 +1,7 @@
 package com.badou.mworking.model;
 
 import com.badou.mworking.net.ResponseParams;
+import com.badou.mworking.util.Constant;
 
 import org.json.JSONObject;
 
@@ -28,6 +29,7 @@ public abstract class Category implements Serializable {
     public long time; // 发布时间
     public String url; // 资源url 对应不同类型
     public int subtype; // 资源类型
+    public int read; // 是否完成
 
     public Category(JSONObject jsonObject) {
         this.rid = jsonObject.optString(ResponseParams.CATEGORY_RID);
@@ -40,6 +42,8 @@ public abstract class Category implements Serializable {
                 .optInt(ResponseParams.CATEGORY_TAG);
         this.url = jsonObject.optString(ResponseParams.CATEGORY_URL);
         this.subtype = jsonObject.optInt(ResponseParams.CATEGORY_SUBTYPE);
+        // 为空的时候为已完成
+        this.read = jsonObject.optInt(ResponseParams.CATEGORY_UNREAD, 1);
     }
 
     public abstract int getCategoryType();
@@ -47,5 +51,13 @@ public abstract class Category implements Serializable {
     public abstract String getCategoryKeyName();
 
     public abstract String getCategoryKeyUnread();
+
+    public boolean isRead() {
+        if (read == Constant.FINISH_YES) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 }

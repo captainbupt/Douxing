@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_layout_bg">
+    android:background="@color/color_bg_grey">
 
     <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:id="@+id/ptrlv_user_progress_content"
@@ -9,12 +9,12 @@
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_marginTop="@dimen/offset_lless"
-        android:divider="@color/color_layout_bg"
+        android:divider="@color/color_bg_grey"
         android:scrollbars="none"
         android:visibility="visible" />
 
     <ImageView
-        android:id="@+id/tv_forget_password_tips"
+        android:id="@+id/iv_activity_base_progress_list_none_result"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -22,23 +22,48 @@
         android:background="@drawable/no_content"
         android:visibility="gone" />
 
-    <LinearLayout
+    <org.holoeverywhere.widget.LinearLayout
+        android:id="@+id/classification_linear"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_alignParentTop="true"
+        android:visibility="gone"
         android:orientation="vertical">
 
-        <include
-            layout="@layout/activity_shoplist"
+        <org.holoeverywhere.widget.LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone" />
+            android:layout_height="400dp"
+            android:orientation="horizontal">
+
+            <org.holoeverywhere.widget.ListView
+                android:id="@+id/lv_classification_list_main"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="20"
+                android:background="@color/color_light_grey"
+                android:divider="@color/color_border_gray"
+                android:dividerHeight="1px"
+                android:listSelector="@android:color/transparent"
+                android:scrollbars="none" />
+
+            <org.holoeverywhere.widget.ListView
+                android:id="@+id/lv_classification_list_more"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="17"
+                android:background="@color/color_white"
+                android:divider="@color/color_border_gray"
+                android:dividerHeight="1px"
+                android:listSelector="@android:color/transparent"
+                android:paddingLeft="@dimen/offset_small" />
+
+        </org.holoeverywhere.widget.LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/color_layout_bg"
-            android:visibility="invisible" />
-    </LinearLayout>
+            android:onClick="nu@null"
+            android:background="@color/color_bg_transparent_black" />
+    </org.holoeverywhere.widget.LinearLayout>
 
 </RelativeLayout>

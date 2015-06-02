@@ -60,7 +60,7 @@
             android:layout_width="@dimen/action_bar_img_size"
             android:layout_height="@dimen/action_bar_img_size"
             android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
+            android:layout_alignParentTop="true"
             android:padding="@dimen/offset_less"
             android:scaleType="centerInside"
             android:src="@drawable/title_bar_back_normal" />

@@ -26,7 +26,7 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.badou.mworking.AroundDetailActivity;
-import com.badou.mworking.AroundUserActivity;
+import com.badou.mworking.MyGroupActivity;
 import com.badou.mworking.PhotoActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.TongSHQVideoPlayActivity;
@@ -371,7 +371,7 @@ public class TongShiQuanAdapter extends BaseAdapter {
 				if (TextUtils.isEmpty(uid)) {
 					return;
 				}
-				Intent intent = new Intent(mContext, AroundUserActivity.class);
+				Intent intent = new Intent(mContext, MyGroupActivity.class);
 				intent.putExtra("uid", uid);
 				((Activity) mContext).startActivity(intent);
 				break;

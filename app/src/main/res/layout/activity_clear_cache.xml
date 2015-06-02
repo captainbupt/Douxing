@@ -2,16 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_white"
+    android:background="@color/color_bg_grey"
     android:orientation="vertical" >
 
-    <include layout="@layout/actionbar" />
-
     <LinearLayout
-        android:id="@+id/weipeixun_cache_lay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:background="@drawable/background_list_item"
         android:gravity="center_vertical"
         android:orientation="horizontal"
@@ -45,13 +41,11 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@color/color_grey" />
+        android:background="@color/color_border_gray" />
 
     <LinearLayout
-        android:id="@+id/tongshiquan_lay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:background="@drawable/background_list_item"
         android:gravity="center_vertical"
         android:orientation="horizontal"

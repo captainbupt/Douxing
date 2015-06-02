@@ -133,8 +133,7 @@
 	<dimen name="exp_edit_h">45dp</dimen>
 	
 	<!-- list 8-15 -->
-	<dimen name="list_item_notice_pic_width">85dp</dimen>
-	<dimen name="list_item_notice_pic_height">65dp</dimen>
+	<dimen name="icon_size_category_item">@dimen/icon_size_medium</dimen>
 	<dimen name="list_item_top_pic_size">35dp</dimen>
 	
 	<!-- item 8-16 -->
@@ -149,8 +148,8 @@
 	
 	<!-- item 8-19 -->
 	<dimen name="list_item_train_top_marginR">4dp</dimen>
-	<dimen name="list_item_train_pic_width">290dp</dimen>
-	<dimen name="list_item_train_pic_height">170dp</dimen>
+	<dimen name="list_item_train_pic_width">305dp</dimen>
+	<dimen name="list_item_train_pic_height">156dp</dimen>
 	
 	<dimen name="splash_textsize">16sp</dimen>
 	<dimen name="my_examOrStudy_center_tv_padT">9dp</dimen>

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ListView;
 
 import com.android.volley.VolleyError;
 import com.badou.mworking.adapter.ChatAdapter;
@@ -14,6 +15,8 @@ import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.ToastUtil;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -21,7 +24,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.maxwin.view.XListView;
 
 /**
  * 功能描述: 聊天页面
@@ -29,7 +31,7 @@ import me.maxwin.view.XListView;
 public class ChatListActivity extends BaseBackActionBarActivity {
 
     public static final String KEY_HEAD_URL = "KEY_HEAD_URL";
-    private XListView pullListView;
+    private PullToRefreshListView pullListView;
     private ChatAdapter mAdapter;
 
     @Override
@@ -39,14 +41,15 @@ public class ChatListActivity extends BaseBackActionBarActivity {
         setActionbarTitle(getResources().getString(R.string.user_center_message));
         initView();
         initListener();
-        getChatList();
+        pullListView.setRefreshing();
+        //getChatList();
     }
 
     /**
      * 初始化控件
      */
     private void initView() {
-        pullListView = (XListView) findViewById(R.id.xlv_activity_chatting);
+        pullListView = (PullToRefreshListView) findViewById(R.id.ptrlv_activity_chatting);
         mAdapter = new ChatAdapter(mContext);
         pullListView.setAdapter(mAdapter);
     }
@@ -76,15 +79,10 @@ public class ChatListActivity extends BaseBackActionBarActivity {
         });
 
         // 设置回调函数
-        pullListView.setXListViewListener(new XListView.IXListViewListener() {
-
+        pullListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
-            public void onRefresh() {
+            public void onRefresh(PullToRefreshBase<ListView> refreshView) {
                 getChatList();
-            }
-
-            @Override
-            public void onLoadMore() {
             }
         });
     }
@@ -97,9 +95,7 @@ public class ChatListActivity extends BaseBackActionBarActivity {
         ServiceProvider.dogetChatList(mContext, new VolleyListener(mContext) {
             @Override
             public void onResponse(Object responseObject) {
-                if (pullListView != null) {
-                    pullListView.stopRefresh();
-                }
+                pullListView.onRefreshComplete();
                 JSONObject responseJson = (JSONObject) responseObject;
                 List<Object> chatList = new ArrayList<>();
                 int code = responseJson.optInt(Net.CODE);
@@ -131,9 +127,7 @@ public class ChatListActivity extends BaseBackActionBarActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 super.onErrorResponse(error);
-                if (pullListView != null) {
-                    pullListView.stopRefresh();
-                }
+                pullListView.onRefreshComplete();
             }
         });
     }

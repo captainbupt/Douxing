@@ -32,7 +32,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 /**
- * @author 葛建锋
  * 等级考试进入的等级页面
  */
 public class MyRatingActivity extends BaseNoTitleActivity implements OnClickListener,OnItemClickListener{
@@ -234,7 +233,7 @@ public class MyRatingActivity extends BaseNoTitleActivity implements OnClickList
 			// 注意： 在集合便利的时候，不要移除考试，以防止报错，加强版的for循环，不知道会不会，但是int i 那种会报错，保险起见，用下面的方式
 			for(Exam exam:exams){
 				// 移除未考的考试
-				if(!exam.isFinish()){
+				if(!exam.isRead()){
 					//　将其中第一个未考的考试保存下来，如果考试全部都通过了的话，点击考试晋级，进入到该页面
 					if(jinjiExam == null){
 						jinjiExam = exam;

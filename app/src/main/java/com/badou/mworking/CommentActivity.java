@@ -107,7 +107,6 @@ public class CommentActivity extends BaseBackActionBarActivity{
 	}
 	
 	/**
-	 * pullToRefreshListView.setMode(Mode.BOTH);
 	 * 功能描述:实例化view
 	 */
 	protected void initView() {

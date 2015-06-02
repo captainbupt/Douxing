@@ -107,7 +107,7 @@ public class ForgetPasswordVerificationActivity extends BaseBackActionBarActivit
                 mNextTextView.setBackgroundResource(R.drawable.background_button_enable_red);
                 mNextTextView.setEnabled(true);
             } else {
-                mNextTextView.setTextColor(getResources().getColor(R.color.color_text_black));
+                mNextTextView.setTextColor(getResources().getColor(R.color.color_white));
                 mNextTextView.setBackgroundResource(R.drawable.background_button_disable);
                 mNextTextView.setEnabled(true);
             }

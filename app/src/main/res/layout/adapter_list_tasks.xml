@@ -16,7 +16,7 @@
         android:paddingBottom="@dimen/list_item_notice_rl_padB" >
 
         <TextView
-            android:id="@+id/tv_adapter_base_item_subject"
+            android:id="@+id/tv_adapter_training_item_subject"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -47,8 +47,8 @@
             android:id="@+id/tv_adapter_item_dpt_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/tv_adapter_base_item_subject"
-            android:layout_below="@+id/tv_adapter_base_item_subject"
+            android:layout_alignLeft="@+id/tv_adapter_training_item_subject"
+            android:layout_below="@+id/tv_adapter_training_item_subject"
             android:layout_marginTop="@dimen/task_item_text_margin_Top"
             android:ellipsize="end"
             android:singleLine="true"

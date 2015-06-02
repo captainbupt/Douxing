@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -189,6 +191,8 @@ public class SearchLinearView extends LinearLayout {
             // 结果不同步，舍弃返回值
             return;
         }
+        InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(mTitleEditView.getWindowToken(), 0);
         if (resultObject == null)
             mResultAdpater.addList(type, mCategoryNames[type], null);
         else {
@@ -248,8 +252,8 @@ public class SearchLinearView extends LinearLayout {
         @Override
         public void run() {
             blur(((MainGridActivity) mContext).myShot(), SearchLinearView.this);
-            if (!isStop)
-                mBackgroundHandler.postDelayed(this, interval);
+/*            if (!isStop)
+                mBackgroundHandler.postDelayed(this, interval);*/
         }
     }
 

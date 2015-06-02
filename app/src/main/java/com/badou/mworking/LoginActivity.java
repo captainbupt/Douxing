@@ -280,7 +280,7 @@ public class LoginActivity extends BaseNoTitleActivity implements
                     || editPass.getText().length() == 0) {
                 mLoginButton.setEnabled(false);
                 mLoginButton.setTextColor(res
-                        .getColor(R.color.color_black));
+                        .getColor(R.color.color_white));
                 mLoginButton.setBackgroundResource(R.drawable.background_button_disable);
             } else {
                 mLoginButton.setEnabled(true);

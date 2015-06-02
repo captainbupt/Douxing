@@ -24,23 +24,16 @@ import cn.jpush.android.api.JPushInterface;
  */
 public class ExamActivity extends BaseProgressListActivity {
 
-
-    public static String CLASSIFICATIONNAME = "";    // 试题分类名称
-
-    public static String examRid = "";    //考试资源id
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         CATEGORY_NAME = Exam.CATEGORY_KEY_NAME;
         CATEGORY_UNREAD_NUM = Exam.CATEGORY_KEY_UNREAD_NUM;
         super.onCreate(savedInstanceState);
         try {
-            ExamActivity.examRid = "";       //先清空ExamActivity.examRid对象ExamActivity
             // 如果8点提醒点击进入的话，这里会报空，应为极光推送没有收到内容，在这里做个异常捕获
             String JPushBundle = getIntent().getExtras().getString(JPushInterface.EXTRA_EXTRA);
             if (JPushBundle != null) {
                 JSONObject extraJson = new JSONObject(JPushBundle);
-                ExamActivity.examRid = extraJson.getString(JPushReceiver.TYPE_ADD);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -49,7 +42,7 @@ public class ExamActivity extends BaseProgressListActivity {
 
     @Override
     protected void initAdapter() {
-        mCategoryAdapter = new ExamAdapter(mContext,false, false);
+        mCategoryAdapter = new ExamAdapter(mContext);
     }
 
     @Override
@@ -80,14 +73,12 @@ public class ExamActivity extends BaseProgressListActivity {
         if (tag >= 0) {
             // 获取分类名
             title = SP.getStringSP(mContext, SP.EXAM, tag + "", "");
-        } else {
-            title = ExamActivity.CLASSIFICATIONNAME;
         }
         intents.putExtra(BackWebActivity.VALUE_TITLE, title);
         startActivity(intents);
     }
 
-    @Override
+/*    @Override
     public void clickRight() {
         // tag 值大于 0 ，  代表在线考试，点击跳入搜索，    tag<0, 代表 等级考试， 点击跳入等级考试页面，  tag = 0 表示全部
         if (tag >= 0) {
@@ -95,6 +86,6 @@ public class ExamActivity extends BaseProgressListActivity {
             Intent inten = new Intent(mContext, MyRatingActivity.class);
             startActivity(inten);
         }
-    }
+    }*/
 }
 

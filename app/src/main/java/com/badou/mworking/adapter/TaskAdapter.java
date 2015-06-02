@@ -2,10 +2,8 @@ package com.badou.mworking.adapter;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -16,8 +14,6 @@ import com.badou.mworking.model.Task;
 import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.SP;
 import com.badou.mworking.util.TimeTransfer;
-
-import java.util.ArrayList;
 
 
 public class TaskAdapter extends MyBaseAdapter {
@@ -37,7 +33,7 @@ public class TaskAdapter extends MyBaseAdapter {
 		// 一定要保证else if 语句的顺序，应为在这一块，优先级别  已签到>已过期>未签到   然后 因为未过期  可能已经签过到了，
 		//也可能没有，  如果已经签过到了，显示已签到，如果没有，才显示已过期，所以要注意else if语句的顺序
 		
-		TextView subject = ViewHolder.getVH(convertView, R.id.tv_adapter_base_item_subject);
+		TextView subject = ViewHolder.getVH(convertView, R.id.tv_adapter_training_item_subject);
 		TextView publishTime = ViewHolder.getVH(convertView, R.id.tv_adapter_item_dpt_date);
 		RelativeLayout rl_bg = ViewHolder.getVH(convertView, R.id.rl_item_bg_isread);
 		TextView tvFinish = ViewHolder.getVH(convertView, R.id.tv_unFinish);
@@ -45,13 +41,13 @@ public class TaskAdapter extends MyBaseAdapter {
 		ImageView top = ViewHolder.getVH(convertView, R.id.tv_adapter_base_item_top);
 		
 		// 先判断read字段， 已签到
-		if (task.isFinish()){
+		if (task.isRead()){
 			rl_bg.setBackgroundResource(R.drawable.icon_read_);
 			tvFinish.setTextColor(mContext.getResources().getColor(R.color.color_grey));
 			tvFinish.setText(mContext.getResources().getString(R.string.task_isFinish));
 		} else {
 			//判断 offline字段， 已过期
-			if(task.isOverdue()){
+			if(task.getOffline()){
 				rl_bg.setBackgroundResource(R.drawable.icon_read_);
 				tvFinish.setTextColor(mContext.getResources().getColor(R.color.color_grey));
 				tvFinish.setText(mContext.getResources().getString(R.string.isDeadtime));

@@ -2,19 +2,21 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_layout_bg"
-    android:scrollbars="none" >
+    android:background="@color/color_bg_grey"
+    android:scrollbars="none">
 
-    <LinearLayout
+    <org.holoeverywhere.widget.LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
-        <LinearLayout
+        <org.holoeverywhere.widget.LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="240dp"
+            android:layout_height="wrap_content"
+            android:background="@color/color_white"
             android:gravity="center"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:padding="@dimen/offset_less">
 
             <ImageView
                 android:layout_width="@dimen/about_us_icon_logo_width"
@@ -23,218 +25,202 @@
                 android:scaleType="centerInside"
                 android:src="@drawable/login_logo" />
 
-            <TextView
+            <org.holoeverywhere.widget.TextView
                 android:id="@+id/tv_user_setting_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/offset_micro"
-                android:textColor="#9e9e9e"
+                android:textColor="@color/color_text_grey"
                 android:textSize="@dimen/text_size_large" />
-        </LinearLayout>
+        </org.holoeverywhere.widget.LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/update_linear"
+        <org.holoeverywhere.widget.LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/background_list_item"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="@dimen/offset_less" >
+            android:layout_marginTop="@dimen/offset_small"
+            android:background="@color/color_white"
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="0dp"
+            <org.holoeverywhere.widget.LinearLayout
+                android:id="@+id/ll_about_us_check_update"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/title_name_update"
-                android:textColor="@color/color_user_setting_option"
-                android:textSize="@dimen/text_size_large" />
+                android:background="@drawable/background_list_item"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/offset_less">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:scaleType="centerInside"
-                android:src="@drawable/icon_user_center_forward" />
-        </LinearLayout>
+                <org.holoeverywhere.widget.TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/about_us_check_update"
+                    android:textColor="@color/color_text_black"
+                    android:textSize="@dimen/text_size_large" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_marginLeft="@dimen/offset_less"
-            android:layout_marginRight="@dimen/offset_less"
-            android:background="#d2d2d2" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/icon_user_center_forward" />
+            </org.holoeverywhere.widget.LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/clear_cache_linear"
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="@dimen/offset_less"
+                android:layout_marginRight="@dimen/offset_less"
+                android:background="@color/color_border_gray" />
+
+            <org.holoeverywhere.widget.LinearLayout
+                android:id="@+id/ll_about_us_clear_cache"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_list_item"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/offset_less">
+
+                <org.holoeverywhere.widget.TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/about_us_clear_cache"
+                    android:textColor="@color/color_text_black"
+                    android:textSize="@dimen/text_size_large" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/icon_user_center_forward" />
+            </org.holoeverywhere.widget.LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="@dimen/offset_less"
+                android:layout_marginRight="@dimen/offset_less"
+                android:background="@color/color_border_gray" />
+
+            <org.holoeverywhere.widget.LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_list_item"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/offset_less">
+
+                <org.holoeverywhere.widget.TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/about_us_push"
+                    android:textColor="@color/color_text_black"
+                    android:textSize="@dimen/text_size_large" />
+
+                <CheckBox
+                    android:id="@+id/cb_about_us_push"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/selector_pic_show"
+                    android:button="@null" />
+            </org.holoeverywhere.widget.LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="@dimen/offset_less"
+                android:layout_marginRight="@dimen/offset_less"
+                android:background="@color/color_border_gray" />
+
+            <org.holoeverywhere.widget.LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_list_item"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/offset_less">
+
+                <org.holoeverywhere.widget.TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/about_us_saving_network"
+                    android:textColor="@color/color_text_black"
+                    android:textSize="@dimen/text_size_large" />
+
+                <CheckBox
+                    android:id="@+id/cb_about_us_save"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/selector_pic_show"
+                    android:button="@null" />
+            </org.holoeverywhere.widget.LinearLayout>
+        </org.holoeverywhere.widget.LinearLayout>
+
+        <org.holoeverywhere.widget.LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/background_list_item"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="@dimen/offset_less" >
+            android:layout_marginTop="@dimen/offset_small"
+            android:background="@color/color_white"
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="0dp"
+            <org.holoeverywhere.widget.LinearLayout
+                android:id="@+id/ll_about_us_faq"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/clear_cache"
-                android:textColor="@color/color_user_setting_option"
-                android:textSize="@dimen/text_size_large" />
+                android:background="@drawable/background_list_item"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/offset_less">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:scaleType="centerInside"
-                android:src="@drawable/icon_user_center_forward" />
-        </LinearLayout>
+                <org.holoeverywhere.widget.TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/about_us_frequent_question"
+                    android:textColor="@color/color_text_black"
+                    android:textSize="@dimen/text_size_large" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_marginLeft="@dimen/offset_less"
-            android:layout_marginRight="@dimen/offset_less"
-            android:background="#d2d2d2" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/icon_user_center_forward" />
+            </org.holoeverywhere.widget.LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/background_list_item"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="@dimen/offset_less" >
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="@dimen/offset_less"
+                android:layout_marginRight="@dimen/offset_less"
+                android:background="@color/color_border_gray" />
 
-            <TextView
-                android:layout_width="0dp"
+            <org.holoeverywhere.widget.LinearLayout
+                android:id="@+id/ll_about_us_contact"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/push_notifications"
-                android:textColor="@color/color_user_setting_option"
-                android:textSize="@dimen/text_size_large" />
+                android:background="@drawable/background_list_item"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/offset_less">
 
-            <CheckBox
-                android:id="@+id/push_chk"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/selector_pic_show"
-                android:button="@null" />
-        </LinearLayout>
+                <org.holoeverywhere.widget.TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/title_name_lianXin"
+                    android:textColor="@color/color_text_black"
+                    android:textSize="@dimen/text_size_large" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_marginLeft="@dimen/offset_less"
-            android:layout_marginRight="@dimen/offset_less"
-            android:background="#d2d2d2" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/background_list_item"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="@dimen/offset_less" >
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/show_img"
-                android:textColor="@color/color_user_setting_option"
-                android:textSize="@dimen/text_size_large" />
-
-            <CheckBox
-                android:id="@+id/chk_pic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/selector_pic_show"
-                android:button="@null" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/frequently_qes_linear"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:background="@drawable/background_list_item"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="@dimen/offset_less" >
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/title_name_Wenti"
-                android:textColor="@color/color_user_setting_option"
-                android:textSize="@dimen/text_size_large" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:scaleType="centerInside"
-                android:src="@drawable/icon_user_center_forward" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_marginLeft="@dimen/offset_less"
-            android:layout_marginRight="@dimen/offset_less"
-            android:background="#d2d2d2" />
-
-        <LinearLayout
-            android:id="@+id/contact_us_linear"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/background_list_item"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="@dimen/offset_less" >
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/title_name_lianXin"
-                android:textColor="@color/color_user_setting_option"
-                android:textSize="@dimen/text_size_large" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:scaleType="centerInside"
-                android:src="@drawable/icon_user_center_forward" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_marginLeft="@dimen/offset_less"
-            android:layout_marginRight="@dimen/offset_less"
-            android:background="#d2d2d2" />
-
-        <LinearLayout
-            android:id="@+id/change_laguage_linear"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/background_list_item"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="@dimen/offset_less" >
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/change_laguage"
-                android:textColor="@color/color_user_setting_option"
-                android:textSize="@dimen/text_size_large" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:scaleType="centerInside"
-                android:src="@drawable/icon_user_center_forward" />
-        </LinearLayout>
-    </LinearLayout>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/icon_user_center_forward" />
+            </org.holoeverywhere.widget.LinearLayout>
+        </org.holoeverywhere.widget.LinearLayout>
+    </org.holoeverywhere.widget.LinearLayout>
 
 </ScrollView>

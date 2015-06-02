@@ -102,7 +102,7 @@
 	<string name="text_cancel">Cancel</string>
 	<string name="text_search">search</string>
 	<string name="train_readPdf_fail">Your system does not support reading courseware</string>
-	<string name="train_unsupport_type">Current version does not support this operation</string>
+	<string name="category_unsupport_type">Current version does not support this operation</string>
 	<string name="exam_btn_ChaKanDaAn">View answer</string>
 	<string name="exam_btn_GuoQi_ChaKanDaAn">View answers</string>
 	<string name="exam_tips_ShiJianWeiDao">Not yet</string>
@@ -112,8 +112,8 @@
 	<string name="title_name_Myzhanghao">Account</string>
 	<string name="title_name_NeiRongXiangQing">Details</string>
 	<string name="title_name_lianXin">Contact us</string>
-	<string name="title_name_Wenti">Q&amp;A</string>
-	<string name="title_name_update">Check for update</string>
+	<string name="about_us_frequent_question">Q&amp;A</string>
+	<string name="about_us_check_update">Check for update</string>
 	<string name="title_name_ShenFenRenZheng">Authentication</string>
 	<string name="title_name_chanPin">About APP</string>
 	<string name="title_name_keCheng">About Course</string>
@@ -200,9 +200,9 @@ APP will lock the page until reacquire network connection and will automatically
 	<string name="sign_ChangJing">Take Photo:</string>
 	<string name="upload_img">Upload</string>
 	<string name="change_laguage">Language</string>
-	<string name="clear_cache">Clear cache</string>
-    <string name="show_img">2G/3G省流量模式</string>
-    <string name="push_notifications">推送提醒</string>
+	<string name="about_us_clear_cache">Clear cache</string>
+    <string name="about_us_saving_network">2G/3G省流量模式</string>
+    <string name="about_us_push">推送提醒</string>
 	<string name="text_score"> </string>
 	<string name="sign_needUpload">Please take a photo and upload.</string>
 	<string name="login">Log in</string>
