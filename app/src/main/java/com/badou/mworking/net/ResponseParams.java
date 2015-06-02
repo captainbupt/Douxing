@@ -20,12 +20,6 @@ public class ResponseParams {
 	public static final String USER_ACCOUNT = "account";//用户账号
 
 	/**
-	 * training
-	 */
-	public static final String TRAIN_URL = "url";//pdf下载地址
-	public static final String TRAIN_TAG = "tag";//分类
-	public static final String TRAIN_FEEDBACK_COUNT = "cnt";//点赞数
-	/**
 	 * 课件点赞和评论
 	 */
 	public static final String COMMENT_NUM = "ccnt";//评论数量
@@ -52,14 +46,6 @@ public class ResponseParams {
 	/**
 	 * task
 	 * */
-	public static final String TASK_URL = "url";//
-	public static final String TASK_DEADTIME = "deadtime";//截止时间
-	public static final String TASK_SUBTYPE = "subtype";//分类 
-	public static final String TASK_TAG = "tag";//分类
-	public static final String TASK_RESOURCE_TIME = "resourcetime";//
-	public static final String TASK_IS_FINISHED = "isfinished";//是否完成
-	public static final String TASK_DETAIL_SUBJECT = "subject";//详细标题
-	public static final String TASK_DETAIL_DEPARTMENT = "department";//部门
 	public static final String TASK_DETAIL_TYPE = "type";//
 	public static final String TASK_DETAIL_LONGITUDE = "longitude";//经度
 	public static final String TASK_DETAIL_LATITUDE = "latitude";//纬度
@@ -82,6 +68,9 @@ public class ResponseParams {
 	public static final String EXAM_S = "s";   //考试得分
 	public static final String EXAM_T = "t";   //考试总分
 	public static final String EXAM_D = "d";   //是否批阅完成
+	public static final String EXAM_OFFLINE = "offline";//是否过期
+	public static final String EXAM_CREDIT = "credit";
+	public static final String EXAM_PASS = "pass";
 
 
 	/**
@@ -120,6 +109,7 @@ public class ResponseParams {
 	public static final String CATEGORY_TOP = "top"; // 是否置顶
 	public static final String CATEGORY_URL = "url";//网页地址
 	public static final String CATEGORY_SUBTYPE = "subtype";//类型
+	public static final String CATEGORY_UNREAD = "read"; // 是否已读
 
 	/**
 	 * knowledge library

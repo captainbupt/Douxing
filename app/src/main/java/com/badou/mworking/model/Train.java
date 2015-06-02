@@ -27,8 +27,8 @@ public class Train extends Category {
 
     public int ecnt; //评分人数
     public int eval; //评分总分
+    public int commentNum;
 
-    public int isRead;        //是否已读（通知公告，为培训标示是否已读）
     public int hasFeedback = Constant.LIKED_NO;    // 是否点赞， 默认没有点赞
 
     /**
@@ -38,12 +38,18 @@ public class Train extends Category {
      */
     public Train(JSONObject jsonObject) {
         super(jsonObject);
-        this.isRead = jsonObject.optInt(ResponseParams.TRAIN_READ);
         this.imgUrl = jsonObject.optString(ResponseParams.KNOWLEDGE_LIBRARY_IMG);
-        JSONObject contentJsonObject = jsonObject.optJSONObject(ResponseParams.CONTENT);
-        if (contentJsonObject != null) {
-            this.hasFeedback = contentJsonObject.optInt(ResponseParams.M);
-            this.coursewareScore = contentJsonObject.optString(ResponseParams.E);
+
+        // 直接optJSONObject只会返回null
+        String strContent = jsonObject.optString(ResponseParams.CONTENT);
+        if (!TextUtils.isEmpty(strContent)) {
+            try {
+                JSONObject contentJsonObject = new JSONObject(strContent);
+                this.hasFeedback = contentJsonObject.optInt(ResponseParams.M);
+                this.coursewareScore = contentJsonObject.optString(ResponseParams.E);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -62,28 +68,4 @@ public class Train extends Category {
         return CATEGORY_KEY_UNREAD_NUM;
     }
 
-    /**
-     * 功能描述:  获取缓存
-     */
-    public static boolean getUnreadNum(Context context) {
-        String userNum = ((AppApplication) context.getApplicationContext()).getUserInfo().account;
-        String sp = SP.getStringSP(context, SP.DEFAULTCACHE, userNum + CATEGORY_KEY_UNREAD_NUM, "");
-        if (TextUtils.isEmpty(sp)) {
-            return false;
-        }
-        try {
-            JSONArray resultArray = new JSONArray(sp);
-            for (int i = 0; i < resultArray.length(); i++) {
-                JSONObject jsonObject = resultArray
-                        .optJSONObject(i);
-                Train entity = new Train(jsonObject);
-                if (1 == entity.isRead) {
-                    return true;
-                }
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
 }

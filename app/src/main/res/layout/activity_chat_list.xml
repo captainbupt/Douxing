@@ -4,14 +4,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <me.maxwin.view.XListView
-        android:id="@+id/xlv_activity_chatting"
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        android:id="@+id/ptrlv_activity_chatting"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@color/color_grey"
-        android:dividerHeight="1dp"
-        android:paddingLeft="@dimen/offset_less"
-        android:paddingRight="@dimen/offset_less"
+        android:divider="@null"
         android:scrollbars="none" />
 
 </LinearLayout>

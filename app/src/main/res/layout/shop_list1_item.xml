@@ -9,7 +9,7 @@
         android:id="@+id/Search_more_mainitem_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/search_more_mainlistselect"
+        android:background="@drawable/background_classification_list_main"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="0dp" >

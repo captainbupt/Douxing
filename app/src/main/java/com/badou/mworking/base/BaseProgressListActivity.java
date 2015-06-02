@@ -7,12 +7,10 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.ListView;
 
 import com.android.volley.VolleyError;
 import com.badou.mworking.R;
-import com.badou.mworking.adapter.ClassificationMainAdapter;
-import com.badou.mworking.adapter.ClassificationMoreAdapter;
+import com.badou.mworking.adapter.ClassificationAdapter;
 import com.badou.mworking.model.Classification;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ResponseParams;
@@ -25,6 +23,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 import org.holoeverywhere.widget.LinearLayout;
+import org.holoeverywhere.widget.ListView;
 import org.holoeverywhere.widget.ProgressBar;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,11 +32,11 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class BaseProgressListActivity extends BaseBackActionBarActivity implements PullToRefreshBase.OnRefreshListener2<ListView> {
+public abstract class BaseProgressListActivity extends BaseBackActionBarActivity {
 
-    private ProgressBar progressBar;
-    private ImageView triangleImageView;
-    private LinearLayout titleLinearLayout;
+    private ProgressBar mTitleProgressBar;
+    private ImageView mTitletriangleImageView;
+    private LinearLayout mTitleLinearLayout;
     private boolean status_menu_show = false;
 
     protected String CATEGORY_NAME = "";
@@ -50,25 +49,24 @@ public abstract class BaseProgressListActivity extends BaseBackActionBarActivity
     private static final String SP_KEY_CATEGORY_MAIN = "main";
     private static final String SP_KEY_CATEGORY_MORE = "more";
 
-    private ClassificationMainAdapter mMainClassificationAdapter = null;
-    private ClassificationMoreAdapter mMoreClassificationAdapter = null;
+    private ClassificationAdapter mMainClassificationAdapter = null;
+    private ClassificationAdapter mMoreClassificationAdapter = null;
     protected MyBaseAdapter mCategoryAdapter = null;
 
     private ListView mMainListView;
     private ListView mMoreListView;
 
-    private android.widget.LinearLayout classificationLinear;  // 下拉布局
+    private android.widget.LinearLayout mClassificationLinear;  // 下拉布局
 
-    private ImageView tvSearchNull;
+    private ImageView mNoneResultImageView;
 
-    protected PullToRefreshListView pullToRefreshListView;
+    protected PullToRefreshListView mContentListView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base_progress_list);
-        layout.attachToActivity(this);
         initProgressView();
         initProgressListener();
         initProgressData();
@@ -101,23 +99,22 @@ public abstract class BaseProgressListActivity extends BaseBackActionBarActivity
      * 初始化action 布局
      */
     private void initProgressView() {
-        setRightImage(R.drawable.search);
-        progressBar = (ProgressBar) findViewById(R.id.pb_action_bar);
-        triangleImageView = (ImageView) findViewById(R.id.iv_action_bar_triangle);
-        titleLinearLayout = (LinearLayout) findViewById(R.id.ll_action_bar_title);
-        triangleImageView.setVisibility(View.VISIBLE);
-        tvSearchNull = (ImageView) findViewById(R.id.tv_forget_password_tips);
-        mMainListView = (ListView) findViewById(R.id.Shoplist_onelist1);
-        mMoreListView = (ListView) findViewById(R.id.Shoplist_twolist1);
-        classificationLinear = (android.widget.LinearLayout) findViewById(R.id.classification_linear);
-        pullToRefreshListView = (PullToRefreshListView) findViewById(R.id.ptrlv_user_progress_content);
-        pullToRefreshListView.setMode(PullToRefreshBase.Mode.BOTH);
-        pullToRefreshListView.setVisibility(View.VISIBLE);
-        tvSearchNull.setVisibility(View.GONE);
+        mTitleProgressBar = (ProgressBar) findViewById(R.id.pb_action_bar);
+        mTitletriangleImageView = (ImageView) findViewById(R.id.iv_action_bar_triangle);
+        mTitleLinearLayout = (LinearLayout) findViewById(R.id.ll_action_bar_title);
+        mTitletriangleImageView.setVisibility(View.VISIBLE);
+        mNoneResultImageView = (ImageView) findViewById(R.id.iv_activity_base_progress_list_none_result);
+        mMainListView = (ListView) findViewById(R.id.lv_classification_list_main);
+        mMoreListView = (ListView) findViewById(R.id.lv_classification_list_more);
+        mClassificationLinear = (android.widget.LinearLayout) findViewById(R.id.classification_linear);
+        mContentListView = (PullToRefreshListView) findViewById(R.id.ptrlv_user_progress_content);
+        mContentListView.setMode(PullToRefreshBase.Mode.BOTH);
+        mContentListView.setVisibility(View.VISIBLE);
+        mNoneResultImageView.setVisibility(View.GONE);
     }
 
     private void initProgressListener() {
-        titleLinearLayout.setOnClickListener(new View.OnClickListener() {
+        mTitleLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (status_menu_show) {
@@ -128,31 +125,39 @@ public abstract class BaseProgressListActivity extends BaseBackActionBarActivity
             }
         });
 
-        pullToRefreshListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mContentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1,
                                     int position, long arg3) {
                 BaseProgressListActivity.this.onItemClick(position);
             }
         });
-        pullToRefreshListView.setOnRefreshListener(this);
+        mContentListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<android.widget.ListView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase refreshView) {
+                updataListView(0);
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase refreshView) {
+                updataListView(mCategoryAdapter.getCount());
+            }
+        });
         mMainListView.setOnItemClickListener(new OnMainClassificationClickListener());
         mMoreListView.setOnItemClickListener(new OnMoreClassificationClickListener());
     }
 
     private void initProgressData() {
-        mMainClassificationAdapter = new ClassificationMainAdapter(mContext);
-        mMoreClassificationAdapter = new ClassificationMoreAdapter(mContext);
-        mMoreClassificationAdapter.setLayoutResId(R.layout.shop_list2_item);
+        mMainClassificationAdapter = new ClassificationAdapter(mContext, true);
+        mMoreClassificationAdapter = new ClassificationAdapter(mContext, false);
         mMoreListView.setAdapter(mMoreClassificationAdapter);
-        mMainClassificationAdapter.setLayoutResId(R.layout.shop_list1_item);
         mMainListView.setAdapter(mMainClassificationAdapter);
         getClassifications();
         initAdapter();
         if (mCategoryAdapter == null) {
             return;
         }
-        pullToRefreshListView.setAdapter(mCategoryAdapter);
+        mContentListView.setAdapter(mCategoryAdapter);
         setCategoryItemFromCache(tag);
         updataListView(0);
     }
@@ -163,7 +168,7 @@ public abstract class BaseProgressListActivity extends BaseBackActionBarActivity
             mMainIndex = arg2;
             Classification classification = (Classification) mMainClassificationAdapter.getItem(arg2);
             mMoreClassificationAdapter.setList(classification.getClassifications());
-            mMainClassificationAdapter.setSelectItem(arg2);
+            mMainClassificationAdapter.setSelectedPosition(arg2);
             if (mMoreClassificationAdapter.getCount() == 0) {
                 tag = classification.getTag();
                 String title = classification.getName();
@@ -186,13 +191,10 @@ public abstract class BaseProgressListActivity extends BaseBackActionBarActivity
             String title = classification.getName();
             tag = classification.getTag();
             setActionbarTitle(title);
-            mMoreClassificationAdapter.setSelectItem(arg2);
+            mMoreClassificationAdapter.setSelectedPosition(arg2);
             hideMenu();
             updataListView(0);
         }
-    }
-
-    public void clickRight() {
     }
 
     /**
@@ -203,10 +205,10 @@ public abstract class BaseProgressListActivity extends BaseBackActionBarActivity
         String userNum = ((AppApplication) getApplicationContext()).getUserInfo().account;
         String sp = SP.getStringSP(mContext, CATEGORY_NAME, userNum + tag, "");
         if (TextUtils.isEmpty(sp)) {
-            tvSearchNull.setVisibility(View.VISIBLE);
+            mNoneResultImageView.setVisibility(View.VISIBLE);
             return;
         } else {
-            tvSearchNull.setVisibility(View.GONE);
+            mNoneResultImageView.setVisibility(View.GONE);
         }
         JSONArray resultArray;
         try {
@@ -279,7 +281,7 @@ public abstract class BaseProgressListActivity extends BaseBackActionBarActivity
             }
         }
         mMainClassificationAdapter.setList(mMainClassificationList);
-        mMainClassificationAdapter.setSelectItem(0);
+        mMainClassificationAdapter.setSelectedPosition(0);
         List<Object> moreClassifications = ((Classification) mMainClassificationList.get(0)).getClassifications();
         mMoreClassificationAdapter.setList(moreClassifications);
 
@@ -293,14 +295,14 @@ public abstract class BaseProgressListActivity extends BaseBackActionBarActivity
     public void updataListView(final int beginNum) {
         showProgressBar();
         // 刷新的时候不显示缺省页面
-        tvSearchNull.setVisibility(View.GONE);
-        pullToRefreshListView.setVisibility(View.VISIBLE);
+        mNoneResultImageView.setVisibility(View.GONE);
+        mContentListView.setVisibility(View.VISIBLE);
         ServiceProvider.doUpdateLocalResource2(mContext, CATEGORY_NAME, tag, beginNum, Constant.LIST_ITEM_NUM, "", null,
                 new VolleyListener(mContext) {
 
                     @Override
                     public void onResponse(Object responseObject) {
-                        pullToRefreshListView.onRefreshComplete();
+                        mContentListView.onRefreshComplete();
                         hideProgressBar();
                         JSONObject response = (JSONObject) responseObject;
 
@@ -336,7 +338,7 @@ public abstract class BaseProgressListActivity extends BaseBackActionBarActivity
             if (beginNum > 0) {
                 ToastUtil.showUpdateToast(mContext);
             } else {
-                tvSearchNull.setVisibility(View.VISIBLE);
+                mNoneResultImageView.setVisibility(View.VISIBLE);
                 mCategoryAdapter.setList(null);
             }
             return;
@@ -368,7 +370,7 @@ public abstract class BaseProgressListActivity extends BaseBackActionBarActivity
     }
 
     protected void updateCompleted() {
-        pullToRefreshListView.onRefreshComplete();
+        mContentListView.onRefreshComplete();
         hideProgressBar();
     }
 
@@ -390,49 +392,39 @@ public abstract class BaseProgressListActivity extends BaseBackActionBarActivity
         }
     }
 
-    @Override
-    public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-        updataListView(0);
-    }
-
-    @Override
-    public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-        updataListView(mCategoryAdapter.getCount());
-    }
 
     public void showProgressBar() {
-        progressBar.setVisibility(View.VISIBLE);
+        mTitleProgressBar.setVisibility(View.VISIBLE);
     }
 
     public void hideProgressBar() {
-        progressBar.setVisibility(View.INVISIBLE);
+        mTitleProgressBar.setVisibility(View.INVISIBLE);
     }
 
     public void showMenu() {
-        triangleImageView.setImageResource(R.drawable.icon_triangle_up);
-        classificationLinear.setVisibility(View.VISIBLE);
+        mTitletriangleImageView.setImageResource(R.drawable.icon_triangle_up);
+        mClassificationLinear.setVisibility(View.VISIBLE);
         if (mMainClassificationAdapter.getCount() > 0) {
             int main = SP.getIntSP(mContext, CATEGORY_NAME, SP_KEY_CATEGORY_MAIN, 0);
             int more = SP.getIntSP(mContext, CATEGORY_NAME, SP_KEY_CATEGORY_MORE, 0);
-            mMainClassificationAdapter.setSelectItem(main);
+            mMainClassificationAdapter.setSelectedPosition(main);
             mMoreClassificationAdapter.setList(((Classification) mMainClassificationAdapter.getItem(main)).getClassifications());
             if (mMoreClassificationAdapter.getCount() > 0) {
-                mMoreClassificationAdapter.setSelectItem(more);
+                mMoreClassificationAdapter.setSelectedPosition(more);
             }
             mMoreClassificationAdapter.notifyDataSetChanged();
         }
         Animation anim = AnimationUtils.loadAnimation(mContext, R.anim.popup_enter);
-        classificationLinear.startAnimation(anim);
+        mClassificationLinear.startAnimation(anim);
 
         status_menu_show = true;
     }
 
     public void hideMenu() {
-        triangleImageView.setImageResource(R.drawable.icon_triangle_down);
-        classificationLinear.setVisibility(View.GONE);
+        mTitletriangleImageView.setImageResource(R.drawable.icon_triangle_down);
+        mClassificationLinear.setVisibility(View.GONE);
         Animation anim = AnimationUtils.loadAnimation(mContext, R.anim.popup_exit);
-        classificationLinear.startAnimation(anim);
-
+        mClassificationLinear.startAnimation(anim);
         status_menu_show = false;
     }
 

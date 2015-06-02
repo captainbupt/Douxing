@@ -2,93 +2,105 @@
 <org.holoeverywhere.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    android:orientation="horizontal"
-    android:paddingBottom="@dimen/offset_less"
-    android:paddingTop="@dimen/offset_less">
-
-    <org.holoeverywhere.widget.RelativeLayout
-        android:layout_width="@dimen/chat_img_head_size"
-        android:layout_height="@dimen/chat_img_head_size"
-        android:layout_gravity="center_vertical">
-
-        <ImageView
-            android:id="@+id/iv_adapter_chat_list_head"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/icon_user_detail_default_head" />
-
-        <org.holoeverywhere.widget.TextView
-            android:id="@+id/tv_adapter_chat_list_unread"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:background="@drawable/icon_chat_unread"
-            android:gravity="center"
-            android:textColor="@android:color/white"
-            android:textSize="12sp" />
-    </org.holoeverywhere.widget.RelativeLayout>
+    android:background="@color/color_white"
+    android:orientation="vertical">
 
     <org.holoeverywhere.widget.LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/offset_less">
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/offset_less">
+
+        <org.holoeverywhere.widget.RelativeLayout
+            android:layout_width="@dimen/chat_img_head_size"
+            android:layout_height="@dimen/chat_img_head_size"
+            android:layout_gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/iv_adapter_chat_list_head"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/icon_user_detail_default_head" />
+
+            <org.holoeverywhere.widget.TextView
+                android:id="@+id/tv_adapter_chat_list_unread"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/icon_chat_unread"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:textSize="12sp" />
+        </org.holoeverywhere.widget.RelativeLayout>
 
         <org.holoeverywhere.widget.LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="top"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/offset_less">
 
-            <org.holoeverywhere.widget.TextView
-                android:id="@+id/tv_adapter_chat_list_name"
-                android:layout_width="wrap_content"
+            <org.holoeverywhere.widget.LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:singleLine="true"
-                android:textColor="@color/color_text_grey"
-                android:textSize="@dimen/text_size_medium" />
+                android:gravity="top"
+                android:orientation="horizontal">
 
-            <org.holoeverywhere.widget.TextView
-                android:id="@+id/tv_adapter_chat_list_time"
-                android:layout_width="wrap_content"
+                <org.holoeverywhere.widget.TextView
+                    android:id="@+id/tv_adapter_chat_list_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:textColor="@color/color_text_grey"
+                    android:textSize="@dimen/text_size_medium" />
+
+                <org.holoeverywhere.widget.TextView
+                    android:id="@+id/tv_adapter_chat_list_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/color_text_grey"
+                    android:textSize="@dimen/text_size_less" />
+            </org.holoeverywhere.widget.LinearLayout>
+
+            <org.holoeverywhere.widget.LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/color_text_grey"
-                android:textSize="@dimen/text_size_less" />
+                android:gravity="top"
+                android:orientation="horizontal">
+
+
+                <org.holoeverywhere.widget.TextView
+                    android:id="@+id/tv_adapter_chat_list_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:textColor="@color/color_text_black"
+                    android:textSize="@dimen/text_size_medium" />
+
+                <org.holoeverywhere.widget.TextView
+                    android:id="@+id/tv_adapter_chat_list_delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/offset_small"
+                    android:paddingLeft="@dimen/offset_medium"
+                    android:paddingTop="@dimen/offset_small"
+                    android:text="@string/operation_delete"
+                    android:textColor="@color/color_text_blue"
+                    android:textSize="@dimen/text_size_less" />
+            </org.holoeverywhere.widget.LinearLayout>
+
         </org.holoeverywhere.widget.LinearLayout>
-
-        <org.holoeverywhere.widget.LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/offset_small"
-            android:gravity="top"
-            android:orientation="horizontal">
-
-
-            <org.holoeverywhere.widget.TextView
-                android:id="@+id/tv_adapter_chat_list_content"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:singleLine="true"
-                android:textColor="@color/color_text_black"
-                android:textSize="@dimen/text_size_medium" />
-
-            <org.holoeverywhere.widget.TextView
-                android:id="@+id/tv_adapter_chat_list_delete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/offset_small"
-                android:paddingLeft="@dimen/offset_medium"
-                android:paddingTop="@dimen/offset_small"
-                android:text="@string/operation_delete"
-                android:textColor="@color/color_text_blue"
-                android:textSize="@dimen/text_size_less" />
-        </org.holoeverywhere.widget.LinearLayout>
-
     </org.holoeverywhere.widget.LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/offset_less"
+        android:layout_marginRight="@dimen/offset_less"
+        android:background="@color/color_border_gray" />
 </org.holoeverywhere.widget.LinearLayout>

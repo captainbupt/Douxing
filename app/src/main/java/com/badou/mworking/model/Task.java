@@ -4,7 +4,6 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.badou.mworking.base.AppApplication;
-import com.badou.mworking.database.MTrainingDBHelper;
 import com.badou.mworking.net.ResponseParams;
 import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.SP;
@@ -25,7 +24,7 @@ public class Task extends Category {
     public static final String TASK_FRAGMENT_ITEM_POSITION = "task_position";
     public static final String SIGN_BACK_TASK_FRAGMENT = "s2task";
 
-    public int overdue;// 是否过期
+    public int offline;// 是否过期
     public int type;// TYPE
     public int photo;// 是否上传照片
     public int read;  //是否已经完成签到         1代表已经签到
@@ -43,27 +42,20 @@ public class Task extends Category {
 
     public Task(JSONObject jsonObject) {
         super(jsonObject);
-        this.overdue = jsonObject.optInt(ResponseParams.OFFLINE);
+        this.offline = jsonObject.optInt(ResponseParams.OFFLINE);
         this.type = jsonObject.optInt(ResponseParams.TASK_DETAIL_TYPE);
         this.comment = jsonObject.optString(ResponseParams.TASK_DETAIL_COMMENT);
         this.startline = jsonObject.optLong(ResponseParams.TASK_DETAIL_STARTLINE) * 1000;
         this.img = jsonObject.optString(ResponseParams.IMG);
         this.photo = jsonObject.optInt(ResponseParams.TASK_PHOTO);
-        this.read = jsonObject.optInt("read");
-        try {
-            this.latitude = jsonObject.getDouble(ResponseParams.TASK_DETAIL_LATITUDE);
-            this.longitude = jsonObject.getDouble(ResponseParams.TASK_DETAIL_LONGITUDE);
-        } catch (JSONException e1) {
-            this.latitude = 0;
-            this.longitude = 0;
-            e1.printStackTrace();
-        }
-        String contentStr = jsonObject.optString(ResponseParams.CONTENT);
+        this.latitude = jsonObject.optDouble(ResponseParams.TASK_DETAIL_LATITUDE);
+        this.longitude = jsonObject.optDouble(ResponseParams.TASK_DETAIL_LONGITUDE);
         this.place = jsonObject.optString(ResponseParams.TASK_DETAIL_PLACE);
 
-        if (null != contentStr && !"".equals(contentStr)) {
+        String strContent = jsonObject.optString(ResponseParams.CONTENT);
+        if (!TextUtils.isEmpty(strContent)) {
             try {
-                JSONObject jsonContent = new JSONObject(contentStr);
+                JSONObject jsonContent = new JSONObject(strContent);
                 this.photoUrl = jsonContent.optString(ResponseParams.P);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -86,16 +78,8 @@ public class Task extends Category {
         return CATEGORY_KEY_UNREAD_NUM;
     }
 
-    public boolean isFinish() {
-        if (read == Constant.FINISH_YES) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean isOverdue() {
-        if (overdue == Constant.OVERDUE_YES) {
+    public boolean getOffline() {
+        if (offline == Constant.OVERDUE_YES) {
             return true;
         } else {
             return false;
@@ -108,30 +92,5 @@ public class Task extends Category {
         } else {
             return false;
         }
-    }
-
-    /**
-     * 功能描述:  获取缓存
-     */
-    public static boolean getUnreadNum(Context context) {
-        String userNum = ((AppApplication) context.getApplicationContext()).getUserInfo().account;
-        String sp = SP.getStringSP(context, SP.DEFAULTCACHE, userNum + CATEGORY_KEY_UNREAD_NUM, "");
-        if (TextUtils.isEmpty(sp)) {
-            return false;
-        }
-        try {
-            JSONArray resultArray = new JSONArray(sp);
-            for (int i = 0; i < resultArray.length(); i++) {
-                JSONObject jsonObject = resultArray
-                        .optJSONObject(i);
-                Task entity = new Task(jsonObject);
-                if (!entity.isFinish()) {
-                    return true;
-                }
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return false;
     }
 }

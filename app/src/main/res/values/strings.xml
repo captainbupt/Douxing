@@ -79,6 +79,11 @@
     <string name="user_detail_icon_upload_success">头像上传成功</string>
     <string name="user_detail_icon_upload_failed">头像上传失败</string>
     <string name="login_error_empty_password">密码不能为空</string>
+    <string name="category_unread">未读</string>
+    <string name="category_expired">已过期</string>
+    <string name="category_unsign">未签到</string>
+    <string name="category_unexam">未考试</string>
+    <string name="category_ungraded">待批阅</string>
     <string name="floor_num">楼</string>
     <string name="chatter_num">条</string>
     <string name="exam_isFinish">已考完</string>
@@ -97,13 +102,13 @@
     <string name="text_cancel">取消</string>
     <string name="text_search">搜索</string>
     <string name="train_readPdf_fail">您的系统暂不支持阅读课件。</string>
-    <string name="train_unsupport_type">当前版本暂不支持该操作</string>
+    <string name="category_unsupport_type">当前版本暂不支持该操作</string>
     <string name="title_name_about">关于我们</string>
     <string name="title_name_Myzhanghao">账号管理</string>
     <string name="title_name_NeiRongXiangQing">内容详情</string>
     <string name="title_name_lianXin">联系我们</string>
-    <string name="title_name_Wenti">常见问题</string>
-    <string name="title_name_update">检测更新</string>
+    <string name="about_us_frequent_question">常见问题</string>
+    <string name="about_us_check_update">检测更新</string>
     <string name="title_name_ShenFenRenZheng">忘记密码</string>
     <string name="title_name_chanPin">产品建议</string>
     <string name="title_name_keCheng">课程建议</string>
@@ -163,9 +168,9 @@
     <string name="exam_fir">你的学习成绩打败了</string>
     <string name="sign_ChangJing">场景拍照:</string>
     <string name="change_laguage">语言设置</string>
-    <string name="clear_cache">缓存管理</string>
-    <string name="show_img">2G/3G省流量模式</string>
-    <string name="push_notifications">推送提醒</string>
+    <string name="about_us_clear_cache">缓存管理</string>
+    <string name="about_us_saving_network">2G/3G省流量模式</string>
+    <string name="about_us_push">关闭推送</string>
     <string name="more_laguage">多语言</string>
     <string name="text_score">分</string>
     <string name="sign_needUpload">您需要上传图片</string>
@@ -208,13 +213,6 @@
     <string name="yikaoshiti_str">已考试题</string>
     <string name="statistical_data">统计数据</string>
     <string name="tongshiquan_share">我要分享</string>
-
-    <string name="xlistview_header_hint_normal">下拉刷新</string>
-    <string name="xlistview_header_hint_ready">松开刷新数据</string>
-    <string name="xlistview_header_hint_loading">正在加载...</string>
-    <string name="xlistview_header_last_time">上次更新时间：</string>
-    <string name="xlistview_footer_hint_normal">查看更多</string>
-    <string name="xlistview_footer_hint_ready">松开载入更多</string>
 
     <string name="operation_delete">删除</string>
 

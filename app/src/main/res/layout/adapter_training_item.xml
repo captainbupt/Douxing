@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.holoeverywhere.widget.FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/offset_less">
+
+    <org.holoeverywhere.widget.LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/background_corner_radius_small_ffffffff"
+        android:orientation="vertical"
+        android:padding="@dimen/offset_less">
+
+        <org.holoeverywhere.widget.FrameLayout
+            android:layout_width="@dimen/list_item_train_pic_width"
+            android:layout_height="@dimen/list_item_train_pic_height"
+            android:layout_gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/iv_adapter_training_item_logo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/icon_training_item_default" />
+
+            <ImageView
+                android:id="@+id/iv_adapter_training_item_top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/flag_category_top" />
+
+            <TextView
+                android:id="@+id/tv_adapter_training_item_unread"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|right"
+                android:layout_margin="@dimen/offset_less"
+                android:background="@drawable/flag_category_unread"
+                android:gravity="center"
+                android:text="@string/category_unread" />
+
+            <org.holoeverywhere.widget.LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:background="@color/color_bg_transparent_black"
+                android:gravity="center"
+                android:padding="@dimen/offset_less">
+
+                <RatingBar
+                    android:id="@+id/rb_adapter_training_item_rating"
+                    style="@style/trainingRatingBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:isIndicator="true"
+                    android:numStars="5"
+                    android:stepSize="0.5" />
+
+                <org.holoeverywhere.widget.TextView
+                    android:id="@+id/tv_adapter_training_item_rating_number"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/color_white"
+                    android:textSize="@dimen/text_size_less" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_training_item_comment" />
+
+                <org.holoeverywhere.widget.TextView
+                    android:id="@+id/tv_adapter_training_item_comment_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/offset_less"
+                    android:textColor="@color/color_white"
+                    android:textSize="@dimen/text_size_less" />
+            </org.holoeverywhere.widget.LinearLayout>
+
+        </org.holoeverywhere.widget.FrameLayout>
+
+        <org.holoeverywhere.widget.LinearLayout
+            android:layout_width="@dimen/list_item_train_pic_width"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingRight="@dimen/offset_less"
+            android:paddingLeft="@dimen/offset_less"
+            android:paddingTop="@dimen/offset_less"
+            >
+
+            <TextView
+                android:id="@+id/tv_adapter_training_item_subject"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text=""
+                android:textColor="@color/color_text_black"
+                android:textSize="@dimen/text_size_medium" />
+
+            <TextView
+                android:id="@+id/tv_adapter_trainng_item_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_text_grey"
+                android:textSize="@dimen/text_size_less" />
+
+        </org.holoeverywhere.widget.LinearLayout>
+    </org.holoeverywhere.widget.LinearLayout>
+</org.holoeverywhere.widget.FrameLayout>

@@ -62,10 +62,10 @@
     </style>
 
     <!-- 星星评分 -->
-    <style name="foodRatingBar" parent="@android:style/Widget.RatingBar">
+    <style name="trainingRatingBar" parent="@android:style/Widget.RatingBar">
         <item name="android:progressDrawable">@drawable/myratingbar</item>
-        <item name="android:minHeight">15dip</item>
-        <item name="android:maxHeight">15dip</item>
+        <item name="android:minHeight">12dip</item>
+        <item name="android:maxHeight">12dip</item>
     </style>
 
     <style name="coursewarescorerrb" parent="@android:style/Widget.RatingBar">

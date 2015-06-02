@@ -1,70 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<org.holoeverywhere.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/transparent" >
+    android:orientation="vertical">
 
-    <RelativeLayout
-        android:id="@+id/rl_item_bg_isread"
+    <org.holoeverywhere.widget.FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/offset_small"
-        android:layout_marginLeft="@dimen/offset_medium"
-        android:layout_marginRight="@dimen/offset_less"
-        android:layout_marginTop="@dimen/offset_small"
-        android:paddingBottom="@dimen/list_item_notice_rl_padB"
-        android:paddingRight="@dimen/list_item_notice_rl_padR"
-        android:background="@drawable/icon_read_" >
+        android:background="@color/color_white">
 
         <ImageView
-            android:id="@+id/iv_adapter_base_item_icon"
-            android:layout_width="@dimen/list_item_notice_pic_width"
-            android:layout_height="@dimen/list_item_notice_pic_height"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginRight="@dimen/offset_medium"
-            android:layout_marginTop="@dimen/itme_margin_top"
-            android:scaleType="fitXY"
-            android:background="@drawable/icon_def_notice" />
-
-        <TextView
-            android:id="@+id/tv_adapter_base_item_subject"
+            android:id="@+id/iv_adapter_notice_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignTop="@id/iv_adapter_base_item_icon"
-            android:layout_marginTop="2dp"
-            android:layout_marginLeft="@dimen/list_item_notice_content_marginL"
-            android:layout_marginRight="@dimen/offset_medium"
-            android:layout_toLeftOf="@id/iv_adapter_base_item_icon"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:lineSpacingExtra="2dp"
-            android:text=""
-            android:textColor="@color/color_question_share_content"
-            android:textSize="@dimen/text_size_less" />
+            android:src="@drawable/flag_category_top" />
 
-        <TextView
-            android:id="@+id/tv_adapter_item_dpt_date"
-            android:layout_width="wrap_content"
+        <org.holoeverywhere.widget.LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
-            android:layout_alignBottom="@+id/iv_adapter_base_item_icon"
-            android:layout_alignLeft="@+id/tv_adapter_base_item_subject"
-            android:text=""
-            android:textColor="@color/color_list_item_text_time"
-            android:textSize="@dimen/text_size_small" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/offset_less"
+            android:paddingLeft="@dimen/offset_medium"
+            android:paddingRight="@dimen/offset_less"
+            android:paddingTop="@dimen/offset_less">
 
-        <ImageView
-            android:id="@+id/tv_adapter_base_item_top"
-            android:layout_width="@dimen/list_item_top_pic_size"
-            android:layout_height="@dimen/list_item_top_pic_size"
-            android:layout_marginRight="@dimen/list_item_notice_top_marginR"
-            android:layout_marginTop="@dimen/list_item_notice_top_marginB"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:scaleType="fitXY"
-            android:src="@drawable/icon_item_top" />
-    </RelativeLayout>
+            <ImageView
+                android:id="@+id/iv_adapter_notice_icon"
+                android:layout_width="@dimen/icon_size_category_item"
+                android:layout_height="@dimen/icon_size_category_item"
+                android:scaleType="centerInside" />
 
-</RelativeLayout>
+            <org.holoeverywhere.widget.LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/offset_medium"
+                android:layout_marginRight="@dimen/offset_medium"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_adapter_notice_subject"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:textColor="@color/color_text_black"
+                    android:textSize="@dimen/text_size_less" />
+
+                <TextView
+                    android:id="@+id/tv_adapter_notice_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/color_list_item_text_time"
+                    android:textSize="@dimen/text_size_small" />
+            </org.holoeverywhere.widget.LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_adapter_notice_unread"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/flag_category_unread"
+                android:gravity="center"
+                android:text="@string/category_unread"
+                android:textColor="@color/color_white" />
+        </org.holoeverywhere.widget.LinearLayout>
+
+    </org.holoeverywhere.widget.FrameLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_border_gray" />
+</org.holoeverywhere.widget.LinearLayout>

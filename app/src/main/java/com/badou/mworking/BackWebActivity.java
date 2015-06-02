@@ -46,11 +46,7 @@ import org.json.JSONObject;
 import java.io.File;
 
 /**
- * 类:  <code> BackWebActivity </code>
  * 功能描述:  actionbar为返回的网页展示页面
- * 创建人:  葛建锋
- * 创建日期: 2014年7月15日 下午3:50:44
- * 开发环境: JDK7.0
  */
 @SuppressLint("SetJavaScriptEnabled")
 public class BackWebActivity extends BaseBackWebViewActivity {

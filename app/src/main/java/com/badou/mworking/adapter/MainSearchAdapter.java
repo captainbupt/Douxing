@@ -63,7 +63,7 @@ public class MainSearchAdapter extends BaseAdapter {
                     return mCategoryNames[ii];
                 } else {
                     position--;
-                    if (position > mCategoryLists[ii].size()) {
+                    if (position >= mCategoryLists[ii].size()) {
                         position -= mCategoryLists[ii].size();
                     } else {
                         return mCategoryLists[ii].get(position);

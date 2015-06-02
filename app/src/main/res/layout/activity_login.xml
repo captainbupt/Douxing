@@ -148,7 +148,7 @@
             android:gravity="center"
             android:padding="@dimen/offset_small"
             android:text="@string/login"
-            android:textColor="@color/color_text_black"
+            android:textColor="@color/color_white"
             android:textSize="@dimen/text_size_large" />
     </LinearLayout>
 

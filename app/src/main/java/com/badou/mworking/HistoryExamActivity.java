@@ -60,7 +60,6 @@ public class HistoryExamActivity extends BaseNoTitleActivity implements OnClickL
 		layout = (SwipeBackLayout) LayoutInflater.from(this).inflate(
 				R.layout.base, null);
 		layout.attachToActivity(this);
-		ExamAdapter.isHistory = true;
 		initView();
 	}
 	
@@ -73,7 +72,7 @@ public class HistoryExamActivity extends BaseNoTitleActivity implements OnClickL
 		pullToRefreshListView.setOnRefreshListener(this);
 		pullToRefreshListView.setMode(Mode.BOTH);
 		if (examAdapter == null) {
-			examAdapter = new ExamAdapter(HistoryExamActivity.this, false, true);
+			examAdapter = new ExamAdapter(HistoryExamActivity.this);
 		}
 		pullToRefreshListView.setAdapter(examAdapter);
 		pullToRefreshListView.setRefreshing();
@@ -105,7 +104,6 @@ public class HistoryExamActivity extends BaseNoTitleActivity implements OnClickL
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		ExamAdapter.isHistory = false;
 	}
 	
 	/**

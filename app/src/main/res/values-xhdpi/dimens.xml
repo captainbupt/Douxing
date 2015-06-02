@@ -165,8 +165,7 @@
     <dimen name="exp_edit_h">55dp</dimen>
 
     <!-- list 8-15 -->
-    <dimen name="list_item_notice_pic_width">90dp</dimen>
-    <dimen name="list_item_notice_pic_height">70dp</dimen>
+    <dimen name="icon_size_category_item">@dimen/icon_size_medium</dimen>
     <dimen name="list_item_top_pic_size">40dp</dimen>
 
     <!-- item 8-16 -->
@@ -178,8 +177,8 @@
     <dimen name="tab_text_size">9sp</dimen>
     <!-- item 8-19 -->
     <dimen name="list_item_train_top_marginR">4dp</dimen>
-    <dimen name="list_item_train_pic_width">290dp</dimen>
-    <dimen name="list_item_train_pic_height">160dp</dimen>
+    <dimen name="list_item_train_pic_width">305dp</dimen>
+    <dimen name="list_item_train_pic_height">156dp</dimen>
 
     <!-- user center 8-20 -->
     <dimen name="user_center_layout_PadL">18dp</dimen>
