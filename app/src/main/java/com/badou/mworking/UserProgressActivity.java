@@ -2,11 +2,8 @@ package com.badou.mworking;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.text.Html;
 import android.util.TypedValue;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -14,37 +11,27 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 
 import com.android.volley.VolleyError;
-import com.badou.mworking.adapter.TrainAdapter;
 import com.badou.mworking.adapter.UserProgressAdapter;
-import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseNoTitleActivity;
-import com.badou.mworking.model.Category;
-import com.badou.mworking.model.Exam;
-import com.badou.mworking.model.Train;
+import com.badou.mworking.model.category.Category;
+import com.badou.mworking.model.category.Exam;
+import com.badou.mworking.model.category.Train;
 import com.badou.mworking.model.user.UserDetail;
-import com.badou.mworking.net.DownloadListener;
-import com.badou.mworking.net.HttpDownloader;
 import com.badou.mworking.net.Net;
-import com.badou.mworking.net.ResponseParams;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.CategoryClickHandler;
 import com.badou.mworking.util.Constant;
-import com.badou.mworking.util.FileUtils;
-import com.badou.mworking.util.NetUtils;
-import com.badou.mworking.util.SP;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.HorizontalProgressDialog;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
-import org.holoeverywhere.widget.ListView;
 import org.holoeverywhere.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 

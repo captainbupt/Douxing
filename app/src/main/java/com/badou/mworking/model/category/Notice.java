@@ -1,8 +1,6 @@
-package com.badou.mworking.model;
+package com.badou.mworking.model.category;
 
 import com.badou.mworking.database.MTrainingDBHelper;
-import com.badou.mworking.net.RequestParams;
-import com.badou.mworking.net.ResponseParams;
 
 import org.json.JSONObject;
 
@@ -11,9 +9,9 @@ import org.json.JSONObject;
  */
 public class Notice extends Category{
 
-	public static final int CATEGORY_TYPE = Category.CATEGORY_NOTICE;
-	public static final String CATEGORY_KEY_NAME = Category.CATEGORY_KEY_NAMES[CATEGORY_TYPE];
-	public static final String CATEGORY_KEY_UNREAD_NUM = Category.CATEGORY_KEY_UNREADS[CATEGORY_TYPE];//通知 的 未读数量
+	public static final int CATEGORY_TYPE = CATEGORY_NOTICE;
+	public static final String CATEGORY_KEY_NAME = CATEGORY_KEY_NAMES[CATEGORY_TYPE];
+	public static final String CATEGORY_KEY_UNREAD_NUM = CATEGORY_KEY_UNREADS[CATEGORY_TYPE];//通知 的 未读数量
 
 	public String imgUrl;
 

@@ -27,6 +27,7 @@
     <string name="login_button_forget_password">忘记密码?</string>
     <string name="sign_in_task_descr">任务描述:</string>
     <string name="sign_in_task_add">任务地点:</string>
+    <string name="sign_in_task_address_empty">自由签到</string>
     <string name="sign_task_button_sign">签到</string>
     <string name="sign_task_passed">任务已经过期</string>
     <string name="sign_task_finished">您已完成签到</string>
@@ -43,6 +44,7 @@
     <string name="train_sd_size_">sd卡剩余空间不足,下载失败</string>
     <string name="train_result_download_fail">下载失败，请重试</string>
     <string name="train_result_download_exist">文件已存在</string>
+    <string name="train_result_download_memory_error">无法检测到SD卡</string>
     <string name="error_service">网络开小差，请稍后重试</string>
     <string name="action_update_check_ing">检测更新中&#8230;</string>
     <string name="action_update_download_ing">下载更新中&#8230;</string>
@@ -101,7 +103,8 @@
     <string name="myQuan_dialog_del_tips">删除</string>
     <string name="text_cancel">取消</string>
     <string name="text_search">搜索</string>
-    <string name="train_readPdf_fail">您的系统暂不支持阅读课件。</string>
+    <string name="tips_pdf_view_unsupported">您的系统暂不支持阅读课件。</string>
+    <string name="tips_pdf_view_open_error">打开PDF文件异常，请重新下载</string>
     <string name="category_unsupport_type">当前版本暂不支持该操作</string>
     <string name="title_name_about">关于我们</string>
     <string name="title_name_Myzhanghao">账号管理</string>
@@ -201,8 +204,8 @@
     <string name="score_thi">一般吧</string>
     <string name="score_fou">哎呦，不错哦～</string>
     <string name="score_fif">太棒了，非常实用！</string>
-    <string name="pingfen">给个评分</string>
-    <string name="taolun">参与讨论</string>
+    <string name="tips_bottom_rating">内容评分</string>
+    <string name="tips_bottom_comment">参与讨论</string>
     <string name="kejian_tips">您还没有浏览课件，看过了再来评价吧！</string>
     <string name="exam_rating_title">加权平均分计算方法</string>
     <string name="exam_rating_content">考试科目1*对应科目学分+考试科目2*对应科目学分+.../总学分数。</string>

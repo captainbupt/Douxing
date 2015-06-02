@@ -1,4 +1,4 @@
-package com.badou.mworking.net;
+package com.badou.mworking.util;
 
 import android.widget.TextView;
 

@@ -1,9 +1,8 @@
-package com.badou.mworking.model;
+package com.badou.mworking.model.category;
 
 import android.text.TextUtils;
 
 import com.badou.mworking.net.ResponseParams;
-import com.badou.mworking.util.Constant;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,9 +12,9 @@ import org.json.JSONObject;
  */
 public class Exam extends Category {
 
-    public static final int CATEGORY_TYPE = Category.CATEGORY_EXAM;
-    public static final String CATEGORY_KEY_NAME = Category.CATEGORY_KEY_NAMES[CATEGORY_TYPE];
-    public static final String CATEGORY_KEY_UNREAD_NUM = Category.CATEGORY_KEY_UNREADS[CATEGORY_TYPE];//考试 的 未读数量
+    public static final int CATEGORY_TYPE = CATEGORY_EXAM;
+    public static final String CATEGORY_KEY_NAME = CATEGORY_KEY_NAMES[CATEGORY_TYPE];
+    public static final String CATEGORY_KEY_UNREAD_NUM = CATEGORY_KEY_UNREADS[CATEGORY_TYPE];//考试 的 未读数量
 
     public static final int GRADED_FINISH = 1;     // 批阅完成
 
@@ -46,9 +45,9 @@ public class Exam extends Category {
             try {
                 JSONObject examContent = null;
                 examContent = new JSONObject(strContent);
-                this.score = examContent.optInt(ResponseParams.EXAM_S);
-                this.total = examContent.optInt(ResponseParams.EXAM_T);
-                this.isGraded = examContent.optInt(ResponseParams.EXAM_D) == GRADED_FINISH;
+                this.score = examContent.optInt(ResponseParams.EXAM_CONTENT_SCORE);
+                this.total = examContent.optInt(ResponseParams.EXAM_CONTENT_TOTAL);
+                this.isGraded = examContent.optInt(ResponseParams.EXAM_CONTENT_GRADED) == GRADED_FINISH;
             } catch (JSONException e) {
                 e.printStackTrace();
             }

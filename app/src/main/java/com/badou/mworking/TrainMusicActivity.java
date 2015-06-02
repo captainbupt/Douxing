@@ -22,7 +22,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 import com.badou.mworking.base.AppApplication;
-import com.badou.mworking.model.Train;
+import com.badou.mworking.model.category.Train;
 import com.badou.mworking.util.FileUtils;
 import com.badou.mworking.util.MyIntents;
 import com.badou.mworking.util.NetUtils;
@@ -37,16 +37,10 @@ import java.text.SimpleDateFormat;
 import java.util.Timer;
 import java.util.TimerTask;
 
-/**
- * 类:  <code> TrainMusicActivity </code>
- * 功能描述: 微培训
- * 创建人:  葛建锋
- * 创建日期: 2015年1月8日 下午7:36:49
- * 开发环境: JDK7.0
- */
 public class TrainMusicActivity extends TrainBaseActivity {
 
-    public static final String KEY_CATEGORY_VALUE = "content";
+    public static final String KEY_TITLE = "title";
+    public static final String KEY_RID = "rid";
 
     private TextView tvPlayer; //开始/暂停 播放
     private TextView tvTop; // 标题

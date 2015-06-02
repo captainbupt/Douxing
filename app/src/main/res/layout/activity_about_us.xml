@@ -70,7 +70,7 @@
                 android:layout_height="1px"
                 android:layout_marginLeft="@dimen/offset_less"
                 android:layout_marginRight="@dimen/offset_less"
-                android:background="@color/color_border_gray" />
+                android:background="@color/color_border_grey" />
 
             <org.holoeverywhere.widget.LinearLayout
                 android:id="@+id/ll_about_us_clear_cache"
@@ -101,7 +101,7 @@
                 android:layout_height="1px"
                 android:layout_marginLeft="@dimen/offset_less"
                 android:layout_marginRight="@dimen/offset_less"
-                android:background="@color/color_border_gray" />
+                android:background="@color/color_border_grey" />
 
             <org.holoeverywhere.widget.LinearLayout
                 android:layout_width="match_parent"
@@ -132,7 +132,7 @@
                 android:layout_height="1px"
                 android:layout_marginLeft="@dimen/offset_less"
                 android:layout_marginRight="@dimen/offset_less"
-                android:background="@color/color_border_gray" />
+                android:background="@color/color_border_grey" />
 
             <org.holoeverywhere.widget.LinearLayout
                 android:layout_width="match_parent"
@@ -195,7 +195,7 @@
                 android:layout_height="1px"
                 android:layout_marginLeft="@dimen/offset_less"
                 android:layout_marginRight="@dimen/offset_less"
-                android:background="@color/color_border_gray" />
+                android:background="@color/color_border_grey" />
 
             <org.holoeverywhere.widget.LinearLayout
                 android:id="@+id/ll_about_us_contact"

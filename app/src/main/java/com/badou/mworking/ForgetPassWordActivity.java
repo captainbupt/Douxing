@@ -140,7 +140,7 @@ public class ForgetPassWordActivity extends BaseBackActionBarActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, TipsWebView.class);
-                intent.putExtra(BackWebActivity.VALUE_URL,
+                intent.putExtra(BackWebActivity.KEY_URL,
                         "http://mworking.cn/badou/verify-help.html");
                 intent.putExtra(TipsWebView.KEY_TITLE,getResources().getString(R.string.notGetMsg));
                 startActivity(intent);

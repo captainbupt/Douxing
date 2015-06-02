@@ -21,7 +21,7 @@
     <color name="color_layout_bg">@color/color_bg_blue</color>
     <color name="color_closeBtn_bg_grey">#616161</color>
     <color name="color_border">@color/color_grey</color>
-    <color name="color_border_gray">@color/color_grey</color>
+    <color name="color_border_grey">@color/color_grey</color>
 
     <color name="transparent">#00000000</color>
     <color name="color_white">#ffffffff</color>

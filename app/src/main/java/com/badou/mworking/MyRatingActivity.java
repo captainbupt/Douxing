@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.badou.mworking.adapter.MakeupExaminationAdapter;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseNoTitleActivity;
-import com.badou.mworking.model.Exam;
+import com.badou.mworking.model.category.Exam;
 import com.badou.mworking.model.MyExamRating;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
@@ -116,8 +116,8 @@ public class MyRatingActivity extends BaseNoTitleActivity implements OnClickList
 		case R.id.Rating_tips:
 			Intent intentl = new Intent();
 			intentl.setClass(MyRatingActivity.this, BackWebActivity.class);
-			intentl.putExtra(BackWebActivity.VALUE_URL, "http://mworking.cn:8421/webview/rankpfscope.html");
-			intentl.putExtra(BackWebActivity.VALUE_TITLE, "计算规则");
+			intentl.putExtra(BackWebActivity.KEY_URL, "http://mworking.cn:8421/webview/rankpfscope.html");
+			intentl.putExtra(BackWebActivity.KEY_TITLE, "计算规则");
 			MyRatingActivity.this.startActivity(intentl);
 			break;
 		case R.id.tv_user_progress_bottom:
@@ -163,8 +163,7 @@ public class MyRatingActivity extends BaseNoTitleActivity implements OnClickList
 		String uid = ((AppApplication) mContext.getApplicationContext()).getUserInfo().userId;
 		String url =  Net.getRunHost(mContext)+Net.EXAM_ITEM(uid, exam.rid);
 		Intent intents = new Intent(mContext, BackWebActivity.class);
-		intents.putExtra(BackWebActivity.VALUE_URL,url);
-		//intents.putExtra(BackWebActivity.VALUE_TITLE, ExamActivity.CLASSIFICATIONNAME);
+		intents.putExtra(BackWebActivity.KEY_URL,url);
 		startActivity(intents);
 	}
 	

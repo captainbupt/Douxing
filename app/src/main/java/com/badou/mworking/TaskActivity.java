@@ -5,7 +5,8 @@ import android.os.Bundle;
 
 import com.badou.mworking.adapter.TaskAdapter;
 import com.badou.mworking.base.BaseProgressListActivity;
-import com.badou.mworking.model.Task;
+import com.badou.mworking.model.category.Category;
+import com.badou.mworking.model.category.Task;
 import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.SP;
 
@@ -47,7 +48,7 @@ public class TaskActivity extends BaseProgressListActivity {
         intent.putExtra(SignActivity.INTENT_TASK, bundle);
 
         // 获取分类名
-        String title = SP.getStringSP(TaskActivity.this, SP.TASK, task.tag + "", "");
+        String title = task.getClassificationName(mContext);
         intent.putExtra("title", title);
         startActivity(intent);
         //设置切换动画，从右边进入，左边退出

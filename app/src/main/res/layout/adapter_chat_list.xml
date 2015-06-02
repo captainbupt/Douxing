@@ -102,5 +102,5 @@
         android:layout_height="1dp"
         android:layout_marginLeft="@dimen/offset_less"
         android:layout_marginRight="@dimen/offset_less"
-        android:background="@color/color_border_gray" />
+        android:background="@color/color_border_grey" />
 </org.holoeverywhere.widget.LinearLayout>

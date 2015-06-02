@@ -8,8 +8,7 @@ import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 
 import com.badou.mworking.R;
-import com.badou.mworking.model.Category;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.badou.mworking.model.category.Category;
 
 import org.holoeverywhere.widget.TextView;
 

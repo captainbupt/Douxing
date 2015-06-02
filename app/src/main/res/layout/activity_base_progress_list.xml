@@ -41,7 +41,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="20"
                 android:background="@color/color_light_grey"
-                android:divider="@color/color_border_gray"
+                android:divider="@color/color_border_grey"
                 android:dividerHeight="1px"
                 android:listSelector="@android:color/transparent"
                 android:scrollbars="none" />
@@ -52,7 +52,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="17"
                 android:background="@color/color_white"
-                android:divider="@color/color_border_gray"
+                android:divider="@color/color_border_grey"
                 android:dividerHeight="1px"
                 android:listSelector="@android:color/transparent"
                 android:paddingLeft="@dimen/offset_small" />

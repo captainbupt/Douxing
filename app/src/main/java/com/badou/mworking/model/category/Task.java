@@ -1,14 +1,10 @@
-package com.badou.mworking.model;
+package com.badou.mworking.model.category;
 
-import android.content.Context;
 import android.text.TextUtils;
 
-import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.net.ResponseParams;
 import com.badou.mworking.util.Constant;
-import com.badou.mworking.util.SP;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -17,9 +13,9 @@ import org.json.JSONObject;
  */
 public class Task extends Category {
 
-    public static final int CATEGORY_TYPE = Category.CATEGORY_TASK;
-    public static final String CATEGORY_KEY_NAME = Category.CATEGORY_KEY_NAMES[CATEGORY_TYPE];
-    public static final String CATEGORY_KEY_UNREAD_NUM = Category.CATEGORY_KEY_UNREADS[CATEGORY_TYPE];//考试 的 未读数量
+    public static final int CATEGORY_TYPE = CATEGORY_TASK;
+    public static final String CATEGORY_KEY_NAME = CATEGORY_KEY_NAMES[CATEGORY_TYPE];
+    public static final String CATEGORY_KEY_UNREAD_NUM = CATEGORY_KEY_UNREADS[CATEGORY_TYPE];//考试 的 未读数量
 
     public static final String TASK_FRAGMENT_ITEM_POSITION = "task_position";
     public static final String SIGN_BACK_TASK_FRAGMENT = "s2task";
@@ -42,11 +38,11 @@ public class Task extends Category {
 
     public Task(JSONObject jsonObject) {
         super(jsonObject);
-        this.offline = jsonObject.optInt(ResponseParams.OFFLINE);
+        this.offline = jsonObject.optInt(ResponseParams.TASK_OFFLINE);
         this.type = jsonObject.optInt(ResponseParams.TASK_DETAIL_TYPE);
         this.comment = jsonObject.optString(ResponseParams.TASK_DETAIL_COMMENT);
         this.startline = jsonObject.optLong(ResponseParams.TASK_DETAIL_STARTLINE) * 1000;
-        this.img = jsonObject.optString(ResponseParams.IMG);
+        this.img = jsonObject.optString(ResponseParams.TASK_IMG);
         this.photo = jsonObject.optInt(ResponseParams.TASK_PHOTO);
         this.latitude = jsonObject.optDouble(ResponseParams.TASK_DETAIL_LATITUDE);
         this.longitude = jsonObject.optDouble(ResponseParams.TASK_DETAIL_LONGITUDE);
@@ -78,7 +74,7 @@ public class Task extends Category {
         return CATEGORY_KEY_UNREAD_NUM;
     }
 
-    public boolean getOffline() {
+    public boolean isOffline() {
         if (offline == Constant.OVERDUE_YES) {
             return true;
         } else {

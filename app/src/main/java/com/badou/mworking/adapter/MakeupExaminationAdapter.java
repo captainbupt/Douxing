@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.badou.mworking.R;
-import com.badou.mworking.model.Exam;
+import com.badou.mworking.model.category.Exam;
 
 import java.util.ArrayList;
 

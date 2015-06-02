@@ -11,11 +11,11 @@ import android.widget.TextView;
 import com.badou.mworking.R;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.MyBaseAdapter;
-import com.badou.mworking.model.Exam;
+import com.badou.mworking.model.category.Exam;
 import com.badou.mworking.model.MainIcon;
-import com.badou.mworking.model.Notice;
-import com.badou.mworking.model.Task;
-import com.badou.mworking.model.Train;
+import com.badou.mworking.model.category.Notice;
+import com.badou.mworking.model.category.Task;
+import com.badou.mworking.model.category.Train;
 import com.badou.mworking.net.RequestParams;
 import com.badou.mworking.util.SP;
 

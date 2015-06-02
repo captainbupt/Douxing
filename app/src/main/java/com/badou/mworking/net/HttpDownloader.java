@@ -19,9 +19,9 @@ import java.net.URL;
 
 public class HttpDownloader {
 
-	public static int STATU_FAIL = -1;
-	public static int STATU_SUCCESS = 0;
-	public static int STATU_EXISTED = 1;
+	public final static int STATU_FAIL = -1;
+	public final static int STATU_SUCCESS = 0;
+	public final static int STATU_EXISTED = 1;
 
 	/**
 	 * 根据URL下载文件,前提是这个文件当中的内容是文本,函数的返回值就是文本当中的内容 1.创建一个URL对象

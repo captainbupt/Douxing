@@ -6,7 +6,7 @@ import android.os.Bundle;
 import com.android.volley.VolleyError;
 import com.badou.mworking.adapter.TrainAdapter;
 import com.badou.mworking.base.BaseProgressListActivity;
-import com.badou.mworking.model.Train;
+import com.badou.mworking.model.category.Train;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ResponseParams;
 import com.badou.mworking.net.ServiceProvider;
@@ -62,10 +62,7 @@ public class TrainActivity extends BaseProgressListActivity {
     public void onItemClick(int position) {
         Train train = (Train) mCategoryAdapter.getItem(position - 1);
 
-        if (!CategoryClickHandler.categoryClicker(mContext, train)) {
-            ToastUtil.showToast(mContext, R.string.category_unsupport_type);
-            return;
-        }
+        CategoryClickHandler.categoryClicker(mContext, train);
 
         if (NetUtils.isNetConnected(mContext)) {
             // 向服务提交课件信息

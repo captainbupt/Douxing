@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import com.badou.mworking.adapter.NoticeAdapter;
 import com.badou.mworking.base.BaseProgressListActivity;
-import com.badou.mworking.model.Notice;
+import com.badou.mworking.model.category.Notice;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.util.CategoryClickHandler;
 import com.badou.mworking.util.ToastUtil;
@@ -44,9 +44,6 @@ public class NoticeActivity extends BaseProgressListActivity {
         ((NoticeAdapter) mCategoryAdapter).read(position - 1);
         ServiceProvider.doMarkRead(mContext, notice.rid);
         mCategoryAdapter.notifyDataSetChanged();
-        if (!CategoryClickHandler.categoryClicker(mContext, notice)) {
-            ToastUtil.showToast(mContext, R.string.category_unsupport_type);
-            return;
-        }
+        CategoryClickHandler.categoryClicker(mContext, notice);
     }
 }

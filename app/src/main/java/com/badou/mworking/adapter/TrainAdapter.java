@@ -3,7 +3,6 @@ package com.badou.mworking.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.text.TextUtils;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -13,15 +12,13 @@ import android.widget.TextView;
 import com.badou.mworking.R;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.MyBaseAdapter;
-import com.badou.mworking.model.Train;
+import com.badou.mworking.model.category.Train;
 import com.badou.mworking.net.bitmap.BitmapLruCache;
 import com.badou.mworking.net.bitmap.IconLoadListener;
 import com.badou.mworking.net.volley.MyVolley;
 import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.SP;
 import com.badou.mworking.util.TimeTransfer;
-
-import org.holoeverywhere.widget.FrameLayout;
 
 /**
  * 功能描述: 微培训adapter

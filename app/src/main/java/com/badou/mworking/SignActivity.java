@@ -24,7 +24,7 @@ import android.widget.Toast;
 
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseNoTitleActivity;
-import com.badou.mworking.model.Task;
+import com.badou.mworking.model.category.Task;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.RequestParams;
 import com.badou.mworking.net.ServiceProvider;
@@ -254,7 +254,7 @@ public class SignActivity extends BaseNoTitleActivity implements OnClickListener
 				tvSignTaskPassed.setVisibility(View.GONE);
 			}else {
 				// 已过期
-				if(task.getOffline()){
+				if(task.isOffline()){
 					llSignConfirm.setEnabled(false);
 					tvSignTaskPassed.setVisibility(View.VISIBLE);
 					llSignConfirmOrIgnor.setVisibility(View.GONE);
@@ -347,8 +347,8 @@ public class SignActivity extends BaseNoTitleActivity implements OnClickListener
 			String url = Net.getRunHost(SignActivity.this)+Net.getTongji(uid,task.rid);
 			Intent intent = new Intent();
 			intent.setClass(SignActivity.this, BackWebActivity.class);
-			intent.putExtra(BackWebActivity.VALUE_URL,url);
-			intent.putExtra(BackWebActivity.VALUE_TITLE,titleStr);
+			intent.putExtra(BackWebActivity.KEY_URL,url);
+			intent.putExtra(BackWebActivity.KEY_TITLE,titleStr);
 			startActivity(intent);
 			break;
 		default:
