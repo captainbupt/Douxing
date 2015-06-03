@@ -15,180 +15,147 @@ package com.badou.mworking.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.badou.mworking.R;
+import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.model.ChatInfo;
 import com.badou.mworking.net.bitmap.BitmapLruCache;
 import com.badou.mworking.net.bitmap.CircleImageListener;
 import com.badou.mworking.net.volley.MyVolley;
 import com.badou.mworking.util.TimeTransfer;
 
-import java.util.ArrayList;
-
 /**
- * 类: <code> ChatInfoAdapter </code> 功能描述: 聊天界面 创建人: 葛建锋 创建日期: 2014年9月18日
- * 下午4:19:19 开发环境: JDK7.0
+ * 功能描述: 聊天界面
  */
-public class ChatInfoAdapter extends BaseAdapter {
+public class ChatInfoAdapter extends MyBaseAdapter {
 
 	private static final int splitTime = 10 * 60;// 两条信息的时间间隔
 
-	private LayoutInflater layoutInflater;
-	private ArrayList<ChatInfo> mData;
-	private Context mContext;
-	private String whomOther;
-	private String img = "";
-	int size = 0;// 设置头像的大小
-	private String myHeadImgUrl = "";
+	private String mOtherName;
+	private String mOtherHeadUrl = "";
+	int mHeadSize = 0;// 设置头像的大小
+	private String mHeadUrl = "";
 
 	/**
 	 * 功能描述:
 	 * 
 	 * @param context
 	 */
-	public ChatInfoAdapter(Context context, ArrayList<ChatInfo> ChatInfos,
-			String whomOther, String img, String myHeadImgUrl) {
-		super();
-		this.mContext = context;
-		this.layoutInflater = LayoutInflater.from(context);
-		this.mData = ChatInfos;
-		this.whomOther = whomOther;
-		this.img = img;
-		this.myHeadImgUrl = myHeadImgUrl;
-		size = mContext.getResources().getDimensionPixelSize(
+	public ChatInfoAdapter(Context context,String whomOther, String img, String myHeadImgUrl) {
+		super(context);
+		this.mOtherName = whomOther;
+		this.mOtherHeadUrl = img;
+		this.mHeadUrl = myHeadImgUrl;
+		mHeadSize = mContext.getResources().getDimensionPixelSize(
 				R.dimen.around_icon_head_size);
-	}
-
-	public void setdata(ArrayList<ChatInfo> ChatInfos) {
-		if (ChatInfos == null) {
-			ChatInfos = new ArrayList<ChatInfo>();
-		}
-		this.mData = ChatInfos;
-	}
-
-	@Override
-	public int getCount() {
-		return mData.size() > 0 ? mData.size() : 0;
-	}
-
-	@Override
-	public Object getItem(int arg0) {
-		return mData.get(arg0);
-	}
-
-	@Override
-	public long getItemId(int arg0) {
-		return arg0;
 	}
 
 	@Override
 	public View getView(int posion, View convertView, ViewGroup parent) {
-		AllViewHolder holder;
+		ViewHolder holder;
 		if (convertView != null) {
-			holder = (AllViewHolder) convertView.getTag();
+			holder = (ViewHolder) convertView.getTag();
 		} else {
-			convertView = layoutInflater
-					.inflate(R.layout.chatinfoadapter, null);
-			holder = new AllViewHolder(convertView);
+			convertView = mInflater
+					.inflate(R.layout.adapter_chat_info, null);
+			holder = new ViewHolder(convertView);
 			convertView.setTag(holder);
 		}
-		ChatInfo chatInfo = mData.get(posion);
-		if (whomOther.equals(chatInfo.getOwn())) {
+		ChatInfo chatInfo = (ChatInfo) mItemList.get(posion);
+		if (mOtherName.equals(chatInfo.getOwn())) {
 			setOtherChat(holder, chatInfo);
 		} else {
 			setMyChat(holder, chatInfo);
 		}
 
 		/** 设置间隔时间的显示 **/
-		long nowTime = mData.get(posion).getTs();
+		long nowTime = chatInfo.getTs();
 		if (0 == posion && nowTime != 0) {
-			holder.tvTs.setVisibility(View.VISIBLE);
-			holder.tvTs.setText(TimeTransfer.long2StringDetailDate(mContext,
+			holder.mTimeTextView.setVisibility(View.VISIBLE);
+			holder.mTimeTextView.setText(TimeTransfer.long2StringDetailDate(mContext,
 					nowTime * 1000) + "");
 		} else {
-			long afterTime = mData.get(posion - 1).getTs();
+			long afterTime = ((ChatInfo)mItemList.get(posion-1)).getTs();
 			long cha = nowTime - afterTime;
 			if (cha > splitTime) {
-				holder.tvTs.setVisibility(View.VISIBLE);
-				holder.tvTs.setText(TimeTransfer.long2StringDetailDate(
+				holder.mTimeTextView.setVisibility(View.VISIBLE);
+				holder.mTimeTextView.setText(TimeTransfer.long2StringDetailDate(
 						mContext, nowTime * 1000) + "");
 			} else {
-				holder.tvTs.setVisibility(View.GONE);
+				holder.mTimeTextView.setVisibility(View.GONE);
 			}
 		}
 
 		return convertView;
 	}
 
-	static class AllViewHolder {
-		LinearLayout layoutMy;
-		ImageView imgMyHead;
-		TextView tvMyContent;
-		LinearLayout layoutOther;
-		ImageView imgOtherHead;
-		TextView tvOtherContent;
-		TextView tvTs;// 发布时间
+	static class ViewHolder {
+		LinearLayout mMyChatLayout;
+		ImageView mMyHeadImageView;
+		TextView mMyContentTextView;
+		LinearLayout mOtherChatLayout;
+		ImageView mOtherHeadImageView;
+		TextView mOtherContentTextView;
+		TextView mTimeTextView;// 发布时间
 
-		public AllViewHolder(View view) {
-			layoutMy = (LinearLayout) view.findViewById(R.id.rl_mychat);
-			tvMyContent = (TextView) view.findViewById(R.id.tvMyMSG);
-			imgMyHead = (ImageView) view.findViewById(R.id.my_head_img);
+		public ViewHolder(View view) {
+			mMyChatLayout = (LinearLayout) view.findViewById(R.id.rl_mychat);
+			mMyContentTextView = (TextView) view.findViewById(R.id.tvMyMSG);
+			mMyHeadImageView = (ImageView) view.findViewById(R.id.my_head_img);
 
-			layoutOther = (LinearLayout) view.findViewById(R.id.rl_other_chat);
-			imgOtherHead = (ImageView) view.findViewById(R.id.other_head_img);
-			tvOtherContent = (TextView) view.findViewById(R.id.tvOtherMSG);
-			tvTs = (TextView) view.findViewById(R.id.tv_adapter_chat_list_time);
+			mOtherChatLayout = (LinearLayout) view.findViewById(R.id.rl_other_chat);
+			mOtherHeadImageView = (ImageView) view.findViewById(R.id.other_head_img);
+			mOtherContentTextView = (TextView) view.findViewById(R.id.tvOtherMSG);
+			mTimeTextView = (TextView) view.findViewById(R.id.tv_adapter_chat_list_time);
 		}
 	}
 
-	private void setMyChat(AllViewHolder vh, ChatInfo chatInfo) {
-		vh.layoutMy.setVisibility(View.VISIBLE);
-		vh.layoutOther.setVisibility(View.GONE); 
+	private void setMyChat(ViewHolder vh, ChatInfo chatInfo) {
+		vh.mMyChatLayout.setVisibility(View.VISIBLE);
+		vh.mOtherChatLayout.setVisibility(View.GONE);
 		/** 设置头像 **/
-		vh.imgMyHead.setImageResource(R.drawable.icon_user_detail_default_head);
-		if (myHeadImgUrl == null || myHeadImgUrl.equals("")) {
-			vh.imgMyHead.setImageResource(R.drawable.icon_user_detail_default_head);
+		vh.mMyHeadImageView.setImageResource(R.drawable.icon_user_detail_default_head);
+		if (mHeadUrl == null || mHeadUrl.equals("")) {
+			vh.mMyHeadImageView.setImageResource(R.drawable.icon_user_detail_default_head);
 		} else {
 			/** 设置头像 **/
 			Bitmap bm = BitmapLruCache.getBitmapLruCache().getCircleBitmap(
-					myHeadImgUrl);
+					mHeadUrl);
 			if (bm != null && !bm.isRecycled()) {
-				vh.imgMyHead.setImageBitmap(bm);
+				vh.mMyHeadImageView.setImageBitmap(bm);
 				bm = null;
 			} else {
 				MyVolley.getImageLoader().get(
-						myHeadImgUrl,
-						new CircleImageListener(mContext, myHeadImgUrl,
-								vh.imgMyHead, size, size));
+						mHeadUrl,
+						new CircleImageListener(mContext, mHeadUrl,
+								vh.mMyHeadImageView, mHeadSize, mHeadSize));
 			}
 		}
 
-		vh.tvMyContent.setText(chatInfo.getContent() + "");
+		vh.mMyContentTextView.setText(chatInfo.getContent() + "");
 	}
 
-	private void setOtherChat(AllViewHolder vh, ChatInfo chatInfo) {
-		vh.layoutMy.setVisibility(View.GONE);
-		vh.layoutOther.setVisibility(View.VISIBLE);
+	private void setOtherChat(ViewHolder vh, ChatInfo chatInfo) {
+		vh.mMyChatLayout.setVisibility(View.GONE);
+		vh.mOtherChatLayout.setVisibility(View.VISIBLE);
 		/** 设置头像 **/
-		vh.imgOtherHead.setImageResource(R.drawable.icon_user_detail_default_head);
+		vh.mOtherHeadImageView.setImageResource(R.drawable.icon_user_detail_default_head);
 		/** 设置头像 **/
-		Bitmap bm = BitmapLruCache.getBitmapLruCache().getCircleBitmap(img);
+		Bitmap bm = BitmapLruCache.getBitmapLruCache().getCircleBitmap(mOtherHeadUrl);
 		if (bm != null && !bm.isRecycled()) {
-			vh.imgOtherHead.setImageBitmap(bm);
+			vh.mOtherHeadImageView.setImageBitmap(bm);
 			bm = null;
 		} else {
 			MyVolley.getImageLoader().get(
-					img,
-					new CircleImageListener(mContext, img, vh.imgOtherHead,
-							size, size));
+					mOtherHeadUrl,
+					new CircleImageListener(mContext, mOtherHeadUrl, vh.mOtherHeadImageView,
+							mHeadSize, mHeadSize));
 		}
-		vh.tvOtherContent.setText(chatInfo.getContent() + "");
+		vh.mOtherContentTextView.setText(chatInfo.getContent() + "");
 	}
 }

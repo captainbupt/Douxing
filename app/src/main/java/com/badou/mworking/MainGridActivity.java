@@ -260,11 +260,13 @@ public class MainGridActivity extends BaseNoTitleActivity {
             public void onItemSelected(AdapterView<?> arg0, View arg1,
                                        int selIndex, long arg3) {
                 selIndex = selIndex % bList.size();
-                mIndicatorRadioButtonList.get(selIndex).setChecked(true);
+                if (mIndicatorRadioButtonList != null && selIndex < mIndicatorRadioButtonList.size())
+                    mIndicatorRadioButtonList.get(selIndex).setChecked(true);
             }
 
             public void onNothingSelected(AdapterView<?> arg0) {
-                mIndicatorRadioButtonList.get(0).setChecked(true);
+                if (mIndicatorRadioButtonList != null && mIndicatorRadioButtonList.size() > 0)
+                    mIndicatorRadioButtonList.get(0).setChecked(true);
             }
         });
         /**
@@ -277,7 +279,6 @@ public class MainGridActivity extends BaseNoTitleActivity {
                 int pos = position % bList.size();
                 Intent intent = new Intent(mContext, BackWebActivity.class);
                 intent.putExtra(BackWebActivity.KEY_URL, ((MainBanner) bList.get(pos)).getBannerContentURL() + "");
-                BackWebActivity.PAGEFLAG = BackWebActivity.BANNER;
                 startActivity(intent);
             }
         });
@@ -395,6 +396,7 @@ public class MainGridActivity extends BaseNoTitleActivity {
                                 + banner.bannerToString(img, url, md5);
                     }
                     updateBanner(list);
+                    updateIndicator(list);
                     // 保存banner信息数据到sp
                     SP.putStringSP(MainGridActivity.this, SP.DEFAULTCACHE, "banner", bannerInfo);
 

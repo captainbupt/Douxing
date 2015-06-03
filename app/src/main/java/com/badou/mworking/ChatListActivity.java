@@ -49,7 +49,7 @@ public class ChatListActivity extends BaseBackActionBarActivity {
      * 初始化控件
      */
     private void initView() {
-        pullListView = (PullToRefreshListView) findViewById(R.id.ptrlv_activity_chatting);
+        pullListView = (PullToRefreshListView) findViewById(R.id.ptrlv_activity_chat_list);
         mAdapter = new ChatAdapter(mContext);
         pullListView.setAdapter(mAdapter);
     }

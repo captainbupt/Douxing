@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<org.holoeverywhere.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <com.joanzapata.pdfview.PDFView
         android:id="@+id/pdfview_activity_pdf_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/title" />
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
 
     <com.badou.mworking.widget.BottomRatingAndCommentView
         android:id="@+id/bracv_activity_pdf_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-</RelativeLayout>
+</org.holoeverywhere.widget.LinearLayout>

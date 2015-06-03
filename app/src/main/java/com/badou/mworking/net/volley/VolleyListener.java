@@ -36,7 +36,9 @@ public abstract class VolleyListener implements Response.ErrorListener,
                 .optJSONObject(Net.DATA));
     }
 
-    public abstract void onResponseData(JSONObject jsonObject);
+    public void onResponseData(JSONObject jsonObject) {
+    }
+
 
     @Override
     public void onErrorResponse(VolleyError error) {

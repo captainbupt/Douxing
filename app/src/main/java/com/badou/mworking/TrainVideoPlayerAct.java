@@ -45,6 +45,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 import com.badou.mworking.base.AppApplication;
+import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.model.category.Train;
 import com.badou.mworking.util.DensityUtil;
 import com.badou.mworking.util.FileUtils;
@@ -55,7 +56,7 @@ import com.badou.mworking.widget.FullScreenVideoView;
 import com.badou.mworking.widget.SwipeBackLayout;
 import com.umeng.analytics.MobclickAgent;
 
-public class TrainVideoPlayerAct extends TrainBaseActivity implements
+public class TrainVideoPlayerAct extends BaseBackActionBarActivity implements
         OnClickListener {
 
     public static final String KEY_TITLE = "title";
@@ -134,6 +135,7 @@ public class TrainVideoPlayerAct extends TrainBaseActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.act_video_player);
         // 页面滑动关闭
         layout = (SwipeBackLayout) LayoutInflater.from(this).inflate(
                 R.layout.base, null);
@@ -222,7 +224,6 @@ public class TrainVideoPlayerAct extends TrainBaseActivity implements
      * 功能描述: 布局初始化
      */
     protected void initView() {
-        super.initView();
         rotationTv = (CheckBox) findViewById(R.id.chkZoom);
         mVideo = (FullScreenVideoView) findViewById(R.id.videoview);
         currentTimeTv = (TextView) findViewById(R.id.tvCurrentTime);
@@ -661,25 +662,14 @@ public class TrainVideoPlayerAct extends TrainBaseActivity implements
 
     }
 
-    @Override
-    public int getLayoutId() {
-        return R.layout.act_video_player;
-    }
-
-    @Override
-    public void setRightClick() {
+    public void clickRight() {
         if (train == null) {
             return;
         }
         // 跳转到评论页面
         Intent intent = new Intent(mContext, CommentActivity.class);
-        intent.putExtra(CommentActivity.VALUE_RID, train.rid);
+        intent.putExtra(CommentActivity.KEY_RID, train.rid);
         startActivity(intent);
-    }
-
-    @Override
-    public Train getTrain() {
-        return null;
     }
 
     /**

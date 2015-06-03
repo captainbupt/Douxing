@@ -58,9 +58,9 @@ public class TipsWebView extends BaseNoTitleActivity {
         mContext = TipsWebView.this;
         mWebView = (WebView) findViewById(R.id.webView1);
         tvbottomBtn = (TextView) this.findViewById(R.id.tv_bottom);
-        llNetException = (LinearLayout) findViewById(R.id.llNetException);
-        tvBadouNetExceptionRepeat = (TextView) findViewById(R.id.tvBadouNetExceptionRepeat);
-        ivNetException = (ImageView) findViewById(R.id.ivNetException);
+        llNetException = (LinearLayout) findViewById(R.id.ll_activity_web_view_exception);
+        tvBadouNetExceptionRepeat = (TextView) findViewById(R.id.tv_activity_web_view_exception_repeat);
+        ivNetException = (ImageView) findViewById(R.id.iv_activity_web_view_exception);
 
         TextView titleTv = (TextView) initAction();
         final int tag = ACT_TipsWebView;

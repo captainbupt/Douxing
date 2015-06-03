@@ -2,21 +2,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_bg_blue"
-    android:orientation="vertical"
+    android:background="@color/color_bg_grey"
     android:gravity="center_horizontal"
-     >
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/tv_adapter_chat_list_time"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" 
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/chatInfo_item_marginTB"
+        android:background="@drawable/chattime"
         android:gravity="center"
         android:text=""
         android:textColor="#989898"
         android:textSize="@dimen/text_size_medium"
-        android:background="@drawable/chattime"
         android:visibility="gone" />
 
     <LinearLayout
@@ -24,14 +23,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/chatInfo_item_marginTB"
             android:layout_marginTop="@dimen/chatInfo_item_marginTB"
-            android:layout_weight="9" >
+            android:layout_weight="9">
 
             <ImageView
                 android:id="@+id/other_head_img"
@@ -69,7 +68,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <View
             android:id="@+id/left"
@@ -83,7 +82,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/chatInfo_item_marginTB"
             android:layout_marginTop="@dimen/chatInfo_item_marginTB"
-            android:layout_weight="9" >
+            android:layout_weight="9">
 
             <ImageView
                 android:id="@+id/my_head_img"

@@ -1,50 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<org.holoeverywhere.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:myattrs="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_layout_bg"
-    >
+    android:orientation="vertical">
 
-    <LinearLayout
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        android:id="@+id/ptrlv_activity_comments"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:visibility="gone" >
+        android:layout_weight="1"
+        android:divider="@null" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/offset_less"
-            android:text="@string/comment_all"
-            android:textColor="@color/color_text_grey"
-            android:textSize="@dimen/text_size_large" />
-
-        <TextView
-            android:id="@+id/tv_comment_Num"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textColor="@color/color_blue"
-            android:textSize="@dimen/text_size_large" />
-    </LinearLayout>
-    
-    <com.handmark.pulltorefresh.library.PullToRefreshListView
-        android:id="@+id/ptrlv_comments"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:divider="@null"/>
-    
-     <ImageView
-        android:id="@+id/tishi_img"
+    <ImageView
+        android:id="@+id/iv_activity_comments_none_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:background="@drawable/no_comment"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
 
-    <include 
-        layout="@layout/layout_send_msg" 
-        />
+    <com.badou.mworking.widget.BottomSendMessageView
+        android:id="@+id/bsmv_activity_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        myattrs:contentHint="@string/comment_hint"
+        myattrs:maxText="79"
+        myattrs:minText="5"
+        myattrs:submitText="@string/feekback_submit" />
 
-</RelativeLayout>
+</org.holoeverywhere.widget.LinearLayout>

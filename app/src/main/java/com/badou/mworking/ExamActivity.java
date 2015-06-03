@@ -11,7 +11,6 @@ import com.badou.mworking.model.category.Exam;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.NetUtils;
-import com.badou.mworking.util.SP;
 import com.badou.mworking.util.ToastUtil;
 
 import org.json.JSONObject;
@@ -51,7 +50,6 @@ public class ExamActivity extends BaseProgressListActivity {
 
     @Override
     protected void onItemClick(int position) {
-        BackWebActivity.PAGEFLAG = BackWebActivity.EXAM;
         Exam exam = (Exam) mCategoryAdapter.getItem(position - 1);
         int subtype = exam.subtype;
         if (Constant.MWKG_FORAMT_TYPE_XML != subtype) {
@@ -66,7 +64,8 @@ public class ExamActivity extends BaseProgressListActivity {
         String url = Net.getRunHost(mContext) + Net.EXAM_ITEM(uid, exam.rid);
         Intent intents = new Intent(mContext, BackWebActivity.class);
         intents.putExtra(BackWebActivity.KEY_URL, url);
-        intents.putExtra(BackWebActivity.KEY_STATISTICAL, true);
+        intents.putExtra(BackWebActivity.KEY_RID, exam.rid);
+        intents.putExtra(BackWebActivity.KEY_SHOW_STATISTICAL, true);
         int tag = exam.tag;
         String title = "";
         if (tag >= 0) {

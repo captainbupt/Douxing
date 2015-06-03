@@ -151,10 +151,10 @@ public class AroundDetailActivity extends BaseBackActionBarActivity{
 							.getContentPicUrl()));
 			isShowSHPImg(videoURl);
 		}
-		ivQuestionAnswerContent = (TextView) findViewById(R.id.tv_comment_submit);
+		ivQuestionAnswerContent = (TextView) findViewById(R.id.tv_view_bottom_send_message_submit);
 		ivQuestionAnswerContent.setEnabled(false);
 		ivQuestionAnswerContent.setBackgroundColor(getResources().getColor(R.color.color_grey));
-		etQuestionDetailContetnAnswer = (EditText) findViewById(R.id.et_comment_content);
+		etQuestionDetailContetnAnswer = (EditText) findViewById(R.id.et_view_bottom_send_message_content);
 		
 		etQuestionDetailContetnAnswer.setOnKeyListener(new View.OnKeyListener() {
 			public boolean onKey(View v, int keyCode, KeyEvent event) {

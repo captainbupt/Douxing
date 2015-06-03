@@ -74,7 +74,7 @@ public class MyRatingActivity extends BaseNoTitleActivity implements OnClickList
 		nowRatingTv = (TextView) findViewById(R.id.now_rating_tv);
 		nextRatingTv = (TextView) findViewById(R.id.next_rating_tv);
 		averageScoreTv = (TextView) findViewById(R.id.average_score);
-		tipsTv = (TextView) findViewById(R.id.tips_tv);
+		tipsTv = (TextView) findViewById(R.id.tv_dialog_rating_tips);
 		ratingTv = (TextView) findViewById(R.id.rating_tv);
 		aboveTv = (TextView) findViewById(R.id.above_tv);
 		examTips = (TextView) findViewById(R.id.exam_tips);
@@ -150,7 +150,6 @@ public class MyRatingActivity extends BaseNoTitleActivity implements OnClickList
 		if(exam == null){
 			return;
 		}
-		BackWebActivity.PAGEFLAG = BackWebActivity.EXAM;
 		int subtype = exam.subtype;
 		if (Constant.MWKG_FORAMT_TYPE_XML != subtype) {
 			return;

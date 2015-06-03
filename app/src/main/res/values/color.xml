@@ -18,7 +18,7 @@
     <color name="color_text_blue">@color/color_blue_light</color>
     <!-- 分割线的颜色 -->
     <color name="color_edit_line">#d1d3d1</color>
-    <color name="color_layout_bg">@color/color_bg_blue</color>
+    <color name="color_layout_bg">@color/color_bg_grey</color>
     <color name="color_closeBtn_bg_grey">#616161</color>
     <color name="color_border">@color/color_grey</color>
     <color name="color_border_grey">@color/color_grey</color>

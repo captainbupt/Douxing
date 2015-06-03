@@ -2,34 +2,14 @@ package com.badou.mworking;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.webkit.WebSettings;
-import android.webkit.WebSettings.LayoutAlgorithm;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.VolleyError;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseBackActionBarActivity;
-import com.badou.mworking.model.category.Category;
 import com.badou.mworking.net.Net;
-import com.badou.mworking.net.ResponseParams;
-import com.badou.mworking.net.ServiceProvider;
-import com.badou.mworking.net.volley.VolleyListener;
-import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.FileUtils;
-import com.badou.mworking.util.NetUtils;
-import com.badou.mworking.util.SP;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.BottomRatingAndCommentView;
 import com.joanzapata.pdfview.PDFView;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.io.File;
 
@@ -40,6 +20,8 @@ public class PDFViewerActivity extends BaseBackActionBarActivity {
 
     public static final String KEY_RID = "rid";
     public static final String KEY_SHOW_RATING = "rating";
+    public static final String KEY_SHOW_COMMENT = "comment";
+    public static final String KEY_STATISTICAL = "statistical";
 
     private PDFView mPdfView;
     private BottomRatingAndCommentView mBottomView;
@@ -66,7 +48,7 @@ public class PDFViewerActivity extends BaseBackActionBarActivity {
         mRid = mReceivedIntent.getStringExtra(KEY_RID);
         if (((AppApplication) getApplicationContext())
                 .getUserInfo().isAdmin) {
-            setRightImage(R.drawable.admin_tongji);
+            setRightImage(R.drawable.button_title_admin_statistical);
         }
         boolean showRating = mReceivedIntent.getBooleanExtra(KEY_SHOW_RATING, false);
         if (showRating) {
@@ -84,13 +66,25 @@ public class PDFViewerActivity extends BaseBackActionBarActivity {
         try {
             String filePath = FileUtils.getTrainCacheDir(mContext) + mRid + ".pdf";
             file = new File(filePath);
-            if (file.exists()) {
+            if (file.exists() && file.length() > 0) {
                 //加载pdf文件
                 mPdfView.fromFile(file).showMinimap(false).enableSwipe(true)
                         .load();
             } else {
+                file.delete();
+                finish();
                 ToastUtil.showToast(mContext, R.string.tips_pdf_view_open_error);
             }
+            final File finalFile = file;
+            /*mPdfView.setOnOpenPDFFailedListener(new PDFView.OnOpenPDFFailedListener() {
+                @Override
+                public void onOpenFailed() {
+                    if (finalFile != null) {
+                        finalFile.delete();
+                    }
+                    ToastUtil.showToast(mContext, R.string.tips_pdf_view_open_error);
+                }
+            });*/
         } catch (Exception e) {
             // 捕获打开pdf异常
             e.printStackTrace();

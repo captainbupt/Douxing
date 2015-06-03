@@ -20,10 +20,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.badou.mworking.adapter.ChatInfoAdapter;
@@ -34,6 +31,7 @@ import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.ToastUtil;
+import com.badou.mworking.widget.BottomSendMessageView;
 import com.badou.mworking.widget.SwipeBackLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
@@ -45,20 +43,18 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 功能描述: 聊天页面
  */
 public class ChattingActivity extends BaseBackActionBarActivity {
 
-    private TextView submitTv; // 提交按钮
-    private EditText contentEt; // 内容输入框
-
-    private PullToRefreshListView pullListView;
+    private BottomSendMessageView mBottomView;
+    private PullToRefreshListView mContentListView;
     private String whom = "";
     private String img = "";
-    private String myHeadImgUrl = "";
-    private ArrayList<ChatInfo> chatInfoList;
+    private String mHeadImgUrl = "";
     private ChatInfoAdapter mAdapter;
     public static final String KEY_WHOM = "whom";
     public static final String KEY_OTHER_IMG = "img";
@@ -73,39 +69,26 @@ public class ChattingActivity extends BaseBackActionBarActivity {
         setContentView(R.layout.activity_chatting);
         whom = getIntent().getStringExtra(KEY_WHOM);
         img = getIntent().getStringExtra(KEY_OTHER_IMG);
-        chatInfoList = new ArrayList<>();
-        myHeadImgUrl = getIntent().getStringExtra(KEY_SELF_IMG);
-        setActionbarTitle(getIntent().getStringExtra(KEY_NAME));
-        initWiget();
-
+        mHeadImgUrl = getIntent().getStringExtra(KEY_SELF_IMG);
+        initView();
         initListener();
-        pullListView.setRefreshing();
-    }
-
-    private void setAdapterData() {
-        if (mAdapter == null) {
-            mAdapter = new ChatInfoAdapter(mContext, chatInfoList, whom, img,
-                    myHeadImgUrl);
-            pullListView.setAdapter(mAdapter);
-        }
+        mContentListView.setRefreshing();
     }
 
     /**
      * 功能描述: 控件初始化
      */
-    private void initWiget() {
-        submitTv = (TextView) findViewById(R.id.tv_comment_submit);
-        contentEt = (EditText) findViewById(R.id.et_comment_content);
-        contentEt.setHint("我来说两句...");
-        pullListView = (PullToRefreshListView) findViewById(R.id.chat_lv);
-        pullListView.setMode(Mode.BOTH);
-
-        submitTv.setEnabled(false);
-        submitTv.setBackgroundColor(getResources().getColor(R.color.color_grey));
+    private void initView() {
+        mContentListView = (PullToRefreshListView) findViewById(R.id.ptrlv_activity_chatting);
+        mContentListView.setMode(Mode.BOTH);
+        mBottomView = (BottomSendMessageView) findViewById(R.id.bsmv_activity_chatting);
+        mAdapter = new ChatInfoAdapter(mContext, whom, img,
+                mHeadImgUrl);
+        mContentListView.setAdapter(mAdapter);
     }
 
     protected void initListener() {
-        pullListView.setOnRefreshListener(new OnRefreshListener<ListView>() {
+        mContentListView.setOnRefreshListener(new OnRefreshListener<ListView>() {
             @Override
             public void onRefresh(PullToRefreshBase<ListView> refreshView) {
                 ServiceProvider.dogetChatInfo(mContext, whom,
@@ -113,8 +96,8 @@ public class ChattingActivity extends BaseBackActionBarActivity {
 
                             @Override
                             public void onResponse(Object responseObject) {
-                                if (pullListView != null) {
-                                    pullListView.onRefreshComplete();
+                                if (mContentListView != null) {
+                                    mContentListView.onRefreshComplete();
                                 }
                                 JSONObject responseJson = (JSONObject) responseObject;
                                 int code = responseJson.optInt(Net.CODE);
@@ -128,7 +111,7 @@ public class ChattingActivity extends BaseBackActionBarActivity {
                                 }
                                 JSONArray arrJson = responseJson
                                         .optJSONArray(Net.DATA);
-                                chatInfoList = new ArrayList<ChatInfo>();
+                                List<Object> chatInfoList = new ArrayList<>();
                                 try {
                                     for (int i = 0; i < arrJson.length(); i++) {
 
@@ -143,73 +126,33 @@ public class ChattingActivity extends BaseBackActionBarActivity {
                                     e.printStackTrace();
                                 }
 
-                                setAdapterData();
-                                mAdapter.setdata(chatInfoList);
-                                mAdapter.notifyDataSetChanged();
+                                mAdapter.setList(chatInfoList);
                                 /** 发送成功后滚动到底部 **/
-                                ListView lv = pullListView.getRefreshableView();
+                                ListView lv = mContentListView.getRefreshableView();
                                 lv.setSelection(lv.getBottom());
                             }
 
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                if (pullListView != null) {
-                                    pullListView.onRefreshComplete();
+                                if (mContentListView != null) {
+                                    mContentListView.onRefreshComplete();
                                 }
                                 super.onErrorResponse(error);
                             }
                         });
             }
         });
-        submitTv.setOnClickListener(new OnClickListener() {
+        mBottomView.setOnSubmitListener(new BottomSendMessageView.OnSubmitListener() {
             @Override
-            public void onClick(View view) {
-                submitChatMsg();
-                // 隐藏输入法
-                InputMethodManager imm = (InputMethodManager) getApplicationContext()
-                        .getSystemService(Context.INPUT_METHOD_SERVICE);
-                // 显示或者隐藏输入法
-                imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-            }
-        });
-        // 字符改变监听
-        contentEt.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void onTextChanged(CharSequence arg0, int arg1, int arg2,
-                                      int arg3) {
-
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence arg0, int arg1,
-                                          int arg2, int arg3) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable arg0) {
-                // 文本改变监听
-                int length = contentEt.getText().toString().trim().length();
-
-                if (length == 0) {
-                    submitTv.setEnabled(false);
-                    submitTv.setBackgroundColor(getResources().getColor(
-                            R.color.color_grey));
-                } else {
-                    submitTv.setEnabled(true);
-                    submitTv.setBackgroundResource(R.drawable.comment_send_blue);
-                }
-
+            public void onSubmit(String content) {
+                submitChatMsg(content);
             }
         });
     }
 
-    private void submitChatMsg() {
-        final String msg = contentEt.getText().toString().trim();
-        contentEt.setText("");
+    private void submitChatMsg(final String content) {
 
-        ServiceProvider.doSendChat(mContext, msg, whom, new VolleyListener(
+        ServiceProvider.doSendChat(mContext, content, whom, new VolleyListener(
                 mContext) {
 
             @Override
@@ -226,12 +169,11 @@ public class ChattingActivity extends BaseBackActionBarActivity {
                 }
 
                 ChatInfo chatInfo = new ChatInfo();
-                chatInfo.setContent(msg);
+                chatInfo.setContent(content);
                 chatInfo.setTs(System.currentTimeMillis() / 1000);
-                chatInfoList.add(chatInfo);
-                mAdapter.notifyDataSetChanged();
+                mAdapter.addItem(chatInfo);
                 /** 发送成功后滚动到底部 **/
-                ListView lv = pullListView.getRefreshableView();
+                ListView lv = mContentListView.getRefreshableView();
                 lv.setSelection(lv.getBottom());
             }
         });

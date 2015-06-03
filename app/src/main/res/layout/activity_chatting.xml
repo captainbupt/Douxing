@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:myattrs="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_bg_grey"
     android:orientation="vertical">
 
     <com.handmark.pulltorefresh.library.PullToRefreshListView
-        android:id="@+id/chat_lv"
+        android:id="@+id/ptrlv_activity_chatting"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginLeft="@dimen/offset_medium"
@@ -15,7 +16,13 @@
         android:divider="@null"
         android:paddingTop="@dimen/offset_medium" />
 
-    <include layout="@layout/layout_send_msg" />
+    <com.badou.mworking.widget.BottomSendMessageView
+        android:id="@+id/bsmv_activity_chatting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        myattrs:contentHint="@string/chatting_hint"
+        myattrs:minText="1"
+        myattrs:submitText="@string/button_send" />
 
 
 </LinearLayout>

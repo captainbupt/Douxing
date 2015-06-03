@@ -7,7 +7,6 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -26,8 +25,6 @@ import com.badou.mworking.PhotoActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.model.Question;
-import com.badou.mworking.model.user.UserDetail;
-import com.badou.mworking.model.user.UserInfo;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.bitmap.BitmapLruCache;
@@ -271,14 +268,14 @@ public class AroundReplaAdapter extends BaseAdapter {
             imgContentPic = (ImageView) view
                     .findViewById(R.id.imgQuestionShare);
             headImg = (ImageView) view
-                    .findViewById(R.id.ivAdapterQuestionShareIcon);
-            tvFloorNum = (TextView) view.findViewById(R.id.tvFloor);
+                    .findViewById(R.id.iv_adapter_comment_head);
+            tvFloorNum = (TextView) view.findViewById(R.id.tv_adapter_comment_floor);
             tvQuestionShareName = (TextView) view
-                    .findViewById(R.id.tvQuestionShareName);
+                    .findViewById(R.id.tv_adapter_comment_name);
             tvQuestionShareContent = (TextView) view
-                    .findViewById(R.id.tvQuestionShareContent);
+                    .findViewById(R.id.tv_adapter_comment_content);
             tvQuestionShareDate = (TextView) view
-                    .findViewById(R.id.tvQuestionShareDate);
+                    .findViewById(R.id.tv_adapter_comment_date);
             tvQuestionShareDelete = (TextView) view
                     .findViewById(R.id.tvQuestionShareDelete);
         }
