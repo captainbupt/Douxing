@@ -1,17 +1,14 @@
 package com.badou.mworking;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.PixelFormat;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -21,27 +18,18 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
-import com.android.volley.VolleyError;
 import com.badou.mworking.base.AppApplication;
-import com.badou.mworking.base.BaseBackWebViewActivity;
-import com.badou.mworking.model.category.Train;
+import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.net.Net;
-import com.badou.mworking.net.ResponseParams;
-import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.bitmap.BitmapLruCache;
 import com.badou.mworking.net.bitmap.IconLoadListener;
 import com.badou.mworking.net.volley.MyVolley;
-import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.SP;
-import com.badou.mworking.util.ToastUtil;
-import com.badou.mworking.widget.RatingDilog;
-import com.badou.mworking.widget.RatingDilog.OnRatingCompletedListener;
-import com.umeng.analytics.MobclickAgent;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
+import com.badou.mworking.widget.BottomRatingAndCommentView;
 
 import java.io.File;
 
@@ -49,81 +37,104 @@ import java.io.File;
  * 功能描述:  actionbar为返回的网页展示页面
  */
 @SuppressLint("SetJavaScriptEnabled")
-public class BackWebActivity extends BaseBackWebViewActivity {
+public class BackWebActivity extends BaseBackActionBarActivity {
 
     public static final String KEY_URL = "url";
-    public static final String KEY_TITLE = "title";
     public static final String KEY_RID = "rid";
-    public static final String KEY_STATISTICAL = "statistical";
+    public static final String KEY_SHOW_STATISTICAL = "statistical";
+    public static final String KEY_SHOW_RATING = "rating";
+    public static final String KEY_SHOW_COMMENT = "comment";
 
-    public static int PAGEFLAG = BackWebActivity.GENERAL;  // 默认为普通页面   在onDestroy（）方法中还原
-    public static final int GENERAL = 0;    //普通页面跳转进入
-    public static final int TRAINING = 1;    //微培训页面跳转进入
-    public static final int NOTICE = 2;    //通知公告页面跳转进入
-    public static final int BANNER = 3;    //banner 跳转
-    public static final int EXAM = 4;    //在线考试跳转进入
-
-    private String url = "";
-    private String title;
-    private String rid;
+    private String mUrl;
+    private String mRid;
     private String mCameraFilePath; //拍照路径
-    private String uid = "";  // 用户id
-    private boolean isAdmin = false; // 是否是管理员
-    private boolean isShowTongji = false; // 是否显示统计的按钮
+    private boolean isShowStatistical = false; // 是否显示统计的按钮
 
-    private Train train = null;
 
-    private ProgressDialog mProgressDialog;
+    private LinearLayout mNetExceptionLinearLayout;
+    private TextView mNetExceptionRepeatTextView;
+    private ImageView mNetExceptionImageView;
+
+    private WebView mWebView;
+
+    private BottomRatingAndCommentView mBottomView;
+
     private ValueCallback<Uri> mUploadMessage;
 
-    public static boolean ISSLIDEABLE = true;
     private float SOldScale = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        isAdmin = ((AppApplication) getApplicationContext())
-                .getUserInfo().isAdmin;
-        uid = ((AppApplication) getApplicationContext()).getUserInfo().userId;
-        try {
-            if (BackWebActivity.PAGEFLAG != BackWebActivity.EXAM) {
-                layout.attachToActivity(this);
-            }
-            Intent intent = getIntent();
-            if (BackWebActivity.PAGEFLAG == BackWebActivity.TRAINING) {
-                weiPeiXunDate(intent);
-            } else if (BackWebActivity.PAGEFLAG == BackWebActivity.NOTICE) {
-                noticeDate(intent);
-            } else if (BackWebActivity.PAGEFLAG == BackWebActivity.BANNER) {
-                bannerDate();
-            }
-            title = intent.getStringExtra(KEY_TITLE);
-            url = intent.getStringExtra(KEY_URL);
-            if (title != null && !title.equals("")) {
-                setActionbarTitle(title);
-            } else {
-                setActionbarTitle("");
-            }
-            isShowTongji = intent.getBooleanExtra(KEY_STATISTICAL, false);
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-        init();
-        initLisener();
-        setBottom();
+        getWindow().setBackgroundDrawable(null);
+        getWindow().setFormat(PixelFormat.RGBA_8888);
+        setContentView(R.layout.activity_web_view);
+        initView();
+        initData();
+        initWebView();
     }
 
-    /**
-     * 功能描述: 微培训跳转进入
-     */
-    private void weiPeiXunDate(Intent intent) {
-        train = (Train) intent.getBundleExtra("train").getSerializable("train");
-        if (train != null) {
-            rid = train.rid;
-            url = train.url + "&uid="
-                    + ((AppApplication) this.getApplicationContext())
-                    .getUserInfo().userId;
+    private void initView() {
+        mWebView = (WebView) findViewById(R.id.wv_activity_web_view);
+        mNetExceptionLinearLayout = (LinearLayout) findViewById(R.id.ll_activity_web_view_exception);
+        mNetExceptionRepeatTextView = (TextView) findViewById(R.id.tv_activity_web_view_exception_repeat);
+        mNetExceptionImageView = (ImageView) findViewById(R.id.iv_activity_web_view_exception);
+        mBottomView = (BottomRatingAndCommentView) findViewById(R.id.bracv_activity_web_view);
+    }
+
+    private void initData() {
+        mUrl = mReceivedIntent.getStringExtra(KEY_URL);
+        mRid = mReceivedIntent.getStringExtra(KEY_RID);
+        isShowStatistical = mReceivedIntent.getBooleanExtra(KEY_SHOW_STATISTICAL, false);
+        boolean isAdmin = ((AppApplication) getApplicationContext())
+                .getUserInfo().isAdmin;
+        if (isAdmin) {
+            if (isShowStatistical) {
+                setRightImage(R.drawable.button_title_admin_statistical);
+            }
         }
+        boolean flag = NetUtils.isNetConnected(getApplicationContext());
+        if (flag) {
+            boolean showRating = mReceivedIntent.getBooleanExtra(KEY_SHOW_RATING, false);
+            boolean showComment = mReceivedIntent.getBooleanExtra(KEY_SHOW_COMMENT, false);
+            if (!showRating && !showComment) {
+                mBottomView.setVisibility(View.GONE);
+            } else {
+                mBottomView.setVisibility(View.VISIBLE);
+                if (showRating && showComment) {
+                    mBottomView.setData(mRid, 0, 0, -1);
+                } else if (!showRating && showComment) {
+                    mBottomView.setData(mRid, -1, 0, -1);
+                } else if (showRating && !showComment) {
+                    mBottomView.setData(mRid, 0, -1, -1);
+                }
+            }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        boolean flag = NetUtils.isNetConnected(getApplicationContext());
+        if (flag) {
+            mNetExceptionImageView.setVisibility(ImageView.GONE);
+            mNetExceptionLinearLayout.setVisibility(LinearLayout.GONE);
+            mWebView.setVisibility(WebView.VISIBLE);
+            mWebView.setHorizontalScrollBarEnabled(false);
+        } else {
+            mNetExceptionImageView.setVisibility(ImageView.VISIBLE);
+            mNetExceptionLinearLayout.setVisibility(LinearLayout.VISIBLE);
+            mNetExceptionImageView.setVisibility(ImageView.VISIBLE);
+            mWebView.setVisibility(WebView.GONE);
+            mNetExceptionRepeatTextView.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    BackWebActivity.this.onResume();
+                }
+            });
+        }
+        if (android.os.Build.VERSION.SDK_INT >= 11)
+            mWebView.onResume();
     }
 
     /**
@@ -148,31 +159,15 @@ public class BackWebActivity extends BaseBackWebViewActivity {
     }
 
     /**
-     * 功能描述: 通知公告跳转进入
-     */
-    private void noticeDate(Intent intent) {
-        if (intent != null) {
-            try {
-                rid = intent.getStringExtra(KEY_RID);
-            } catch (NullPointerException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    /**
      * 功能描述: webview设置，加载内容
      */
-    private void init() {
+    private void initWebView() {
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         webSettings.setJavaScriptEnabled(true);
-        /**
-         * //设置加载进来的页面自适应手机屏幕
-         * settings.setUseWideViewPort(true);
-         * ettings.setLoadWithOverviewMode(true);
-         * 第一个方法设置webview推荐使用的窗口，设置为true。第二个方法是设置webview加载的页面的模式，也设置为true。
-         * */
+
+        //设置加载进来的页面自适应手机屏幕
+        // 第一个方法设置webview推荐使用的窗口，设置为true。第二个方法是设置webview加载的页面的模式，也设置为true。
         webSettings.setUseWideViewPort(true);
         webSettings.setLoadWithOverviewMode(true);
         //缩放开关
@@ -220,33 +215,32 @@ public class BackWebActivity extends BaseBackWebViewActivity {
                     SOldScale = oldScale;
                 }
                 if (newScale - SOldScale < 0.2) {
-                    BackWebActivity.ISSLIDEABLE = true;
+                    layout.enableSlide();
                 } else {
-                    BackWebActivity.ISSLIDEABLE = false;
+                    layout.disableSlide();
                 }
             }
 
         });
-
-        mWebView.loadUrl(url);
+        mWebView.loadUrl(mUrl);
 
     }
 
-//	private Intent createDefaultOpenableIntent() {
-//		Intent i = new Intent(Intent.ACTION_GET_CONTENT);
-//		i.addCategory(Intent.CATEGORY_OPENABLE);
-//		i.setType("*/*");
-//		Intent chooser = createChooserIntent(createCameraIntent());
-//		chooser.putExtra(Intent.EXTRA_INTENT, i);
-//		return chooser;
-//	}
-//
-//	private Intent createChooserIntent(Intent... intents) {
-//		Intent chooser = new Intent(Intent.ACTION_CHOOSER);
-//		chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, intents);
-//		chooser.putExtra(Intent.EXTRA_TITLE, "选择操作");
-//		return chooser;
-//	}
+    private Intent createDefaultOpenableIntent() {
+        Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+        i.addCategory(Intent.CATEGORY_OPENABLE);
+        i.setType("*/*");
+        Intent chooser = createChooserIntent(createCameraIntent());
+        chooser.putExtra(Intent.EXTRA_INTENT, i);
+        return chooser;
+    }
+
+    private Intent createChooserIntent(Intent... intents) {
+        Intent chooser = new Intent(Intent.ACTION_CHOOSER);
+        chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, intents);
+        chooser.putExtra(Intent.EXTRA_TITLE, "选择操作");
+        return chooser;
+    }
 
     /**
      * 功能描述:调取相机        这里给定的是相册的路径，然后以当前时间命名
@@ -258,7 +252,6 @@ public class BackWebActivity extends BaseBackWebViewActivity {
 
         File externalDataDir = Environment
                 .getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
-        System.out.println("externalDataDir:" + externalDataDir);
         File cameraDataDir = new File(externalDataDir.getAbsolutePath());
         if (!cameraDataDir.exists()) {
             cameraDataDir.mkdirs();
@@ -293,191 +286,16 @@ public class BackWebActivity extends BaseBackWebViewActivity {
     }
 
     @Override
-    @TargetApi(11)
-    protected void onResume() {
-        super.onResume();
-        MobclickAgent.onResume(this);
-        mWebView.onResume();
-
-        if (isAdmin) {
-            String str = getResources().getString(R.string.statistical_data);
-            if (!TextUtils.isEmpty(title) && str.equals(title)) {
-                super.rlComment.setVisibility(View.GONE);
-                super.weipeixuncommentRelat.setVisibility(View.GONE);
-            } else {
-                if (isShowTongji) {
-                    mImgRight.setBackgroundResource(R.drawable.admin_tongji);
-                    mImgRight.setVisibility(View.VISIBLE);
-                }
-            }
-        }
-    }
-
-    /**
-     * 控制底部哪些内容显示，哪些内容不显示
-     */
-    private void setBottom() {
-        boolean flag = NetUtils.isNetConnected(getApplicationContext());
-        if (flag) {
-            // 通知公告
-            if (BackWebActivity.PAGEFLAG == BackWebActivity.NOTICE) {
-                netUpdateNum(rid);
-                super.rlComment.setVisibility(View.VISIBLE);
-                super.weipeixuncommentRelat.setVisibility(View.GONE);
-                // 微培训
-            } else if (BackWebActivity.PAGEFLAG == BackWebActivity.TRAINING) {
-                netUpdateNum(train.rid);
-                super.rlComment.setVisibility(View.GONE);
-                super.weipeixuncommentRelat.setVisibility(View.VISIBLE);
-                // 普通webview
-            } else {
-                super.rlComment.setVisibility(View.GONE);
-                super.weipeixuncommentRelat.setVisibility(View.GONE);
-            }
-        } else {
-            super.rlComment.setVisibility(View.GONE);
-            super.weipeixuncommentRelat.setVisibility(View.GONE);
-            ToastUtil.showNetExc(mContext);
-        }
-    }
-
-    @Override
-    @TargetApi(11)
     protected void onPause() {
         super.onPause();
-        mWebView.onPause();
-        MobclickAgent.onPause(this);
+        if (android.os.Build.VERSION.SDK_INT >= 11)
+            mWebView.onPause();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mWebView.destroy();
-        BackWebActivity.PAGEFLAG = BackWebActivity.GENERAL;
-        BackWebActivity.ISSLIDEABLE = true;
-    }
-
-    /**
-     * 更新点赞数和评论数
-     *
-     * @param rid
-     */
-    private void netUpdateNum(final String rid) {
-        if (null != mProgressDialog && mContext != null
-                && !mActivity.isFinishing()) {
-            mProgressDialog.show();
-        }
-        String[] rids = {rid};
-        // 发起网络请求，获取课件的点赞数
-        ServiceProvider.doUpdateFeedbackCount(mContext, rids,
-                new VolleyListener(mContext) {
-                    @Override
-                    public void onResponse(Object responseObject) {
-
-                        int comment = 0;
-                        if (mProgressDialog != null) {
-                            mProgressDialog.dismiss();
-                        }
-                        JSONObject response = (JSONObject) responseObject;
-                        try {
-                            int code = response.optInt(Net.CODE);
-                            if (code == Net.LOGOUT) {
-                                AppApplication.logoutShow(mContext);
-                                return;
-                            }
-                            if (code != Net.SUCCESS) {
-                                return;
-                            }
-                            JSONArray resultArray = response
-                                    .optJSONArray(Net.DATA);
-                            JSONObject jsonObject = resultArray
-                                    .optJSONObject(0);
-                            if (BackWebActivity.PAGEFLAG == BackWebActivity.TRAINING) {
-                                for (int i = 0; i < resultArray.length(); i++) {
-                                    JSONObject jsonObjectl = resultArray
-                                            .optJSONObject(i);
-                                    String rid = jsonObject
-                                            .optString(ResponseParams.CATEGORY_RID);
-                                    int feedbackCount = jsonObject
-                                            .optInt(ResponseParams.RATING_NUM);
-                                    int commentNum = jsonObject
-                                            .optInt(ResponseParams.COMMENT_NUM);
-                                        /*if (train.rid.equals(rid)) {
-											train.setCommentNum(commentNum);
-											train.setFeedbackCount(feedbackCount);
-										}*/
-                                }
-                            } else if (BackWebActivity.PAGEFLAG == BackWebActivity.NOTICE) {
-                                comment = jsonObject
-                                        .optInt(ResponseParams.COMMENT_NUM);
-                            } else {
-
-                            }
-
-                        } catch (Exception e) {
-                            ToastUtil.showNetExc(mContext);
-                            if (null != mProgressDialog && mContext != null
-                                    && !mActivity.isFinishing()) {
-                                mProgressDialog.dismiss();
-                            }
-                        } finally {
-                            if (BackWebActivity.PAGEFLAG == BackWebActivity.NOTICE) {
-                                tvCommentNum.setText(comment + getResources().getString(R.string.tips_bottom_comment));
-                            } else {
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        super.onErrorResponse(error);
-                        if (null != mProgressDialog && mContext != null
-                                && !mActivity.isFinishing()) {
-                            mProgressDialog.dismiss();
-                        }
-                    }
-                });
-    }
-
-    /**
-     * 点击左上角
-     */
-    @Override
-    public void clickLeft() {
-        BackWebActivity.this.finish();
-    }
-
-    private void showPingfenDilog() {
-        // 判断如果是微培训跳入
-        if (BackWebActivity.PAGEFLAG == BackWebActivity.TRAINING) {
-            if (train != null) {
-                String coursewareScore = train.coursewareScore;
-                new RatingDilog(mContext, train.rid, coursewareScore, new OnRatingCompletedListener() {
-
-                    @Override
-                    public void onRatingCompleted(int coursewareScore) {
-                        train.coursewareScore = coursewareScore + "";
-                        tvZan.setText(train.ecnt + 1 + "");
-                        Intent intent = new Intent();
-                        intent.putExtra(TrainActivity.KEY_RATING, coursewareScore);
-                        intent.putExtra(TrainActivity.KEY_RID, train.rid);
-                        setResult(RESULT_OK, intent);
-                    }
-                }).show();
-            }
-        }
-    }
-
-    /**
-     * 功能描述: 添加返回按钮，弹出是否退出应用程序对话框
-     */
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            BackWebActivity.this.finish();
-            return false;
-        }
-        return super.onKeyDown(keyCode, event);
     }
 
     /**
@@ -485,56 +303,14 @@ public class BackWebActivity extends BaseBackWebViewActivity {
      */
     @Override
     public void clickRight() {
-        super.clickRight();
-        BackWebActivity.PAGEFLAG = BackWebActivity.GENERAL;
         String titleStr = getResources().getString(R.string.statistical_data);
-        String url = Net.getRunHost(BackWebActivity.this) + Net.getTongji(uid, rid);
+        String uid = ((AppApplication) getApplication()).getUserInfo().userId;
+        String url = Net.getRunHost(BackWebActivity.this) + Net.getTongji(uid, mRid);
         Intent intent = new Intent();
-        intent.setClass(BackWebActivity.this, BackWebActivity.class);
+        intent.setClass(mContext, BackWebActivity.class);
         intent.putExtra(BackWebActivity.KEY_URL, url);
         intent.putExtra(BackWebActivity.KEY_TITLE, titleStr);
-        BackWebActivity.this.startActivity(intent);
+        startActivity(intent);
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.tv_user_progress_bottom:
-                Intent intent = new Intent();
-                intent.setClass(BackWebActivity.this, CommentActivity.class);
-                intent.putExtra(CommentActivity.VALUE_RID, rid);
-                startActivity(intent);
-                break;
-            default:
-                break;
-        }
-    }
-
-    private void initLisener() {
-
-        ll_comment.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                Intent intent = new Intent(mContext, CommentActivity.class);
-                if (BackWebActivity.PAGEFLAG == BackWebActivity.NOTICE) {
-                    intent.putExtra(CommentActivity.VALUE_RID, rid);
-                } else if (BackWebActivity.PAGEFLAG == BackWebActivity.TRAINING) {
-                    intent.putExtra(CommentActivity.VALUE_RID, train.rid);
-                } else {
-
-                }
-                startActivity(intent);
-                overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
-            }
-        });
-
-        // 点赞布局
-        ll_dianZan.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                showPingfenDilog();
-
-            }
-        });
-    }
 }

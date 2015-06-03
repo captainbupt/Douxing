@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.holoeverywhere.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/color_bg_grey"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_border_grey" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/offset_small"
+        android:paddingLeft="@dimen/offset_less"
+        android:paddingRight="@dimen/offset_less"
+        android:paddingTop="@dimen/offset_small">
+
+        <EditText
+            android:id="@+id/et_view_bottom_send_message_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/background_border_radius_small_ffffffff"
+            android:paddingBottom="@dimen/offset_small"
+            android:paddingLeft="@dimen/offset_less"
+            android:paddingRight="@dimen/offset_less"
+            android:paddingTop="@dimen/offset_small"
+            android:textColor="@color/color_text_black"
+            android:textSize="@dimen/text_size_comment_content" />
+
+        <TextView
+            android:id="@+id/tv_view_bottom_send_message_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/offset_small"
+            android:background="@drawable/background_button_disable"
+            android:gravity="center"
+            android:paddingBottom="@dimen/offset_small"
+            android:paddingLeft="@dimen/offset_less"
+            android:paddingRight="@dimen/offset_less"
+            android:paddingTop="@dimen/offset_small"
+            android:textColor="@color/color_button_text_blue"
+            android:textSize="@dimen/text_size_medium" />
+    </LinearLayout>
+
+</org.holoeverywhere.widget.LinearLayout>

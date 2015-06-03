@@ -10,7 +10,7 @@
     <!-- 同事圈的列表 item -->
 
     <ImageView
-        android:id="@+id/ivAdapterQuestionShareIcon"
+        android:id="@+id/iv_adapter_comment_head"
         android:layout_width="@dimen/around_icon_head_size"
         android:layout_height="@dimen/around_icon_head_size"
         android:layout_alignParentLeft="true"
@@ -23,11 +23,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@id/ivAdapterQuestionShareIcon"
+        android:layout_toRightOf="@id/iv_adapter_comment_head"
         android:orientation="horizontal" >
 
         <TextView
-            android:id="@+id/tvQuestionShareName"
+            android:id="@+id/tv_adapter_comment_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/offset_less"
@@ -49,7 +49,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tvQuestionShareContent"
+        android:id="@+id/tv_adapter_comment_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/name_lv"
@@ -65,8 +65,8 @@
         android:id="@+id/show_all_content_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/tvQuestionShareContent"
-        android:layout_below="@id/tvQuestionShareContent"
+        android:layout_alignLeft="@id/tv_adapter_comment_content"
+        android:layout_below="@id/tv_adapter_comment_content"
         android:text="显示全文"
         android:visibility="gone"
         android:textColor="@color/color_blue"
@@ -76,7 +76,7 @@
         android:id="@+id/QuestionShare_relay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/tvQuestionShareContent"
+        android:layout_alignLeft="@id/tv_adapter_comment_content"
         android:layout_below="@id/show_all_content_tv" >
 
         <ImageView
@@ -113,12 +113,12 @@
         android:id="@+id/rl_time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/tvQuestionShareContent"
+        android:layout_alignLeft="@id/tv_adapter_comment_content"
         android:layout_alignParentRight="true"
         android:layout_below="@id/QuestionShare_relay" >
 
         <TextView
-            android:id="@+id/tvQuestionShareDate"
+            android:id="@+id/tv_adapter_comment_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/layout_credit"

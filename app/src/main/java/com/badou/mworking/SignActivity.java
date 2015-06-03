@@ -204,7 +204,7 @@ public class SignActivity extends BaseNoTitleActivity implements OnClickListener
 		ivActionbarRight = (ImageView) findViewById(R.id.iv_actionbar_right);
 		// 是否显示统计图标
 		if(isAdmin){
-			ivActionbarRight.setBackgroundResource(R.drawable.admin_tongji);
+			ivActionbarRight.setBackgroundResource(R.drawable.button_title_admin_statistical);
 			ivActionbarRight.setVisibility(View.VISIBLE);
 			ivActionbarRight.setOnClickListener(this);
 		}else{

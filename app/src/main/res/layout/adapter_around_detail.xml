@@ -16,7 +16,7 @@
         android:layout_marginTop="8dp" >
 
         <ImageView
-            android:id="@+id/ivAdapterQuestionShareIcon"
+            android:id="@+id/iv_adapter_comment_head"
             android:layout_width="@dimen/around_icon_head_size"
             android:layout_height="@dimen/around_icon_head_size"
             android:layout_alignParentLeft="true"
@@ -25,12 +25,12 @@
 
         <TextView
             android:text="bbbbbbbbb"
-            android:id="@+id/tvQuestionShareName"
+            android:id="@+id/tv_adapter_comment_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="9dp"
-            android:layout_toRightOf="@id/ivAdapterQuestionShareIcon"
+            android:layout_toRightOf="@id/iv_adapter_comment_head"
             android:gravity="top"
             android:lineSpacingMultiplier="0.9"
             android:textColor="@color/color_blue"
@@ -38,11 +38,11 @@
 
         <TextView
             android:text="ggggggggggggddddddddddddd"
-            android:id="@+id/tvQuestionShareContent"
+            android:id="@+id/tv_adapter_comment_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/tvQuestionShareName"
-            android:layout_below="@id/tvQuestionShareName"
+            android:layout_alignLeft="@id/tv_adapter_comment_name"
+            android:layout_below="@id/tv_adapter_comment_name"
             android:layout_marginTop="@dimen/offset_small"
             android:gravity="center_vertical"
             android:paddingRight="@dimen/offset_medium"
@@ -51,24 +51,24 @@
 
         <TextView
             android:layout_marginRight="@dimen/offset_less"
-            android:layout_alignLeft="@id/tvQuestionShareName"
+            android:layout_alignLeft="@id/tv_adapter_comment_name"
             android:text="kkkkkk"
-            android:id="@+id/tvFloor"
+            android:id="@+id/tv_adapter_comment_floor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tvQuestionShareContent"
+            android:layout_below="@id/tv_adapter_comment_content"
             android:layout_marginTop="@dimen/offset_micro"
             android:textColor="@color/color_list_item_text_time"
             android:textSize="@dimen/text_size_small" />
 
         <TextView
             android:layout_marginTop="@dimen/offset_micro"
-            android:layout_below="@id/tvQuestionShareContent"
+            android:layout_below="@id/tv_adapter_comment_content"
             android:text="ooooooooooooo"
-            android:id="@+id/tvQuestionShareDate"
+            android:id="@+id/tv_adapter_comment_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/tvFloor"
+            android:layout_toRightOf="@id/tv_adapter_comment_floor"
             android:textColor="@color/color_list_item_text_time"
             android:textSize="@dimen/text_size_small" />
 
@@ -89,8 +89,8 @@
             android:id="@+id/imgQuestionShare"
             android:layout_width="@dimen/icon_size_large"
             android:layout_height="@dimen/icon_size_large"
-            android:layout_alignLeft="@id/tvQuestionShareContent"
-            android:layout_below="@id/tvQuestionShareContent"
+            android:layout_alignLeft="@id/tv_adapter_comment_content"
+            android:layout_below="@id/tv_adapter_comment_content"
             android:layout_marginTop="@dimen/offset_small"
             android:scaleType="fitXY"
             android:visibility="gone" />

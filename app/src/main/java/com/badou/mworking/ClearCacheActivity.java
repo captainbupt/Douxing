@@ -40,13 +40,14 @@ public class ClearCacheActivity extends BaseBackActionBarActivity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_clear_cache);
 		setActionbarTitle(getResources().getString(R.string.about_us_clear_cache));
-		init();
+		initView();
+		initListener();
 	}
 	
 	/**
 	 * 功能描述:初始化
 	 */
-	private void init(){
+	private void initView(){
 		mTrainingCacheTextView = (TextView) findViewById(R.id.weipeixun_cache_tv);
 		mChatterCacheTextView = (TextView) findViewById(R.id.tongshiquan_cache_tv);
 		mTrainingDeleteTextView = (TextView) findViewById(R.id.weipeixun_cache_del);

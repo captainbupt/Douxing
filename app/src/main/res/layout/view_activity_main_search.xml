@@ -29,7 +29,7 @@
                 android:paddingBottom="@dimen/offset_less"
                 android:paddingTop="@dimen/offset_less"
                 android:scaleType="centerInside"
-                android:src="@drawable/button_main_search" />
+                android:src="@drawable/button_title_main_search" />
 
             <org.holoeverywhere.widget.EditText
                 android:id="@+id/et_main_search_title"

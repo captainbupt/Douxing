@@ -183,7 +183,6 @@ public class HistoryExamActivity extends BaseNoTitleActivity implements OnClickL
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1,
 					int position, long arg3) {
-				BackWebActivity.PAGEFLAG = BackWebActivity.EXAM;
 				Exam exam = (Exam) examAdapter.getItem(position - 1);
 				int subtype = exam.subtype;
 				if (Constant.MWKG_FORAMT_TYPE_XML != subtype) {

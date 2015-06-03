@@ -15,6 +15,8 @@ package com.badou.mworking.widget;
 
 import android.content.Context;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.RatingBar;
 
 import com.badou.mworking.R;
@@ -22,7 +24,7 @@ import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 
 import org.holoeverywhere.app.Dialog;
-import org.holoeverywhere.widget.RelativeLayout;
+import org.holoeverywhere.widget.LinearLayout;
 import org.holoeverywhere.widget.TextView;
 import org.json.JSONObject;
 
@@ -32,14 +34,14 @@ import org.json.JSONObject;
 public class RatingDilog extends Dialog {
 
     private Context mContext;
-    private RatingBar scoreRatingbar;  // 评分选择器
-    private TextView okBtn; //确定
-    private TextView noBtn; //取消
-    private TextView tipsTv; //得分提醒
-    private TextView titleTv; // 文字提醒   轻点星星来评分  您已评过分了
+    private RatingBar mScoreRatingBar;  // 评分选择器
+    private TextView mConfirmTextView; //确定
+    private TextView mCancelTextView; //取消
+    private TextView mTipsTextView; //得分提醒
+    private TextView mTitleTextView; // 文字提醒   轻点星星来评分  您已评过分了
 
-    private RelativeLayout pingfenRelay;  //评分布局
-    private RelativeLayout zhidaoleRelay;//已经评过分了布局
+    private LinearLayout mNotRatedLayout;  //评分布局
+    private LinearLayout mRatedLayout;//已经评过分了布局
 
     private String mRid;     //资源id
     private int mCurrentScore = -1;
@@ -47,7 +49,7 @@ public class RatingDilog extends Dialog {
     public OnRatingCompletedListener mOnRatingCompletedListener;
 
     public interface OnRatingCompletedListener {
-        public void onRatingCompleted(int coursewareScore);
+        void onRatingCompleted(int coursewareScore);
     }
 
     ;
@@ -55,6 +57,7 @@ public class RatingDilog extends Dialog {
     public RatingDilog(Context context, String rid, int currentScore,
                        OnRatingCompletedListener listener) {
         super(context);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.dialog_rating);
         this.mOnRatingCompletedListener = listener;
         this.mContext = context;
@@ -69,37 +72,37 @@ public class RatingDilog extends Dialog {
      * 功能描述: 布局初始化
      */
     private void initView() {
-        scoreRatingbar = (RatingBar) findViewById(R.id.score_ratingbar);
-        okBtn = (TextView) findViewById(R.id.ok_btn);
-        noBtn = (TextView) findViewById(R.id.no_btn);
-        tipsTv = (TextView) findViewById(R.id.tips_tv);
-        titleTv = (TextView) findViewById(R.id.title_tv);
-        pingfenRelay = (RelativeLayout) findViewById(R.id.pingfen_relay);
-        zhidaoleRelay = (RelativeLayout) findViewById(R.id.zhidaole_relay);
+        mScoreRatingBar = (RatingBar) findViewById(R.id.rb_dialog_rating);
+        mConfirmTextView = (TextView) findViewById(R.id.btn_dialog_rating_confirm);
+        mCancelTextView = (TextView) findViewById(R.id.tv_dialog_rating_cancel);
+        mTipsTextView = (TextView) findViewById(R.id.tv_dialog_rating_tips);
+        mTitleTextView = (TextView) findViewById(R.id.tv_dialog_rating_title);
+        mNotRatedLayout = (LinearLayout) findViewById(R.id.ll_dialog_rating_not_rated);
+        mRatedLayout = (LinearLayout) findViewById(R.id.ll_dialog_rating_rated);
         if (mCurrentScore > -1) {
-            pingfenRelay.setVisibility(View.GONE);
-            zhidaoleRelay.setVisibility(View.VISIBLE);
-            titleTv.setText("您已评过分了");
+            mNotRatedLayout.setVisibility(View.GONE);
+            mRatedLayout.setVisibility(View.VISIBLE);
+            mTitleTextView.setText(R.string.dialog_rating_title_rated);
             scoreTips(mCurrentScore);
-            scoreRatingbar.setRating(mCurrentScore);
-            scoreRatingbar.setEnabled(false);
+            mScoreRatingBar.setRating(mCurrentScore);
+            mScoreRatingBar.setEnabled(false);
         }
     }
 
     private void initListener() {
-        okBtn.setOnClickListener(new View.OnClickListener() {
+        mConfirmTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                coursewareScoring();
+                uploadRating();
             }
         });
-        noBtn.setOnClickListener(new View.OnClickListener() {
+        mCancelTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dismiss();
             }
         });
-        zhidaoleRelay.setOnClickListener(new View.OnClickListener() {
+        mRatedLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dismiss();
@@ -107,18 +110,20 @@ public class RatingDilog extends Dialog {
         });
 
         // Ratingbar监听器
-        scoreRatingbar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+        mScoreRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
 
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                 int score = (int) rating;
                 scoreTips(score);
                 if (rating > 0) {
-                    okBtn.setEnabled(true);
-                    okBtn.setBackgroundResource(R.drawable.pingfen_tijiao);
+                    mConfirmTextView.setEnabled(true);
+                    mConfirmTextView.setBackgroundResource(R.drawable.background_button_enable_blue);
+                    mConfirmTextView.setTextColor(mContext.getResources().getColorStateList(R.color.color_button_text_blue));
                 } else {
-                    okBtn.setEnabled(false);
-                    okBtn.setBackgroundResource(R.drawable.pingfen_wei_tijiao);
+                    mConfirmTextView.setEnabled(false);
+                    mConfirmTextView.setBackgroundResource(R.drawable.background_button_disable);
+                    mConfirmTextView.setTextColor(mContext.getResources().getColor(R.color.color_white));
                 }
             }
         });
@@ -130,22 +135,22 @@ public class RatingDilog extends Dialog {
     private void scoreTips(int score) {
         switch (score) {
             case 0:
-                tipsTv.setText("");
+                mTipsTextView.setText("");
                 break;
             case 1:
-                tipsTv.setText(mContext.getResources().getString(R.string.score_one));
+                mTipsTextView.setText(mContext.getResources().getString(R.string.dialog_rating_score_one));
                 break;
             case 2:
-                tipsTv.setText(mContext.getResources().getString(R.string.score_two));
+                mTipsTextView.setText(mContext.getResources().getString(R.string.dialog_rating_score_two));
                 break;
             case 3:
-                tipsTv.setText(mContext.getResources().getString(R.string.score_thi));
+                mTipsTextView.setText(mContext.getResources().getString(R.string.dialog_rating_score_three));
                 break;
             case 4:
-                tipsTv.setText(mContext.getResources().getString(R.string.score_fou));
+                mTipsTextView.setText(mContext.getResources().getString(R.string.dialog_rating_score_four));
                 break;
             case 5:
-                tipsTv.setText(mContext.getResources().getString(R.string.score_fif));
+                mTipsTextView.setText(mContext.getResources().getString(R.string.dialog_rating_score_five));
                 break;
             default:
                 break;
@@ -155,8 +160,8 @@ public class RatingDilog extends Dialog {
     /**
      * 功能描述: 提交课件评分
      */
-    private void coursewareScoring() {
-        final int rating = (int) scoreRatingbar.getRating();
+    private void uploadRating() {
+        final int rating = (int) mScoreRatingBar.getRating();
         ServiceProvider.coursewareScoring(mContext, mRid, rating + "", new VolleyListener(mContext) {
 
             @Override

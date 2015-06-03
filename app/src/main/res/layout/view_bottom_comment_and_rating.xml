@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <org.holoeverywhere.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/dianzan_layout_height"
+    android:layout_height="wrap_content"
     android:background="@color/color_white"
     android:orientation="vertical">
 
@@ -28,7 +28,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/offset_medium"
+            android:paddingTop="@dimen/offset_medium">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -65,7 +67,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/offset_medium"
+            android:paddingTop="@dimen/offset_medium">
 
             <ImageView
                 android:layout_width="wrap_content"

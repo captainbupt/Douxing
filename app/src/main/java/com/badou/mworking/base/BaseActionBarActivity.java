@@ -18,9 +18,9 @@ public class BaseActionBarActivity extends BaseNoTitleActivity {
     public final static String KEY_TITLE = "title";
 
     protected View actionBarView;
-    protected TextView mTxtTitle;
-    protected ImageView mImgLeft;
-    protected ImageView mImgRight;
+    protected TextView mTitleTextView;
+    protected ImageView mTitleLeftImageView;
+    protected ImageView mTitleRightImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +42,9 @@ public class BaseActionBarActivity extends BaseNoTitleActivity {
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setCustomView(actionBarView);
-        mTxtTitle = (TextView) actionBarView.findViewById(R.id.txt_actionbar_title);
-        mImgLeft = (ImageView) actionBarView.findViewById(R.id.iv_actionbar_left);
-        mImgRight = (ImageView) actionBarView.findViewById(R.id.iv_actionbar_right);
+        mTitleTextView = (TextView) actionBarView.findViewById(R.id.txt_actionbar_title);
+        mTitleLeftImageView = (ImageView) actionBarView.findViewById(R.id.iv_actionbar_left);
+        mTitleRightImageView = (ImageView) actionBarView.findViewById(R.id.iv_actionbar_right);
         mProgressDialog = new WaitProgressDialog(mContext);
     }
 
@@ -52,14 +52,14 @@ public class BaseActionBarActivity extends BaseNoTitleActivity {
      * 功能描述:设置监听
      */
     private void initActionBarListener(){
-        mImgRight.setOnClickListener(new OnClickListener() {
+        mTitleRightImageView.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 clickRight();
             }
         });
-        mImgLeft.setOnClickListener(new OnClickListener() {
+        mTitleLeftImageView.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -80,15 +80,15 @@ public class BaseActionBarActivity extends BaseNoTitleActivity {
 
     public void setLeft(int resId) {
         if (resId < 0) {
-            mImgLeft.setVisibility(View.GONE);
+            mTitleLeftImageView.setVisibility(View.GONE);
         } else {
-            mImgLeft.setVisibility(View.VISIBLE);
-            mImgLeft.setImageResource(resId);
+            mTitleLeftImageView.setVisibility(View.VISIBLE);
+            mTitleLeftImageView.setImageResource(resId);
         }
     }
 
     public void setActionbarTitle(String s) {
-        mTxtTitle.setText(s);
+        mTitleTextView.setText(s);
     }
 
     public void clickLeft() {
@@ -99,7 +99,7 @@ public class BaseActionBarActivity extends BaseNoTitleActivity {
     }
 
     public void setRightImage(int resId) {
-        mImgRight.setImageResource(resId);
-        mImgRight.setVisibility(View.VISIBLE);
+        mTitleRightImageView.setImageResource(resId);
+        mTitleRightImageView.setVisibility(View.VISIBLE);
     }
 }

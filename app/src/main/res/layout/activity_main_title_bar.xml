@@ -13,7 +13,7 @@
         android:layout_centerVertical="true"
         android:padding="@dimen/offset_less"
         android:scaleType="centerInside"
-        android:src="@drawable/button_main_user" />
+        android:src="@drawable/button_title_main_user" />
 
     <ImageView
         android:id="@+id/iv_actionbar_logo"
@@ -31,6 +31,6 @@
         android:layout_centerVertical="true"
         android:padding="@dimen/offset_less"
         android:scaleType="centerInside"
-        android:src="@drawable/button_main_search" />
+        android:src="@drawable/button_title_main_search" />
 
 </org.holoeverywhere.widget.RelativeLayout>

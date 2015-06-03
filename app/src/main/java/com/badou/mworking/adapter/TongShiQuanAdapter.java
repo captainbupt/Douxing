@@ -315,15 +315,15 @@ public class TongShiQuanAdapter extends BaseAdapter {
 			imgContentPic = (ImageView) view
 					.findViewById(R.id.imgQuestionShare);
 			headImg = (ImageView) view
-					.findViewById(R.id.ivAdapterQuestionShareIcon);
+					.findViewById(R.id.iv_adapter_comment_head);
 			tongshiquanShipingImg = (ImageView) view
 					.findViewById(R.id.tongshiquan_shiping_img);
 			tvQuestionShareName = (TextView) view
-					.findViewById(R.id.tvQuestionShareName);
+					.findViewById(R.id.tv_adapter_comment_name);
 			tvQuestionShareContent = (TextView) view
-					.findViewById(R.id.tvQuestionShareContent);
+					.findViewById(R.id.tv_adapter_comment_content);
 			tvQuestionShareDate = (TextView) view
-					.findViewById(R.id.tvQuestionShareDate);
+					.findViewById(R.id.tv_adapter_comment_date);
 			tvQuestionShareNums = (TextView) view
 					.findViewById(R.id.tvQuestionShareNums);
 			chk = (CheckBox) view.findViewById(R.id.chb_credit);
@@ -366,7 +366,7 @@ public class TongShiQuanAdapter extends BaseAdapter {
 				}
 				break;
 			// 点击头像，显示该人我的圈列表
-			case R.id.ivAdapterQuestionShareIcon:
+			case R.id.iv_adapter_comment_head:
 				String uid = question.getUid();
 				if (TextUtils.isEmpty(uid)) {
 					return;

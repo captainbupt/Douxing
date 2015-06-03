@@ -136,7 +136,7 @@
     </com.handmark.pulltorefresh.library.PullToRefreshScrollView>
  
       <include
-          layout="@layout/layout_send_msg"
+          layout="@layout/view_bottom_send_message"
            />
 
 </RelativeLayout>

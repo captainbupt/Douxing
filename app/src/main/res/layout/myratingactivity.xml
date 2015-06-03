@@ -146,7 +146,7 @@
     
     <TextView 
         android:layout_below="@id/level_linear"
-        android:id="@+id/tips_tv"
+        android:id="@+id/tv_dialog_rating_tips"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"

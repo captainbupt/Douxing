@@ -1,111 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="300dp"
-    android:layout_height="240dp"
-    android:orientation="vertical" >
+<org.holoeverywhere.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/offset_large"
+    android:paddingLeft="@dimen/offset_xxlarge"
+    android:paddingRight="@dimen/offset_xxlarge"
+    android:paddingTop="@dimen/offset_large">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="7.2"
-        android:background="#0079d6"
-        android:gravity="center"
-        android:orientation="vertical" >
+    <RatingBar
+        android:id="@+id/rb_dialog_rating"
+        style="@style/DialogRatingBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:stepSize="1" />
 
-        <RatingBar
-            android:id="@+id/score_ratingbar"
-            style="@style/coursewarescorerrb"
+    <org.holoeverywhere.widget.TextView
+        android:id="@+id/tv_dialog_rating_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/offset_medium"
+        android:text="@string/dialog_rating_title_not_rated"
+        android:textColor="@color/color_text_black"
+        android:textSize="@dimen/text_size_xlarge" />
+
+    <org.holoeverywhere.widget.TextView
+        android:id="@+id/tv_dialog_rating_tips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/offset_less"
+        android:textColor="@color/color_orange"
+        android:textSize="@dimen/text_size_medium" />
+
+    <org.holoeverywhere.widget.LinearLayout
+        android:id="@+id/ll_dialog_rating_not_rated"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/offset_medium"
+        android:gravity="center">
+
+        <org.holoeverywhere.widget.TextView
+            android:id="@+id/tv_dialog_rating_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:stepSize="1" />
-
-        <TextView
-            android:id="@+id/title_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="轻点星星来评分"
-            android:textColor="@color/color_orange"
-            android:textSize="@dimen/text_size_xxlarge"
-            />
-        
-        <TextView
-            android:id="@+id/tips_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textColor="@color/color_white"
-            android:textSize="@dimen/text_size_medium"
-            />
-    </LinearLayout>
-
-    <RelativeLayout
-        android:id="@+id/pingfen_relay"
-        android:layout_width="300dp"
-        android:layout_height="0dp"
-        android:layout_weight="2.8"
-        android:background="@drawable/pingfenbg"
-        android:gravity="center_vertical"
-         >
-
-        <TextView
-            android:id="@+id/no_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_gravity="center"
-            android:layout_marginLeft="35dp"
-            android:background="@drawable/pingfen_zaikankan"
-            android:paddingBottom="6dp"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp"
-            android:paddingTop="6dp"
-            android:text="再看看"
-            android:textColor="@color/color_white"
+            android:layout_weight="1"
+            android:background="@drawable/background_button_enable_red"
+            android:paddingBottom="@dimen/offset_less"
+            android:paddingLeft="@dimen/offset_medium"
+            android:paddingRight="@dimen/offset_medium"
+            android:paddingTop="@dimen/offset_less"
+            android:text="@string/dialog_rating_cancel"
+            android:textColor="@color/color_button_text_red"
             android:textSize="@dimen/text_size_less" />
 
-        <TextView
-            android:id="@+id/ok_btn"
+        <org.holoeverywhere.widget.TextView
+            android:id="@+id/btn_dialog_rating_confirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_gravity="center"
-            android:layout_marginRight="35dp"
-            android:background="@drawable/pingfen_wei_tijiao"
+            android:layout_marginLeft="@dimen/offset_large"
+            android:layout_weight="1"
+            android:background="@drawable/background_button_disable"
             android:enabled="false"
-            android:paddingBottom="6dp"
-            android:paddingLeft="40dp"
-            android:paddingRight="40dp"
-            android:paddingTop="6dp"
-            android:text="提交"
+            android:paddingBottom="@dimen/offset_less"
+            android:paddingLeft="@dimen/offset_medium"
+            android:paddingRight="@dimen/offset_medium"
+            android:paddingTop="@dimen/offset_less"
+            android:text="@string/dialog_rating_confirm"
             android:textColor="@color/color_white"
             android:textSize="@dimen/text_size_less" />
-    </RelativeLayout>
-    
-    <RelativeLayout
-        android:id="@+id/zhidaole_relay"
-        android:layout_width="300dp"
-        android:layout_height="0dp"
-        android:layout_weight="2.8"
-        android:background="@drawable/pingfenbg"
-        android:gravity="center"
-        android:visibility="gone"
-         >
+    </org.holoeverywhere.widget.LinearLayout>
 
-        <TextView
-            android:id="@+id/zhidaole_btn"
+    <org.holoeverywhere.widget.LinearLayout
+        android:id="@+id/ll_dialog_rating_rated"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/offset_medium"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <org.holoeverywhere.widget.TextView
+            android:id="@+id/tv_dialog_rating_rated"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:background="@drawable/pingfen_zaikankan"
-            android:paddingBottom="6dp"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp"
-            android:paddingTop="6dp"
-            android:text="知道了"
-            android:textColor="@color/color_white"
+            android:background="@drawable/background_button_enable_blue"
+            android:paddingBottom="@dimen/offset_less"
+            android:paddingLeft="@dimen/offset_large"
+            android:paddingRight="@dimen/offset_large"
+            android:paddingTop="@dimen/offset_less"
+            android:text="@string/dialog_rating_rated"
+            android:textColor="@color/color_button_text_blue"
             android:textSize="@dimen/text_size_less" />
 
-    </RelativeLayout>
+    </org.holoeverywhere.widget.LinearLayout>
 
-</LinearLayout>
+</org.holoeverywhere.widget.LinearLayout>

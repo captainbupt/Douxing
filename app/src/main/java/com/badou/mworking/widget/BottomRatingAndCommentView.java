@@ -8,12 +8,11 @@ import android.view.View;
 
 import com.badou.mworking.CommentActivity;
 import com.badou.mworking.R;
-import com.badou.mworking.TrainActivity;
+import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.model.category.CategoryDetail;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 
-import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.widget.FrameLayout;
 import org.holoeverywhere.widget.LinearLayout;
 import org.holoeverywhere.widget.TextView;
@@ -70,13 +69,13 @@ public class BottomRatingAndCommentView extends LinearLayout {
                 }).show();
             }
         });
-        mCommentNumberTextView.setOnClickListener(new OnClickListener() {
+        mCommentLayout.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                // 右侧button 跳转到评论页面
                 Intent intent = new Intent(mContext,
                         CommentActivity.class);
-                intent.putExtra(CommentActivity.VALUE_RID, mRid);
+                intent.putExtra(CommentActivity.KEY_RID, mRid);
+                intent.putExtra(BaseActionBarActivity.KEY_TITLE, mContext.getResources().getString(R.string.title_name_comment));
                 mContext.startActivity(intent);
             }
         });
@@ -84,23 +83,24 @@ public class BottomRatingAndCommentView extends LinearLayout {
 
     public void setData(String rid, int ratingNumber, int commentNumber, int currentRating) {
         this.mRid = rid;
-        setData(ratingNumber, commentNumber, currentRating);
-    }
-
-    public void setData(int ratingNumber, int commentNumber, int currentRating) {
-        this.mCurrentScore = currentRating;
         if (ratingNumber > -1) {
             mRatingLayout.setVisibility(VISIBLE);
-            mRatingNumberTextView.setText(String.format("(%d)", ratingNumber));
         } else {
             mRatingLayout.setVisibility(GONE);
         }
         if (commentNumber > -1) {
             mCommentLayout.setVisibility(VISIBLE);
-            mCommentNumberTextView.setText(String.format("(%d)", commentNumber));
         } else {
             mCommentLayout.setVisibility(GONE);
         }
+        setData(ratingNumber, commentNumber, currentRating);
+        updateData();
+    }
+
+    public void setData(int ratingNumber, int commentNumber, int currentRating) {
+        this.mCurrentScore = currentRating;
+        mRatingNumberTextView.setText(String.format("(%d)", ratingNumber));
+        mCommentNumberTextView.setText(String.format("(%d)", commentNumber));
     }
 
     public void updateData() {

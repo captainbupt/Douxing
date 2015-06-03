@@ -6,7 +6,6 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -224,13 +223,13 @@ public class WenDaDetailAdapter extends BaseAdapter{
 		public AllViewHolder(View view) {
 			imgContentPic = (ImageView) view.findViewById(R.id.imgQuestionShare);
 			headImg = (ImageView) view
-					.findViewById(R.id.ivAdapterQuestionShareIcon);
+					.findViewById(R.id.iv_adapter_comment_head);
 			tvQuestionShareName = (TextView) view
-					.findViewById(R.id.tvQuestionShareName);
+					.findViewById(R.id.tv_adapter_comment_name);
 			tvQuestionShareContent = (TextView) view
-					.findViewById(R.id.tvQuestionShareContent);
+					.findViewById(R.id.tv_adapter_comment_content);
 			tvQuestionShareDate = (TextView) view
-					.findViewById(R.id.tvQuestionShareDate);
+					.findViewById(R.id.tv_adapter_comment_date);
 			tvFloor = (TextView) view.findViewById(R.id.tv_floor);
 			zanNum = (TextView) view.findViewById(R.id.zan_num);
 			zanChk = (CheckBox) view.findViewById(R.id.zan_chk);

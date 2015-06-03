@@ -22,6 +22,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 import com.badou.mworking.base.AppApplication;
+import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.model.category.Train;
 import com.badou.mworking.util.FileUtils;
 import com.badou.mworking.util.MyIntents;
@@ -37,7 +38,7 @@ import java.text.SimpleDateFormat;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class TrainMusicActivity extends TrainBaseActivity {
+public class TrainMusicActivity extends BaseBackActionBarActivity {
 
     public static final String KEY_TITLE = "title";
     public static final String KEY_RID = "rid";
@@ -138,6 +139,7 @@ public class TrainMusicActivity extends TrainBaseActivity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.act_music_player);
         //页面滑动关闭
         layout = (SwipeBackLayout) LayoutInflater.from(this).inflate(R.layout.base, null);
         layout.attachToActivity(this);
@@ -170,7 +172,6 @@ public class TrainMusicActivity extends TrainBaseActivity {
      * 功能描述:初始化控件和路径
      */
     protected void initView() {
-        super.initView();
         saveFilePath = FileUtils.getTrainCacheDir(TrainMusicActivity.this) + train.rid + ENDWITH_MP3;
         file = new File(saveFilePath);
         tvPlayer = (TextView) findViewById(R.id.tvPlayer);
@@ -232,14 +233,6 @@ public class TrainMusicActivity extends TrainBaseActivity {
             statuNotDownLoad();
             allTimeTv.setText("0%");
         }
-
-        ivLeft.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-                TrainMusicActivity.this.finish();
-            }
-        });
 
         imgDown.setOnClickListener(new OnClickListener() {
             @Override
@@ -413,23 +406,16 @@ public class TrainMusicActivity extends TrainBaseActivity {
         }
     }
 
-    @Override
-    public int getLayoutId() {
-        return R.layout.act_music_player;
-    }
-
-    @Override
-    public void setRightClick() {
+    public void clickRight() {
         if (train == null) {
             return;
         }
         //  跳转到评论页面
         Intent intent = new Intent(mContext, CommentActivity.class);
-        intent.putExtra(CommentActivity.VALUE_RID, train.rid);
+        intent.putExtra(CommentActivity.KEY_RID, train.rid);
         startActivity(intent);
     }
 
-    @Override
     public Train getTrain() {
         if (train == null) {
             train = (Train) getIntent().getBundleExtra("train")

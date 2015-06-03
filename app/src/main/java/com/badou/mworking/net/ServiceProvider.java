@@ -290,10 +290,6 @@ public class ServiceProvider {
 						+ Net.CHECK_UPDATE(uid,AppApplication.screenlg), jsonObject, volleyListener,
 						volleyListener));
 		
-		System.out.println("jsonObject---------》"+jsonObject);
-		System.out.println("-------->" + Net.getRunHost(context)
-				+ Net.CHECK_UPDATE(uid, AppApplication.screenlg));
-		
 		MyVolley.getRequestQueue().start();
 	}
 

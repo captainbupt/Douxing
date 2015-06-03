@@ -125,7 +125,7 @@
 	<string name="about_btn_tophone">OK</string>
 	<string name="about_btn_update">OK</string>
 	<string name="send_fail">Failed</string>
-	<string name="title_name_Comment">Comment</string>
+	<string name="title_name_comment">Comment</string>
 	<string name="exam_btn_jinRuDaTiKa">Finish</string>
 	<string name="exam_btn_XiaYiTi">Next</string>
 	<string name="exam_btn_ShangYiTi">Previous</string>
@@ -237,11 +237,11 @@ APP will lock the page until reacquire network connection and will automatically
 	<string name="user_center_message">我的私信</string>
 	<string name="company">公司</string>
 	<string name="office">职位</string>
-	<string name="score_one">完全用不上</string>
-	<string name="score_two">看不太明白</string>
-    <string name="score_thi">一般吧</string>
-	<string name="score_fou">哎呦，不错哦～</string>
-	<string name="score_fif">太棒了，非常实用！</string>
+	<string name="dialog_rating_score_one">完全用不上</string>
+	<string name="dialog_rating_score_two">看不太明白</string>
+    <string name="dialog_rating_score_three">一般吧</string>
+	<string name="dialog_rating_score_four">哎呦，不错哦～</string>
+	<string name="dialog_rating_score_five">太棒了，非常实用！</string>
 	<string name="tips_bottom_rating">给个评分</string>
 	<string name="tips_bottom_comment">参与讨论</string>
 	<string name="kejian_tips">您还没有浏览课件，看过了再来评价吧！</string>

@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<org.holoeverywhere.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_layout_bg" >
+    android:background="@color/color_layout_bg"
+    android:orientation="vertical">
 
     <WebView
-        android:id="@+id/wv_web_view"
+        android:id="@+id/wv_activity_web_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" 
-        android:visibility="visible"
-        >
-    </WebView>
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:visibility="visible" />
 
-    <LinearLayout
-        android:id="@+id/llNetException"
+    <org.holoeverywhere.widget.LinearLayout
+        android:id="@+id/ll_activity_web_view_exception"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:visibility="gone" >
+        android:visibility="gone">
 
         <ImageView
-            android:id="@+id/ivNetException"
+            android:id="@+id/iv_activity_web_view_exception"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="11.0"
@@ -29,27 +29,26 @@
             android:src="@drawable/net_exception"
             android:visibility="visible" />
 
-        <LinearLayout
+        <org.holoeverywhere.widget.LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="6.0"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
-            <LinearLayout
+            <org.holoeverywhere.widget.LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1.0"
-                android:orientation="horizontal" 
-                android:visibility="visible"
-                >
+                android:orientation="horizontal"
+                android:visibility="visible">
 
-                <TextView
+                <View
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1.0" />
 
-                <TextView
-                    android:id="@+id/tvBadouNetExceptionRepeat"
+                <org.holoeverywhere.widget.TextView
+                    android:id="@+id/tv_activity_web_view_exception_repeat"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1.0"
@@ -59,25 +58,22 @@
                     android:textColor="@color/color_white"
                     android:textSize="@dimen/text_size_large" />
 
-                <TextView
+                <View
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1.0" />
-            </LinearLayout>
+            </org.holoeverywhere.widget.LinearLayout>
 
-            <TextView
+            <View
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="3.0" />
-        </LinearLayout>
-    </LinearLayout>
+        </org.holoeverywhere.widget.LinearLayout>
+    </org.holoeverywhere.widget.LinearLayout>
 
-   <include 
-        layout="@layout/comment"
-        /> 
-    
-    <include 
-        layout="@layout/view_bottom_comment_and_rating"
-        />
-    
-</FrameLayout>
+    <com.badou.mworking.widget.BottomRatingAndCommentView
+        android:id="@+id/bracv_activity_web_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</org.holoeverywhere.widget.LinearLayout>

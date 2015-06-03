@@ -134,7 +134,7 @@
     <!-- around -->
 
     <dimen name="layout_qas_question">8dp</dimen>
-    <dimen name="around_icon_head_size">50dp</dimen>
+    <dimen name="around_icon_head_size">60dp</dimen>
     <dimen name="around_icon_reply_width">16dp</dimen>
     <dimen name="around_icon_reply_height">15dp</dimen>
     <dimen name="around_icon_question_image">120dp</dimen>

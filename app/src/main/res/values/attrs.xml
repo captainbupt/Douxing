@@ -1,32 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-     Copyright (C) 2011 Patrik Åkerfeldt
-
-     Licensed under the Apache License, Version 2.0 (the "License");
-     you may not use this file except in compliance with the License.
-     You may obtain a copy of the License at
-  
-          http://www.apache.org/licenses/LICENSE-2.0
-  
-     Unless required by applicable law or agreed to in writing, software
-     distributed under the License is distributed on an "AS IS" BASIS,
-     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-     See the License for the specific language governing permissions and
-     limitations under the License.
--->
-
 <resources>
-    
+
     <declare-styleable name="SwipeLayout">
         <attr name="drag_edge" format="enum">
-            <enum name="left" value="0"/>
-            <enum name="right" value="1"/>
-            <enum name="top" value="2"/>
-            <enum name="bottom" value="3"/>
+            <enum name="left" value="0" />
+            <enum name="right" value="1" />
+            <enum name="top" value="2" />
+            <enum name="bottom" value="3" />
         </attr>
         <attr name="show_mode" format="enum">
-            <enum name="lay_down" value="0"/>
-            <enum name="pull_out" value="1"/>
+            <enum name="lay_down" value="0" />
+            <enum name="pull_out" value="1" />
         </attr>
     </declare-styleable>
 
@@ -34,6 +18,12 @@
     <declare-styleable name="NoScrollListView">
         <attr name="dividerHeight" format="dimension" />
         <attr name="dividerColor" format="color" />
+    </declare-styleable>
+    <declare-styleable name="BottomSendMessageView">
+        <attr name="minText" format="integer" />
+        <attr name="maxText" format="integer" />
+        <attr name="submitText" format="reference" />
+        <attr name="contentHint" format="reference" />
     </declare-styleable>
     <declare-styleable name="OptimizedImageView">
         <attr name="imgUrl" format="string" />
