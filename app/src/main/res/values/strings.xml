@@ -90,6 +90,7 @@
     <string name="category_unsign">未签到</string>
     <string name="category_unexam">未考试</string>
     <string name="category_ungraded">待批阅</string>
+    <string name="category_signed">已签到</string>
     <string name="floor_num">楼</string>
     <string name="chatter_num">条</string>
     <string name="exam_isFinish">已考完</string>
@@ -143,7 +144,7 @@
     <string name="choose_shexiang">摄像</string>
     <string name="add_picture">添加照片</string>
     <string name="save_camera_fail">未找到存储卡，无法存储照片！</string>
-    <string name="text_null">无</string>
+    <string name="text_null">暂无</string>
     <string name="task_signFail">您的位置不在目标地点，无法签到</string>
     <string name="text_ok">确定</string>
     <string name="task_notStart">任务未开始</string>

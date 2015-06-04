@@ -89,4 +89,8 @@ public class Task extends Category {
             return false;
         }
     }
+
+    public boolean isFreeSign() {
+        return latitude == 0 || longitude == 0;
+    }
 }
