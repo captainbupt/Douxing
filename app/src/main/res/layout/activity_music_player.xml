@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.holoeverywhere.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_layout_bg"
+    android:orientation="vertical">
+
+
+    <org.holoeverywhere.widget.TextView
+        android:id="@+id/tv_activity_music_player_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/offset_lless"
+        android:textColor="@color/color_text_black"
+        android:textSize="@dimen/text_size_xlarge" />
+
+    <org.holoeverywhere.widget.TextView
+        android:id="@+id/tv_activity_music_player_size"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/offset_lless"
+        android:layout_marginLeft="@dimen/offset_lless"
+        android:layout_marginRight="@dimen/offset_lless"
+        android:textColor="@color/color_blue"
+        android:textSize="@dimen/text_size_less" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_border_grey" />
+
+    <org.holoeverywhere.widget.TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/offset_small"
+        android:layout_marginLeft="@dimen/offset_lless"
+        android:layout_marginRight="@dimen/offset_lless"
+        android:layout_marginTop="@dimen/offset_lless"
+        android:text="@string/tips_audio_network"
+        android:textColor="@color/color_text_black"
+        android:textSize="@dimen/text_size_less" />
+
+    <org.holoeverywhere.widget.LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/offset_lless"
+        android:layout_marginRight="@dimen/offset_lless"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <org.holoeverywhere.widget.FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/music_pic_h"
+            android:background="@drawable/background_music_player">
+
+            <ImageView
+                android:id="@+id/iv_activity_music_player_download"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/button_media_download" />
+
+            <org.holoeverywhere.widget.ProgressBar
+                android:id="@+id/pb_activity_music_player_downloading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone" />
+        </org.holoeverywhere.widget.FrameLayout>
+
+        <org.holoeverywhere.widget.LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/bg_layout_media_ctrl"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/offset_less">
+
+            <ImageView
+                android:id="@+id/iv_activity_music_player_control"
+                android:layout_width="@dimen/music_player_start_size"
+                android:layout_height="@dimen/music_player_start_size"
+                android:src="@drawable/button_media_start"
+                android:visibility="gone" />
+
+            <org.holoeverywhere.widget.TextView
+                android:id="@+id/tv_activity_music_player_current_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/offset_small"
+                android:singleLine="true"
+                android:textSize="@dimen/text_size_less"
+                android:visibility="gone" />
+
+            <org.holoeverywhere.widget.SeekBar
+                android:id="@+id/sb_activity_music_player"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/offset_small"
+                android:layout_weight="1"
+                android:maxHeight="5dp"
+                android:minHeight="5dp"
+                android:progressDrawable="@drawable/bg_seekbar_down_media"
+                android:thumb="@null" />
+
+            <org.holoeverywhere.widget.TextView
+                android:id="@+id/tv_activity_music_player_total_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/offset_small"
+                android:singleLine="true"
+                android:textSize="@dimen/text_size_less" />
+        </org.holoeverywhere.widget.LinearLayout>
+    </org.holoeverywhere.widget.LinearLayout>
+
+    <com.badou.mworking.widget.BottomRatingAndCommentView
+        android:id="@+id/bracv_activity_music_player"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom" />
+
+</org.holoeverywhere.widget.LinearLayout>

@@ -81,13 +81,13 @@
                 android:id="@+id/img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/btn_download"
+                android:src="@drawable/button_media_download"
                 android:layout_centerInParent="true"
                 android:visibility="gone"
                  />
             
             <ProgressBar 
-                android:id="@+id/pro_downloading"
+                android:id="@+id/pb_activity_music_player_downloading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -108,27 +108,27 @@
             >
 
             <TextView
-                android:id="@+id/tvPlayer"
+                android:id="@+id/iv_activity_music_player_control"
                 android:layout_width="@dimen/music_player_start_size"
                 android:layout_height="@dimen/music_player_start_size"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/offset_medium"
                 android:layout_marginTop="@dimen/offset_small"
-                android:background="@drawable/btn_start" />
+                android:background="@drawable/button_media_start" />
 
             <TextView
-                android:id="@+id/tvCurrentTime"
+                android:id="@+id/tv_activity_music_player_current_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/tvPlayer"
+                android:layout_toRightOf="@id/iv_activity_music_player_control"
                 android:paddingLeft="@dimen/offset_small"
                 android:singleLine="true"
                 android:text="" />
 
             <SeekBar
-                android:id="@+id/seekbar"
+                android:id="@+id/sb_activity_music_player"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxHeight="5dp"
@@ -137,7 +137,7 @@
                 android:paddingRight="6dp"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/layoyt_right"
-                android:layout_toRightOf="@id/tvCurrentTime"
+                android:layout_toRightOf="@id/tv_activity_music_player_current_time"
                 android:progressDrawable="@drawable/bg_seekbar_down_media"
                 android:thumb="@null" />
 
@@ -151,7 +151,7 @@
                 android:gravity="center_vertical" >
             
             <TextView
-                android:id="@id/tvTotalTime"
+                android:id="@id/tv_activity_music_player_total_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingRight="@dimen/offset_small"

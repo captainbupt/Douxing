@@ -109,6 +109,9 @@
     <string name="text_search">搜索</string>
     <string name="tips_pdf_view_unsupported">您的系统暂不支持阅读课件。</string>
     <string name="tips_pdf_view_open_error">打开PDF文件异常，请重新下载</string>
+    <string name="tips_audio_network">建议在WIFI环境下浏览</string>
+    <string name="tips_audio_error">媒体文件打开异常，请重试</string>
+    <string name="tips_audio_get_size_fail">获取文件大小失败</string>
     <string name="category_unsupport_type">当前版本暂不支持该操作</string>
     <string name="title_name_about">关于我们</string>
     <string name="title_name_Myzhanghao">账号管理</string>

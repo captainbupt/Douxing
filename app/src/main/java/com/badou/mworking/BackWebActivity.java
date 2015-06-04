@@ -66,8 +66,6 @@ public class BackWebActivity extends BaseBackActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setBackgroundDrawable(null);
-        getWindow().setFormat(PixelFormat.RGBA_8888);
         setContentView(R.layout.activity_web_view);
         initView();
         initData();

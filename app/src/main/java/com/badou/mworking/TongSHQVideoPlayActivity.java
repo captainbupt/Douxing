@@ -113,7 +113,7 @@ public class TongSHQVideoPlayActivity extends Activity implements
         mProgressBar = (ProgressBar) findViewById(R.id.progress);
         chkStartPlay = (CheckBox) this.findViewById(R.id.play_btn);
         tvCurrentTime = (TextView) this.findViewById(R.id.currentTime);
-        mSeekBar = (SeekBar) this.findViewById(R.id.seekbar);
+        mSeekBar = (SeekBar) this.findViewById(R.id.sb_activity_music_player);
         ivLeft.setOnClickListener(this);
         tvTitle.setText("同事圈");
 
