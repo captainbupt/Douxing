@@ -226,12 +226,12 @@ public class TrainVideoPlayerAct extends BaseBackActionBarActivity implements
     protected void initView() {
         rotationTv = (CheckBox) findViewById(R.id.chkZoom);
         mVideo = (FullScreenVideoView) findViewById(R.id.videoview);
-        currentTimeTv = (TextView) findViewById(R.id.tvCurrentTime);
-        allTimeTv = (TextView) findViewById(R.id.tvTotalTime);
-        tvPlayer = (TextView) findViewById(R.id.tvPlayer);
-        mSeekBar = (SeekBar) findViewById(R.id.seekbar);
+        currentTimeTv = (TextView) findViewById(R.id.tv_activity_music_player_current_time);
+        allTimeTv = (TextView) findViewById(R.id.tv_activity_music_player_total_time);
+        tvPlayer = (TextView) findViewById(R.id.iv_activity_music_player_control);
+        mSeekBar = (SeekBar) findViewById(R.id.sb_activity_music_player);
         mBottomView = findViewById(R.id.bottom_layout);
-        mProgressBar = (ProgressBar) findViewById(R.id.pro_downloading);
+        mProgressBar = (ProgressBar) findViewById(R.id.pb_activity_music_player_downloading);
         imgStartDown = (ImageView) findViewById(R.id.img);
         layoutActionBg = (RelativeLayout) findViewById(R.id.layout_action);
         screenView = (RelativeLayout) findViewById(R.id.screen_view);
@@ -484,7 +484,7 @@ public class TrainVideoPlayerAct extends BaseBackActionBarActivity implements
         mVideo.setOnCompletionListener(new OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
-                tvPlayer.setBackgroundResource(R.drawable.btn_start);
+                tvPlayer.setBackgroundResource(R.drawable.button_media_start);
                 currentTimeTv.setText("00:00");
                 mSeekBar.setProgress(0);
             }
@@ -584,7 +584,7 @@ public class TrainVideoPlayerAct extends BaseBackActionBarActivity implements
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tvPlayer:
+            case R.id.iv_activity_music_player_control:
                 startPlay();
                 break;
             case R.id.iv_actionbar_left:
@@ -602,11 +602,11 @@ public class TrainVideoPlayerAct extends BaseBackActionBarActivity implements
     private void startPlay() {
         if (mVideo.isPlaying()) {
             mVideo.pause();
-            tvPlayer.setBackgroundResource(R.drawable.btn_start);
+            tvPlayer.setBackgroundResource(R.drawable.button_media_start);
         } else {
             mVideo.setBackground(null);
             mVideo.start();
-            tvPlayer.setBackgroundResource(R.drawable.btn_stop);
+            tvPlayer.setBackgroundResource(R.drawable.button_media_stop);
         }
     }
 

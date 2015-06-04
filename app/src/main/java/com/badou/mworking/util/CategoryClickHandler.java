@@ -64,7 +64,7 @@ public class CategoryClickHandler {
         } else if (Constant.MWKG_FORAMT_TYPE_HTML == subtype) { // 返回html格式
             goHTML(context, type, rid, url, tagName);
         } else if (Constant.MWKG_FORAMT_TYPE_MP3 == subtype) { // 返回MP3格式
-            goAudio(context, rid, subject);
+            goAudio(context, rid, subject, url, subject);
         } else {
             ToastUtil.showToast(context, R.string.category_unsupport_type);
         }
@@ -101,9 +101,11 @@ public class CategoryClickHandler {
         context.startActivity(intent);
     }
 
-    public static void goAudio(Context context, String rid, String title) {
+    public static void goAudio(Context context, String rid, String title, String url, String subject) {
         Intent intent = new Intent(context, TrainMusicActivity.class);
         intent.putExtra(TrainMusicActivity.KEY_RID, rid);
+        intent.putExtra(TrainMusicActivity.KEY_URL, url);
+        intent.putExtra(TrainMusicActivity.KEY_SUBJECT, subject);
         intent.putExtra(BaseActionBarActivity.KEY_TITLE, title);
         context.startActivity(intent);
     }

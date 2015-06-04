@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<org.holoeverywhere.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<org.holoeverywhere.widget.FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_layout_bg"
@@ -8,8 +8,7 @@
     <WebView
         android:id="@+id/wv_activity_web_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_height="match_parent"
         android:visibility="visible" />
 
     <org.holoeverywhere.widget.LinearLayout
@@ -74,6 +73,7 @@
     <com.badou.mworking.widget.BottomRatingAndCommentView
         android:id="@+id/bracv_activity_web_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom" />
 
-</org.holoeverywhere.widget.LinearLayout>
+</org.holoeverywhere.widget.FrameLayout>
