@@ -44,7 +44,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginBottom="2dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/title_bar_back_normal" />
+                android:src="@drawable/button_title_bar_back_normal" />
 
             <TextView
                 android:id="@+id/wenda_search_btn"

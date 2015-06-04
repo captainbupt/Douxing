@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseBackActionBarActivity;
+import com.badou.mworking.base.BaseStatisticalActionBarActivity;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.util.FileUtils;
 import com.badou.mworking.util.ToastUtil;
@@ -16,7 +17,7 @@ import java.io.File;
 /**
  * 功能描述: pdf 显示页面
  */
-public class PDFViewerActivity extends BaseBackActionBarActivity {
+public class PDFViewerActivity extends BaseStatisticalActionBarActivity {
 
     public static final String KEY_RID = "rid";
     public static final String KEY_SHOW_RATING = "rating";
@@ -45,11 +46,6 @@ public class PDFViewerActivity extends BaseBackActionBarActivity {
      * 初始化数据
      */
     private void initData() {
-        mRid = mReceivedIntent.getStringExtra(KEY_RID);
-        if (((AppApplication) getApplicationContext())
-                .getUserInfo().isAdmin) {
-            setRightImage(R.drawable.button_title_admin_statistical);
-        }
         boolean showRating = mReceivedIntent.getBooleanExtra(KEY_SHOW_RATING, false);
         if (showRating) {
             mBottomView.setData(mRid, 0, 0, -1);
@@ -93,17 +89,6 @@ public class PDFViewerActivity extends BaseBackActionBarActivity {
             }
             ToastUtil.showToast(mContext, R.string.tips_pdf_view_open_error);
         }
-    }
-
-    @Override
-    public void clickRight() {
-        String titleStr = getResources().getString(R.string.statistical_data);
-        String uid = ((AppApplication) getApplicationContext()).getUserInfo().userId;
-        String url = Net.getRunHost(PDFViewerActivity.this) + Net.getTongji(uid, mRid);
-        Intent intent = new Intent(mContext, BackWebActivity.class);
-        intent.putExtra(BackWebActivity.KEY_URL, url);
-        intent.putExtra(BackWebActivity.KEY_TITLE, titleStr);
-        startActivity(intent);
     }
 
     @Override

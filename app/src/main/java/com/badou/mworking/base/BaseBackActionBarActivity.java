@@ -9,7 +9,7 @@ public class BaseBackActionBarActivity extends BaseActionBarActivity{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setLeft(R.drawable.title_bar_back_normal);
+		setLeft(R.drawable.button_title_bar_back_normal);
 	}
 
 	@Override

@@ -88,7 +88,7 @@ public class AroundActivity extends BaseNoTitleActivity implements OnClickListen
 		ivRight = (ImageView)findViewById(R.id.iv_actionbar_right);
 		commentRelat = (TextView) findViewById(R.id.tv_user_progress_bottom);
 		ivLeft.setOnClickListener(onclick);
-		ivLeft.setImageResource(R.drawable.title_bar_back_normal);
+		ivLeft.setImageResource(R.drawable.button_title_bar_back_normal);
 		tvTitle.setText(getResources().getString(R.string.user_center_my_exam));
 		commentRelat.setText(getResources().getString(R.string.tongshiquan_share));
 		commentRelat.setOnClickListener(this);
