@@ -173,7 +173,7 @@ public class WenDaDetailActivity extends BaseNoTitleActivity implements
 			.setTitle(R.string.myQuan_dialog_title_tips)
 			.setMessage(
 					mContext.getResources().getString(
-							R.string.my_group_tishi))
+							R.string.tip_delete_confirmation))
 			.setPositiveButton(R.string.text_ok,
 					new DialogInterface.OnClickListener() {
 

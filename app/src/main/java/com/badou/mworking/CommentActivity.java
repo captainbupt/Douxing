@@ -1,22 +1,11 @@
 package com.badou.mworking;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.InputFilter;
-import android.text.Spanned;
-import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.badou.mworking.adapter.CommentAdapter;
@@ -29,13 +18,11 @@ import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.BottomSendMessageView;
-import com.badou.mworking.widget.WaitProgressDialog;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import com.umeng.analytics.MobclickAgent;
 
+import org.holoeverywhere.widget.FrameLayout;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,7 +39,7 @@ public class CommentActivity extends BaseBackActionBarActivity {
     private PullToRefreshListView mContentListView;//下拉刷新
     private CommentAdapter mCommentAdapter;
     private BottomSendMessageView mBottomView;
-    private ImageView mNoneContentImageView;  // 没有内容时的提示
+    private FrameLayout mNoneContentFrameLayout;  // 没有内容时的提示
 
     private int mCurrentPage;
     private String mRid = "";
@@ -74,7 +61,7 @@ public class CommentActivity extends BaseBackActionBarActivity {
      * 功能描述:实例化view
      */
     protected void initView() {
-        mNoneContentImageView = (ImageView) findViewById(R.id.iv_activity_comments_none_content);
+        mNoneContentFrameLayout = (FrameLayout) findViewById(R.id.fl_activity_comments_none_content);
         mContentListView = (PullToRefreshListView) findViewById(R.id.ptrlv_activity_comments);
         mContentListView.setMode(Mode.BOTH);
         mBottomView = (BottomSendMessageView) findViewById(R.id.bsmv_activity_comment);
@@ -124,7 +111,7 @@ public class CommentActivity extends BaseBackActionBarActivity {
                 isReply = true;
                 mBottomView.clearContent();
                 mBottomView.showKeyboard();
-                mBottomView.setContent(getResources().getString(R.string.button_reply) + ": " + whom, getResources().getString(R.string.button_reply));
+                mBottomView.setContent(getResources().getString(R.string.button_reply) + ": " + question.getEmployee_id(), getResources().getString(R.string.button_reply));
             }
         });
     }
@@ -197,10 +184,10 @@ public class CommentActivity extends BaseBackActionBarActivity {
         // 如果没有内容的话，显示默认图片
         List<Object> commentList;
         if (mCurrentPage <= 1 && length == 0) {
-            mNoneContentImageView.setVisibility(View.VISIBLE);
+            mNoneContentFrameLayout.setVisibility(View.VISIBLE);
             mContentListView.setVisibility(View.GONE);
         } else {
-            mNoneContentImageView.setVisibility(View.GONE);
+            mNoneContentFrameLayout.setVisibility(View.GONE);
             mContentListView.setVisibility(View.VISIBLE);
         }
         commentList = new ArrayList<>();

@@ -12,6 +12,7 @@ import android.widget.ImageView;
 
 import com.android.volley.VolleyError;
 import com.badou.mworking.adapter.UserProgressAdapter;
+import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.model.category.Category;
 import com.badou.mworking.model.category.Exam;
@@ -99,6 +100,11 @@ public class UserProgressActivity extends BaseNoTitleActivity {
             public void onClick(View arg0) {
                 if (mType == Category.CATEGORY_TRAINING) {
                     Intent intent = new Intent(mContext, TrainActivity.class);
+                    intent.putExtra(BaseActionBarActivity.KEY_TITLE, getResources().getString(R.string.user_center_my_study_progress));
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(mContext, ExamActivity.class);
+                    intent.putExtra(BaseActionBarActivity.KEY_TITLE, getResources().getString(R.string.user_center_my_exam));
                     startActivity(intent);
                 }
             }

@@ -22,15 +22,16 @@
         android:background="@drawable/no_content"
         android:visibility="gone" />
 
-    <org.holoeverywhere.widget.LinearLayout
-        android:id="@+id/classification_linear"
+    <org.holoeverywhere.widget.FrameLayout
+        android:id="@+id/fl_activity_base_progress_classification_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:visibility="gone"
-        android:orientation="vertical">
+        android:background="@color/color_bg_transparent_black"
+        android:visibility="gone">
+
 
         <org.holoeverywhere.widget.LinearLayout
+            android:id="@+id/ll_activity_base_progress_classification"
             android:layout_width="match_parent"
             android:layout_height="400dp"
             android:orientation="horizontal">
@@ -59,11 +60,5 @@
 
         </org.holoeverywhere.widget.LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:onClick="nu@null"
-            android:background="@color/color_bg_transparent_black" />
-    </org.holoeverywhere.widget.LinearLayout>
-
+    </org.holoeverywhere.widget.FrameLayout>
 </RelativeLayout>

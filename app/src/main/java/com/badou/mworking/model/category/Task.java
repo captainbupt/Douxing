@@ -42,6 +42,7 @@ public class Task extends Category {
         this.type = jsonObject.optInt(ResponseParams.TASK_DETAIL_TYPE);
         this.comment = jsonObject.optString(ResponseParams.TASK_DETAIL_COMMENT);
         this.startline = jsonObject.optLong(ResponseParams.TASK_DETAIL_STARTLINE) * 1000;
+        this.deadline = jsonObject.optLong(ResponseParams.TASK_DETAIL_DEADLINE) * 1000;
         this.img = jsonObject.optString(ResponseParams.TASK_IMG);
         this.photo = jsonObject.optInt(ResponseParams.TASK_PHOTO);
         this.latitude = jsonObject.optDouble(ResponseParams.TASK_DETAIL_LATITUDE);

@@ -13,13 +13,19 @@
         android:layout_weight="1"
         android:divider="@null" />
 
-    <ImageView
-        android:id="@+id/iv_activity_comments_none_content"
-        android:layout_width="wrap_content"
+    <org.holoeverywhere.widget.FrameLayout
+        android:id="@+id/fl_activity_comments_none_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:background="@drawable/no_comment"
-        android:visibility="gone" />
+        android:layout_weight="1"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/no_comment" />
+    </org.holoeverywhere.widget.FrameLayout>
 
     <com.badou.mworking.widget.BottomSendMessageView
         android:id="@+id/bsmv_activity_comment"

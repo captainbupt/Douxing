@@ -302,7 +302,7 @@ public class MyGroupFragment extends Fragment implements
                                                         getActivity()
                                                                 .getResources()
                                                                 .getString(
-                                                                        R.string.my_group_tishi))
+                                                                        R.string.tip_delete_confirmation))
                                                 .setPositiveButton(R.string.myQuan_dialog_del_tips,
                                                         new OnClickListener() {
 

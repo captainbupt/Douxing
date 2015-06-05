@@ -44,7 +44,7 @@
     <string name="message_tips">提示</string>
     <string name="activity_train_type_all">全部</string>
     <string name="result_upate_null">暂无更新</string>
-    <string name="my_group_tishi">确认删除?</string>
+    <string name="tip_delete_confirmation">确认删除?</string>
     <string name="train_sd_size_limited">sd卡剩余空间不足,下载失败</string>
     <string name="train_result_download_fail">下载失败，请重试</string>
     <string name="train_result_download_ing">下载中，请稍后</string>
@@ -92,6 +92,7 @@
     <string name="category_unexam">未考试</string>
     <string name="category_ungraded">待批阅</string>
     <string name="category_signed">已签到</string>
+    <string name="task_my_location">我的位置</string>
     <string name="floor_num">楼</string>
     <string name="chatter_num">条</string>
     <string name="exam_isFinish">已考完</string>
@@ -100,9 +101,6 @@
     <string name="mainIcon_text_gengDuo">更多</string>
     <string name="time_text_jinTian">今天</string>
     <string name="time_text_yue">月</string>
-    <string name="task_isFinish">已签到</string>
-    <string name="isDeadtime">已过期</string>
-    <string name="task_nottask">未签到</string>
     <string name="credit_fail">点赞失败,请稍后重试!</string>
     <string name="feekback_success">反馈成功，感谢您的建议！</string>
     <string name="myQuan_dialog_title_tips">请选择</string>
