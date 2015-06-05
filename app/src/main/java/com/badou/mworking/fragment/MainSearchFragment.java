@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -144,6 +145,13 @@ public class MainSearchFragment extends Fragment {
                     return;
                 CategoryBasic basic = (CategoryBasic) item;
                 CategoryClickHandler.categoryClicker(mContext, basic.type, basic.rid, basic.subject);
+            }
+        });
+        mContainerView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                // 屏蔽点击事件，防止主页面相应点击
+                return true;
             }
         });
     }

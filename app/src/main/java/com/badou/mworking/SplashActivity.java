@@ -110,9 +110,9 @@ public class SplashActivity extends BaseNoTitleActivity {
 	/**
 	 * 功能描述: 更换语言
 	 */
-	private void changeLanguage(String lang){
+	private void changeLanguage(String lang){/*
 		Resources resources = getResources();// 获得res资源对象
-		((AppApplication) getApplication()).changeAppLanguage(resources,lang);
+		((AppApplication) getApplication()).changeAppLanguage(resources,lang);*/
 	}
 
 	@Override
