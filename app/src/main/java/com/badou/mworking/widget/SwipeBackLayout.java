@@ -16,9 +16,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.Scroller;
 
-import com.badou.mworking.BackWebActivity;
 import com.badou.mworking.R;
-import com.badou.mworking.SignActivity;
 
 import java.util.LinkedList;
 import java.util.List;

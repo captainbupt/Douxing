@@ -39,7 +39,7 @@
     <string name="result_upate_null">Nothing new</string>
     <string name="my_group_tishi">Confirm deletion?</string>
     <string name="action_comment_update_ing">Loading…</string>
-    <string name="train_sd_size_">SD Card full,download failed</string>
+    <string name="train_sd_size_limited">SD Card full,download failed</string>
     <string name="train_result_download_fail">Download failed.Try again</string>
     <string name="train_result_download_exist">File aleady exists</string>
     <string name="error_service">Network exception.Please try again later</string>

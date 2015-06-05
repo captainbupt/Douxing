@@ -11,7 +11,7 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 
 import com.badou.mworking.base.AppApplication;
-import com.badou.mworking.base.BaseBackActionBarActivity;
+import com.badou.mworking.base.BaseStatisticalActionBarActivity;
 import com.badou.mworking.util.FileUtils;
 import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.ToastUtil;
@@ -32,9 +32,12 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 
-public class TrainMusicActivity extends BaseBackActionBarActivity {
+public class TrainMusicActivity extends BaseStatisticalActionBarActivity {
 
-    public static final String KEY_RID = "rid";
+    public static final int STATU_START_PLAY = 5; // 播放计时器
+    private static final int FILE_SIZE = 6;
+    public static final String ENDWITH_MP3 = ".mp3"; // MP3后缀名
+
     public static final String KEY_SUBJECT = "subject";
     public static final String KEY_URL = "url";
 
@@ -46,35 +49,19 @@ public class TrainMusicActivity extends BaseBackActionBarActivity {
     private ImageView mDownloadImageView;
     private ProgressBar mDownloadingProgressBar;
     private SeekBar mProgressSeekBar;
+
     private BottomRatingAndCommentView mBottomLayout;
 
-    /**
-     * 媒体播放 *
-     */
-    private MediaPlayer player = null;
+    private MediaPlayer mMusicPlayer = null;
 
     private boolean isChanging = false;// 互斥变量，防止定时器与SeekBar拖动时进度冲突
-    /**
-     * 主线程 *
-     */
-    private MyHadler mProgressHandler;
-    private HttpHandler mDownloadingHandler;
+    private ProgressHandler mProgressHandler; // 刷新进度条
 
-    /**
-     * 保存文件的路径,无文件名 *
-     */
-    private String mSaveFilePath;
+    private HttpHandler mDownloadingHandler; // 下载
 
-    public static final int STATU_START_PLAY = 5; // 播放计时器
-    private static final int FILE_SIZE = 6;
-
-    /**
-     * MP3后缀名 *
-     */
-    public static final String ENDWITH_MP3 = ".mp3";
+    private String mSaveFilePath; // 保存文件的路径,无文件名
 
     private String mUrl = "";
-    private String mRid = "";
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,7 +112,7 @@ public class TrainMusicActivity extends BaseBackActionBarActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                player.seekTo(mProgressSeekBar.getProgress());
+                mMusicPlayer.seekTo(mProgressSeekBar.getProgress());
                 isChanging = false;
             }
         });
@@ -133,8 +120,8 @@ public class TrainMusicActivity extends BaseBackActionBarActivity {
             @Override
             public void onClick(View view) {
                 // 判断有没有要播放的文件
-                if (new File(mSaveFilePath).exists() && player != null) {
-                    if (!player.isPlaying()) {
+                if (new File(mSaveFilePath).exists() && mMusicPlayer != null) {
+                    if (!mMusicPlayer.isPlaying()) {
                         startPlay();
                     } else {
                         pausePlay();
@@ -148,14 +135,18 @@ public class TrainMusicActivity extends BaseBackActionBarActivity {
         mRid = mReceivedIntent.getStringExtra(KEY_RID);
         mUrl = mReceivedIntent.getStringExtra(KEY_URL);
         mMusicTitleTextView.setText(mReceivedIntent.getStringExtra(KEY_SUBJECT));
-        player = new MediaPlayer();
+        mMusicPlayer = new MediaPlayer();
         mSaveFilePath = FileUtils.getTrainCacheDir(mContext) + mRid + ENDWITH_MP3;
+
+        mProgressHandler = new ProgressHandler();
         File file = new File(mSaveFilePath);
+
+        System.out.println(mUrl);
 
         // 如果文件已经存在则直接获取文件大写，如果文件不存在则进行网络请求
         if (file.exists()) {
             float fileSize = (float) (Math.round(file.length() / 1024 / 1024 * 10)) / 10;
-            mFileSizeTextView.setText(fileSize + "M");
+            mFileSizeTextView.setText("音频文件（" + fileSize + "M）");
         } else {
             new Thread(new Runnable() {
 
@@ -167,23 +158,18 @@ public class TrainMusicActivity extends BaseBackActionBarActivity {
                         float fileSize = (float) (Math.round(urlcon.getContentLength() / 1024 / 1024 * 10)) / 10;
                         mProgressHandler.obtainMessage(FILE_SIZE, fileSize).sendToTarget();
                     } catch (Exception e) {
-                        ToastUtil.showToast(mContext, R.string.tips_audio_get_size_fail);
+                        mProgressHandler.obtainMessage(FILE_SIZE, -1f).sendToTarget();
                         e.printStackTrace();
                     }
                 }
             }).start();
         }
-        // 这里加个保护，就是在下载中，退出界面，广播也关了，下载完之后没有重命名
-        String fileNames[] = mUrl.split("=");
-        FileUtils.renameFile(FileUtils.getTrainCacheDir(mContext), fileNames[fileNames.length - 1], mRid + ".mp3");
         // 文件存在，下载完成
         if (file.exists()) {
             statuDownloadFinish();
+            initMedia();
         } else {
             statuNotDownLoad();
-        }
-        if (((AppApplication) getApplication()).getUserInfo().isAdmin) {
-            setRightImage(R.drawable.button_title_admin_statistical);
         }
         mBottomLayout.setData(mRid, 0, 0, -1);
 
@@ -193,13 +179,13 @@ public class TrainMusicActivity extends BaseBackActionBarActivity {
      * 功能描述:初始化播放器
      */
     private void initMedia() {
-        if (player == null) {
+        if (mMusicPlayer == null) {
             return;
         }
         try {
-            player.reset();
-            player.setDataSource(mSaveFilePath);
-            player.prepare();// 就是把存储卡中的内容全部加载或者网络中的部分媒体内容加载到内存中，有可能会失败抛出异常的
+            mMusicPlayer.reset();
+            mMusicPlayer.setDataSource(mSaveFilePath);
+            mMusicPlayer.prepare();// 就是把存储卡中的内容全部加载或者网络中的部分媒体内容加载到内存中，有可能会失败抛出异常的
         } catch (Exception e) {
             e.printStackTrace();
             ToastUtil.showToast(mContext, R.string.tips_audio_error);
@@ -207,9 +193,9 @@ public class TrainMusicActivity extends BaseBackActionBarActivity {
             statuNotDownLoad();
             return;
         }
-        mProgressSeekBar.setMax(player.getDuration());// 设置进度条
+        mProgressSeekBar.setMax(mMusicPlayer.getDuration());// 设置进度条
         mProgressSeekBar.setProgress(0);
-        mTotalTimeTextView.setText(new SimpleDateFormat("mm:ss").format(player.getDuration()));
+        mTotalTimeTextView.setText(new SimpleDateFormat("mm:ss").format(mMusicPlayer.getDuration()));
         mCurrentTimeTextView.setText("00:00");
     }
 
@@ -218,21 +204,19 @@ public class TrainMusicActivity extends BaseBackActionBarActivity {
      */
     private void startPlay() {
         mPlayerControlImageView.setImageResource(R.drawable.button_media_stop);
-        player.start();// 开始
-        if (mProgressHandler == null)
-            mProgressHandler = new MyHadler();
+        mMusicPlayer.start();// 开始
         mProgressHandler.sendEmptyMessageDelayed(STATU_START_PLAY, 1000);
     }
 
     private void pausePlay() {
         mPlayerControlImageView.setImageResource(R.drawable.button_media_start);
-        player.pause();
+        mMusicPlayer.pause();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (player != null && player.isPlaying()) {
+        if (mMusicPlayer != null && mMusicPlayer.isPlaying()) {
             pausePlay();
         }
     }
@@ -240,52 +224,47 @@ public class TrainMusicActivity extends BaseBackActionBarActivity {
     // 来电处理
     @Override
     protected void onDestroy() {
-        releasePlayer();
+        if (mMusicPlayer != null) {
+            if (mMusicPlayer.isPlaying()) {
+                mMusicPlayer.stop();
+            }
+            mMusicPlayer.release();
+            mMusicPlayer = null;
+        }
         if (mDownloadingHandler != null)
             mDownloadingHandler.cancel();
         super.onDestroy();
     }
 
-    private void releasePlayer() {
-        // 确定按钮
-        if (player != null) {
-            if (player.isPlaying()) {
-                player.stop();
-            }
-            player.release();
-            player = null;
-        }
-    }
-
-    class MyHadler extends Handler {
+    class ProgressHandler extends Handler {
 
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
                 case STATU_START_PLAY:
-                    if (!mActivity.isFinishing() && player != null && player.isPlaying()) {
-                        String currentTime = new SimpleDateFormat("mm:ss").format(player
-                                .getCurrentPosition());
-                        mCurrentTimeTextView.setText(currentTime);
-                        mProgressSeekBar.setProgress(player.getCurrentPosition());
+                    if (!mActivity.isFinishing() && mMusicPlayer != null && mMusicPlayer.isPlaying()) {
+                        if (!isChanging) {
+                            String currentTime = new SimpleDateFormat("mm:ss").format(mMusicPlayer
+                                    .getCurrentPosition());
+                            mCurrentTimeTextView.setText(currentTime);
+                            mProgressSeekBar.setProgress(mMusicPlayer.getCurrentPosition());
+                        }
                         mProgressHandler.sendEmptyMessageDelayed(STATU_START_PLAY, 1000);
                     }
                     break;
                 case FILE_SIZE:
-                    mFileSizeTextView.setText("音频文件(" + msg.obj + "M)");
+                    float fileSize = (float) msg.obj;
+                    if (fileSize > 0) {
+                        mFileSizeTextView.setText("音频文件（" + fileSize + "M）");
+                    } else {
+                        ToastUtil.showToast(mContext, R.string.tips_audio_get_size_fail);
+                    }
                     break;
                 default:
                     break;
             }
         }
-    }
-
-    public void clickRight() {
-        //  跳转到评论页面
-        Intent intent = new Intent(mContext, CommentActivity.class);
-        intent.putExtra(CommentActivity.KEY_RID, mRid);
-        startActivity(intent);
     }
 
     /**
@@ -311,8 +290,6 @@ public class TrainMusicActivity extends BaseBackActionBarActivity {
         mDownloadingProgressBar.setVisibility(View.GONE);
         mProgressSeekBar.setEnabled(true);
         mProgressSeekBar.setThumb(getResources().getDrawable(R.drawable.seekbar_));
-        /** 下载完成,初始化播放器 **/
-        initMedia();
     }
 
     /**
@@ -328,6 +305,8 @@ public class TrainMusicActivity extends BaseBackActionBarActivity {
     }
 
     private void startDownload() {
+        mDownloadImageView.setVisibility(View.GONE);
+        mDownloadingProgressBar.setVisibility(View.VISIBLE);
         if (mDownloadingHandler == null) {
             HttpUtils http = new HttpUtils();
             mDownloadingHandler = http.download(mUrl,
@@ -340,16 +319,17 @@ public class TrainMusicActivity extends BaseBackActionBarActivity {
                         public void onLoading(long total, long current, boolean isUploading) {
                             if (mProgressSeekBar.getMax() != total)
                                 mProgressSeekBar.setMax((int) total);
-                            mDownloadImageView.setVisibility(View.GONE);
-                            mDownloadingProgressBar.setVisibility(View.VISIBLE);
                             mProgressSeekBar.setProgress((int) current);
-                            mTotalTimeTextView.setText(100 % current / total + "%");
+                            if (total > 0 && current > 0) {
+                                mTotalTimeTextView.setText(100 * current / total + "%");
+                            }
                         }
 
                         @Override
                         public void onSuccess(ResponseInfo<File> responseInfo) {
                             FileUtils.renameFile(FileUtils.getTrainCacheDir(mContext), mRid + ENDWITH_MP3 + ".tmp", mRid + ENDWITH_MP3);
                             statuDownloadFinish();
+                            initMedia();
                             startPlay();
                         }
 

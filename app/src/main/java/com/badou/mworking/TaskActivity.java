@@ -7,16 +7,16 @@ import com.badou.mworking.adapter.TaskAdapter;
 import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.base.BaseProgressListActivity;
 import com.badou.mworking.base.BaseStatisticalActionBarActivity;
-import com.badou.mworking.model.category.Category;
 import com.badou.mworking.model.category.Task;
+import com.badou.mworking.util.CategoryClickHandler;
 import com.badou.mworking.util.Constant;
-import com.badou.mworking.util.SP;
+import com.badou.mworking.util.NetUtils;
+import com.badou.mworking.util.ToastUtil;
 
 import org.json.JSONObject;
 
 /**
- * @author gejianfeng
- *         任务签到界面
+ *  任务签到界面
  */
 public class TaskActivity extends BaseProgressListActivity {
 
@@ -36,20 +36,15 @@ public class TaskActivity extends BaseProgressListActivity {
 
     @Override
     protected void onItemClick(int position) {
-        mClickPosition = position -1;
+        mClickPosition = position - 1;
         // 获取点中的item所对应的task，并将其作为参数传递给下一个activity
         Task task = (Task) mCategoryAdapter.getItem(position - 1);
-        int subtype = task.subtype;
-        if (Constant.MWKG_FORAMT_TYPE_XML != subtype) {
+        if (!NetUtils.isNetConnected(mContext)) {
+            ToastUtil.showNetExc(mContext);
             return;
+        } else {
+            CategoryClickHandler.categoryClicker(mContext, task);
         }
-        Intent intent = new Intent(mContext, SignActivity.class);
-        intent.putExtra(SignActivity.KEY_TASK, task);
-        // 获取分类名
-        intent.putExtra(BaseActionBarActivity.KEY_TITLE, task.getClassificationName(mContext));
-        intent.putExtra(BaseStatisticalActionBarActivity.KEY_RID, task.rid);
-        startActivity(intent);
-        //设置切换动画，从右边进入，左边退出
     }
 
     @Override

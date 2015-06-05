@@ -6,6 +6,7 @@ import android.os.Bundle;
 import com.android.volley.VolleyError;
 import com.badou.mworking.adapter.TrainAdapter;
 import com.badou.mworking.base.BaseProgressListActivity;
+import com.badou.mworking.model.category.Category;
 import com.badou.mworking.model.category.Train;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ResponseParams;
@@ -19,8 +20,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
- * @author gejianfeng
- *         微培训页面
+ * 微培训页面
  */
 public class TrainActivity extends BaseProgressListActivity {
 
@@ -29,11 +29,18 @@ public class TrainActivity extends BaseProgressListActivity {
     public static final int PROGRESS_FINISH = 12;
     public static final String KEY_RATING = "rating";
     public static final String KEY_RID = "rid";
+    public static final String KEY_TRAINING = "training";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        CATEGORY_NAME = Train.CATEGORY_KEY_NAME;
-        CATEGORY_UNREAD_NUM = Train.CATEGORY_KEY_UNREAD_NUM;
+        mReceivedIntent = getIntent();
+        if(mReceivedIntent.getBooleanExtra(KEY_TRAINING,true)) {
+            CATEGORY_NAME = Train.CATEGORY_KEY_NAME;
+            CATEGORY_UNREAD_NUM = Train.CATEGORY_KEY_UNREAD_NUM;
+        }else{
+            CATEGORY_NAME = Category.CATEGORY_KEY_NAMES[Category.CATEGORY_SHELF];
+            CATEGORY_UNREAD_NUM = Category.CATEGORY_KEY_UNREADS[Category.CATEGORY_SHELF];
+        }
         super.onCreate(savedInstanceState);
 
     }
@@ -62,13 +69,13 @@ public class TrainActivity extends BaseProgressListActivity {
     public void onItemClick(int position) {
         Train train = (Train) mCategoryAdapter.getItem(position - 1);
 
-        CategoryClickHandler.categoryClicker(mContext, train);
-
         if (NetUtils.isNetConnected(mContext)) {
+            CategoryClickHandler.categoryClicker(mContext, train);
             // 向服务提交课件信息
             ((TrainAdapter) mCategoryAdapter).read(position - 1);
-            ServiceProvider.doMarkRead(mContext, train.rid);
             mCategoryAdapter.notifyDataSetChanged();
+        } else {
+            ToastUtil.showNetExc(mContext);
         }
 
     }

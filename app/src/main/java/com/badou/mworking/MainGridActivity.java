@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,14 +19,13 @@ import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 
-import com.android.volley.VolleyError;
 import com.badou.mworking.adapter.BannerAdapter;
 import com.badou.mworking.adapter.MainGridAdapter;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.database.MTrainingDBHelper;
-import com.badou.mworking.model.category.Category;
+import com.badou.mworking.fragment.MainSearchFragment;
 import com.badou.mworking.model.MainBanner;
 import com.badou.mworking.model.MainIcon;
 import com.badou.mworking.net.Net;
@@ -42,7 +42,6 @@ import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.SP;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.BannerGallery;
-import com.badou.mworking.widget.SearchLinearView;
 import com.badou.mworking.widget.TopFadeScrollView;
 
 import org.holoeverywhere.widget.LinearLayout;
@@ -90,7 +89,7 @@ public class MainGridActivity extends BaseNoTitleActivity {
     private ImageView mSearchImageView;    //logo 布局右边图标，点击进入搜索页面
 
     private FrameLayout mContainerLayout;
-    private SearchLinearView mSearchLinearView;
+    private MainSearchFragment mMainSearchFragment;
     private boolean isSearching = false;
     private LinearLayout mContentLayout;
 
@@ -160,8 +159,9 @@ public class MainGridActivity extends BaseNoTitleActivity {
                     case RequestParams.CHK_UPDATA_PIC_NOTICE: // 通知公告
                         intent.setClass(mContext, NoticeActivity.class);
                         break;
-                    case RequestParams.CHK_UPDATA_PIC_TRAIN: // 微培训
+                    case RequestParams.CHK_UPDATA_PIC_TRAINING: // 微培训
                         intent.setClass(mContext, TrainActivity.class);
+                        intent.putExtra(TrainActivity.KEY_TRAINING, true);
                         break;
                     case RequestParams.CHK_UPDATA_PIC_EXAM: // 在线考试
                         intent.setClass(mContext, ExamActivity.class);
@@ -182,8 +182,9 @@ public class MainGridActivity extends BaseNoTitleActivity {
                     case RequestParams.CHK_UPDATA_PIC_ASK: //问答
                         intent.setClass(mContext, WenDActivity.class);
                         break;
-                    case RequestParams.CHK_UPDATA_PIC_SHELF: //问答
+                    case RequestParams.CHK_UPDATA_PIC_SHELF: //橱窗
                         intent.setClass(mContext, TrainActivity.class);
+                        intent.putExtra(TrainActivity.KEY_TRAINING, false);
                         break;
                 }
                 intent.putExtra(BaseActionBarActivity.KEY_TITLE, mainIcon.name);
@@ -202,22 +203,11 @@ public class MainGridActivity extends BaseNoTitleActivity {
         mSearchImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mSearchLinearView == null)
-                    mSearchLinearView = new SearchLinearView(mContext,
-                            new String[]{getMainIconTitle(RequestParams.CHK_UPDATA_PIC_TRAIN, R.string.module_default_title_training),
-                                    getMainIconTitle(RequestParams.CHK_UPDATA_PIC_EXAM, R.string.module_default_title_exam)},
-                            new int[]{Category.CATEGORY_TRAIN, Category.CATEGORY_EXAM},
-                            new SearchLinearView.OnRemoveListener() {
-                                @Override
-                                public void onRemove() {
-                                    mContainerLayout.removeView(mSearchLinearView);
-                                    isSearching = false;
-                                    mSearchLinearView.setStop(true);
-                                }
-                            });
-                mSearchLinearView.setStop(false);
-                mContainerLayout.addView(mSearchLinearView);
-                isSearching = true;
+                if (mMainSearchFragment == null)
+                    mMainSearchFragment = new MainSearchFragment();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fl_main_grid_fragment_container, mMainSearchFragment);
+                transaction.commit();
             }
         });
     }
@@ -322,10 +312,10 @@ public class MainGridActivity extends BaseNoTitleActivity {
      */
     @Override
     public void onBackPressed() {
-        if (isSearching) {
-            mContainerLayout.removeView(mSearchLinearView);
-            isSearching = false;
-            mSearchLinearView.setStop(true);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        if (!transaction.isEmpty()) {
+            transaction.remove(mMainSearchFragment);
+            transaction.commit();
         } else {
             // 应为系统当前的系统毫秒数一定小于2000
             if ((System.currentTimeMillis() - mExitTime) > 2000) {
@@ -405,9 +395,6 @@ public class MainGridActivity extends BaseNoTitleActivity {
                 }
             }
 
-            @Override
-            public void onErrorResponse(VolleyError error) {
-            }
         });
     }
 
@@ -468,7 +455,7 @@ public class MainGridActivity extends BaseNoTitleActivity {
         mainIconList.add(getMainIcon(RequestParams.CHK_UPDATA_PIC_CHATTER, R.drawable.button_chatter, R.string.module_default_title_chatter));
         mainIconList.add(getMainIcon(RequestParams.CHK_UPDATA_PIC_TASK, R.drawable.button_task, R.string.module_default_title_task));
         mainIconList.add(getMainIcon(RequestParams.CHK_UPDATA_PIC_EXAM, R.drawable.button_exam, R.string.module_default_title_exam));
-        mainIconList.add(getMainIcon(RequestParams.CHK_UPDATA_PIC_TRAIN, R.drawable.button_training, R.string.module_default_title_training));
+        mainIconList.add(getMainIcon(RequestParams.CHK_UPDATA_PIC_TRAINING, R.drawable.button_training, R.string.module_default_title_training));
         mainIconList.add(getMainIcon(RequestParams.CHK_UPDATA_PIC_NOTICE, R.drawable.button_notice, R.string.module_default_title_notice));
 
         /**
@@ -508,19 +495,6 @@ public class MainGridActivity extends BaseNoTitleActivity {
             title = getResources().getString(defaultTitleResId);
         }
         return new MainIcon(key, resId, title, priority);
-    }
-
-    /**
-     * @param key               icon键值
-     * @param defaultTitleResId 默认名称
-     */
-    private String getMainIconTitle(String key, int defaultTitleResId) {
-        JSONObject mainIconJSONObject = getMainIconJSONObject(key);
-        String title = mainIconJSONObject.optString("name");
-        if (TextUtils.isEmpty(title)) {
-            title = mContext.getResources().getString(defaultTitleResId);
-        }
-        return title;
     }
 
     /**

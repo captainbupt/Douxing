@@ -45,8 +45,9 @@
     <string name="activity_train_type_all">全部</string>
     <string name="result_upate_null">暂无更新</string>
     <string name="my_group_tishi">确认删除?</string>
-    <string name="train_sd_size_">sd卡剩余空间不足,下载失败</string>
+    <string name="train_sd_size_limited">sd卡剩余空间不足,下载失败</string>
     <string name="train_result_download_fail">下载失败，请重试</string>
+    <string name="train_result_download_ing">下载中，请稍后</string>
     <string name="train_result_download_exist">文件已存在</string>
     <string name="train_result_download_memory_error">无法检测到SD卡</string>
     <string name="error_service">网络开小差，请稍后重试</string>

@@ -1,21 +1,9 @@
 package com.badou.mworking;
 
-import android.annotation.SuppressLint;
-import android.content.ContentUris;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.media.ExifInterface;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.DocumentsContract;
-import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -40,14 +28,12 @@ import com.badou.mworking.util.FileUtils;
 import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.ToastUtil;
 
-import org.holoeverywhere.app.AlertDialog;
 import org.holoeverywhere.widget.ProgressBar;
 import org.holoeverywhere.widget.TextView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.IOException;
 
 /**
  * 功能描述: 个人中心页面
@@ -140,7 +126,7 @@ public class UserCenterActivity extends BaseNoTitleActivity {
                         Bundle bundle = new Bundle();
                         bundle.putSerializable(UserProgressActivity.KEY_USERINFO, mUserDetail);
                         intent.putExtras(bundle);
-                        intent.putExtra(UserProgressActivity.KEY_TYPE, Category.CATEGORY_TRAIN);
+                        intent.putExtra(UserProgressActivity.KEY_TYPE, Category.CATEGORY_TRAINING);
                         startActivity(intent);
                     }
                 });

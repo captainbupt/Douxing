@@ -44,7 +44,7 @@ import org.json.JSONObject;
 /**
  * 功能描述:  任务签到页面
  */
-public class SignActivity extends BaseStatisticalActionBarActivity implements BDLocationListener {
+public class TaskSignActivity extends BaseStatisticalActionBarActivity implements BDLocationListener {
 
     public static final String KEY_TASK = "task";
     private static final int CAMERA_REQUEST_CODE = 1;
@@ -74,7 +74,7 @@ public class SignActivity extends BaseStatisticalActionBarActivity implements BD
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign);
+        setContentView(R.layout.activity_task_sign);
         //页面滑动关闭
         layout = (SwipeBackLayout) LayoutInflater.from(this).inflate(R.layout.base, null);
         layout.attachToActivity(this);
@@ -220,7 +220,7 @@ public class SignActivity extends BaseStatisticalActionBarActivity implements BD
     public void onReceiveLocation(BDLocation location) {
         mLocationClient.stop();
         if (location == null || String.valueOf(location.getLatitude()).equals(4.9E-324) || String.valueOf(location.getLongitude()).equals(4.9E-324)) {
-            ToastUtil.showToast(SignActivity.this, R.string.task_get_gps_fail);
+            ToastUtil.showToast(TaskSignActivity.this, R.string.task_get_gps_fail);
             if (!mActivity.isFinishing()) {
                 mProgressDialog.dismiss();
             }
@@ -263,7 +263,7 @@ public class SignActivity extends BaseStatisticalActionBarActivity implements BD
                         }
                         JSONObject jsonObject = (JSONObject) responseObject;
                         if (jsonObject == null) {
-                            ToastUtil.showToast(SignActivity.this, getResources().getString(R.string.error_service));
+                            ToastUtil.showToast(TaskSignActivity.this, getResources().getString(R.string.error_service));
                             return;
                         }
                         int errcode = jsonObject
