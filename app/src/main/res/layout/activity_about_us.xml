@@ -13,6 +13,8 @@
         <org.holoeverywhere.widget.LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/offset_less"
+            android:layout_marginTop="@dimen/offset_less"
             android:background="@color/color_white"
             android:gravity="center"
             android:orientation="vertical"
@@ -37,7 +39,6 @@
         <org.holoeverywhere.widget.LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/offset_small"
             android:background="@color/color_white"
             android:orientation="vertical">
 

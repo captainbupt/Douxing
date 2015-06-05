@@ -9,6 +9,7 @@ import com.badou.mworking.base.BaseProgressListActivity;
 import com.badou.mworking.model.category.Category;
 import com.badou.mworking.model.category.Exam;
 import com.badou.mworking.net.Net;
+import com.badou.mworking.util.CategoryClickHandler;
 import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.ToastUtil;
@@ -51,29 +52,13 @@ public class ExamActivity extends BaseProgressListActivity {
     @Override
     protected void onItemClick(int position) {
         Exam exam = (Exam) mCategoryAdapter.getItem(position - 1);
-        int subtype = exam.subtype;
-        if (Constant.MWKG_FORAMT_TYPE_XML != subtype) {
-            return;
-        }
         // 考试没有联网
         if (!NetUtils.isNetConnected(mContext)) {
             ToastUtil.showNetExc(mContext);
             return;
+        }else{
+            CategoryClickHandler.categoryClicker(mContext,exam);
         }
-        String uid = ((AppApplication) getApplicationContext()).getUserInfo().userId;
-        String url = Net.getRunHost(mContext) + Net.EXAM_ITEM(uid, exam.rid);
-        Intent intents = new Intent(mContext, BackWebActivity.class);
-        intents.putExtra(BackWebActivity.KEY_URL, url);
-        intents.putExtra(BackWebActivity.KEY_RID, exam.rid);
-        intents.putExtra(BackWebActivity.KEY_SHOW_STATISTICAL, true);
-        int tag = exam.tag;
-        String title = "";
-        if (tag >= 0) {
-            // 获取分类名
-            title = Category.getClassificationName(mContext, Category.CATEGORY_EXAM, tag);
-        }
-        intents.putExtra(BackWebActivity.KEY_TITLE, title);
-        startActivity(intents);
     }
 
 /*    @Override

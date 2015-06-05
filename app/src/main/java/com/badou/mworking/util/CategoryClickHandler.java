@@ -2,24 +2,27 @@ package com.badou.mworking.util;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
-import android.os.Message;
 import android.text.TextUtils;
 
 import com.badou.mworking.BackWebActivity;
 import com.badou.mworking.PDFViewerActivity;
 import com.badou.mworking.R;
+import com.badou.mworking.TaskSignActivity;
 import com.badou.mworking.TrainMusicActivity;
-import com.badou.mworking.TrainVideoPlayerAct;
-import com.badou.mworking.base.AppApplication;
+import com.badou.mworking.TrainVideoActivity;
 import com.badou.mworking.base.BaseActionBarActivity;
+import com.badou.mworking.base.BaseStatisticalActionBarActivity;
 import com.badou.mworking.model.category.Category;
 import com.badou.mworking.model.category.CategoryDetail;
-import com.badou.mworking.net.DownloadListener;
-import com.badou.mworking.net.HttpDownloader;
+import com.badou.mworking.model.category.Task;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.widget.HorizontalProgressDialog;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.HttpHandler;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
 
 import org.holoeverywhere.app.Activity;
 import org.json.JSONObject;
@@ -32,42 +35,59 @@ import java.io.File;
 public class CategoryClickHandler {
 
     public static HorizontalProgressDialog progressDialog;
-    public static DownloadHandler handler;
-    public final static int PROGRESS_MAX = 11;
-    public final static int PROGRESS_CHANGE = 12;
-    public final static int PROGRESS_FINISH = 13;
-    public final static int PROGRESS_FAILED = 14;
+    private static HttpHandler mDownloadHandler;
 
     public static void categoryClicker(Context context, Category category) {
-        goNextPage(context, category.getClassificationName(context), category.getCategoryType(), category.subtype, category.rid, category.url + "&uid="
-                + ((AppApplication) context.getApplicationContext())
-                .getUserInfo().userId, category.subject);
+        goNextPage(context, new CategoryDetail(context, category));
+        ServiceProvider.doMarkRead(context, category.rid);
     }
 
-    public static boolean categoryClicker(final Context context, final int type, final String rid, final String subject) {
+    public static void categoryClicker(final Context context, final int type, final String rid, final String subject) {
         ServiceProvider.getResourceDetail(context, rid, new VolleyListener(context) {
             @Override
             public void onResponseData(JSONObject jsonObject) {
-                CategoryDetail detail = new CategoryDetail(jsonObject);
-                goNextPage(context, detail.tagName, type, detail.format, rid, detail.url, subject);
+                CategoryDetail detail = new CategoryDetail(context, jsonObject, type, rid, subject);
+                goNextPage(context, detail);
+                ServiceProvider.doMarkRead(context, rid);
             }
-
         });
-        return true;
     }
 
-    public static void goNextPage(Context context, String tagName, int type, int subtype, String rid, String url, String subject) {
-        if (Constant.MWKG_FORAMT_TYPE_PDF == subtype) { //返回PDF格式
-            goPDFAndWeb(context, type, rid, url, tagName);
-        } else if (Constant.MWKG_FORAMT_TYPE_MPEG == subtype) { // 返回MP4格式
-            goVedio(context, rid, subject);
-        } else if (Constant.MWKG_FORAMT_TYPE_HTML == subtype) { // 返回html格式
-            goHTML(context, type, rid, url, tagName);
-        } else if (Constant.MWKG_FORAMT_TYPE_MP3 == subtype) { // 返回MP3格式
-            goAudio(context, rid, subject, url, subject);
-        } else {
-            ToastUtil.showToast(context, R.string.category_unsupport_type);
+    public static void goNextPage(Context context, CategoryDetail categoryDetail) {
+        if (categoryDetail.type == Category.CATEGORY_NOTICE || categoryDetail.type == Category.CATEGORY_TRAINING || categoryDetail.type == Category.CATEGORY_SHELF) {
+            if (Constant.MWKG_FORAMT_TYPE_PDF == categoryDetail.format) { //返回PDF格式
+                goPDFAndWeb(context, categoryDetail.type, categoryDetail.rid, categoryDetail.url, categoryDetail.tagName);
+            } else if (Constant.MWKG_FORAMT_TYPE_MPEG == categoryDetail.format) { // 返回MP4格式
+                goVedio(context, categoryDetail.rid, categoryDetail.tagName, categoryDetail.url, categoryDetail.subject);
+            } else if (Constant.MWKG_FORAMT_TYPE_HTML == categoryDetail.format) { // 返回html格式
+                goHTML(context, categoryDetail.type, categoryDetail.rid, categoryDetail.url, categoryDetail.tagName);
+            } else if (Constant.MWKG_FORAMT_TYPE_MP3 == categoryDetail.format) { // 返回MP3格式
+                goAudio(context, categoryDetail.rid, categoryDetail.tagName, categoryDetail.url, categoryDetail.subject);
+            } else {
+                ToastUtil.showToast(context, R.string.category_unsupport_type);
+            }
+        } else if (categoryDetail.type == Category.CATEGORY_EXAM) {
+            if (Constant.MWKG_FORAMT_TYPE_XML == categoryDetail.format) {
+                goHTML(context, categoryDetail.type, categoryDetail.rid, categoryDetail.url, categoryDetail.tagName);
+            } else {
+                ToastUtil.showToast(context, R.string.category_unsupport_type);
+            }
+        } else if (categoryDetail.type == Category.CATEGORY_TASK) {
+            if (Constant.MWKG_FORAMT_TYPE_XML == categoryDetail.format) {
+                goSignActivity(context, categoryDetail.task);
+            } else {
+                ToastUtil.showToast(context, R.string.category_unsupport_type);
+            }
         }
+    }
+
+    private static void goSignActivity(Context context, Task task) {
+        Intent intent = new Intent(context, TaskSignActivity.class);
+        intent.putExtra(TaskSignActivity.KEY_TASK, task);
+        // 获取分类名
+        intent.putExtra(BaseActionBarActivity.KEY_TITLE, task.getClassificationName(context));
+        intent.putExtra(BaseStatisticalActionBarActivity.KEY_RID, task.rid);
+        context.startActivity(intent);
     }
 
     /**
@@ -81,7 +101,7 @@ public class CategoryClickHandler {
         intent.putExtra(BaseActionBarActivity.KEY_TITLE, title);
         intent.putExtra(BackWebActivity.KEY_RID, rid);
         intent.putExtra(BackWebActivity.KEY_SHOW_STATISTICAL, true);
-        if (type == Category.CATEGORY_TRAIN) {
+        if (type == Category.CATEGORY_TRAINING) {
             intent.putExtra(PDFViewerActivity.KEY_SHOW_RATING, true);
             intent.putExtra(PDFViewerActivity.KEY_SHOW_COMMENT, true);
         } else if (type == Category.CATEGORY_NOTICE) {
@@ -94,18 +114,21 @@ public class CategoryClickHandler {
     /**
      * 功能描述: 显示视频的详细内容
      */
-    public static void goVedio(Context context, String rid, String title) {
-        Intent intent = new Intent(context, TrainVideoPlayerAct.class);
-        intent.putExtra(TrainVideoPlayerAct.KEY_RID, rid);
+    public static void goVedio(Context context, String rid, String title, String url, String subject) {
+
+        Intent intent = new Intent(context, TrainVideoActivity.class);
+        intent.putExtra(TrainVideoActivity.KEY_URL, url);
+        intent.putExtra(TrainVideoActivity.KEY_SUBJECT, subject);
+        intent.putExtra(BaseStatisticalActionBarActivity.KEY_RID, rid);
         intent.putExtra(BaseActionBarActivity.KEY_TITLE, title);
         context.startActivity(intent);
     }
 
     public static void goAudio(Context context, String rid, String title, String url, String subject) {
         Intent intent = new Intent(context, TrainMusicActivity.class);
-        intent.putExtra(TrainMusicActivity.KEY_RID, rid);
         intent.putExtra(TrainMusicActivity.KEY_URL, url);
         intent.putExtra(TrainMusicActivity.KEY_SUBJECT, subject);
+        intent.putExtra(BaseStatisticalActionBarActivity.KEY_RID, rid);
         intent.putExtra(BaseActionBarActivity.KEY_TITLE, title);
         context.startActivity(intent);
     }
@@ -119,7 +142,7 @@ public class CategoryClickHandler {
             if (android.os.Build.VERSION.SDK_INT >= 11) {
                 Intent intent = new Intent(context, PDFViewerActivity.class);
                 intent.putExtra(PDFViewerActivity.KEY_RID, rid);
-                intent.putExtra(PDFViewerActivity.KEY_SHOW_RATING, type == Category.CATEGORY_TRAIN);
+                intent.putExtra(PDFViewerActivity.KEY_SHOW_RATING, type == Category.CATEGORY_TRAINING);
                 intent.putExtra(PDFViewerActivity.KEY_SHOW_COMMENT, true);
                 intent.putExtra(BaseActionBarActivity.KEY_TITLE, title);
                 context.startActivity(intent);
@@ -135,7 +158,7 @@ public class CategoryClickHandler {
         if (android.os.Build.VERSION.SDK_INT >= 11) {// pdf
             // 声明pdf文件要保存的路径
             if (FileUtils.getAvailaleSize() / 1024 / 1024 <= 9) {
-                ToastUtil.showToast(context, R.string.train_sd_size_);
+                ToastUtil.showToast(context, R.string.train_sd_size_limited);
                 return;
             }
             String path = FileUtils.getTrainCacheDir(context) + rid + ".pdf";
@@ -143,26 +166,7 @@ public class CategoryClickHandler {
             // pdf文件不存在
             if (!file.exists() || !file.isFile() || file.isDirectory()
                     || file.length() == 0) {
-                file.delete();
-                // 显示对话框
-                if (handler == null) {
-                    handler = new DownloadHandler();
-                }
-                handler.setContext(context);
-                if (progressDialog == null) {
-                    progressDialog = new HorizontalProgressDialog(context);
-                }
-                progressDialog.show();
-                if (NetUtils.isNetConnected(context)) {
-                    // 开启线程
-                    new DownloadThread(context, type, rid, url, title).start();
-                } else {
-                    if (progressDialog.isShowing() && !((Activity) context).isFinishing()) {
-                        // 关闭进度条对话框
-                        progressDialog.dismiss();
-                    }
-                    ToastUtil.showToast(context, R.string.error_service);
-                }
+                startDownload(context, type, rid, url, title);
             } else {
                 // pdf文件已存在 调用
                 goPdfView(context, type, rid, title);
@@ -171,172 +175,58 @@ public class CategoryClickHandler {
             String company = SP.getStringSP(context, SP.DEFAULTCACHE, Constant.COMPANY, "badou");
             final String webPdfUrl = Constant.TRAIN_IMG_SHOW + company + File.separator + rid + Constant.TRAIN_IMG_FORMAT;
             goHTML(context, type, rid, webPdfUrl, title);
-            // getRespStatus(url);
         }
     }
-/*
-    private void getRespStatus(final String url) {
-        if (mWebVieHandler == null) {
-            mWebVieHandler = new Handler() {
-                @Override
-                public void handleMessage(Message msg) {
-                    super.handleMessage(msg);
-                    if (mActivity.isFinishing())
-                        return;
-                    int status = msg.what;
-                    if (status == 200) {
-                        mWebView.loadUrl(url);
-                    } else {
-                        ToastUtil.showToast(PDFViewerActivity.this, R.string.web_error);
+
+    private static void startDownload(final Context context, final int type, final String rid, String url, final String title) {
+        final String ENDWITH_PDF = ".pdf";
+        if (mDownloadHandler != null) {
+            ToastUtil.showToast(context, R.string.action_update_download_ing);
+            return;
+        }
+        final String path = FileUtils.getTrainCacheDir(context) + rid + ENDWITH_PDF;
+        if (TextUtils.isEmpty(path)) {
+            ToastUtil.showToast(context,
+                    R.string.train_result_download_memory_error);
+            return;
+        }
+
+        if (progressDialog == null) {
+            progressDialog = new HorizontalProgressDialog(context);
+            progressDialog.setCancelable(false);
+        }
+        progressDialog.show();
+        HttpUtils http = new HttpUtils();
+        mDownloadHandler = http.download(url,
+                path + ".tmp",
+                true, // 如果目标文件存在，接着未完成的部分继续下载。服务器不支持RANGE时将从新下载。
+                true, // 如果从请求返回信息中获取到文件名，下载完成后自动重命名。
+                new RequestCallBack<File>() {
+
+                    @Override
+                    public void onLoading(long total, long current, boolean isUploading) {
+                        if (progressDialog.getProgressMax() != total)
+                            progressDialog.setProgressMax((int) total);
+                        progressDialog.setProgress((int) current);
                     }
-                }
-            };
-        }
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                int status = 0;
-                try {
-                    HttpGet head = new HttpGet(url);
-                    HttpClient client = new DefaultHttpClient();
-                    HttpResponse resp = client.execute(head);
-                    status = resp.getStatusLine().getStatusCode();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                mWebVieHandler.obtainMessage(status).sendToTarget();
-            }
-        }).start();
-    }*/
+                    @Override
+                    public void onSuccess(ResponseInfo<File> responseInfo) {
+                        FileUtils.renameFile(FileUtils.getTrainCacheDir(context), rid + ENDWITH_PDF + ".tmp", rid + ENDWITH_PDF);
+                        goPdfView(context, type, rid, title);
+                        mDownloadHandler.cancel();
+                        mDownloadHandler = null;
+                        progressDialog.dismiss();
+                    }
 
-    private static class DownloadHandler extends Handler {
 
-        private Context mContext;
-
-        public void setContext(Context context) {
-            this.mContext = context;
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            // 如果activity关闭，则不作任何处理
-            if (((Activity) mContext).isFinishing()) {
-                return;
-            }
-            // 接受线程中传递的消息
-            if (msg.what == PROGRESS_MAX) {
-                // 设置进度条最大值
-                progressDialog.setProgressMax((int) msg.obj);
-            } else if (msg.what == PROGRESS_CHANGE) {
-                // 设置进度条改变
-                progressDialog.setProgress((int) msg.obj);
-            } else if (msg.what == PROGRESS_FAILED) {
-                ToastUtil.showToast(mContext,
-                        R.string.train_result_download_memory_error);
-            } else if (msg.what == PROGRESS_FINISH) {
-                if (progressDialog.isShowing()) {
-                    // 关闭进度条对话框
-                    progressDialog.dismiss();
-                }
-                Container container = (Container) msg.obj;
-                downloadFinish(container.type, container.status, container.rid, container.title);
-            }
-        }
-
-        private void downloadFinish(int type, int status, String rid, String title) {
-            String path = "";
-            // 声明文件保存路径 用rid命名
-            path = FileUtils.getTrainCacheDir(mContext) + rid + ".pdf";
-            if (TextUtils.isEmpty(path)) {
-                ToastUtil.showToast(mContext,
-                        R.string.train_result_download_memory_error);
-                return;
-            }
-            File file = new File(path);
-            if (status == HttpDownloader.STATU_FAIL || !file.exists() || file.length() == 0) {
-                // 文件下载失败 提示
-                ToastUtil.showToast(mContext,
-                        R.string.train_result_download_fail);
-            } else {
-                if (status != HttpDownloader.STATU_SUCCESS) {
-                    ToastUtil.showToast(mContext,
-                            R.string.train_result_download_exist);
-                }
-                // 下载完成 调用
-                goPdfView(mContext, type, rid, title);
-            }
-        }
-    }
-
-    /**
-     * 下载pdf文件的线程
-     */
-    static class DownloadThread extends Thread {
-        private Context mContext;
-        private String mRid;
-        private String mUrl;
-        private String mTitle;
-        private int mType;
-
-        public DownloadThread(Context context, int type, String rid, String url, String title) {
-            this.mContext = context;
-            this.mUrl = url;
-            this.mRid = rid;
-            this.mTitle = title;
-            this.mType = type;
-        }
-
-        @Override
-        public void run() {
-            super.run();
-            String path = FileUtils.getTrainCacheDir(mContext) + mRid + ".pdf";
-            if (TextUtils.isEmpty(path)) {
-                handler.sendEmptyMessage(PROGRESS_FAILED);
-                return;
-            }
-
-            System.out.println("url:" + mUrl);
-            // 通过url下载pdf文件
-            int status = HttpDownloader.downFile(mUrl, path,
-                    new DownloadListener() {
-
-                        @Override
-                        public void onDownloadSizeChange(int downloadSize) {
-                            // 已下载的大小
-                            Message.obtain(handler, PROGRESS_CHANGE, downloadSize)
-                                    .sendToTarget();
-                        }
-
-                        @Override
-                        public void onGetTotalSize(int totalSize) {
-                            // 文件大小
-                            Message.obtain(handler, PROGRESS_MAX, totalSize)
-                                    .sendToTarget();
-                        }
-                    });
-
-            // 下载成功,向handler传递消息
-            Message msg = new Message();
-            msg.what = PROGRESS_FINISH;
-            msg.obj = new Container(status, mType, mRid, mTitle);
-            handler.sendMessage(msg);
-
-        }
-    }
-
-    static class Container {
-        public int status;
-        public int type;
-        public String rid;
-        public String title;
-
-        public Container(int type, int status, String rid, String title) {
-            this.status = status;
-            this.type = type;
-            this.rid = rid;
-            this.title = title;
-        }
+                    @Override
+                    public void onFailure(HttpException error, String msg) {
+                        new File(path + ".tmp").delete();
+                        ToastUtil.showToast(context,
+                                R.string.train_result_download_fail);
+                        progressDialog.dismiss();
+                    }
+                });
     }
 }

@@ -80,7 +80,7 @@ public class RequestParams {
 	 * 本地资源更新
 	 */
 	public static final String CHK_UPDATA_PIC_NOTICE = "button_notice";//通知公告icon 
-	public static final String CHK_UPDATA_PIC_TRAIN = "button_training";//微培训
+	public static final String CHK_UPDATA_PIC_TRAINING = "button_training";//微培训
 	public static final String CHK_UPDATA_PIC_SHELF = "button_shelf";//微培训
 	public static final String CHK_UPDATA_PIC_EXAM = "button_exam";//考试
 	public static final String CHK_UPDATA_PIC_SURVEY = "button_survey";//培训调研

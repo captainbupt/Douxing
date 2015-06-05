@@ -35,4 +35,8 @@ public class HorizontalProgressDialog extends Dialog {
     public void setProgressMax(int max) {
         progressBar.setMax(max);
     }
+
+    public int getProgressMax() {
+        return progressBar.getMax();
+    }
 }

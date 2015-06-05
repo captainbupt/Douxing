@@ -15,7 +15,7 @@
     <color name="color_text_light_grey">#74ffffff</color>
     <color name="color_text_grey">#989898</color>
     <color name="color_text_black">#3d3d3d</color>
-    <color name="color_text_blue">@color/color_blue_light</color>
+    <color name="color_text_blue">@color/color_blue</color>
     <!-- 分割线的颜色 -->
     <color name="color_edit_line">#d1d3d1</color>
     <color name="color_layout_bg">@color/color_bg_grey</color>
@@ -50,7 +50,7 @@
 
     <drawable name="main_grid_background_category">@color/color_blue</drawable>
     <!-- activity base -->
-    <color name="color_title_bar_text">@color/color_white</color>
+    <color name="color_title_bar_text">@color/color_text_blue</color>
     <!-- <color name="color_tab_selected">#ffb04d04</color> -->
     <color name="color_tab_selected">@color/color_blue</color>
     <color name="color_tab_unselected">#fff5f5f5</color>

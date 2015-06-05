@@ -64,7 +64,7 @@ public class UserProgressActivity extends BaseNoTitleActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_progress);
         mType = mReceivedIntent.getIntExtra(KEY_TYPE, -1);
-        if (mType != Category.CATEGORY_EXAM && mType != Category.CATEGORY_TRAIN) {
+        if (mType != Category.CATEGORY_EXAM && mType != Category.CATEGORY_TRAINING) {
             finish();
             return;
         }
@@ -97,7 +97,7 @@ public class UserProgressActivity extends BaseNoTitleActivity {
 
             @Override
             public void onClick(View arg0) {
-                if (mType == Category.CATEGORY_TRAIN) {
+                if (mType == Category.CATEGORY_TRAINING) {
                     Intent intent = new Intent(mContext, TrainActivity.class);
                     startActivity(intent);
                 }
@@ -135,7 +135,7 @@ public class UserProgressActivity extends BaseNoTitleActivity {
             finish();
             return;
         }
-        if (mType == Category.CATEGORY_TRAIN) {
+        if (mType == Category.CATEGORY_TRAINING) {
             String str1 = " <font color=\'#ffffff\'><b>"
                     + getResources().getString(R.string.study_fir)
                     + "</b></font>";// 你的学习进度

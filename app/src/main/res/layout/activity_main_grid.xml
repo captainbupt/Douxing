@@ -10,7 +10,7 @@
         android:background="@color/color_layout_bg"
         android:orientation="vertical">
 
-        <include layout="@layout/activity_main_title_bar" />
+        <include layout="@layout/layout_main_title_bar" />
 
         <com.badou.mworking.widget.TopFadeScrollView
             android:id="@+id/tfsv_main_grid"
@@ -54,4 +54,9 @@
             </org.holoeverywhere.widget.LinearLayout>
         </com.badou.mworking.widget.TopFadeScrollView>
     </org.holoeverywhere.widget.LinearLayout>
+
+    <org.holoeverywhere.widget.FrameLayout
+        android:id="@+id/fl_main_grid_fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </org.holoeverywhere.widget.FrameLayout>

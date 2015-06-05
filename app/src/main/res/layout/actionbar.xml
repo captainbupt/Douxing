@@ -1,80 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/layout_action_bg"
+<org.holoeverywhere.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/color_blue">
+    android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/iv_actionbar_left"
-        android:layout_width="@dimen/action_bar_img_size"
-        android:layout_height="@dimen/action_bar_img_size"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:padding="@dimen/offset_less"
-        android:scaleType="centerInside"
-        android:src="@drawable/button_title_bar_back_normal" />
-
-    <LinearLayout
-        android:id="@+id/ll_action_bar_title"
-        android:layout_width="wrap_content"
+    <org.holoeverywhere.widget.RelativeLayout
+        android:id="@+id/layout_action_bg"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/txt_actionbar_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:focusable="true"
-            android:gravity="center_horizontal"
-            android:singleLine="true"
-            android:textColor="@color/color_title_bar_text"
-            android:textSize="@dimen/text_size_title_bar_title" />
+        android:background="@color/color_white">
 
         <ImageView
-            android:id="@+id/iv_action_bar_triangle"
+            android:id="@+id/iv_actionbar_left"
+            android:layout_width="@dimen/action_bar_img_size"
+            android:layout_height="@dimen/action_bar_img_size"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/offset_less"
+            android:scaleType="centerInside"
+            android:src="@drawable/button_title_bar_back_black" />
+
+        <org.holoeverywhere.widget.LinearLayout
+            android:id="@+id/ll_action_bar_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/icon_triangle_down"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <org.holoeverywhere.widget.TextView
+                android:id="@+id/txt_actionbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:focusable="true"
+                android:gravity="center_horizontal"
+                android:singleLine="true"
+                android:textColor="@color/color_title_bar_text"
+                android:textSize="@dimen/text_size_title_bar_title" />
+
+            <ImageView
+                android:id="@+id/iv_action_bar_triangle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/icon_triangle_down"
+                android:visibility="gone" />
+
+        </org.holoeverywhere.widget.LinearLayout>
+
+        <org.holoeverywhere.widget.ProgressBar
+            android:id="@+id/pb_action_bar"
+            style="@style/update_progress_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/offset_small"
+            android:layout_toLeftOf="@id/ll_action_bar_title"
             android:visibility="gone" />
 
-    </LinearLayout>
+        <org.holoeverywhere.widget.TextView
+            android:id="@+id/txt_actionbar_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingBottom="@dimen/offset_small"
+            android:paddingLeft="@dimen/offset_less"
+            android:paddingRight="@dimen/offset_less"
+            android:paddingTop="@dimen/offset_small"
+            android:singleLine="true"
+            android:textColor="@color/color_title_bar_text"
+            android:textSize="@dimen/text_size_title_bar_right"
+            android:visibility="gone" />
 
-    <ProgressBar
-        android:id="@+id/pb_action_bar"
-        style="@style/update_progress_style"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="@dimen/offset_small"
-        android:layout_toLeftOf="@id/ll_action_bar_title"
-        android:visibility="gone" />
+        <ImageView
+            android:id="@+id/iv_actionbar_right"
+            android:layout_width="@dimen/action_bar_img_size"
+            android:layout_height="@dimen/action_bar_img_size"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:scaleType="centerInside"
+            android:visibility="gone" />
 
-    <TextView
-        android:id="@+id/txt_actionbar_right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:paddingBottom="@dimen/offset_small"
-        android:paddingLeft="@dimen/offset_less"
-        android:paddingRight="@dimen/offset_less"
-        android:paddingTop="@dimen/offset_small"
-        android:singleLine="true"
-        android:textColor="@color/color_title_bar_text"
-        android:textSize="@dimen/text_size_title_bar_right"
-        android:visibility="gone" />
+    </org.holoeverywhere.widget.RelativeLayout>
 
-    <ImageView
-        android:id="@+id/iv_actionbar_right"
-        android:layout_width="@dimen/action_bar_img_size"
-        android:layout_height="@dimen/action_bar_img_size"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:scaleType="centerInside"
-        android:visibility="gone" />
-
-</RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_border_grey" />
+</org.holoeverywhere.widget.LinearLayout>

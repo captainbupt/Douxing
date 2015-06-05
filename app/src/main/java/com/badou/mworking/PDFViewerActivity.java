@@ -26,7 +26,6 @@ public class PDFViewerActivity extends BaseStatisticalActionBarActivity {
 
     private PDFView mPdfView;
     private BottomRatingAndCommentView mBottomView;
-    private String mRid;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

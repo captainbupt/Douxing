@@ -78,7 +78,7 @@ public class MainGridAdapter extends MyBaseAdapter {
                 .getUserInfo().account;
         if (RequestParams.CHK_UPDATA_PIC_NOTICE.equals(tag)) {//通知公告
             num = SP.getIntSP(mContext, SP.DEFAULTCACHE, userNum + Notice.CATEGORY_KEY_UNREAD_NUM, 0);
-        } else if (RequestParams.CHK_UPDATA_PIC_TRAIN.equals(tag)) {//微培训
+        } else if (RequestParams.CHK_UPDATA_PIC_TRAINING.equals(tag)) {//微培训
             num = SP.getIntSP(mContext, SP.DEFAULTCACHE, userNum + Train.CATEGORY_KEY_UNREAD_NUM, 0);
         } else if (RequestParams.CHK_UPDATA_PIC_EXAM.equals(tag)) {//在线考试
             num = SP.getIntSP(mContext, SP.DEFAULTCACHE, userNum + Exam.CATEGORY_KEY_UNREAD_NUM, 0);

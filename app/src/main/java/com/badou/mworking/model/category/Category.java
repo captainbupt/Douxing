@@ -16,13 +16,13 @@ import java.io.Serializable;
 public abstract class Category implements Serializable {
 
     public static final int CATEGORY_NOTICE = 0;     //通知公告
-    public static final int CATEGORY_EXAM = 1;        //在线考试
-    public static final int CATEGORY_TASK = 2;        //任务签到
-    public static final int CATEGORY_TRAIN = 3;   //微培训
+    public static final int CATEGORY_TRAINING = 1;   //微培训
+    public static final int CATEGORY_EXAM = 2;        //在线考试
+    public static final int CATEGORY_TASK = 3;        //任务签到
     public static final int CATEGORY_SHELF = 4;   //橱窗
 
-    public static final String[] CATEGORY_KEY_NAMES = new String[]{"notice", "exam", "task", "training", "shelf"};
-    public static final String[] CATEGORY_KEY_UNREADS = new String[]{"noticeUnreadNum", "examUnreadNum", "taskUnreadNum", "trainUnreadNum", "shelfUnreadNum"};
+    public static final String[] CATEGORY_KEY_NAMES = new String[]{"notice", "training", "exam", "task", "shelf"};
+    public static final String[] CATEGORY_KEY_UNREADS = new String[]{"noticeUnreadNum", "trainUnreadNum", "examUnreadNum", "taskUnreadNum", "shelfUnreadNum"};
 
     public int tag; // 类别id
     public String subject; // 标题

@@ -13,7 +13,7 @@ import org.json.JSONObject;
  */
 public class Train extends Category {
 
-    public static final int CATEGORY_TYPE = CATEGORY_TRAIN;
+    public static final int CATEGORY_TYPE = CATEGORY_TRAINING;
     public static final String CATEGORY_KEY_NAME = CATEGORY_KEY_NAMES[CATEGORY_TYPE];
     public static final String CATEGORY_KEY_UNREAD_NUM = CATEGORY_KEY_UNREADS[CATEGORY_TYPE];//训练 的 未读数量
 

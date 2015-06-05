@@ -59,8 +59,8 @@ public class AppApplication extends Application {
         BitmapLruCache.init(getApplicationContext());
         MyVolley.init(getApplicationContext());
         //开启异常捕获
-/*        CrashHandler crashHandler = CrashHandler.getInstance();
-        crashHandler.init(this);*/
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(this);
         //获取程序版本
         try {
             appVersion = getVersionName();

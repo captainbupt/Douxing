@@ -108,7 +108,7 @@ public class BottomRatingAndCommentView extends LinearLayout {
 
             @Override
             public void onResponseData(JSONObject jsonObject) {
-                CategoryDetail categoryDetail = new CategoryDetail(jsonObject);
+                CategoryDetail categoryDetail = new CategoryDetail(mContext, jsonObject);
                 setData(categoryDetail.ratingNum, categoryDetail.commentNum, categoryDetail.rating);
             }
         });

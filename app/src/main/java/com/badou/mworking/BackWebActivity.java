@@ -140,7 +140,7 @@ public class BackWebActivity extends BaseBackActionBarActivity {
      */
     private void bannerDate() {
         setActionbarTitle("");
-        getSupportActionBar().setCustomView(R.layout.activity_main_title_bar);
+        getSupportActionBar().setCustomView(R.layout.layout_main_title_bar);
         ViewGroup layout_action = (ViewGroup) getSupportActionBar().getCustomView().findViewById(R.id.logo_bg);
         ImageView logoImg = (ImageView) layout_action.findViewById(R.id.iv_actionbar_logo);
         // 调用缓存中的企业logoUrl图片，这样断网的情况也会显示出来了，如果本地没有的话，网络获取
