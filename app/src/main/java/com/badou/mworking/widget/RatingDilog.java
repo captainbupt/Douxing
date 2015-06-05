@@ -44,7 +44,7 @@ public class RatingDilog extends Dialog {
     private LinearLayout mRatedLayout;//已经评过分了布局
 
     private String mRid;     //资源id
-    private int mCurrentScore = -1;
+    private int mCurrentScore = 0;
 
     public OnRatingCompletedListener mOnRatingCompletedListener;
 
@@ -79,7 +79,7 @@ public class RatingDilog extends Dialog {
         mTitleTextView = (TextView) findViewById(R.id.tv_dialog_rating_title);
         mNotRatedLayout = (LinearLayout) findViewById(R.id.ll_dialog_rating_not_rated);
         mRatedLayout = (LinearLayout) findViewById(R.id.ll_dialog_rating_rated);
-        if (mCurrentScore > -1) {
+        if (mCurrentScore > 0) {
             mNotRatedLayout.setVisibility(View.GONE);
             mRatedLayout.setVisibility(View.VISIBLE);
             mTitleTextView.setText(R.string.dialog_rating_title_rated);

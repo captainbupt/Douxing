@@ -147,7 +147,7 @@ public class TaskSignActivity extends BaseStatisticalActionBarActivity implement
         long endTime = task.deadline;      //任务结束时间
 
         mBeginDateTextView.setText(TimeTransfer.long2StringDateUnit(beginTime));
-        mBeginTimeTextView.setText(TimeTransfer.long2StringTimeHour(beginTime));
+        mBeginTimeTextView.setText(TimeTransfer.long2StringTimeHour(beginTime) + "至");
         mEndDateTextView.setText(TimeTransfer.long2StringDateUnit(endTime));
         mEndTimeTextView.setText(TimeTransfer.long2StringTimeHour(endTime));
 

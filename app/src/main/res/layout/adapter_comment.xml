@@ -38,7 +38,7 @@
                 android:id="@+id/tv_adapter_comment_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/color_text_grey"
+                android:textColor="@color/color_text_blue"
                 android:textSize="@dimen/text_size_less" />
 
             <org.holoeverywhere.widget.TextView

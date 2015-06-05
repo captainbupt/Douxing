@@ -1,6 +1,7 @@
 package com.badou.mworking.adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import com.badou.mworking.net.volley.MyVolley;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.TimeTransfer;
 
+import org.holoeverywhere.app.AlertDialog;
 import org.holoeverywhere.widget.TextView;
 import org.json.JSONObject;
 
@@ -86,9 +88,15 @@ public class ChatAdapter extends MyBaseAdapter {
 
             @Override
             public void onClick(View arg0) {
-                deleteChat(info.whom);
-                mItemList.remove(position);
-                notifyDataSetChanged();
+                new AlertDialog.Builder(mContext).setTitle(R.string.tip_delete_confirmation)
+                        .setPositiveButton(R.string.operation_delete, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                deleteChat(info.whom);
+                                mItemList.remove(position);
+                                notifyDataSetChanged();
+                            }
+                        }).setNegativeButton(R.string.text_cancel, null).create().show();
             }
         });
         return view;

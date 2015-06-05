@@ -112,7 +112,7 @@ public class PutQuestionActivity extends BaseBackActionBarActivity implements On
 		case R.id.iv_tiwen_image_delete:  
 			new AlertDialog.Builder(this)
 					.setTitle(R.string.message_tips)
-					.setMessage(R.string.my_group_tishi)
+					.setMessage(R.string.tip_delete_confirmation)
 					.setPositiveButton(R.string.text_ok,
 							new DialogInterface.OnClickListener() {
 

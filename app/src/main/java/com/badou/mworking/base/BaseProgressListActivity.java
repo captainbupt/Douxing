@@ -22,6 +22,7 @@ import com.badou.mworking.util.ToastUtil;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
+import org.holoeverywhere.widget.FrameLayout;
 import org.holoeverywhere.widget.LinearLayout;
 import org.holoeverywhere.widget.ListView;
 import org.holoeverywhere.widget.ProgressBar;
@@ -56,7 +57,8 @@ public abstract class BaseProgressListActivity extends BaseBackActionBarActivity
     private ListView mMainListView;
     private ListView mMoreListView;
 
-    private android.widget.LinearLayout mClassificationLinear;  // 下拉布局
+    private LinearLayout mClassificationLinear;  // 下拉布局
+    private FrameLayout mClassificationContainer;
 
     private ImageView mNoneResultImageView;
 
@@ -106,7 +108,8 @@ public abstract class BaseProgressListActivity extends BaseBackActionBarActivity
         mNoneResultImageView = (ImageView) findViewById(R.id.iv_activity_base_progress_list_none_result);
         mMainListView = (ListView) findViewById(R.id.lv_classification_list_main);
         mMoreListView = (ListView) findViewById(R.id.lv_classification_list_more);
-        mClassificationLinear = (android.widget.LinearLayout) findViewById(R.id.classification_linear);
+        mClassificationLinear = (LinearLayout) findViewById(R.id.ll_activity_base_progress_classification);
+        mClassificationContainer = (FrameLayout) findViewById(R.id.fl_activity_base_progress_classification_container);
         mContentListView = (PullToRefreshListView) findViewById(R.id.ptrlv_user_progress_content);
         mContentListView.setMode(PullToRefreshBase.Mode.BOTH);
         mContentListView.setVisibility(View.VISIBLE);
@@ -403,7 +406,6 @@ public abstract class BaseProgressListActivity extends BaseBackActionBarActivity
 
     public void showMenu() {
         mTitletriangleImageView.setImageResource(R.drawable.icon_triangle_up);
-        mClassificationLinear.setVisibility(View.VISIBLE);
         if (mMainClassificationAdapter.getCount() > 0) {
             int main = SP.getIntSP(mContext, CATEGORY_NAME, SP_KEY_CATEGORY_MAIN, 0);
             int more = SP.getIntSP(mContext, CATEGORY_NAME, SP_KEY_CATEGORY_MORE, 0);
@@ -414,6 +416,8 @@ public abstract class BaseProgressListActivity extends BaseBackActionBarActivity
             }
             mMoreClassificationAdapter.notifyDataSetChanged();
         }
+        mClassificationContainer.setVisibility(View.VISIBLE);
+        mClassificationLinear.setVisibility(View.VISIBLE);
         Animation anim = AnimationUtils.loadAnimation(mContext, R.anim.popup_enter);
         mClassificationLinear.startAnimation(anim);
 
@@ -422,9 +426,25 @@ public abstract class BaseProgressListActivity extends BaseBackActionBarActivity
 
     public void hideMenu() {
         mTitletriangleImageView.setImageResource(R.drawable.icon_triangle_down);
-        mClassificationLinear.setVisibility(View.GONE);
         Animation anim = AnimationUtils.loadAnimation(mContext, R.anim.popup_exit);
         mClassificationLinear.startAnimation(anim);
+        anim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                mClassificationContainer.setVisibility(View.GONE);
+                mClassificationLinear.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
         status_menu_show = false;
     }
 
