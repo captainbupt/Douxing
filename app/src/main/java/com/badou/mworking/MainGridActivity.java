@@ -313,9 +313,10 @@ public class MainGridActivity extends BaseNoTitleActivity {
     @Override
     public void onBackPressed() {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        if (!transaction.isEmpty()) {
+        if (mMainSearchFragment != null) {
             transaction.remove(mMainSearchFragment);
             transaction.commit();
+            mMainSearchFragment = null;
         } else {
             // 应为系统当前的系统毫秒数一定小于2000
             if ((System.currentTimeMillis() - mExitTime) > 2000) {

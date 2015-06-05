@@ -36,6 +36,10 @@ public class CategoryDetail {
         this.type = type;
         this.rid = rid;
         this.subject = subject;
+        if (type == Category.CATEGORY_EXAM) {
+            String uid = ((AppApplication) context.getApplicationContext()).getUserInfo().userId;
+            this.url = Net.getRunHost(context) + Net.EXAM_ITEM(uid, rid);
+        }
     }
 
     public CategoryDetail(Context context, JSONObject jsonObject) {
@@ -43,12 +47,7 @@ public class CategoryDetail {
         this.commentNum = jsonObject.optInt(ResponseParams.RESOURCE_COMMENT_NUMBER);
         this.ratingNum = jsonObject.optInt(ResponseParams.RESOURCE_RATING_NUMBER);
         this.ratingTotal = jsonObject.optInt(ResponseParams.RESOURCE_RATING_TOTAL);
-        if (type == Category.CATEGORY_EXAM) {
-            String uid = ((AppApplication) context.getApplicationContext()).getUserInfo().userId;
-            this.url = Net.getRunHost(context) + Net.EXAM_ITEM(uid, rid);
-        } else {
-            this.url = jsonObject.optString(ResponseParams.RESOURCE_URL);
-        }
+        this.url = jsonObject.optString(ResponseParams.RESOURCE_URL);
         this.format = jsonObject.optInt(ResponseParams.RESOURCE_FORMAT);
         String contentString = jsonObject.optString(ResponseParams.RESOURCE_CONTENT);
         if (!TextUtils.isEmpty(contentString)) {
