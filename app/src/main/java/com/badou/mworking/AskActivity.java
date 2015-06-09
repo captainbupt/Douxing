@@ -80,7 +80,8 @@ public class AskActivity extends BaseBackActionBarActivity {
         getCache();
         mContentListView.setAdapter(mAskAdapter);
         beginIndex = 1;
-        updateListView(1);
+        //updateListView(1);
+        mContentListView.setRefreshing();
     }
 
     @Override

@@ -14,7 +14,8 @@
         android:layout_marginRight="@dimen/offset_medium"
         android:layout_weight="1"
         android:divider="@null"
-        android:paddingTop="@dimen/offset_medium" />
+        android:paddingTop="@dimen/offset_medium"
+        android:scrollbars="none" />
 
     <com.badou.mworking.widget.BottomSendMessageView
         android:id="@+id/bsmv_activity_chatting"
