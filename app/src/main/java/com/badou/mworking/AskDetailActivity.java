@@ -24,7 +24,6 @@ import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.listener.FullImageListener;
 import com.badou.mworking.model.Ask;
-import com.badou.mworking.model.WenDaAnswer;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
@@ -44,8 +43,11 @@ public class AskDetailActivity extends BaseBackActionBarActivity {
 
     public static final String KEY_ASK = "ask";
 
-    public static final int RESULT_DELETED = 1001;
-    public static final int RESULT_REPLIED = 1002;
+    public static final int REQUEST_REPLY = 11;
+
+    public static final int RESULT_DELETED = 11;
+    public static final int RESULT_REPLIED = 12;
+    public static final String RESULT_KEY_COUNT = "count";
 
     private Ask mAsk;
 
@@ -121,9 +123,9 @@ public class AskDetailActivity extends BaseBackActionBarActivity {
         mBottomReplyLayout.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext, WenDaAnswerActivity.class);
-                intent.putExtra("aid", mAsk.aid);
-                startActivity(intent);
+                Intent intent = new Intent(mContext, AskAnswerSubmitActivity.class);
+                intent.putExtra(AskAnswerSubmitActivity.KEY_AID, mAsk.aid);
+                startActivityForResult(intent, REQUEST_REPLY);
             }
         });
 
@@ -142,11 +144,11 @@ public class AskDetailActivity extends BaseBackActionBarActivity {
         mMessageTextView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent2 = new Intent(mContext, ChattingActivity.class);
-                intent2.putExtra(BaseActionBarActivity.KEY_TITLE, mAsk.userName);
-                intent2.putExtra(ChattingActivity.KEY_WHOM, mAsk.whom);
-                intent2.putExtra(ChattingActivity.KEY_OTHER_IMG, mAsk.userHeadUrl);
-                startActivity(intent2);
+                Intent intent = new Intent(mContext, ChattingActivity.class);
+                intent.putExtra(BaseActionBarActivity.KEY_TITLE, mAsk.userName);
+                intent.putExtra(ChattingActivity.KEY_WHOM, mAsk.whom);
+                intent.putExtra(ChattingActivity.KEY_OTHER_IMG, mAsk.userHeadUrl);
+                startActivity(intent);
             }
         });
     }
@@ -170,6 +172,7 @@ public class AskDetailActivity extends BaseBackActionBarActivity {
         // 有了这句会导致无法刷新
         // pullToRefreshScrollView.setRefreshing();
         updateListView(1);
+        mProgressDialog.show();
 
         if (mAsk.isDeletable) {
             mDeleteTextView.setVisibility(View.VISIBLE);
@@ -237,6 +240,7 @@ public class AskDetailActivity extends BaseBackActionBarActivity {
         });
     }
 
+
     /**
      * 功能描述:获取回答列表
      */
@@ -246,6 +250,9 @@ public class AskDetailActivity extends BaseBackActionBarActivity {
 
             @Override
             public void onResponse(Object responseObject) {
+                if (!mActivity.isFinishing()) {
+                    mProgressDialog.dismiss();
+                }
                 pullToRefreshScrollView.onRefreshComplete();
                 JSONObject response = (JSONObject) responseObject;
                 int code = response.optInt(Net.CODE);
@@ -278,7 +285,9 @@ public class AskDetailActivity extends BaseBackActionBarActivity {
                     JSONObject jsonObject = jsonArray.optJSONObject(i);
                     tempAsk.add(new Ask(jsonObject));
                 }
-                if(beginNum == beginIndex) {
+                if (beginIndex == 1) {
+                    mAnswerAdapter.setList(tempAsk);
+                } else {
                     mAnswerAdapter.addList(tempAsk);
                 }
                 beginIndex++;
@@ -288,8 +297,26 @@ public class AskDetailActivity extends BaseBackActionBarActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 super.onErrorResponse(error);
+                if (!mActivity.isFinishing()) {
+                    mProgressDialog.dismiss();
+                }
                 pullToRefreshScrollView.onRefreshComplete();
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        System.out.println("Request: " + requestCode + ", result: " + resultCode);
+        if (resultCode == RESULT_OK && requestCode == REQUEST_REPLY) {
+            mAsk.count++;
+            mProgressDialog.show();
+            beginIndex = 1;
+            updateListView(1);
+            Intent intent = new Intent();
+            intent.putExtra(RESULT_KEY_COUNT, mAsk.count);
+            setResult(RESULT_REPLIED, intent);
+        }
     }
 }

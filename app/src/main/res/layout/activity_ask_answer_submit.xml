@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.holoeverywhere.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_layout_bg"
+    android:orientation="vertical">
+
+    <org.holoeverywhere.widget.EditText
+        android:id="@+id/et_activity_ask_answer_submit_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/offset_small"
+        android:background="@android:color/white"
+        android:gravity="top|left"
+        android:hint="@string/ask_answer_hint"
+        android:inputType="textMultiLine"
+        android:maxLines="4"
+        android:minLines="4"
+        android:padding="@dimen/offset_lless"
+        android:textColor="@color/color_text_black"
+        android:textSize="@dimen/text_size_medium" />
+
+    <com.badou.mworking.widget.MultiImageEditGridView
+        android:id="@+id/miegv_activity_ask_answer_submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:horizontalSpacing="@dimen/offset_small"
+        android:paddingBottom="@dimen/offset_small"
+        android:paddingLeft="@dimen/offset_medium"
+        android:paddingRight="@dimen/offset_medium"
+        android:paddingTop="@dimen/offset_small"
+        android:verticalSpacing="@dimen/offset_small" />
+
+    <include
+        android:id="@+id/ll_activity_ask_answer_photo"
+        layout="@layout/layout_bottom_photo" />
+
+</org.holoeverywhere.widget.LinearLayout>

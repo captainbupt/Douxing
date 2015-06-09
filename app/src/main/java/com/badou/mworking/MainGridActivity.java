@@ -449,14 +449,14 @@ public class MainGridActivity extends BaseNoTitleActivity {
         List<Object> mainIconList = new ArrayList<>();
 
         // 用此顺序，可以保证没有缓存的时候能够按顺序显示
-        mainIconList.add(getMainIcon(RequestParams.CHK_UPDATA_PIC_ASK, R.drawable.button_ask, R.string.module_default_title_ask));
-        mainIconList.add(getMainIcon(RequestParams.CHK_UPDATA_PIC_SHELF, R.drawable.button_shelf, R.string.module_default_title_shelf));
-        mainIconList.add(getMainIcon(RequestParams.CHK_UPDATA_PIC_SURVEY, R.drawable.button_survey, R.string.module_default_title_survey));
-        mainIconList.add(getMainIcon(RequestParams.CHK_UPDATA_PIC_CHATTER, R.drawable.button_chatter, R.string.module_default_title_chatter));
-        mainIconList.add(getMainIcon(RequestParams.CHK_UPDATA_PIC_TASK, R.drawable.button_task, R.string.module_default_title_task));
-        mainIconList.add(getMainIcon(RequestParams.CHK_UPDATA_PIC_EXAM, R.drawable.button_exam, R.string.module_default_title_exam));
-        mainIconList.add(getMainIcon(RequestParams.CHK_UPDATA_PIC_TRAINING, R.drawable.button_training, R.string.module_default_title_training));
-        mainIconList.add(getMainIcon(RequestParams.CHK_UPDATA_PIC_NOTICE, R.drawable.button_notice, R.string.module_default_title_notice));
+        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParams.CHK_UPDATA_PIC_ASK, R.drawable.button_ask, R.string.module_default_title_ask));
+        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParams.CHK_UPDATA_PIC_SHELF, R.drawable.button_shelf, R.string.module_default_title_shelf));
+        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParams.CHK_UPDATA_PIC_SURVEY, R.drawable.button_survey, R.string.module_default_title_survey));
+        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParams.CHK_UPDATA_PIC_CHATTER, R.drawable.button_chatter, R.string.module_default_title_chatter));
+        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParams.CHK_UPDATA_PIC_TASK, R.drawable.button_task, R.string.module_default_title_task));
+        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParams.CHK_UPDATA_PIC_EXAM, R.drawable.button_exam, R.string.module_default_title_exam));
+        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParams.CHK_UPDATA_PIC_TRAINING, R.drawable.button_training, R.string.module_default_title_training));
+        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParams.CHK_UPDATA_PIC_NOTICE, R.drawable.button_notice, R.string.module_default_title_notice));
 
         /**
          * 权限， 设置隐藏显示
@@ -478,38 +478,6 @@ public class MainGridActivity extends BaseNoTitleActivity {
             }
         }); //对list进行排序
         return mainIconList;
-    }
-
-    /**
-     * @param key               icon键值
-     * @param resId             本地图片
-     * @param defaultTitleResId 默认名称
-     */
-    private MainIcon getMainIcon(String key, int resId, int defaultTitleResId) {
-        JSONObject mainIconJSONObject = getMainIconJSONObject(key);
-        if (mainIconJSONObject == null)
-            return new MainIcon(key, resId, getResources().getString(defaultTitleResId), "1");
-        String title = mainIconJSONObject.optString("name");
-        String priority = mainIconJSONObject.optString("priority");
-        if (TextUtils.isEmpty(title)) {
-            title = getResources().getString(defaultTitleResId);
-        }
-        return new MainIcon(key, resId, title, priority);
-    }
-
-    /**
-     * 功能描述: 更新数据库中mainIcon的name 字段和 priority 字段
-     */
-    private JSONObject getMainIconJSONObject(String key) {
-        JSONObject shuffle = ((AppApplication) getApplication()).getUserInfo().shuffleStr;
-        Iterator it = shuffle.keys();
-        while (it.hasNext()) {
-            String IconKey = (String) it.next();
-            if (key.equals(IconKey)) {
-                return shuffle.optJSONObject(IconKey);
-            }
-        }
-        return null;
     }
 
     public Bitmap myShot() {

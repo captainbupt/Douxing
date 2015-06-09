@@ -49,7 +49,7 @@ public class ForgetPasswordVerificationActivity extends BaseBackActionBarActivit
         mPasswordEditText = (EditText) this.findViewById(R.id.et_forget_password_verification_new);
         mConfirmationEditText = (EditText) this.findViewById(R.id.et_forget_password_verification_confirm);
         mNextTextView = (TextView) this.findViewById(R.id.tv_forget_password_verification_next);
-        mProgressDialog.setContent(R.string.exam_action_submit_ing);
+        mProgressDialog.setContent(R.string.progress_tips_submit_ing);
     }
 
     private void initListener() {

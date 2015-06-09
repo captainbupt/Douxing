@@ -52,6 +52,7 @@ public class AskActivity extends BaseBackActionBarActivity {
     }
 
     private void initView() {
+        setRightText(R.string.ask_title_right);
         mNoneResultImageView = (ImageView) findViewById(R.id.iv_activity_question_none);
 
         // 因为需要同时添加单击和长按事件，pullToRefresh并不支持该操作。所以只能在adapter里面进行添加
@@ -79,19 +80,25 @@ public class AskActivity extends BaseBackActionBarActivity {
         getCache();
         mContentListView.setAdapter(mAskAdapter);
         beginIndex = 1;
-        mContentListView.setRefreshing();
+        updateListView(1);
     }
 
     @Override
     public void clickRight() {
         super.clickRight();
-        /*Intent intent = new Intent(this, PutQuestionActivity.class);
-        startActivity(intent);*/
+        Intent intent = new Intent(this, AskSubmitActivity.class);
+        startActivity(intent);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+        if (resultCode == AskDetailActivity.RESULT_DELETED) {
+            mAskAdapter.remove(mClickPosition);
+        } else if (resultCode == AskDetailActivity.RESULT_REPLIED) {
+            Ask ask = (Ask) mAskAdapter.getItem(mClickPosition);
+            ask.count = data.getIntExtra(AskDetailActivity.RESULT_KEY_COUNT, ask.count);
+            mAskAdapter.setItem(mClickPosition, ask);
+        }
     }
 
     /**
@@ -139,15 +146,13 @@ public class AskActivity extends BaseBackActionBarActivity {
                     String userNum = ((AppApplication) getApplicationContext()).getUserInfo().account;
                     //添加缓存
                     if (beginIndex == 1) {
+                        mAskAdapter.setList(askTemp);
                         //添加缓存
                         SP.putStringSP(AskActivity.this, SP.ASK, userNum + Ask.WENDACACHE, data.toString());
-                    } /*else {
-                        String SPJSONArray = SP.getStringSP(AskActivity.this, SP.ASK, userNum + Ask.WENDACACHE, "");
-                        Ask.putSPJsonArray(AskActivity.this, userNum + Ask.WENDACACHE, SPJSONArray, data);
-                    }*/
+                    } else {
+                        mAskAdapter.addList(askTemp);
+                    }
                     beginIndex++;
-                    mAskAdapter.addList(askTemp);
-                    mAskAdapter.notifyDataSetChanged();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -180,8 +185,7 @@ public class AskActivity extends BaseBackActionBarActivity {
                 Ask ask = new Ask(jsonObject);
                 list.add(ask);
             }
-            mAskAdapter.addList(list);
-            mAskAdapter.notifyDataSetChanged();
+            mAskAdapter.setList(list);
         } catch (JSONException e) {
             e.printStackTrace();
         }

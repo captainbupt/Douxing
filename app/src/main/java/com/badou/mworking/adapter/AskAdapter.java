@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.badou.mworking.AskActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.AskDetailActivity;
 import com.badou.mworking.base.MyBaseAdapter;
@@ -16,6 +17,8 @@ import com.badou.mworking.model.Ask;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.util.DialogUtil;
 import com.badou.mworking.util.TimeTransfer;
+
+import org.holoeverywhere.app.Activity;
 
 /**
  * 问答页面适配器
@@ -61,7 +64,8 @@ public class AskAdapter extends MyBaseAdapter {
                 Intent intent = new Intent();
                 intent.setClass(mContext, AskDetailActivity.class);
                 intent.putExtra(AskDetailActivity.KEY_ASK, ask);
-                mContext.startActivity(intent);
+                // 任意
+                ((Activity)mContext).startActivityForResult(intent, 1);
             }
         });
         return convertView;

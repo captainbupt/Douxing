@@ -58,7 +58,7 @@
                     android:layout_width="@dimen/around_icon_reply_width"
                     android:layout_height="@dimen/around_icon_reply_width"
                     android:scaleType="centerInside"
-                    android:src="@drawable/icon_category_comment" />
+                    android:src="@drawable/icon_bottom_comment" />
 
                 <TextView
                     android:id="@+id/tv_adapter_ask_reply_count"

@@ -161,5 +161,7 @@
     <dimen name="button_size_activity_task_sign_bottom">80dp</dimen>
     <dimen name="layout_size_activity_task_sign_bottom">55dp</dimen>
 
+    <dimen name="image_size_uploading">75dp</dimen>
+
     
 </resources>

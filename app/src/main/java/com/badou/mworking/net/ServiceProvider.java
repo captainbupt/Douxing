@@ -460,7 +460,7 @@ public class ServiceProvider {
     /*
      * 发布问题
      * */
-    public static void doPublishAsk(final Context context, final String content, final Bitmap bitmap,
+    public static void doPublishAsk(final Context context, final String subject, final String content, final Bitmap bitmap,
                                     final VolleyListener volleyListener) {
 
         final Handler handler = new Handler() {
@@ -480,6 +480,7 @@ public class ServiceProvider {
                 try {
                     jsonObject.put(RequestParams.PUBLISH_QUSETION_SHARE_UID,
                             uid);
+                    jsonObject.put(RequestParams.PUBLISH_QUSETION_SHARE_SUBJECT, subject);
                     jsonObject.put(
                             RequestParams.PUBLISH_QUSETION_SHARE_CONTENT,
                             content);
@@ -904,8 +905,8 @@ public class ServiceProvider {
         String uid = ((AppApplication) context.getApplicationContext())
                 .getUserInfo().userId;
         // url 编码，    url请求不支持中问，需要将中文进行url编码
-        key = key.replace("\n","");
-        key = key.replace(" ","");
+        key = key.replace("\n", "");
+        key = key.replace(" ", "");
         if (!TextUtils.isEmpty(key)) {
             try {
                 key = URLEncoder.encode(key, "UTF-8");

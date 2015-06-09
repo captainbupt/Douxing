@@ -70,8 +70,6 @@
     <string name="result_comment_submit_fail">发布失败，请重试</string>
     <string name="tongShiQuan_submit_fail">发表失败!请稍后重试</string>
     <string name="tongShiQuan_submit_success">发表成功!</string>
-    <string name="exam_action_submit_ing">提交中&#8230;</string>
-    <string name="login_action_login_ing">登录中&#8230;</string>
     <string name="act_yanZheng_phone_notnull">请输入手机号码</string>
     <string name="act_yanZheng_verfiy_notnull">请输入验证码</string>
     <string name="act_expri_verify_err_vcode">验证码错误</string>
@@ -228,11 +226,19 @@
     <string name="yikaoshiti_str">已考试题</string>
     <string name="statistical_data">统计数据</string>
     <string name="tongshiquan_share">我要分享</string>
-    <string name="ask_title_right">我要分享</string>
 
-    <string name="ask_title">提问</string>
-    <string name="ask_time">发布时间: </string>
-    <string name="ask_bottom">参与讨论</string>
+    <string name="ask_title_right">提问</string>
+    <string name="ask_submit_subject_tip">标题</string>
+    <string name="ask_submit_subject_hint">输入问题的标题</string>
+    <string name="ask_submit_description_tip">描述</string>
+    <string name="ask_submit_description_hint">输入问题的描述</string>
+    <string name="ask_answer_title_right">发布</string>
+    <string name="ask_answer_bottom">图片</string>
+    <string name="ask_answer_tip_empty">提问内容不能为空</string>
+    <string name="ask_answer_tip_little">内容不少于5个字</string>
+    <string name="ask_answer_hint">输入您的精彩回复吧</string>
+    <string name="ask_detail_time">发布时间: </string>
+    <string name="ask_detail_bottom">参与讨论</string>
 
     <string name="dialog_operation">请选择操作</string>
     <string name="dialog_operation_copy">复制</string>
@@ -241,6 +247,8 @@
     <string name="operation_message">私信</string>
 
     <string name="progress_tips_praise_ing">点赞中，请稍后…</string>
+    <string name="progress_tips_submit_ing">提交中…</string>
+    <string name="progress_tips_login_ing">登录中…</string>
 
     <string name="module_default_title_notice">通知公告</string>
     <string name="module_default_title_chatter">同事圈</string>

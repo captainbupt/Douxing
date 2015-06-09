@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.holoeverywhere.widget.FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/iv_adapter_multi_image_edit_content"
+        android:layout_width="@dimen/image_size_uploading"
+        android:layout_height="@dimen/image_size_uploading"
+        android:layout_marginLeft="@dimen/offset_small"
+        android:layout_marginTop="@dimen/offset_small" />
+
+    <ImageView
+        android:id="@+id/iv_adapter_multi_image_edit_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_multi_image_edit_delete" />
+
+</org.holoeverywhere.widget.FrameLayout>

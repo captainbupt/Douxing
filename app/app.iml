@@ -93,6 +93,8 @@
     <orderEntry type="library" exported="" name="locSDK_3.1" level="project" />
     <orderEntry type="library" exported="" name="volley" level="project" />
     <orderEntry type="library" exported="" name="DraggableGridView" level="project" />
+    <orderEntry type="library" exported="" name="android-support-v7-appcompat" level="project" />
+    <orderEntry type="module" module-name="Pulltorefresh" exported="" />
     <orderEntry type="module" module-name="HoloEverywhere" exported="" />
   </component>
 </module>

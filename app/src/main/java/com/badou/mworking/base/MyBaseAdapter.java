@@ -27,6 +27,26 @@ public abstract class MyBaseAdapter extends BaseAdapter {
         this.mInflater = LayoutInflater.from(mContext);
     }
 
+    public void remove(int position) {
+        if (position < 0 || position >= getCount()) {
+            return;
+        }
+        mItemList.remove(position);
+        notifyDataSetChanged();
+    }
+
+    public void setItem(int position, Object item) {
+        if (position < 0 || position >= getCount()) {
+            return;
+        }
+        mItemList.set(position, item);
+        notifyDataSetChanged();
+    }
+
+    public List<Object> getItemList() {
+        return mItemList;
+    }
+
     /**
      * 功能描述: 重新设置list
      */
@@ -45,7 +65,7 @@ public abstract class MyBaseAdapter extends BaseAdapter {
         if (mItemList == null) {
             setList(list);
             return;
-        }else{
+        } else {
             mItemList.addAll(list);
         }
         notifyDataSetChanged();
@@ -67,8 +87,8 @@ public abstract class MyBaseAdapter extends BaseAdapter {
     /**
      * 功能描述:替换一个item
      */
-    public void changeItem(int position, Object object){
-        if (object!=null) {
+    public void changeItem(int position, Object object) {
+        if (object != null) {
             //替换指定元素
             mItemList.set(position, object);
         }
