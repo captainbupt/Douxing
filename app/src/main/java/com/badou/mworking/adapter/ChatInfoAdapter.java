@@ -52,7 +52,7 @@ public class ChatInfoAdapter extends MyBaseAdapter {
 		this.mOtherHeadUrl = img;
 		this.mHeadUrl = myHeadImgUrl;
 		mHeadSize = mContext.getResources().getDimensionPixelSize(
-				R.dimen.around_icon_head_size);
+				R.dimen.icon_head_size_middle);
 	}
 
 	@Override

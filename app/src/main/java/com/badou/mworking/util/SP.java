@@ -11,7 +11,7 @@ public class SP {
     // 请勿随意更改值，会导致之前版本缓存异常
     public static final String DEFAULTCACHE = "douxing";  //默认普通缓存
     public static final String TONGSHIQUAN = "tongshiquan";  // 同事圈缓存
-    public static final String WENDA = "wenda";  // 问答缓存
+    public static final String ASK = "wenda";  // 问答缓存
 
     // save shared preference values
     public static void putSP(Context context, String fileName, String key, Object value) {

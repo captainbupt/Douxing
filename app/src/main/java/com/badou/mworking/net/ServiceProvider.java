@@ -998,7 +998,7 @@ public class ServiceProvider {
      * @param searchStr      搜索的内容
      * @param volleyListener
      */
-    public static void updateWendaList(Context context, int page, int limit, String searchStr, VolleyListener volleyListener) {
+    public static void updateAskList(Context context, int page, int limit, String searchStr, VolleyListener volleyListener) {
         String uid = ((AppApplication) context.getApplicationContext())
                 .getUserInfo().userId;
         // url 编码，    url请求不支持中问，需要将中文进行url编码

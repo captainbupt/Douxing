@@ -129,7 +129,7 @@ public class TipsWebView extends BaseNoTitleActivity {
         ImageView ivLeft = (ImageView) this
                 .findViewById(R.id.iv_actionbar_left);
         TextView tvTitle = (TextView) this
-                .findViewById(R.id.txt_actionbar_title);
+                .findViewById(R.id.tv_actionbar_title);
         ImageView ivRight = (ImageView) this
                 .findViewById(R.id.iv_actionbar_right);
         ivLeft.setOnClickListener(new OnClickListener() {

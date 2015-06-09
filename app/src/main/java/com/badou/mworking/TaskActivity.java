@@ -4,12 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.badou.mworking.adapter.TaskAdapter;
-import com.badou.mworking.base.BaseActionBarActivity;
-import com.badou.mworking.base.BaseProgressListActivity;
-import com.badou.mworking.base.BaseStatisticalActionBarActivity;
+import com.badou.mworking.base.BaseCategoryProgressListActivity;
 import com.badou.mworking.model.category.Task;
 import com.badou.mworking.util.CategoryClickHandler;
-import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.ToastUtil;
 
@@ -18,7 +15,7 @@ import org.json.JSONObject;
 /**
  *  任务签到界面
  */
-public class TaskActivity extends BaseProgressListActivity {
+public class TaskActivity extends BaseCategoryProgressListActivity {
 
     private int mClickPosition = -1;
 

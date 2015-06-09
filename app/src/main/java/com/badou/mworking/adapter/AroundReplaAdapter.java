@@ -132,7 +132,7 @@ public class AroundReplaAdapter extends BaseAdapter {
 
         // holder.tvQuestionShareNums.setText(question.getReply_no() + "");
         int size = mContext.getResources().getDimensionPixelSize(
-                R.dimen.around_icon_head_size);
+                R.dimen.icon_head_size_middle);
         Bitmap headBmp = BitmapLruCache.getBitmapLruCache().getCircleBitmap(
                 question.getImgUrl());
         if (headBmp != null && !headBmp.isRecycled()) {

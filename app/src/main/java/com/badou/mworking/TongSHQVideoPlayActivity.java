@@ -107,7 +107,7 @@ public class TongSHQVideoPlayActivity extends Activity implements
      */
     private void init() {
         ivLeft = (ImageView) this.findViewById(R.id.iv_actionbar_left);
-        tvTitle = (TextView) this.findViewById(R.id.txt_actionbar_title);
+        tvTitle = (TextView) this.findViewById(R.id.tv_actionbar_title);
         mVideo = (FullScreenVideoView) this
                 .findViewById(R.id.tongshiquan_video);
         mProgressBar = (ProgressBar) findViewById(R.id.progress);

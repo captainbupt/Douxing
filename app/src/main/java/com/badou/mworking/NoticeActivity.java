@@ -3,18 +3,17 @@ package com.badou.mworking;
 import android.os.Bundle;
 
 import com.badou.mworking.adapter.NoticeAdapter;
-import com.badou.mworking.base.BaseProgressListActivity;
+import com.badou.mworking.base.BaseCategoryProgressListActivity;
 import com.badou.mworking.model.category.Notice;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.util.CategoryClickHandler;
-import com.badou.mworking.util.ToastUtil;
 
 import org.json.JSONObject;
 
 /**
  * 功能描述: 通知公告页面
  */
-public class NoticeActivity extends BaseProgressListActivity {
+public class NoticeActivity extends BaseCategoryProgressListActivity {
 
     public static final int PROGRESS_CHANGE = 0x1;
     public static final int PROGRESS_FINISH = 0x2;

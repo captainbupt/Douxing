@@ -109,10 +109,10 @@
             android:name="com.badou.mworking.BackWebActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.badou.mworking.WenDActivity"
+            android:name=".AskActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.badou.mworking.WenDaDetailActivity"
+            android:name=".AskDetailActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.badou.mworking.MyRatingActivity"
@@ -191,18 +191,10 @@
 
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.badou.mworking.PutQuestionActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".ChattingActivity"
 
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name="com.badou.mworking.WenDaSearchActivity"
-            android:screenOrientation="portrait"
-
-            android:windowSoftInputMode="stateAlwaysVisible" />
         <activity
             android:name=".ChatListActivity"
 

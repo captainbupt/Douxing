@@ -146,7 +146,7 @@ public class WenDaAnswerActivity extends BaseBackActionBarActivity implements On
   								return;
   							}
   							if (errcode == 0) {
-  								WenDaDetailActivity.ISREFRESHWENDAPINGLUN = true;
+  								//AskDetailActivity.ISREFRESHWENDAPINGLUN = true;
   								WenDaAnswerActivity.this.finish();
   							} else {
 								ToastUtil.showToast(mContext, "提交失败");

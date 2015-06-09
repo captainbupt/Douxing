@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.holoeverywhere.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <org.holoeverywhere.widget.TextView
+        android:id="@+id/tv_actionbar_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:focusable="true"
+        android:gravity="center_horizontal"
+        android:singleLine="true"
+        android:textColor="@color/color_title_bar_text"
+        android:textSize="@dimen/text_size_title_bar_title" />
+
+    <ImageView
+        android:id="@+id/iv_actionbar_triangle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:padding="@dimen/offset_small"
+        android:src="@drawable/icon_triangle_down" />
+
+</org.holoeverywhere.widget.LinearLayout>

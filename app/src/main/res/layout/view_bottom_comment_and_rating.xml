@@ -2,106 +2,80 @@
 <org.holoeverywhere.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/color_white"
-    android:orientation="vertical">
+    android:background="@drawable/background_border_white"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/color_border_grey" />
-
+    <!-- 点赞 -->
     <org.holoeverywhere.widget.LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/ll_bottom_rating"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/offset_medium"
+        android:paddingTop="@dimen/offset_medium">
 
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@color/color_border_grey" />
-
-        <!-- 点赞 -->
-        <org.holoeverywhere.widget.LinearLayout
-            android:id="@+id/ll_bottom_rating"
-            android:layout_width="0dp"
+        <ImageView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:paddingBottom="@dimen/offset_medium"
-            android:paddingTop="@dimen/offset_medium">
+            android:src="@drawable/icon_category_rating" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/icon_category_rating" />
-
-            <org.holoeverywhere.widget.TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/offset_less"
-                android:text="@string/tips_bottom_rating"
-                android:textColor="@color/color_text_black"
-                android:textSize="@dimen/text_size_medium" />
-
-            <org.holoeverywhere.widget.TextView
-                android:id="@+id/tv_bottom_rating_number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/color_text_black"
-                android:textSize="@dimen/text_size_medium" />
-        </org.holoeverywhere.widget.LinearLayout>
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/offset_small"
-            android:layout_marginTop="@dimen/offset_small"
-            android:background="@color/color_border_grey" />
-
-        <!-- 评论 -->
-        <org.holoeverywhere.widget.LinearLayout
-            android:id="@+id/ll_bottom_comment"
-            android:layout_width="0dp"
+        <org.holoeverywhere.widget.TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:paddingBottom="@dimen/offset_medium"
-            android:paddingTop="@dimen/offset_medium">
+            android:layout_marginLeft="@dimen/offset_less"
+            android:text="@string/tips_bottom_rating"
+            android:textColor="@color/color_text_black"
+            android:textSize="@dimen/text_size_medium" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/icon_category_comment" />
-
-            <org.holoeverywhere.widget.TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/offset_less"
-                android:text="@string/tips_bottom_comment"
-                android:textColor="@color/color_text_black"
-                android:textSize="@dimen/text_size_medium" />
-
-            <org.holoeverywhere.widget.TextView
-                android:id="@+id/tv_bottom_comment_number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/color_text_black"
-                android:textSize="@dimen/text_size_medium" />
-        </org.holoeverywhere.widget.LinearLayout>
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@color/color_border_grey" />
-
+        <org.holoeverywhere.widget.TextView
+            android:id="@+id/tv_bottom_rating_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_text_black"
+            android:textSize="@dimen/text_size_medium" />
     </org.holoeverywhere.widget.LinearLayout>
 
     <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:id="@+id/view_bottom_center_divider"
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/offset_small"
+        android:layout_marginTop="@dimen/offset_small"
         android:background="@color/color_border_grey" />
+
+    <!-- 评论 -->
+    <org.holoeverywhere.widget.LinearLayout
+        android:id="@+id/ll_bottom_comment"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/offset_medium"
+        android:paddingTop="@dimen/offset_medium">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_category_comment" />
+
+        <org.holoeverywhere.widget.TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/offset_less"
+            android:text="@string/tips_bottom_comment"
+            android:textColor="@color/color_text_black"
+            android:textSize="@dimen/text_size_medium" />
+
+        <org.holoeverywhere.widget.TextView
+            android:id="@+id/tv_bottom_comment_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_text_black"
+            android:textSize="@dimen/text_size_medium" />
+    </org.holoeverywhere.widget.LinearLayout>
 
 </org.holoeverywhere.widget.LinearLayout>

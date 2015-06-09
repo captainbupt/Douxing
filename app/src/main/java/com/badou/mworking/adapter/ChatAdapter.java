@@ -48,7 +48,7 @@ public class ChatAdapter extends MyBaseAdapter {
         holder.headImageView.setImageResource(R.drawable.icon_user_detail_default_head);
         /**设置头像**/
         int size = mContext.getResources().getDimensionPixelSize(
-                R.dimen.around_icon_head_size);
+                R.dimen.icon_head_size_middle);
         if (null != info && !"".equals(info.img)) {
             Bitmap bm = BitmapLruCache.getBitmapLruCache().getCircleBitmap(info.img);
             if (bm != null && !bm.isRecycled()) {

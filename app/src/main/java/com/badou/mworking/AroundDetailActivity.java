@@ -128,8 +128,8 @@ public class AroundDetailActivity extends BaseBackActionBarActivity{
 		imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
 		
 		// 自定义LinearLayout
-		lvQuestion = (NoScrollListView) findViewById(R.id.lvQuestionAnswers);
-		sixinTv = (TextView) findViewById(R.id.sixin_tv);
+		lvQuestion = (NoScrollListView) findViewById(R.id.nslv_activity_ask_detail_answer);
+		sixinTv = (TextView) findViewById(R.id.tv_activity_ask_detail_message);
 		replyAdapter = new AroundReplaAdapter(mContext,0,question.getQid(),mProgressDialog);
 		lvQuestion.setAdapter(replyAdapter);
 		tvDelComment = (TextView) findViewById(R.id.tv_delete_comment);
@@ -266,7 +266,7 @@ public class AroundDetailActivity extends BaseBackActionBarActivity{
 			} else {
 				/**设置头像**/
 				int size = mContext.getResources().getDimensionPixelSize(
-						R.dimen.around_icon_head_size);
+						R.dimen.icon_head_size_middle);
 				MyVolley.getImageLoader().get(
 						question.getImgUrl(),
 						new CircleImageListener(mContext,question
@@ -450,7 +450,7 @@ public class AroundDetailActivity extends BaseBackActionBarActivity{
 			}
 		});
 
-		pullToRefreshScrollView = (PullToRefreshScrollView) findViewById(R.id.ptrs_activity_around_detail);
+		pullToRefreshScrollView = (PullToRefreshScrollView) findViewById(R.id.ptrsv_activity_ask_detail);
 		pullToRefreshScrollView
 				.setOnRefreshListener(new OnRefreshListener<ScrollView>() {
 

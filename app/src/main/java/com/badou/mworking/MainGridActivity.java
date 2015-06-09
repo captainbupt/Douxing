@@ -180,7 +180,7 @@ public class MainGridActivity extends BaseNoTitleActivity {
                         intent.setClass(mContext, AroundActivity.class);
                         break;
                     case RequestParams.CHK_UPDATA_PIC_ASK: //问答
-                        intent.setClass(mContext, WenDActivity.class);
+                        intent.setClass(mContext, AskActivity.class);
                         break;
                     case RequestParams.CHK_UPDATA_PIC_SHELF: //橱窗
                         intent.setClass(mContext, TrainActivity.class);
@@ -189,7 +189,6 @@ public class MainGridActivity extends BaseNoTitleActivity {
                 }
                 intent.putExtra(BaseActionBarActivity.KEY_TITLE, mainIcon.name);
                 startActivity(intent);
-                overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
             }
         });
         mUserCentertImageView.setOnClickListener(new View.OnClickListener() {

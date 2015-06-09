@@ -65,7 +65,7 @@ public class HistoryExamActivity extends BaseNoTitleActivity implements OnClickL
 	
 	protected void initView(){
 		ivActionbarLeft = (ImageView) findViewById(R.id.iv_actionbar_left);
-		actionbarTitle = (TextView) findViewById(R.id.txt_actionbar_title);
+		actionbarTitle = (TextView) findViewById(R.id.tv_actionbar_title);
 		ivActionbarLeft.setOnClickListener(this);
 		actionbarTitle.setText(getResources().getString(R.string.yikaoshiti_str));
 		pullToRefreshListView = (PullToRefreshListView)findViewById(R.id.ptrlv_user_progress_content);

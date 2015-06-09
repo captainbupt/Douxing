@@ -85,7 +85,7 @@ public class CategoryClickHandler {
         Intent intent = new Intent(context, TaskSignActivity.class);
         intent.putExtra(TaskSignActivity.KEY_TASK, task);
         // 获取分类名
-        intent.putExtra(BaseActionBarActivity.KEY_TITLE, R.string.module_default_title_task);
+        intent.putExtra(BaseActionBarActivity.KEY_TITLE, context.getResources().getString(R.string.module_default_title_task));
         intent.putExtra(BaseStatisticalActionBarActivity.KEY_RID, task.rid);
         context.startActivity(intent);
     }

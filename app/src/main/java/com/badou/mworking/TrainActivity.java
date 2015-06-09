@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import com.android.volley.VolleyError;
 import com.badou.mworking.adapter.TrainAdapter;
-import com.badou.mworking.base.BaseProgressListActivity;
+import com.badou.mworking.base.BaseCategoryProgressListActivity;
 import com.badou.mworking.model.category.Category;
 import com.badou.mworking.model.category.Train;
 import com.badou.mworking.net.Net;
@@ -22,7 +22,7 @@ import org.json.JSONObject;
 /**
  * 微培训页面
  */
-public class TrainActivity extends BaseProgressListActivity {
+public class TrainActivity extends BaseCategoryProgressListActivity {
 
     public static final int PROGRESS_CHANGE = 10;
     public static final int PROGRESS_MAX = 11;

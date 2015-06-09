@@ -69,8 +69,8 @@ public class MyRatingActivity extends BaseNoTitleActivity implements OnClickList
 	protected void initView(){
 		ivActionbarLeft = (ImageView) findViewById(R.id.iv_actionbar_left);
 		RatingTtips = (ImageView) findViewById(R.id.Rating_tips);
-		actionbarTitle = (TextView) findViewById(R.id.txt_actionbar_title);
-		actionbarRight = (TextView) findViewById(R.id.txt_actionbar_right);
+		actionbarTitle = (TextView) findViewById(R.id.tv_actionbar_title);
+		actionbarRight = (TextView) findViewById(R.id.tv_actionbar_right);
 		nowRatingTv = (TextView) findViewById(R.id.now_rating_tv);
 		nextRatingTv = (TextView) findViewById(R.id.next_rating_tv);
 		averageScoreTv = (TextView) findViewById(R.id.average_score);
@@ -108,7 +108,7 @@ public class MyRatingActivity extends BaseNoTitleActivity implements OnClickList
 		case R.id.iv_actionbar_left:
 			MyRatingActivity.this.finish();
 			break;
-		case R.id.txt_actionbar_right:
+		case R.id.tv_actionbar_right:
 			Intent intent = new Intent();
 			intent.setClass(this, HistoryExamActivity.class);
 			startActivity(intent);
