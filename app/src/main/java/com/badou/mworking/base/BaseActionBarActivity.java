@@ -68,6 +68,12 @@ public class BaseActionBarActivity extends BaseNoTitleActivity {
                 clickRight();
             }
         });
+        mTitleRightTextView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clickRight();
+            }
+        });
         mTitleLeftImageView.setOnClickListener(new OnClickListener() {
 
             @Override

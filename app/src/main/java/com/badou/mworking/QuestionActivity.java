@@ -100,7 +100,7 @@ public class QuestionActivity extends BaseBackActionBarActivity implements
 		((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE))
 				.showSoftInput(etContent, 0);
 		// 设置图片
-		setRightImage(R.drawable.around_send);
+		setRightImage(R.drawable.button_title_send);
 		try {
 			setActionbarTitle(getIntent().getStringExtra(AroundActivity.KEY_TITLE_NAME)+"");
 		} catch (Exception e) {

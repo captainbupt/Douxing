@@ -112,13 +112,16 @@
             android:name=".AskActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".AskSubmitActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".AskDetailActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.badou.mworking.MyRatingActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.badou.mworking.WenDaAnswerActivity"
+            android:name=".AskAnswerSubmitActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.badou.mworking.TrainActivity"

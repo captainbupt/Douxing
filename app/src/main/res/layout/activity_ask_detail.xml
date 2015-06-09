@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <org.holoeverywhere.widget.RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:ptr="http://schemas.android.com/apk/res-auto"
+    xmlns:myattr="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_layout_bg">
@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/ll_activity_ask_detail_bottom_comment"
         android:scrollbars="none"
-        ptr:ptrMode="both">
+        myattr:ptrMode="both">
 
         <org.holoeverywhere.widget.LinearLayout
             android:layout_width="match_parent"
@@ -47,7 +47,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/offset_small"
-                    android:text="@string/ask_time"
+                    android:text="@string/ask_detail_time"
                     android:textColor="@color/color_text_grey"
                     android:textSize="@dimen/text_size_medium" />
 
@@ -136,7 +136,9 @@
                 android:layout_marginTop="@dimen/offset_less"
                 android:background="@color/color_white"
                 android:paddingLeft="@dimen/offset_medium"
-                android:paddingRight="@dimen/offset_medium" />
+                android:paddingRight="@dimen/offset_medium"
+                myattr:dividerColor="@color/color_border_grey"
+                myattr:dividerHeight="1dp" />
 
         </org.holoeverywhere.widget.LinearLayout>
     </com.handmark.pulltorefresh.library.PullToRefreshScrollView>
@@ -155,7 +157,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/icon_category_comment" />
+            android:src="@drawable/icon_bottom_comment" />
 
         <org.holoeverywhere.widget.TextView
             android:layout_width="wrap_content"

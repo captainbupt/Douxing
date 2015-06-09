@@ -62,7 +62,6 @@ public class SplashActivity extends BaseNoTitleActivity {
 					goMain(userInfo);
 				}
 			} else {
-				ToastUtil.showToast(mContext, "First");
 				SP.clearSP(mContext, SP.DEFAULTCACHE);
 				//软件运行过sp中记录
 				SP.putBooleanSP(mContext, SP.DEFAULTCACHE, KEY_IS_FIRST, false);

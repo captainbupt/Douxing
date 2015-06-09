@@ -31,8 +31,6 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import org.holoeverywhere.widget.FrameLayout;
 import org.holoeverywhere.widget.LinearLayout;
 import org.holoeverywhere.widget.ListView;
-import org.holoeverywhere.widget.ProgressBar;
-import org.holoeverywhere.widget.RelativeLayout;
 import org.holoeverywhere.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -156,12 +154,12 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
         mContentListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<android.widget.ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase refreshView) {
-                updataListView(0);
+                updateListView(0);
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase refreshView) {
-                updataListView(mCategoryAdapter.getCount());
+                updateListView(mCategoryAdapter.getCount());
             }
         });
         mMainListView.setOnItemClickListener(new OnMainClassificationClickListener());
@@ -188,7 +186,7 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
         }
         mContentListView.setAdapter(mCategoryAdapter);
         setCategoryItemFromCache(tag);
-        updataListView(0);
+        updateListView(0);
     }
 
     private class OnMainClassificationClickListener implements AdapterView.OnItemClickListener {
@@ -203,7 +201,7 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
                 String title = classification.getName();
                 setActionbarTitle(title);
                 hideMenu();
-                updataListView(0);
+                updateListView(0);
                 SP.putIntSP(mContext, CATEGORY_NAME, SP_KEY_CATEGORY_MAIN, mMainIndex);
                 SP.putIntSP(mContext, CATEGORY_NAME, SP_KEY_CATEGORY_MORE, 0);
             }
@@ -222,7 +220,7 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
             setActionbarTitle(title);
             mMoreClassificationAdapter.setSelectedPosition(arg2);
             hideMenu();
-            updataListView(0);
+            updateListView(0);
         }
     }
 
@@ -321,7 +319,7 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
         }
     }
 
-    public void updataListView(final int beginNum) {
+    public void updateListView(final int beginNum) {
         showProgressBar();
         // 刷新的时候不显示缺省页面
         mNoneResultImageView.setVisibility(View.GONE);

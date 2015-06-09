@@ -326,7 +326,7 @@ public class LoginActivity extends BaseNoTitleActivity implements
                     mLocationClient.start();
                     //发起请求时调用 显示ProgressDialog
                     if (mActivity.isFinishing()) {
-                        mProgressDialog.setContent(R.string.login_action_login_ing);
+                        mProgressDialog.setContent(R.string.progress_tips_login_ing);
                         mProgressDialog.show();
                     }
                 }

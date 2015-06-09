@@ -71,6 +71,7 @@ public class RequestParams {
 	public static final String PUBLISH_QUSETION_SHARE_UID = "uid";//用户id
 	public static final String PUBLISH_QUSETION_SHARE_TYPE = "type";//问答分享类型
 	public static final String PUBLISH_QUSETION_SHARE_CONTENT = "content";//内容
+	public static final String PUBLISH_QUSETION_SHARE_SUBJECT = "subject";//标题
 	public static final String PUBLISH_QUSETION_SHARE_QID = "qid";//问答分享id
 	public static final String PUBLISH_QUSETION_SHARE_PAGE_NO = "page_no";//加载的页码
 	public static final String PUBLISH_QUSETION_SHARE_ITEM_PER_PAGE = "item_per_page";//每页加载的数量

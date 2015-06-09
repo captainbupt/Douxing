@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'mworking'
+            keyPassword '123498765'
+            storeFile file('C:/Users/Administrator/Desktop/mwoking_norm_key')
+            storePassword '123498765'
+        }
+    }
     compileSdkVersion 21
     buildToolsVersion '21.1.2'
     defaultConfig {
@@ -12,8 +20,9 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
     sourceSets.main {
@@ -33,4 +42,5 @@ dependencies {
     compile project(':HoloEverywhere')
     compile files('libs/xUtils-2.6.14.jar')
     compile files('libs/DraggableGridView.jar')
+    compile project(':Pulltorefresh')
 }
