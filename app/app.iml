@@ -92,6 +92,7 @@
     <orderEntry type="library" exported="" name="umeng-analytics-v5.4.1" level="project" />
     <orderEntry type="library" exported="" name="locSDK_3.1" level="project" />
     <orderEntry type="library" exported="" name="volley" level="project" />
+    <orderEntry type="library" exported="" name="DraggableGridView" level="project" />
     <orderEntry type="module" module-name="HoloEverywhere" exported="" />
   </component>
 </module>

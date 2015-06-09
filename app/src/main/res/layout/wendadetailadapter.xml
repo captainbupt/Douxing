@@ -15,8 +15,8 @@
 
         <ImageView
             android:id="@+id/iv_adapter_comment_head"
-            android:layout_width="@dimen/around_icon_head_size"
-            android:layout_height="@dimen/around_icon_head_size"
+            android:layout_width="@dimen/icon_head_size_middle"
+            android:layout_height="@dimen/icon_head_size_middle"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:src="@drawable/icon_user_detail_default_head" />
@@ -54,7 +54,7 @@
                 android:id="@+id/zan_chk"
                 android:layout_width="@dimen/around_icon_reply_height"
                 android:layout_height="@dimen/around_icon_reply_height"
-                android:background="@drawable/selector_around_credit"
+                android:background="@drawable/icon_praise"
                 android:button="@null"
                 />
             
@@ -112,7 +112,7 @@
         android:layout_alignLeft="@id/rl_main"
         android:layout_alignRight="@id/rl_main"
         android:layout_below="@id/rl_main"
-        android:layout_marginLeft="@dimen/around_icon_head_size"
+        android:layout_marginLeft="@dimen/icon_head_size_middle"
         android:layout_marginTop="5dp"
         android:background="@color/color_edit_line" />
 

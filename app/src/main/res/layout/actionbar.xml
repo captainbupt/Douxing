@@ -8,7 +8,8 @@
         android:id="@+id/layout_action_bg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/color_white">
+        android:background="@color/color_white"
+        android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/iv_actionbar_left"
@@ -20,19 +21,18 @@
             android:scaleType="centerInside"
             android:src="@drawable/button_title_bar_back_black" />
 
-        <org.holoeverywhere.widget.LinearLayout
-            android:id="@+id/ll_action_bar_title"
+        <org.holoeverywhere.widget.FrameLayout
+            android:id="@+id/fl_actionbar_title_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:layout_centerInParent="true"
+            android:layout_gravity="center">
 
             <org.holoeverywhere.widget.TextView
-                android:id="@+id/txt_actionbar_title"
+                android:id="@+id/tv_actionbar_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
                 android:ellipsize="end"
                 android:focusable="true"
                 android:gravity="center_horizontal"
@@ -40,28 +40,20 @@
                 android:textColor="@color/color_title_bar_text"
                 android:textSize="@dimen/text_size_title_bar_title" />
 
-            <ImageView
-                android:id="@+id/iv_action_bar_triangle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/icon_triangle_down"
-                android:visibility="gone" />
-
-        </org.holoeverywhere.widget.LinearLayout>
+        </org.holoeverywhere.widget.FrameLayout>
 
         <org.holoeverywhere.widget.ProgressBar
-            android:id="@+id/pb_action_bar"
+            android:id="@+id/pb_actionbar"
             style="@style/update_progress_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/offset_small"
-            android:layout_toLeftOf="@id/ll_action_bar_title"
+            android:layout_toLeftOf="@id/fl_actionbar_title_container"
             android:visibility="gone" />
 
         <org.holoeverywhere.widget.TextView
-            android:id="@+id/txt_actionbar_right"
+            android:id="@+id/tv_actionbar_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

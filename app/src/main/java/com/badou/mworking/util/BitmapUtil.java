@@ -28,8 +28,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * 类: <code> BitmapUtil </code> 功能描述: 图片处理工具类 创建人: 葛建锋 创建日期: 2014年7月18日
- * 下午1:58:56 开发环境: JDK7.0
+ * 功能描述: 图片处理工具类
  */
 public class BitmapUtil {
 

@@ -1,30 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/ll_activity_base_progress_classification"
+<org.holoeverywhere.widget.FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="350dp"
-    android:orientation="horizontal">
+    android:layout_height="match_parent"
+    android:background="@color/color_bg_transparent_black"
+    android:visibility="gone">
 
-    <ListView
-        android:id="@+id/lv_classification_list_main"
+    <org.holoeverywhere.widget.LinearLayout
+        android:id="@+id/ll_activity_base_progress_classification"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="20"
-        android:background="@color/color_light_grey"
-        android:divider="@color/color_border_grey"
-        android:dividerHeight="1px"
-        android:listSelector="@android:color/transparent"
-        android:scrollbars="none" />
+        android:layout_height="400dp"
+        android:orientation="horizontal">
 
-    <ListView
-        android:id="@+id/lv_classification_list_more"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="17"
-        android:background="@color/color_white"
-        android:divider="@color/color_border_grey"
-        android:dividerHeight="1px"
-        android:listSelector="@android:color/transparent"
-        android:paddingLeft="@dimen/offset_small" />
+        <org.holoeverywhere.widget.ListView
+            android:id="@+id/lv_classification_list_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="20"
+            android:background="@color/color_light_grey"
+            android:divider="@color/color_border_grey"
+            android:dividerHeight="1px"
+            android:listSelector="@android:color/transparent"
+            android:scrollbars="none" />
 
-</LinearLayout>
+        <org.holoeverywhere.widget.ListView
+            android:id="@+id/lv_classification_list_more"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="17"
+            android:background="@color/color_white"
+            android:divider="@color/color_border_grey"
+            android:dividerHeight="1px"
+            android:listSelector="@android:color/transparent"
+            android:paddingLeft="@dimen/offset_small" />
+
+    </org.holoeverywhere.widget.LinearLayout>
+
+</org.holoeverywhere.widget.FrameLayout>

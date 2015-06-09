@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.holoeverywhere.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/offset_less"
+    android:paddingTop="@dimen/offset_less">
+
+    <!-- 垂直的父控件用于在adapter中手动添加分割线-->
+    <org.holoeverywhere.widget.LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingRight="@dimen/offset_less">
+
+        <ImageView
+            android:id="@+id/iv_adapter_ask_answer_head"
+            android:layout_width="@dimen/icon_head_size_middle"
+            android:layout_height="@dimen/icon_head_size_middle"
+            android:scaleType="centerInside"
+            android:src="@drawable/icon_user_detail_default_head" />
+
+        <org.holoeverywhere.widget.LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/offset_medium"
+            android:gravity="left"
+            android:orientation="vertical">
+
+            <org.holoeverywhere.widget.TextView
+                android:id="@+id/tv_adapter_ask_answer_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textColor="@color/color_text_grey"
+                android:textSize="@dimen/text_size_medium" />
+
+            <org.holoeverywhere.widget.TextView
+                android:id="@+id/tv_adapter_ask_answer_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/offset_small"
+                android:textColor="@color/color_text_black"
+                android:textSize="@dimen/text_size_medium" />
+
+            <ImageView
+                android:id="@+id/iv_adapter_ask_answer"
+                android:layout_width="@dimen/icon_size_xlarge"
+                android:layout_height="@dimen/icon_size_xlarge"
+                android:layout_marginTop="@dimen/offset_small"
+                android:horizontalSpacing="@dimen/offset_less"
+                android:scaleType="centerCrop"
+                android:verticalSpacing="@dimen/offset_less" />
+
+            <org.holoeverywhere.widget.LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/offset_small"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_adapter_ask_answer_floor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/offset_less"
+                    android:textColor="@color/color_text_grey"
+                    android:textSize="@dimen/text_size_less" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/offset_less"
+                    android:text="·"
+                    android:textColor="@color/color_text_grey"
+                    android:textSize="@dimen/text_size_less" />
+
+                <TextView
+                    android:id="@+id/tv_adapter_ask_answer_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/color_text_grey"
+                    android:textSize="@dimen/text_size_less" />
+
+                <CheckBox
+                    android:id="@+id/cb_adapter_ask_answer_praise"
+                    android:layout_width="@dimen/around_icon_reply_width"
+                    android:layout_height="@dimen/around_icon_reply_width"
+                    android:button="@null"
+                    android:background="@drawable/icon_praise" />
+
+                <TextView
+                    android:id="@+id/tv_adapter_ask_answer_praise_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/color_text_grey"
+                    android:textSize="@dimen/text_size_less" />
+            </org.holoeverywhere.widget.LinearLayout>
+        </org.holoeverywhere.widget.LinearLayout>
+    </org.holoeverywhere.widget.LinearLayout>
+</org.holoeverywhere.widget.LinearLayout>

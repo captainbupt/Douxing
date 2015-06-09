@@ -30,6 +30,7 @@ public class BottomRatingAndCommentView extends LinearLayout {
     private LinearLayout mCommentLayout;
     private TextView mRatingNumberTextView;
     private TextView mCommentNumberTextView;
+    private View mDividerView;
 
     public BottomRatingAndCommentView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -49,6 +50,7 @@ public class BottomRatingAndCommentView extends LinearLayout {
         mCommentLayout = (LinearLayout) findViewById(R.id.ll_bottom_comment);
         mRatingNumberTextView = (TextView) findViewById(R.id.tv_bottom_rating_number);
         mCommentNumberTextView = (TextView) findViewById(R.id.tv_bottom_comment_number);
+        mDividerView = findViewById(R.id.view_bottom_center_divider);
     }
 
     private void initListener() {
@@ -87,11 +89,13 @@ public class BottomRatingAndCommentView extends LinearLayout {
             mRatingLayout.setVisibility(VISIBLE);
         } else {
             mRatingLayout.setVisibility(GONE);
+            mDividerView.setVisibility(GONE);
         }
         if (commentNumber > -1) {
             mCommentLayout.setVisibility(VISIBLE);
         } else {
             mCommentLayout.setVisibility(GONE);
+            mDividerView.setVisibility(GONE);
         }
         setData(ratingNumber, commentNumber, currentRating);
         updateData();

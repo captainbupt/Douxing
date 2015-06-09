@@ -228,9 +228,19 @@
     <string name="yikaoshiti_str">已考试题</string>
     <string name="statistical_data">统计数据</string>
     <string name="tongshiquan_share">我要分享</string>
+    <string name="ask_title_right">我要分享</string>
 
+    <string name="ask_title">提问</string>
+    <string name="ask_time">发布时间: </string>
+    <string name="ask_bottom">参与讨论</string>
+
+    <string name="dialog_operation">请选择操作</string>
+    <string name="dialog_operation_copy">复制</string>
+    <string name="dialog_operation_copy_success">内容已复制到剪切板</string>
     <string name="operation_delete">删除</string>
+    <string name="operation_message">私信</string>
 
+    <string name="progress_tips_praise_ing">点赞中，请稍后…</string>
 
     <string name="module_default_title_notice">通知公告</string>
     <string name="module_default_title_chatter">同事圈</string>

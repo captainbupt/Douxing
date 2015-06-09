@@ -3,7 +3,6 @@ package com.badou.mworking.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -72,7 +71,7 @@ public class CommentAdapter extends MyBaseAdapter {
 
         /**设置头像**/
         int size = mContext.getResources().getDimensionPixelSize(
-                R.dimen.around_icon_head_size);
+                R.dimen.icon_head_size_middle);
         Bitmap headBmp = BitmapLruCache.getBitmapLruCache().getCircleBitmap(
                 Question.getImgUrl());
         if (headBmp != null && !headBmp.isRecycled()) {

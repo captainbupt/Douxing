@@ -47,7 +47,6 @@ import org.json.JSONObject;
 public class TaskSignActivity extends BaseStatisticalActionBarActivity implements BDLocationListener {
 
     public static final String KEY_TASK = "task";
-    private static final int CAMERA_REQUEST_CODE = 1;
 
     private TextView mBeginDateTextView;
     private TextView mBeginTimeTextView;
@@ -75,11 +74,6 @@ public class TaskSignActivity extends BaseStatisticalActionBarActivity implement
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_sign);
-        //页面滑动关闭
-        layout = (SwipeBackLayout) LayoutInflater.from(this).inflate(R.layout.base, null);
-        layout.attachToActivity(this);
-        mProgressDialog = new WaitProgressDialog(mContext,
-                R.string.sign_action_sign_ing);
         initView();
         initListener();
         initData();
@@ -151,11 +145,13 @@ public class TaskSignActivity extends BaseStatisticalActionBarActivity implement
         mEndDateTextView.setText(TimeTransfer.long2StringDateUnit(endTime));
         mEndTimeTextView.setText(TimeTransfer.long2StringTimeHour(endTime));
 
+        mProgressDialog.setContent(R.string.sign_action_sign_ing);
+
         if (finish) {// 已签到
-            disableSignButton(R.string.category_signed);
+            disableSignButton(true);
         } else {
             if (task.isOffline()) { // 已过期
-                disableSignButton(R.string.category_expired);
+                disableSignButton(false);
                 task.read = Constant.FINISH_YES;
             } else { // 未签到
                 enableSignButton();
@@ -199,10 +195,15 @@ public class TaskSignActivity extends BaseStatisticalActionBarActivity implement
         }
     }
 
-    private void disableSignButton(int resId) {
-        mSignTextView.setBackgroundResource(R.drawable.background_button_activity_task_sign_disable);
+    private void disableSignButton(boolean isSigned) {
+        if (isSigned) {
+            mSignTextView.setBackgroundResource(R.drawable.background_button_activity_task_sign_orange);
+            mSignTextView.setText(R.string.category_signed);
+        } else {
+            mSignTextView.setBackgroundResource(R.drawable.background_button_activity_task_sign_disable);
+            mSignTextView.setText(R.string.category_expired);
+        }
         mSignTextView.setEnabled(false);
-        mSignTextView.setText(resId);
     }
 
     private void enableSignButton() {
@@ -281,7 +282,7 @@ public class TaskSignActivity extends BaseStatisticalActionBarActivity implement
                             if (unreadNum > 0) {
                                 SP.putIntSP(mContext, SP.DEFAULTCACHE, userNum + Task.CATEGORY_KEY_UNREAD_NUM, unreadNum - 1);
                             }
-                            disableSignButton(R.string.category_signed);
+                            disableSignButton(true);
                             setResult(RESULT_OK, null);
                         } else {
                             // 签到失败

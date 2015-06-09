@@ -4,7 +4,9 @@
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/badou/mworking/adapter/UserProgressAdapter.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/badou/mworking/base/BaseStatisticalActionBarActivity.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/badou/mworking/fragment/MainSearchFragment.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/badou/mworking/net/bitmap/ImageViewLoader.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/badou/mworking/util/CategoryClickHandler.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/badou/mworking/util/DialogUtil.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/badou/mworking/util/ImageChooser.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/badou/mworking/widget/BottomSendMessageView.java" charset="UTF-8" />
   </component>

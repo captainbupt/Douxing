@@ -82,9 +82,9 @@ public class AroundActivity extends BaseNoTitleActivity implements OnClickListen
 	 * @param onclick
 	 */
 	private void initAction(OnClickListener onclick) {
-		updatePro = (ProgressBar) findViewById(R.id.pb_action_bar);
+		updatePro = (ProgressBar) findViewById(R.id.pb_actionbar);
 		ivLeft = (ImageView)findViewById(R.id.iv_actionbar_left);
-		tvTitle = (TextView)findViewById(R.id.txt_actionbar_title);
+		tvTitle = (TextView)findViewById(R.id.tv_actionbar_title);
 		ivRight = (ImageView)findViewById(R.id.iv_actionbar_right);
 		commentRelat = (TextView) findViewById(R.id.tv_user_progress_bottom);
 		ivLeft.setOnClickListener(onclick);

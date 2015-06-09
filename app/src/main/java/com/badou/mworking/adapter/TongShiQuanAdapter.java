@@ -146,7 +146,7 @@ public class TongShiQuanAdapter extends BaseAdapter {
 		holder.tvQuestionShareDate.setText(pubTime);
 		holder.tvQuestionShareNums.setText("" + question.getReply_no());
 		int size = mContext.getResources().getDimensionPixelSize(
-				R.dimen.around_icon_head_size);
+				R.dimen.icon_head_size_middle);
 		Bitmap headBmp = BitmapLruCache.getBitmapLruCache().getCircleBitmap(
 				question.getImgUrl());
 		holder.headImg.setTag(question.getImgUrl());

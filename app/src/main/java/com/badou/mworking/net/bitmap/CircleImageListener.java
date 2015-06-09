@@ -30,13 +30,11 @@ public class CircleImageListener implements ImageListener {
 
 	@Override
 	public void onErrorResponse(VolleyError arg0) {
-		// TODO Auto-generated method stub
 		setDefaultHead();
 	}
 
 	@Override
 	public void onResponse(ImageContainer arg0, boolean arg1) {
-		// TODO Auto-generated method stub
 		Bitmap bmp = arg0.getBitmap();
 		if (bmp != null) {
 			Bitmap headBmp = BitmapUtil.getCirlBitmp(bmp, width, height);
@@ -48,7 +46,6 @@ public class CircleImageListener implements ImageListener {
 	}
 
 	private void setDefaultHead() {
-		// TODO Auto-generated method stub
 		Resources res = mContext.getResources();
 		mImageView.setImageBitmap(BitmapUtil.getCirlBitmp(BitmapUtil
 				.decodeSampledBitmapFromResource(res,

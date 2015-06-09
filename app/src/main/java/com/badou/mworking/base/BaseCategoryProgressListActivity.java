@@ -1,7 +1,10 @@
 package com.badou.mworking.base;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -12,11 +15,14 @@ import com.android.volley.VolleyError;
 import com.badou.mworking.R;
 import com.badou.mworking.adapter.ClassificationAdapter;
 import com.badou.mworking.model.Classification;
+import com.badou.mworking.model.category.Category;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ResponseParams;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
+import com.badou.mworking.util.CategoryClickHandler;
 import com.badou.mworking.util.Constant;
+import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.SP;
 import com.badou.mworking.util.ToastUtil;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -26,6 +32,8 @@ import org.holoeverywhere.widget.FrameLayout;
 import org.holoeverywhere.widget.LinearLayout;
 import org.holoeverywhere.widget.ListView;
 import org.holoeverywhere.widget.ProgressBar;
+import org.holoeverywhere.widget.RelativeLayout;
+import org.holoeverywhere.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,11 +41,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class BaseProgressListActivity extends BaseBackActionBarActivity {
+public abstract class BaseCategoryProgressListActivity extends BaseBackActionBarActivity {
 
-    private ProgressBar mTitleProgressBar;
-    private ImageView mTitletriangleImageView;
-    private LinearLayout mTitleLinearLayout;
+    private ImageView mTitleTriangleImageView;
+    private View mTitleLayout;
     private boolean status_menu_show = false;
 
     protected String CATEGORY_NAME = "";
@@ -82,7 +89,16 @@ public abstract class BaseProgressListActivity extends BaseBackActionBarActivity
     /**
      * 添加点击事件
      */
-    protected abstract void onItemClick(int position);
+    protected void onItemClick(int position) {
+        Category category = (Category) mCategoryAdapter.getItem(position - 1);
+        // 考试没有联网
+        if (!NetUtils.isNetConnected(mContext)) {
+            ToastUtil.showNetExc(mContext);
+            return;
+        } else {
+            CategoryClickHandler.categoryClicker(mContext, category);
+        }
+    }
 
     /**
      * 将JSONObject转化为实例
@@ -101,23 +117,25 @@ public abstract class BaseProgressListActivity extends BaseBackActionBarActivity
      * 初始化action 布局
      */
     private void initProgressView() {
-        mTitleProgressBar = (ProgressBar) findViewById(R.id.pb_action_bar);
-        mTitletriangleImageView = (ImageView) findViewById(R.id.iv_action_bar_triangle);
-        mTitleLinearLayout = (LinearLayout) findViewById(R.id.ll_action_bar_title);
-        mTitletriangleImageView.setVisibility(View.VISIBLE);
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mTitleLayout = inflater.inflate(R.layout.actionbar_progress, null);
+        setTitleCustomView(mTitleLayout);
+        mTitleTriangleImageView = (ImageView) mTitleLayout.findViewById(R.id.iv_actionbar_triangle);
+        mTitleTriangleImageView.setVisibility(View.VISIBLE);
+        ((TextView) mTitleLayout.findViewById(R.id.tv_actionbar_title)).setText(mReceivedIntent.getStringExtra(KEY_TITLE));
         mNoneResultImageView = (ImageView) findViewById(R.id.iv_activity_base_progress_list_none_result);
-        mMainListView = (ListView) findViewById(R.id.lv_classification_list_main);
-        mMoreListView = (ListView) findViewById(R.id.lv_classification_list_more);
-        mClassificationLinear = (LinearLayout) findViewById(R.id.ll_activity_base_progress_classification);
-        mClassificationContainer = (FrameLayout) findViewById(R.id.fl_activity_base_progress_classification_container);
         mContentListView = (PullToRefreshListView) findViewById(R.id.ptrlv_user_progress_content);
         mContentListView.setMode(PullToRefreshBase.Mode.BOTH);
         mContentListView.setVisibility(View.VISIBLE);
         mNoneResultImageView.setVisibility(View.GONE);
+        mClassificationContainer = (FrameLayout) findViewById(R.id.fl_activity_base_progress_classification_container);
+        mClassificationLinear = (LinearLayout) mClassificationContainer.findViewById(R.id.ll_activity_base_progress_classification);
+        mMainListView = (ListView) mClassificationContainer.findViewById(R.id.lv_classification_list_main);
+        mMoreListView = (ListView) mClassificationContainer.findViewById(R.id.lv_classification_list_more);
     }
 
     private void initProgressListener() {
-        mTitleLinearLayout.setOnClickListener(new View.OnClickListener() {
+        mTitleLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (status_menu_show) {
@@ -132,7 +150,7 @@ public abstract class BaseProgressListActivity extends BaseBackActionBarActivity
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1,
                                     int position, long arg3) {
-                BaseProgressListActivity.this.onItemClick(position);
+                BaseCategoryProgressListActivity.this.onItemClick(position);
             }
         });
         mContentListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<android.widget.ListView>() {
@@ -148,6 +166,14 @@ public abstract class BaseProgressListActivity extends BaseBackActionBarActivity
         });
         mMainListView.setOnItemClickListener(new OnMainClassificationClickListener());
         mMoreListView.setOnItemClickListener(new OnMoreClassificationClickListener());
+
+        // 拦截底部scrollView的触摸事件
+        mClassificationContainer.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                return true;
+            }
+        });
     }
 
     private void initProgressData() {
@@ -346,6 +372,7 @@ public abstract class BaseProgressListActivity extends BaseBackActionBarActivity
             }
             return;
         }
+        mNoneResultImageView.setVisibility(View.GONE);
         /**
          * 保存未读数
          */
@@ -356,10 +383,10 @@ public abstract class BaseProgressListActivity extends BaseBackActionBarActivity
         if (mCategoryAdapter.getCount() == 0) {
             //添加缓存
             SP.putStringSP(mContext, CATEGORY_NAME, userNum + tag, resultArray.toString());
-        } else {
+        } /*else {
             String SPJSONArray = SP.getStringSP(mContext, CATEGORY_NAME, userNum + tag, "");
             addJsonArrayToSP(userNum + tag, SPJSONArray, resultArray);
-        }
+        }*/
         for (int i = 0; i < resultArray.length(); i++) {
             JSONObject jsonObject = resultArray
                     .optJSONObject(i);
@@ -378,7 +405,7 @@ public abstract class BaseProgressListActivity extends BaseBackActionBarActivity
     }
 
 
-    private void addJsonArrayToSP(String userNum, String SPJSONArray, JSONArray jsonArray) {
+/*    private void addJsonArrayToSP(String userNum, String SPJSONArray, JSONArray jsonArray) {
         try {
             if (TextUtils.isEmpty(SPJSONArray)) {
                 SP.putStringSP(mContext, CATEGORY_NAME, userNum + tag, jsonArray.toString());
@@ -393,19 +420,10 @@ public abstract class BaseProgressListActivity extends BaseBackActionBarActivity
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-
-    public void showProgressBar() {
-        mTitleProgressBar.setVisibility(View.VISIBLE);
-    }
-
-    public void hideProgressBar() {
-        mTitleProgressBar.setVisibility(View.INVISIBLE);
-    }
+    }*/
 
     public void showMenu() {
-        mTitletriangleImageView.setImageResource(R.drawable.icon_triangle_up);
+        mTitleTriangleImageView.setImageResource(R.drawable.icon_triangle_up);
         if (mMainClassificationAdapter.getCount() > 0) {
             int main = SP.getIntSP(mContext, CATEGORY_NAME, SP_KEY_CATEGORY_MAIN, 0);
             int more = SP.getIntSP(mContext, CATEGORY_NAME, SP_KEY_CATEGORY_MORE, 0);
@@ -425,7 +443,7 @@ public abstract class BaseProgressListActivity extends BaseBackActionBarActivity
     }
 
     public void hideMenu() {
-        mTitletriangleImageView.setImageResource(R.drawable.icon_triangle_down);
+        mTitleTriangleImageView.setImageResource(R.drawable.icon_triangle_down);
         Animation anim = AnimationUtils.loadAnimation(mContext, R.anim.popup_exit);
         mClassificationLinear.startAnimation(anim);
         anim.setAnimationListener(new Animation.AnimationListener() {

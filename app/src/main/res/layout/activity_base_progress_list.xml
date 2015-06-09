@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_activity_base_progress_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_bg_grey">
@@ -28,7 +29,6 @@
         android:layout_height="match_parent"
         android:background="@color/color_bg_transparent_black"
         android:visibility="gone">
-
 
         <org.holoeverywhere.widget.LinearLayout
             android:id="@+id/ll_activity_base_progress_classification"

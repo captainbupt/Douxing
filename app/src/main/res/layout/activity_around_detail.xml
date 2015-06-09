@@ -7,7 +7,7 @@
     android:orientation="vertical" >
 
    <com.handmark.pulltorefresh.library.PullToRefreshScrollView
-        android:id="@+id/ptrs_activity_around_detail"
+        android:id="@+id/ptrsv_activity_ask_detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none"
@@ -82,7 +82,7 @@
                         android:textSize="@dimen/text_size_small" />
                     
                     <TextView
-                        android:id="@+id/sixin_tv"
+                        android:id="@+id/tv_activity_ask_detail_message"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/offset_micro"
@@ -105,8 +105,8 @@
 
                 <ImageView
                     android:id="@+id/iv_user_head_icon"
-                    android:layout_width="@dimen/around_icon_head_size"
-                    android:layout_height="@dimen/around_icon_head_size"
+                    android:layout_width="@dimen/icon_head_size_middle"
+                    android:layout_height="@dimen/icon_head_size_middle"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
                     android:src="@drawable/icon_user_detail_default_head" />
@@ -124,7 +124,7 @@
             </RelativeLayout>
 
             <com.badou.mworking.widget.NoScrollListView
-                android:id="@+id/lvQuestionAnswers"
+                android:id="@+id/nslv_activity_ask_detail_answer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"

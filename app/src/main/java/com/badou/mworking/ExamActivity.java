@@ -1,16 +1,11 @@
 package com.badou.mworking;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import com.badou.mworking.adapter.ExamAdapter;
-import com.badou.mworking.base.AppApplication;
-import com.badou.mworking.base.BaseProgressListActivity;
-import com.badou.mworking.model.category.Category;
+import com.badou.mworking.base.BaseCategoryProgressListActivity;
 import com.badou.mworking.model.category.Exam;
-import com.badou.mworking.net.Net;
 import com.badou.mworking.util.CategoryClickHandler;
-import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.ToastUtil;
 
@@ -21,7 +16,7 @@ import cn.jpush.android.api.JPushInterface;
 /**
  * ExamActivity 考试页面
  */
-public class ExamActivity extends BaseProgressListActivity {
+public class ExamActivity extends BaseCategoryProgressListActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,19 +44,8 @@ public class ExamActivity extends BaseProgressListActivity {
         return new Exam(jsonObject);
     }
 
-    @Override
-    protected void onItemClick(int position) {
-        Exam exam = (Exam) mCategoryAdapter.getItem(position - 1);
-        // 考试没有联网
-        if (!NetUtils.isNetConnected(mContext)) {
-            ToastUtil.showNetExc(mContext);
-            return;
-        }else{
-            CategoryClickHandler.categoryClicker(mContext,exam);
-        }
-    }
-
-/*    @Override
+/* 遗留功能，暂不需要
+   @Override
     public void clickRight() {
         // tag 值大于 0 ，  代表在线考试，点击跳入搜索，    tag<0, 代表 等级考试， 点击跳入等级考试页面，  tag = 0 表示全部
         if (tag >= 0) {

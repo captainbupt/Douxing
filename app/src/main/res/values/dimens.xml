@@ -105,7 +105,8 @@
     <dimen name="icon_size_sign_task_success">@dimen/icon_size_small</dimen>
     <!-- around -->
     <dimen name="layout_qas_question">8dp</dimen>
-    <dimen name="around_icon_head_size">50dp</dimen>
+    <dimen name="icon_head_size_small">30dp</dimen>
+    <dimen name="icon_head_size_middle">50dp</dimen>
     <dimen name="around_icon_reply_width">18dp</dimen>
     <dimen name="around_icon_reply_height">18dp</dimen>
     <dimen name="around_icon_question_image">100dp</dimen>

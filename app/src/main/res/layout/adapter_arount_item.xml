@@ -11,8 +11,8 @@
 
     <ImageView
         android:id="@+id/iv_adapter_comment_head"
-        android:layout_width="@dimen/around_icon_head_size"
-        android:layout_height="@dimen/around_icon_head_size"
+        android:layout_width="@dimen/icon_head_size_middle"
+        android:layout_height="@dimen/icon_head_size_middle"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:scaleType="fitXY"
@@ -140,7 +140,7 @@
                 android:layout_width="@dimen/around_icon_reply_width"
                 android:layout_height="@dimen/around_icon_reply_height"
                 android:layout_marginLeft="@dimen/offset_small"
-                android:background="@drawable/selector_around_credit"
+                android:background="@drawable/icon_praise"
                 android:button="@null"
                 android:checked="false"
                 android:clickable="false"
