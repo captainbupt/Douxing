@@ -186,7 +186,8 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
         }
         mContentListView.setAdapter(mCategoryAdapter);
         setCategoryItemFromCache(tag);
-        updateListView(0);
+        //updateListView(0);
+        mContentListView.setRefreshing();
     }
 
     private class OnMainClassificationClickListener implements AdapterView.OnItemClickListener {

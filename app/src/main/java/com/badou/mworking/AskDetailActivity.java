@@ -78,6 +78,15 @@ public class AskDetailActivity extends BaseBackActionBarActivity {
         initView();
         initListener();
         initData();
+        // ScollView必须在Activity加载完界面后才能调用setRefreshing
+        // 不然会导致无法滑动的bug
+        // 性能较差的手机可能会出bug，只能通过其他方式进行刷新
+        pullToRefreshScrollView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                pullToRefreshScrollView.setRefreshing();
+            }
+        }, 700);
     }
 
     /**
@@ -169,10 +178,6 @@ public class AskDetailActivity extends BaseBackActionBarActivity {
             ImageViewLoader.setSquareImageViewResource(mContext, mContentImageView, mAsk.contentImageUrl, getResources().getDimensionPixelSize(R.dimen.icon_size_xlarge));
         else
             mContentImageView.setVisibility(View.GONE);
-        // 有了这句会导致无法刷新
-        // pullToRefreshScrollView.setRefreshing();
-        updateListView(1);
-        mProgressDialog.show();
 
         if (mAsk.isDeletable) {
             mDeleteTextView.setVisibility(View.VISIBLE);

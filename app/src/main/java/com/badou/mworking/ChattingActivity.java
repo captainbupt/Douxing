@@ -80,7 +80,7 @@ public class ChattingActivity extends BaseBackActionBarActivity {
      */
     private void initView() {
         mContentListView = (PullToRefreshListView) findViewById(R.id.ptrlv_activity_chatting);
-        mContentListView.setMode(Mode.BOTH);
+        mContentListView.setMode(Mode.PULL_FROM_START);
         mBottomView = (BottomSendMessageView) findViewById(R.id.bsmv_activity_chatting);
         mAdapter = new ChatInfoAdapter(mContext, whom, img,
                 mHeadImgUrl);
@@ -91,55 +91,7 @@ public class ChattingActivity extends BaseBackActionBarActivity {
         mContentListView.setOnRefreshListener(new OnRefreshListener<ListView>() {
             @Override
             public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-                ServiceProvider.dogetChatInfo(mContext, whom,
-                        new VolleyListener(mContext) {
-
-                            @Override
-                            public void onResponse(Object responseObject) {
-                                if (mContentListView != null) {
-                                    mContentListView.onRefreshComplete();
-                                }
-                                JSONObject responseJson = (JSONObject) responseObject;
-                                int code = responseJson.optInt(Net.CODE);
-                                if (code == Net.LOGOUT) {
-                                    AppApplication.logoutShow(mContext);
-                                    return;
-                                }
-                                if (Net.SUCCESS != code) {
-                                    ToastUtil.showNetExc(mContext);
-                                    return;
-                                }
-                                JSONArray arrJson = responseJson
-                                        .optJSONArray(Net.DATA);
-                                List<Object> chatInfoList = new ArrayList<>();
-                                try {
-                                    for (int i = 0; i < arrJson.length(); i++) {
-
-                                        String jo = (String) arrJson.get(i);
-                                        JSONObject jsonObject = new JSONObject(
-                                                jo);
-                                        chatInfoList.add(new ChatInfo(
-                                                jsonObject));
-
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-
-                                mAdapter.setList(chatInfoList);
-                                /** 发送成功后滚动到底部 **/
-                                ListView lv = mContentListView.getRefreshableView();
-                                lv.setSelection(lv.getBottom());
-                            }
-
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                if (mContentListView != null) {
-                                    mContentListView.onRefreshComplete();
-                                }
-                                super.onErrorResponse(error);
-                            }
-                        });
+                updateChatMsg();
             }
         });
         mBottomView.setOnSubmitListener(new BottomSendMessageView.OnSubmitListener() {
@@ -177,6 +129,58 @@ public class ChattingActivity extends BaseBackActionBarActivity {
                 lv.setSelection(lv.getBottom());
             }
         });
+    }
+
+    private void updateChatMsg() {
+        ServiceProvider.dogetChatInfo(mContext, whom,
+                new VolleyListener(mContext) {
+
+                    @Override
+                    public void onResponse(Object responseObject) {
+                        if (mContentListView != null) {
+                            mContentListView.onRefreshComplete();
+                        }
+                        JSONObject responseJson = (JSONObject) responseObject;
+                        int code = responseJson.optInt(Net.CODE);
+                        if (code == Net.LOGOUT) {
+                            AppApplication.logoutShow(mContext);
+                            return;
+                        }
+                        if (Net.SUCCESS != code) {
+                            ToastUtil.showNetExc(mContext);
+                            return;
+                        }
+                        JSONArray arrJson = responseJson
+                                .optJSONArray(Net.DATA);
+                        List<Object> chatInfoList = new ArrayList<>();
+                        try {
+                            for (int i = 0; i < arrJson.length(); i++) {
+
+                                String jo = (String) arrJson.get(i);
+                                JSONObject jsonObject = new JSONObject(
+                                        jo);
+                                chatInfoList.add(new ChatInfo(
+                                        jsonObject));
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        mAdapter.setList(chatInfoList);
+                        /** 发送成功后滚动到底部 **/
+                        ListView lv = mContentListView.getRefreshableView();
+                        lv.setSelection(lv.getBottom());
+                    }
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        if (mContentListView != null) {
+                            mContentListView.onRefreshComplete();
+                        }
+                        super.onErrorResponse(error);
+                    }
+                });
     }
 
 }
