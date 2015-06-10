@@ -158,7 +158,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
 	}
 
 	private void postReport(File file) {
-		// TODO 发送错误报告到服务器
+		// 发送错误报告到服务器
 		String str = "";
 		try {
 			BufferedReader in = new BufferedReader(new FileReader(file));
@@ -176,12 +176,10 @@ public class CrashHandler implements UncaughtExceptionHandler {
 
 						@Override
 						public void onResponse(Object arg0) {
-							// TODO Auto-generated method stub
 						}
 
 						@Override
 						public void onErrorResponse(VolleyError arg0) {
-							// TODO Auto-generated method stub
 						}
 					});
 		} catch (Exception e) {

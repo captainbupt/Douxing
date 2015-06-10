@@ -17,7 +17,7 @@ import com.android.volley.VolleyError;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.net.Net;
-import com.badou.mworking.net.RequestParams;
+import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.net.ResponseParams;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
@@ -189,7 +189,7 @@ public class AboutUsActivity extends BaseBackActionBarActivity {
                     }
                     JSONObject data = response.optJSONObject(Net.DATA);
                     JSONObject newver = data
-                            .optJSONObject(RequestParams.CHK_UPDATA_PIC_NEWVER);
+                            .optJSONObject(RequestParameters.CHK_UPDATA_PIC_NEWVER);
                     boolean hasNew = newver
                             .optInt(ResponseParams.CHECKUPDATE_NEW) == 1;
                     if (hasNew) {

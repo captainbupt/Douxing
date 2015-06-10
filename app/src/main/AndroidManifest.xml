@@ -90,7 +90,7 @@
             android:name="com.badou.mworking.MainGridActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.badou.mworking.SheXActivity"
+            android:name=".TakeVideoActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.badou.mworking.LoginActivity"
@@ -102,7 +102,7 @@
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.badou.mworking.QuestionActivity"
+            android:name=".ChatterSubmitActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
@@ -139,7 +139,7 @@
 
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.badou.mworking.AroundActivity"
+            android:name=".ChatterActivity"
 
             android:screenOrientation="portrait" />
         <activity

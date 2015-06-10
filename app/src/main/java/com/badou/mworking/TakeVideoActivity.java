@@ -40,13 +40,9 @@ import com.umeng.analytics.MobclickAgent;
 import java.io.File;
 
 /**
- * 类:  <code> SheXActivity </code>
  * 功能描述: 摄像页面
- * 创建人:  葛建锋
- * 创建日期: 2015年1月15日 下午1:58:52
- * 开发环境: JDK7.0
  */
-public class SheXActivity extends Activity implements SurfaceHolder.Callback {
+public class TakeVideoActivity extends Activity implements SurfaceHolder.Callback {
 	
 	private SurfaceHolder mSurfaceHolder;
 	private MediaRecorder mMediaRecorder;
@@ -74,7 +70,7 @@ public class SheXActivity extends Activity implements SurfaceHolder.Callback {
 		setContentView(R.layout.shexactivity);
 		handler = new Handler();
 		// 设置输出路径
-		SheXActivity.sheXPath = Environment.getExternalStorageDirectory().getAbsolutePath()
+		TakeVideoActivity.sheXPath = Environment.getExternalStorageDirectory().getAbsolutePath()
 				+ File.separator + saveName + ".mp4";
 		File file = new File(sheXPath);
 		if (file.exists()) {

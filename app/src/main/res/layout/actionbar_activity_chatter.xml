@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <org.holoeverywhere.widget.RadioButton
+        android:id="@+id/rb_activity_chatter_title_left"
+        android:layout_width="@dimen/size_activity_chatter_radio_button"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/background_radio_button_left_blue"
+        android:button="@null"
+        android:gravity="center"
+        android:padding="@dimen/offset_small"
+        android:textColor="@color/color_radio_button_text_blue"
+        android:textSize="@dimen/text_size_less" />
+
+    <org.holoeverywhere.widget.RadioButton
+        android:id="@+id/rb_activity_chatter_title_right"
+        android:layout_width="@dimen/size_activity_chatter_radio_button"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/background_radio_button_right_blue"
+        android:button="@null"
+        android:gravity="center"
+        android:padding="@dimen/offset_small"
+        android:text="@string/chatter_title_hot"
+        android:textColor="@color/color_radio_button_text_blue"
+        android:textSize="@dimen/text_size_less" />
+</RadioGroup>

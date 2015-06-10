@@ -121,7 +121,7 @@ public class TongSHQVideoPlayActivity extends Activity implements
                 TongSHQVideoPlayActivity.VIDEOURL);
         qid = getIntent().getExtras().getString(TongSHQVideoPlayActivity.QID);
 
-        String fileDir = FileUtils.getTongSHQDir(this) + qid + ".mp4";
+        String fileDir = FileUtils.getChatterDir(this) + qid + ".mp4";
         fileMedia = new File(fileDir);
         if (!TextUtils.isEmpty(videoURl)) {
             // 文件存在，下载完成

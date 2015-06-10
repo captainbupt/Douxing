@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
@@ -14,7 +13,7 @@ import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseStatisticalActionBarActivity;
 import com.badou.mworking.model.category.Task;
 import com.badou.mworking.net.Net;
-import com.badou.mworking.net.RequestParams;
+import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.Constant;
@@ -23,8 +22,6 @@ import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.SP;
 import com.badou.mworking.util.TimeTransfer;
 import com.badou.mworking.util.ToastUtil;
-import com.badou.mworking.widget.SwipeBackLayout;
-import com.badou.mworking.widget.WaitProgressDialog;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
@@ -117,7 +114,7 @@ public class TaskSignActivity extends BaseStatisticalActionBarActivity implement
         mImageChooser = new ImageChooser(mContext, false, true, false);
         mImageChooser.setOnImageChosenListener(new ImageChooser.OnImageChosenListener() {
             @Override
-            public void onImageChose(Bitmap bitmap) {
+            public void onImageChose(Bitmap bitmap, int type) {
                 if (bitmap != null) {
                     photo = bitmap;
                     isSign = true;
@@ -268,7 +265,7 @@ public class TaskSignActivity extends BaseStatisticalActionBarActivity implement
                             return;
                         }
                         int errcode = jsonObject
-                                .optInt(RequestParams.ERRCODE);
+                                .optInt(RequestParameters.ERRCODE);
                         if (errcode == 0) {
                             // 签到成功
                             task.read = Constant.FINISH_YES;

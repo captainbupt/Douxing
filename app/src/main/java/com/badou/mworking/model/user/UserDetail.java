@@ -1,6 +1,6 @@
 package com.badou.mworking.model.user;
 
-import com.badou.mworking.net.RequestParams;
+import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.net.ResponseParams;
 
 import org.json.JSONObject;
@@ -27,40 +27,40 @@ public class UserDetail implements Serializable{
 	public int score_over; //考试战胜了多少人
 	
 	public UserDetail(JSONObject jo) {
-		this.name = jo.optString(RequestParams.USER_NAME);
-		this.dpt = jo.optString(RequestParams.USER_DPT);
-		this.headimg = jo.optString(RequestParams.USER_HEADIMG);
-		this.score = jo.optInt(RequestParams.USER_SCORE);
-		this.ask = jo.optInt(RequestParams.USER_ASK);
-		this.share = jo.optInt(RequestParams.USER_SHARE);
+		this.name = jo.optString(RequestParameters.USER_NAME);
+		this.dpt = jo.optString(RequestParameters.USER_DPT);
+		this.headimg = jo.optString(RequestParameters.USER_HEADIMG);
+		this.score = jo.optInt(RequestParameters.USER_SCORE);
+		this.ask = jo.optInt(RequestParameters.USER_ASK);
+		this.share = jo.optInt(RequestParameters.USER_SHARE);
 		this.nmsg = jo.optInt("nmsg");
-		this.training_total = jo.optInt(RequestParams.USER_TRAINING_TOTAL);
-		this.training_week = jo.optInt(RequestParams.USER_TRAINING_WEEK);
-		this.study_total = jo.optInt(RequestParams.USER_STUDY_TOTAL);
-		this.study_week = jo.optInt(RequestParams.USER_STUDY_WEEK);
-		this.study_rank = jo.optInt(RequestParams.USER_STUDY_RANK);
-		this.score_rank = jo.optInt(RequestParams.USER_SCORE_RANK);
-		this.study_over = jo.optInt(RequestParams.USER_STUDY_OVER);
-		this.score_over = jo.optInt(RequestParams.USER_SCORE_OVER);
+		this.training_total = jo.optInt(RequestParameters.USER_TRAINING_TOTAL);
+		this.training_week = jo.optInt(RequestParameters.USER_TRAINING_WEEK);
+		this.study_total = jo.optInt(RequestParameters.USER_STUDY_TOTAL);
+		this.study_week = jo.optInt(RequestParameters.USER_STUDY_WEEK);
+		this.study_rank = jo.optInt(RequestParameters.USER_STUDY_RANK);
+		this.score_rank = jo.optInt(RequestParameters.USER_SCORE_RANK);
+		this.study_over = jo.optInt(RequestParameters.USER_STUDY_OVER);
+		this.score_over = jo.optInt(RequestParameters.USER_SCORE_OVER);
 		this.circle_lv = jo.optInt(ResponseParams.QUESTION_CIRCLE_LV);
 	}
 
 	public UserDetail getUserDetail(JSONObject jo) {
-		this.name = jo.optString(RequestParams.USER_NAME);
-		this.dpt = jo.optString(RequestParams.USER_DPT);
-		this.headimg = jo.optString(RequestParams.USER_HEADIMG);
-		this.score = jo.optInt(RequestParams.USER_SCORE);
-		this.ask = jo.optInt(RequestParams.USER_ASK);
-		this.share = jo.optInt(RequestParams.USER_SHARE);
+		this.name = jo.optString(RequestParameters.USER_NAME);
+		this.dpt = jo.optString(RequestParameters.USER_DPT);
+		this.headimg = jo.optString(RequestParameters.USER_HEADIMG);
+		this.score = jo.optInt(RequestParameters.USER_SCORE);
+		this.ask = jo.optInt(RequestParameters.USER_ASK);
+		this.share = jo.optInt(RequestParameters.USER_SHARE);
 		this.nmsg = jo.optInt("nmsg");
-		this.training_total = jo.optInt(RequestParams.USER_TRAINING_TOTAL);
-		this.training_week = jo.optInt(RequestParams.USER_TRAINING_WEEK);
-		this.study_total = jo.optInt(RequestParams.USER_STUDY_TOTAL);
-		this.study_week = jo.optInt(RequestParams.USER_STUDY_WEEK);
-		this.study_rank = jo.optInt(RequestParams.USER_STUDY_RANK);
-		this.score_rank = jo.optInt(RequestParams.USER_SCORE_RANK);
-		this.study_over = jo.optInt(RequestParams.USER_STUDY_OVER);
-		this.score_over = jo.optInt(RequestParams.USER_SCORE_OVER);
+		this.training_total = jo.optInt(RequestParameters.USER_TRAINING_TOTAL);
+		this.training_week = jo.optInt(RequestParameters.USER_TRAINING_WEEK);
+		this.study_total = jo.optInt(RequestParameters.USER_STUDY_TOTAL);
+		this.study_week = jo.optInt(RequestParameters.USER_STUDY_WEEK);
+		this.study_rank = jo.optInt(RequestParameters.USER_STUDY_RANK);
+		this.score_rank = jo.optInt(RequestParameters.USER_SCORE_RANK);
+		this.study_over = jo.optInt(RequestParameters.USER_STUDY_OVER);
+		this.score_over = jo.optInt(RequestParameters.USER_SCORE_OVER);
 		this.circle_lv = jo.optInt(ResponseParams.QUESTION_CIRCLE_LV);
 		return this;
 	}

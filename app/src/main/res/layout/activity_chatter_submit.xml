@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.holoeverywhere.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_layout_bg"
+    android:orientation="vertical">
+
+    <org.holoeverywhere.widget.EditText
+        android:id="@+id/et_activity_chatter_submit_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/offset_small"
+        android:background="@color/color_white"
+        android:gravity="top|left"
+        android:hint="@string/comment_hint"
+        android:inputType="textMultiLine"
+        android:minLines="4"
+        android:paddingBottom="@dimen/offset_less"
+        android:paddingLeft="@dimen/offset_medium"
+        android:paddingRight="@dimen/offset_medium"
+        android:paddingTop="@dimen/offset_less"
+        android:textColor="@color/color_black"
+        android:textSize="@dimen/text_size_medium" />
+
+    <com.badou.mworking.widget.MultiImageEditGridView
+        android:id="@+id/miegv_activity_chatter_submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:horizontalSpacing="@dimen/offset_less"
+        android:numColumns="3"
+        android:paddingBottom="@dimen/offset_less"
+        android:paddingLeft="@dimen/offset_medium"
+        android:paddingRight="@dimen/offset_medium"
+        android:paddingTop="@dimen/offset_less"
+        android:verticalSpacing="@dimen/offset_less" />
+
+    <org.holoeverywhere.widget.LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <org.holoeverywhere.widget.LinearLayout
+            android:id="@+id/ll_activity_chatter_submit_bottom_topic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/color_white"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="@dimen/offset_medium">
+
+            <org.holoeverywhere.widget.TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="#"
+                android:textColor="@color/color_text_black"
+                android:textSize="@dimen/text_size_medium" />
+
+            <org.holoeverywhere.widget.TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/offset_small"
+                android:text="@string/bottom_submit_topic"
+                android:textColor="@color/color_text_black"
+                android:textSize="@dimen/text_size_medium" />
+        </org.holoeverywhere.widget.LinearLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/color_border_grey" />
+
+        <org.holoeverywhere.widget.LinearLayout
+            android:id="@+id/ll_activity_chatter_submit_bottom_anonymous"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/color_white"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="@dimen/offset_medium">
+
+            <org.holoeverywhere.widget.CheckBox
+                android:id="@+id/cb_activity_chatter_bottom_anonymous"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/icon_bottom_check_box"
+                android:button="@null" />
+
+            <org.holoeverywhere.widget.TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/offset_small"
+                android:text="@string/bottom_submit_anonymous"
+                android:textColor="@color/color_text_black"
+                android:textSize="@dimen/text_size_medium" />
+        </org.holoeverywhere.widget.LinearLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/color_border_grey" />
+
+        <include
+            android:id="@+id/ll_activity_chatter_submit_bottom_photo"
+            layout="@layout/layout_bottom_photo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+
+    </org.holoeverywhere.widget.LinearLayout>
+
+</org.holoeverywhere.widget.LinearLayout>

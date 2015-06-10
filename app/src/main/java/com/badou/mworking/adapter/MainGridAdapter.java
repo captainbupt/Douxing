@@ -16,7 +16,7 @@ import com.badou.mworking.model.MainIcon;
 import com.badou.mworking.model.category.Notice;
 import com.badou.mworking.model.category.Task;
 import com.badou.mworking.model.category.Train;
-import com.badou.mworking.net.RequestParams;
+import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.util.SP;
 
 import java.util.List;
@@ -76,13 +76,13 @@ public class MainGridAdapter extends MyBaseAdapter {
         // 为了解决换帐号登录的问题
         String userNum = ((AppApplication) mContext.getApplicationContext())
                 .getUserInfo().account;
-        if (RequestParams.CHK_UPDATA_PIC_NOTICE.equals(tag)) {//通知公告
+        if (RequestParameters.CHK_UPDATA_PIC_NOTICE.equals(tag)) {//通知公告
             num = SP.getIntSP(mContext, SP.DEFAULTCACHE, userNum + Notice.CATEGORY_KEY_UNREAD_NUM, 0);
-        } else if (RequestParams.CHK_UPDATA_PIC_TRAINING.equals(tag)) {//微培训
+        } else if (RequestParameters.CHK_UPDATA_PIC_TRAINING.equals(tag)) {//微培训
             num = SP.getIntSP(mContext, SP.DEFAULTCACHE, userNum + Train.CATEGORY_KEY_UNREAD_NUM, 0);
-        } else if (RequestParams.CHK_UPDATA_PIC_EXAM.equals(tag)) {//在线考试
+        } else if (RequestParameters.CHK_UPDATA_PIC_EXAM.equals(tag)) {//在线考试
             num = SP.getIntSP(mContext, SP.DEFAULTCACHE, userNum + Exam.CATEGORY_KEY_UNREAD_NUM, 0);
-        } else if (RequestParams.CHK_UPDATA_PIC_TASK.equals(tag)) {//任务签到
+        } else if (RequestParameters.CHK_UPDATA_PIC_TASK.equals(tag)) {//任务签到
             num = SP.getIntSP(mContext, SP.DEFAULTCACHE, userNum + Task.CATEGORY_KEY_UNREAD_NUM, 0);
         }
         //主页没有聊天模块，默认这个数量就没有了

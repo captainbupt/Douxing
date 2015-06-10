@@ -20,7 +20,7 @@ import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.model.user.UserInfo;
 import com.badou.mworking.net.Net;
-import com.badou.mworking.net.RequestParams;
+import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.net.ResponseParams;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.ResponseError;
@@ -366,16 +366,16 @@ public class LoginActivity extends BaseNoTitleActivity implements
                 || String.valueOf(location.getLatitude()).equals(4.9E-324)
                 || String.valueOf(location.getLongitude()).equals(4.9E-324)) {
             try {
-                locationJsonObject.put(RequestParams.LOCATION_LATITUDE, 0d);
-                locationJsonObject.put(RequestParams.LOCATION_LONGITUDE, 0d);
+                locationJsonObject.put(RequestParameters.LOCATION_LATITUDE, 0d);
+                locationJsonObject.put(RequestParameters.LOCATION_LONGITUDE, 0d);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         } else {
             try {
-                locationJsonObject.put(RequestParams.LOCATION_LATITUDE,
+                locationJsonObject.put(RequestParameters.LOCATION_LATITUDE,
                         location.getLatitude());
-                locationJsonObject.put(RequestParams.LOCATION_LONGITUDE,
+                locationJsonObject.put(RequestParameters.LOCATION_LONGITUDE,
                         location.getLongitude());
             } catch (JSONException e) {
                 e.printStackTrace();

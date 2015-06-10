@@ -18,7 +18,9 @@ import cn.jpush.android.api.JPushInterface;
  */
 public class MyGroupActivity extends BaseBackActionBarActivity implements
                  MyGroupFragment.OnFragmentInteractionListener {
-	
+
+	public static final String KEY_QID = "qid";
+
 	public static String qid = ""; 
 
 	@Override

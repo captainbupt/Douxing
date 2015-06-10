@@ -22,14 +22,15 @@ import com.badou.mworking.adapter.AskAnswerAdapter;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.base.BaseBackActionBarActivity;
+import com.badou.mworking.listener.DeleteClickListener;
 import com.badou.mworking.listener.FullImageListener;
+import com.badou.mworking.listener.MessageClickListener;
 import com.badou.mworking.model.Ask;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.Constant;
-import com.badou.mworking.util.DialogUtil;
 import com.badou.mworking.util.TimeTransfer;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.NoScrollListView;
@@ -138,28 +139,9 @@ public class AskDetailActivity extends BaseBackActionBarActivity {
             }
         });
 
-        mDeleteTextView.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DialogUtil.showDeleteDialog(mContext, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        deleteAsk();
-                    }
-                });
-            }
-        });
+        mDeleteTextView.setOnClickListener(new DeleteClickListener(mContext));
 
-        mMessageTextView.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(mContext, ChattingActivity.class);
-                intent.putExtra(BaseActionBarActivity.KEY_TITLE, mAsk.userName);
-                intent.putExtra(ChattingActivity.KEY_WHOM, mAsk.whom);
-                intent.putExtra(ChattingActivity.KEY_OTHER_IMG, mAsk.userHeadUrl);
-                startActivity(intent);
-            }
-        });
+        mMessageTextView.setOnClickListener(new MessageClickListener(mContext, mAsk.userName, mAsk.whom, mAsk.userHeadUrl));
     }
 
     private void initData() {

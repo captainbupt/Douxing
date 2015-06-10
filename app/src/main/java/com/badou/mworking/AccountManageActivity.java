@@ -17,13 +17,11 @@ import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.database.MTrainingDBHelper;
 import com.badou.mworking.model.user.UserInfo;
 import com.badou.mworking.net.Net;
-import com.badou.mworking.net.RequestParams;
+import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.AppManager;
-import com.badou.mworking.util.SP;
 import com.badou.mworking.util.ToastUtil;
-import com.badou.mworking.widget.WaitProgressDialog;
 
 import org.json.JSONObject;
 
@@ -214,7 +212,7 @@ public class AccountManageActivity extends BaseBackActionBarActivity {
     private void changePasswordSuccess(JSONObject data) {
         UserInfo userInfo = ((AppApplication) getApplicationContext())
                 .getUserInfo();
-        userInfo.userId = data.optString(RequestParams.USER_ID);
+        userInfo.userId = data.optString(RequestParameters.USER_ID);
         userInfo.saveUserInfo(getApplicationContext());
         MTrainingDBHelper.getMTrainingDBHelper().createUserTable(
                 userInfo.userId);

@@ -4,14 +4,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.android.volley.VolleyError;
 import com.badou.mworking.adapter.CommentAdapter;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseBackActionBarActivity;
-import com.badou.mworking.model.Question;
+import com.badou.mworking.model.Chatter;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ResponseParams;
 import com.badou.mworking.net.ServiceProvider;
@@ -101,17 +100,17 @@ public class CommentActivity extends BaseBackActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> adapter, View v, int position,
                                     long arg3) {
-                Question question = (Question) mCommentAdapter.getItem(position - 1);
-                String userName = question.getEmployee_id().trim();
+                Chatter question = (Chatter) mCommentAdapter.getItem(position - 1);
+                String userName = question.name.trim();
                 // 不可以回复我自己
                 if (userName.equals("我")) {
                     return;
                 }
-                whom = question.getWhom();
+                whom = question.whom;
                 isReply = true;
                 mBottomView.clearContent();
                 mBottomView.showKeyboard();
-                mBottomView.setContent(getResources().getString(R.string.button_reply) + ": " + question.getEmployee_id(), getResources().getString(R.string.button_reply));
+                mBottomView.setContent(getResources().getString(R.string.button_reply) + ": " + question.name, getResources().getString(R.string.button_reply));
             }
         });
     }
@@ -193,8 +192,7 @@ public class CommentActivity extends BaseBackActionBarActivity {
         commentList = new ArrayList<>();
         for (int i = 0; i < length; i++) {
             try {
-                commentList.add(new Question(jsonArray.getJSONObject(i),
-                        Question.MODE_COMMENT));
+                commentList.add(new Chatter(jsonArray.getJSONObject(i)));
             } catch (JSONException e) {
                 e.printStackTrace();
             }

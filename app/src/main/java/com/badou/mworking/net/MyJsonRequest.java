@@ -18,12 +18,10 @@ public class MyJsonRequest extends JsonRequest<JSONObject> {
 	public MyJsonRequest(int method, String url, String requestBody,
 			Listener<JSONObject> listener, ErrorListener errorListener) {
 		super(method, url, requestBody, listener, errorListener);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
-		// TODO Auto-generated method stub
 		try {
 			String jsonStr = new String(response.data,
 					HttpHeaderParser.parseCharset(response.headers));

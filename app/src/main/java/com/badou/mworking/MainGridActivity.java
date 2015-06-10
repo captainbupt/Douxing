@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -29,7 +28,7 @@ import com.badou.mworking.fragment.MainSearchFragment;
 import com.badou.mworking.model.MainBanner;
 import com.badou.mworking.model.MainIcon;
 import com.badou.mworking.net.Net;
-import com.badou.mworking.net.RequestParams;
+import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.net.ResponseParams;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.bitmap.BitmapLruCache;
@@ -53,7 +52,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
 
 import cn.jpush.android.api.JPushInterface;
@@ -156,33 +154,33 @@ public class MainGridActivity extends BaseNoTitleActivity {
                 Intent intent = new Intent();
                 MainIcon mainIcon = (MainIcon) mMainGridAdapter.getItem(arg2);
                 switch (mainIcon.mainIconId) {
-                    case RequestParams.CHK_UPDATA_PIC_NOTICE: // 通知公告
+                    case RequestParameters.CHK_UPDATA_PIC_NOTICE: // 通知公告
                         intent.setClass(mContext, NoticeActivity.class);
                         break;
-                    case RequestParams.CHK_UPDATA_PIC_TRAINING: // 微培训
+                    case RequestParameters.CHK_UPDATA_PIC_TRAINING: // 微培训
                         intent.setClass(mContext, TrainActivity.class);
                         intent.putExtra(TrainActivity.KEY_TRAINING, true);
                         break;
-                    case RequestParams.CHK_UPDATA_PIC_EXAM: // 在线考试
+                    case RequestParameters.CHK_UPDATA_PIC_EXAM: // 在线考试
                         intent.setClass(mContext, ExamActivity.class);
                         break;
-                    case RequestParams.CHK_UPDATA_PIC_SURVEY: // 培训调研
+                    case RequestParameters.CHK_UPDATA_PIC_SURVEY: // 培训调研
                         String uid = ((AppApplication) getApplicationContext())
                                 .getUserInfo().userId;
                         String url = Net.getWeiDiaoYanURl() + uid;
                         intent.setClass(mContext, BackWebActivity.class);
                         intent.putExtra(BackWebActivity.KEY_URL, url);
                         break;
-                    case RequestParams.CHK_UPDATA_PIC_TASK: // 任务签到
+                    case RequestParameters.CHK_UPDATA_PIC_TASK: // 任务签到
                         intent.setClass(mContext, TaskActivity.class);
                         break;
-                    case RequestParams.CHK_UPDATA_PIC_CHATTER: // 同事圈
-                        intent.setClass(mContext, AroundActivity.class);
+                    case RequestParameters.CHK_UPDATA_PIC_CHATTER: // 同事圈
+                        intent.setClass(mContext, ChatterActivity.class);
                         break;
-                    case RequestParams.CHK_UPDATA_PIC_ASK: //问答
+                    case RequestParameters.CHK_UPDATA_PIC_ASK: //问答
                         intent.setClass(mContext, AskActivity.class);
                         break;
-                    case RequestParams.CHK_UPDATA_PIC_SHELF: //橱窗
+                    case RequestParameters.CHK_UPDATA_PIC_SHELF: //橱窗
                         intent.setClass(mContext, TrainActivity.class);
                         intent.putExtra(TrainActivity.KEY_TRAINING, false);
                         break;
@@ -334,9 +332,9 @@ public class MainGridActivity extends BaseNoTitleActivity {
     private void checkUpdate() {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put(RequestParams.CHK_UPDATA_PIC_COMPANY_LOGO, "");
-            jsonObject.put(RequestParams.CHK_UPDATA_BANNER, "");
-            jsonObject.put(RequestParams.CHK_UPDATA_PIC_NEWVER, "");
+            jsonObject.put(RequestParameters.CHK_UPDATA_PIC_COMPANY_LOGO, "");
+            jsonObject.put(RequestParameters.CHK_UPDATA_BANNER, "");
+            jsonObject.put(RequestParameters.CHK_UPDATA_PIC_NEWVER, "");
         } catch (JSONException e1) {
             e1.printStackTrace();
         }
@@ -363,7 +361,7 @@ public class MainGridActivity extends BaseNoTitleActivity {
                     apkUpdate(data);
 
                     JSONObject jSONObject = data
-                            .optJSONObject(RequestParams.CHK_UPDATA_PIC_COMPANY_LOGO);
+                            .optJSONObject(RequestParameters.CHK_UPDATA_PIC_COMPANY_LOGO);
                     if (jSONObject != null) {
                         String logoUrl = jSONObject
                                 .optString(MainBanner.CHK_URL);
@@ -403,7 +401,7 @@ public class MainGridActivity extends BaseNoTitleActivity {
      */
     private void apkUpdate(JSONObject dataJson) {
         JSONObject newVerjson = dataJson
-                .optJSONObject(RequestParams.CHK_UPDATA_PIC_NEWVER);
+                .optJSONObject(RequestParameters.CHK_UPDATA_PIC_NEWVER);
         boolean hasNew = newVerjson.optInt(ResponseParams.CHECKUPDATE_NEW) == 1;
         if (hasNew) {
             final String info = newVerjson
@@ -449,14 +447,14 @@ public class MainGridActivity extends BaseNoTitleActivity {
         List<Object> mainIconList = new ArrayList<>();
 
         // 用此顺序，可以保证没有缓存的时候能够按顺序显示
-        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParams.CHK_UPDATA_PIC_ASK, R.drawable.button_ask, R.string.module_default_title_ask));
-        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParams.CHK_UPDATA_PIC_SHELF, R.drawable.button_shelf, R.string.module_default_title_shelf));
-        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParams.CHK_UPDATA_PIC_SURVEY, R.drawable.button_survey, R.string.module_default_title_survey));
-        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParams.CHK_UPDATA_PIC_CHATTER, R.drawable.button_chatter, R.string.module_default_title_chatter));
-        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParams.CHK_UPDATA_PIC_TASK, R.drawable.button_task, R.string.module_default_title_task));
-        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParams.CHK_UPDATA_PIC_EXAM, R.drawable.button_exam, R.string.module_default_title_exam));
-        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParams.CHK_UPDATA_PIC_TRAINING, R.drawable.button_training, R.string.module_default_title_training));
-        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParams.CHK_UPDATA_PIC_NOTICE, R.drawable.button_notice, R.string.module_default_title_notice));
+        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_ASK, R.drawable.button_ask, R.string.module_default_title_ask));
+        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_SHELF, R.drawable.button_shelf, R.string.module_default_title_shelf));
+        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_SURVEY, R.drawable.button_survey, R.string.module_default_title_survey));
+        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_CHATTER, R.drawable.button_chatter, R.string.module_default_title_chatter));
+        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_TASK, R.drawable.button_task, R.string.module_default_title_task));
+        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_EXAM, R.drawable.button_exam, R.string.module_default_title_exam));
+        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_TRAINING, R.drawable.button_training, R.string.module_default_title_training));
+        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_NOTICE, R.drawable.button_notice, R.string.module_default_title_notice));
 
         /**
          * 权限， 设置隐藏显示

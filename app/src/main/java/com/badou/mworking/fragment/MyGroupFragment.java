@@ -24,7 +24,7 @@ import com.badou.mworking.R;
 import com.badou.mworking.adapter.MyGroupAdapter;
 import com.badou.mworking.adapter.MyGroupAdapter.OnAdapterItemListener;
 import com.badou.mworking.base.AppApplication;
-import com.badou.mworking.model.Question;
+import com.badou.mworking.model.Chatter;
 import com.badou.mworking.model.user.UserDetail;
 import com.badou.mworking.util.LVUtil;
 import com.badou.mworking.net.Net;
@@ -85,7 +85,7 @@ public class MyGroupFragment extends Fragment implements
     private ProgressDialog mProgressDialog;
     private UserDetail userDetail;
     private Context mContext;
-    private List<Question> asksList = new ArrayList<Question>();
+    private List<Chatter> asksList = new ArrayList<Chatter>();
 
     private TextView lvTv;
 
@@ -122,7 +122,7 @@ public class MyGroupFragment extends Fragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_my_group, null);
+        View view = inflater.inflate(R.layout.fragment_chatter_list, null);
         initView(view);
         initListener();
         return view;
@@ -191,9 +191,9 @@ public class MyGroupFragment extends Fragment implements
                     //(position - 2) 下拉刷新的view 和 顶部头像布局view
                     clickPosition = position - 2;
                     // 跳转到单条的Item的页面，并传递数据
-                    Question question = myGroupAdapter.getItem(clickPosition);
+                    Chatter question = myGroupAdapter.getItem(clickPosition);
                     if (userDetail != null && question != null) {
-                        question.setImgUrl(userDetail.headimg + "");
+                        question.imgUrl = userDetail.headimg;
                     }
                     Intent intent = new Intent(mContext, AroundDetailActivity.class);
                     intent.putExtra(AroundDetailActivity.VALUE_QUESTION, question);
@@ -250,7 +250,7 @@ public class MyGroupFragment extends Fragment implements
         type = "qas";
         isRefreshing = true;
         // 发起网络请求
-        ServiceProvider.doQuestionShareList(mContext, uid, type, page, TongSHQFragments.LOAD_PAGE_NUM, true,
+        ServiceProvider.doQuestionShareList(mContext, type, page, Constant.LIST_ITEM_NUM,
                 new VolleyListener(mContext) {
 
                     @Override
@@ -273,13 +273,13 @@ public class MyGroupFragment extends Fragment implements
                         } else {
                             currentPage++;
                             // 新加载的内容添加到list
-                            List<Question> asks = new ArrayList<Question>();
+                            List<Chatter> asks = new ArrayList<Chatter>();
                             for (int i = 0; i < resultArray.length(); i++) {
                                 JSONObject jo2 = resultArray.optJSONObject(i);
                                 if (jo2 == null) {
                                     return;
                                 }
-                                asks.add(new Question(jo2, mode));
+                                asks.add(new Chatter(jo2));
                             }
                             asksList.addAll(asks);
                             if (page == 1) {// 页码为1 重新加载第一页
