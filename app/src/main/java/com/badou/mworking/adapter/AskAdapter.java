@@ -13,9 +13,9 @@ import com.badou.mworking.AskActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.AskDetailActivity;
 import com.badou.mworking.base.MyBaseAdapter;
+import com.badou.mworking.listener.CopyClickListener;
 import com.badou.mworking.model.Ask;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
-import com.badou.mworking.util.DialogUtil;
 import com.badou.mworking.util.TimeTransfer;
 
 import org.holoeverywhere.app.Activity;
@@ -38,7 +38,7 @@ public class AskAdapter extends MyBaseAdapter {
         } else {
             convertView = mInflater.inflate(R.layout.adapter_ask,
                     parent, false);
-            holder = new AllViewHolder(convertView);
+            holder = new AllViewHolder(mContext, convertView);
             convertView.setTag(holder);
         }
         final Ask ask = (Ask) getItem(position);
@@ -48,15 +48,10 @@ public class AskAdapter extends MyBaseAdapter {
         holder.dateTextView.setText(TimeTransfer.long2StringDetailDate(mContext, ask.createTime));
         holder.replyCountTextView.setText(ask.count + "");
         holder.contentTextView.setText(ask.content);
-        convertView.setOnLongClickListener(new OnLongClickListener() {
 
-            @Override
-            public boolean onLongClick(View arg0) {
-                DialogUtil.showCopyDialog(mContext, ask.content);
-                return true;
-            }
-        });
+        holder.copyClickListener.content = ask.content;
 
+        // 待优化项，可参照ChatterAdapter，降低耦合，优化内存
         convertView.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -65,7 +60,7 @@ public class AskAdapter extends MyBaseAdapter {
                 intent.setClass(mContext, AskDetailActivity.class);
                 intent.putExtra(AskDetailActivity.KEY_ASK, ask);
                 // 任意
-                ((Activity)mContext).startActivityForResult(intent, 1);
+                ((Activity) mContext).startActivityForResult(intent, 1);
             }
         });
         return convertView;
@@ -76,12 +71,15 @@ public class AskAdapter extends MyBaseAdapter {
         TextView dateTextView;  //时间
         TextView replyCountTextView;  //回复人数
         TextView contentTextView;
+        CopyClickListener copyClickListener;
 
-        public AllViewHolder(View view) {
+        public AllViewHolder(Context context, View view) {
             headImageView = (ImageView) view.findViewById(R.id.iv_adapter_ask_head);
             dateTextView = (TextView) view.findViewById(R.id.tv_adapter_ask_date);
             replyCountTextView = (TextView) view.findViewById(R.id.tv_adapter_ask_reply_count);
             contentTextView = (TextView) view.findViewById(R.id.tv_adapter_ask_content);
+            copyClickListener = new CopyClickListener(context);
+            view.setOnLongClickListener(copyClickListener);
         }
     }
 }

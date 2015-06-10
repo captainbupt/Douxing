@@ -49,44 +49,61 @@ public class MultiImageEditGridView extends GridView {
     public List<Object> getImages() {
         return mAdapter.getItemList();
     }
-}
 
-class MultiImageEditAdapter extends MyBaseAdapter {
-
-    public MultiImageEditAdapter(Context context) {
-        super(context);
+    public void setOnImageDeleteListener(OnImageDeleteListener onImageDeleteListener) {
+        mAdapter.setOnImageDeleteListener(onImageDeleteListener);
     }
 
-    public void deleteItem(int position) {
-        if (mItemList == null || position < 0 || position >= mItemList.size()) {
-            return;
-        }
-        Bitmap bmp = (Bitmap) mItemList.get(position);
-        mItemList.remove(position);
-        notifyDataSetChanged();
-        if (bmp != null && !bmp.isRecycled())
-            bmp.recycle();
+    public interface OnImageDeleteListener {
+        public void onDelete(int position);
     }
 
-    @Override
-    public View getView(final int position, View convertView, ViewGroup viewGroup) {
-        ViewHolder holder;
-        if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.adapter_multi_image_edit, null);
-            holder = new ViewHolder(convertView);
-            convertView.setTag(holder);
-        } else {
-            holder = (ViewHolder) convertView.getTag();
+    static class MultiImageEditAdapter extends MyBaseAdapter {
+
+        OnImageDeleteListener mOnImageDeleteListener;
+
+        public void setOnImageDeleteListener(OnImageDeleteListener onImageDeleteListener) {
+            this.mOnImageDeleteListener = onImageDeleteListener;
         }
-        Bitmap bmp = (Bitmap) getItem(position);
-        holder.contentImageView.setImageBitmap(bmp);
-        holder.deleteImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                deleteItem(position);
+
+        public MultiImageEditAdapter(Context context) {
+            super(context);
+        }
+
+        public void deleteItem(int position) {
+            if (mItemList == null || position < 0 || position >= mItemList.size()) {
+                return;
             }
-        });
-        return convertView;
+            Bitmap bmp = (Bitmap) mItemList.get(position);
+            mItemList.remove(position);
+            notifyDataSetChanged();
+            if (bmp != null && !bmp.isRecycled())
+                bmp.recycle();
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup viewGroup) {
+            ViewHolder holder;
+            if (convertView == null) {
+                convertView = mInflater.inflate(R.layout.adapter_multi_image_edit, null);
+                holder = new ViewHolder(convertView);
+                convertView.setTag(holder);
+            } else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+            Bitmap bmp = (Bitmap) getItem(position);
+            holder.contentImageView.setImageBitmap(bmp);
+            holder.deleteImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    deleteItem(position);
+                    if (mOnImageDeleteListener != null) {
+                        mOnImageDeleteListener.onDelete(position);
+                    }
+                }
+            });
+            return convertView;
+        }
     }
 
     static class ViewHolder {
@@ -97,5 +114,6 @@ class MultiImageEditAdapter extends MyBaseAdapter {
             contentImageView = (ImageView) view.findViewById(R.id.iv_adapter_multi_image_edit_content);
             deleteImageView = (ImageView) view.findViewById(R.id.iv_adapter_multi_image_edit_delete);
         }
+
     }
 }

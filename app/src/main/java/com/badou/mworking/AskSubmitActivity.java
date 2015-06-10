@@ -16,7 +16,7 @@ import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.model.MainIcon;
 import com.badou.mworking.net.Net;
-import com.badou.mworking.net.RequestParams;
+import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.net.ResponseParams;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
@@ -65,7 +65,7 @@ public class AskSubmitActivity extends BaseBackActionBarActivity {
         mImageChooser = new ImageChooser(mContext, true, true, true);
         mImageChooser.setOnImageChosenListener(new ImageChooser.OnImageChosenListener() {
             @Override
-            public void onImageChose(Bitmap bitmap) {
+            public void onImageChose(Bitmap bitmap, int type) {
                 mImageGridView.addImage(bitmap);
             }
         });
@@ -117,7 +117,7 @@ public class AskSubmitActivity extends BaseBackActionBarActivity {
                                 // 用startActivity做跳转可以使列表刷新
                                 Intent intent = new Intent(mContext, AskActivity.class);
                                 intent.putExtra(BaseActionBarActivity.KEY_TITLE,
-                                        MainIcon.getMainIcon(mContext, RequestParams.CHK_UPDATA_PIC_ASK,R.drawable.button_ask, R.string.module_default_title_ask).name);
+                                        MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_ASK,R.drawable.button_ask, R.string.module_default_title_ask).name);
                                 startActivity(intent);
                                 finish();
                             } else {

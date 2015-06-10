@@ -1,6 +1,6 @@
 package com.badou.mworking.util;
 
-import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -16,29 +16,40 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 
 import com.badou.mworking.R;
+import com.badou.mworking.TakeVideoActivity;
 
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.AlertDialog;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Administrator on 2015/6/4.
  */
 public class ImageChooser {
 
+    private List<String> mItemList;
+
+    public static final int TYPE_IMAGE = 1;
+    public static final int TYPE_VIDEO = 2;
+
     /* 请求码 */
-    private static final int IMAGE_REQUEST_CODE = 3;
-    private static final int CAMERA_REQUEST_CODE = 1;
-    private static final int RESULT_REQUEST_CODE = 2;
+    private static final int IMAGE_REQUEST_CODE = 1;
+    private static final int CAMERA_REQUEST_CODE = 2;
+    private static final int ZOOM_REQUEST_CODE = 3;
+    private static final int VIDEO_REQUEST_CODE = 4;
 
     private Context mContext;
     private boolean isChoose;
     private boolean isPhoto;
     private boolean isZoom;
+    private boolean isVideo;
 
     public void setOnImageChosenListener(OnImageChosenListener onImageChosenListener) {
         this.mOnImageChosenListener = onImageChosenListener;
@@ -47,46 +58,53 @@ public class ImageChooser {
     private OnImageChosenListener mOnImageChosenListener;
 
     public interface OnImageChosenListener {
-        void onImageChose(Bitmap bitmap);
+        void onImageChose(Bitmap bitmap, int type);
     }
 
-    public ImageChooser(Context mContext, boolean isChoose, boolean isPhoto, boolean isZoom) {
-        this.mContext = mContext;
+    public ImageChooser(Context context, boolean isChoose, boolean isPhoto, boolean isZoom, boolean isVideo) {
+        this.mContext = context;
         this.isChoose = isChoose;
         this.isPhoto = isPhoto;
         this.isZoom = isZoom;
+        this.isVideo = isVideo;
+        mItemList = new ArrayList<>();
+    }
+
+    public ImageChooser(Context context, boolean isChoose, boolean isPhoto, boolean isZoom) {
+        this(context, isChoose, isPhoto, isZoom, false);
     }
 
     public void takeImage(String title) {
-        if (isChoose && isPhoto) {
-            showDialog(title);
-        } else if (isChoose) {
-            choosePhoto();
-        } else {
-            takePhoto();
+        mItemList.clear();
+        if (isChoose) {
+            mItemList.add(mContext.getResources().getString(R.string.choose_sd_Pic));
         }
+        if (isPhoto) {
+            mItemList.add(mContext.getResources().getString(R.string.choose_camera));
+        }
+        if (isVideo) {
+            mItemList.add(mContext.getResources().getString(R.string.choose_video));
+        }
+        showDialog(title, mItemList.toArray(new String[mItemList.size()]));
     }
 
     /**
      * 显示选择对话框
      */
-    private void showDialog(String title) {
+    private void showDialog(String title, String[] items) {
 
-        String[] items = new String[]{mContext.getResources().getString(R.string.choose_sd_Pic),
-                mContext.getResources().getString(R.string.choose_camera)};
         new AlertDialog.Builder(mContext)
                 .setTitle(title)
                 .setItems(items, new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        switch (which) {
-                            case 0: // 选择本地图片
-                                choosePhoto();
-                                break;
-                            case 1: // 拍照
-                                takePhoto();
-                                break;
+                        if (mItemList.get(which).equals(mContext.getResources().getString(R.string.choose_sd_Pic))) {
+                            choosePhoto();// 选择本地图片
+                        } else if (mItemList.get(which).equals(mContext.getResources().getString(R.string.choose_camera))) {
+                            takePhoto();// 拍照
+                        } else if (mItemList.get(which).equals(mContext.getResources().getString(R.string.choose_video))) {
+                            takeVideo();
                         }
                     }
                 })
@@ -139,6 +157,15 @@ public class ImageChooser {
                 CAMERA_REQUEST_CODE);
     }
 
+    /**
+     * 功能描述: 摄像
+     */
+    private void takeVideo() {
+        Intent intent = new Intent();
+        intent.setClass(mContext, TakeVideoActivity.class);
+        ((Activity) mContext).startActivityForResult(intent, VIDEO_REQUEST_CODE);
+    }
+
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
@@ -172,15 +199,28 @@ public class ImageChooser {
                             startPhotoZoom(Uri.fromFile(file));
                         } else {
                             if (mOnImageChosenListener != null)
-                                mOnImageChosenListener.onImageChose(bitmap2);
+                                mOnImageChosenListener.onImageChose(bitmap2, TYPE_IMAGE);
                         }
                     } else {
                         ToastUtil.showToast(mContext, R.string.save_camera_fail);
                     }
                     break;
-                case RESULT_REQUEST_CODE:
+                case ZOOM_REQUEST_CODE:
                     if (data != null) {
                         getResult(data);
+                    }
+                    break;
+                case VIDEO_REQUEST_CODE:
+                    // 捕获返回的拍照路径  (注意： 这里还不能简单的用qid，来命名文件，因为你得先上传图片，然后采用qid，你只能把拍好的视屏改名)
+                    String filePath = FileUtils.getChatterVideoDir(mContext);
+                    File file = new File(filePath);
+                    if (!TextUtils.isEmpty(filePath) && file.exists()) {
+                        int size = mContext.getResources().getDimensionPixelSize(R.dimen.icon_size_xlarge);
+                        Bitmap videoBitmap = VideoImageThumbnail.getVideoThumbnail(FileUtils.getChatterVideoDir(mContext), size, size,
+                                MediaStore.Images.Thumbnails.MICRO_KIND);
+                        if (mOnImageChosenListener != null) {
+                            mOnImageChosenListener.onImageChose(videoBitmap, TYPE_VIDEO);
+                        }
                     }
                     break;
             }
@@ -192,7 +232,7 @@ public class ImageChooser {
         if (extras != null) {
             final Bitmap bitmap = extras.getParcelable("data");
             if (mOnImageChosenListener != null)
-                mOnImageChosenListener.onImageChose(bitmap);
+                mOnImageChosenListener.onImageChose(bitmap, TYPE_IMAGE);
         }
     }
 
@@ -245,7 +285,7 @@ public class ImageChooser {
         intent.putExtra("outputY", 320);
         intent.putExtra("return-data", true);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        ((Activity) mContext).startActivityForResult(intent, RESULT_REQUEST_CODE);
+        ((Activity) mContext).startActivityForResult(intent, ZOOM_REQUEST_CODE);
     }
 
     /**
@@ -257,6 +297,7 @@ public class ImageChooser {
      * @param uri     The Uri to query.
      * @author paulburke
      */
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     public static String getPath(final Context context, final Uri uri) {
 
         final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;

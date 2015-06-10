@@ -9,9 +9,12 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 
+import com.android.volley.NetworkResponse;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.badou.mworking.R;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.net.volley.MyVolley;
@@ -20,6 +23,12 @@ import com.badou.mworking.util.BitmapUtil;
 import com.badou.mworking.util.EncryptionByMD5;
 import com.badou.mworking.util.FileUtils;
 import com.badou.mworking.widget.WaitProgressDialog;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -60,10 +69,10 @@ public class ServiceProvider {
         volleyListener.onStart();
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put(RequestParams.SERIAL, username);
-            jsonObject.put(RequestParams.l_PASSWORD,
+            jsonObject.put(RequestParameters.SERIAL, username);
+            jsonObject.put(RequestParameters.l_PASSWORD,
                     EncryptionByMD5.getMD5(password.getBytes()));
-            jsonObject.put(RequestParams.LOCATION, LocationJson);
+            jsonObject.put(RequestParameters.LOCATION, LocationJson);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -80,7 +89,7 @@ public class ServiceProvider {
     public static void getVerificationCode(Context context, String phoneNum, VolleyListener volleyListener) {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put(RequestParams.cp_USER_PHONE, phoneNum);
+            jsonObject.put(RequestParameters.cp_USER_PHONE, phoneNum);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -103,9 +112,9 @@ public class ServiceProvider {
     public static void doForgetPassword(Context context, String serial, String vcode, String newpwd, VolleyListener volleyListener) {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put(RequestParams.cp_USER_PHONE, serial);
-            jsonObject.put(RequestParams.cp_VCODE, vcode);
-            jsonObject.put(RequestParams.cp_NEW_PASSWORD, newpwd);
+            jsonObject.put(RequestParameters.cp_USER_PHONE, serial);
+            jsonObject.put(RequestParameters.cp_VCODE, vcode);
+            jsonObject.put(RequestParameters.cp_NEW_PASSWORD, newpwd);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -130,8 +139,8 @@ public class ServiceProvider {
         volleyListener.onStart();
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put(RequestParams.cp_USER_PHONE, phoneNum);
-            jsonObject.put(RequestParams.cp_VCODE, vcode);
+            jsonObject.put(RequestParameters.cp_USER_PHONE, phoneNum);
+            jsonObject.put(RequestParameters.cp_VCODE, vcode);
             jsonObject.put("company", company);
             jsonObject.put("title", office);
         } catch (JSONException e) {
@@ -157,11 +166,11 @@ public class ServiceProvider {
                                         VolleyListener volleyListener) {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put(RequestParams.USER_ID, ((AppApplication) context
+            jsonObject.put(RequestParameters.USER_ID, ((AppApplication) context
                     .getApplicationContext()).getUserInfo().userId);
             jsonObject
-                    .put(RequestParams.cp_ORIGINAL_PASSWORD, originalPassword);
-            jsonObject.put(RequestParams.cp_NEW_PASSWORD, newPassword);
+                    .put(RequestParameters.cp_ORIGINAL_PASSWORD, originalPassword);
+            jsonObject.put(RequestParameters.cp_NEW_PASSWORD, newPassword);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -226,10 +235,10 @@ public class ServiceProvider {
                 .getUserInfo().userId;
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put(RequestParams.USER_ID, uid);
-            jsonObject.put(RequestParams.RESOURCE_ID, rid);
-            jsonObject.put(RequestParams.cm_PAGENUMBER, pageNumber);
-            jsonObject.put(RequestParams.cm_ITEMPERPAGE, 10);
+            jsonObject.put(RequestParameters.USER_ID, uid);
+            jsonObject.put(RequestParameters.RESOURCE_ID, rid);
+            jsonObject.put(RequestParameters.cm_PAGENUMBER, pageNumber);
+            jsonObject.put(RequestParameters.cm_ITEMPERPAGE, 10);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -282,9 +291,9 @@ public class ServiceProvider {
 //				jsonObject.put(RequestParams.CHK_UPDATA_PIC_NEWVER, "");
             } else {
                 jsonObject = new JSONObject();
-                jsonObject.put(RequestParams.CHK_UPDATA_PIC_COMPANY_LOGO, "");
-                jsonObject.put(RequestParams.CHK_UPDATA_PIC_NEWVER, "");
-                jsonObject.put(RequestParams.CHK_UPDATA_BANNER, "");
+                jsonObject.put(RequestParameters.CHK_UPDATA_PIC_COMPANY_LOGO, "");
+                jsonObject.put(RequestParameters.CHK_UPDATA_PIC_NEWVER, "");
+                jsonObject.put(RequestParameters.CHK_UPDATA_BANNER, "");
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -391,71 +400,77 @@ public class ServiceProvider {
      * 发布问题/分享
      */
     public static void doPublishQuestionShare(final Context context,
-                                              final String type, final String content, final Bitmap bitmap,
+                                              final String type, final String content, int anonymous,
                                               final VolleyListener volleyListener) {
-
-        final Handler handler = new Handler() {
-            public void handleMessage(Message msg) {
-                volleyListener.onResponse(msg.obj);
-            }
-
-            ;
-        };
-
-        new Thread() {
-            public void run() {
-                final String url = Net.getRunHost(context) + Net.QUESTION_PUBLISH;
-                JSONObject jsonObject = new JSONObject();
-                String uid = ((AppApplication) context.getApplicationContext())
-                        .getUserInfo().userId;
-                try {
-                    jsonObject.put(RequestParams.PUBLISH_QUSETION_SHARE_UID,
-                            uid);
-                    jsonObject.put(RequestParams.PUBLISH_QUSETION_SHARE_TYPE,
-                            type);
-                    jsonObject.put(
-                            RequestParams.PUBLISH_QUSETION_SHARE_CONTENT,
-                            content);
-                    if (bitmap != null) {
-                        jsonObject.put(
-                                RequestParams.PUBLISH_QUSETION_SHARE_PICTURE,
-                                BitmapUtil.bitmapToBase64(bitmap));
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                HttpPost request = new HttpPost(url);
-                HttpClient httpClient = new DefaultHttpClient();
-                HttpResponse response;
-                JSONObject result = null;
-                try {
-                    ByteArrayEntity arrayEntity = new ByteArrayEntity(
-                            jsonObject.toString().getBytes());
-                    request.setEntity(arrayEntity);
-                    response = httpClient.execute(request);
-                    // 如果返回状态为200，获得返回的结果
-                    if (response != null
-                            && response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-                        // 图片上传成功
-                        HttpEntity entity2 = response.getEntity();
-                        if (entity2 != null) {
-                            String string = EntityUtils.toString(entity2);
-                            result = new JSONObject(string);
-                        }
-                    }
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                handler.obtainMessage(1, result).sendToTarget();
-            }
-
-            ;
-        }.start();
+        JSONObject jsonObject = new JSONObject();
+        String uid = ((AppApplication) context.getApplicationContext())
+                .getUserInfo().userId;
+        try {
+            jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_UID,
+                    uid);
+            jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_TYPE,
+                    type);
+            jsonObject.put(
+                    RequestParameters.PUBLISH_QUSETION_SHARE_CONTENT,
+                    content);
+            jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_ANONYMOUS, anonymous);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        MyVolley.getRequestQueue().add(new JsonObjectRequest(Request.Method.POST, Net.getRunHost(context) + Net.QUESTION_PUBLISH, jsonObject, volleyListener, volleyListener));
     }
 
+    /**
+     * 功能描述: 摄像上传
+     */
+    public static void doUploadVideo(final Context context, String qid, String filePath, final VolleyListener volleyListener) {
+        String uid = ((AppApplication) context.getApplicationContext())
+                .getUserInfo().userId;
+        final String url = Net.getRunHost(context) + Net.PUBVIDEO(uid, qid);
+        RequestParams params = new RequestParams();
+        FileEntity entity = new FileEntity(new File(FileUtils.getChatterVideoDir(context)),
+                "binary/octet-stream");
+        params.setBodyEntity(entity);
+        new HttpUtils().send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<Object>() {
+            @Override
+            public void onSuccess(ResponseInfo<Object> responseInfo) {
+                //volleyListener.onResponse(responseInfo.result);
+                volleyListener.onResponse("{\"errcode\":0}");
+            }
+
+            @Override
+            public void onFailure(HttpException e, String s) {
+                volleyListener.onErrorResponse(new ParseError(new NetworkResponse(s.getBytes())));
+            }
+        });
+    }
+
+    /**
+     * 功能描述: 图片上传
+     */
+    public static void doUploadImage(final Context context, String qid, int index, Bitmap bitmap, final VolleyListener volleyListener) {
+        String uid = ((AppApplication) context.getApplicationContext())
+                .getUserInfo().userId;
+        final String url = Net.getRunHost(context) + Net.PUBIMAGE(uid, qid, index);
+        final String tempFilePath = FileUtils.getChatterDir(context) + "temp.jpg";
+        FileUtils.writeBitmap2SDcard(bitmap, tempFilePath);
+        RequestParams params = new RequestParams();
+        FileEntity entity = new FileEntity(new File(tempFilePath),
+                "binary/octet-stream");
+        params.setBodyEntity(entity);
+        new HttpUtils().send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<Object>() {
+            @Override
+            public void onSuccess(ResponseInfo<Object> responseInfo) {
+                //volleyListener.onResponse(responseInfo.result);
+                volleyListener.onResponse("{\"errcode\":0}");
+            }
+
+            @Override
+            public void onFailure(HttpException e, String s) {
+                volleyListener.onErrorResponse(new ParseError(new NetworkResponse(s.getBytes())));
+            }
+        });
+    }
 
     /*
      * 发布问题
@@ -478,15 +493,15 @@ public class ServiceProvider {
                 String uid = ((AppApplication) context.getApplicationContext())
                         .getUserInfo().userId;
                 try {
-                    jsonObject.put(RequestParams.PUBLISH_QUSETION_SHARE_UID,
+                    jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_UID,
                             uid);
-                    jsonObject.put(RequestParams.PUBLISH_QUSETION_SHARE_SUBJECT, subject);
+                    jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_SUBJECT, subject);
                     jsonObject.put(
-                            RequestParams.PUBLISH_QUSETION_SHARE_CONTENT,
+                            RequestParameters.PUBLISH_QUSETION_SHARE_CONTENT,
                             content);
                     if (bitmap != null) {
                         jsonObject.put(
-                                RequestParams.PUBLISH_QUSETION_SHARE_PICTURE,
+                                RequestParameters.PUBLISH_QUSETION_SHARE_PICTURE,
                                 BitmapUtil.bitmapToBase64(bitmap));
                     }
                 } catch (JSONException e) {
@@ -545,15 +560,15 @@ public class ServiceProvider {
                 String uid = ((AppApplication) context.getApplicationContext())
                         .getUserInfo().userId;
                 try {
-                    jsonObject.put(RequestParams.PUBLISH_QUSETION_SHARE_UID,
+                    jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_UID,
                             uid);
                     jsonObject.put(
-                            RequestParams.PUBLISH_QUSETION_SHARE_CONTENT,
+                            RequestParameters.PUBLISH_QUSETION_SHARE_CONTENT,
                             content);
                     jsonObject.put("aid", aid);
                     if (bitmap != null) {
                         jsonObject.put(
-                                RequestParams.PUBLISH_QUSETION_SHARE_PICTURE,
+                                RequestParameters.PUBLISH_QUSETION_SHARE_PICTURE,
                                 BitmapUtil.bitmapToBase64(bitmap));
                     }
                 } catch (JSONException e) {
@@ -600,9 +615,9 @@ public class ServiceProvider {
         String uid = ((AppApplication) context.getApplicationContext())
                 .getUserInfo().userId;
         try {
-            jsonObject.put(RequestParams.PUBLISH_QUSETION_SHARE_UID, uid);
-            jsonObject.put(RequestParams.PUBLISH_QUSETION_SHARE_QID, qid);
-            jsonObject.put(RequestParams.PUBLISH_QUSETION_SHARE_CONTENT,
+            jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_UID, uid);
+            jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_QID, qid);
+            jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_CONTENT,
                     content);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -616,26 +631,22 @@ public class ServiceProvider {
     /**
      * 获取最新问题／分享的列表
      */
-    public static void doQuestionShareList(Context context, String uid, String type,
-                                           int page_no, int item_per_page, boolean isUser,
-                                           VolleyListener volleyListener) {
+    public static void doQuestionShareList(Context context, String type,
+                                           int page_no, int item_per_page, VolleyListener volleyListener) {
+        String uid = ((AppApplication) context.getApplicationContext())
+                .getUserInfo().userId;
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put(RequestParams.PUBLISH_QUSETION_SHARE_UID, uid);
-            jsonObject.put(RequestParams.PUBLISH_QUSETION_SHARE_TYPE, type);
-            jsonObject.put(RequestParams.PUBLISH_QUSETION_SHARE_PAGE_NO,
+            jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_UID, uid);
+            jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_TYPE, type);
+            jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_PAGE_NO,
                     page_no);
-            jsonObject.put(RequestParams.PUBLISH_QUSETION_SHARE_ITEM_PER_PAGE,
+            jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_ITEM_PER_PAGE,
                     item_per_page);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        String url;
-        if (isUser) {
-            url = Net.getRunHost(context) + Net.QUESTION_USER_GET;
-        } else {
-            url = Net.getRunHost(context) + Net.QUESTION_GET;
-        }
+        String url = Net.getRunHost(context) + Net.QUESTION_GET;
         MyVolley.getRequestQueue().add(
                 new JsonObjectRequest(Request.Method.POST, url, jsonObject,
                         volleyListener, volleyListener));
@@ -650,11 +661,11 @@ public class ServiceProvider {
         String uid = ((AppApplication) context.getApplicationContext())
                 .getUserInfo().userId;
         try {
-            jsonObject.put(RequestParams.PUBLISH_QUSETION_SHARE_UID, uid);
-            jsonObject.put(RequestParams.PUBLISH_QUSETION_SHARE_QID, qid);
-            jsonObject.put(RequestParams.PUBLISH_QUSETION_SHARE_PAGE_NO,
+            jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_UID, uid);
+            jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_QID, qid);
+            jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_PAGE_NO,
                     page_no);
-            jsonObject.put(RequestParams.PUBLISH_QUSETION_SHARE_ITEM_PER_PAGE,
+            jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_ITEM_PER_PAGE,
                     item_per_page);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -792,8 +803,8 @@ public class ServiceProvider {
         String uid = ((AppApplication) context.getApplicationContext())
                 .getUserInfo().userId;
         try {
-            jsonObject.put(RequestParams.PUBLISH_QUSETION_SHARE_UID, uid);
-            jsonObject.put(RequestParams.PUBLISH_QUSETION_SHARE_QID, qid);
+            jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_UID, uid);
+            jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_QID, qid);
         } catch (JSONException e) {
             e.printStackTrace();
         }

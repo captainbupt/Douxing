@@ -1,22 +1,22 @@
 package com.badou.mworking.widget;
 
+import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
+import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 
-import com.animoto.android.views.DraggableGridView;
+import com.badou.mworking.PhotoActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
-import com.badou.mworking.util.ImageChooser;
 
 import org.holoeverywhere.widget.GridView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,10 +26,18 @@ public class MultiImageShowGridView extends GridView {
 
     private MultiImageShowAdapter mAdapter;
 
-    public MultiImageShowGridView(Context context, AttributeSet attrs) {
+    public MultiImageShowGridView(final Context context, AttributeSet attrs) {
         super(context, attrs);
         mAdapter = new MultiImageShowAdapter(context);
         setAdapter(mAdapter);
+        setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(context, PhotoActivity.class);
+                intent.putExtra(PhotoActivity.MODE_PICZOMM, mAdapter.getItemId(i));
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -43,23 +51,24 @@ public class MultiImageShowGridView extends GridView {
     public void setList(List<Object> imgUrlList) {
         mAdapter.setList(imgUrlList);
     }
-}
 
-class MultiImageShowAdapter extends MyBaseAdapter {
 
-    public MultiImageShowAdapter(Context context) {
-        super(context);
-    }
+    static class MultiImageShowAdapter extends MyBaseAdapter {
 
-    @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        String imgUrl = (String) getItem(i);
-        int size = mContext.getResources().getDimensionPixelSize(R.dimen.icon_size_xlarge);
-        if (view == null) {
-            view = new ImageView(mContext);
-            view.setLayoutParams(new AbsListView.LayoutParams(size, size));
+        public MultiImageShowAdapter(Context context) {
+            super(context);
         }
-        ImageViewLoader.setSquareImageViewResource(mContext, (ImageView) view, imgUrl, size);
-        return view;
+
+        @Override
+        public View getView(int i, View view, ViewGroup viewGroup) {
+            String imgUrl = (String) getItem(i);
+            int size = mContext.getResources().getDimensionPixelSize(R.dimen.image_size_content);
+            if (view == null) {
+                view = new ImageView(mContext);
+                view.setLayoutParams(new AbsListView.LayoutParams(size, size));
+            }
+            ImageViewLoader.setSquareImageViewResource(mContext, (ImageView) view, imgUrl, size);
+            return view;
+        }
     }
 }

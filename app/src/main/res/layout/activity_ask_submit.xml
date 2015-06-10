@@ -8,7 +8,9 @@
     <org.holoeverywhere.widget.TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/offset_less"
+        android:paddingBottom="@dimen/offset_less"
+        android:paddingLeft="@dimen/offset_medium"
+        android:paddingRight="@dimen/offset_medium"
         android:paddingTop="@dimen/offset_less"
         android:text="@string/ask_submit_subject_tip"
         android:textColor="@color/color_text_black"
@@ -21,7 +23,10 @@
         android:background="@color/color_white"
         android:hint="@string/ask_submit_subject_hint"
         android:maxLength="10"
-        android:padding="@dimen/offset_less"
+        android:paddingBottom="@dimen/offset_less"
+        android:paddingLeft="@dimen/offset_medium"
+        android:paddingRight="@dimen/offset_medium"
+        android:paddingTop="@dimen/offset_less"
         android:singleLine="true"
         android:textColor="@color/color_black"
         android:textSize="@dimen/text_size_medium" />
@@ -29,7 +34,9 @@
     <org.holoeverywhere.widget.TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/offset_less"
+        android:paddingBottom="@dimen/offset_less"
+        android:paddingLeft="@dimen/offset_medium"
+        android:paddingRight="@dimen/offset_medium"
         android:paddingTop="@dimen/offset_less"
         android:text="@string/ask_submit_description_tip"
         android:textColor="@color/color_text_black"
@@ -40,11 +47,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/color_white"
+        android:gravity="top|left"
         android:hint="@string/ask_submit_description_hint"
         android:inputType="textMultiLine"
         android:minLines="2"
-        android:padding="@dimen/offset_less"
-        android:gravity="top|left"
+        android:paddingBottom="@dimen/offset_less"
+        android:paddingLeft="@dimen/offset_medium"
+        android:paddingRight="@dimen/offset_medium"
+        android:paddingTop="@dimen/offset_less"
         android:textColor="@color/color_black"
         android:textSize="@dimen/text_size_medium" />
 
@@ -54,7 +64,10 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:horizontalSpacing="@dimen/offset_small"
-        android:padding="@dimen/offset_less"
+        android:paddingBottom="@dimen/offset_less"
+        android:paddingLeft="@dimen/offset_medium"
+        android:paddingRight="@dimen/offset_medium"
+        android:paddingTop="@dimen/offset_less"
         android:verticalSpacing="@dimen/offset_small" />
 
     <include

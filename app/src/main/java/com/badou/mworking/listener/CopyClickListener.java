@@ -1,16 +1,37 @@
-package com.badou.mworking.util;
+package com.badou.mworking.listener;
 
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.text.ClipboardManager;
+import android.view.View;
 
 import com.badou.mworking.R;
+import com.badou.mworking.util.ToastUtil;
 
 /**
- * Created by Administrator on 2015/6/8.
+ * Created by Administrator on 2015/6/10.
  */
-public class DialogUtil {
+public class CopyClickListener implements View.OnClickListener, View.OnLongClickListener {
+
+    private Context mContext;
+    public String content;
+
+    public CopyClickListener(Context context) {
+        this.mContext = context;
+    }
+
+    @Override
+    public void onClick(View view) {
+        showCopyDialog(mContext, content);
+    }
+
+    @Override
+    public boolean onLongClick(View view) {
+        showCopyDialog(mContext, content);
+        return true;
+    }
+
     public static void showCopyDialog(final Context context, final String content) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
@@ -29,10 +50,4 @@ public class DialogUtil {
                             }
                         }).show();
     }
-
-    public static void showDeleteDialog(Context context, DialogInterface.OnClickListener listener) {
-        new AlertDialog.Builder(context).setTitle(R.string.tip_delete_confirmation)
-                .setPositiveButton(R.string.text_ok, listener).setNegativeButton(R.string.text_cancel, null).show();
-    }
-
 }

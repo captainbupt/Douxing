@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/offset_less"
-        android:text="@string/ask_answer_bottom"
+        android:text="@string/bottom_submit_photo"
         android:textColor="@color/color_text_black"
         android:textSize="@dimen/text_size_medium" />
 </LinearLayout>

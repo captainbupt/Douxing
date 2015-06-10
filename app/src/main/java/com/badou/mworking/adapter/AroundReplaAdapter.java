@@ -24,7 +24,7 @@ import com.android.volley.VolleyError;
 import com.badou.mworking.PhotoActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.base.AppApplication;
-import com.badou.mworking.model.Question;
+import com.badou.mworking.model.Chatter;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.bitmap.BitmapLruCache;
@@ -44,20 +44,20 @@ import com.badou.mworking.widget.WaitProgressDialog;
  */
 public class AroundReplaAdapter extends BaseAdapter {
 
-    private List<Question> mData;
+    private List<Chatter> mData;
     private Context mContext;
     private LayoutInflater mInflater;
     private int count = 0;
     private String qid = "";
     private WaitProgressDialog mProgressDialog;
 
-    public void setDatas(List<Question> mData, int count) {
+    public void setDatas(List<Chatter> mData, int count) {
         this.mData = mData;
         this.count = count;
         notifyDataSetChanged();
     }
 
-    public void addDatas(List<Question> Questions, int count) {
+    public void addDatas(List<Chatter> Questions, int count) {
         if (this.mData == null) {
             this.mData = Questions;
         } else {
@@ -70,7 +70,7 @@ public class AroundReplaAdapter extends BaseAdapter {
     public AroundReplaAdapter(Context mContext, int count, String qid,
                               WaitProgressDialog mProgressDialog) {
         super();
-        mData = new ArrayList<Question>();
+        mData = new ArrayList<Chatter>();
         this.mContext = mContext;
         this.count = count;
         this.mInflater = LayoutInflater.from(this.mContext);
@@ -84,7 +84,7 @@ public class AroundReplaAdapter extends BaseAdapter {
     }
 
     @Override
-    public Question getItem(int position) {
+    public Chatter getItem(int position) {
         return mData.get(position);
     }
 
@@ -116,31 +116,30 @@ public class AroundReplaAdapter extends BaseAdapter {
             holder = new AllViewHolder(convertView);
             convertView.setTag(holder);
         }
-        Question question = mData.get(position);
+        Chatter question = mData.get(position);
 
-        String name = question.getEmployee_id();
+        String name = question.name;
         if (!TextUtils.isEmpty(name)) {
             holder.tvQuestionShareName.setText(name + "");
         }
-        String content = question.getContent();
+        String content = question.content;
         if (!TextUtils.isEmpty(content)) {
             holder.tvQuestionShareContent.setText(content);
         }
         String pubTime = TimeTransfer.long2StringDetailDate(mContext,
-                question.getPublish_ts());
+                question.publishTime);
         holder.tvQuestionShareDate.setText(pubTime);
 
-        // holder.tvQuestionShareNums.setText(question.getReply_no() + "");
         int size = mContext.getResources().getDimensionPixelSize(
                 R.dimen.icon_head_size_middle);
         Bitmap headBmp = BitmapLruCache.getBitmapLruCache().getCircleBitmap(
-                question.getImgUrl());
+                question.imgUrl);
         if (headBmp != null && !headBmp.isRecycled()) {
             holder.headImg.setImageBitmap(headBmp);
         } else {
             MyVolley.getImageLoader().get(
-                    question.getImgUrl(),
-                    new CircleImageListener(mContext, question.getImgUrl(),
+                    question.imgUrl,
+                    new CircleImageListener(mContext, question.imgUrl,
                             holder.headImg, size, size), size, size);
 
         }
@@ -149,21 +148,21 @@ public class AroundReplaAdapter extends BaseAdapter {
         boolean isWifi = NetUtils.isWifiConnected(mContext);
 
         Bitmap contentBmp = null;
-        if (question.getContentPicUrl() != null) {
+        if (question.imgUrl != null) {
             contentBmp = BitmapLruCache.getBitmapLruCache().get(
-                    question.getContentPicUrl());
+                    question.imgUrl);
         }
         if (contentBmp != null && contentBmp.isRecycled()) {
             holder.imgContentPic.setImageBitmap(contentBmp);
         } else {
             if (isWifi) {
                 holder.imgContentPic.setVisibility(View.VISIBLE);
-                if (question.getContentPicUrl() != null) {
+                if (question.imgUrl != null) {
                     MyVolley.getImageLoader().get(
-                            question.getContentPicUrl(),
+                            question.imgUrl,
                             new PicImageListener(mContext,
                                     holder.imgContentPic, question
-                                    .getContentPicUrl()));
+                                    .imgUrl));
                     holder.imgContentPic
                             .setOnClickListener(new ViewClickListener(question));
                 } else {
@@ -282,9 +281,9 @@ public class AroundReplaAdapter extends BaseAdapter {
     }
 
     class ViewClickListener implements OnClickListener {
-        private Question question;
+        private Chatter question;
 
-        public ViewClickListener(Question question) {
+        public ViewClickListener(Chatter question) {
             this.question = question;
         }
 
@@ -295,7 +294,7 @@ public class AroundReplaAdapter extends BaseAdapter {
                     Constant.is_refresh = false;
                     Intent intent = new Intent(mContext, PhotoActivity.class);
                     intent.putExtra(PhotoActivity.MODE_PICZOMM,
-                            question.getContentPicUrl());
+                            question.imgUrl);
                     ((Activity) mContext).startActivity(intent);
                     break;
                 default:

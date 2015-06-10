@@ -5,8 +5,8 @@
 
     <ImageView
         android:id="@+id/iv_adapter_multi_image_edit_content"
-        android:layout_width="@dimen/image_size_uploading"
-        android:layout_height="@dimen/image_size_uploading"
+        android:layout_width="@dimen/image_size_content"
+        android:layout_height="@dimen/image_size_content"
         android:layout_marginLeft="@dimen/offset_small"
         android:layout_marginTop="@dimen/offset_small" />
 

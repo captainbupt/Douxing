@@ -398,6 +398,12 @@ public class Net {
                 + "&uid=" + uid + "&rid=" + rid;
     }
 
+    public static String PUBVIDEO(String uid, String qid) {
+        return "/pubvideo?sys=android"
+                + AppApplication.SYSVERSION + "&ver=" + AppApplication.appVersion
+                + "&uid=" + uid + "&qid=" + qid;
+    }
+
     /**
      * 功能描述:  android在这儿要传fmt=mp4，服务器会做判断，ios上传的视屏，服务器会做转化
      *
@@ -405,10 +411,10 @@ public class Net {
      * @param qid
      * @return
      */
-    public static String PUBVIDEO(String uid, String qid) {
-        return "/pubvideo?sys=android"
+    public static String PUBIMAGE(String uid, String qid, int index) {
+        return "/pubphoto?sys=android"
                 + AppApplication.SYSVERSION + "&ver=" + AppApplication.appVersion
-                + "&uid=" + uid + "&qid=" + qid + "&fmt=mp4";
+                + "&uid=" + uid + "&qid=" + qid + "&idx=" + index;
     }
 
     /**

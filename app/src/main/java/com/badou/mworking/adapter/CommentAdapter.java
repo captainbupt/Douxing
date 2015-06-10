@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
-import com.badou.mworking.model.Question;
+import com.badou.mworking.model.Chatter;
 import com.badou.mworking.net.bitmap.BitmapLruCache;
 import com.badou.mworking.net.bitmap.CircleImageListener;
 import com.badou.mworking.net.volley.MyVolley;
@@ -53,48 +53,48 @@ public class CommentAdapter extends MyBaseAdapter {
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         }
-        Question Question = (com.badou.mworking.model.Question) mItemList.get(position);
+        Chatter Question = (Chatter) mItemList.get(position);
         /*获取员工号*/
-        String name = Question.getEmployee_id();
+        String name = Question.name;
         if (!TextUtils.isEmpty(name)) {
             holder.mNameTextView.setText(name);
         }
         /*获取评论内容*/
-        String content = Question.getContent();
+        String content = Question.content;
         if (!TextUtils.isEmpty(content)) {
             holder.mContentTextView.setText(content);
         }
         /*获取评论时间*/
         String pubTime = TimeTransfer.long2StringDetailDate(mContext, Question
-                .getPublish_ts());
+                .publishTime);
         holder.mDateTextView.setText(pubTime);
 
         /**设置头像**/
         int size = mContext.getResources().getDimensionPixelSize(
                 R.dimen.icon_head_size_middle);
         Bitmap headBmp = BitmapLruCache.getBitmapLruCache().getCircleBitmap(
-                Question.getImgUrl());
+                Question.imgUrl);
         if (headBmp != null && !headBmp.isRecycled()) {
             holder.mHeadImageView.setImageBitmap(headBmp);
         } else {
             MyVolley.getImageLoader().get(
-                    Question.getImgUrl(),
-                    new CircleImageListener(mContext, Question.getImgUrl(), holder.mHeadImageView, size,
+                    Question.imgUrl,
+                    new CircleImageListener(mContext, Question.imgUrl, holder.mHeadImageView, size,
                             size), size, size);
 
         }
 
         Bitmap contentBmp = null;
-        if (Question.getContentPicUrl() != null) {
+        if (Question.imgUrl != null) {
             contentBmp = BitmapLruCache.getBitmapLruCache().get(
-                    Question.getContentPicUrl());
+                    Question.imgUrl);
         }
         if (contentBmp != null && contentBmp.isRecycled()) {
             holder.mContentPicImageView.setImageBitmap(contentBmp);
         } else {
 
         }
-		
+
 		/*设置楼数*/
         int floorNum = mAllCount - position;
         holder.mFloorNumTextView.setText(floorNum + mContext.getResources().getString(R.string.floor_num) + "   ·");

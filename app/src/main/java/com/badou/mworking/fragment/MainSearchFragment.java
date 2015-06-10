@@ -26,7 +26,7 @@ import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.model.category.Category;
 import com.badou.mworking.model.category.CategoryBasic;
 import com.badou.mworking.net.Net;
-import com.badou.mworking.net.RequestParams;
+import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.CategoryClickHandler;
@@ -40,7 +40,6 @@ import org.holoeverywhere.app.Fragment;
 import org.holoeverywhere.widget.EditText;
 import org.holoeverywhere.widget.LinearLayout;
 import org.holoeverywhere.widget.TextView;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -54,8 +53,8 @@ public class MainSearchFragment extends Fragment {
 
     private static final int COUNT_CATEGORY = 5;
     private static final String[] KEY_LIST = new String[]{"notice", "training", "exam", "task", "shelf"};
-    private static final String[] KEY_CATEGORY_NAME = new String[]{RequestParams.CHK_UPDATA_PIC_NOTICE, RequestParams.CHK_UPDATA_PIC_TRAINING,
-            RequestParams.CHK_UPDATA_PIC_EXAM, RequestParams.CHK_UPDATA_PIC_TASK, RequestParams.CHK_UPDATA_PIC_SHELF};
+    private static final String[] KEY_CATEGORY_NAME = new String[]{RequestParameters.CHK_UPDATA_PIC_NOTICE, RequestParameters.CHK_UPDATA_PIC_TRAINING,
+            RequestParameters.CHK_UPDATA_PIC_EXAM, RequestParameters.CHK_UPDATA_PIC_TASK, RequestParameters.CHK_UPDATA_PIC_SHELF};
     private static final int[] DEFAULT_CATEGORY_NAME = new int[]{R.string.module_default_title_notice, R.string.module_default_title_training,
             R.string.module_default_title_exam, R.string.module_default_title_task, R.string.module_default_title_shelf};
 

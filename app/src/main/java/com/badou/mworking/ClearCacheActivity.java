@@ -54,7 +54,7 @@ public class ClearCacheActivity extends BaseBackActionBarActivity{
 		mChatterDeleteTextView = (TextView) findViewById(R.id.tongshiquan_cache_del);
 
 		String trainingFileStr = FileUtils.getTrainCacheDir(mContext);//微培训缓存路径
-		String chatterFileStr = FileUtils.getTongSHQDir(mContext); // 同事圈缓存路径
+		String chatterFileStr = FileUtils.getChatterDir(mContext); // 同事圈缓存路径
 
 		mTrainingCacheTextView.setText(getCacheSize(trainingFileStr));
 		mChatterCacheTextView.setText(getCacheSize(chatterFileStr));
@@ -72,7 +72,7 @@ public class ClearCacheActivity extends BaseBackActionBarActivity{
 		mChatterDeleteTextView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				File tongSHQFile = new File(FileUtils.getTongSHQDir(mContext));
+				File tongSHQFile = new File(FileUtils.getChatterDir(mContext));
 				showClearCacheDilog("确定清除吗？清除之后，同事圈视屏需要重新下载",tongSHQFile,"t");
 			}
 		});

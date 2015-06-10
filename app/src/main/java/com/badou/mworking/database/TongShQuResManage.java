@@ -5,7 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.badou.mworking.base.AppApplication;
-import com.badou.mworking.model.Question;
+import com.badou.mworking.model.Chatter;
 
 public class TongShQuResManage {
 	
@@ -14,7 +14,7 @@ public class TongShQuResManage {
 	 * @param context
 	 * @param question
 	 */
-	public static void insertItem(Context context,Question question) {
+	public static void insertItem(Context context,Chatter question) {
 		MTrainingDBHelper mTrainingDBHelper = MTrainingDBHelper
 				.getMTrainingDBHelper();
 		SQLiteDatabase dbReader = mTrainingDBHelper.getDatabase();

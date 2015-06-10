@@ -99,7 +99,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:background="@drawable/tongshiquan_shiing"
+                android:background="@drawable/icon_video_image"
                 android:scaleType="centerCrop"
                 android:visibility="gone" />
         </RelativeLayout>

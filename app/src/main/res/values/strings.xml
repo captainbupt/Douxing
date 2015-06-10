@@ -138,7 +138,7 @@
     <string name="user_progress_bottom_training">进入我的学习</string>
     <string name="choose_sd_Pic">选择本地图片</string>
     <string name="choose_camera">拍照</string>
-    <string name="choose_shexiang">摄像</string>
+    <string name="choose_video">摄像</string>
     <string name="add_picture">添加照片</string>
     <string name="save_camera_fail">未找到存储卡，无法存储照片！</string>
     <string name="text_null">暂无</string>
@@ -225,7 +225,9 @@
     <string name="bukaoshiti_str">补考试题</string>
     <string name="yikaoshiti_str">已考试题</string>
     <string name="statistical_data">统计数据</string>
-    <string name="tongshiquan_share">我要分享</string>
+    <string name="tips_save_internet">当前为省流量模式</string>
+    <string name="chatter_title_right">分享</string>
+    <string name="chatter_title_hot">达人</string>
 
     <string name="ask_title_right">提问</string>
     <string name="ask_submit_subject_tip">标题</string>
@@ -233,12 +235,15 @@
     <string name="ask_submit_description_tip">描述</string>
     <string name="ask_submit_description_hint">输入问题的描述</string>
     <string name="ask_answer_title_right">发布</string>
-    <string name="ask_answer_bottom">图片</string>
     <string name="ask_answer_tip_empty">提问内容不能为空</string>
     <string name="ask_answer_tip_little">内容不少于5个字</string>
     <string name="ask_answer_hint">输入您的精彩回复吧</string>
     <string name="ask_detail_time">发布时间: </string>
     <string name="ask_detail_bottom">参与讨论</string>
+
+    <string name="bottom_submit_photo">图片</string>
+    <string name="bottom_submit_anonymous">匿名</string>
+    <string name="bottom_submit_topic">话题</string>
 
     <string name="dialog_operation">请选择操作</string>
     <string name="dialog_operation_copy">复制</string>

@@ -5,7 +5,6 @@ import android.content.res.TypedArray;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.Spanned;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -15,7 +14,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.badou.mworking.R;
-import com.badou.mworking.model.Question;
 
 import org.holoeverywhere.widget.FrameLayout;
 import org.holoeverywhere.widget.LinearLayout;
