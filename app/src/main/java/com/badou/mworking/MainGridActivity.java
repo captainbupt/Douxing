@@ -447,14 +447,14 @@ public class MainGridActivity extends BaseNoTitleActivity {
         List<Object> mainIconList = new ArrayList<>();
 
         // 用此顺序，可以保证没有缓存的时候能够按顺序显示
-        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_ASK, R.drawable.button_ask, R.string.module_default_title_ask));
-        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_SHELF, R.drawable.button_shelf, R.string.module_default_title_shelf));
-        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_SURVEY, R.drawable.button_survey, R.string.module_default_title_survey));
-        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_CHATTER, R.drawable.button_chatter, R.string.module_default_title_chatter));
-        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_TASK, R.drawable.button_task, R.string.module_default_title_task));
-        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_EXAM, R.drawable.button_exam, R.string.module_default_title_exam));
-        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_TRAINING, R.drawable.button_training, R.string.module_default_title_training));
-        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_NOTICE, R.drawable.button_notice, R.string.module_default_title_notice));
+        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_ASK));
+        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_SHELF));
+        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_SURVEY));
+        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_CHATTER));
+        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_TASK));
+        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_EXAM));
+        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_TRAINING));
+        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_NOTICE));
 
         /**
          * 权限， 设置隐藏显示

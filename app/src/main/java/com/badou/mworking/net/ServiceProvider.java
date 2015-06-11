@@ -22,6 +22,7 @@ import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.BitmapUtil;
 import com.badou.mworking.util.EncryptionByMD5;
 import com.badou.mworking.util.FileUtils;
+import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.WaitProgressDialog;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
@@ -400,7 +401,7 @@ public class ServiceProvider {
      * 发布问题/分享
      */
     public static void doPublishQuestionShare(final Context context,
-                                              final String type, final String content, int anonymous,
+                                              final String type, final String content, Bitmap bitmap, int anonymous,
                                               final VolleyListener volleyListener) {
         JSONObject jsonObject = new JSONObject();
         String uid = ((AppApplication) context.getApplicationContext())
@@ -414,6 +415,9 @@ public class ServiceProvider {
                     RequestParameters.PUBLISH_QUSETION_SHARE_CONTENT,
                     content);
             jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_ANONYMOUS, anonymous);
+            if (bitmap != null) {
+                jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_PICTURE, BitmapUtil.bitmapToBase64(bitmap));
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -428,14 +432,20 @@ public class ServiceProvider {
                 .getUserInfo().userId;
         final String url = Net.getRunHost(context) + Net.PUBVIDEO(uid, qid);
         RequestParams params = new RequestParams();
-        FileEntity entity = new FileEntity(new File(FileUtils.getChatterVideoDir(context)),
+        FileEntity entity = new FileEntity(new File(filePath),
                 "binary/octet-stream");
         params.setBodyEntity(entity);
+        System.out.println("url:" + url);
         new HttpUtils().send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<Object>() {
             @Override
             public void onSuccess(ResponseInfo<Object> responseInfo) {
-                //volleyListener.onResponse(responseInfo.result);
-                volleyListener.onResponse("{\"errcode\":0}");
+                System.out.println(responseInfo.result);
+                try {
+                    volleyListener.onResponse(new JSONObject((String) responseInfo.result));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    volleyListener.onResponse(new JSONObject());
+                }
             }
 
             @Override
@@ -462,7 +472,12 @@ public class ServiceProvider {
             @Override
             public void onSuccess(ResponseInfo<Object> responseInfo) {
                 //volleyListener.onResponse(responseInfo.result);
-                volleyListener.onResponse("{\"errcode\":0}");
+                System.out.println("result: " + responseInfo.result);
+                try {
+                    volleyListener.onResponse(new JSONObject("{\"errcode\":0}"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
@@ -470,6 +485,13 @@ public class ServiceProvider {
                 volleyListener.onErrorResponse(new ParseError(new NetworkResponse(s.getBytes())));
             }
         });
+    }
+
+    public static void doGetTopicList(Context context, VolleyListener volleyListener) {
+        String uid = ((AppApplication) context.getApplicationContext())
+                .getUserInfo().userId;
+        final String url = Net.getRunHost(context) + Net.TOPICLIST(uid);
+        MyVolley.getRequestQueue().add(new JsonObjectRequest(Request.Method.GET, url, null, volleyListener, volleyListener));
     }
 
     /*
@@ -631,25 +653,36 @@ public class ServiceProvider {
     /**
      * 获取最新问题／分享的列表
      */
-    public static void doQuestionShareList(Context context, String type,
+    public static void doQuestionShareList(Context context, String type, String topic,
                                            int page_no, int item_per_page, VolleyListener volleyListener) {
         String uid = ((AppApplication) context.getApplicationContext())
                 .getUserInfo().userId;
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_UID, uid);
-            jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_TYPE, type);
-            jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_PAGE_NO,
-                    page_no);
-            jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_ITEM_PER_PAGE,
-                    item_per_page);
-        } catch (JSONException e) {
-            e.printStackTrace();
+        // 正常查询页面
+        if (TextUtils.isEmpty(topic)) {
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_UID, uid);
+                jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_TYPE, type);
+                jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_PAGE_NO,
+                        page_no);
+                jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_ITEM_PER_PAGE,
+                        item_per_page);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            String url = Net.getRunHost(context) + Net.QUESTION_GET;
+            MyVolley.getRequestQueue().add(
+                    new JsonObjectRequest(Request.Method.POST, url, jsonObject,
+                            volleyListener, volleyListener));
+        } else {// 话题查询页面
+            try {
+                topic = URLEncoder.encode(topic, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            String url = Net.getRunHost(context) + Net.QUESTION_GET_TOPIC(uid, topic, page_no, item_per_page);
+            MyVolley.getRequestQueue().add(new JsonObjectRequest(Request.Method.GET, url, null, volleyListener, volleyListener));
         }
-        String url = Net.getRunHost(context) + Net.QUESTION_GET;
-        MyVolley.getRequestQueue().add(
-                new JsonObjectRequest(Request.Method.POST, url, jsonObject,
-                        volleyListener, volleyListener));
     }
 
     /**

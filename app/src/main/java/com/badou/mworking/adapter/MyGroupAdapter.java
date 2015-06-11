@@ -14,10 +14,10 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.badou.mworking.AroundDetailActivity;
+import com.badou.mworking.ChatterDetailActivity;
 import com.badou.mworking.PhotoActivity;
 import com.badou.mworking.R;
-import com.badou.mworking.TongSHQVideoPlayActivity;
+import com.badou.mworking.VideoPlayActivity;
 import com.badou.mworking.model.Chatter;
 import com.badou.mworking.net.bitmap.BitmapLruCache;
 import com.badou.mworking.net.bitmap.PicImageListener;
@@ -275,9 +275,9 @@ public class MyGroupAdapter extends BaseAdapter {
                 ((Activity) mContext).startActivity(intent);
                 //videoUrl不为空，点击的是视屏
             } else {
-                Intent intent = new Intent(mContext, TongSHQVideoPlayActivity.class);
-                intent.putExtra(TongSHQVideoPlayActivity.VIDEOURL, question.videoUrl);
-                intent.putExtra(TongSHQVideoPlayActivity.QID, question.qid);
+                Intent intent = new Intent(mContext, VideoPlayActivity.class);
+                intent.putExtra(VideoPlayActivity.KEY_VIDEOURL, question.videoUrl);
+                intent.putExtra(VideoPlayActivity.KEY_VIDEOPATH, question.qid);
                 ((Activity) mContext).startActivity(intent);
             }
         }
@@ -300,8 +300,8 @@ public class MyGroupAdapter extends BaseAdapter {
 
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(mContext, AroundDetailActivity.class);
-            intent.putExtra(AroundDetailActivity.VALUE_QUESTION, question);
+            Intent intent = new Intent(mContext, ChatterDetailActivity.class);
+            intent.putExtra(ChatterDetailActivity.VALUE_QUESTION, question);
             mContext.startActivity(intent);
         }
     }

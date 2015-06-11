@@ -247,6 +247,16 @@ public class Net {
     public static String QUESTION_GET = "/getpublish?sys=android"
             + AppApplication.SYSVERSION + "&ver=" + AppApplication.appVersion;
 
+
+    /**
+     * 20.获取同事圈话题
+     */
+    public static String QUESTION_GET_TOPIC(String uid, String topic, int pageNum, int itemNum) {
+        return "/getTopicInfo?sys=android"
+                + AppApplication.SYSVERSION + "&ver=" + AppApplication.appVersion + "&uid="
+                + uid + "&topic=" + topic + "&page_no=" + pageNum + "&item_per_page=" + itemNum;
+    }
+
     /**
      * 21. 同事圈圈 评论删除
      */
@@ -398,14 +408,22 @@ public class Net {
                 + "&uid=" + uid + "&rid=" + rid;
     }
 
-    public static String PUBVIDEO(String uid, String qid) {
-        return "/pubvideo?sys=android"
-                + AppApplication.SYSVERSION + "&ver=" + AppApplication.appVersion
-                + "&uid=" + uid + "&qid=" + qid;
-    }
 
     /**
      * 功能描述:  android在这儿要传fmt=mp4，服务器会做判断，ios上传的视屏，服务器会做转化
+     *
+     * @param uid
+     * @param qid
+     * @return
+     */
+    public static String PUBVIDEO(String uid, String qid) {
+        return "/pubvideo?sys=android"
+                + AppApplication.SYSVERSION + "&ver=" + AppApplication.appVersion
+                + "&uid=" + uid + "&qid=" + qid + "&fmt=mp4";
+    }
+
+    /**
+     * 功能描述:  上传图片
      *
      * @param uid
      * @param qid
@@ -415,6 +433,18 @@ public class Net {
         return "/pubphoto?sys=android"
                 + AppApplication.SYSVERSION + "&ver=" + AppApplication.appVersion
                 + "&uid=" + uid + "&qid=" + qid + "&idx=" + index;
+    }
+
+    /**
+     * 功能描述:  android在这儿要传fmt=mp4，服务器会做判断，ios上传的视屏，服务器会做转化
+     *
+     * @param uid
+     * @return
+     */
+    public static String TOPICLIST(String uid) {
+        return "/getTopicList?sys=android"
+                + AppApplication.SYSVERSION + "&ver=" + AppApplication.appVersion
+                + "&uid=" + uid;
     }
 
     /**

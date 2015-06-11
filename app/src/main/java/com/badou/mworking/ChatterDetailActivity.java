@@ -49,10 +49,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 类: <code> AroundDetailActivity </code> 功能描述: 同事圈详情 创建人:董奇 创建日期: 2014年7月15日
- * 下午6:35:15 开发环境: JDK7.0
+ * 功能描述: 同事圈详情
  */
-public class AroundDetailActivity extends BaseBackActionBarActivity {
+public class ChatterDetailActivity extends BaseBackActionBarActivity {
 
     public static final String VALUE_QUESTION = "question";
     public static final String VALUE_TONG_SHI_CONTENT = "tongshiquan_content";
@@ -86,7 +85,7 @@ public class AroundDetailActivity extends BaseBackActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mContext = AroundDetailActivity.this;
+        mContext = ChatterDetailActivity.this;
         setActionbarTitle(mContext.getResources().getString(R.string.title_name_NeiRongXiangQing));
         setContentView(R.layout.activity_around_detail);
         layout.attachToActivity(this);
@@ -182,7 +181,7 @@ public class AroundDetailActivity extends BaseBackActionBarActivity {
 
             @Override
             public void onClick(View arg0) {
-                Intent intent = new Intent(AroundDetailActivity.this, ChattingActivity.class);
+                Intent intent = new Intent(ChatterDetailActivity.this, ChattingActivity.class);
                 intent.putExtra(ChattingActivity.KEY_NAME, question.name);
                 intent.putExtra(ChattingActivity.KEY_WHOM, question.whom);
                 intent.putExtra(ChattingActivity.KEY_OTHER_IMG, question.imgUrl);
@@ -207,8 +206,6 @@ public class AroundDetailActivity extends BaseBackActionBarActivity {
     @Override
     public void clickRight() {
         Intent intent = new Intent(mContext, ChatterSubmitActivity.class);
-        intent.putExtra(ChatterSubmitActivity.KEY_QUESTION_VALUE,
-                ChatterSubmitActivity.ACT_NAME_TONG_SHI_DETAIL);
         intent.putExtra(VALUE_QUESTION, question.qid);
         startActivity(intent);
     }
@@ -368,9 +365,9 @@ public class AroundDetailActivity extends BaseBackActionBarActivity {
                             question.imgUrl);
                     startActivity(goToPhotoAct);
                 } else {
-                    Intent intent = new Intent(mContext, TongSHQVideoPlayActivity.class);
-                    intent.putExtra(TongSHQVideoPlayActivity.VIDEOURL, question.videoUrl);
-                    intent.putExtra(TongSHQVideoPlayActivity.QID, question.qid);
+                    Intent intent = new Intent(mContext, VideoPlayActivity.class);
+                    intent.putExtra(VideoPlayActivity.KEY_VIDEOURL, question.videoUrl);
+                    intent.putExtra(VideoPlayActivity.KEY_VIDEOPATH, question.qid);
                     startActivity(intent);
                 }
             }

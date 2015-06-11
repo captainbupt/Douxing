@@ -46,6 +46,17 @@ public class MultiImageEditGridView extends GridView {
         mAdapter.addItem(bmp);
     }
 
+    public void clear() {
+        List<Object> bitmaps = getImages();
+        mAdapter.setList(null);
+        if (bitmaps != null && bitmaps.size() > 0) {
+            for (Object o : bitmaps) {
+                ((Bitmap) o).recycle();
+            }
+            bitmaps.clear();
+        }
+    }
+
     public List<Object> getImages() {
         return mAdapter.getItemList();
     }

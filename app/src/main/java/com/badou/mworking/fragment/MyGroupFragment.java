@@ -17,7 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
-import com.badou.mworking.AroundDetailActivity;
+import com.badou.mworking.ChatterDetailActivity;
 import com.badou.mworking.MyGroupActivity;
 import com.badou.mworking.BackWebActivity;
 import com.badou.mworking.R;
@@ -195,8 +195,8 @@ public class MyGroupFragment extends Fragment implements
                     if (userDetail != null && question != null) {
                         question.imgUrl = userDetail.headimg;
                     }
-                    Intent intent = new Intent(mContext, AroundDetailActivity.class);
-                    intent.putExtra(AroundDetailActivity.VALUE_QUESTION, question);
+                    Intent intent = new Intent(mContext, ChatterDetailActivity.class);
+                    intent.putExtra(ChatterDetailActivity.VALUE_QUESTION, question);
                     mContext.startActivity(intent);
                     // 设置切换动画，从右边进入，左边退出
                     getActivity().overridePendingTransition(R.anim.in_from_right,
@@ -250,7 +250,7 @@ public class MyGroupFragment extends Fragment implements
         type = "qas";
         isRefreshing = true;
         // 发起网络请求
-        ServiceProvider.doQuestionShareList(mContext, type, page, Constant.LIST_ITEM_NUM,
+        ServiceProvider.doQuestionShareList(mContext, type, null,page, Constant.LIST_ITEM_NUM,
                 new VolleyListener(mContext) {
 
                     @Override
