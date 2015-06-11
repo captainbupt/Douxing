@@ -19,7 +19,7 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 
 import com.badou.mworking.R;
-import com.badou.mworking.TakeVideoActivity;
+import com.badou.mworking.VideoTakeActivity;
 
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.AlertDialog;
@@ -138,7 +138,7 @@ public class ImageChooser {
             File file = new File(mContext
                     .getExternalCacheDir()
                     .getAbsolutePath()
-                    + File.separator + "temp.png");
+                    + File.separator + "temp.jpg");
             if (file.exists())
                 file.delete();
             try {
@@ -162,7 +162,7 @@ public class ImageChooser {
      */
     private void takeVideo() {
         Intent intent = new Intent();
-        intent.setClass(mContext, TakeVideoActivity.class);
+        intent.setClass(mContext, VideoTakeActivity.class);
         ((Activity) mContext).startActivityForResult(intent, VIDEO_REQUEST_CODE);
     }
 
@@ -181,7 +181,7 @@ public class ImageChooser {
                 case CAMERA_REQUEST_CODE:
                     if (FileUtils.hasSdcard()) {
                         File file = new File(mContext.getExternalCacheDir()
-                                .getAbsolutePath() + File.separator + "temp.png");
+                                .getAbsolutePath() + File.separator + "temp.jpg");
                         BitmapFactory.Options option = new BitmapFactory.Options();
                         option.inSampleSize = 2;
                         Bitmap bitmap = BitmapFactory.decodeFile(file.toString(), option); //根据Path读取资源图片

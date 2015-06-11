@@ -6,6 +6,7 @@ import java.util.List;
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.widget.AdapterView;
+import org.holoeverywhere.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,10 +21,11 @@ import android.widget.ListView;
 
 import com.android.volley.VolleyError;
 import com.badou.mworking.ChatterActivity;
-import com.badou.mworking.AroundDetailActivity;
+import com.badou.mworking.ChatterDetailActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.adapter.ChatterAdapter;
 import com.badou.mworking.base.AppApplication;
+import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.base.BaseFragment;
 import com.badou.mworking.model.Chatter;
 import com.badou.mworking.net.Net;
@@ -43,6 +45,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 public class ChatterListFragment extends BaseFragment {
 
     public static final int REQUEST_CHATTER_DETAIL = 1;
+    public static final String KEY_ARGUMENT_TOPIC = "topic";
 
     private int mClickPostion = -1;
     private int mCurrentPage = 1;// 当前页码
@@ -54,6 +57,7 @@ public class ChatterListFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_chatter_list, null);
         mContentListView = (PullToRefreshListView) view
                 .findViewById(R.id.ptrlv_fragment_chatter_list);
@@ -84,8 +88,8 @@ public class ChatterListFragment extends BaseFragment {
                 mClickPostion = position - 1;
                 // 跳转到单条的Item的页面，并传递数据
                 Chatter chatter = (Chatter) mChatterAdapter.getItem(position - 1);
-                Intent intent = new Intent(mContext, AroundDetailActivity.class);
-                intent.putExtra(AroundDetailActivity.VALUE_QUESTION, chatter);
+                Intent intent = new Intent(mContext, ChatterDetailActivity.class);
+                intent.putExtra(ChatterDetailActivity.VALUE_QUESTION, chatter);
                 startActivityForResult(intent, REQUEST_CHATTER_DETAIL);
             }
         });
@@ -102,14 +106,16 @@ public class ChatterListFragment extends BaseFragment {
      * 功能描述:滚动到最底加载更多
      */
     private void updateData(final int beginNum) {
-        ((ChatterActivity) getActivity()).showProgressBar();
+        ((BaseActionBarActivity) mActivity).showProgressBar();
+        Bundle mReceivedArguments = getArguments();
+        String topic = mReceivedArguments == null ? null : mReceivedArguments.getString(KEY_ARGUMENT_TOPIC);
         // 发起网络请求
-        ServiceProvider.doQuestionShareList(getActivity(), "share", beginNum,
+        ServiceProvider.doQuestionShareList(mContext, "share", topic, beginNum,
                 Constant.LIST_ITEM_NUM, new VolleyListener(getActivity()) {
                     @Override
                     public void onResponse(Object responseObject) {
                         if (!mActivity.isFinishing()) {
-                            ((ChatterActivity) getActivity()).hideProgressBar();
+                            ((BaseActionBarActivity) getActivity()).hideProgressBar();
                         }
                         mContentListView.onRefreshComplete();
                         JSONObject response = (JSONObject) responseObject;
@@ -173,7 +179,7 @@ public class ChatterListFragment extends BaseFragment {
         if (resultCode == Activity.RESULT_OK) {
             if (mChatterAdapter.getCount() >= mClickPostion) {
                 Chatter chatter = (Chatter) mChatterAdapter.getItem(mClickPostion);
-                chatter.replyNumber = (data.getIntExtra(AroundDetailActivity.RESPONSE_KEY_RELAY_NUMBER, 0));
+                chatter.replyNumber = (data.getIntExtra(ChatterDetailActivity.RESPONSE_KEY_RELAY_NUMBER, 0));
                 mChatterAdapter.setItem(mClickPostion, chatter);
             }
         }

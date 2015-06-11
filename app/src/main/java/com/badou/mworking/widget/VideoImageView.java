@@ -3,18 +3,20 @@ package com.badou.mworking.widget;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.badou.mworking.R;
-import com.badou.mworking.TongSHQVideoPlayActivity;
+import com.badou.mworking.VideoPlayActivity;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
+import com.badou.mworking.util.FileUtils;
 
-import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.widget.FrameLayout;
-import org.holoeverywhere.widget.LinearLayout;
+
+import java.io.File;
 
 /**
  * Created by Administrator on 2015/6/10.
@@ -24,6 +26,7 @@ public class VideoImageView extends FrameLayout {
     private String mUrl;
     private String mQid;
     private ImageView mContentImageView;
+    private Bitmap mBitmap;
 
     public VideoImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -41,6 +44,7 @@ public class VideoImageView extends FrameLayout {
     }
 
     public void setData(Bitmap bitmap, String videoUrl, String qid) {
+        mBitmap = bitmap;
         mContentImageView.setImageBitmap(bitmap);
         mUrl = videoUrl;
         mQid = qid;
@@ -52,10 +56,33 @@ public class VideoImageView extends FrameLayout {
         mQid = qid;
     }
 
+    // 只有编辑时才会有bitmap实例
+    public Bitmap getBitmap() {
+        return mBitmap;
+    }
+
+    public void clear() {
+        File file = new File(FileUtils.getChatterVideoDir(mContext));
+        if (file.exists()) {
+            file.delete();
+        }
+        if (mBitmap != null && !mBitmap.isRecycled())
+            mBitmap.recycle();
+    }
+
     private void toVideoActivity() {
-        Intent intent = new Intent(mContext, TongSHQVideoPlayActivity.class);
-        intent.putExtra(TongSHQVideoPlayActivity.VIDEOURL, mUrl);
-        intent.putExtra(TongSHQVideoPlayActivity.QID, mQid);
-        mContext.startActivity(intent);
+        if (!TextUtils.isEmpty(mQid)) {
+            String path = FileUtils.getChatterDir(mContext) + mQid + ".mp4";
+            Intent intent = new Intent(mContext, VideoPlayActivity.class);
+            intent.putExtra(VideoPlayActivity.KEY_VIDEOURL, mUrl);
+            intent.putExtra(VideoPlayActivity.KEY_VIDEOPATH, path);
+            mContext.startActivity(intent);
+        } else {
+            // 还未上传，直接打开本地文件
+            Intent intent = new Intent(mContext, VideoPlayActivity.class);
+            intent.putExtra(VideoPlayActivity.KEY_VIDEOURL, mUrl);
+            intent.putExtra(VideoPlayActivity.KEY_VIDEOPATH, FileUtils.getChatterVideoDir(mContext));
+            mContext.startActivity(intent);
+        }
     }
 }

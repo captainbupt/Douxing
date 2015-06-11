@@ -75,10 +75,10 @@ public class MTrainingDBHelper extends SQLiteOpenHelper {
 
 	public void createUserTable(String userNum) {
 		SQLiteDatabase db = getDatabase();
-		db.execSQL("CREATE TABLE IF NOT EXISTS " + TBL_NAME_TONG_SHI_QUAN + userNum + " ( "
+		db.execSQL("CREATE TABLE IF NOT EXISTS " + TBL_NAME_TONG_SHI_QUAN + userNum.replace("@","") + " ( "
 				+ PRIMARY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
 				+ QUAN_QID + " TEXT, " + QUAN_IS_CHECK + " INTEGER )");
-		db.execSQL("CREATE TABLE IF NOT EXISTS " + TBL_NAME_WENDADIANZAN + userNum + " ( "
+		db.execSQL("CREATE TABLE IF NOT EXISTS " + TBL_NAME_WENDADIANZAN + userNum.replace("@","") + " ( "
 				+ PRIMARY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
 				+ WENDA_QID + " TEXT )");
 		mTrainingDBHelper.closeDatabase();

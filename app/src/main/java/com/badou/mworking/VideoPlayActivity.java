@@ -14,7 +14,6 @@
 package com.badou.mworking;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
@@ -23,27 +22,27 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.SeekBar;
-import android.widget.SeekBar.OnSeekBarChangeListener;
-import android.widget.TextView;
 
 import com.badou.mworking.R.color;
+import com.badou.mworking.base.BaseActionBarActivity;
+import com.badou.mworking.base.BaseBackActionBarActivity;
+import com.badou.mworking.model.MainIcon;
 import com.badou.mworking.net.DownloadListener;
 import com.badou.mworking.net.HttpDownloader;
-import com.badou.mworking.util.FileUtils;
+import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.widget.FullScreenVideoView;
 import com.badou.mworking.widget.SwipeBackLayout;
-import com.umeng.analytics.MobclickAgent;
+
+import org.holoeverywhere.widget.CheckBox;
+import org.holoeverywhere.widget.ProgressBar;
+import org.holoeverywhere.widget.SeekBar;
+import org.holoeverywhere.widget.TextView;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -53,21 +52,17 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * 类: <code> TongSHQVideoPlayActivity </code> 功能描述: 同事圈视屏播放页面 创建人: 葛建锋 创建日期:
- * 2015年1月16日 下午3:18:43 开发环境: JDK7.0
+ * 功能描述: 同事圈视屏播放页面
  */
-public class TongSHQVideoPlayActivity extends Activity implements
-        OnClickListener {
+public class VideoPlayActivity extends BaseBackActionBarActivity {
 
-    public static final String VIDEOURL = "videourl";
-    public static final String QID = "qid";
+    public static final String KEY_VIDEOURL = "videourl";
+    public static final String KEY_VIDEOPATH = "path";
 
-    private ImageView ivLeft; // action 左侧iv
-    private TextView tvTitle; // action 中间tv
     private TextView tvCurrentTime;  // 当前时间
 
     private String videoURl = "";
-    private String qid = "";
+    private String videoPath = "";
     private File fileMedia = null;
 
     // 自定义VideoView
@@ -85,56 +80,34 @@ public class TongSHQVideoPlayActivity extends Activity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.tongshqvideoplayactivity);
-        //页面滑动关闭
-        layout = (SwipeBackLayout) LayoutInflater.from(this).inflate(R.layout.base, null);
-        layout.attachToActivity(this);
+        setContentView(R.layout.activity_video_play);
         init();
-    }
-
-    public void onResume() {
-        super.onResume();
-        MobclickAgent.onResume(this);
-    }
-
-    public void onPause() {
-        super.onPause();
-        MobclickAgent.onPause(this);
     }
 
     /**
      * 功能描述: 布局初始化
      */
     private void init() {
-        ivLeft = (ImageView) this.findViewById(R.id.iv_actionbar_left);
-        tvTitle = (TextView) this.findViewById(R.id.tv_actionbar_title);
         mVideo = (FullScreenVideoView) this
                 .findViewById(R.id.tongshiquan_video);
         mProgressBar = (ProgressBar) findViewById(R.id.progress);
         chkStartPlay = (CheckBox) this.findViewById(R.id.play_btn);
         tvCurrentTime = (TextView) this.findViewById(R.id.currentTime);
         mSeekBar = (SeekBar) this.findViewById(R.id.sb_activity_music_player);
-        ivLeft.setOnClickListener(this);
-        tvTitle.setText("同事圈");
-
-        videoURl = getIntent().getExtras().getString(
-                TongSHQVideoPlayActivity.VIDEOURL);
-        qid = getIntent().getExtras().getString(TongSHQVideoPlayActivity.QID);
-
-        String fileDir = FileUtils.getChatterDir(this) + qid + ".mp4";
-        fileMedia = new File(fileDir);
-        if (!TextUtils.isEmpty(videoURl)) {
-            // 文件存在，下载完成
-            if (fileMedia.exists()) {
-                statuDownFinish();
-                mVideo.setBackgroundColor(TongSHQVideoPlayActivity.this.getResources().getColor(color.transparent));
-            } else {
+        setActionbarTitle(MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_CHATTER).name);
+        videoURl = mReceivedIntent.getStringExtra(KEY_VIDEOURL);
+        videoPath = mReceivedIntent.getStringExtra(KEY_VIDEOPATH);
+        fileMedia = new File(videoPath);
+        if (fileMedia.exists()) {
+            statuDownFinish();
+            mVideo.setBackgroundColor(VideoPlayActivity.this.getResources().getColor(color.transparent));
+        } else {
+            if (!TextUtils.isEmpty(videoURl)) {
+                // 文件存在，下载完成
                 statuNotDown();
                 tvCurrentTime.setText("0%");
                 new DownloadThread().start();
             }
-        } else {
-            return;
         }
         chkStartPlay.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override
@@ -151,7 +124,7 @@ public class TongSHQVideoPlayActivity extends Activity implements
                 }
             }
         });
-        mSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+        mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
@@ -170,17 +143,6 @@ public class TongSHQVideoPlayActivity extends Activity implements
                 }
             }
         });
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.iv_actionbar_left:
-                TongSHQVideoPlayActivity.this.finish();
-                break;
-            default:
-                break;
-        }
     }
 
     /**
@@ -236,7 +198,7 @@ public class TongSHQVideoPlayActivity extends Activity implements
 
                     @Override
                     public void run() {
-                        mHandler.sendEmptyMessage(TongSHQVideoPlayActivity.VIDEOPLAY);
+                        mHandler.sendEmptyMessage(VideoPlayActivity.VIDEOPLAY);
                     }
                 }, 0, 1000);
             }
@@ -295,13 +257,13 @@ public class TongSHQVideoPlayActivity extends Activity implements
                     }
                     break;
                 case TrainActivity.PROGRESS_FINISH:
-                    mVideo.setBackgroundColor(TongSHQVideoPlayActivity.this.getResources().getColor(color.transparent));
+                    mVideo.setBackgroundColor(VideoPlayActivity.this.getResources().getColor(color.transparent));
                     System.out.println("下载完成");
                     mVideo.setVideoPath(fileMedia.toString());
                     statuDownFinish();
                     startPlay();
                     break;
-                case TongSHQVideoPlayActivity.VIDEOPLAY:    //视屏播放时，进度条的改变
+                case VideoPlayActivity.VIDEOPLAY:    //视屏播放时，进度条的改变
                     if (mVideo.getCurrentPosition() > 0) {
                         tvCurrentTime.setText(formatTime(mVideo
                                 .getCurrentPosition()));

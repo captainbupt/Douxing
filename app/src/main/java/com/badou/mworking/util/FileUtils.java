@@ -349,8 +349,7 @@ public class FileUtils {
 
     public static String getChatterDir(Context context) {
         String filePath = context.getExternalFilesDir(
-                Environment.DIRECTORY_DOWNLOADS).getAbsolutePath()
-                + File.separator + "tongshiquan";
+                Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + "tongshiquan";
         File file = new File(filePath);
         if (!file.exists()) {
             file.mkdirs();
