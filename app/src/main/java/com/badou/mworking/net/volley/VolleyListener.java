@@ -8,7 +8,6 @@ import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.util.ToastUtil;
 
-import org.holoeverywhere.app.ProgressDialog;
 import org.json.JSONObject;
 
 /**
@@ -37,13 +36,13 @@ public abstract class VolleyListener implements Response.ErrorListener,
             onErrorCode(code);
             return;
         }
-        onResponseData(response);
+        onResponseSuccess(response);
     }
 
     public void onCompleted() {
     }
 
-    public void onResponseData(JSONObject response){};
+    public abstract void onResponseSuccess(JSONObject response);
 
     public void onErrorCode(int code) {
         ToastUtil.showToast(mContext, "错误码: " + code);
@@ -54,8 +53,9 @@ public abstract class VolleyListener implements Response.ErrorListener,
     public void onErrorResponse(VolleyError error) {
         onCompleted();
         ToastUtil.showNetExc(mContext);
-        if (error instanceof ResponseError) {
+        onErrorCode(-1);
+/*        if (error instanceof ResponseError) {
             ToastUtil.showToast(mContext, error.getMessage());
-        }
+        }*/
     }
 }

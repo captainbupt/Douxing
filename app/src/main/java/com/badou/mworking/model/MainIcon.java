@@ -35,7 +35,7 @@ public class MainIcon {
     public final static Map<String, MainIcon> mainIconMap = new HashMap<>(8);
 
     public static MainIcon getMainIcon(Context context, String key) {
-        MainIcon mainIcon = mainIconMap.get(RequestParameters.CHK_UPDATA_PIC_ASK);
+        MainIcon mainIcon = mainIconMap.get(key);
         if (mainIcon != null)
             return mainIcon;
 

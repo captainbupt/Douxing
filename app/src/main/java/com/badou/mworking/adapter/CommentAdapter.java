@@ -160,24 +160,7 @@ public class CommentAdapter extends MyBaseAdapter {
                     new VolleyListener(mContext) {
 
                         @Override
-                        public void onResponse(Object responseObject) {
-                            if (!((Activity) mContext).isFinishing()) {
-                                mProgressDialog.dismiss();
-                            }
-                            JSONObject response = (JSONObject) responseObject;
-                            if (responseObject == null) {
-                                ToastUtil.showNetExc(mContext);
-                                return;
-                            }
-                            int code = response.optInt(Net.CODE);
-                            if (code == Net.LOGOUT) {
-                                AppApplication.logoutShow(mContext);
-                                return;
-                            }
-                            if (Net.SUCCESS != code) {
-                                ToastUtil.showNetExc(mContext);
-                                return;
-                            }
+                        public void onResponseSuccess(JSONObject response) {
                             ToastUtil.showToast(mContext, "删除评论成功！");
                             int position = mAllCount - floor;
                             mAllCount--;
@@ -185,8 +168,7 @@ public class CommentAdapter extends MyBaseAdapter {
                         }
 
                         @Override
-                        public void onErrorResponse(VolleyError arg0) {
-                            super.onErrorResponse(arg0);
+                        public void onCompleted() {
                             if (!((Activity) mContext).isFinishing()) {
                                 mProgressDialog.dismiss();
                             }

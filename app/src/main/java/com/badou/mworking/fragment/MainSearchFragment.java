@@ -179,22 +179,15 @@ public class MainSearchFragment extends Fragment {
         ServiceProvider.doSearch(mContext, key, new VolleyListener(mContext) {
 
             @Override
-            public void onResponse(Object responseObject) {
-                JSONObject response = (JSONObject) responseObject;
-
-                int code = response.optInt(Net.CODE);
-                if (code != Net.SUCCESS) {
-                    ToastUtil.showNetExc(mContext);
-                    return;
-                }
-                updateListFromJson(response
-                        .optJSONObject(Net.DATA), key);
+            public void onErrorCode(int code) {
+                super.onErrorCode(code);
+                updateListFromJson(null, key);
             }
 
             @Override
-            public void onErrorResponse(VolleyError error) {
-                super.onErrorResponse(error);
-                updateListFromJson(null, key);
+            public void onResponseSuccess(JSONObject response) {
+                updateListFromJson(response
+                        .optJSONObject(Net.DATA), key);
             }
         });
     }

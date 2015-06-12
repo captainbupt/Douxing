@@ -192,58 +192,43 @@ public class UserProgressActivity extends BaseNoTitleActivity {
                 new VolleyListener(UserProgressActivity.this) {
 
                     @Override
-                    public void onResponse(Object responseObject) {
+                    public void onCompleted() {
                         mContentListView.onRefreshComplete();
-                        final List<Object> list = new ArrayList<>();
-                        JSONObject response = (JSONObject) responseObject;
-                        try {
-                            int code = response.optInt(Net.CODE);
-                            if (code != Net.SUCCESS) {
-                                return;
-                            }
-                            JSONObject data = response.optJSONObject(Net.DATA);
-                            if (data == null
-                                    || data.equals("")) {
-                                return;
-                            }
-                            JSONArray resultArray = data
-                                    .optJSONArray(Net.LIST);
-                            if (resultArray == null
-                                    || resultArray.length() == 0) {
-                                if (beginIndex > 0) {
-                                    ToastUtil.showUpdateToast(UserProgressActivity.this);
-                                } else {
-                                    mContentListView.setVisibility(View.GONE);
-                                }
-                                return;
-                            }
-                            for (int i = 0; i < resultArray.length(); i++) {
-                                JSONObject jsonObject = resultArray.optJSONObject(i);
-                                if (mType == Category.CATEGORY_EXAM) {
-                                    list.add(new Exam(jsonObject));
-                                } else {
-                                    list.add(new Train(jsonObject));
-                                }
-                                beginIndex++;
-                            }
-                            if (beginNum <= 0) {
-                                mCategoryAdapter.setList(list);
-                            } else {
-                                mCategoryAdapter.addList(list);
-                            }
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        } finally {
-                            mCategoryAdapter.notifyDataSetChanged();
-                        }
                     }
 
                     @Override
-                    public void onErrorResponse(VolleyError error) {
-                        super.onErrorResponse(error);
-                        beginIndex = 0;
-                        mContentListView.onRefreshComplete();
+                    public void onResponseSuccess(JSONObject response) {
+                        List<Object> list = new ArrayList<>();
+                        JSONObject data = response.optJSONObject(Net.DATA);
+                        if (data == null
+                                || data.equals("")) {
+                            return;
+                        }
+                        JSONArray resultArray = data
+                                .optJSONArray(Net.LIST);
+                        if (resultArray == null
+                                || resultArray.length() == 0) {
+                            if (beginIndex > 0) {
+                                ToastUtil.showUpdateToast(UserProgressActivity.this);
+                            } else {
+                                mContentListView.setVisibility(View.GONE);
+                            }
+                            return;
+                        }
+                        for (int i = 0; i < resultArray.length(); i++) {
+                            JSONObject jsonObject = resultArray.optJSONObject(i);
+                            if (mType == Category.CATEGORY_EXAM) {
+                                list.add(new Exam(jsonObject));
+                            } else {
+                                list.add(new Train(jsonObject));
+                            }
+                            beginIndex++;
+                        }
+                        if (beginNum <= 0) {
+                            mCategoryAdapter.setList(list);
+                        } else {
+                            mCategoryAdapter.addList(list);
+                        }
                     }
                 });
     }

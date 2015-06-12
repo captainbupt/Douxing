@@ -108,32 +108,16 @@ public class AskAnswerSubmitActivity extends BaseBackActionBarActivity {
                 new VolleyListener(mContext) {
 
                     @Override
-                    public void onResponse(Object arg0) {
-                        if (!mActivity.isFinishing())
-                            mProgressDialog.dismiss();
-                        JSONObject jObject = (JSONObject) arg0;
-                        int errcode = jObject
-                                .optInt(ResponseParameters.QUESTION_ERRCODE);
-                        if (errcode == Net.LOGOUT) {
-                            AppApplication.logoutShow(mContext);
-                            return;
-                        }
-                        if (errcode == 0) {
-                            setResult(RESULT_OK);
-                            finish();
-                        } else {
-                            ToastUtil.showNetExc(mContext);
-                        }
+                    public void onResponseSuccess(JSONObject response) {
+                        setResult(RESULT_OK);
+                        finish();
                     }
 
                     @Override
-                    public void onErrorResponse(VolleyError error) {
-                        super.onErrorResponse(error);
-                        if (null != mProgressDialog && mContext != null
-                                && !mActivity.isFinishing()) {
+                    public void onCompleted() {
+                        if (!mActivity.isFinishing()) {
                             mProgressDialog.dismiss();
                         }
-                        ToastUtil.showNetExc(mContext);
                     }
                 });
     }

@@ -167,19 +167,16 @@ public class ChatterUserActivity extends BaseNoTitleActivity {
         // 发起网络请求
         ServiceProvider.doGetUserChatterList(mContext, "share", mUid, beginNum,
                 Constant.LIST_ITEM_NUM, new VolleyListener(mContext) {
+
                     @Override
-                    public void onResponse(Object responseObject) {
-                        mProgressDialog.dismiss();
+                    public void onCompleted() {
+                        if (!mActivity.isFinishing())
+                            mProgressDialog.dismiss();
                         mScrollView.onRefreshComplete();
-                        JSONObject response = (JSONObject) responseObject;
-                        int code = response.optInt(Net.CODE);
-                        if (code == Net.LOGOUT) {
-                            AppApplication.logoutShow(mContext);
-                            return;
-                        }
-                        if (code != Net.SUCCESS) {
-                            return;
-                        }
+                    }
+
+                    @Override
+                    public void onResponseSuccess(JSONObject response) {
                         JSONObject contentObject = response
                                 .optJSONObject(Net.DATA);
                         if (contentObject == null) {
@@ -221,13 +218,6 @@ public class ChatterUserActivity extends BaseNoTitleActivity {
                         } else {// 继续加载
                             mChatterAdapter.addList(chatters);
                         }
-                    }
-
-                    @Override
-                    public void onErrorResponse(VolleyError arg0) {
-                        super.onErrorResponse(arg0);
-                        mProgressDialog.dismiss();
-                        mScrollView.onRefreshComplete();
                     }
                 });
     }

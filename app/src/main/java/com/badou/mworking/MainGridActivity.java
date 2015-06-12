@@ -296,14 +296,6 @@ public class MainGridActivity extends BaseNoTitleActivity {
         }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (mMainGridAdapter != null) {
-            mMainGridAdapter.notifyDataSetChanged();
-        }
-    }
-
     /**
      * 功能描述: 点击两次返回键退出应用程序，通过记录按键时间计算时间差实现
      */
@@ -345,54 +337,39 @@ public class MainGridActivity extends BaseNoTitleActivity {
                 mContext) {
 
             @Override
-            public void onResponse(Object responseObject) {
+            public void onResponseSuccess(JSONObject response) {
                 List<Object> list = new ArrayList<>();
-                JSONObject response = (JSONObject) responseObject;
-                try {
-                    int code = response.optInt(Net.CODE);
-                    if (code == Net.LOGOUT) {
-                        AppApplication.logoutShow(mContext);
-                        return;
-                    }
-                    if (code != Net.SUCCESS) {
-                        return;
-                    }
-                    JSONObject data = response.optJSONObject(Net.DATA);
-                    apkUpdate(data);
+                JSONObject data = response.optJSONObject(Net.DATA);
+                apkUpdate(data);
 
-                    JSONObject jSONObject = data
-                            .optJSONObject(RequestParameters.CHK_UPDATA_PIC_COMPANY_LOGO);
-                    if (jSONObject != null) {
-                        String logoUrl = jSONObject
-                                .optString(MainBanner.CHK_URL);
-                        SP.putStringSP(MainGridActivity.this, SP.DEFAULTCACHE, "logoUrl", logoUrl);
-                        initCompanyLog(logoUrl);
-                    }
-
-                    JSONArray arrBanner = data.getJSONArray("banner");
-
-                    String bannerInfo = "";
-
-                    for (int i = 0; i < arrBanner.length(); i++) {
-                        JSONObject jo = (JSONObject) arrBanner.get(i);
-                        String img = jo.optString(MTrainingDBHelper.CHK_IMG);
-                        String url = jo.optString(MainBanner.CHK_URL);
-                        String md5 = jo.optString(MainBanner.CHK_RES_MD5);
-                        MainBanner banner = new MainBanner(img, url, md5);
-                        list.add(banner);
-                        bannerInfo = bannerInfo
-                                + banner.bannerToString(img, url, md5);
-                    }
-                    updateBanner(list);
-                    updateIndicator(list);
-                    // 保存banner信息数据到sp
-                    SP.putStringSP(MainGridActivity.this, SP.DEFAULTCACHE, "banner", bannerInfo);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
+                JSONObject jSONObject = data
+                        .optJSONObject(RequestParameters.CHK_UPDATA_PIC_COMPANY_LOGO);
+                if (jSONObject != null) {
+                    String logoUrl = jSONObject
+                            .optString(MainBanner.CHK_URL);
+                    SP.putStringSP(MainGridActivity.this, SP.DEFAULTCACHE, "logoUrl", logoUrl);
+                    initCompanyLog(logoUrl);
                 }
-            }
 
+                JSONArray arrBanner = data.optJSONArray("banner");
+
+                String bannerInfo = "";
+
+                for (int i = 0; i < arrBanner.length(); i++) {
+                    JSONObject jo = arrBanner.optJSONObject(i);
+                    String img = jo.optString(MTrainingDBHelper.CHK_IMG);
+                    String url = jo.optString(MainBanner.CHK_URL);
+                    String md5 = jo.optString(MainBanner.CHK_RES_MD5);
+                    MainBanner banner = new MainBanner(img, url, md5);
+                    list.add(banner);
+                    bannerInfo = bannerInfo
+                            + banner.bannerToString(img, url, md5);
+                }
+                updateBanner(list);
+                updateIndicator(list);
+                // 保存banner信息数据到sp
+                SP.putStringSP(MainGridActivity.this, SP.DEFAULTCACHE, "banner", bannerInfo);
+            }
         });
     }
 

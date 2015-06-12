@@ -209,6 +209,8 @@ public class ChatterSubmitActivity extends BaseBackActionBarActivity {
      * @param content
      */
     private void publishQuestionShare(String content, final List<Object> bitmapList, final int type) {
+        mProgressDialog.setContent(R.string.progress_tips_send_ing);
+        mProgressDialog.show();
         Bitmap bitmap = null;
         if (bitmapList != null)
             bitmap = (Bitmap) bitmapList.get(0);
@@ -217,59 +219,48 @@ public class ChatterSubmitActivity extends BaseBackActionBarActivity {
                 new VolleyListener(mContext) {
 
                     @Override
-                    public void onResponse(Object arg0) {
-                        JSONObject jObject = (JSONObject) arg0;
-                        int errcode = jObject
-                                .optInt(ResponseParameters.QUESTION_ERRCODE);
-                        if (errcode == Net.SUCCESS) {
-                            // 获取questionid
-                            String qid = jObject.optJSONObject(Net.DATA).optString("qid");
-                            if (TextUtils.isEmpty(qid)) {
-                                ToastUtil.showToast(mContext, R.string.tongShiQuan_submit_fail);
-                                return;
-                            }
-                            if (type == ImageChooser.TYPE_VIDEO) {
-                                publishVideo(qid);
-                            } else if (type == ImageChooser.TYPE_IMAGE) {
-                                publicImage(qid, 0, bitmapList);
-                            } else {
-                                ToastUtil.showToast(mContext, R.string.tongShiQuan_submit_success);
-                                toChatterActivity();
-                            }
-                        } else {
+                    public void onResponseSuccess(JSONObject response) {
+                        // 获取questionid
+                        String qid = response.optJSONObject(Net.DATA).optString("qid");
+                        if (TextUtils.isEmpty(qid)) {
                             ToastUtil.showToast(mContext, R.string.tongShiQuan_submit_fail);
+                            return;
+                        }
+                        if (type == ImageChooser.TYPE_VIDEO) {
+                            publishVideo(qid);
+                        } else if (type == ImageChooser.TYPE_IMAGE) {
+                            publicImage(qid, 0, bitmapList);
+                        } else {
+                            ToastUtil.showToast(mContext, R.string.tongShiQuan_submit_success);
+                            toChatterActivity();
                         }
                     }
 
                     @Override
-                    public void onErrorResponse(VolleyError error) {
-                        super.onErrorResponse(error);
+                    public void onErrorCode(int code) {
                         ToastUtil.showToast(mContext, R.string.tongShiQuan_submit_fail);
+                        mProgressDialog.dismiss();
                     }
+
                 });
     }
 
     private void publicImage(final String qid, final int index, final List<Object> bitmapList) {
         ServiceProvider.doUploadImage(mContext, qid, index + 1, (Bitmap) bitmapList.get(index), new VolleyListener(mContext) {
+
             @Override
-            public void onResponse(Object responseObject) {
-                int errcode = ((JSONObject) responseObject)
-                        .optInt(Net.CODE);
-                if (errcode == Net.SUCCESS) {
-                    if (index == bitmapList.size() - 1) {
-                        ToastUtil.showToast(mContext, R.string.tongShiQuan_submit_success);
-                        toChatterActivity();
-                    } else {
-                        publicImage(qid, index + 1, bitmapList);
-                    }
+            public void onResponseSuccess(JSONObject response) {
+                if (index == bitmapList.size() - 1) {
+                    mProgressDialog.dismiss();
+                    ToastUtil.showToast(mContext, R.string.tongShiQuan_submit_success);
+                    toChatterActivity();
                 } else {
-                    ToastUtil.showToast(mContext, R.string.tongShiQuan_submit_fail);
+                    publicImage(qid, index + 1, bitmapList);
                 }
             }
 
             @Override
-            public void onErrorResponse(VolleyError error) {
-                super.onErrorResponse(error);
+            public void onErrorCode(int code) {
                 ToastUtil.showToast(mContext, R.string.tongShiQuan_submit_fail);
             }
         });
@@ -282,21 +273,19 @@ public class ChatterSubmitActivity extends BaseBackActionBarActivity {
 
         ServiceProvider.doUploadVideo(mContext, qid, FileUtils.getChatterVideoDir(mContext), new VolleyListener(mContext) {
             @Override
-            public void onResponse(Object responseObject) {
-                int errcode = ((JSONObject) responseObject)
-                        .optInt(Net.CODE);
-                if (errcode == Net.SUCCESS) {
-                    ToastUtil.showToast(mContext, R.string.tongShiQuan_submit_success);
-                    toChatterActivity();
-                } else {
-                    ToastUtil.showToast(mContext, R.string.tongShiQuan_submit_fail);
-                }
+            public void onResponseSuccess(JSONObject response) {
+                ToastUtil.showToast(mContext, R.string.tongShiQuan_submit_success);
+                toChatterActivity();
             }
 
             @Override
-            public void onErrorResponse(VolleyError error) {
-                super.onErrorResponse(error);
+            public void onErrorCode(int code) {
                 ToastUtil.showToast(mContext, R.string.tongShiQuan_submit_fail);
+            }
+
+            @Override
+            public void onCompleted() {
+                mProgressDialog.dismiss();
             }
         });
 
@@ -310,15 +299,9 @@ public class ChatterSubmitActivity extends BaseBackActionBarActivity {
 
     private void getTopicList() {
         ServiceProvider.doGetTopicList(mContext, new VolleyListener(mContext) {
+
             @Override
-            public void onResponse(Object responseObject) {
-                JSONObject response = (JSONObject) responseObject;
-                System.out.println(response);
-                int code = response.optInt(Net.CODE);
-                if (code != Net.SUCCESS) {
-                    ToastUtil.showNetExc(mContext);
-                    return;
-                }
+            public void onResponseSuccess(JSONObject response) {
                 JSONObject datas = response.optJSONObject(Net.DATA);
                 if (datas == null) {
                     return;

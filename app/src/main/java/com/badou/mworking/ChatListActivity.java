@@ -94,21 +94,16 @@ public class ChatListActivity extends BaseBackActionBarActivity {
      */
     private void getChatList() {
         ServiceProvider.dogetChatList(mContext, new VolleyListener(mContext) {
+
             @Override
-            public void onResponse(Object responseObject) {
+            public void onCompleted() {
                 pullListView.onRefreshComplete();
-                JSONObject responseJson = (JSONObject) responseObject;
+            }
+
+            @Override
+            public void onResponseSuccess(JSONObject response) {
                 List<Object> chatList = new ArrayList<>();
-                int code = responseJson.optInt(Net.CODE);
-                if (code == Net.LOGOUT) {
-                    AppApplication.logoutShow(mContext);
-                    return;
-                }
-                if (Net.SUCCESS != code) {
-                    ToastUtil.showNetExc(mContext);
-                    return;
-                }
-                JSONArray dataArr = responseJson.optJSONArray(Net.DATA);
+                JSONArray dataArr = response.optJSONArray(Net.DATA);
                 if (dataArr == null || dataArr.length() == 0) {
                     ToastUtil.showToast(mContext,
                             R.string.result_upate_null);
@@ -123,12 +118,6 @@ public class ChatListActivity extends BaseBackActionBarActivity {
                     }
                     mAdapter.setList(chatList);
                 }
-            }
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                super.onErrorResponse(error);
-                pullListView.onRefreshComplete();
             }
         });
     }

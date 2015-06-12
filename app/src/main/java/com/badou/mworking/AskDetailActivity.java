@@ -204,27 +204,13 @@ public class AskDetailActivity extends BaseBackActionBarActivity {
         ServiceProvider.deleteAsk(AskDetailActivity.this, mAsk.aid, new VolleyListener(AskDetailActivity.this) {
 
             @Override
-            public void onResponse(Object responseObject) {
-                if (!mActivity.isFinishing()) {
-                    mProgressDialog.dismiss();
-                }
-                JSONObject response = (JSONObject) responseObject;
-                int code = response.optInt(Net.CODE);
-                if (code == Net.LOGOUT) {
-                    AppApplication.logoutShow(AskDetailActivity.this);
-                    return;
-                }
-                if (Net.SUCCESS != code) {
-                    ToastUtil.showNetExc(AskDetailActivity.this);
-                    return;
-                }
+            public void onResponseSuccess(JSONObject response) {
                 setResult(RESULT_DELETED, null);
                 finish();
             }
 
             @Override
-            public void onErrorResponse(VolleyError error) {
-                super.onErrorResponse(error);
+            public void onCompleted() {
                 if (!mActivity.isFinishing()) {
                     mProgressDialog.dismiss();
                 }
@@ -241,21 +227,7 @@ public class AskDetailActivity extends BaseBackActionBarActivity {
         ServiceProvider.updateAnswerList(mContext, beginNum, Constant.LIST_ITEM_NUM, mAsk.aid, new VolleyListener(AskDetailActivity.this) {
 
             @Override
-            public void onResponse(Object responseObject) {
-                if (!mActivity.isFinishing()) {
-                    mProgressDialog.dismiss();
-                }
-                pullToRefreshScrollView.onRefreshComplete();
-                JSONObject response = (JSONObject) responseObject;
-                int code = response.optInt(Net.CODE);
-                if (code == Net.LOGOUT) {
-                    AppApplication.logoutShow(mContext);
-                    return;
-                }
-                if (Net.SUCCESS != code) {
-                    ToastUtil.showNetExc(AskDetailActivity.this);
-                    return;
-                }
+            public void onResponseSuccess(JSONObject response) {
                 List<Object> tempAsk = new ArrayList<>();
                 JSONArray jsonArray = response.optJSONArray(Net.DATA);
                 if (jsonArray == null) {
@@ -283,17 +255,16 @@ public class AskDetailActivity extends BaseBackActionBarActivity {
                     mAnswerAdapter.addList(tempAsk);
                 }
                 beginIndex++;
-                mAnswerAdapter.notifyDataSetChanged();
             }
 
             @Override
-            public void onErrorResponse(VolleyError error) {
-                super.onErrorResponse(error);
+            public void onCompleted() {
                 if (!mActivity.isFinishing()) {
                     mProgressDialog.dismiss();
                 }
                 pullToRefreshScrollView.onRefreshComplete();
             }
+
         });
     }
 

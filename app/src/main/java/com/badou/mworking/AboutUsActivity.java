@@ -178,7 +178,7 @@ public class AboutUsActivity extends BaseBackActionBarActivity {
                     }
 
                     @Override
-                    public void onResponseData(JSONObject response) {
+                    public void onResponseSuccess(JSONObject response) {
                         JSONObject data = response.optJSONObject(Net.DATA);
                         JSONObject newver = data
                                 .optJSONObject(RequestParameters.CHK_UPDATA_PIC_NEWVER);

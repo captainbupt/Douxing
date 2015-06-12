@@ -257,6 +257,7 @@
     <string name="operation_message">私信</string>
 
     <string name="progress_tips_praise_ing">点赞中，请稍后…</string>
+    <string name="progress_tips_send_ing">发布中，请稍后…</string>
     <string name="progress_tips_delete_ing">删除中，请稍后…</string>
     <string name="progress_tips_submit_ing">提交中…</string>
     <string name="progress_tips_login_ing">登录中…</string>

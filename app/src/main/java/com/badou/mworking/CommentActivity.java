@@ -135,46 +135,22 @@ public class CommentActivity extends BaseBackActionBarActivity {
     private void refreshComment(final int pageNumber) {
         ServiceProvider.doUpdateComment(mContext, mRid, pageNumber,
                 new VolleyListener(mContext) {
-
                     @Override
-                    public void onResponse(Object responseObject) {
-                        JSONObject response = (JSONObject) responseObject;
-                        if (null != mProgressDialog && mContext != null
-                                && !mActivity.isFinishing()) {
+                    public void onCompleted() {
+                        if (!mActivity.isFinishing()) {
                             mProgressDialog.dismiss();
                         }
                         mContentListView.onRefreshComplete();
-                        try {
-                            int code = response.optInt(Net.CODE);
-                            if (code == Net.LOGOUT) {
-                                AppApplication.logoutShow(mContext);
-                                return;
-                            }
-                            if (code != Net.SUCCESS) {
-                                ToastUtil.showToast(mContext, R.string.result_comment_update_fail);
-                                return;
-                            }
-
-                            mCurrentPage = pageNumber;
-                            int allCount = response
-                                    .optJSONObject(Net.DATA).optInt("ttlcnt");
-                            updateSuccess(response
-                                    .optJSONObject(Net.DATA)
-                                    .optJSONArray(ResponseParameters.COMMENT_RESULT), allCount);
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
                     }
 
                     @Override
-                    public void onErrorResponse(VolleyError error) {
-                        if (null != mProgressDialog && mContext != null
-                                && !mActivity.isFinishing()) {
-                            mProgressDialog.dismiss();
-                        }
-                        mContentListView.onRefreshComplete();
-                        super.onErrorResponse(error);
+                    public void onResponseSuccess(JSONObject response) {
+                        mCurrentPage = pageNumber;
+                        int allCount = response
+                                .optJSONObject(Net.DATA).optInt("ttlcnt");
+                        updateSuccess(response
+                                .optJSONObject(Net.DATA)
+                                .optJSONArray(ResponseParameters.COMMENT_RESULT), allCount);
                     }
                 });
     }
@@ -208,67 +184,35 @@ public class CommentActivity extends BaseBackActionBarActivity {
     private void submitComment(String comment) {
         mProgressDialog.setContent(R.string.action_comment_update_ing);
         mProgressDialog.show();
+        VolleyListener volleyListener = new VolleyListener(mContext) {
+            @Override
+            public void onCompleted() {
+                if (!mActivity.isFinishing()) {
+                    mProgressDialog.dismiss();
+                }
+            }
 
+            @Override
+            public void onErrorCode(int code) {
+                ToastUtil.showToast(mContext, R.string.result_comment_submit_fail);
+            }
+
+            @Override
+            public void onResponseSuccess(JSONObject response) {
+                submitSuccess();
+            }
+        };
         if (isReply) {
-            ServiceProvider.doReplyComment(mContext, mRid, whom, comment, new VolleyListener(mContext) {
-
-                @Override
-                public void onResponse(Object responseObject) {
-                    if (mContext != null && !mActivity.isFinishing()) {
-                        mProgressDialog.dismiss();
-                    }
-                    JSONObject response = (JSONObject) responseObject;
-                    submitSuccess(response);
-                }
-
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    super.onErrorResponse(error);
-                    if (mContext != null && !mActivity.isFinishing()) {
-                        mProgressDialog.dismiss();
-                    }
-                }
-            });
+            ServiceProvider.doReplyComment(mContext, mRid, whom, comment, volleyListener);
         } else {
-            ServiceProvider.doSubmitComment(mContext, mRid, comment, new VolleyListener(mContext) {
-
-                @Override
-                public void onResponse(Object responseObject) {
-                    if (mContext != null && !mActivity.isFinishing()) {
-                        mProgressDialog.dismiss();
-                    }
-                    JSONObject response = (JSONObject) responseObject;
-                    submitSuccess(response);
-                }
-
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    super.onErrorResponse(error);
-                    if (mContext != null && !mActivity.isFinishing()) {
-                        mProgressDialog.dismiss();
-                    }
-                }
-            });
+            ServiceProvider.doSubmitComment(mContext, mRid, comment, volleyListener);
         }
     }
 
     /**
      * 发送成功
      */
-    private void submitSuccess(JSONObject response) {
-        try {
-            int code = response.optInt(Net.CODE);
-            if (code == Net.LOGOUT) {
-                AppApplication.logoutShow(mContext);
-                return;
-            }
-            if (code != Net.SUCCESS) {
-                ToastUtil.showToast(mContext, R.string.result_comment_submit_fail);
-                return;
-            }
-            refreshComment(1);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private void submitSuccess() {
+        refreshComment(1);
     }
 }

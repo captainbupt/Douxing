@@ -23,6 +23,8 @@ import com.badou.mworking.util.TimeTransfer;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.WaitProgressDialog;
 
+import org.json.JSONObject;
+
 /**
  * 问答详情页面
  */
@@ -124,17 +126,14 @@ public class AskAnswerAdapter extends MyBaseAdapter {
         ServiceProvider.pollAnswer(mContext, mAid, ask.createTime / 1000 + "", new VolleyListener(mContext) {
 
             @Override
-            public void onResponse(Object responseObject) {
+            public void onResponseSuccess(JSONObject response) {
                 ask.count++;
                 WenDaManage.insertItem(mContext, mAid, ask.createTime);
                 AskAnswerAdapter.this.notifyDataSetChanged();
-                mProgressDialog.dismiss();
             }
 
             @Override
-            public void onErrorResponse(VolleyError error) {
-                super.onErrorResponse(error);
-                ToastUtil.showNetExc(mContext);
+            public void onCompleted() {
                 mProgressDialog.dismiss();
             }
         });

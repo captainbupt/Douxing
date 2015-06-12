@@ -158,47 +158,28 @@ public class AccountManageActivity extends BaseBackActionBarActivity {
                 || !newPassword.equals(confirmPassword)) {
             ToastUtil.showToast(mContext, R.string.change_error_different_password);
         } else {
-            if (!AccountManageActivity.this.isFinishing()) {
-                mProgressDialog.setContent(R.string.change_action_change_passwrod);
-                mProgressDialog.show();
-            }
+            mProgressDialog.setContent(R.string.change_action_change_passwrod);
+            mProgressDialog.show();
             ServiceProvider.doChangePassword(mContext, originalPassword,
                     newPassword, new VolleyListener(mContext) {
 
                         @Override
-                        public void onResponse(Object responseObject) {
-                            JSONObject response = (JSONObject) responseObject;
-                            Log.v("ArountManage_badou", " 修改密码  == " + response);
-                            if (null != mProgressDialog
-                                    && AccountManageActivity.this != null
-                                    && !AccountManageActivity.this
-                                    .isFinishing()) {
+                        public void onErrorCode(int code) {
+                            ToastUtil.showToast(mContext, mActivity
+                                    .getString(R.string.change_error_incorrect_password));
+                        }
+
+                        @Override
+                        public void onCompleted() {
+                            if (!mActivity.isFinishing()) {
                                 mProgressDialog.dismiss();
-                            }
-                            try {
-                                int code = response.optInt(Net.CODE);
-                                if (code == Net.LOGOUT) {
-                                    AppApplication.logoutShow(mContext);
-                                    return;
-                                }
-                                if (code != Net.SUCCESS) {
-                                    ToastUtil.showToast(mContext, mActivity
-                                            .getString(R.string.change_error_incorrect_password));
-                                    return;
-                                }
-                                changePasswordSuccess(response
-                                        .optJSONObject(Net.DATA));
-                            } catch (Exception e) {
-                                e.printStackTrace();
                             }
                         }
 
                         @Override
-                        public void onErrorResponse(VolleyError error) {
-                            if (null != mProgressDialog) {
-                                mProgressDialog.dismiss();
-                            }
-                            super.onErrorResponse(error);
+                        public void onResponseSuccess(JSONObject response) {
+                            changePasswordSuccess(response
+                                    .optJSONObject(Net.DATA));
                         }
                     });
         }

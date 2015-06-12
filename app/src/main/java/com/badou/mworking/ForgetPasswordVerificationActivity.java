@@ -126,38 +126,18 @@ public class ForgetPasswordVerificationActivity extends BaseBackActionBarActivit
         ServiceProvider.doForgetPassword(mContext, phoneNum, vcode, newpwd, new VolleyListener(mContext) {
 
             @Override
-            public void onResponse(Object responseObject) {
+            public void onCompleted() {
                 if (!mActivity.isFinishing()) {
                     mProgressDialog.dismiss();
-                }
-                JSONObject response = (JSONObject) responseObject;
-                try {
-                    // 验证返回码是否正确
-                    int code = response.optInt(Net.CODE);
-                    if (code == Net.LOGOUT) {
-                        AppApplication.logoutShow(mContext);
-                        return;
-                    }
-                    if (code != Net.SUCCESS) {
-                        ToastUtil.showToast(mContext, R.string.login_error_incorrect_username_password);
-                        return;
-                    }
-
-                    // 返回码正确时 调用
-                    chaSuccess(phoneNum,
-                            response.optJSONObject(Net.DATA));
-                    finish();
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
             }
 
             @Override
-            public void onErrorResponse(VolleyError error) {
-                if (!mActivity.isFinishing()) {
-                    mProgressDialog.dismiss();
-                }
-                ToastUtil.showToast(mContext, R.string.error_service);
+            public void onResponseSuccess(JSONObject response) {
+                // 返回码正确时 调用
+                chaSuccess(phoneNum,
+                        response.optJSONObject(Net.DATA));
+                finish();
             }
         });
     }

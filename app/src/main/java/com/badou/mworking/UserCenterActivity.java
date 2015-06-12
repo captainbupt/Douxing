@@ -211,42 +211,19 @@ public class UserCenterActivity extends BaseNoTitleActivity {
         // 获取用户详情
         ServiceProvider.doOptainUserDetail(mContext, mUid, new VolleyListener(
                 mContext) {
+
             @Override
-            public void onErrorResponse(VolleyError error) {
-                super.onErrorResponse(error);
-                if (null != mProgressDialog && mContext != null
-                        && !mActivity.isFinishing())
+            public void onCompleted() {
+                if (!mActivity.isFinishing())
                     mProgressDialog.dismiss();
             }
 
             @Override
-            public void onResponse(Object arg0) {
-                if (null != mProgressDialog && mContext != null
-                        && !mActivity.isFinishing())
-                    mProgressDialog.dismiss();
-                JSONObject jsonObject = (JSONObject) arg0;
-                int code = jsonObject.optInt(Net.CODE);
-                if (code == Net.LOGOUT) {
-                    AppApplication.logoutShow(mContext);
-                    return;
-                }
-                if (code != Net.SUCCESS) {
-                    return;
-                }
-                JSONObject jObject = null;
-                try {
-                    jObject = new JSONObject(jsonObject.optString(Net.DATA));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                if (jObject == null) {
-                    return;
-                }
-
+            public void onResponseSuccess(JSONObject response) {
+                JSONObject jObject = response.optJSONObject(Net.DATA);
                 mUserDetail = new UserDetail(jObject);
                 updateViewValue();
             }
-
         });
     }
 
@@ -383,40 +360,21 @@ public class UserCenterActivity extends BaseNoTitleActivity {
                     new VolleyListener(mContext) {
 
                         @Override
-                        public void onResponse(Object responseObject) {
+                        public void onCompleted() {
+                            if (!mActivity.isFinishing())
+                                mProgressDialog.dismiss();
+                        }
+
+                        @Override
+                        public void onResponseSuccess(JSONObject response) {
                             Bitmap headbitmap = BitmapLruCache.getBitmapLruCache().get(imgCacheUrl);
                             if (headbitmap != null && !headbitmap.isRecycled()) {
                                 headbitmap.recycle();
                             }
-                            if (null != mProgressDialog && mContext != null
-                                    && !mActivity.isFinishing())
-                                mProgressDialog.dismiss();
-                            try {
-                                int code = ((JSONObject) responseObject)
-                                        .optInt(Net.CODE);
-                                if (code == Net.LOGOUT) {
-                                    AppApplication.logoutShow(mContext);
-                                    return;
-                                }
-                                if (code != Net.SUCCESS) {
-                                    ToastUtil.showToast(
-                                            mContext,
-                                            mActivity
-                                                    .getString(R.string.error_service));
-                                    return;
-                                } else {
-                                    FileUtils.writeBitmap2SDcard(bitmap,
-                                            finalImgPath);
-                                    bitmap.recycle();
-                                    setUserIcon(mUid, null);
-                                    ToastUtil
-                                            .showToast(
-                                                    mContext,
-                                                    R.string.user_detail_icon_upload_success);
-                                }
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
+                            FileUtils.writeBitmap2SDcard(bitmap, finalImgPath);
+                            bitmap.recycle();
+                            setUserIcon(mUid, null);
+                            ToastUtil.showToast(mContext, R.string.user_detail_icon_upload_success);
                         }
                     });
         } else {
