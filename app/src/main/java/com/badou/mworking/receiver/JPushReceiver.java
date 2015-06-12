@@ -8,7 +8,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.badou.mworking.ChatterDetailActivity;
-import com.badou.mworking.MyGroupActivity;
+import com.badou.mworking.ChatterUserActivity;
 import com.badou.mworking.ChatListActivity;
 import com.badou.mworking.ExamActivity;
 import com.badou.mworking.NoticeActivity;
@@ -142,7 +142,7 @@ public class JPushReceiver extends BroadcastReceiver {
 						context.startActivity(intent1);
 					}else if (type.equals(TYPE_TONGSHIQUAN)){
 						AppManager.finishActivity(ChatterDetailActivity.class);
-						Intent intent2 = new Intent(context, MyGroupActivity.class);
+						Intent intent2 = new Intent(context, ChatterUserActivity.class);
 						intent2.putExtras(bundle);
 						intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 						context.startActivity(intent2);

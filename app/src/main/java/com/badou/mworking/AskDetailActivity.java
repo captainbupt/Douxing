@@ -139,7 +139,12 @@ public class AskDetailActivity extends BaseBackActionBarActivity {
             }
         });
 
-        mDeleteTextView.setOnClickListener(new DeleteClickListener(mContext));
+        mDeleteTextView.setOnClickListener(new DeleteClickListener(mContext, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                deleteAsk();
+            }
+        }));
 
         mMessageTextView.setOnClickListener(new MessageClickListener(mContext, mAsk.userName, mAsk.whom, mAsk.userHeadUrl));
     }

@@ -3,7 +3,7 @@ package com.badou.mworking.model;
 import android.content.ContentValues;
 
 import com.badou.mworking.database.MTrainingDBHelper;
-import com.badou.mworking.net.ResponseParams;
+import com.badou.mworking.net.ResponseParameters;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -17,11 +17,10 @@ import java.util.List;
  */
 public class Chatter implements Serializable {
 
-    public static final String QUESTIONCACHE = "questioncache";
-
     public String qid;//qid
     public String uid;
     public String name;//员工号 (登录号? 用户名)
+    public String department;
     public String headUrl;//头像地址
     public String content;//发布内容
     public int level;
@@ -36,26 +35,27 @@ public class Chatter implements Serializable {
     public String videoUrl;    //视屏下载地址
 
     public Chatter(JSONObject jsonObject) {
-        uid = jsonObject.optString(ResponseParams.USER_ID);
-        qid = jsonObject.optString(ResponseParams.QUESTION_QID);
-        name = jsonObject.optString(ResponseParams.QUESTION_EMPLOYEE_ID);
-        content = jsonObject.optString(ResponseParams.QUESTION_CONTENT);
-        headUrl = jsonObject.optString(ResponseParams.QUESTION_IMG_URL);
-        level = jsonObject.optInt(ResponseParams.QUESTION_CIRCLE_LV);
+        uid = jsonObject.optString(ResponseParameters.USER_ID);
+        qid = jsonObject.optString(ResponseParameters.QUESTION_QID);
+        name = jsonObject.optString(ResponseParameters.QUESTION_EMPLOYEE_ID);
+        department = jsonObject.optString(ResponseParameters.QUESTION_DEPARTMENT);
+        content = jsonObject.optString(ResponseParameters.QUESTION_CONTENT);
+        headUrl = jsonObject.optString(ResponseParameters.QUESTION_IMG_URL);
+        level = jsonObject.optInt(ResponseParameters.QUESTION_CIRCLE_LV);
         deletable = jsonObject.optInt("delop") == 1;
-        whom = jsonObject.optString(ResponseParams.QUESTION_WHOM);
+        whom = jsonObject.optString(ResponseParameters.QUESTION_WHOM);
         publishTime = Long.parseLong(jsonObject
-                .optString(ResponseParams.QUESTION_PUBLISH_TS)) * 1000l;
+                .optString(ResponseParameters.QUESTION_PUBLISH_TS)) * 1000l;
         replyNumber = Integer.parseInt(jsonObject
-                .optString(ResponseParams.QUESTION_REPLY_NO));
-        praiseNumber = jsonObject.optInt(ResponseParams.QUESTION_CREDIT_NUM);
-        JSONArray photoArray = jsonObject.optJSONArray(ResponseParams.QUESTION_PHOTO_URL);
+                .optString(ResponseParameters.QUESTION_REPLY_NO));
+        praiseNumber = jsonObject.optInt(ResponseParameters.QUESTION_CREDIT_NUM);
+        JSONArray photoArray = jsonObject.optJSONArray(ResponseParameters.QUESTION_PHOTO_URL);
         photoUrls = new ArrayList<>();
         for (int ii = 0; ii < photoArray.length(); ii++) {
             photoUrls.add(photoArray.optString(ii));
         }
-        imgUrl = jsonObject.optString(ResponseParams.QUESTION_PICTURE_URL);
-        videoUrl = jsonObject.optString(ResponseParams.QUESTION_VIDEO_URL);
+        imgUrl = jsonObject.optString(ResponseParameters.QUESTION_PICTURE_URL);
+        videoUrl = jsonObject.optString(ResponseParameters.QUESTION_VIDEO_URL);
     }
 
     public ContentValues getValues() {

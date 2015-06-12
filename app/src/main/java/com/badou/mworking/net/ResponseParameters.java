@@ -3,7 +3,7 @@ package com.badou.mworking.net;
 /**
  * Created by yee on 3/7/14.
  */
-public class ResponseParams {
+public class ResponseParameters {
     /**
      * overall
      */
@@ -33,6 +33,15 @@ public class ResponseParams {
     public static final String COMMENT_USERNAME = "employee_id";//员工号
     public static final String COMMENT_CONTENT = "info";
     public static final String COMMENT_TIME = "ts";//时间戳
+    public static final String COMMENT_HEAD = "imgurl";
+    public static final String COMMENT_WHOM = "whom";
+
+
+    public static final String CHATTER_REPLY_USERNAME = "e";//员工号
+    public static final String CHATTER_REPLY_CONTENT = "c";
+    public static final String CHATTER_REPLY_TIME = "t";//时间戳
+    public static final String CHATTER_REPLY_HEAD = "imgurl";
+    public static final String CHATTER_REPLY_WHOM = "uid";
     /**
      * check update
      */

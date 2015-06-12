@@ -2,7 +2,7 @@ package com.badou.mworking.model.category;
 
 import android.text.TextUtils;
 
-import com.badou.mworking.net.ResponseParams;
+import com.badou.mworking.net.ResponseParameters;
 import com.badou.mworking.util.Constant;
 
 import org.json.JSONException;
@@ -33,15 +33,15 @@ public class Train extends Category {
      */
     public Train(JSONObject jsonObject) {
         super(jsonObject);
-        this.imgUrl = jsonObject.optString(ResponseParams.KNOWLEDGE_LIBRARY_IMG);
+        this.imgUrl = jsonObject.optString(ResponseParameters.KNOWLEDGE_LIBRARY_IMG);
 
         // 直接optJSONObject只会返回null
-        String strContent = jsonObject.optString(ResponseParams.CONTENT);
+        String strContent = jsonObject.optString(ResponseParameters.CONTENT);
         if (!TextUtils.isEmpty(strContent)) {
             try {
                 JSONObject contentJsonObject = new JSONObject(strContent);
-                this.hasFeedback = contentJsonObject.optInt(ResponseParams.M);
-                this.coursewareScore = contentJsonObject.optString(ResponseParams.E);
+                this.hasFeedback = contentJsonObject.optInt(ResponseParameters.M);
+                this.coursewareScore = contentJsonObject.optString(ResponseParameters.E);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

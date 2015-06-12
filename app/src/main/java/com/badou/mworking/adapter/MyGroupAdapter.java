@@ -301,7 +301,7 @@ public class MyGroupAdapter extends BaseAdapter {
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(mContext, ChatterDetailActivity.class);
-            intent.putExtra(ChatterDetailActivity.VALUE_QUESTION, question);
+            intent.putExtra(ChatterDetailActivity.KEY_CHATTER, question);
             mContext.startActivity(intent);
         }
     }

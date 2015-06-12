@@ -8,6 +8,7 @@
     android:paddingRight="@dimen/offset_less">
 
     <View
+        android:id="@+id/view_adapter_comment_divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/color_border_grey" />
@@ -64,7 +65,17 @@
                     android:id="@+id/tv_adapter_comment_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:textColor="@color/color_text_grey"
+                    android:textSize="@dimen/text_size_small" />
+
+                <org.holoeverywhere.widget.TextView
+                    android:id="@+id/tv_adapter_comment_delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/offset_less"
+                    android:text="@string/operation_delete"
+                    android:textColor="@color/color_blue"
                     android:textSize="@dimen/text_size_small" />
             </org.holoeverywhere.widget.LinearLayout>
         </org.holoeverywhere.widget.LinearLayout>

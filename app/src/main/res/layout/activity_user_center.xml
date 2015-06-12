@@ -18,9 +18,10 @@
             android:id="@+id/iv_user_center_top_head"
             android:layout_width="@dimen/user_center_image_head_size"
             android:layout_height="@dimen/user_center_image_head_size"
+            android:layout_below="@+id/iv_user_center_top_back"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/offset_xlarge"
-            android:scaleType="centerInside"
+            android:layout_marginTop="@dimen/offset_less"
+            android:scaleType="fitXY"
             android:src="@drawable/icon_user_detail_default_head" />
 
         <org.holoeverywhere.widget.TextView

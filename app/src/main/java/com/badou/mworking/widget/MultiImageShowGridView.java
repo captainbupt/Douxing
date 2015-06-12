@@ -16,6 +16,7 @@ import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
 
 import org.holoeverywhere.widget.GridView;
+import org.holoeverywhere.widget.LinearLayout;
 
 import java.util.List;
 
@@ -34,21 +35,33 @@ public class MultiImageShowGridView extends GridView {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(context, PhotoActivity.class);
-                intent.putExtra(PhotoActivity.MODE_PICZOMM, mAdapter.getItemId(i));
+                intent.putExtra(PhotoActivity.MODE_PICZOMM, (String) mAdapter.getItem(i));
                 context.startActivity(intent);
             }
         });
+        setVerticalSpacing(getResources().getDimensionPixelSize(R.dimen.offset_less));
     }
 
     @Override
     public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-
         int expandSpec = MeasureSpec.makeMeasureSpec(
                 Integer.MAX_VALUE >> 2, MeasureSpec.AT_MOST);
         super.onMeasure(widthMeasureSpec, expandSpec);
     }
 
     public void setList(List<Object> imgUrlList) {
+        LinearLayout.LayoutParams layoutParams;
+        if (imgUrlList != null) {
+            int paddingSide = getPaddingLeft();
+            int size = getResources().getDimensionPixelSize(R.dimen.image_size_content);
+            int paddingVertical = getResources().getDimensionPixelOffset(R.dimen.offset_medium);
+            int column = Math.min(3, imgUrlList.size());
+            setNumColumns(column);
+            layoutParams = new LinearLayout.LayoutParams(2 * paddingSide + size * column + paddingVertical * (column - 1), LinearLayout.LayoutParams.WRAP_CONTENT);
+        } else {
+            layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        }
+        setLayoutParams(layoutParams);
         mAdapter.setList(imgUrlList);
     }
 
@@ -66,6 +79,7 @@ public class MultiImageShowGridView extends GridView {
             if (view == null) {
                 view = new ImageView(mContext);
                 view.setLayoutParams(new AbsListView.LayoutParams(size, size));
+                ((ImageView) view).setScaleType(ImageView.ScaleType.CENTER_CROP);
             }
             ImageViewLoader.setSquareImageViewResource(mContext, (ImageView) view, imgUrl, size);
             return view;

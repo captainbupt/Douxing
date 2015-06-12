@@ -33,12 +33,16 @@ public class TopFadeScrollView extends ScrollView {
         mTopView = findViewById(id);
     }
 
-    Handler handler = new Handler() {
+    Handler handler = new Handler();
+
+    StopDetectRunnable runnable = new StopDetectRunnable();
+
+    class StopDetectRunnable implements Runnable {
+
+        public int lastY;
 
         @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            int lastY = msg.what;
+        public void run() {
             if (lastY == getScrollY()) {
                 //停止了
                 int animTime = 100;
@@ -48,19 +52,8 @@ public class TopFadeScrollView extends ScrollView {
                 } else {
                     post(new AutoScrollRunnable(animTime, height, 0));
                 }
-            } else {
-                handler.sendMessageDelayed(handler.obtainMessage(getScrollY()), 10);
             }
         }
-    };
-
-    @Override
-    public boolean onTouchEvent(MotionEvent ev) {
-
-        if (ev.getAction() == MotionEvent.ACTION_UP) {
-            handler.sendMessageDelayed(handler.obtainMessage(getScrollY()), 10);
-        }
-        return super.onTouchEvent(ev);
     }
 
     class AutoScrollRunnable implements Runnable {
@@ -107,6 +100,9 @@ public class TopFadeScrollView extends ScrollView {
             ViewHelper.setY(mTopView, t / 2);
             ViewHelper.setAlpha(mTopView, newRatio);
         }
+        handler.removeCallbacks(runnable);
+        runnable.lastY = t;
+        handler.postDelayed(runnable, 100);
         super.onScrollChanged(l, t, oldl, oldt);
     }
 }

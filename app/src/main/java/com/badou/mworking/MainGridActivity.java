@@ -29,7 +29,7 @@ import com.badou.mworking.model.MainBanner;
 import com.badou.mworking.model.MainIcon;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.RequestParameters;
-import com.badou.mworking.net.ResponseParams;
+import com.badou.mworking.net.ResponseParameters;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.bitmap.BitmapLruCache;
 import com.badou.mworking.net.bitmap.IconLoadListener;
@@ -39,6 +39,7 @@ import com.badou.mworking.util.AlarmUtil;
 import com.badou.mworking.util.AppManager;
 import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.SP;
+import com.badou.mworking.util.SPUtil;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.BannerGallery;
 import com.badou.mworking.widget.TopFadeScrollView;
@@ -100,10 +101,10 @@ public class MainGridActivity extends BaseNoTitleActivity {
         initData();
         initJPush();
         int isNewUser;
-        isNewUser = SP.getIntSP(mContext, SP.DEFAULTCACHE, ResponseParams.EXPER_IS_NEW_USER, 0);
+        isNewUser = SP.getIntSP(mContext, SP.DEFAULTCACHE, ResponseParameters.EXPER_IS_NEW_USER, 0);
         if (1 == isNewUser) {
             new AlertDialog.Builder(MainGridActivity.this).setTitle("欢迎回来!").setMessage(getResources().getString(R.string.main_tips_olduser)).setPositiveButton("确定", null).show();
-            SP.putIntSP(mContext, SP.DEFAULTCACHE, ResponseParams.EXPER_IS_NEW_USER, 0);
+            SP.putIntSP(mContext, SP.DEFAULTCACHE, ResponseParameters.EXPER_IS_NEW_USER, 0);
         }
 
         // 调用缓存中的企业logoUrl图片，这样断网的情况也会显示出来了，如果本地没有的话，网络获取
@@ -120,8 +121,7 @@ public class MainGridActivity extends BaseNoTitleActivity {
 
         JPushInterface.init(getApplicationContext());
         //push 推送默认开启，如果用户关闭掉推送的话，在这里停掉推送
-        Boolean isOpenPush = SP.getBooleanSP(this, SP.DEFAULTCACHE, Constant.PUSH_NOTIFICATIONS, true);
-        if (!isOpenPush) {
+        if (!SPUtil.getPushOption(mContext)) {
             JPushInterface.stopPush(getApplicationContext());
         }
     }
@@ -365,7 +365,7 @@ public class MainGridActivity extends BaseNoTitleActivity {
                     if (jSONObject != null) {
                         String logoUrl = jSONObject
                                 .optString(MainBanner.CHK_URL);
-                        SP.putSP(MainGridActivity.this, SP.DEFAULTCACHE, "logoUrl", logoUrl);
+                        SP.putStringSP(MainGridActivity.this, SP.DEFAULTCACHE, "logoUrl", logoUrl);
                         initCompanyLog(logoUrl);
                     }
 
@@ -402,12 +402,12 @@ public class MainGridActivity extends BaseNoTitleActivity {
     private void apkUpdate(JSONObject dataJson) {
         JSONObject newVerjson = dataJson
                 .optJSONObject(RequestParameters.CHK_UPDATA_PIC_NEWVER);
-        boolean hasNew = newVerjson.optInt(ResponseParams.CHECKUPDATE_NEW) == 1;
+        boolean hasNew = newVerjson.optInt(ResponseParameters.CHECKUPDATE_NEW) == 1;
         if (hasNew) {
             final String info = newVerjson
-                    .optString(ResponseParams.CHECKUPDATE_INFO);
+                    .optString(ResponseParameters.CHECKUPDATE_INFO);
             final String url = newVerjson
-                    .optString(ResponseParams.CHECKUPDATE_URL);
+                    .optString(ResponseParameters.CHECKUPDATE_URL);
             new AlertDialog.Builder(mContext)
                     .setTitle(R.string.main_tips_update_title)
                     .setMessage(info)

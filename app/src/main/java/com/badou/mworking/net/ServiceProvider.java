@@ -67,7 +67,6 @@ public class ServiceProvider {
      */
     public static void doLogin(Context context, String username,
                                String password, JSONObject LocationJson, VolleyListener volleyListener) {
-        volleyListener.onStart();
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put(RequestParameters.SERIAL, username);
@@ -137,7 +136,6 @@ public class ServiceProvider {
      * @param volleyListener
      */
     public static void Isexperience(Context context, String phoneNum, String vcode, String company, String office, VolleyListener volleyListener) {
-        volleyListener.onStart();
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put(RequestParameters.cp_USER_PHONE, phoneNum);
@@ -271,8 +269,8 @@ public class ServiceProvider {
      * @param content
      * @param volleyListener
      */
-    public static void doReplayComment(Context context, String rid, String whom,
-                                       String content, VolleyListener volleyListener) {
+    public static void doReplyComment(Context context, String rid, String whom,
+                                      String content, VolleyListener volleyListener) {
         String uid = ((AppApplication) context.getApplicationContext())
                 .getUserInfo().userId;
         MyVolley.getRequestQueue().add(
@@ -287,10 +285,7 @@ public class ServiceProvider {
         String uid = ((AppApplication) context.getApplicationContext())
                 .getUserInfo().userId;
         try {
-            if (jsonObject != null) {
-//				jsonObject.put(RequestParams.CHK_UPDATA_BANNER, "");
-//				jsonObject.put(RequestParams.CHK_UPDATA_PIC_NEWVER, "");
-            } else {
+            if (jsonObject == null) {
                 jsonObject = new JSONObject();
                 jsonObject.put(RequestParameters.CHK_UPDATA_PIC_COMPANY_LOGO, "");
                 jsonObject.put(RequestParameters.CHK_UPDATA_PIC_NEWVER, "");
@@ -683,6 +678,43 @@ public class ServiceProvider {
             String url = Net.getRunHost(context) + Net.QUESTION_GET_TOPIC(uid, topic, page_no, item_per_page);
             MyVolley.getRequestQueue().add(new JsonObjectRequest(Request.Method.GET, url, null, volleyListener, volleyListener));
         }
+    }
+
+    /**
+     * 获取最新问题／分享的列表
+     */
+    public static void doGetChatterHot(Context context, int page_no, int item_per_page, VolleyListener volleyListener) {
+        String uid = ((AppApplication) context.getApplicationContext())
+                .getUserInfo().userId;
+        String url = Net.getRunHost(context) + Net.QUESTION_GET_HOT(uid, page_no, item_per_page);
+        MyVolley.getRequestQueue().add(
+                new JsonObjectRequest(Request.Method.POST, url, null,
+                        volleyListener, volleyListener));
+    }
+
+    /**
+     * 获取某一特定用户的同事圈列表
+     */
+    public static void doGetUserChatterList(Context context, String type, String uid, int page_no, int item_per_page, VolleyListener volleyListener) {
+        String selfuid = ((AppApplication) context.getApplicationContext())
+                .getUserInfo().userId;
+        // 正常查询页面
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_UID, uid);
+            jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_TYPE, type);
+            jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_PAGE_NO,
+                    page_no);
+            jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_ITEM_PER_PAGE,
+                    item_per_page);
+            jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_SELF_UID, selfuid);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String url = Net.getRunHost(context) + Net.QUESTION_GET_USER;
+        MyVolley.getRequestQueue().add(
+                new JsonObjectRequest(Request.Method.POST, url, jsonObject,
+                        volleyListener, volleyListener));
     }
 
     /**

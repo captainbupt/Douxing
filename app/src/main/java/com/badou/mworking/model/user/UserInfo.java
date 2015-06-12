@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 
-import com.badou.mworking.net.ResponseParams;
+import com.badou.mworking.net.ResponseParameters;
 import com.badou.mworking.util.SP;
 
 import org.json.JSONException;
@@ -33,17 +33,17 @@ public class UserInfo {
         SharedPreferences sp = mContext.getSharedPreferences(SP.DEFAULTCACHE,
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
-        editor.putString(ResponseParams.USER_ACCOUNT, account);
-        editor.putString(ResponseParams.USER_ID, userId);
-        editor.putInt(ResponseParams.USER_ACCESS, access);
-        editor.putString(ResponseParams.USER_TAG, tag);
-        editor.putString(ResponseParams.USER_NAME, name);
-        editor.putString(ResponseParams.USER_DESCRIPTION, description);
-        editor.putBoolean(ResponseParams.USER_ADMIN, isAdmin);
-        editor.putString(ResponseParams.USER_SHUFFLE, shuffleStr.toString());
-        editor.putString(ResponseParams.USER_LANGUAGE, language);
-        editor.putString(ResponseParams.USER_COMPANY, company);
-        editor.putString(ResponseParams.USER_HOST, host);
+        editor.putString(ResponseParameters.USER_ACCOUNT, account);
+        editor.putString(ResponseParameters.USER_ID, userId);
+        editor.putInt(ResponseParameters.USER_ACCESS, access);
+        editor.putString(ResponseParameters.USER_TAG, tag);
+        editor.putString(ResponseParameters.USER_NAME, name);
+        editor.putString(ResponseParameters.USER_DESCRIPTION, description);
+        editor.putBoolean(ResponseParameters.USER_ADMIN, isAdmin);
+        editor.putString(ResponseParameters.USER_SHUFFLE, shuffleStr.toString());
+        editor.putString(ResponseParameters.USER_LANGUAGE, language);
+        editor.putString(ResponseParameters.USER_COMPANY, company);
+        editor.putString(ResponseParameters.USER_HOST, host);
         editor.commit();
     }
 
@@ -51,22 +51,22 @@ public class UserInfo {
         SharedPreferences sp = mContext.getSharedPreferences(SP.DEFAULTCACHE,
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
-        editor.remove(ResponseParams.USER_ID);
-        editor.remove(ResponseParams.USER_ACCESS);
-        editor.remove(ResponseParams.USER_TAG);
-        editor.remove(ResponseParams.USER_NAME);
-        editor.remove(ResponseParams.USER_DESCRIPTION);
-        editor.remove(ResponseParams.USER_ADMIN);
-        editor.remove(ResponseParams.USER_SHUFFLE);
-        editor.remove(ResponseParams.USER_LANGUAGE);
-        editor.remove(ResponseParams.USER_COMPANY);
-        editor.remove(ResponseParams.USER_HOST);
+        editor.remove(ResponseParameters.USER_ID);
+        editor.remove(ResponseParameters.USER_ACCESS);
+        editor.remove(ResponseParameters.USER_TAG);
+        editor.remove(ResponseParameters.USER_NAME);
+        editor.remove(ResponseParameters.USER_DESCRIPTION);
+        editor.remove(ResponseParameters.USER_ADMIN);
+        editor.remove(ResponseParameters.USER_SHUFFLE);
+        editor.remove(ResponseParameters.USER_LANGUAGE);
+        editor.remove(ResponseParameters.USER_COMPANY);
+        editor.remove(ResponseParameters.USER_HOST);
         editor.commit();
     }
 
     public static UserInfo getUserInfo(Context mContext) {
-        String userId = SP.getStringSP(mContext, SP.DEFAULTCACHE, ResponseParams.USER_ID, "");
-        String account = SP.getStringSP(mContext, SP.DEFAULTCACHE, ResponseParams.USER_ACCOUNT, "");
+        String userId = SP.getStringSP(mContext, SP.DEFAULTCACHE, ResponseParameters.USER_ID, "");
+        String account = SP.getStringSP(mContext, SP.DEFAULTCACHE, ResponseParameters.USER_ACCOUNT, "");
         if (TextUtils.isEmpty(userId) || TextUtils.isEmpty(account)) {
             return null;
         }
@@ -75,35 +75,35 @@ public class UserInfo {
         UserInfo userInfo = new UserInfo();
         userInfo.account = account;
         userInfo.userId = userId;
-        userInfo.access = sp.getInt(ResponseParams.USER_ACCESS, 0);
-        userInfo.tag = sp.getString(ResponseParams.USER_TAG, "");
-        userInfo.name = sp.getString(ResponseParams.USER_NAME, "");
-        userInfo.description = sp.getString(ResponseParams.USER_DESCRIPTION, "");
-        userInfo.isAdmin = sp.getBoolean(ResponseParams.USER_ADMIN, false);
+        userInfo.access = sp.getInt(ResponseParameters.USER_ACCESS, 0);
+        userInfo.tag = sp.getString(ResponseParameters.USER_TAG, "");
+        userInfo.name = sp.getString(ResponseParameters.USER_NAME, "");
+        userInfo.description = sp.getString(ResponseParameters.USER_DESCRIPTION, "");
+        userInfo.isAdmin = sp.getBoolean(ResponseParameters.USER_ADMIN, false);
         try {
-            userInfo.shuffleStr = new JSONObject(sp.getString(ResponseParams.USER_SHUFFLE, ""));
+            userInfo.shuffleStr = new JSONObject(sp.getString(ResponseParameters.USER_SHUFFLE, ""));
         } catch (JSONException e) {
             userInfo.shuffleStr = new JSONObject();
         }
-        userInfo.language = sp.getString(ResponseParams.USER_LANGUAGE, "");
-        userInfo.company = sp.getString(ResponseParams.USER_COMPANY, "");
-        userInfo.host = sp.getString(ResponseParams.USER_HOST, "");
+        userInfo.language = sp.getString(ResponseParameters.USER_LANGUAGE, "");
+        userInfo.company = sp.getString(ResponseParameters.USER_COMPANY, "");
+        userInfo.host = sp.getString(ResponseParameters.USER_HOST, "");
         return userInfo;
     }
 
     public void setUserInfo(String account, JSONObject jsonObject) {
         this.account = account;
         if (jsonObject != null) {
-            this.userId = jsonObject.optString(ResponseParams.USER_ID);
-            this.access = jsonObject.optInt(ResponseParams.USER_ACCESS);
-            this.tag = jsonObject.optString(ResponseParams.USER_TAG);
-            this.name = jsonObject.optString(ResponseParams.USER_NAME);
-            this.description = jsonObject.optString(ResponseParams.USER_DESCRIPTION);
-            this.isAdmin = jsonObject.optInt(ResponseParams.USER_ADMIN) == 1 ? true : false;
-            this.shuffleStr = jsonObject.optJSONObject(ResponseParams.USER_SHUFFLE);
-            this.language = jsonObject.optString(ResponseParams.USER_LANGUAGE);
-            this.company = jsonObject.optString(ResponseParams.USER_COMPANY);
-            this.host = jsonObject.optString(ResponseParams.USER_HOST);
+            this.userId = jsonObject.optString(ResponseParameters.USER_ID);
+            this.access = jsonObject.optInt(ResponseParameters.USER_ACCESS);
+            this.tag = jsonObject.optString(ResponseParameters.USER_TAG);
+            this.name = jsonObject.optString(ResponseParameters.USER_NAME);
+            this.description = jsonObject.optString(ResponseParameters.USER_DESCRIPTION);
+            this.isAdmin = jsonObject.optInt(ResponseParameters.USER_ADMIN) == 1 ? true : false;
+            this.shuffleStr = jsonObject.optJSONObject(ResponseParameters.USER_SHUFFLE);
+            this.language = jsonObject.optString(ResponseParameters.USER_LANGUAGE);
+            this.company = jsonObject.optString(ResponseParameters.USER_COMPANY);
+            this.host = jsonObject.optString(ResponseParameters.USER_HOST);
         }
     }
 }

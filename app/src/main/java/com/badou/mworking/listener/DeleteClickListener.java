@@ -13,15 +13,16 @@ import com.badou.mworking.R;
 public class DeleteClickListener implements View.OnClickListener {
 
     private Context mContext;
-    public DialogInterface.OnClickListener onPositiveClickListener;
+    public DialogInterface.OnClickListener mOnPositiveClickListener;
 
-    public DeleteClickListener(Context context) {
+    public DeleteClickListener(Context context, DialogInterface.OnClickListener onPositiveClickListener) {
         this.mContext = context;
+        this.mOnPositiveClickListener = onPositiveClickListener;
     }
 
     @Override
     public void onClick(View view) {
         new AlertDialog.Builder(mContext).setTitle(R.string.tip_delete_confirmation)
-                .setPositiveButton(R.string.text_ok, onPositiveClickListener).setNegativeButton(R.string.text_cancel, null).show();
+                .setPositiveButton(R.string.text_ok, mOnPositiveClickListener).setNegativeButton(R.string.text_cancel, null).show();
     }
 }

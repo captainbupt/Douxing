@@ -2,7 +2,7 @@ package com.badou.mworking.model.category;
 
 import android.text.TextUtils;
 
-import com.badou.mworking.net.ResponseParams;
+import com.badou.mworking.net.ResponseParameters;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,19 +35,19 @@ public class Exam extends Category {
         } else {
             this.subtype = Constant.MWKG_FORAMT_TYPE_XML;
         }*/
-        this.offline = jsonObject.optInt(ResponseParams.EXAM_OFFLINE);
-        this.credit = jsonObject.optString(ResponseParams.EXAM_CREDIT);
-        this.pass = jsonObject.optInt(ResponseParams.EXAM_PASS);
+        this.offline = jsonObject.optInt(ResponseParameters.EXAM_OFFLINE);
+        this.credit = jsonObject.optString(ResponseParameters.EXAM_CREDIT);
+        this.pass = jsonObject.optInt(ResponseParameters.EXAM_PASS);
 
         // 直接optJSONObject只会返回null
-        String strContent = jsonObject.optString(ResponseParams.EXAM_CONTENT);
+        String strContent = jsonObject.optString(ResponseParameters.EXAM_CONTENT);
         if (!TextUtils.isEmpty(strContent)) {
             try {
                 JSONObject examContent = null;
                 examContent = new JSONObject(strContent);
-                this.score = examContent.optInt(ResponseParams.EXAM_CONTENT_SCORE);
-                this.total = examContent.optInt(ResponseParams.EXAM_CONTENT_TOTAL);
-                this.isGraded = examContent.optInt(ResponseParams.EXAM_CONTENT_GRADED) == GRADED_FINISH;
+                this.score = examContent.optInt(ResponseParameters.EXAM_CONTENT_SCORE);
+                this.total = examContent.optInt(ResponseParameters.EXAM_CONTENT_TOTAL);
+                this.isGraded = examContent.optInt(ResponseParameters.EXAM_CONTENT_GRADED) == GRADED_FINISH;
             } catch (JSONException e) {
                 e.printStackTrace();
             }

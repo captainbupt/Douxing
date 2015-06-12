@@ -21,7 +21,7 @@ import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.model.user.UserInfo;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.RequestParameters;
-import com.badou.mworking.net.ResponseParams;
+import com.badou.mworking.net.ResponseParameters;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.ResponseError;
 import com.badou.mworking.net.volley.VolleyListener;
@@ -146,7 +146,7 @@ public class LoginActivity extends BaseNoTitleActivity implements
     }
 
     protected void initData() {
-        mUsernameEditText.setText(SP.getStringSP(mContext, SP.DEFAULTCACHE, ResponseParams.USER_ACCOUNT, ""));
+        mUsernameEditText.setText(SP.getStringSP(mContext, SP.DEFAULTCACHE, ResponseParameters.USER_ACCOUNT, ""));
     }
 
     /**
@@ -157,10 +157,6 @@ public class LoginActivity extends BaseNoTitleActivity implements
         // 发起网络请求
         ServiceProvider.doLogin(mContext, account, password, localtion,
                 new VolleyListener(mContext) {
-                    @Override
-                    public void onStart() {
-
-                    }
 
                     @Override
                     public void onResponse(Object responseObject) {

@@ -31,40 +31,33 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/offset_small"
-                android:gravity="bottom"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <org.holoeverywhere.widget.TextView
                     android:id="@+id/tv_adapter_chatter_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:textColor="@color/color_text_grey"
                     android:textSize="@dimen/text_size_medium" />
 
                 <org.holoeverywhere.widget.TextView
-                    android:id="@+id/tv_adapter_chatter_time"
+                    android:id="@+id/tv_adapter_chatter_level"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/color_text_grey"
-                    android:textSize="@dimen/text_size_less" />
+                    android:layout_marginLeft="@dimen/offset_small"
+                    android:background="@drawable/background_lv_fir"
+                    android:paddingBottom="1dp"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:paddingTop="1dp"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/text_size_small" />
             </org.holoeverywhere.widget.LinearLayout>
 
             <org.holoeverywhere.widget.TextView
-                android:id="@+id/tv_adapter_chatter_level"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/background_lv_fir"
-                android:paddingBottom="1dp"
-                android:paddingLeft="2dp"
-                android:paddingRight="2dp"
-                android:paddingTop="1dp"
-                android:textColor="#ffffff"
-                android:textSize="@dimen/text_size_small" />
-
-            <org.holoeverywhere.widget.TextView
                 android:id="@+id/tv_adapter_chatter_content"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/offset_small"
                 android:lineSpacingExtra="@dimen/offset_small"
@@ -81,10 +74,7 @@
                 android:id="@+id/misgv_adapter_chatter_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/offset_small"
-                android:horizontalSpacing="@dimen/offset_less"
-                android:numColumns="3"
-                android:verticalSpacing="@dimen/offset_less" />
+                android:layout_marginTop="@dimen/offset_small" />
 
             <org.holoeverywhere.widget.TextView
                 android:id="@+id/tv_adapter_chatter_save_internet"
@@ -100,8 +90,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/offset_small"
-                android:gravity="right|center_vertical"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
+
+                <org.holoeverywhere.widget.TextView
+                    android:id="@+id/tv_adapter_chatter_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/color_text_grey"
+                    android:textSize="@dimen/text_size_less" />
 
                 <CheckBox
                     android:id="@+id/cb_adapter_chatter_praise"
@@ -126,7 +124,7 @@
                     android:layout_width="@dimen/around_icon_reply_width"
                     android:layout_height="@dimen/around_icon_reply_height"
                     android:layout_marginLeft="@dimen/offset_less"
-                    android:background="@drawable/pinglun"
+                    android:background="@drawable/icon_comment"
                     android:scaleType="centerInside" />
 
                 <org.holoeverywhere.widget.TextView

@@ -5,7 +5,7 @@ import android.text.TextUtils;
 
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.net.Net;
-import com.badou.mworking.net.ResponseParams;
+import com.badou.mworking.net.ResponseParameters;
 import com.badou.mworking.util.Constant;
 
 import org.json.JSONException;
@@ -28,10 +28,11 @@ public class CategoryDetail {
     public int format;
     public int rating;
     public int sign;
+    public String categoryName;
 
     public Task task;
 
-    public CategoryDetail(Context context, JSONObject jsonObject, int type, String rid, String subject) {
+    public CategoryDetail(Context context, JSONObject jsonObject, int type, String rid, String subject, String categoryName) {
         this(context, jsonObject);
         this.type = type;
         this.rid = rid;
@@ -40,26 +41,27 @@ public class CategoryDetail {
             String uid = ((AppApplication) context.getApplicationContext()).getUserInfo().userId;
             this.url = Net.getRunHost(context) + Net.EXAM_ITEM(uid, rid);
         }
+        this.categoryName = categoryName;
     }
 
     public CategoryDetail(Context context, JSONObject jsonObject) {
-        this.tagName = jsonObject.optString(ResponseParams.RESOURCE_TAG_NAME);
-        this.commentNum = jsonObject.optInt(ResponseParams.RESOURCE_COMMENT_NUMBER);
-        this.ratingNum = jsonObject.optInt(ResponseParams.RESOURCE_RATING_NUMBER);
-        this.ratingTotal = jsonObject.optInt(ResponseParams.RESOURCE_RATING_TOTAL);
-        this.url = jsonObject.optString(ResponseParams.RESOURCE_URL);
-        this.format = jsonObject.optInt(ResponseParams.RESOURCE_FORMAT);
-        String contentString = jsonObject.optString(ResponseParams.RESOURCE_CONTENT);
+        this.tagName = jsonObject.optString(ResponseParameters.RESOURCE_TAG_NAME);
+        this.commentNum = jsonObject.optInt(ResponseParameters.RESOURCE_COMMENT_NUMBER);
+        this.ratingNum = jsonObject.optInt(ResponseParameters.RESOURCE_RATING_NUMBER);
+        this.ratingTotal = jsonObject.optInt(ResponseParameters.RESOURCE_RATING_TOTAL);
+        this.url = jsonObject.optString(ResponseParameters.RESOURCE_URL);
+        this.format = jsonObject.optInt(ResponseParameters.RESOURCE_FORMAT);
+        String contentString = jsonObject.optString(ResponseParameters.RESOURCE_CONTENT);
         if (!TextUtils.isEmpty(contentString)) {
             try {
                 JSONObject contentObject = new JSONObject(contentString);
-                rating = contentObject.optInt(ResponseParams.RESOURCE_CONTENT_RATING);
-                sign = contentObject.optInt(ResponseParams.RESOURCE_CONTENT_SIGNING);
+                rating = contentObject.optInt(ResponseParameters.RESOURCE_CONTENT_RATING);
+                sign = contentObject.optInt(ResponseParameters.RESOURCE_CONTENT_SIGNING);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
-        String taskString = jsonObject.optString(ResponseParams.RESOURCE_TASK);
+        String taskString = jsonObject.optString(ResponseParameters.RESOURCE_TASK);
         if (!TextUtils.isEmpty(taskString)) {
             try {
                 task = new Task(new JSONObject(taskString));
@@ -85,5 +87,6 @@ public class CategoryDetail {
         if (category.getCategoryType() == Category.CATEGORY_TASK) {
             task = (Task) category;
         }
+        this.categoryName = category.getCategoryName(context);
     }
 }

@@ -12,7 +12,7 @@ import com.android.volley.VolleyError;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.net.Net;
-import com.badou.mworking.net.ResponseParams;
+import com.badou.mworking.net.ResponseParameters;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.ImageChooser;
@@ -113,7 +113,7 @@ public class AskAnswerSubmitActivity extends BaseBackActionBarActivity {
                             mProgressDialog.dismiss();
                         JSONObject jObject = (JSONObject) arg0;
                         int errcode = jObject
-                                .optInt(ResponseParams.QUESTION_ERRCODE);
+                                .optInt(ResponseParameters.QUESTION_ERRCODE);
                         if (errcode == Net.LOGOUT) {
                             AppApplication.logoutShow(mContext);
                             return;

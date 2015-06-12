@@ -1,20 +1,29 @@
 package com.badou.mworking.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
+import android.content.DialogInterface;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
+import com.android.volley.VolleyError;
 import com.badou.mworking.R;
+import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.MyBaseAdapter;
-import com.badou.mworking.model.Chatter;
-import com.badou.mworking.net.bitmap.BitmapLruCache;
-import com.badou.mworking.net.bitmap.CircleImageListener;
-import com.badou.mworking.net.volley.MyVolley;
+import com.badou.mworking.listener.DeleteClickListener;
+import com.badou.mworking.model.Comment;
+import com.badou.mworking.net.Net;
+import com.badou.mworking.net.ServiceProvider;
+import com.badou.mworking.net.bitmap.ImageViewLoader;
+import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.TimeTransfer;
+import com.badou.mworking.util.ToastUtil;
+import com.badou.mworking.widget.WaitProgressDialog;
+
+import org.holoeverywhere.app.Activity;
+import org.holoeverywhere.widget.TextView;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -24,9 +33,22 @@ import java.util.List;
 public class CommentAdapter extends MyBaseAdapter {
 
     private int mAllCount = 0;
+    private String mQid;
+    private int mType;
+    private boolean mDeletable;
+    private WaitProgressDialog mProgressDialog;
 
     public CommentAdapter(Context context) {
         super(context);
+        mType = Comment.TYPE_COMMENT;
+    }
+
+    public CommentAdapter(Context context, String qid, boolean deletable, WaitProgressDialog progressDialog) {
+        super(context);
+        mQid = qid;
+        mType = Comment.TYPE_CHATTER;
+        mProgressDialog = progressDialog;
+        mDeletable = deletable;
     }
 
     public void setList(List<Object> list, int AllCount) {
@@ -41,6 +63,10 @@ public class CommentAdapter extends MyBaseAdapter {
         notifyDataSetChanged();
     }
 
+    public int getAllCount() {
+        return mAllCount;
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
@@ -53,65 +79,54 @@ public class CommentAdapter extends MyBaseAdapter {
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         }
-        Chatter Question = (Chatter) mItemList.get(position);
+        Comment comment = (Comment) mItemList.get(position);
         /*获取员工号*/
-        String name = Question.name;
+        String name = comment.name;
         if (!TextUtils.isEmpty(name)) {
             holder.mNameTextView.setText(name);
         }
         /*获取评论内容*/
-        String content = Question.content;
+        String content = comment.content;
         if (!TextUtils.isEmpty(content)) {
             holder.mContentTextView.setText(content);
         }
         /*获取评论时间*/
-        String pubTime = TimeTransfer.long2StringDetailDate(mContext, Question
-                .publishTime);
+        String pubTime = TimeTransfer.long2StringDetailDate(mContext, comment
+                .time);
         holder.mDateTextView.setText(pubTime);
 
         /**设置头像**/
-        int size = mContext.getResources().getDimensionPixelSize(
-                R.dimen.icon_head_size_middle);
-        Bitmap headBmp = BitmapLruCache.getBitmapLruCache().getCircleBitmap(
-                Question.imgUrl);
-        if (headBmp != null && !headBmp.isRecycled()) {
-            holder.mHeadImageView.setImageBitmap(headBmp);
-        } else {
-            MyVolley.getImageLoader().get(
-                    Question.imgUrl,
-                    new CircleImageListener(mContext, Question.imgUrl, holder.mHeadImageView, size,
-                            size), size, size);
-
-        }
-
-        Bitmap contentBmp = null;
-        if (Question.imgUrl != null) {
-            contentBmp = BitmapLruCache.getBitmapLruCache().get(
-                    Question.imgUrl);
-        }
-        if (contentBmp != null && contentBmp.isRecycled()) {
-            holder.mContentPicImageView.setImageBitmap(contentBmp);
-        } else {
-
-        }
+        ImageViewLoader.setCircleImageViewResource(mContext, holder.mHeadImageView, comment.imgUrl,
+                mContext.getResources().getDimensionPixelSize(R.dimen.icon_head_size_middle));
 
 		/*设置楼数*/
         int floorNum = mAllCount - position;
         holder.mFloorNumTextView.setText(floorNum + mContext.getResources().getString(R.string.floor_num) + "   ·");
-
+        if (position == 0) {
+            holder.mDividerView.setVisibility(View.GONE);
+        } else {
+            holder.mDividerView.setVisibility(View.VISIBLE);
+        }
+        if (mType == Comment.TYPE_CHATTER && (mDeletable || comment.name.equals("我"))) {
+            holder.mDeleteTextView.setVisibility(View.VISIBLE);
+            holder.mDeleteConfirmListener.floor = floorNum;
+        } else {
+            holder.mDeleteTextView.setVisibility(View.GONE);
+        }
         return convertView;
     }
 
-    static class ViewHolder {
+    class ViewHolder {
         ImageView mHeadImageView;
-        ImageView mContentPicImageView;
         TextView mNameTextView;
         TextView mContentTextView;
         TextView mDateTextView;
         TextView mFloorNumTextView;
+        TextView mDeleteTextView;
+        View mDividerView;
+        DeleteConfirmListener mDeleteConfirmListener;
 
         public ViewHolder(View view) {
-            mContentPicImageView = (ImageView) view.findViewById(R.id.imgQuestionShare);
             mHeadImageView = (ImageView) view
                     .findViewById(R.id.iv_adapter_comment_head);
             mNameTextView = (TextView) view
@@ -121,6 +136,62 @@ public class CommentAdapter extends MyBaseAdapter {
             mDateTextView = (TextView) view
                     .findViewById(R.id.tv_adapter_comment_date);
             mFloorNumTextView = (TextView) view.findViewById(R.id.tv_adapter_comment_floor);
+            mDividerView = view.findViewById(R.id.view_adapter_comment_divider);
+            mDeleteTextView = (TextView) view.findViewById(R.id.tv_adapter_comment_delete);
+            mDeleteConfirmListener = new DeleteConfirmListener();
+            if (mType == Comment.TYPE_CHATTER) {
+                mDeleteTextView.setOnClickListener(new DeleteClickListener(mContext, mDeleteConfirmListener));
+                view.setBackgroundColor(0x00000000);
+                mDeleteTextView.setVisibility(View.VISIBLE);
+            } else {
+                mDeleteTextView.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    class DeleteConfirmListener implements DialogInterface.OnClickListener {
+
+        public int floor;
+
+        @Override
+        public void onClick(DialogInterface dialogInterface, int i) {
+            mProgressDialog.setContent(R.string.progress_tips_delete_ing);
+            ServiceProvider.deleteReplyComment(mContext, mQid, floor,
+                    new VolleyListener(mContext) {
+
+                        @Override
+                        public void onResponse(Object responseObject) {
+                            if (!((Activity) mContext).isFinishing()) {
+                                mProgressDialog.dismiss();
+                            }
+                            JSONObject response = (JSONObject) responseObject;
+                            if (responseObject == null) {
+                                ToastUtil.showNetExc(mContext);
+                                return;
+                            }
+                            int code = response.optInt(Net.CODE);
+                            if (code == Net.LOGOUT) {
+                                AppApplication.logoutShow(mContext);
+                                return;
+                            }
+                            if (Net.SUCCESS != code) {
+                                ToastUtil.showNetExc(mContext);
+                                return;
+                            }
+                            ToastUtil.showToast(mContext, "删除评论成功！");
+                            int position = mAllCount - floor;
+                            mAllCount--;
+                            remove(position);
+                        }
+
+                        @Override
+                        public void onErrorResponse(VolleyError arg0) {
+                            super.onErrorResponse(arg0);
+                            if (!((Activity) mContext).isFinishing()) {
+                                mProgressDialog.dismiss();
+                            }
+                        }
+                    });
         }
     }
 }

@@ -230,6 +230,8 @@
     <string name="chatter_title_hot">达人</string>
     <string name="chatter_submit_topic_hint">#请输入新的话题#</string>
     <string name="chatter_submit_topic_confirm">确认</string>
+    <string name="chatter_user_title_myself">我的圈</string>
+    <string name="chatter_user_title_other">TA的圈</string>
 
 
     <string name="ask_title_right">提问</string>
@@ -255,6 +257,7 @@
     <string name="operation_message">私信</string>
 
     <string name="progress_tips_praise_ing">点赞中，请稍后…</string>
+    <string name="progress_tips_delete_ing">删除中，请稍后…</string>
     <string name="progress_tips_submit_ing">提交中…</string>
     <string name="progress_tips_login_ing">登录中…</string>
 

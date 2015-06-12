@@ -1,6 +1,6 @@
 package com.badou.mworking.model.category;
 
-import com.badou.mworking.net.ResponseParams;
+import com.badou.mworking.net.ResponseParameters;
 
 import org.json.JSONObject;
 
@@ -16,9 +16,9 @@ public class CategoryBasic {
 
     public CategoryBasic(int type, JSONObject jsonObject) {
         this.type = type;
-        subject = jsonObject.optString(ResponseParams.CATEGORY_SUBJECT);
-        rid = jsonObject.optString(ResponseParams.CATEGORY_RID);
-        ts = jsonObject.optLong(ResponseParams.CATEGORY_TIME) * 1000;
-        top = jsonObject.optInt(ResponseParams.CATEGORY_TOP, 0);
+        subject = jsonObject.optString(ResponseParameters.CATEGORY_SUBJECT);
+        rid = jsonObject.optString(ResponseParameters.CATEGORY_RID);
+        ts = jsonObject.optLong(ResponseParameters.CATEGORY_TIME) * 1000;
+        top = jsonObject.optInt(ResponseParameters.CATEGORY_TOP, 0);
     }
 }

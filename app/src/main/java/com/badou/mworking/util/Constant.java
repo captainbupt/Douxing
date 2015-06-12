@@ -54,7 +54,5 @@ public class Constant {
 	
 	public static final String TRAIN_IMG_SHOW = "http://mworking.cn/Uploads/training/";
 	public static final String TRAIN_IMG_FORMAT = ".png";
-	
-	public static final String PUSH_NOTIFICATIONS = "push_notifications";
 
 }

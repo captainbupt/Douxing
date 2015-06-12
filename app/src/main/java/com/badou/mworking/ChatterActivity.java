@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.widget.RadioGroup;
 
 import com.badou.mworking.base.BaseActionBarActivity;
+import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.fragment.ChatterHotFragment;
 import com.badou.mworking.fragment.ChatterListFragment;
 
@@ -22,7 +23,7 @@ import java.util.List;
 /**
  * 功能描述: 同事圈页面
  */
-public class ChatterActivity extends BaseActionBarActivity {
+public class ChatterActivity extends BaseBackActionBarActivity {
 
     private RadioGroup mRadioGroup;
     private RadioButton mChatterRadioButton;
