@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<org.holoeverywhere.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_bg_grey"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
-    <org.holoeverywhere.widget.LinearLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/background_top_dark_blue"
         android:orientation="vertical">
 
-        <org.holoeverywhere.widget.RelativeLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -26,7 +26,7 @@
                 android:scaleType="centerInside"
                 android:src="@drawable/button_title_bar_back_normal" />
 
-            <org.holoeverywhere.widget.TextView
+            <TextView
                 android:id="@+id/tv_user_progress_top_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -34,14 +34,14 @@
                 android:singleLine="true"
                 android:textColor="@color/color_white"
                 android:textSize="@dimen/text_size_title_bar_title" />
-        </org.holoeverywhere.widget.RelativeLayout>
+        </RelativeLayout>
 
-        <org.holoeverywhere.widget.RelativeLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="@dimen/offset_large">
 
-            <org.holoeverywhere.widget.TextView
+            <TextView
                 android:id="@+id/tv_user_progress_top_average"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -52,7 +52,7 @@
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/text_size_medium" />
 
-            <org.holoeverywhere.widget.TextView
+            <TextView
                 android:id="@+id/tv_user_progress_top_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -61,7 +61,7 @@
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/text_user_progress_top_score" />
 
-            <org.holoeverywhere.widget.TextView
+            <TextView
                 android:id="@+id/tv_user_progress_top_rank"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -69,10 +69,10 @@
                 android:layout_centerHorizontal="true"
                 android:textSize="@dimen/text_size_medium" />
 
-        </org.holoeverywhere.widget.RelativeLayout>
-    </org.holoeverywhere.widget.LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
 
-    <org.holoeverywhere.widget.TextView
+    <TextView
         android:id="@+id/tv_user_progress_middle_tip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -92,14 +92,14 @@
         android:dividerPadding="@dimen/offset_small"
         android:scrollbars="none" />
 
-    <org.holoeverywhere.widget.LinearLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/background_border_white"
         android:gravity="center"
         android:padding="@dimen/offset_less">
 
-        <org.holoeverywhere.widget.TextView
+        <TextView
             android:id="@+id/tv_user_progress_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -112,6 +112,6 @@
             android:textColor="@color/color_button_text_red"
             android:textSize="@dimen/text_size_large" />
 
-    </org.holoeverywhere.widget.LinearLayout>
+    </LinearLayout>
 
-</org.holoeverywhere.widget.LinearLayout>
+</LinearLayout>

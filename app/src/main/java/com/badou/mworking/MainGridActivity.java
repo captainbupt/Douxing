@@ -10,9 +10,9 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 
-import org.holoeverywhere.app.AlertDialog;
-import org.holoeverywhere.widget.FrameLayout;
-import org.holoeverywhere.widget.GridView;
+import android.app.AlertDialog;
+import android.widget.FrameLayout;
+import android.widget.GridView;
 
 import android.widget.ImageView;
 import android.widget.RadioGroup;
@@ -44,8 +44,8 @@ import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.BannerGallery;
 import com.badou.mworking.widget.TopFadeScrollView;
 
-import org.holoeverywhere.widget.LinearLayout;
-import org.holoeverywhere.widget.RadioButton;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

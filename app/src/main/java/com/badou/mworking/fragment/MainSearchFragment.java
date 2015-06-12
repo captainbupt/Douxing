@@ -23,6 +23,7 @@ import com.badou.mworking.MainGridActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.adapter.MainSearchAdapter;
 import com.badou.mworking.base.AppApplication;
+import com.badou.mworking.base.BaseFragment;
 import com.badou.mworking.model.category.Category;
 import com.badou.mworking.model.category.CategoryBasic;
 import com.badou.mworking.net.Net;
@@ -35,11 +36,11 @@ import com.badou.mworking.util.ToastUtil;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
-import org.holoeverywhere.app.Activity;
-import org.holoeverywhere.app.Fragment;
-import org.holoeverywhere.widget.EditText;
-import org.holoeverywhere.widget.LinearLayout;
-import org.holoeverywhere.widget.TextView;
+import android.app.Activity;
+import android.app.Fragment;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -49,7 +50,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2015/5/27.
  */
-public class MainSearchFragment extends Fragment {
+public class MainSearchFragment extends BaseFragment {
 
     private static final int COUNT_CATEGORY = 5;
     private static final String[] KEY_LIST = new String[]{"notice", "training", "exam", "task", "shelf"};
@@ -58,8 +59,6 @@ public class MainSearchFragment extends Fragment {
     private static final int[] DEFAULT_CATEGORY_NAME = new int[]{R.string.module_default_title_notice, R.string.module_default_title_training,
             R.string.module_default_title_exam, R.string.module_default_title_task, R.string.module_default_title_shelf};
 
-    private Context mContext;
-    private Activity mActivity;
     private LinearLayout mContainerView;
     private TextView mCancelTextView;
     private EditText mTitleEditView;
@@ -72,9 +71,7 @@ public class MainSearchFragment extends Fragment {
     private Handler mBackgroundHandler;
 
     @Override
-    public View onCreateView(org.holoeverywhere.LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mContext = getActivity();
-        mActivity = (Activity) getActivity();
+    public View onCreateView(android.view.LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mContainerView = (LinearLayout) inflater.inflate(R.layout.fragment_main_search, null);
         initView(mContainerView);
         initListener();

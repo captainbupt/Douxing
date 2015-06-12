@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Douxing.iml" filepath="$PROJECT_DIR$/Douxing.iml" />
-      <module fileurl="file://$PROJECT_DIR$/HoloEverywhere/HoloEverywhere.iml" filepath="$PROJECT_DIR$/HoloEverywhere/HoloEverywhere.iml" />
       <module fileurl="file://$PROJECT_DIR$/Pulltorefresh/Pulltorefresh.iml" filepath="$PROJECT_DIR$/Pulltorefresh/Pulltorefresh.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>

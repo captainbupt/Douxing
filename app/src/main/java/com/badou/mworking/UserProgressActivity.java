@@ -29,7 +29,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
-import org.holoeverywhere.widget.TextView;
+import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<org.holoeverywhere.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_layout_bg"
     android:orientation="vertical">
 
-    <org.holoeverywhere.widget.LinearLayout
+    <LinearLayout
         android:id="@+id/ll_activity_video_player_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <org.holoeverywhere.widget.TextView
+        <TextView
             android:id="@+id/tv_activity_video_player_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -19,7 +19,7 @@
             android:textColor="@color/color_text_black"
             android:textSize="@dimen/text_size_xlarge" />
 
-        <org.holoeverywhere.widget.TextView
+        <TextView
             android:id="@+id/tv_activity_video_player_size"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -34,7 +34,7 @@
             android:layout_height="1dp"
             android:background="@color/color_border_grey" />
 
-        <org.holoeverywhere.widget.TextView
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/offset_small"
@@ -44,9 +44,9 @@
             android:text="@string/tips_audio_network"
             android:textColor="@color/color_text_black"
             android:textSize="@dimen/text_size_less" />
-    </org.holoeverywhere.widget.LinearLayout>
+    </LinearLayout>
 
-    <org.holoeverywhere.widget.RelativeLayout
+    <RelativeLayout
         android:id="@+id/rl_activity_video_player_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
         android:paddingLeft="@dimen/offset_lless"
         android:paddingRight="@dimen/offset_lless">
 
-        <org.holoeverywhere.widget.FrameLayout
+        <FrameLayout
             android:id="@+id/fl_activity_video_player_player_layout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/music_pic_h"
@@ -74,15 +74,15 @@
                 android:layout_gravity="center"
                 android:src="@drawable/button_media_download" />
 
-            <org.holoeverywhere.widget.ProgressBar
+            <ProgressBar
                 android:id="@+id/pb_activity_video_player_downloading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:visibility="gone" />
-        </org.holoeverywhere.widget.FrameLayout>
+        </FrameLayout>
 
-        <org.holoeverywhere.widget.LinearLayout
+        <LinearLayout
             android:id="@+id/ll_activity_video_player_progress_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -99,7 +99,7 @@
                 android:src="@drawable/button_media_start"
                 android:visibility="gone" />
 
-            <org.holoeverywhere.widget.TextView
+            <TextView
                 android:id="@+id/tv_activity_video_player_current_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -108,7 +108,7 @@
                 android:textSize="@dimen/text_size_less"
                 android:visibility="gone" />
 
-            <org.holoeverywhere.widget.SeekBar
+            <SeekBar
                 android:id="@+id/sb_activity_video_player"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -119,7 +119,7 @@
                 android:progressDrawable="@drawable/bg_seekbar_down_media"
                 android:thumb="@null" />
 
-            <org.holoeverywhere.widget.TextView
+            <TextView
                 android:id="@+id/tv_activity_video_player_total_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -127,15 +127,15 @@
                 android:singleLine="true"
                 android:textSize="@dimen/text_size_less" />
 
-            <org.holoeverywhere.widget.CheckBox
+            <CheckBox
                 android:id="@+id/cb_activity_video_player_zoom"
                 android:layout_width="@dimen/media_player_zoom"
                 android:layout_height="@dimen/media_player_zoom"
                 android:layout_margin="@dimen/offset_small"
                 android:background="@drawable/selector_video_zoom"
                 android:button="@null" />
-        </org.holoeverywhere.widget.LinearLayout>
-    </org.holoeverywhere.widget.RelativeLayout>
+        </LinearLayout>
+    </RelativeLayout>
 
     <com.badou.mworking.widget.BottomRatingAndCommentView
         android:id="@+id/bracv_activity_video_player"
@@ -143,4 +143,4 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom" />
 
-</org.holoeverywhere.widget.LinearLayout>
+</LinearLayout>

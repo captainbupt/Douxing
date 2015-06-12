@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<org.holoeverywhere.widget.RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_layout_bg">
 
-    <org.holoeverywhere.widget.EditText
+    <EditText
         android:id="@+id/et_activity_chatter_submit_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -46,14 +46,14 @@
         android:paddingTop="@dimen/offset_less"
         android:visibility="gone" />
 
-    <org.holoeverywhere.widget.LinearLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@color/color_grey"
         android:orientation="horizontal">
 
-        <org.holoeverywhere.widget.LinearLayout
+        <LinearLayout
             android:id="@+id/ll_activity_chatter_submit_bottom_topic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -62,28 +62,28 @@
             android:orientation="horizontal"
             android:padding="@dimen/offset_medium">
 
-            <org.holoeverywhere.widget.TextView
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="#"
                 android:textColor="@color/color_text_black"
                 android:textSize="@dimen/text_size_medium" />
 
-            <org.holoeverywhere.widget.TextView
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/offset_small"
                 android:text="@string/bottom_submit_topic"
                 android:textColor="@color/color_text_black"
                 android:textSize="@dimen/text_size_medium" />
-        </org.holoeverywhere.widget.LinearLayout>
+        </LinearLayout>
 
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:background="@color/color_border_grey" />
 
-        <org.holoeverywhere.widget.LinearLayout
+        <LinearLayout
             android:id="@+id/ll_activity_chatter_submit_bottom_anonymous"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -92,21 +92,21 @@
             android:orientation="horizontal"
             android:padding="@dimen/offset_medium">
 
-            <org.holoeverywhere.widget.CheckBox
+            <CheckBox
                 android:id="@+id/cb_activity_chatter_bottom_anonymous"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/icon_bottom_check_box"
                 android:button="@null" />
 
-            <org.holoeverywhere.widget.TextView
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/offset_small"
                 android:text="@string/bottom_submit_anonymous"
                 android:textColor="@color/color_text_black"
                 android:textSize="@dimen/text_size_medium" />
-        </org.holoeverywhere.widget.LinearLayout>
+        </LinearLayout>
 
         <View
             android:layout_width="1dp"
@@ -119,9 +119,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
-    </org.holoeverywhere.widget.LinearLayout>
+    </LinearLayout>
 
-    <org.holoeverywhere.widget.ListView
+    <ListView
         android:id="@+id/lv_activity_chatter_submit_topic"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -129,4 +129,4 @@
         android:divider="@color/color_border_grey"
         android:dividerHeight="1dp"
         android:visibility="gone" />
-</org.holoeverywhere.widget.RelativeLayout>
+</RelativeLayout>

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<org.holoeverywhere.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <org.holoeverywhere.widget.RelativeLayout
+    <RelativeLayout
         android:id='@+id/logo_bg'
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -38,10 +38,10 @@
             android:scaleType="centerInside"
             android:src="@drawable/button_title_main_search" />
 
-    </org.holoeverywhere.widget.RelativeLayout>
+    </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/color_border_grey" />
-</org.holoeverywhere.widget.LinearLayout>
+</LinearLayout>

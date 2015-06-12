@@ -14,7 +14,7 @@ import com.badou.mworking.VideoPlayActivity;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.util.FileUtils;
 
-import org.holoeverywhere.widget.FrameLayout;
+import android.widget.FrameLayout;
 
 import java.io.File;
 

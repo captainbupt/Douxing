@@ -9,10 +9,10 @@ import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.model.ChatterTopic;
 
-import org.holoeverywhere.widget.EditText;
-import org.holoeverywhere.widget.ExpandableListView;
-import org.holoeverywhere.widget.LinearLayout;
-import org.holoeverywhere.widget.TextView;
+import android.widget.EditText;
+import android.widget.ExpandableListView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 /**
  * Created by Administrator on 2015/6/11.

@@ -19,8 +19,8 @@ import com.badou.mworking.util.ImageChooser;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.MultiImageEditGridView;
 
-import org.holoeverywhere.widget.LinearLayout;
-import org.holoeverywhere.widget.TextView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import org.json.JSONObject;
 
 /**

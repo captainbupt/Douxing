@@ -21,8 +21,8 @@ import android.text.TextUtils;
 import com.badou.mworking.R;
 import com.badou.mworking.VideoTakeActivity;
 
-import org.holoeverywhere.app.Activity;
-import org.holoeverywhere.app.AlertDialog;
+import android.app.Activity;
+import android.app.AlertDialog;
 
 import java.io.File;
 import java.io.IOException;

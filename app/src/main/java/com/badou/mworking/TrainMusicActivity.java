@@ -23,9 +23,9 @@ import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 
 
-import org.holoeverywhere.widget.ProgressBar;
-import org.holoeverywhere.widget.SeekBar;
-import org.holoeverywhere.widget.TextView;
+import android.widget.ProgressBar;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 import java.io.File;
 import java.net.HttpURLConnection;

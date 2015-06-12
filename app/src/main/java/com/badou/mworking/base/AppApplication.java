@@ -1,5 +1,8 @@
 package com.badou.mworking.base;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -18,10 +21,6 @@ import com.badou.mworking.net.bitmap.BitmapLruCache;
 import com.badou.mworking.net.volley.MyVolley;
 import com.badou.mworking.util.CrashHandler;
 import com.baidu.mapapi.SDKInitializer;
-
-import org.holoeverywhere.app.Activity;
-import org.holoeverywhere.app.AlertDialog;
-import org.holoeverywhere.app.Application;
 
 import java.util.HashSet;
 import java.util.Locale;

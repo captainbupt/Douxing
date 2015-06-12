@@ -11,7 +11,7 @@ import com.badou.mworking.model.ChatterHot;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.util.LVUtil;
 
-import org.holoeverywhere.widget.TextView;
+import android.widget.TextView;
 
 /**
  * Created by Administrator on 2015/6/12.

@@ -10,7 +10,7 @@ import com.badou.mworking.model.category.Category;
 import com.badou.mworking.model.category.Exam;
 import com.badou.mworking.util.TimeTransfer;
 
-import org.holoeverywhere.widget.TextView;
+import android.widget.TextView;
 
 /**
  * Created by Administrator on 2015/5/29.

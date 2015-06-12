@@ -16,7 +16,7 @@ import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
 
-import org.holoeverywhere.widget.GridView;
+import android.widget.GridView;
 
 import java.util.List;
 

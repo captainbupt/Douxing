@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<org.holoeverywhere.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/user_center_linear"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,7 +7,7 @@
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
-    <org.holoeverywhere.widget.RelativeLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/background_top_dark_blue"
@@ -24,7 +24,7 @@
             android:scaleType="fitXY"
             android:src="@drawable/icon_user_detail_default_head" />
 
-        <org.holoeverywhere.widget.TextView
+        <TextView
             android:id="@+id/tv_user_center_top_level"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -34,7 +34,7 @@
             android:textColor="#ffffff"
             android:textSize="@dimen/text_size_small" />
 
-        <org.holoeverywhere.widget.TextView
+        <TextView
             android:id="@+id/tv_user_center_top_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -65,19 +65,19 @@
             android:padding="@dimen/offset_less"
             android:scaleType="centerInside"
             android:src="@drawable/button_title_bar_back_normal" />
-    </org.holoeverywhere.widget.RelativeLayout>
+    </RelativeLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none">
 
-        <org.holoeverywhere.widget.LinearLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <org.holoeverywhere.widget.LinearLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/offset_less"
@@ -86,7 +86,7 @@
                 android:paddingLeft="@dimen/offset_medium"
                 android:paddingRight="@dimen/offset_medium">
 
-                <org.holoeverywhere.widget.LinearLayout
+                <LinearLayout
                     android:id="@+id/ll_user_center_study_progress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -102,7 +102,7 @@
                         android:layout_height="@dimen/user_center_icon_content"
                         android:src="@drawable/icon_user_center_study_progress" />
 
-                    <org.holoeverywhere.widget.LinearLayout
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -110,19 +110,19 @@
                         android:paddingLeft="@dimen/offset_less"
                         android:paddingRight="@dimen/offset_less">
 
-                        <org.holoeverywhere.widget.LinearLayout
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
 
-                            <org.holoeverywhere.widget.TextView
+                            <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/user_center_my_study_progress"
                                 android:textColor="@color/color_text_black"
                                 android:textSize="@dimen/text_size_medium" />
 
-                            <org.holoeverywhere.widget.TextView
+                            <TextView
                                 android:id="@+id/tv_user_center_study_percent"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -130,29 +130,29 @@
                                 android:text="0/0"
                                 android:textColor="@color/color_text_black"
                                 android:textSize="@dimen/text_size_medium" />
-                        </org.holoeverywhere.widget.LinearLayout>
+                        </LinearLayout>
 
-                        <org.holoeverywhere.widget.ProgressBar
+                        <ProgressBar
                             android:id="@+id/pb_user_center_study_progress"
                             style="@style/ProgressBarUserCenter"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/user_center_progress_height"
                             android:layout_marginTop="@dimen/offset_micro"
                             android:max="100" />
-                    </org.holoeverywhere.widget.LinearLayout>
+                    </LinearLayout>
 
                     <ImageView
                         android:layout_width="@dimen/user_center_icon_forward_width"
                         android:layout_height="@dimen/user_center_icon_forward_height"
                         android:src="@drawable/icon_user_center_forward" />
-                </org.holoeverywhere.widget.LinearLayout>
+                </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/color_bg_grey" />
 
-                <org.holoeverywhere.widget.LinearLayout
+                <LinearLayout
                     android:id="@+id/ll_user_center_exam"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -169,7 +169,7 @@
                         android:src="@drawable/icon_user_center_exam" />
 
 
-                    <org.holoeverywhere.widget.TextView
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/offset_less"
@@ -178,7 +178,7 @@
                         android:textColor="@color/color_text_black"
                         android:textSize="@dimen/text_size_medium" />
 
-                    <org.holoeverywhere.widget.TextView
+                    <TextView
                         android:id="@+id/tv_user_center_exam_score"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -191,11 +191,11 @@
                         android:layout_width="@dimen/user_center_icon_forward_width"
                         android:layout_height="@dimen/user_center_icon_forward_height"
                         android:src="@drawable/icon_user_center_forward" />
-                </org.holoeverywhere.widget.LinearLayout>
-            </org.holoeverywhere.widget.LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
 
 
-            <org.holoeverywhere.widget.LinearLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/offset_small"
@@ -205,7 +205,7 @@
                 android:paddingRight="@dimen/offset_medium">
 
 
-                <org.holoeverywhere.widget.LinearLayout
+                <LinearLayout
                     android:id="@+id/ll_user_center_group"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -221,7 +221,7 @@
                         android:layout_height="@dimen/user_center_icon_content"
                         android:src="@drawable/icon_user_center_group" />
 
-                    <org.holoeverywhere.widget.TextView
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/offset_less"
@@ -230,7 +230,7 @@
                         android:textColor="@color/color_text_black"
                         android:textSize="@dimen/text_size_medium" />
 
-                    <org.holoeverywhere.widget.TextView
+                    <TextView
                         android:id="@+id/tv_user_center_group_post_number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -242,14 +242,14 @@
                         android:layout_width="@dimen/user_center_icon_forward_width"
                         android:layout_height="@dimen/user_center_icon_forward_height"
                         android:src="@drawable/icon_user_center_forward" />
-                </org.holoeverywhere.widget.LinearLayout>
+                </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/color_bg_grey" />
 
-                <org.holoeverywhere.widget.LinearLayout
+                <LinearLayout
                     android:id="@+id/ll_user_center_message"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -265,7 +265,7 @@
                         android:layout_height="@dimen/user_center_icon_content"
                         android:src="@drawable/icon_user_center_message" />
 
-                    <org.holoeverywhere.widget.TextView
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/offset_less"
@@ -274,7 +274,7 @@
                         android:textColor="@color/color_text_black"
                         android:textSize="@dimen/text_size_medium" />
 
-                    <org.holoeverywhere.widget.TextView
+                    <TextView
                         android:id="@+id/tv_user_center_message_number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -292,10 +292,10 @@
                         android:layout_width="@dimen/user_center_icon_forward_width"
                         android:layout_height="@dimen/user_center_icon_forward_height"
                         android:src="@drawable/icon_user_center_forward" />
-                </org.holoeverywhere.widget.LinearLayout>
-            </org.holoeverywhere.widget.LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
 
-            <org.holoeverywhere.widget.FrameLayout
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/offset_small"
@@ -303,7 +303,7 @@
                 android:paddingLeft="@dimen/offset_medium"
                 android:paddingRight="@dimen/offset_medium">
 
-                <org.holoeverywhere.widget.LinearLayout
+                <LinearLayout
                     android:id="@+id/ll_user_center_my_account"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -319,7 +319,7 @@
                         android:layout_height="@dimen/user_center_icon_content"
                         android:src="@drawable/icon_user_center_my_account" />
 
-                    <org.holoeverywhere.widget.TextView
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/offset_less"
@@ -332,9 +332,9 @@
                         android:layout_width="@dimen/user_center_icon_forward_width"
                         android:layout_height="@dimen/user_center_icon_forward_height"
                         android:src="@drawable/icon_user_center_forward" />
-                </org.holoeverywhere.widget.LinearLayout>
-            </org.holoeverywhere.widget.FrameLayout>
-        </org.holoeverywhere.widget.LinearLayout>
+                </LinearLayout>
+            </FrameLayout>
+        </LinearLayout>
     </ScrollView>
 
-</org.holoeverywhere.widget.LinearLayout>
+</LinearLayout>

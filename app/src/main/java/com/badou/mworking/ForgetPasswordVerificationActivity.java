@@ -17,8 +17,8 @@ import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.ToastUtil;
 
-import org.holoeverywhere.widget.EditText;
-import org.holoeverywhere.widget.TextView;
+import android.widget.EditText;
+import android.widget.TextView;
 import org.json.JSONObject;
 
 import java.util.regex.Pattern;

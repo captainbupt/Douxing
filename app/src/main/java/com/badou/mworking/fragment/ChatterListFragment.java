@@ -3,8 +3,8 @@ package com.badou.mworking.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.holoeverywhere.LayoutInflater;
-import org.holoeverywhere.widget.AdapterView;
+import android.view.LayoutInflater;
+import android.widget.AdapterView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

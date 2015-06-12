@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<org.holoeverywhere.widget.FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingBottom="@dimen/offset_less">
 
-    <org.holoeverywhere.widget.LinearLayout
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -12,7 +12,7 @@
         android:orientation="vertical"
         android:padding="@dimen/offset_less">
 
-        <org.holoeverywhere.widget.FrameLayout
+        <FrameLayout
             android:layout_width="@dimen/list_item_train_pic_width"
             android:layout_height="@dimen/list_item_train_pic_height"
             android:layout_gravity="center_vertical">
@@ -40,7 +40,7 @@
                 android:gravity="center"
                 android:text="@string/category_unread" />
 
-            <org.holoeverywhere.widget.LinearLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
@@ -57,7 +57,7 @@
                     android:numStars="5"
                     android:stepSize="0.5" />
 
-                <org.holoeverywhere.widget.TextView
+                <TextView
                     android:id="@+id/tv_adapter_training_item_rating_number"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -70,18 +70,18 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/icon_training_item_comment" />
 
-                <org.holoeverywhere.widget.TextView
+                <TextView
                     android:id="@+id/tv_adapter_training_item_comment_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/offset_less"
                     android:textColor="@color/color_white"
                     android:textSize="@dimen/text_size_less" />
-            </org.holoeverywhere.widget.LinearLayout>
+            </LinearLayout>
 
-        </org.holoeverywhere.widget.FrameLayout>
+        </FrameLayout>
 
-        <org.holoeverywhere.widget.LinearLayout
+        <LinearLayout
             android:layout_width="@dimen/list_item_train_pic_width"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -109,6 +109,6 @@
                 android:textColor="@color/color_text_grey"
                 android:textSize="@dimen/text_size_less" />
 
-        </org.holoeverywhere.widget.LinearLayout>
-    </org.holoeverywhere.widget.LinearLayout>
-</org.holoeverywhere.widget.FrameLayout>
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

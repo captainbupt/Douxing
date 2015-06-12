@@ -3,10 +3,10 @@ package com.badou.mworking.widget;
 import android.content.Context;
 import android.content.res.Resources.NotFoundException;
 import android.text.TextUtils;
+import android.app.ProgressDialog;
 
 import com.badou.mworking.R;
 
-import org.holoeverywhere.app.ProgressDialog;
 
 public class WaitProgressDialog extends ProgressDialog {
 
@@ -41,7 +41,7 @@ public class WaitProgressDialog extends ProgressDialog {
         setCancelable(false);
     }
 
-    public void setContent(String msg){
+    public void setContent(String msg) {
         if (TextUtils.isEmpty(msg)) {
             setMessage(mContext.getString(R.string.message_wait));
         } else {
@@ -49,7 +49,7 @@ public class WaitProgressDialog extends ProgressDialog {
         }
     }
 
-    public void setContent(int msgId){
+    public void setContent(int msgId) {
         try {
             setContent(mContext.getResources().getString(msgId));
         } catch (NotFoundException e) {

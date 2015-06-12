@@ -1,7 +1,7 @@
 package com.badou.mworking;
 
-import org.holoeverywhere.widget.EditText;
-import org.holoeverywhere.widget.LinearLayout;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import org.json.JSONObject;
 
 import android.content.Intent;

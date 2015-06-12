@@ -14,7 +14,7 @@ import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.view.ViewHelper;
 
-import org.holoeverywhere.widget.LinearLayout;
+import android.widget.LinearLayout;
 
 /**
  * Created by Administrator on 2015/5/26.

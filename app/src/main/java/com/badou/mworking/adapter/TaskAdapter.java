@@ -13,7 +13,7 @@ import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.SP;
 import com.badou.mworking.util.TimeTransfer;
 
-import org.holoeverywhere.widget.TextView;
+import android.widget.TextView;
 
 
 public class TaskAdapter extends MyBaseAdapter {
@@ -80,10 +80,10 @@ public class TaskAdapter extends MyBaseAdapter {
 
         public ViewHolder(View view) {
             topImageView = (ImageView) view.findViewById(R.id.iv_adapter_task_top);
-            subjectTextView = (org.holoeverywhere.widget.TextView) view.findViewById(R.id.tv_adapter_task_subject);
-            dateTextView = (org.holoeverywhere.widget.TextView) view.findViewById(R.id.tv_adapter_task_date);
+            subjectTextView = (android.widget.TextView) view.findViewById(R.id.tv_adapter_task_subject);
+            dateTextView = (android.widget.TextView) view.findViewById(R.id.tv_adapter_task_date);
             iconImageView = (ImageView) view.findViewById(R.id.iv_adapter_task_icon);
-            unreadTextView = (org.holoeverywhere.widget.TextView) view.findViewById(R.id.tv_adapter_task_unread);
+            unreadTextView = (android.widget.TextView) view.findViewById(R.id.tv_adapter_task_unread);
             addressTextView = (TextView) view.findViewById(R.id.tv_adapter_task_address);
         }
     }

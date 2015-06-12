@@ -13,7 +13,7 @@ import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.SP;
 import com.badou.mworking.util.TimeTransfer;
 
-import org.holoeverywhere.widget.TextView;
+import android.widget.TextView;
 
 /**
  * 功能描述: 通知公告adapter

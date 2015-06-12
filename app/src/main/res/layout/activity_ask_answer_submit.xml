@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<org.holoeverywhere.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_layout_bg"
     android:orientation="vertical">
 
-    <org.holoeverywhere.widget.EditText
+    <EditText
         android:id="@+id/et_activity_ask_answer_submit_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -38,4 +38,4 @@
         android:id="@+id/ll_activity_ask_answer_photo"
         layout="@layout/layout_bottom_photo" />
 
-</org.holoeverywhere.widget.LinearLayout>
+</LinearLayout>

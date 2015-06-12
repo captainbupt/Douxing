@@ -37,12 +37,12 @@ import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 
-import org.holoeverywhere.widget.CheckBox;
-import org.holoeverywhere.widget.LinearLayout;
-import org.holoeverywhere.widget.ProgressBar;
-import org.holoeverywhere.widget.RelativeLayout;
-import org.holoeverywhere.widget.SeekBar;
-import org.holoeverywhere.widget.TextView;
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 public class TrainVideoActivity extends BaseStatisticalActionBarActivity {
 

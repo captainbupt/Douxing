@@ -11,7 +11,7 @@ import com.badou.mworking.model.category.Exam;
 import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.TimeTransfer;
 
-import org.holoeverywhere.widget.TextView;
+import android.widget.TextView;
 
 /**
  * 功能描述:  在线考试列表页适配器
@@ -78,10 +78,10 @@ public class ExamAdapter extends MyBaseAdapter {
 
         public ViewHolder(View view) {
             topImageView = (ImageView) view.findViewById(R.id.iv_adapter_exam_top);
-            subjectTextView = (org.holoeverywhere.widget.TextView) view.findViewById(R.id.tv_adapter_exam_subject);
-            dateTextView = (org.holoeverywhere.widget.TextView) view.findViewById(R.id.tv_adapter_exam_date);
+            subjectTextView = (android.widget.TextView) view.findViewById(R.id.tv_adapter_exam_subject);
+            dateTextView = (android.widget.TextView) view.findViewById(R.id.tv_adapter_exam_date);
             iconImageView = (ImageView) view.findViewById(R.id.iv_adapter_exam_icon);
-            unreadTextView = (org.holoeverywhere.widget.TextView) view.findViewById(R.id.tv_adapter_exam_unread);
+            unreadTextView = (android.widget.TextView) view.findViewById(R.id.tv_adapter_exam_unread);
         }
     }
 }

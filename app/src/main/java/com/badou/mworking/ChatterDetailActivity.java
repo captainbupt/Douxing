@@ -33,7 +33,7 @@ import com.badou.mworking.widget.VideoImageView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 
-import org.holoeverywhere.widget.TextView;
+import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

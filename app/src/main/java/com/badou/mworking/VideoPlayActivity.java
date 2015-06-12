@@ -39,10 +39,10 @@ import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.widget.FullScreenVideoView;
 import com.badou.mworking.widget.SwipeBackLayout;
 
-import org.holoeverywhere.widget.CheckBox;
-import org.holoeverywhere.widget.ProgressBar;
-import org.holoeverywhere.widget.SeekBar;
-import org.holoeverywhere.widget.TextView;
+import android.widget.CheckBox;
+import android.widget.ProgressBar;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 import java.io.File;
 import java.text.DateFormat;

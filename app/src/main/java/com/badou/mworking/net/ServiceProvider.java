@@ -41,8 +41,8 @@ import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.FileEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
-import org.holoeverywhere.app.Activity;
-import org.holoeverywhere.app.ProgressDialog;
+import android.app.Activity;
+import android.app.ProgressDialog;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -891,7 +891,7 @@ public class ServiceProvider {
 
 
     /**
-     * 27.获取聊天⽤用户列表
+     * 27.获取聊天用户列表
      *
      * @param context
      * @param volleyListener
@@ -907,7 +907,7 @@ public class ServiceProvider {
     }
 
     /**
-     * 28.获取⽤用户聊天记录
+     * 28.获取用户聊天记录
      *
      * @param context
      * @param whom

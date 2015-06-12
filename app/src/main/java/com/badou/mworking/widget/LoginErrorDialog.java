@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.badou.mworking.R;
 import com.badou.mworking.base.BaseNoTitleActivity;
 
-import org.holoeverywhere.app.Dialog;
+import android.app.Dialog;
 
 public class LoginErrorDialog extends Dialog {
 

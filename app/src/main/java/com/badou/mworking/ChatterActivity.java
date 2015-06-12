@@ -3,8 +3,10 @@ package com.badou.mworking;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.widget.RadioGroup;
 
@@ -13,9 +15,7 @@ import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.fragment.ChatterHotFragment;
 import com.badou.mworking.fragment.ChatterListFragment;
 
-import org.holoeverywhere.app.Fragment;
-import org.holoeverywhere.widget.RadioButton;
-import org.holoeverywhere.widget.ViewPager;
+import android.widget.RadioButton;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,5 +1,6 @@
 package com.badou.mworking.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
@@ -17,8 +18,6 @@ import com.badou.mworking.listener.CopyClickListener;
 import com.badou.mworking.model.Ask;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.util.TimeTransfer;
-
-import org.holoeverywhere.app.Activity;
 
 /**
  * 问答页面适配器

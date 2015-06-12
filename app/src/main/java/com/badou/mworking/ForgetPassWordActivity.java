@@ -15,8 +15,8 @@ import android.text.style.ClickableSpan;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-import org.holoeverywhere.widget.EditText;
-import org.holoeverywhere.widget.TextView;
+import android.widget.EditText;
+import android.widget.TextView;
 import org.json.JSONObject;
 
 import com.android.volley.VolleyError;

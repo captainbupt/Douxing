@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<org.holoeverywhere.widget.FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_layout_bg"
@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:visibility="visible" />
 
-    <org.holoeverywhere.widget.LinearLayout
+    <LinearLayout
         android:id="@+id/ll_activity_web_view_exception"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -28,13 +28,13 @@
             android:src="@drawable/net_exception"
             android:visibility="visible" />
 
-        <org.holoeverywhere.widget.LinearLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="6.0"
             android:orientation="vertical">
 
-            <org.holoeverywhere.widget.LinearLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1.0"
@@ -46,7 +46,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1.0" />
 
-                <org.holoeverywhere.widget.TextView
+                <TextView
                     android:id="@+id/tv_activity_web_view_exception_repeat"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -61,14 +61,14 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1.0" />
-            </org.holoeverywhere.widget.LinearLayout>
+            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="3.0" />
-        </org.holoeverywhere.widget.LinearLayout>
-    </org.holoeverywhere.widget.LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
 
     <com.badou.mworking.widget.BottomRatingAndCommentView
         android:id="@+id/bracv_activity_web_view"
@@ -76,4 +76,4 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom" />
 
-</org.holoeverywhere.widget.FrameLayout>
+</FrameLayout>
