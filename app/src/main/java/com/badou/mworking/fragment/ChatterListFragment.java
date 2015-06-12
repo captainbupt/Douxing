@@ -110,21 +110,17 @@ public class ChatterListFragment extends BaseFragment {
         // 发起网络请求
         ServiceProvider.doQuestionShareList(mContext, "share", topic, beginNum,
                 Constant.LIST_ITEM_NUM, new VolleyListener(getActivity()) {
+
                     @Override
-                    public void onResponse(Object responseObject) {
+                    public void onCompleted() {
                         if (!mActivity.isFinishing()) {
-                            ((BaseActionBarActivity) getActivity()).hideProgressBar();
+                            ((ChatterActivity) getActivity()).hideProgressBar();
                         }
                         mContentListView.onRefreshComplete();
-                        JSONObject response = (JSONObject) responseObject;
-                        int code = response.optInt(Net.CODE);
-                        if (code == Net.LOGOUT) {
-                            AppApplication.logoutShow(mContext);
-                            return;
-                        }
-                        if (code != Net.SUCCESS) {
-                            return;
-                        }
+                    }
+
+                    @Override
+                    public void onResponseSuccess(JSONObject response) {
                         JSONObject contentObject = response
                                 .optJSONObject(Net.DATA);
                         if (contentObject == null) {
@@ -159,15 +155,6 @@ public class ChatterListFragment extends BaseFragment {
                         } else {// 继续加载
                             mChatterAdapter.addList(chatters);
                         }
-                    }
-
-                    @Override
-                    public void onErrorResponse(VolleyError arg0) {
-                        super.onErrorResponse(arg0);
-                        if (!mActivity.isFinishing()) {
-                            ((ChatterActivity) getActivity()).hideProgressBar();
-                        }
-                        mContentListView.onRefreshComplete();
                     }
                 });
     }

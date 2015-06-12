@@ -11,11 +11,13 @@ import android.widget.ImageView;
 
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
+import com.badou.mworking.listener.DeleteClickListener;
 import com.badou.mworking.model.ChattingListInfo;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.bitmap.BitmapLruCache;
 import com.badou.mworking.net.bitmap.CircleImageListener;
+import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.net.volley.MyVolley;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.TimeTransfer;
@@ -45,19 +47,7 @@ public class ChatAdapter extends MyBaseAdapter {
 
         final ChattingListInfo info = (ChattingListInfo) mItemList.get(position);
         /**设置头像**/
-        holder.headImageView.setImageResource(R.drawable.icon_user_detail_default_head);
-        /**设置头像**/
-        int size = mContext.getResources().getDimensionPixelSize(
-                R.dimen.icon_head_size_middle);
-        if (null != info && !"".equals(info.img)) {
-            Bitmap bm = BitmapLruCache.getBitmapLruCache().getCircleBitmap(info.img);
-            if (bm != null && !bm.isRecycled()) {
-                holder.headImageView.setImageBitmap(bm);
-            } else {
-                MyVolley.getImageLoader().get(info.img, new CircleImageListener(mContext,
-                        info.img, holder.headImageView, size, size));
-            }
-        }
+        ImageViewLoader.setCircleImageViewResource(mContext, holder.headImageView, info.img, mContext.getResources().getDimensionPixelSize(R.dimen.icon_head_size_middle));
 
         /**设置名字**/
         holder.nameTextView.setText(info.name);
@@ -84,21 +74,12 @@ public class ChatAdapter extends MyBaseAdapter {
             holder.unreadNumTextView.setBackgroundResource(R.drawable.icon_chat_unread);
         }
         // 添加删除布局的点击事件
-        holder.deleteTextView.setOnClickListener(new OnClickListener() {
-
+        holder.deleteTextView.setOnClickListener(new DeleteClickListener(mContext, new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View arg0) {
-                new AlertDialog.Builder(mContext).setTitle(R.string.tip_delete_confirmation)
-                        .setPositiveButton(R.string.operation_delete, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                deleteChat(info.whom);
-                                mItemList.remove(position);
-                                notifyDataSetChanged();
-                            }
-                        }).setNegativeButton(R.string.text_cancel, null).create().show();
+            public void onClick(DialogInterface dialogInterface, int i) {
+                deleteChat(info.whom, position);
             }
-        });
+        }));
         return view;
     }
 
@@ -123,16 +104,13 @@ public class ChatAdapter extends MyBaseAdapter {
     /**
      * 删除会话
      */
-    private void deleteChat(String whom) {
+    private void deleteChat(String whom, final int position) {
         ServiceProvider.delChat(mContext, whom, new VolleyListener(mContext) {
 
             @Override
-            public void onResponse(Object responseObject) {
-                JSONObject response = (JSONObject) responseObject;
-                int code = response.optInt(Net.CODE);
-                if (code != Net.SUCCESS) {
-                    return;
-                }
+            public void onResponseSuccess(JSONObject response) {
+                mItemList.remove(position);
+                notifyDataSetChanged();
             }
         });
     }

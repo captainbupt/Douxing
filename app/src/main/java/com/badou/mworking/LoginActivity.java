@@ -159,43 +159,22 @@ public class LoginActivity extends BaseNoTitleActivity implements
                 new VolleyListener(mContext) {
 
                     @Override
-                    public void onResponse(Object responseObject) {
-                        // 收到响应时调用
-                        JSONObject response = (JSONObject) responseObject;
-                        if (null != mProgressDialog && mContext != null
-                                && !mActivity.isFinishing()) {
+                    public void onErrorCode(int code) {
+                        showErrorDialog(R.string.login_error_incorrect_username_password);
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        if (!mActivity.isFinishing()) {
                             mProgressDialog.dismiss();
-                        }
-                        try {
-                            // 验证返回码是否正确
-                            int code = response.optInt(Net.CODE);
-                            if (code == Net.LOGOUT) {
-                                AppApplication.logoutShow(mContext);
-                                return;
-                            }
-                            if (code != Net.SUCCESS) {
-                                showErrorDialog(R.string.login_error_incorrect_username_password);
-                                return;
-                            }
-                            // 返回码正确时 调用
-                            loginSuccess(account,
-                                    response.optJSONObject(Net.DATA));
-                        } catch (Exception e) {
-                            e.printStackTrace();
                         }
                     }
 
                     @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // 响应错误
-                        if (!mActivity.isFinishing()) {
-                            mProgressDialog.dismiss();
-                        }
-                        if (error instanceof ResponseError) {
-                            showErrorDialog(error.getMessage());
-                            return;
-                        }
-                        showErrorDialog(R.string.error_service);
+                    public void onResponseSuccess(JSONObject response) {
+                        // 返回码正确时 调用
+                        loginSuccess(account,
+                                response.optJSONObject(Net.DATA));
                     }
                 });
     }

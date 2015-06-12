@@ -463,15 +463,21 @@ public class ServiceProvider {
         FileEntity entity = new FileEntity(new File(tempFilePath),
                 "binary/octet-stream");
         params.setBodyEntity(entity);
+        System.out.println("index: " + index);
         new HttpUtils().send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<Object>() {
             @Override
             public void onSuccess(ResponseInfo<Object> responseInfo) {
-                //volleyListener.onResponse(responseInfo.result);
-                System.out.println("result: " + responseInfo.result);
+                JSONObject jsonObject = new JSONObject();
                 try {
-                    volleyListener.onResponse(new JSONObject("{\"errcode\":0}"));
+                    jsonObject.put("errcode", -1);
                 } catch (JSONException e) {
                     e.printStackTrace();
+                }
+                try {
+                    volleyListener.onResponse(new JSONObject((String) responseInfo.result));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    volleyListener.onResponse(jsonObject);
                 }
             }
 
@@ -751,23 +757,9 @@ public class ServiceProvider {
         VolleyListener volleyListener = new VolleyListener(context) {
 
             @Override
-            public void onResponse(Object arg0) {
-                try {
-                    JSONObject response = (JSONObject) arg0;
-                    int code = response.optInt(Net.CODE);
-                    if (code == Net.LOGOUT) {
-                        AppApplication.logoutShow(context);
-                        return;
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+            public void onResponseSuccess(JSONObject response) {
 
-            @Override
-            public void onErrorResponse(VolleyError error) {
             }
-
         };
         String uid = ((AppApplication) context.getApplicationContext())
                 .getUserInfo().userId;

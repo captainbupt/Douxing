@@ -111,7 +111,7 @@ public class BottomRatingAndCommentView extends LinearLayout {
         ServiceProvider.getResourceDetail(mContext, mRid, new VolleyListener(mContext) {
 
             @Override
-            public void onResponseData(JSONObject jsonObject) {
+            public void onResponseSuccess(JSONObject jsonObject) {
                 CategoryDetail categoryDetail = new CategoryDetail(mContext, jsonObject);
                 setData(categoryDetail.ratingNum, categoryDetail.commentNum, categoryDetail.rating);
             }

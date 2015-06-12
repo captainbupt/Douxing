@@ -113,57 +113,41 @@ public class AskActivity extends BaseBackActionBarActivity {
         ServiceProvider.updateAskList(AskActivity.this, beginNum, Constant.LIST_ITEM_NUM, "", new VolleyListener(AskActivity.this) {
 
             @Override
-            public void onResponse(Object responseObject) {
-                mContentListView.onRefreshComplete();
+            public void onCompleted() {
                 hideProgressBar();
-                JSONObject responseJson = (JSONObject) responseObject;
-                int code = responseJson.optInt(Net.CODE);
-                if (code == Net.LOGOUT) {
-                    AppApplication.logoutShow(mContext);
-                    return;
-                }
-                if (code != Net.SUCCESS) {
-                    return;
-                }
-                try {
-                    JSONArray data = responseJson.getJSONArray(Net.DATA);
-                    List<Object> askTemp = new ArrayList<>();
-                    int length = data.length();
-                    if (length == 0) {
-                        if (beginIndex == 1) {
-                            mNoneResultImageView.setVisibility(View.VISIBLE);
-                            mAskAdapter.setList(null);
-                        } else {
-                            ToastUtil.showUpdateToast(mContext);
-                        }
-                        return;
-                    }
-                    mNoneResultImageView.setVisibility(View.GONE);
-                    for (int i = 0; i < length; i++) {
-                        JSONObject jb = data.getJSONObject(i);
-                        Ask ask = new Ask(jb);
-                        askTemp.add(ask);
-                    }
-                    String userNum = ((AppApplication) getApplicationContext()).getUserInfo().account;
-                    //添加缓存
-                    if (beginIndex == 1) {
-                        mAskAdapter.setList(askTemp);
-                        //添加缓存
-                        SP.putStringSP(AskActivity.this, SP.ASK, userNum + Ask.WENDACACHE, data.toString());
-                    } else {
-                        mAskAdapter.addList(askTemp);
-                    }
-                    beginIndex++;
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                mContentListView.onRefreshComplete();
             }
 
             @Override
-            public void onErrorResponse(VolleyError error) {
-                super.onErrorResponse(error);
-                hideProgressBar();
-                mContentListView.onRefreshComplete();
+            public void onResponseSuccess(JSONObject response) {
+                JSONArray data = response.optJSONArray(Net.DATA);
+                List<Object> askTemp = new ArrayList<>();
+                int length = data.length();
+                if (length == 0) {
+                    if (beginIndex == 1) {
+                        mNoneResultImageView.setVisibility(View.VISIBLE);
+                        mAskAdapter.setList(null);
+                    } else {
+                        ToastUtil.showUpdateToast(mContext);
+                    }
+                    return;
+                }
+                mNoneResultImageView.setVisibility(View.GONE);
+                for (int i = 0; i < length; i++) {
+                    JSONObject jb = data.optJSONObject(i);
+                    Ask ask = new Ask(jb);
+                    askTemp.add(ask);
+                }
+                String userNum = ((AppApplication) getApplicationContext()).getUserInfo().account;
+                //添加缓存
+                if (beginIndex == 1) {
+                    mAskAdapter.setList(askTemp);
+                    //添加缓存
+                    SP.putStringSP(AskActivity.this, SP.ASK, userNum + Ask.WENDACACHE, data.toString());
+                } else {
+                    mAskAdapter.addList(askTemp);
+                }
+                beginIndex++;
             }
         });
     }

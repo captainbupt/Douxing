@@ -223,31 +223,13 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
         ServiceProvider.doMyGroup_del(mContext, qid, new VolleyListener(
                 mContext) {
             @Override
-            public void onResponse(Object responseObject) {
-                if (!mActivity.isFinishing()) {
-                    mProgressDialog.dismiss();
-                }
-                JSONObject response = (JSONObject) responseObject;
-                int code = response.optInt(Net.CODE);
-                if (responseObject == null) {
-                    ToastUtil.showNetExc(mContext);
-                    return;
-                }
-                if (code == Net.LOGOUT) {
-                    AppApplication.logoutShow(mContext);
-                    return;
-                }
-                if (Net.SUCCESS != code) {
-                    ToastUtil.showNetExc(mContext);
-                    return;
-                }
+            public void onResponseSuccess(JSONObject response) {
                 setResult(RESULT_DELETE);
                 finish();
             }
 
             @Override
-            public void onErrorResponse(VolleyError arg0) {
-                super.onErrorResponse(arg0);
+            public void onCompleted() {
                 if (!mActivity.isFinishing()) {
                     mProgressDialog.dismiss();
                 }
@@ -262,17 +244,12 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
         // 获取最新内容
         ServiceProvider.doQuestionShareAnswer(mContext, mChatter.qid, beginNum,
                 Constant.LIST_AROUND_NUM, new VolleyListener(mContext) {
+
                     @Override
-                    public void onResponse(Object responseObject) {
-                        mPullToRefreshScrollView.onRefreshComplete();
-                        JSONObject response = (JSONObject) responseObject;
-                        JSONArray resultArray = null;
+                    public void onResponseSuccess(JSONObject response) {
                         JSONObject data = response.optJSONObject(Net.DATA);
-                        int ttlcnt = 0;
-                        if (response != null && data != null) {
-                            resultArray = data.optJSONArray(Net.RESULT);
-                            ttlcnt = data.optInt("ttlcnt");
-                        }
+                        JSONArray resultArray = data.optJSONArray(Net.RESULT);
+                        int ttlcnt = data.optInt("ttlcnt");
                         if (resultArray == null || resultArray.length() == 0) {
                             return;
                         }
@@ -294,7 +271,7 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
                     }
 
                     @Override
-                    public void onErrorResponse(VolleyError error) {
+                    public void onCompleted() {
                         if (mPullToRefreshScrollView.isRefreshing())
                             mPullToRefreshScrollView.onRefreshComplete();
                     }
@@ -312,23 +289,16 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
         mProgressDialog.show();
         ServiceProvider.doAnswerQuestionShare(mContext, mChatter.qid, text,
                 new VolleyListener(mContext) {
+
                     @Override
-                    public void onResponse(Object arg0) {
-                        if (!mActivity.isFinishing()) {
-                            mProgressDialog.dismiss();
-                        }
-                        JSONObject jsonObject = (JSONObject) arg0;
-                        int errcode = jsonObject.optInt(Net.CODE);
-                        if (errcode == 0) {
-                            // 响应成功
-                            mCurrentIndex = 1;
-                            updateReply(1);
-                        }
+                    public void onResponseSuccess(JSONObject response) {
+                        // 响应成功
+                        mCurrentIndex = 1;
+                        updateReply(1);
                     }
 
                     @Override
-                    public void onErrorResponse(VolleyError error) {
-                        super.onErrorResponse(error);
+                    public void onCompleted() {
                         if (!mActivity.isFinishing()) {
                             mProgressDialog.dismiss();
                         }
@@ -346,14 +316,7 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
         ServiceProvider.ReplyComment(mContext, mChatter.qid, content, whom, new VolleyListener(mContext) {
 
             @Override
-            public void onResponse(Object responseObject) {
-                JSONObject response = (JSONObject) responseObject;
-                if (!mActivity.isFinishing())
-                    mProgressDialog.dismiss();
-                int code = response.optInt(Net.CODE);
-                if (code != Net.SUCCESS) {
-                    return;
-                }
+            public void onResponseSuccess(JSONObject response) {
                 mCurrentIndex = 1;
                 updateReply(1);
                 // 关闭键盘
@@ -361,6 +324,12 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
                 mSendMessageView.setContent(getResources().getString(R.string.comment_hint), getResources().getString(R.string.button_send));
                 mSendMessageView.clearContent();
                 isReply = false;
+            }
+
+            @Override
+            public void onCompleted() {
+                if (!mActivity.isFinishing())
+                    mProgressDialog.dismiss();
             }
         });
     }

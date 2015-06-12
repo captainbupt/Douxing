@@ -108,18 +108,7 @@ public class ChattingActivity extends BaseBackActionBarActivity {
                 mContext) {
 
             @Override
-            public void onResponse(Object responseObject) {
-                JSONObject responseJson = (JSONObject) responseObject;
-                int code = responseJson.optInt(Net.CODE);
-                if (code == Net.LOGOUT) {
-                    AppApplication.logoutShow(mContext);
-                    return;
-                }
-                if (Net.SUCCESS != code) {
-                    ToastUtil.showToast(mContext, R.string.send_fail);
-                    return;
-                }
-
+            public void onResponseSuccess(JSONObject response) {
                 ChatInfo chatInfo = new ChatInfo();
                 chatInfo.setContent(content);
                 chatInfo.setTs(System.currentTimeMillis() / 1000);
@@ -174,11 +163,26 @@ public class ChattingActivity extends BaseBackActionBarActivity {
                     }
 
                     @Override
-                    public void onErrorResponse(VolleyError error) {
+                    public void onCompleted() {
                         if (mContentListView != null) {
                             mContentListView.onRefreshComplete();
                         }
-                        super.onErrorResponse(error);
+                    }
+
+                    @Override
+                    public void onResponseSuccess(JSONObject response) {
+                        JSONArray arrJson = response.optJSONArray(Net.DATA);
+                        List<Object> chatInfoList = new ArrayList<>();
+                        for (int i = 0; i < arrJson.length(); i++) {
+                            JSONObject jsonObject = arrJson.optJSONObject(i);
+                            chatInfoList.add(new ChatInfo(
+                                    jsonObject));
+                        }
+
+                        mAdapter.setList(chatInfoList);
+                        /** 发送成功后滚动到底部 **/
+                        ListView lv = mContentListView.getRefreshableView();
+                        lv.setSelection(lv.getBottom());
                     }
                 });
     }

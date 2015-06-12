@@ -256,28 +256,18 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
      */
     private void getClassifications() {
         ServiceProvider.doGetCategorys(mContext, CATEGORY_NAME, new VolleyListener(mContext) {
+
             @Override
-            public void onResponse(Object responseObject) {
-                JSONObject response = (JSONObject) responseObject;
-                int code = response.optInt(Net.CODE);
-                if (code == Net.LOGOUT) {
-                    AppApplication.logoutShow(mContext);
-                    return;
-                }
-                if (code != Net.SUCCESS) {
-                    return;
-                }
+            public void onErrorCode(int code) {
+                setClassificationListFromCache();
+            }
+
+            @Override
+            public void onResponseSuccess(JSONObject response) {
                 JSONArray resultArray = response.optJSONArray(Net.DATA);
                 // 缓存分类信息
                 SP.putStringSP(mContext, CATEGORY_NAME, CATEGORY_NAME, resultArray.toString());
                 setClassificationListFromJson(resultArray);
-            }
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                super.onErrorResponse(error);
-                error.printStackTrace();
-                setClassificationListFromCache();
             }
         });
     }
@@ -329,28 +319,23 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
                 new VolleyListener(mContext) {
 
                     @Override
-                    public void onResponse(Object responseObject) {
+                    public void onCompleted() {
                         mContentListView.onRefreshComplete();
                         hideProgressBar();
-                        JSONObject response = (JSONObject) responseObject;
-
-                        int code = response.optInt(Net.CODE);
-                        if (code != Net.SUCCESS) {
-                            ToastUtil.showNetExc(mContext);
-                            return;
-                        }
-                        updateListFromJson(response
-                                .optJSONObject(Net.DATA), beginNum);
-                        updateCompleted();
                     }
 
                     @Override
-                    public void onErrorResponse(VolleyError error) {
-                        super.onErrorResponse(error);
+                    public void onResponseSuccess(JSONObject response) {
+                        updateListFromJson(response
+                                .optJSONObject(Net.DATA), beginNum);
+                        mContentListView.onRefreshComplete();
+                        hideProgressBar();
                         updateCompleted();
                     }
                 });
     }
+
+    protected void updateCompleted(){};
 
     private void updateListFromJson(JSONObject data, int beginNum) {
         if (data == null
@@ -397,12 +382,6 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
             mCategoryAdapter.addList(list);
         }
     }
-
-    protected void updateCompleted() {
-        mContentListView.onRefreshComplete();
-        hideProgressBar();
-    }
-
 
 /*    private void addJsonArrayToSP(String userNum, String SPJSONArray, JSONArray jsonArray) {
         try {

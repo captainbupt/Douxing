@@ -101,39 +101,19 @@ public class AskSubmitActivity extends BaseBackActionBarActivity {
                 new VolleyListener(mContext) {
 
                     @Override
-                    public void onResponse(Object arg0) {
-                        if (arg0 == null) {
-                            return;
-                        }
-                        if (arg0 instanceof JSONObject) {
-                            JSONObject jObject = (JSONObject) arg0;
-                            int errcode = jObject
-                                    .optInt(ResponseParameters.QUESTION_ERRCODE);
-                            if (errcode == Net.LOGOUT) {
-                                AppApplication.logoutShow(mContext);
-                                return;
-                            }
-                            if (errcode == 0) {
-                                // 用startActivity做跳转可以使列表刷新
-                                Intent intent = new Intent(mContext, AskActivity.class);
-                                intent.putExtra(BaseActionBarActivity.KEY_TITLE,
-                                        MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_ASK,R.drawable.button_ask, R.string.module_default_title_ask).name);
-                                startActivity(intent);
-                                finish();
-                            } else {
-                                ToastUtil.showNetExc(mContext);
-                            }
-                        }
+                    public void onResponseSuccess(JSONObject response) {
+                        Intent intent = new Intent(mContext, AskActivity.class);
+                        intent.putExtra(BaseActionBarActivity.KEY_TITLE,
+                                MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_ASK, R.drawable.button_ask, R.string.module_default_title_ask).name);
+                        startActivity(intent);
+                        finish();
                     }
 
                     @Override
-                    public void onErrorResponse(VolleyError error) {
-                        super.onErrorResponse(error);
-                        if (null != mProgressDialog && mContext != null
-                                && !mActivity.isFinishing()) {
+                    public void onCompleted() {
+                        if (!mActivity.isFinishing()) {
                             mProgressDialog.dismiss();
                         }
-                        ToastUtil.showNetExc(mContext);
                     }
                 });
     }

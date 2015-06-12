@@ -14,11 +14,6 @@ public class SP {
     public static final String CHATTERHOT = "tongshiquanhot";  // 同事圈缓存
     public static final String ASK = "wenda";  // 问答缓存
 
-    private static Context mContext;
-
-    public static void init(Context context) {
-        mContext = context;
-    }
 
     // save float shared preference
     public static void putFloatSP(Context context, String fileName, String key, float value) {

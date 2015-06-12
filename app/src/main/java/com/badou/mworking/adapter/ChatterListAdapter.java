@@ -214,39 +214,18 @@ public class ChatterListAdapter extends MyBaseAdapter {
                     new VolleyListener(mContext) {
 
                         @Override
-                        public void onResponse(Object responseObject) {
-                            JSONObject respon = (JSONObject) responseObject;
-                            try {
-                                int code = respon.optInt(Net.CODE);
-                                if (code == Net.LOGOUT) {
-                                    AppApplication.logoutShow(mContext);
-                                    return;
-                                }
-                                if (Net.SUCCESS != code) {
-                                    ToastUtil.showToast(mContext,
-                                            R.string.credit_fail);
-                                    chatter.praiseNumber--;
-                                    checkBox.setChecked(false);
-                                    numberTextView.setText(chatter.praiseNumber + "");
-                                    checkBox.setEnabled(true);
-                                    numberTextView.setEnabled(true);
-                                    return;
-                                }
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                            TongShQuResManage
-                                    .insertItem(mContext, chatter);
-                        }
-
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            super.onErrorResponse(error);
+                        public void onErrorCode(int code) {
                             chatter.praiseNumber--;
                             checkBox.setChecked(false);
                             numberTextView.setText(chatter.praiseNumber + "");
                             checkBox.setEnabled(true);
                             numberTextView.setEnabled(true);
+                        }
+
+                        @Override
+                        public void onResponseSuccess(JSONObject response) {
+                            TongShQuResManage
+                                    .insertItem(mContext, chatter);
                         }
                     });
         }

@@ -17,6 +17,7 @@ import android.view.View.OnClickListener;
 
 import org.holoeverywhere.widget.EditText;
 import org.holoeverywhere.widget.TextView;
+import org.json.JSONObject;
 
 import com.android.volley.VolleyError;
 import com.badou.mworking.base.BaseBackActionBarActivity;
@@ -244,12 +245,12 @@ public class ForgetPassWordActivity extends BaseBackActionBarActivity {
         ServiceProvider.getVerificationCode(mContext, phoneNum,
                 new VolleyListener(mContext) {
                     @Override
-                    public void onResponse(Object responseObject) {
-                        // 收到响应时调用
+                    public void onResponseSuccess(JSONObject response) {
+
                     }
 
                     @Override
-                    public void onErrorResponse(VolleyError error) {
+                    public void onErrorCode(int code) {
                         recLen = 0;
                         setButtonEnable(mGetCodeTextView);
                         // 响应错误

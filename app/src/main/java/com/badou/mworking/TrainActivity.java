@@ -34,10 +34,10 @@ public class TrainActivity extends BaseCategoryProgressListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         mReceivedIntent = getIntent();
-        if(mReceivedIntent.getBooleanExtra(KEY_TRAINING,true)) {
+        if (mReceivedIntent.getBooleanExtra(KEY_TRAINING, true)) {
             CATEGORY_NAME = Train.CATEGORY_KEY_NAME;
             CATEGORY_UNREAD_NUM = Train.CATEGORY_KEY_UNREAD_NUM;
-        }else{
+        } else {
             CATEGORY_NAME = Category.CATEGORY_KEY_NAMES[Category.CATEGORY_SHELF];
             CATEGORY_UNREAD_NUM = Category.CATEGORY_KEY_UNREADS[Category.CATEGORY_SHELF];
         }
@@ -92,49 +92,36 @@ public class TrainActivity extends BaseCategoryProgressListActivity {
                 mContext) {
 
             @Override
-            public void onResponse(Object responseObject) {
-                JSONObject response = (JSONObject) responseObject;
-                try {
-                    int code = response.optInt(Net.CODE);
-                    if (code != Net.SUCCESS) {
-                        return;
-                    }
-                    JSONArray resultArray = response
-                            .optJSONArray(Net.DATA);
-                    for (int i = 0; i < resultArray.length(); i++) {
-                        JSONObject jsonObject = resultArray.optJSONObject(i);
-                        String rid = jsonObject.optString(ResponseParameters.CATEGORY_RID);
-                        int feedbackCount = jsonObject
-                                .optInt(ResponseParameters.RATING_NUM);
-                        int comment = jsonObject
-                                .optInt(ResponseParameters.COMMENT_NUM);
-                        int ecnt = jsonObject
-                                .optInt(ResponseParameters.ECNT); //评分人数
-                        int eval = jsonObject
-                                .optInt(ResponseParameters.EVAL); //评分总分
-                        for (int j = 0; j < mCategoryAdapter.getCount(); j++) {
-                            Train t = (Train) mCategoryAdapter.getItem(j);
-                            if (rid.equals(t.rid)) {
-                                t.commentNum = comment;
-                                t.ecnt = ecnt;
-                                t.eval = eval;
-                            }
-                        }
-                    }
-                    mCategoryAdapter.notifyDataSetChanged();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    mContentListView.onRefreshComplete();
-                    hideProgressBar();
-                }
+            public void onCompleted() {
+                mContentListView.onRefreshComplete();
+                hideProgressBar();
             }
 
             @Override
-            public void onErrorResponse(VolleyError error) {
-                super.onErrorResponse(error);
-                mContentListView.onRefreshComplete();
-                hideProgressBar();
+            public void onResponseSuccess(JSONObject response) {
+                JSONArray resultArray = response
+                        .optJSONArray(Net.DATA);
+                for (int i = 0; i < resultArray.length(); i++) {
+                    JSONObject jsonObject = resultArray.optJSONObject(i);
+                    String rid = jsonObject.optString(ResponseParameters.CATEGORY_RID);
+                    int feedbackCount = jsonObject
+                            .optInt(ResponseParameters.RATING_NUM);
+                    int comment = jsonObject
+                            .optInt(ResponseParameters.COMMENT_NUM);
+                    int ecnt = jsonObject
+                            .optInt(ResponseParameters.ECNT); //评分人数
+                    int eval = jsonObject
+                            .optInt(ResponseParameters.EVAL); //评分总分
+                    for (int j = 0; j < mCategoryAdapter.getCount(); j++) {
+                        Train t = (Train) mCategoryAdapter.getItem(j);
+                        if (rid.equals(t.rid)) {
+                            t.commentNum = comment;
+                            t.ecnt = ecnt;
+                            t.eval = eval;
+                            mCategoryAdapter.setItem(j, t);
+                        }
+                    }
+                }
             }
 
         });

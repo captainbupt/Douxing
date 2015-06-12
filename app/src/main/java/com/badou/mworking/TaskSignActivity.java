@@ -251,55 +251,42 @@ public class TaskSignActivity extends BaseStatisticalActionBarActivity implement
         ServiceProvider.doUpdateBitmap(mContext, photo,
                 Net.getRunHost(mContext) + Net.SIGN(task.rid, uid, lat, lon),
                 new VolleyListener(mContext) {
+
                     @Override
-                    public void onResponse(Object responseObject) {
-                        if (photo != null && photo.isRecycled()) {
-                            photo.recycle();
-                        }
+                    public void onCompleted() {
                         if (!mActivity.isFinishing()) {
                             mProgressDialog.dismiss();
                         }
-                        JSONObject jsonObject = (JSONObject) responseObject;
-                        if (jsonObject == null) {
-                            ToastUtil.showToast(TaskSignActivity.this, getResources().getString(R.string.error_service));
-                            return;
-                        }
-                        int errcode = jsonObject
-                                .optInt(RequestParameters.ERRCODE);
-                        if (errcode == 0) {
-                            // 签到成功
-                            task.read = Constant.FINISH_YES;
-                            if (task.isFreeSign()) {
-                                task.place = locationStr;
-                            }
-                            // 签到成功， 减去1
-                            String userNum = ((AppApplication) getApplicationContext())
-                                    .getUserInfo().account;
-                            int unreadNum = SP.getIntSP(mContext, SP.DEFAULTCACHE, userNum + Task.CATEGORY_KEY_UNREAD_NUM, 0);
-                            if (unreadNum > 0) {
-                                SP.putIntSP(mContext, SP.DEFAULTCACHE, userNum + Task.CATEGORY_KEY_UNREAD_NUM, unreadNum - 1);
-                            }
-                            disableSignButton(true);
-                            setResult(RESULT_OK, null);
-                        } else {
-                            // 签到失败
-                            AlertDialog.Builder builder = new AlertDialog.Builder(
-                                    mContext);
-                            builder.setTitle(R.string.message_tips);
-                            builder.setMessage(R.string.task_signFail);
+                    }
 
-                            builder.setPositiveButton(
-                                    R.string.text_ok,
-                                    new DialogInterface.OnClickListener() {
-
-                                        @Override
-                                        public void onClick(
-                                                DialogInterface arg0,
-                                                int arg1) {
-                                            arg0.dismiss();
-                                        }
-                                    }).show();
+                    @Override
+                    public void onResponseSuccess(JSONObject response) {
+                        if (photo != null && photo.isRecycled()) {
+                            photo.recycle();
                         }
+                        // 签到成功
+                        task.read = Constant.FINISH_YES;
+                        if (task.isFreeSign()) {
+                            task.place = locationStr;
+                        }
+                        // 签到成功， 减去1
+                        String userNum = ((AppApplication) getApplicationContext())
+                                .getUserInfo().account;
+                        int unreadNum = SP.getIntSP(mContext, SP.DEFAULTCACHE, userNum + Task.CATEGORY_KEY_UNREAD_NUM, 0);
+                        if (unreadNum > 0) {
+                            SP.putIntSP(mContext, SP.DEFAULTCACHE, userNum + Task.CATEGORY_KEY_UNREAD_NUM, unreadNum - 1);
+                        }
+                        disableSignButton(true);
+                        setResult(RESULT_OK, null);
+                    }
+
+                    @Override
+                    public void onErrorCode(int code) {                            // 签到失败
+                        AlertDialog.Builder builder = new AlertDialog.Builder(
+                                mContext);
+                        builder.setTitle(R.string.message_tips);
+                        builder.setMessage(R.string.task_signFail);
+                        builder.show();
                     }
                 });
     }

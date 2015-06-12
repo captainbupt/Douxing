@@ -165,7 +165,7 @@ public class RatingDilog extends Dialog {
         ServiceProvider.coursewareScoring(mContext, mRid, rating + "", new VolleyListener(mContext) {
 
             @Override
-            public void onResponseData(JSONObject jsonObject) {
+            public void onResponseSuccess(JSONObject jsonObject) {
                 if (mOnRatingCompletedListener != null)
                     mOnRatingCompletedListener.onRatingCompleted(rating);
                 dismiss();

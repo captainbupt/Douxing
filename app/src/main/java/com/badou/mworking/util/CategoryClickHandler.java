@@ -45,7 +45,7 @@ public class CategoryClickHandler {
     public static void categoryClicker(final Context context, final int type, final String rid, final String subject) {
         ServiceProvider.getResourceDetail(context, rid, new VolleyListener(context) {
             @Override
-            public void onResponseData(JSONObject jsonObject) {
+            public void onResponseSuccess(JSONObject jsonObject) {
                 CategoryDetail detail = new CategoryDetail(context, jsonObject, type, rid, subject, null);
                 goNextPage(context, detail);
                 ServiceProvider.doMarkRead(context, rid);
