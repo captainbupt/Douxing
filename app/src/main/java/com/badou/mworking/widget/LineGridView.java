@@ -12,8 +12,8 @@ import android.widget.ScrollView;
 import com.badou.mworking.R;
 import com.badou.mworking.util.ToastUtil;
 
-import org.holoeverywhere.widget.GridView;
-import org.holoeverywhere.widget.LinearLayout;
+import android.widget.GridView;
+import android.widget.LinearLayout;
 
 /**
  * Created by Administrator on 2015/5/26.

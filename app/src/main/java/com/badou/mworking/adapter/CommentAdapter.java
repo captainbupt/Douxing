@@ -21,8 +21,8 @@ import com.badou.mworking.util.TimeTransfer;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.WaitProgressDialog;
 
-import org.holoeverywhere.app.Activity;
-import org.holoeverywhere.widget.TextView;
+import android.app.Activity;
+import android.widget.TextView;
 import org.json.JSONObject;
 
 import java.util.List;

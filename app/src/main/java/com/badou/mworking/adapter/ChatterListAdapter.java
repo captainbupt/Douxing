@@ -1,7 +1,7 @@
 package com.badou.mworking.adapter;
 
-import org.holoeverywhere.widget.AdapterView;
-import org.holoeverywhere.widget.TextView;
+import android.widget.AdapterView;
+import android.widget.TextView;
 import org.json.JSONObject;
 
 import android.content.Context;

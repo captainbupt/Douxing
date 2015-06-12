@@ -1,10 +1,13 @@
 package com.badou.mworking.base;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Window;
+
 
 import com.badou.mworking.R;
 import com.badou.mworking.util.AppManager;
@@ -12,9 +15,8 @@ import com.badou.mworking.widget.SwipeBackLayout;
 import com.badou.mworking.widget.WaitProgressDialog;
 import com.umeng.analytics.MobclickAgent;
 
-import org.holoeverywhere.app.Activity;
 
-public class BaseNoTitleActivity extends Activity{
+public class BaseNoTitleActivity extends ActionBarActivity {
 	
 	protected Context mContext;
 	protected Activity mActivity;

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<org.holoeverywhere.widget.FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingBottom="@dimen/offset_small">
 
-    <org.holoeverywhere.widget.LinearLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/color_white"
@@ -15,13 +15,13 @@
         android:paddingRight="@dimen/offset_less"
         android:paddingTop="@dimen/offset_less">
 
-        <org.holoeverywhere.widget.LinearLayout
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <org.holoeverywhere.widget.TextView
+            <TextView
                 android:id="@+id/tv_adapter_user_progress_subject"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
                 android:textColor="@color/color_text_black"
                 android:textSize="@dimen/text_size_medium" />
 
-            <org.holoeverywhere.widget.TextView
+            <TextView
                 android:id="@+id/tv_adapter_user_progress_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -38,13 +38,13 @@
                 android:singleLine="true"
                 android:textColor="@color/color_text_grey"
                 android:textSize="14sp" />
-        </org.holoeverywhere.widget.LinearLayout>
+        </LinearLayout>
 
-        <org.holoeverywhere.widget.TextView
+        <TextView
             android:id="@+id/tv_adapter_user_progress_score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/color_red"
             android:textSize="@dimen/text_size_medium" />
-    </org.holoeverywhere.widget.LinearLayout>
-</org.holoeverywhere.widget.FrameLayout>
+    </LinearLayout>
+</FrameLayout>

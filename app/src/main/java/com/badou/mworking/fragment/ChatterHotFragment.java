@@ -27,7 +27,7 @@ import com.badou.mworking.util.ToastUtil;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
-import org.holoeverywhere.LayoutInflater;
+import android.view.LayoutInflater;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

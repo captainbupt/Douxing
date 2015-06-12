@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<org.holoeverywhere.widget.FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -10,25 +10,25 @@
         android:layout_height="match_parent" />
 
 
-    <org.holoeverywhere.widget.LinearLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/offset_medium"
         android:orientation="vertical">
 
-        <org.holoeverywhere.widget.LinearLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/color_white"
             android:orientation="vertical">
 
-            <org.holoeverywhere.widget.LinearLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
 
-                <org.holoeverywhere.widget.LinearLayout
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -37,20 +37,20 @@
                     android:orientation="vertical"
                     android:padding="@dimen/offset_medium">
 
-                    <org.holoeverywhere.widget.TextView
+                    <TextView
                         android:id="@+id/tv_activity_task_sign_date_begin"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/color_red"
                         android:textSize="@dimen/text_size_large" />
 
-                    <org.holoeverywhere.widget.TextView
+                    <TextView
                         android:id="@+id/tv_activity_task_sign_time_begin"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/color_text_black"
                         android:textSize="@dimen/text_size_medium" />
-                </org.holoeverywhere.widget.LinearLayout>
+                </LinearLayout>
 
                 <View
                     android:layout_width="1dp"
@@ -58,7 +58,7 @@
                     android:background="@color/color_border_grey" />
 
 
-                <org.holoeverywhere.widget.LinearLayout
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -67,28 +67,28 @@
                     android:orientation="vertical"
                     android:padding="@dimen/offset_medium">
 
-                    <org.holoeverywhere.widget.TextView
+                    <TextView
                         android:id="@+id/tv_activity_task_sign_date_end"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/color_red"
                         android:textSize="@dimen/text_size_large" />
 
-                    <org.holoeverywhere.widget.TextView
+                    <TextView
                         android:id="@+id/tv_activity_task_sign_time_end"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/color_text_black"
                         android:textSize="@dimen/text_size_medium" />
-                </org.holoeverywhere.widget.LinearLayout>
-            </org.holoeverywhere.widget.LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/color_border_grey" />
 
-            <org.holoeverywhere.widget.TextView
+            <TextView
                 android:id="@+id/tv_activity_task_sign_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -100,9 +100,9 @@
                 android:paddingTop="@dimen/offset_medium"
                 android:textColor="@color/color_text_grey"
                 android:textSize="@dimen/text_size_medium" />
-        </org.holoeverywhere.widget.LinearLayout>
+        </LinearLayout>
 
-        <org.holoeverywhere.widget.TextView
+        <TextView
             android:id="@+id/tv_activity_task_sign_location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -115,9 +115,9 @@
             android:paddingTop="@dimen/offset_medium"
             android:textColor="@color/color_text_black"
             android:textSize="@dimen/text_size_medium" />
-    </org.holoeverywhere.widget.LinearLayout>
+    </LinearLayout>
 
-    <org.holoeverywhere.widget.RelativeLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom">
@@ -130,7 +130,7 @@
             android:layout_gravity="bottom"
             android:background="@color/color_white" />
 
-        <org.holoeverywhere.widget.TextView
+        <TextView
             android:id="@+id/tv_activity_task_sign_bottom"
             android:layout_width="@dimen/button_size_activity_task_sign_bottom"
             android:layout_height="@dimen/button_size_activity_task_sign_bottom"
@@ -141,7 +141,7 @@
             android:textColor="@color/color_button_text_red"
             android:textSize="@dimen/text_size_large" />
 
-        <org.holoeverywhere.widget.LinearLayout
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@id/vw_activity_task_sign_bottom"
@@ -156,13 +156,13 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/button_task_sign_my_location" />
 
-            <org.holoeverywhere.widget.TextView
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/task_my_location"
                 android:textColor="@color/color_text_black"
                 android:textSize="@dimen/text_size_small" />
-        </org.holoeverywhere.widget.LinearLayout>
-    </org.holoeverywhere.widget.RelativeLayout>
+        </LinearLayout>
+    </RelativeLayout>
 
-</org.holoeverywhere.widget.FrameLayout>
+</FrameLayout>

@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<org.holoeverywhere.widget.RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_columnWeight="1"
     android:gravity="center"
     android:orientation="vertical"
     android:padding="@dimen/offset_medium">
 
-    <org.holoeverywhere.widget.LinearLayout
+    <LinearLayout
         android:id="@+id/ll_adapter_main_grid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -21,7 +20,7 @@
             android:layout_gravity="center_horizontal"
             android:scaleType="fitXY" />
 
-        <org.holoeverywhere.widget.TextView
+        <TextView
             android:id="@+id/tv_adapter_main_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -30,9 +29,9 @@
             android:singleLine="true"
             android:textColor="@color/color_text_grey"
             android:textSize="@dimen/text_size_medium" />
-    </org.holoeverywhere.widget.LinearLayout>
+    </LinearLayout>
 
-    <org.holoeverywhere.widget.TextView
+    <TextView
         android:id="@+id/tv_main_item_unreadNum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -45,4 +44,4 @@
     <!--        android:layout_marginRight="@dimen/main_gv_item_unread_margin_r"
             android:layout_marginTop="@dimen/main_gv_item_unread_margin_t"-->
 
-</org.holoeverywhere.widget.RelativeLayout>
+</RelativeLayout>

@@ -16,7 +16,7 @@ import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.OptimizedImageView;
 import com.umeng.analytics.MobclickAgent;
 
-import org.holoeverywhere.widget.Toast;
+import android.widget.Toast;
 
 import cn.jpush.android.api.JPushInterface;
 

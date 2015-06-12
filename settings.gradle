@@ -1,1 +1,1 @@
-include 'HoloEverywhere', ':HoloEverywhere', ':app', 'Pulltorefresh'
+include ':app', 'Pulltorefresh'

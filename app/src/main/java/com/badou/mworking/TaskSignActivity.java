@@ -35,7 +35,7 @@ import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.SupportMapFragment;
 import com.baidu.mapapi.model.LatLng;
 
-import org.holoeverywhere.app.AlertDialog;
+import android.app.AlertDialog;
 import org.json.JSONObject;
 
 /**

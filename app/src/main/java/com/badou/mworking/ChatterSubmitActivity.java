@@ -6,7 +6,10 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 
 import com.android.volley.VolleyError;
 import com.badou.mworking.adapter.ChatterTopicAdapter;
@@ -26,9 +29,6 @@ import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.MultiImageEditGridView;
 import com.badou.mworking.widget.VideoImageView;
 
-import org.holoeverywhere.widget.CheckBox;
-import org.holoeverywhere.widget.LinearLayout;
-import org.holoeverywhere.widget.ListView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

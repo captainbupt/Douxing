@@ -11,10 +11,10 @@ import android.widget.ImageView;
 import com.badou.mworking.R;
 import com.badou.mworking.widget.WaitProgressDialog;
 
-import org.holoeverywhere.widget.FrameLayout;
-import org.holoeverywhere.widget.LinearLayout;
-import org.holoeverywhere.widget.ProgressBar;
-import org.holoeverywhere.widget.TextView;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 public class BaseActionBarActivity extends BaseNoTitleActivity {
 

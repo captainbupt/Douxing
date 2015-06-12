@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<org.holoeverywhere.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_bg_grey"
     android:orientation="vertical">
 
-    <org.holoeverywhere.widget.LinearLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/offset_medium"
@@ -14,36 +14,36 @@
         android:paddingLeft="@dimen/offset_medium"
         android:paddingRight="@dimen/offset_medium">
 
-        <org.holoeverywhere.widget.LinearLayout style="@style/ll_account_manager_input">
+        <LinearLayout style="@style/ll_account_manager_input">
 
             <ImageView
                 style="@style/iv_account_manager_input"
                 android:src="@drawable/icon_account_manager_username" />
 
-            <org.holoeverywhere.widget.TextView
+            <TextView
                 style="@style/tv_account_manager_input"
                 android:text="@string/text_account" />
 
-            <org.holoeverywhere.widget.TextView
+            <TextView
                 android:id="@+id/tv_change_password_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/color_text_black"
                 android:textSize="@dimen/text_size_medium" />
-        </org.holoeverywhere.widget.LinearLayout>
+        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/color_grey" />
 
-        <org.holoeverywhere.widget.LinearLayout style="@style/ll_account_manager_input">
+        <LinearLayout style="@style/ll_account_manager_input">
 
             <ImageView
                 style="@style/iv_account_manager_input"
                 android:src="@drawable/icon_account_manager_oldpass" />
 
-            <org.holoeverywhere.widget.TextView
+            <TextView
                 style="@style/tv_account_manager_input"
                 android:text="@string/text_oldPass" />
 
@@ -51,20 +51,20 @@
                 android:id="@+id/et_change_password_original"
                 style="@style/et_account_manager_input"
                 android:hint="@string/change_hint_password_original" />
-        </org.holoeverywhere.widget.LinearLayout>
+        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/color_grey" />
 
-        <org.holoeverywhere.widget.LinearLayout style="@style/ll_account_manager_input">
+        <LinearLayout style="@style/ll_account_manager_input">
 
             <ImageView
                 style="@style/iv_account_manager_input"
                 android:src="@drawable/icon_account_manager_newpass" />
 
-            <org.holoeverywhere.widget.TextView
+            <TextView
                 style="@style/tv_account_manager_input"
                 android:text="@string/text_newPass" />
 
@@ -72,20 +72,20 @@
                 android:id="@+id/et_change_password_new"
                 style="@style/et_account_manager_input"
                 android:hint="@string/change_hint_password_new" />
-        </org.holoeverywhere.widget.LinearLayout>
+        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/color_grey" />
 
-        <org.holoeverywhere.widget.LinearLayout style="@style/ll_account_manager_input">
+        <LinearLayout style="@style/ll_account_manager_input">
 
             <ImageView
                 style="@style/iv_account_manager_input"
                 android:src="@drawable/icon_account_manager_newpass" />
 
-            <org.holoeverywhere.widget.TextView
+            <TextView
                 style="@style/tv_account_manager_input"
                 android:text="@string/text_newPass" />
 
@@ -93,10 +93,10 @@
                 android:id="@+id/et_change_password_confirm"
                 style="@style/et_account_manager_input"
                 android:hint="@string/change_hint_password_confirm" />
-        </org.holoeverywhere.widget.LinearLayout>
-    </org.holoeverywhere.widget.LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
 
-    <org.holoeverywhere.widget.Button
+    <Button
         android:id="@+id/btn_change_password_confirm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -110,7 +110,7 @@
         android:textSize="@dimen/text_size_large" />
 
 
-    <org.holoeverywhere.widget.Button
+    <Button
         android:id="@+id/btn_logout_password_confirm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -123,4 +123,4 @@
         android:textColor="@color/color_button_text_red"
         android:textSize="@dimen/text_size_large" />
 
-</org.holoeverywhere.widget.LinearLayout>
+</LinearLayout>

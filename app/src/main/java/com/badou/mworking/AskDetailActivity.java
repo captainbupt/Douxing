@@ -3,8 +3,8 @@ package com.badou.mworking;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.holoeverywhere.widget.LinearLayout;
-import org.holoeverywhere.widget.TextView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

@@ -24,9 +24,9 @@ import com.badou.mworking.widget.MyScrollListenerScrollView;
 import com.badou.mworking.widget.NoScrollListView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 
-import org.holoeverywhere.widget.AdapterView;
-import org.holoeverywhere.widget.RelativeLayout;
-import org.holoeverywhere.widget.TextView;
+import android.widget.AdapterView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

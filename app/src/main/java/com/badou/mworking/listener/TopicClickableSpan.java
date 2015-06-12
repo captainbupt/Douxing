@@ -13,8 +13,8 @@ import android.view.View;
 import com.badou.mworking.ChatterTopicActivity;
 import com.badou.mworking.base.BaseActionBarActivity;
 
-import org.holoeverywhere.app.Activity;
-import org.holoeverywhere.widget.TextView;
+import android.app.Activity;
+import android.widget.TextView;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

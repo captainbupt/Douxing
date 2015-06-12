@@ -23,20 +23,20 @@
         android:background="@drawable/no_content"
         android:visibility="gone" />
 
-    <org.holoeverywhere.widget.FrameLayout
+    <FrameLayout
         android:id="@+id/fl_activity_base_progress_classification_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/color_bg_transparent_black"
         android:visibility="gone">
 
-        <org.holoeverywhere.widget.LinearLayout
+        <LinearLayout
             android:id="@+id/ll_activity_base_progress_classification"
             android:layout_width="match_parent"
             android:layout_height="400dp"
             android:orientation="horizontal">
 
-            <org.holoeverywhere.widget.ListView
+            <ListView
                 android:id="@+id/lv_classification_list_main"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -47,7 +47,7 @@
                 android:listSelector="@android:color/transparent"
                 android:scrollbars="none" />
 
-            <org.holoeverywhere.widget.ListView
+            <ListView
                 android:id="@+id/lv_classification_list_more"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -58,7 +58,7 @@
                 android:listSelector="@android:color/transparent"
                 android:paddingLeft="@dimen/offset_small" />
 
-        </org.holoeverywhere.widget.LinearLayout>
+        </LinearLayout>
 
-    </org.holoeverywhere.widget.FrameLayout>
+    </FrameLayout>
 </RelativeLayout>

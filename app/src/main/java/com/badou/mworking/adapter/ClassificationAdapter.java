@@ -10,7 +10,7 @@ import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.model.Classification;
 
-import org.holoeverywhere.widget.TextView;
+import android.widget.TextView;
 
 /**
  * 查找中的更多的界面中左边listview的适配器

@@ -5,9 +5,9 @@ import android.view.Window;
 
 import com.badou.mworking.R;
 
-import org.holoeverywhere.app.Activity;
-import org.holoeverywhere.app.Dialog;
-import org.holoeverywhere.widget.ProgressBar;
+import android.app.Activity;
+import android.app.Dialog;
+import android.widget.ProgressBar;
 
 /**
  * Created by Administrator on 2015/5/19.

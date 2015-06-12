@@ -12,7 +12,7 @@ import com.badou.mworking.R;
 import com.badou.mworking.model.category.Category;
 import com.badou.mworking.model.category.CategoryBasic;
 
-import org.holoeverywhere.widget.TextView;
+import android.widget.TextView;
 
 import java.util.List;
 import java.util.zip.Inflater;

@@ -23,9 +23,9 @@ import com.badou.mworking.R;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 
-import org.holoeverywhere.app.Dialog;
-import org.holoeverywhere.widget.LinearLayout;
-import org.holoeverywhere.widget.TextView;
+import android.app.Dialog;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import org.json.JSONObject;
 
 /**

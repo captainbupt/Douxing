@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<org.holoeverywhere.widget.RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/layout_action_bg"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -16,14 +16,14 @@
         android:scaleType="centerInside"
         android:src="@drawable/button_title_bar_back_black" />
 
-    <org.holoeverywhere.widget.FrameLayout
+    <FrameLayout
         android:id="@+id/fl_actionbar_title_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_gravity="center">
 
-        <org.holoeverywhere.widget.TextView
+        <TextView
             android:id="@+id/tv_actionbar_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -35,9 +35,9 @@
             android:textColor="@color/color_title_bar_text"
             android:textSize="@dimen/text_size_title_bar_title" />
 
-    </org.holoeverywhere.widget.FrameLayout>
+    </FrameLayout>
 
-    <org.holoeverywhere.widget.ProgressBar
+    <ProgressBar
         android:id="@+id/pb_actionbar"
         style="@style/update_progress_style"
         android:layout_width="wrap_content"
@@ -47,7 +47,7 @@
         android:layout_toLeftOf="@id/fl_actionbar_title_container"
         android:visibility="gone" />
 
-    <org.holoeverywhere.widget.TextView
+    <TextView
         android:id="@+id/tv_actionbar_right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -76,4 +76,4 @@
         android:layout_height="1dp"
         android:layout_alignParentBottom="true"
         android:background="@color/color_border_grey" />
-</org.holoeverywhere.widget.RelativeLayout>
+</RelativeLayout>

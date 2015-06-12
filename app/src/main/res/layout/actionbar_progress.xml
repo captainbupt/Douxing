@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<org.holoeverywhere.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:orientation="horizontal">
 
-    <org.holoeverywhere.widget.TextView
+    <TextView
         android:id="@+id/tv_actionbar_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,4 +24,4 @@
         android:padding="@dimen/offset_small"
         android:src="@drawable/icon_triangle_down" />
 
-</org.holoeverywhere.widget.LinearLayout>
+</LinearLayout>

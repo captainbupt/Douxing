@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<org.holoeverywhere.widget.RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:myattr="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,14 +13,14 @@
         android:scrollbars="none"
         myattr:ptrMode="both">
 
-        <org.holoeverywhere.widget.LinearLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingBottom="@dimen/offset_less"
             android:paddingTop="@dimen/offset_less">
 
-            <org.holoeverywhere.widget.LinearLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/color_white"
@@ -28,7 +28,7 @@
                 android:paddingLeft="@dimen/offset_medium"
                 android:paddingRight="@dimen/offset_medium">
 
-                <org.holoeverywhere.widget.TextView
+                <TextView
                     android:id="@+id/tv_activity_ask_detail_subject"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
                     android:layout_height="1dp"
                     android:background="@color/color_border_grey" />
 
-                <org.holoeverywhere.widget.TextView
+                <TextView
                     android:id="@+id/tv_activity_ask_detail_time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
                     android:textColor="@color/color_text_grey"
                     android:textSize="@dimen/text_size_medium" />
 
-                <org.holoeverywhere.widget.TextView
+                <TextView
                     android:id="@+id/tv_activity_ask_detail_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -74,7 +74,7 @@
                     android:layout_marginTop="@dimen/offset_small"
                     android:background="@color/color_border_grey" />
 
-                <org.holoeverywhere.widget.LinearLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
@@ -89,7 +89,7 @@
                         android:scaleType="centerInside"
                         android:src="@drawable/icon_user_detail_default_head" />
 
-                    <org.holoeverywhere.widget.TextView
+                    <TextView
                         android:id="@+id/tv_activity_ask_detail_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -115,9 +115,9 @@
                         android:text="@string/operation_delete"
                         android:textColor="@color/color_blue"
                         android:textSize="@dimen/text_size_small" />
-                </org.holoeverywhere.widget.LinearLayout>
+                </LinearLayout>
 
-            </org.holoeverywhere.widget.LinearLayout>
+            </LinearLayout>
 
             <ImageView
                 android:id="@+id/iv_activity_ask_detail_none_answer"
@@ -140,10 +140,10 @@
                 myattr:dividerColor="@color/color_border_grey"
                 myattr:dividerHeight="1dp" />
 
-        </org.holoeverywhere.widget.LinearLayout>
+        </LinearLayout>
     </com.handmark.pulltorefresh.library.PullToRefreshScrollView>
 
-    <org.holoeverywhere.widget.LinearLayout
+    <LinearLayout
         android:id="@+id/ll_activity_ask_detail_bottom_comment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -159,13 +159,13 @@
             android:layout_height="wrap_content"
             android:src="@drawable/icon_bottom_comment" />
 
-        <org.holoeverywhere.widget.TextView
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/offset_less"
             android:text="@string/tips_bottom_comment"
             android:textColor="@color/color_text_black"
             android:textSize="@dimen/text_size_medium" />
-    </org.holoeverywhere.widget.LinearLayout>
+    </LinearLayout>
 
-</org.holoeverywhere.widget.RelativeLayout>
+</RelativeLayout>

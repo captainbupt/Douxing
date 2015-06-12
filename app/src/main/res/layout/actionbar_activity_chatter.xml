@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
-    <org.holoeverywhere.widget.RadioButton
+    <RadioButton
         android:id="@+id/rb_activity_chatter_title_left"
         android:layout_width="@dimen/size_activity_chatter_radio_button"
         android:layout_height="wrap_content"
@@ -16,7 +16,7 @@
         android:textColor="@color/color_radio_button_text_blue"
         android:textSize="@dimen/text_size_less" />
 
-    <org.holoeverywhere.widget.RadioButton
+    <RadioButton
         android:id="@+id/rb_activity_chatter_title_right"
         android:layout_width="@dimen/size_activity_chatter_radio_button"
         android:layout_height="wrap_content"

@@ -24,7 +24,7 @@ import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 
-import org.holoeverywhere.app.Activity;
+import android.app.Activity;
 import org.json.JSONObject;
 
 import java.io.File;

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<org.holoeverywhere.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <org.holoeverywhere.widget.TextView
+    <TextView
         android:id="@+id/tv_adapter_main_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,4 +16,4 @@
         android:layout_height="1dp"
         android:background="@color/color_border_grey" />
 
-</org.holoeverywhere.widget.LinearLayout>
+</LinearLayout>

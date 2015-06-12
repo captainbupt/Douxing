@@ -22,8 +22,8 @@ import com.badou.mworking.net.volley.MyVolley;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.TimeTransfer;
 
-import org.holoeverywhere.app.AlertDialog;
-import org.holoeverywhere.widget.TextView;
+import android.app.AlertDialog;
+import android.widget.TextView;
 import org.json.JSONObject;
 
 public class ChatAdapter extends MyBaseAdapter {

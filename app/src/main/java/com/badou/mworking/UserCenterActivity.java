@@ -29,8 +29,8 @@ import com.badou.mworking.util.FileUtils;
 import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.ToastUtil;
 
-import org.holoeverywhere.widget.ProgressBar;
-import org.holoeverywhere.widget.TextView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import org.json.JSONException;
 import org.json.JSONObject;
 

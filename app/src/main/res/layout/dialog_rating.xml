@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<org.holoeverywhere.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:stepSize="1" />
 
-    <org.holoeverywhere.widget.TextView
+    <TextView
         android:id="@+id/tv_dialog_rating_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -26,7 +26,7 @@
         android:textColor="@color/color_text_black"
         android:textSize="@dimen/text_size_xlarge" />
 
-    <org.holoeverywhere.widget.TextView
+    <TextView
         android:id="@+id/tv_dialog_rating_tips"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -34,14 +34,14 @@
         android:textColor="@color/color_orange"
         android:textSize="@dimen/text_size_medium" />
 
-    <org.holoeverywhere.widget.LinearLayout
+    <LinearLayout
         android:id="@+id/ll_dialog_rating_not_rated"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/offset_medium"
         android:gravity="center">
 
-        <org.holoeverywhere.widget.TextView
+        <TextView
             android:id="@+id/tv_dialog_rating_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
             android:textColor="@color/color_button_text_red"
             android:textSize="@dimen/text_size_less" />
 
-        <org.holoeverywhere.widget.TextView
+        <TextView
             android:id="@+id/btn_dialog_rating_confirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -70,9 +70,9 @@
             android:text="@string/dialog_rating_confirm"
             android:textColor="@color/color_white"
             android:textSize="@dimen/text_size_less" />
-    </org.holoeverywhere.widget.LinearLayout>
+    </LinearLayout>
 
-    <org.holoeverywhere.widget.LinearLayout
+    <LinearLayout
         android:id="@+id/ll_dialog_rating_rated"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -80,7 +80,7 @@
         android:gravity="center"
         android:visibility="gone">
 
-        <org.holoeverywhere.widget.TextView
+        <TextView
             android:id="@+id/tv_dialog_rating_rated"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -93,6 +93,6 @@
             android:textColor="@color/color_button_text_blue"
             android:textSize="@dimen/text_size_less" />
 
-    </org.holoeverywhere.widget.LinearLayout>
+    </LinearLayout>
 
-</org.holoeverywhere.widget.LinearLayout>
+</LinearLayout>
