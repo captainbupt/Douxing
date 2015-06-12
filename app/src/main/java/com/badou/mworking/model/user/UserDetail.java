@@ -1,7 +1,7 @@
 package com.badou.mworking.model.user;
 
 import com.badou.mworking.net.RequestParameters;
-import com.badou.mworking.net.ResponseParams;
+import com.badou.mworking.net.ResponseParameters;
 
 import org.json.JSONObject;
 
@@ -42,7 +42,7 @@ public class UserDetail implements Serializable{
 		this.score_rank = jo.optInt(RequestParameters.USER_SCORE_RANK);
 		this.study_over = jo.optInt(RequestParameters.USER_STUDY_OVER);
 		this.score_over = jo.optInt(RequestParameters.USER_SCORE_OVER);
-		this.circle_lv = jo.optInt(ResponseParams.QUESTION_CIRCLE_LV);
+		this.circle_lv = jo.optInt(ResponseParameters.QUESTION_CIRCLE_LV);
 	}
 
 	public UserDetail getUserDetail(JSONObject jo) {
@@ -61,7 +61,7 @@ public class UserDetail implements Serializable{
 		this.score_rank = jo.optInt(RequestParameters.USER_SCORE_RANK);
 		this.study_over = jo.optInt(RequestParameters.USER_STUDY_OVER);
 		this.score_over = jo.optInt(RequestParameters.USER_SCORE_OVER);
-		this.circle_lv = jo.optInt(ResponseParams.QUESTION_CIRCLE_LV);
+		this.circle_lv = jo.optInt(ResponseParameters.QUESTION_CIRCLE_LV);
 		return this;
 	}
 	

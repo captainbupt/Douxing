@@ -18,12 +18,13 @@ import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.RequestParameters;
-import com.badou.mworking.net.ResponseParams;
+import com.badou.mworking.net.ResponseParameters;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.AlarmUtil;
 import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.SP;
+import com.badou.mworking.util.SPUtil;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.WaitProgressDialog;
 
@@ -67,10 +68,8 @@ public class AboutUsActivity extends BaseBackActionBarActivity {
     }
 
     private void initData() {
-        Boolean isImgChk = SP.getBooleanSP(mContext, SP.DEFAULTCACHE, "pic_show", false);
-        mShowPictureCheckBox.setChecked(isImgChk);
-        Boolean isOpenPush = SP.getBooleanSP(mContext, SP.DEFAULTCACHE, Constant.PUSH_NOTIFICATIONS, true);
-        mPushCheckBox.setChecked(isOpenPush);
+        mShowPictureCheckBox.setChecked(SPUtil.getSaveInternetOption(mContext));
+        mPushCheckBox.setChecked(SPUtil.getPushOption(mContext));
         mInfoTextView.setText(mContext.getResources().getString(
                 R.string.app_name)
                 + AppApplication.appVersion);
@@ -101,7 +100,7 @@ public class AboutUsActivity extends BaseBackActionBarActivity {
                         TipsWebView.class);
                 intent1.putExtra(BackWebActivity.KEY_URL,
                         Net.getRunHost(AboutUsActivity.this) + Net.FAQ);
-                intent1.putExtra(TipsWebView.KEY_TITLE,getResources().getString(R.string.about_us_frequent_question));
+                intent1.putExtra(TipsWebView.KEY_TITLE, getResources().getString(R.string.about_us_frequent_question));
                 startActivity(intent1);
             }
         });
@@ -149,12 +148,12 @@ public class AboutUsActivity extends BaseBackActionBarActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    SP.putBooleanSP(mContext, SP.DEFAULTCACHE, Constant.PUSH_NOTIFICATIONS, true);
+                    SPUtil.setPushOption(mContext, true);
                     JPushInterface.resumePush(getApplicationContext());    //推送打开
                     AlarmUtil alarmUtil = new AlarmUtil();
                     alarmUtil.OpenTimer(mContext);
                 } else {
-                    SP.putBooleanSP(mContext, SP.DEFAULTCACHE, Constant.PUSH_NOTIFICATIONS, false);
+                    SPUtil.setPushOption(mContext, true);
                     JPushInterface.stopPush(getApplicationContext());   //推送关闭
                     AlarmUtil alarmUtil = new AlarmUtil();
                     alarmUtil.cancel(mContext);
@@ -165,73 +164,52 @@ public class AboutUsActivity extends BaseBackActionBarActivity {
 
     private void checkUpdate(boolean isAuto) {
         if (!isAuto) {
-            if (mProgressDialog == null)
-                mProgressDialog = new WaitProgressDialog(mContext,
-                        R.string.action_update_check_ing);
             mProgressDialog.setTitle(R.string.message_tips);
-            if (null != mProgressDialog && mContext != null
-                    && !mActivity.isFinishing()) {
-                mProgressDialog.show();
-            }
+            mProgressDialog.setContent(R.string.action_update_check_ing);
+            mProgressDialog.show();
         }
-        ServiceProvider.doCheckUpdate(mContext, null, new VolleyListener(
-                mContext) {
+        ServiceProvider.doCheckUpdate(mContext, null, new VolleyListener(mContext) {
 
-            @Override
-            public void onResponse(Object responseObject) {
-                JSONObject response = (JSONObject) responseObject;
-                try {
-                    int code = response.optInt(Net.CODE);
-                    if (code != Net.SUCCESS) {
-                        ToastUtil.showToast(mContext, "code:" + code);
-                        ToastUtil.showToast(mContext, R.string.result_update_check_fail);
-                        return;
+                    @Override
+                    public void onCompleted() {
+                        if (!mActivity.isFinishing()) {
+                            mProgressDialog.dismiss();
+                        }
                     }
-                    JSONObject data = response.optJSONObject(Net.DATA);
-                    JSONObject newver = data
-                            .optJSONObject(RequestParameters.CHK_UPDATA_PIC_NEWVER);
-                    boolean hasNew = newver
-                            .optInt(ResponseParams.CHECKUPDATE_NEW) == 1;
-                    if (hasNew) {
-                        final String info = newver
-                                .optString(ResponseParams.CHECKUPDATE_INFO);
-                        final String url = newver
-                                .optString(ResponseParams.CHECKUPDATE_URL);
-                        new AlertDialog.Builder(mContext)
-                                .setTitle(R.string.main_tips_update_title).setMessage(info)
-                                .setPositiveButton(R.string.about_btn_update,
-                                        new DialogInterface.OnClickListener() {
 
-                                            @Override
-                                            public void onClick(
-                                                    DialogInterface dialog,
-                                                    int which) {
-                                                ServiceProvider
-                                                        .doUpdateMTraning(
-                                                                mActivity, url);
-                                            }
-                                        }).setNegativeButton(R.string.text_cancel, null)
-                                .create().show();
-                    } else {
-                        ToastUtil.showToast(mContext, R.string.result_update_check_noneed);
+                    @Override
+                    public void onResponseData(JSONObject response) {
+                        JSONObject data = response.optJSONObject(Net.DATA);
+                        JSONObject newver = data
+                                .optJSONObject(RequestParameters.CHK_UPDATA_PIC_NEWVER);
+                        boolean hasNew = newver
+                                .optInt(ResponseParameters.CHECKUPDATE_NEW) == 1;
+                        if (hasNew) {
+                            final String info = newver
+                                    .optString(ResponseParameters.CHECKUPDATE_INFO);
+                            final String url = newver
+                                    .optString(ResponseParameters.CHECKUPDATE_URL);
+                            new AlertDialog.Builder(mContext)
+                                    .setTitle(R.string.main_tips_update_title).setMessage(info)
+                                    .setPositiveButton(R.string.about_btn_update,
+                                            new DialogInterface.OnClickListener() {
+
+                                                @Override
+                                                public void onClick(
+                                                        DialogInterface dialog,
+                                                        int which) {
+                                                    ServiceProvider
+                                                            .doUpdateMTraning(
+                                                                    mActivity, url);
+                                                }
+                                            }).setNegativeButton(R.string.text_cancel, null)
+                                    .create().show();
+                        } else {
+                            ToastUtil.showToast(mContext, R.string.result_update_check_noneed);
+                        }
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
-                if (null != mProgressDialog && mContext != null
-                        && !mActivity.isFinishing()) {
-                    mProgressDialog.dismiss();
-                }
-            }
 
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                super.onErrorResponse(error);
-                if (null != mProgressDialog && mContext != null
-                        && !mActivity.isFinishing()) {
-                    mProgressDialog.dismiss();
-                }
-            }
-        });
+        );
     }
 }

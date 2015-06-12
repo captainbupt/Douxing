@@ -17,7 +17,7 @@ import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.model.MainIcon;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.RequestParameters;
-import com.badou.mworking.net.ResponseParams;
+import com.badou.mworking.net.ResponseParameters;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.ImageChooser;
@@ -108,7 +108,7 @@ public class AskSubmitActivity extends BaseBackActionBarActivity {
                         if (arg0 instanceof JSONObject) {
                             JSONObject jObject = (JSONObject) arg0;
                             int errcode = jObject
-                                    .optInt(ResponseParams.QUESTION_ERRCODE);
+                                    .optInt(ResponseParameters.QUESTION_ERRCODE);
                             if (errcode == Net.LOGOUT) {
                                 AppApplication.logoutShow(mContext);
                                 return;

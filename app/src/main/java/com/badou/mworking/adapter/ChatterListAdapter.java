@@ -1,36 +1,29 @@
 package com.badou.mworking.adapter;
 
-import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.widget.AdapterView;
+import org.holoeverywhere.widget.TextView;
 import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
-import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.android.volley.VolleyError;
-import com.badou.mworking.ChatterTopicActivity;
-import com.badou.mworking.MyGroupActivity;
+import com.badou.mworking.ChatterUserActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.base.AppApplication;
-import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.database.TongShQuResManage;
 import com.badou.mworking.listener.CopyClickListener;
+import com.badou.mworking.listener.TopicClickableSpan;
 import com.badou.mworking.model.Chatter;
+import com.badou.mworking.model.user.UserChatterInfo;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.util.LVUtil;
 import com.badou.mworking.net.Net;
@@ -43,19 +36,18 @@ import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.MultiImageShowGridView;
 import com.badou.mworking.widget.VideoImageView;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 /**
  * 功能描述:同事圈adapter
  */
-public class ChatterAdapter extends MyBaseAdapter {
+public class ChatterListAdapter extends MyBaseAdapter {
 
     private AdapterView.OnItemClickListener mOnItemClickListener;
+    private boolean isHeadClickable;
 
-    public ChatterAdapter(Context context, AdapterView.OnItemClickListener onItemClickListener) {
+    public ChatterListAdapter(Context context, AdapterView.OnItemClickListener onItemClickListener, boolean isHeadClickable) {
         super(context);
         this.mOnItemClickListener = onItemClickListener;
+        this.isHeadClickable = isHeadClickable;
     }
 
     @Override
@@ -64,7 +56,7 @@ public class ChatterAdapter extends MyBaseAdapter {
         if (convertView != null) {
             holder = (ViewHolder) convertView.getTag();
         } else {
-            convertView = mInflater.inflate(R.layout.adapter_arount_item,
+            convertView = mInflater.inflate(R.layout.adapter_chatter_item,
                     parent, false);
             holder = new ViewHolder(mContext, convertView);
             convertView.setTag(holder);
@@ -76,14 +68,7 @@ public class ChatterAdapter extends MyBaseAdapter {
         if (content.length() > 100) {
             content = content.substring(0, 100) + "...";
         }
-        SpannableString spannableString = new SpannableString(content);
-        Pattern pattern = Pattern.compile("#[\\s\\S]*#");
-        Matcher matcher = pattern.matcher(content);
-        while (matcher.find()) {
-            spannableString.setSpan(new ForegroundColorSpan(Color.BLUE), matcher.start(), matcher.end(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-            spannableString.setSpan(new TopicClickableSpan(matcher.group().replace("#","")), matcher.start(), matcher.end(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-        }
-        holder.contentTextView.setText(spannableString);
+        TopicClickableSpan.setClickTopic(mContext, holder.contentTextView, content);
         holder.dateTextView.setText(TimeTransfer.long2StringDetailDate(mContext,
                 chatter.publishTime));
         holder.replyNumberTextView.setText("" + chatter.replyNumber);
@@ -131,7 +116,7 @@ public class ChatterAdapter extends MyBaseAdapter {
         holder.praiseClickListener.chatter = chatter;
         holder.praiseClickListener.checkBox = holder.praiseCheckBox;
         holder.praiseClickListener.numberTextView = holder.praiseNumberTextView;
-        holder.headClickListener.uid = chatter.uid;
+        holder.headClickListener.position = position;
         holder.copyClickListener.content = chatter.content;
         holder.chatterClickListener.position = position;
 
@@ -177,37 +162,14 @@ public class ChatterAdapter extends MyBaseAdapter {
             praiseClickListener = new PraiseClickListener();
             copyClickListener = new CopyClickListener(context);
             chatterClickListener = new ChatterClickListener();
-            headImageView.setOnClickListener(headClickListener);
+            if (isHeadClickable) {
+                headImageView.setOnClickListener(headClickListener);
+            }
             praiseNumberTextView.setOnClickListener(praiseClickListener);
             praiseCheckBox.setOnClickListener(praiseClickListener);
             view.setOnLongClickListener(copyClickListener);
             view.setOnClickListener(chatterClickListener);
             contentTextView.setMovementMethod(LinkMovementMethod.getInstance());
-        }
-    }
-
-    class TopicClickableSpan extends ClickableSpan {
-        private String mTopic;
-
-        public TopicClickableSpan(String topic) {
-            this.mTopic = topic;
-        }
-
-        @Override
-        public void onClick(View view) {
-            Intent intent = new Intent(mContext, ChatterTopicActivity.class);
-            intent.putExtra(ChatterTopicActivity.KEY_TOPIC, mTopic);
-            intent.putExtra(BaseActionBarActivity.KEY_TITLE, mTopic);
-            mContext.startActivity(intent);
-            if (mContext.getClass().equals(ChatterTopicActivity.class)) {
-                ((Activity) mContext).finish();
-            }
-        }
-
-        @Override
-        public void updateDrawState(TextPaint ds) {
-            ds.setColor(ds.linkColor);
-            ds.setUnderlineText(false); //去掉下划线
         }
     }
 
@@ -222,12 +184,14 @@ public class ChatterAdapter extends MyBaseAdapter {
     }
 
     class HeadClickListener implements OnClickListener {
-        public String uid;
+        public int position;
 
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(mContext, MyGroupActivity.class);
-            intent.putExtra(MyGroupActivity.KEY_QID, uid);
+            UserChatterInfo userChatterInfo = new UserChatterInfo((Chatter) getItem(position));
+            Intent intent = new Intent(mContext, ChatterUserActivity.class);
+            intent.putExtra(ChatterUserActivity.KEY_UID, ((Chatter) getItem(position)).uid);
+            intent.putExtra(ChatterUserActivity.KEY_USER_CHATTER, userChatterInfo);
             mContext.startActivity(intent);
         }
     }

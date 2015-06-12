@@ -13,6 +13,7 @@ import com.android.volley.VolleyError;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.model.category.Category;
+import com.badou.mworking.model.user.UserChatterInfo;
 import com.badou.mworking.model.user.UserDetail;
 import com.badou.mworking.util.ImageChooser;
 import com.badou.mworking.util.LVUtil;
@@ -40,7 +41,7 @@ import java.io.File;
  */
 public class UserCenterActivity extends BaseNoTitleActivity {
 
-    private String uid = "";
+    private String mUid = "";
     private String finalImgPath;
 
     private UserDetail mUserDetail;
@@ -136,8 +137,11 @@ public class UserCenterActivity extends BaseNoTitleActivity {
 
                     @Override
                     public void onClick(View v) {
-                        startActivity(new Intent(mActivity,
-                                MyGroupActivity.class));
+                        // 缺省UID的情况下，默认进入我的圈
+                        Intent intent = new Intent(mContext, ChatterUserActivity.class);
+                        intent.putExtra(ChatterUserActivity.KEY_USER_CHATTER, new UserChatterInfo(mUserDetail));
+                        intent.putExtra(ChatterUserActivity.KEY_UID, mUid);
+                        startActivity(intent);
                     }
                 });
 
@@ -191,12 +195,12 @@ public class UserCenterActivity extends BaseNoTitleActivity {
     private void initData() {
         // 获取用户的uid
         try {
-            uid = ((AppApplication) mContext.getApplicationContext())
+            mUid = ((AppApplication) mContext.getApplicationContext())
                     .getUserInfo().userId;
             // 根据uid拿到用户头像的路径
             finalImgPath = mActivity.getExternalFilesDir(
                     Environment.DIRECTORY_PICTURES).getAbsolutePath()
-                    + File.separator + uid + ".png";
+                    + File.separator + mUid + ".png";
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
@@ -205,7 +209,7 @@ public class UserCenterActivity extends BaseNoTitleActivity {
 
         mProgressDialog.show();
         // 获取用户详情
-        ServiceProvider.doOptainUserDetail(mContext, uid, new VolleyListener(
+        ServiceProvider.doOptainUserDetail(mContext, mUid, new VolleyListener(
                 mContext) {
             @Override
             public void onErrorResponse(VolleyError error) {
@@ -321,7 +325,7 @@ public class UserCenterActivity extends BaseNoTitleActivity {
         imgCacheUrl = mUserDetail.headimg;
         String strScore = mContext.getResources().getString(R.string.text_score);
         String strPingJunFen = mContext.getResources().getString(R.string.user_center_exam_average);
-        setUserIcon(uid, mUserDetail.headimg);
+        setUserIcon(mUid, mUserDetail.headimg);
         if (!TextUtils.isEmpty(mUserDetail.name)) {
             ((TextView) findViewById(R.id.tv_user_center_top_name))
                     .setText(mUserDetail.name + "\n" + mUserDetail.dpt);
@@ -375,7 +379,7 @@ public class UserCenterActivity extends BaseNoTitleActivity {
             mProgressDialog.setTitle(R.string.user_detail_icon_upload_ing);
             mProgressDialog.show();
             ServiceProvider.doUpdateBitmap(mContext, bitmap,
-                    Net.getRunHost(mContext) + Net.UPDATE_HEAD_ICON(uid),
+                    Net.getRunHost(mContext) + Net.UPDATE_HEAD_ICON(mUid),
                     new VolleyListener(mContext) {
 
                         @Override
@@ -404,7 +408,7 @@ public class UserCenterActivity extends BaseNoTitleActivity {
                                     FileUtils.writeBitmap2SDcard(bitmap,
                                             finalImgPath);
                                     bitmap.recycle();
-                                    setUserIcon(uid, null);
+                                    setUserIcon(mUid, null);
                                     ToastUtil
                                             .showToast(
                                                     mContext,

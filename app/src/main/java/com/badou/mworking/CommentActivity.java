@@ -11,8 +11,9 @@ import com.badou.mworking.adapter.CommentAdapter;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.model.Chatter;
+import com.badou.mworking.model.Comment;
 import com.badou.mworking.net.Net;
-import com.badou.mworking.net.ResponseParams;
+import com.badou.mworking.net.ResponseParameters;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.ToastUtil;
@@ -159,7 +160,7 @@ public class CommentActivity extends BaseBackActionBarActivity {
                                     .optJSONObject(Net.DATA).optInt("ttlcnt");
                             updateSuccess(response
                                     .optJSONObject(Net.DATA)
-                                    .optJSONArray(ResponseParams.COMMENT_RESULT), allCount);
+                                    .optJSONArray(ResponseParameters.COMMENT_RESULT), allCount);
 
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -192,7 +193,7 @@ public class CommentActivity extends BaseBackActionBarActivity {
         commentList = new ArrayList<>();
         for (int i = 0; i < length; i++) {
             try {
-                commentList.add(new Chatter(jsonArray.getJSONObject(i)));
+                commentList.add(new Comment(jsonArray.getJSONObject(i), Comment.TYPE_COMMENT));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -209,7 +210,7 @@ public class CommentActivity extends BaseBackActionBarActivity {
         mProgressDialog.show();
 
         if (isReply) {
-            ServiceProvider.doReplayComment(mContext, mRid, whom, comment, new VolleyListener(mContext) {
+            ServiceProvider.doReplyComment(mContext, mRid, whom, comment, new VolleyListener(mContext) {
 
                 @Override
                 public void onResponse(Object responseObject) {

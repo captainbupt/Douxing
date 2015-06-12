@@ -9,7 +9,7 @@ import com.badou.mworking.base.BaseCategoryProgressListActivity;
 import com.badou.mworking.model.category.Category;
 import com.badou.mworking.model.category.Train;
 import com.badou.mworking.net.Net;
-import com.badou.mworking.net.ResponseParams;
+import com.badou.mworking.net.ResponseParameters;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.CategoryClickHandler;
@@ -103,15 +103,15 @@ public class TrainActivity extends BaseCategoryProgressListActivity {
                             .optJSONArray(Net.DATA);
                     for (int i = 0; i < resultArray.length(); i++) {
                         JSONObject jsonObject = resultArray.optJSONObject(i);
-                        String rid = jsonObject.optString(ResponseParams.CATEGORY_RID);
+                        String rid = jsonObject.optString(ResponseParameters.CATEGORY_RID);
                         int feedbackCount = jsonObject
-                                .optInt(ResponseParams.RATING_NUM);
+                                .optInt(ResponseParameters.RATING_NUM);
                         int comment = jsonObject
-                                .optInt(ResponseParams.COMMENT_NUM);
+                                .optInt(ResponseParameters.COMMENT_NUM);
                         int ecnt = jsonObject
-                                .optInt(ResponseParams.ECNT); //评分人数
+                                .optInt(ResponseParameters.ECNT); //评分人数
                         int eval = jsonObject
-                                .optInt(ResponseParams.EVAL); //评分总分
+                                .optInt(ResponseParameters.EVAL); //评分总分
                         for (int j = 0; j < mCategoryAdapter.getCount(); j++) {
                             Train t = (Train) mCategoryAdapter.getItem(j);
                             if (rid.equals(t.rid)) {

@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.holoeverywhere.LayoutInflater;
-import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.widget.AdapterView;
-import org.holoeverywhere.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,7 +21,7 @@ import com.android.volley.VolleyError;
 import com.badou.mworking.ChatterActivity;
 import com.badou.mworking.ChatterDetailActivity;
 import com.badou.mworking.R;
-import com.badou.mworking.adapter.ChatterAdapter;
+import com.badou.mworking.adapter.ChatterListAdapter;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.base.BaseFragment;
@@ -47,10 +45,10 @@ public class ChatterListFragment extends BaseFragment {
     public static final int REQUEST_CHATTER_DETAIL = 1;
     public static final String KEY_ARGUMENT_TOPIC = "topic";
 
-    private int mClickPostion = -1;
+    private int mClickPosition = -1;
     private int mCurrentPage = 1;// 当前页码
 
-    private ChatterAdapter mChatterAdapter;
+    private ChatterListAdapter mChatterAdapter;
     private PullToRefreshListView mContentListView;
     private ImageView mNoneResultImageView;
 
@@ -82,17 +80,17 @@ public class ChatterListFragment extends BaseFragment {
                 updateData(mCurrentPage);
             }
         });
-        mChatterAdapter = new ChatterAdapter(mContext, new AdapterView.OnItemClickListener() {
+        mChatterAdapter = new ChatterListAdapter(mContext, new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mClickPostion = position - 1;
+                mClickPosition = position;
                 // 跳转到单条的Item的页面，并传递数据
-                Chatter chatter = (Chatter) mChatterAdapter.getItem(position - 1);
+                Chatter chatter = (Chatter) mChatterAdapter.getItem(position);
                 Intent intent = new Intent(mContext, ChatterDetailActivity.class);
-                intent.putExtra(ChatterDetailActivity.VALUE_QUESTION, chatter);
+                intent.putExtra(ChatterDetailActivity.KEY_CHATTER, chatter);
                 startActivityForResult(intent, REQUEST_CHATTER_DETAIL);
             }
-        });
+        }, true);
         mContentListView.setAdapter(mChatterAdapter);
     }
 
@@ -156,7 +154,7 @@ public class ChatterListFragment extends BaseFragment {
                         if (beginNum == 1) {// 页码为1 重新加载第一页
                             final String userNum = ((AppApplication) mContext.getApplicationContext())
                                     .getUserInfo().account;
-                            SP.putStringSP(mContext, SP.TONGSHIQUAN, userNum + Chatter.QUESTIONCACHE, resultArray.toString());
+                            SP.putStringSP(mContext, SP.CHATTER, userNum, resultArray.toString());
                             mChatterAdapter.setList(chatters);
                         } else {// 继续加载
                             mChatterAdapter.addList(chatters);
@@ -176,11 +174,13 @@ public class ChatterListFragment extends BaseFragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK) {
-            if (mChatterAdapter.getCount() >= mClickPostion) {
-                Chatter chatter = (Chatter) mChatterAdapter.getItem(mClickPostion);
-                chatter.replyNumber = (data.getIntExtra(ChatterDetailActivity.RESPONSE_KEY_RELAY_NUMBER, 0));
-                mChatterAdapter.setItem(mClickPostion, chatter);
+        if (mClickPosition >= 0 && mClickPosition < mChatterAdapter.getCount()) {
+            if (resultCode == ChatterDetailActivity.RESULT_REPLY) {
+                Chatter chatter = (Chatter) mChatterAdapter.getItem(mClickPosition);
+                chatter.replyNumber = (data.getIntExtra(ChatterDetailActivity.RESULT_KEY_COUNT, 0));
+                mChatterAdapter.setItem(mClickPosition, chatter);
+            } else if (resultCode == ChatterDetailActivity.RESULT_DELETE) {
+                mChatterAdapter.remove(mClickPosition);
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -193,7 +193,7 @@ public class ChatterListFragment extends BaseFragment {
         final String userNum = ((AppApplication) mContext.getApplicationContext())
                 .getUserInfo().account;
         ArrayList<Object> list = new ArrayList<>();
-        String sp = SP.getStringSP(getActivity(), SP.TONGSHIQUAN, userNum + Chatter.QUESTIONCACHE, "");
+        String sp = SP.getStringSP(getActivity(), SP.CHATTER, userNum, "");
         if (TextUtils.isEmpty(sp)) {
             return;
         }

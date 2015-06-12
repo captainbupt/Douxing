@@ -16,7 +16,7 @@ import com.badou.mworking.model.ChatterTopic;
 import com.badou.mworking.model.MainIcon;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.RequestParameters;
-import com.badou.mworking.net.ResponseParams;
+import com.badou.mworking.net.ResponseParameters;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.FileUtils;
@@ -220,7 +220,7 @@ public class ChatterSubmitActivity extends BaseBackActionBarActivity {
                     public void onResponse(Object arg0) {
                         JSONObject jObject = (JSONObject) arg0;
                         int errcode = jObject
-                                .optInt(ResponseParams.QUESTION_ERRCODE);
+                                .optInt(ResponseParameters.QUESTION_ERRCODE);
                         if (errcode == Net.SUCCESS) {
                             // 获取questionid
                             String qid = jObject.optJSONObject(Net.DATA).optString("qid");

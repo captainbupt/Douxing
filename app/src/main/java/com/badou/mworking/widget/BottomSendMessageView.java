@@ -145,4 +145,8 @@ public class BottomSendMessageView extends LinearLayout {
         imm.showSoftInput(mContentEditText, 0);
     }
 
+    public void hideKeyboard() {
+        imm.hideSoftInputFromWindow(mContentEditText.getWindowToken(), 0);
+    }
+
 }

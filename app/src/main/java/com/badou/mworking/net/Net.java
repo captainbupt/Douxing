@@ -249,12 +249,27 @@ public class Net {
 
 
     /**
+     * 20.获取某人的同事圈
+     */
+    public static String QUESTION_GET_USER = "/viewqas_v2?sys=android"
+            + AppApplication.SYSVERSION + "&ver=" + AppApplication.appVersion;
+
+    /**
      * 20.获取同事圈话题
      */
     public static String QUESTION_GET_TOPIC(String uid, String topic, int pageNum, int itemNum) {
         return "/getTopicInfo?sys=android"
                 + AppApplication.SYSVERSION + "&ver=" + AppApplication.appVersion + "&uid="
                 + uid + "&topic=" + topic + "&page_no=" + pageNum + "&item_per_page=" + itemNum;
+    }
+
+    /**
+     * 20.获取同事圈话题
+     */
+    public static String QUESTION_GET_HOT(String uid, int pageNum, int itemNum) {
+        return "/getdaren?sys=android"
+                + AppApplication.SYSVERSION + "&ver=" + AppApplication.appVersion + "&uid="
+                + uid + "&page_no=" + pageNum + "&item_per_page=" + itemNum;
     }
 
     /**

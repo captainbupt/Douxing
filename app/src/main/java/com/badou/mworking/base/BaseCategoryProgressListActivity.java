@@ -17,7 +17,7 @@ import com.badou.mworking.adapter.ClassificationAdapter;
 import com.badou.mworking.model.Classification;
 import com.badou.mworking.model.category.Category;
 import com.badou.mworking.net.Net;
-import com.badou.mworking.net.ResponseParams;
+import com.badou.mworking.net.ResponseParameters;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.CategoryClickHandler;
@@ -376,7 +376,7 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
          * 保存未读数
          */
         if (tag == 0) {
-            SP.putIntSP(mContext, SP.DEFAULTCACHE, userNum + CATEGORY_UNREAD_NUM, data.optInt(ResponseParams.NEWCNT));
+            SP.putIntSP(mContext, SP.DEFAULTCACHE, userNum + CATEGORY_UNREAD_NUM, data.optInt(ResponseParameters.NEWCNT));
         }
         //添加缓存
         if (mCategoryAdapter.getCount() == 0) {

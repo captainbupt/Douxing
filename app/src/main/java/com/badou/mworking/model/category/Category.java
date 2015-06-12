@@ -2,7 +2,9 @@ package com.badou.mworking.model.category;
 
 import android.content.Context;
 
-import com.badou.mworking.net.ResponseParams;
+import com.badou.mworking.model.MainIcon;
+import com.badou.mworking.net.RequestParameters;
+import com.badou.mworking.net.ResponseParameters;
 import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.SP;
 
@@ -35,18 +37,18 @@ public abstract class Category implements Serializable {
     public int read; // 是否完成
 
     public Category(JSONObject jsonObject) {
-        this.rid = jsonObject.optString(ResponseParams.CATEGORY_RID);
-        this.subject = jsonObject.optString(ResponseParams.CATEGORY_SUBJECT);
+        this.rid = jsonObject.optString(ResponseParameters.CATEGORY_RID);
+        this.subject = jsonObject.optString(ResponseParameters.CATEGORY_SUBJECT);
         this.department = jsonObject
-                .optString(ResponseParams.CATEGORY_DEPARTMENT);
-        this.time = jsonObject.optLong(ResponseParams.CATEGORY_TIME) * 1000;
-        this.top = jsonObject.optInt(ResponseParams.CATEGORY_TOP);
+                .optString(ResponseParameters.CATEGORY_DEPARTMENT);
+        this.time = jsonObject.optLong(ResponseParameters.CATEGORY_TIME) * 1000;
+        this.top = jsonObject.optInt(ResponseParameters.CATEGORY_TOP);
         this.tag = jsonObject
-                .optInt(ResponseParams.CATEGORY_TAG);
-        this.url = jsonObject.optString(ResponseParams.CATEGORY_URL);
-        this.subtype = jsonObject.optInt(ResponseParams.CATEGORY_SUBTYPE);
+                .optInt(ResponseParameters.CATEGORY_TAG);
+        this.url = jsonObject.optString(ResponseParameters.CATEGORY_URL);
+        this.subtype = jsonObject.optInt(ResponseParameters.CATEGORY_SUBTYPE);
         // 为空的时候为已完成
-        this.read = jsonObject.optInt(ResponseParams.CATEGORY_UNREAD, 1);
+        this.read = jsonObject.optInt(ResponseParameters.CATEGORY_UNREAD, 1);
     }
 
     public abstract int getCategoryType();
@@ -77,6 +79,22 @@ public abstract class Category implements Serializable {
 
     public static String getClassificationName(Context context, int type, int tag) {
         return SP.getStringSP(context, CATEGORY_KEY_NAMES[type], tag + "", "");
+    }
+
+    public String getCategoryName(Context context) {
+        int type = getCategoryType();
+        if (type == CATEGORY_NOTICE) {
+            return MainIcon.getMainIcon(context, RequestParameters.CHK_UPDATA_PIC_NOTICE).name;
+        } else if (type == CATEGORY_EXAM) {
+            return MainIcon.getMainIcon(context, RequestParameters.CHK_UPDATA_PIC_EXAM).name;
+        } else if (type == CATEGORY_TASK) {
+            return MainIcon.getMainIcon(context, RequestParameters.CHK_UPDATA_PIC_TASK).name;
+        } else if (type == CATEGORY_TRAINING) {
+            return MainIcon.getMainIcon(context, RequestParameters.CHK_UPDATA_PIC_TRAINING).name;
+        } else if (type == CATEGORY_SHELF) {
+            return MainIcon.getMainIcon(context, RequestParameters.CHK_UPDATA_PIC_SHELF).name;
+        }
+        return null;
     }
 
 }

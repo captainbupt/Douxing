@@ -10,26 +10,14 @@ public class SP {
 
     // 请勿随意更改值，会导致之前版本缓存异常
     public static final String DEFAULTCACHE = "douxing";  //默认普通缓存
-    public static final String TONGSHIQUAN = "tongshiquan";  // 同事圈缓存
+    public static final String CHATTER = "tongshiquan";  // 同事圈缓存
+    public static final String CHATTERHOT = "tongshiquanhot";  // 同事圈缓存
     public static final String ASK = "wenda";  // 问答缓存
 
-    // save shared preference values
-    public static void putSP(Context context, String fileName, String key, Object value) {
-        SharedPreferences sp = context.getSharedPreferences(fileName,
-                Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sp.edit();
-        if (value instanceof Boolean) {
-            editor.putBoolean(key, (Boolean) value);
-        } else if (value instanceof Float) {
-            editor.putFloat(key, (Float) value);
-        } else if (value instanceof Integer) {
-            editor.putInt(key, (Integer) value);
-        } else if (value instanceof Long) {
-            editor.putLong(key, (Long) value);
-        } else if (value instanceof String) {
-            editor.putString(key, (String) value);
-        }
-        editor.commit();
+    private static Context mContext;
+
+    public static void init(Context context) {
+        mContext = context;
     }
 
     // save float shared preference
@@ -54,27 +42,6 @@ public class SP {
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         editor.putLong(key, value).commit();
-    }
-
-    // get shared preference values
-    public static Object getSP(Context context, String fileName, String key, Class clazz,
-                               Object defaultValues) {
-        Object object = null;
-        SharedPreferences sp = context.getSharedPreferences(fileName,
-                Context.MODE_PRIVATE);
-        String name = clazz.getName().substring(10);
-        if (name.equals("Boolean")) {
-            object = sp.getBoolean(key, (Boolean) defaultValues);
-        } else if (name.equals("Float")) {
-            object = sp.getFloat(key, (Float) defaultValues);
-        } else if (name.equals("Integer")) {
-            object = sp.getInt(key, (Integer) defaultValues);
-        } else if (name.equals("Long")) {
-            object = sp.getLong(key, (Long) defaultValues);
-        } else if (name.equals("String")) {
-            object = sp.getString(key, (String) defaultValues);
-        }
-        return object;
     }
 
     // get float shared preference

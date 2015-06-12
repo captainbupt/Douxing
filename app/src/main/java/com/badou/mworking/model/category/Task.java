@@ -2,7 +2,7 @@ package com.badou.mworking.model.category;
 
 import android.text.TextUtils;
 
-import com.badou.mworking.net.ResponseParams;
+import com.badou.mworking.net.ResponseParameters;
 import com.badou.mworking.util.Constant;
 
 import org.json.JSONException;
@@ -38,22 +38,22 @@ public class Task extends Category {
 
     public Task(JSONObject jsonObject) {
         super(jsonObject);
-        this.offline = jsonObject.optInt(ResponseParams.TASK_OFFLINE);
-        this.type = jsonObject.optInt(ResponseParams.TASK_DETAIL_TYPE);
-        this.comment = jsonObject.optString(ResponseParams.TASK_DETAIL_COMMENT);
-        this.startline = jsonObject.optLong(ResponseParams.TASK_DETAIL_STARTLINE) * 1000;
-        this.deadline = jsonObject.optLong(ResponseParams.TASK_DETAIL_DEADLINE) * 1000;
-        this.img = jsonObject.optString(ResponseParams.TASK_IMG);
-        this.photo = jsonObject.optInt(ResponseParams.TASK_PHOTO);
-        this.latitude = jsonObject.optDouble(ResponseParams.TASK_DETAIL_LATITUDE);
-        this.longitude = jsonObject.optDouble(ResponseParams.TASK_DETAIL_LONGITUDE);
-        this.place = jsonObject.optString(ResponseParams.TASK_DETAIL_PLACE);
+        this.offline = jsonObject.optInt(ResponseParameters.TASK_OFFLINE);
+        this.type = jsonObject.optInt(ResponseParameters.TASK_DETAIL_TYPE);
+        this.comment = jsonObject.optString(ResponseParameters.TASK_DETAIL_COMMENT);
+        this.startline = jsonObject.optLong(ResponseParameters.TASK_DETAIL_STARTLINE) * 1000;
+        this.deadline = jsonObject.optLong(ResponseParameters.TASK_DETAIL_DEADLINE) * 1000;
+        this.img = jsonObject.optString(ResponseParameters.TASK_IMG);
+        this.photo = jsonObject.optInt(ResponseParameters.TASK_PHOTO);
+        this.latitude = jsonObject.optDouble(ResponseParameters.TASK_DETAIL_LATITUDE);
+        this.longitude = jsonObject.optDouble(ResponseParameters.TASK_DETAIL_LONGITUDE);
+        this.place = jsonObject.optString(ResponseParameters.TASK_DETAIL_PLACE);
 
-        String strContent = jsonObject.optString(ResponseParams.CONTENT);
+        String strContent = jsonObject.optString(ResponseParameters.CONTENT);
         if (!TextUtils.isEmpty(strContent)) {
             try {
                 JSONObject jsonContent = new JSONObject(strContent);
-                this.photoUrl = jsonContent.optString(ResponseParams.P);
+                this.photoUrl = jsonContent.optString(ResponseParameters.P);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
