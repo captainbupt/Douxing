@@ -50,7 +50,7 @@ public class VideoImageView extends FrameLayout {
     }
 
     public void setData(String imgUrl, String videoUrl, String qid) {
-        ImageViewLoader.setSquareImageViewResource(mContext, mContentImageView, imgUrl, mContext.getResources().getDimensionPixelSize(R.dimen.image_size_content));
+        ImageViewLoader.setSquareImageViewResource(mContentImageView, R.drawable.icon_image_default, imgUrl, mContext.getResources().getDimensionPixelSize(R.dimen.image_size_content));
         mUrl = videoUrl;
         mQid = qid;
     }

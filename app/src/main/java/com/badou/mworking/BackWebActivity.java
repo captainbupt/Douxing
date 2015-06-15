@@ -24,7 +24,8 @@ import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.bitmap.BitmapLruCache;
-import com.badou.mworking.net.bitmap.IconLoadListener;
+import com.badou.mworking.net.bitmap.ImageViewLoader;
+import com.badou.mworking.net.bitmap.NormalImageListener;
 import com.badou.mworking.net.volley.MyVolley;
 import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.SP;
@@ -139,20 +140,12 @@ public class BackWebActivity extends BaseBackActionBarActivity {
      */
     private void bannerDate() {
         setActionbarTitle("");
-        getSupportActionBar().setCustomView(R.layout.layout_main_title_bar);
+        getSupportActionBar().setCustomView(R.layout.actionbar_main_grid);
         ViewGroup layout_action = (ViewGroup) getSupportActionBar().getCustomView().findViewById(R.id.logo_bg);
-        ImageView logoImg = (ImageView) layout_action.findViewById(R.id.iv_actionbar_logo);
+        ImageView logoImg = (ImageView) layout_action.findViewById(R.id.iv_actionbar_main_logo);
         // 调用缓存中的企业logoUrl图片，这样断网的情况也会显示出来了，如果本地没有的话，网络获取
         String logoUrl = SP.getStringSP(this, SP.DEFAULTCACHE, "logoUrl", "");
-        Bitmap logBmp = BitmapLruCache.getBitmapLruCache().get(logoUrl);
-        if (logBmp != null && logBmp.isRecycled()) {
-            logoImg.setImageBitmap(logBmp);
-        } else {
-            MyVolley.getImageLoader().get(
-                    logoUrl,
-                    new IconLoadListener(mContext, logoImg, logoUrl,
-                            R.drawable.logo));
-        }
+        ImageViewLoader.setImageViewResource(logoImg, R.drawable.logo, logoUrl);
     }
 
     /**

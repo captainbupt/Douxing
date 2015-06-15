@@ -14,7 +14,7 @@ import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.model.category.Train;
 import com.badou.mworking.net.bitmap.BitmapLruCache;
-import com.badou.mworking.net.bitmap.IconLoadListener;
+import com.badou.mworking.net.bitmap.NormalImageListener;
 import com.badou.mworking.net.volley.MyVolley;
 import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.SP;
@@ -74,8 +74,7 @@ public class TrainAdapter extends MyBaseAdapter {
                 /** 设置默认图在IconLoadListener 中 **/
                 MyVolley.getImageLoader().get(
                         train.imgUrl,
-                        new IconLoadListener(mContext, holder.logoImageView, train
-                                .imgUrl, R.drawable.icon_training_item_default));
+                        new NormalImageListener(holder.logoImageView, train.imgUrl, R.drawable.icon_training_item_default));
             }
         }
 

@@ -2,17 +2,14 @@ package com.badou.mworking.model;
 
 
 /**
- * 类:  <code> MainBanner </code>
  * 功能描述: 主页banner
- * 创建人: dongqi
- * 创建日期: 2014年8月8日 下午3:07:32
- * 开发环境: JDK6.0
  */
 public class MainBanner {
 	
 	public static final String CHK_URL = "url";
 	public static final String CHK_RES_MD5 = "md5";
 	public static final String CHK_IS_NEW = "new";
+	public static final String CHK_IMG = "img";// 图片url
 
 	private String bannerImgURL;      // banner的图片url地址      
 	private String bannerContentURL;  //点击banner进入的url地址

@@ -34,7 +34,7 @@ public class ChatterHotAdapter extends MyBaseAdapter {
         }
         ChatterHot hot = (ChatterHot) getItem(i);
         holder.nameTextView.setText(hot.name);
-        ImageViewLoader.setCircleImageViewResource(mContext, holder.headImageView, hot.headUrl, mContext.getResources().getDimensionPixelSize(R.dimen.icon_head_size_middle));
+        ImageViewLoader.setCircleImageViewResource(holder.headImageView, hot.headUrl, mContext.getResources().getDimensionPixelSize(R.dimen.icon_head_size_middle));
         holder.dataTextView.setText("发帖 " + hot.topicNumber + "\t获赞 " + hot.praiseNumber + "\t获评 " + hot.commentNumber);
         holder.rankTextView.setText((i + 1) + "");
         LVUtil.setTextViewBg(holder.levelTextView, hot.level);

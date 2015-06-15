@@ -6,6 +6,7 @@ import android.os.Bundle;
 import com.badou.mworking.adapter.TrainAdapter;
 import com.badou.mworking.base.BaseCategoryProgressListActivity;
 import com.badou.mworking.model.category.Category;
+import com.badou.mworking.model.category.CategoryDetail;
 import com.badou.mworking.model.category.Train;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ResponseParameters;
@@ -69,7 +70,7 @@ public class TrainActivity extends BaseCategoryProgressListActivity {
         Train train = (Train) mCategoryAdapter.getItem(position - 1);
 
         if (NetUtils.isNetConnected(mContext)) {
-            CategoryClickHandler.categoryClicker(mContext, train);
+            CategoryClickHandler.categoryClicker(mContext, new CategoryDetail(mContext, train));
             // 向服务提交课件信息
             ((TrainAdapter) mCategoryAdapter).read(position - 1);
             mCategoryAdapter.notifyDataSetChanged();

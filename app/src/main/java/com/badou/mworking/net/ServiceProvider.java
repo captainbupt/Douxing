@@ -22,6 +22,7 @@ import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.BitmapUtil;
 import com.badou.mworking.util.EncryptionByMD5;
 import com.badou.mworking.util.FileUtils;
+import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.WaitProgressDialog;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
@@ -303,69 +304,35 @@ public class ServiceProvider {
         final ProgressDialog mProgressDialog = new WaitProgressDialog(context,
                 R.string.action_update_download_ing);
         mProgressDialog.setTitle(R.string.action_update_download_ing);
-        if (null != mProgressDialog && context != null
-                && !((Activity) context).isFinishing()) {
+        if (!((Activity) context).isFinishing()) {
             mProgressDialog.show();
         }
-        final Handler handler = new Handler() {
+        final String path = context.getExternalFilesDir(
+                Environment.DIRECTORY_DOWNLOADS).getAbsolutePath()
+                + File.separator
+                + context.getResources().getString(R.string.app_name)
+                + Calendar.getInstance().getTimeInMillis() + ".apk";
+        HttpUtils httpUtils = new HttpUtils();
+        httpUtils.download(url, path, true, true, new RequestCallBack<File>() {
 
             @Override
-            public void handleMessage(Message msg) {
-                super.handleMessage(msg);
-                if (msg.what == 0) {
-
-                } else if (msg.what == 1) {
-
-                } else if (msg.what == 2) {
-                    if (null != mProgressDialog && context != null
-                            && !((Activity) context).isFinishing()) {
-                        mProgressDialog.dismiss();
-                        String path = (String) msg.obj;
-                        Intent intent = new Intent();
-                        intent.setAction(Intent.ACTION_VIEW);
-                        intent.setDataAndType(Uri.parse("file://" + path),
-                                "application/vnd.android.package-archive");
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(intent);
-                    }
+            public void onSuccess(ResponseInfo<File> responseInfo) {
+                if (!((Activity) context).isFinishing()) {
+                    mProgressDialog.dismiss();
                 }
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.setDataAndType(Uri.parse("file://" + path),
+                        "application/vnd.android.package-archive");
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
             }
-        };
-        Thread thread = new Thread() {
 
             @Override
-            public void run() {
-                super.run();
-                String path = context.getExternalFilesDir(
-                        Environment.DIRECTORY_DOWNLOADS).getAbsolutePath()
-                        + File.separator
-                        + context.getResources().getString(R.string.app_name)
-                        + Calendar.getInstance().getTimeInMillis() + ".apk";
-                HttpDownloader.downFile(url, path, new DownloadListener() {
-
-                    @Override
-                    public void onDownloadSizeChange(int downloadSize) {
-                        Message msg = new Message();
-                        msg.what = 1;
-                        msg.arg1 = downloadSize;
-                        handler.sendMessage(msg);
-                    }
-
-                    @Override
-                    public void onGetTotalSize(int totalSize) {
-                        Message msg = new Message();
-                        msg.what = 0;
-                        msg.arg1 = totalSize;
-                        handler.sendMessage(msg);
-                    }
-                });
-                Message msg = new Message();
-                msg.what = 2;
-                msg.obj = path;
-                handler.sendMessage(msg);
+            public void onFailure(HttpException e, String s) {
+                ToastUtil.showNetExc(context);
             }
-        };
-        thread.start();
+        });
     }
 
     public static void doSubmitError(Context context, String log, String appversion,
@@ -413,7 +380,7 @@ public class ServiceProvider {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        MyVolley.getRequestQueue().add(new JsonObjectRequest(Request.Method.POST, Net.getRunHost(context) + Net.QUESTION_PUBLISH, jsonObject, volleyListener, volleyListener));
+        MyVolley.getRequestQueue().add(new JsonObjectRequest(Request.Method.POST, Net.getRunHost(context) + Net.CHATTER_PUBLISH, jsonObject, volleyListener, volleyListener));
     }
 
     /**
@@ -427,7 +394,6 @@ public class ServiceProvider {
         FileEntity entity = new FileEntity(new File(filePath),
                 "binary/octet-stream");
         params.setBodyEntity(entity);
-        System.out.println("url:" + url);
         new HttpUtils().send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<Object>() {
             @Override
             public void onSuccess(ResponseInfo<Object> responseInfo) {
@@ -460,7 +426,6 @@ public class ServiceProvider {
         FileEntity entity = new FileEntity(new File(tempFilePath),
                 "binary/octet-stream");
         params.setBodyEntity(entity);
-        System.out.println("index: " + index);
         new HttpUtils().send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<Object>() {
             @Override
             public void onSuccess(ResponseInfo<Object> responseInfo) {
@@ -626,6 +591,28 @@ public class ServiceProvider {
         }.start();
     }
 
+    public static void doGetChatterById(Context context, String qid, VolleyListener volleyListener) {
+        String uid = ((AppApplication) context.getApplicationContext())
+                .getUserInfo().userId;
+        String url = Net.getRunHost(context) + Net.CHATTER_GET_BY_ID(uid, qid);
+        MyVolley.getRequestQueue().add(
+                new JsonObjectRequest(Request.Method.GET, url, null, volleyListener, volleyListener));
+    }
+
+    public static void doGetAskById(Context context, String aid, VolleyListener volleyListener) {
+        String uid = ((AppApplication) context.getApplicationContext()).getUserInfo().userId;
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("uid", uid);
+            jsonObject.put("aid", aid);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String url = Net.getRunHost(context) + Net.ASK_GET_BY_ID;
+        MyVolley.getRequestQueue().add(
+                new JsonObjectRequest(Request.Method.POST, url, jsonObject, volleyListener, volleyListener));
+    }
+
     /**
      * 回复问题／分享
      */
@@ -642,7 +629,7 @@ public class ServiceProvider {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        String url = Net.getRunHost(context) + Net.QUESTION_REPLY;
+        String url = Net.getRunHost(context) + Net.CHATTER_REPLY;
         MyVolley.getRequestQueue().add(
                 new JsonObjectRequest(Request.Method.POST, url, jsonObject,
                         volleyListener, volleyListener));
@@ -678,7 +665,7 @@ public class ServiceProvider {
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
-            String url = Net.getRunHost(context) + Net.QUESTION_GET_TOPIC(uid, topic, page_no, item_per_page);
+            String url = Net.getRunHost(context) + Net.CHATTER_GET_TOPIC(uid, topic, page_no, item_per_page);
             MyVolley.getRequestQueue().add(new JsonObjectRequest(Request.Method.GET, url, null, volleyListener, volleyListener));
         }
     }
@@ -689,7 +676,7 @@ public class ServiceProvider {
     public static void doGetChatterHot(Context context, int page_no, int item_per_page, VolleyListener volleyListener) {
         String uid = ((AppApplication) context.getApplicationContext())
                 .getUserInfo().userId;
-        String url = Net.getRunHost(context) + Net.QUESTION_GET_HOT(uid, page_no, item_per_page);
+        String url = Net.getRunHost(context) + Net.CHATTER_GET_HOT(uid, page_no, item_per_page);
         MyVolley.getRequestQueue().add(
                 new JsonObjectRequest(Request.Method.POST, url, null,
                         volleyListener, volleyListener));
@@ -714,7 +701,7 @@ public class ServiceProvider {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        String url = Net.getRunHost(context) + Net.QUESTION_GET_USER;
+        String url = Net.getRunHost(context) + Net.CHATTER_GET_USER;
         MyVolley.getRequestQueue().add(
                 new JsonObjectRequest(Request.Method.POST, url, jsonObject,
                         volleyListener, volleyListener));
@@ -738,7 +725,7 @@ public class ServiceProvider {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        String url = Net.getRunHost(context) + Net.QUESTION_REPLY_GET;
+        String url = Net.getRunHost(context) + Net.CHATTER_REPLY_GET;
         MyVolley.getRequestQueue().add(
                 new JsonObjectRequest(Request.Method.POST, url, jsonObject,
                         volleyListener, volleyListener));

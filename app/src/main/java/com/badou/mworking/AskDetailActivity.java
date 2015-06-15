@@ -147,7 +147,7 @@ public class AskDetailActivity extends BaseBackActionBarActivity {
     }
 
     private void initData() {
-        ImageViewLoader.setSquareImageViewResource(mContext, mContentImageView, mAsk.contentImageUrl, getResources().getDimensionPixelSize(R.dimen.icon_size_xlarge));
+        ImageViewLoader.setSquareImageViewResource(mContentImageView, R.drawable.icon_image_default, mAsk.contentImageUrl, getResources().getDimensionPixelSize(R.dimen.icon_size_xlarge));
         mAnswerAdapter = new AskAnswerAdapter(AskDetailActivity.this, mAsk.aid, mAsk.count);
         mAnswerListView.setAdapter(mAnswerAdapter);
 
@@ -156,10 +156,10 @@ public class AskDetailActivity extends BaseBackActionBarActivity {
         mDateTextView.append(TimeTransfer.long2StringDetailDate(mContext, mAsk.createTime));
         mNameTextView.setText(mAsk.userName);
 
-        ImageViewLoader.setCircleImageViewResource(mContext, mHeadImageView, mAsk.userHeadUrl, getResources().getDimensionPixelSize(R.dimen.icon_head_size_small));
+        ImageViewLoader.setCircleImageViewResource(mHeadImageView, mAsk.userHeadUrl, getResources().getDimensionPixelSize(R.dimen.icon_head_size_small));
 
         if (!TextUtils.isEmpty(mAsk.contentImageUrl))
-            ImageViewLoader.setSquareImageViewResource(mContext, mContentImageView, mAsk.contentImageUrl, getResources().getDimensionPixelSize(R.dimen.icon_size_xlarge));
+            ImageViewLoader.setSquareImageViewResource(mContentImageView, R.drawable.icon_image_default, mAsk.contentImageUrl, getResources().getDimensionPixelSize(R.dimen.icon_size_xlarge));
         else
             mContentImageView.setVisibility(View.GONE);
 
@@ -226,6 +226,7 @@ public class AskDetailActivity extends BaseBackActionBarActivity {
             @Override
             public void onResponseSuccess(JSONObject response) {
                 List<Object> tempAsk = new ArrayList<>();
+                System.out.println(response);
                 JSONArray jsonArray = response.optJSONArray(Net.DATA);
                 if (jsonArray == null) {
                     return;
@@ -268,11 +269,11 @@ public class AskDetailActivity extends BaseBackActionBarActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        System.out.println("Request: " + requestCode + ", result: " + resultCode);
         if (resultCode == RESULT_OK && requestCode == REQUEST_REPLY) {
             mAsk.count++;
             mProgressDialog.show();
             beginIndex = 1;
+            mAnswerAdapter.setReplyCount(mAsk.count);
             updateListView(1);
             Intent intent = new Intent();
             intent.putExtra(RESULT_KEY_COUNT, mAsk.count);

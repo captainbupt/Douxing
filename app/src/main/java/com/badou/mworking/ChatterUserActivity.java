@@ -153,7 +153,7 @@ public class ChatterUserActivity extends BaseNoTitleActivity {
         mUserInfo = (UserChatterInfo) mReceivedIntent.getSerializableExtra(KEY_USER_CHATTER);
         if (mUserInfo != null) {
             System.out.println(mUserInfo.headUrl);
-            ImageViewLoader.setCircleImageViewResource(mContext, mHeadImageView, mUserInfo.headUrl, getResources().getDimensionPixelSize(R.dimen.user_center_image_head_size));
+            ImageViewLoader.setCircleImageViewResource(mHeadImageView, mUserInfo.headUrl, getResources().getDimensionPixelSize(R.dimen.user_center_image_head_size));
             mNameTextView.setText(mUserInfo.name + "\n" + mUserInfo.department);
             LVUtil.setTextViewBg(mLevelTextView, mUserInfo.level);
         }
@@ -198,7 +198,7 @@ public class ChatterUserActivity extends BaseNoTitleActivity {
                         List<Object> chatters = new ArrayList<>();
                         if (mUserInfo == null) {
                             mUserInfo = new UserChatterInfo(contentObject);
-                            ImageViewLoader.setCircleImageViewResource(mContext, mHeadImageView, mUserInfo.headUrl, getResources().getDimensionPixelSize(R.dimen.user_center_image_head_size));
+                            ImageViewLoader.setCircleImageViewResource(mHeadImageView, mUserInfo.headUrl, getResources().getDimensionPixelSize(R.dimen.user_center_image_head_size));
                             mNameTextView.setText(mUserInfo.name + "\n" + mUserInfo.department);
                             LVUtil.setTextViewBg(mLevelTextView, mUserInfo.level);
                         }

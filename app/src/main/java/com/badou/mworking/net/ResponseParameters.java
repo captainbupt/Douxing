@@ -156,5 +156,9 @@ public class ResponseParameters {
     //===========2014-12-16=======begin===========
     public static final String NEWCNT = "newcnt";//未读数
 
+    public static final String MESSAGE_CENTER_TYPE = "type";
+    public static final String MESSAGE_CENTER_DESCRIPTION = "desc";
+    public static final String MESSAGE_CENTER_ADD = "add";
+
 
 }

@@ -1,30 +1,30 @@
 package com.badou.mworking.database;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.badou.mworking.base.AppApplication;
+import com.badou.mworking.model.Chatter;
 
-public class WenDaManage {
+public class ChatterResManager {
 
     /**
      * 数据库中添加一条已经点赞过的qid数据
      *
      * @param context
+     * @param question
      */
-    public static void insertItem(Context context, String aid, long createTime) {
+    public static void insertItem(Context context, Chatter question) {
         MTrainingDBHelper mTrainingDBHelper = MTrainingDBHelper
                 .getMTrainingDBHelper();
-        SQLiteDatabase dbReader = mTrainingDBHelper.getDatabase();
+        SQLiteDatabase dbWriter = mTrainingDBHelper.getDatabase();
         String userNum = ((AppApplication) context.getApplicationContext())
                 .getUserInfo().account;
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(MTrainingDBHelper.WENDA_QID, aid + (createTime / 1000));
-
         try {
-            dbReader.insert(MTrainingDBHelper.TBL_NAME_WENDADIANZAN + userNum, null, contentValues);
+
+            dbWriter.insert(MTrainingDBHelper.TBL_NAME_TONG_SHI_QUAN + userNum.replace("@", ""), null, question.getValues());
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -40,7 +40,7 @@ public class WenDaManage {
      * @param qid
      * @return 有(true) 无(false)
      */
-    public static boolean isSelect(Context context, String qid, String create_ts) {
+    public static boolean isSelect(Context context, String qid) {
         boolean flag = false;
         MTrainingDBHelper mTrainingDBHelper = MTrainingDBHelper
                 .getMTrainingDBHelper();
@@ -48,18 +48,18 @@ public class WenDaManage {
         String userNum = ((AppApplication) context.getApplicationContext())
                 .getUserInfo().account;
         try {
-            Cursor c1 = dbReader.query(MTrainingDBHelper.TBL_NAME_WENDADIANZAN + userNum,
+
+            Cursor c1 = dbReader.query(MTrainingDBHelper.TBL_NAME_TONG_SHI_QUAN  + userNum.replace("@", ""),
                     null,
-                    MTrainingDBHelper.WENDA_QID + " = ? ",
-                    new String[]{qid.trim() + create_ts.trim()},
+                    MTrainingDBHelper.QUAN_QID + " = ? ",
+                    new String[]{qid.trim()},
                     null,
                     null,
                     null);
-            while (c1.moveToNext()) {
+            if (c1.moveToFirst()) {
                 flag = true;
-                return flag;
             }
-            ;
+            c1.close();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -68,4 +68,5 @@ public class WenDaManage {
         return flag;
 
     }
+
 }

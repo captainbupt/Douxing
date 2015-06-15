@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.badou.mworking.ChatterUserActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
-import com.badou.mworking.database.TongShQuResManage;
+import com.badou.mworking.database.ChatterResManager;
 import com.badou.mworking.listener.CopyClickListener;
 import com.badou.mworking.listener.TopicClickableSpan;
 import com.badou.mworking.model.Chatter;
@@ -68,8 +68,7 @@ public class ChatterListAdapter extends MyBaseAdapter {
         holder.dateTextView.setText(TimeTransfer.long2StringDetailDate(mContext,
                 chatter.publishTime));
         holder.replyNumberTextView.setText("" + chatter.replyNumber);
-        ImageViewLoader.setCircleImageViewResource(mContext, holder.headImageView, chatter.headUrl,
-                mContext.getResources().getDimensionPixelSize(R.dimen.icon_head_size_middle));
+        ImageViewLoader.setCircleImageViewResource( holder.headImageView, chatter.headUrl, mContext.getResources().getDimensionPixelSize(R.dimen.icon_head_size_middle));
 
         // 评论中添加的图片
         boolean isWifi = NetUtils.isWifiConnected(mContext);
@@ -100,7 +99,7 @@ public class ChatterListAdapter extends MyBaseAdapter {
         // 设置显示级别
         LVUtil.setTextViewBg(holder.levelTextView, chatter.level);
         /** 设置点赞的check **/
-        if (TongShQuResManage.isSelect(mContext, chatter.qid)) {
+        if (ChatterResManager.isSelect(mContext, chatter.qid)) {
             holder.praiseCheckBox.setChecked(true);
             holder.praiseCheckBox.setEnabled(false);
             holder.praiseNumberTextView.setEnabled(false);
@@ -220,7 +219,7 @@ public class ChatterListAdapter extends MyBaseAdapter {
 
                         @Override
                         public void onResponseSuccess(JSONObject response) {
-                            TongShQuResManage
+                            ChatterResManager
                                     .insertItem(mContext, chatter);
                         }
                     });

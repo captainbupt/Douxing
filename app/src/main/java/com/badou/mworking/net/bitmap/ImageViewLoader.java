@@ -17,39 +17,25 @@ import com.badou.mworking.util.NetUtils;
  */
 public class ImageViewLoader {
 
-    public static void setCircleImageViewResource(Context context, ImageView imageView, String url, int size) {
+    public static void setCircleImageViewResource(ImageView imageView, String url, int size) {
         Bitmap headBmp = BitmapLruCache.getBitmapLruCache().getCircleBitmap(url);
         if (headBmp != null && !headBmp.isRecycled()) {
             imageView.setImageBitmap(headBmp);
         } else {
-            MyVolley.getImageLoader().get(url, new CircleImageListener(context, url, imageView, size, size), size, size);
+            MyVolley.getImageLoader().get(url, new CircleImageListener(url, imageView, size, size), size, size);
         }
     }
 
-    public static void setSquareImageViewResource(Context context, final ImageView imageView, final String url, int size) {
-        imageView.setImageResource(R.drawable.icon_image_default);
+    public static void setSquareImageViewResource(final ImageView imageView, int defaultResId, final String url, int size) {
         Bitmap headBmp = BitmapLruCache.getBitmapLruCache().getBitmap(url);
         if (headBmp != null && !headBmp.isRecycled()) {
             imageView.setImageBitmap(headBmp);
         } else {
-            MyVolley.getImageLoader().get(url, new ImageLoader.ImageListener() {
-                @Override
-                public void onErrorResponse(VolleyError volleyError) {
-                }
-
-                @Override
-                public void onResponse(ImageLoader.ImageContainer imageContainer, boolean b) {
-                    Bitmap bmp = imageContainer.getBitmap();
-                    if (bmp != null) {
-                        BitmapLruCache.getBitmapLruCache().putBitmap(url, bmp);
-                        imageView.setImageBitmap(bmp);
-                    }
-                }
-            }, size, size);
+            MyVolley.getImageLoader().get(url, new NormalImageListener(imageView, url, R.drawable.icon_image_default), size, size);
         }
     }
 
-    public static void setSquareImageViewResourceOnWifi(Context context, ImageView imageView, String url, int size) {
+    public static void setSquareImageViewResourceOnWifi(Context context, ImageView imageView, int defaultResId, String url, int size) {
         if (TextUtils.isEmpty(url)) {
             imageView.setVisibility(View.GONE);
             return;
@@ -62,10 +48,19 @@ public class ImageViewLoader {
             imageView.setImageBitmap(contentBmp);
         } else {
             if (isWifi) {
-                setSquareImageViewResource(context, imageView, url, size);
+                setSquareImageViewResource(imageView, defaultResId, url, size);
             } else {
                 imageView.setImageResource(R.drawable.icon_image_default);
             }
+        }
+    }
+
+    public static void setImageViewResource(final ImageView imageView, final int defaultRes, final String url) {
+        Bitmap headBmp = BitmapLruCache.getBitmapLruCache().getBitmap(url);
+        if (headBmp != null && !headBmp.isRecycled()) {
+            imageView.setImageBitmap(headBmp);
+        } else {
+            MyVolley.getImageLoader().get(url, new NormalImageListener(imageView, url, defaultRes));
         }
     }
 }

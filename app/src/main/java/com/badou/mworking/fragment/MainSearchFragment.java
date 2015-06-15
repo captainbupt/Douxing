@@ -1,5 +1,6 @@
 package com.badou.mworking.fragment;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -28,15 +29,18 @@ import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseFragment;
 import com.badou.mworking.model.category.Category;
 import com.badou.mworking.model.category.CategoryBasic;
+import com.badou.mworking.model.category.CategoryDetail;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.CategoryClickHandler;
 import com.badou.mworking.util.FastBlur;
+import com.badou.mworking.widget.WaitProgressDialog;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -135,8 +139,19 @@ public class MainSearchFragment extends BaseFragment {
                 Object item = mResultAdpater.getItem(i - 1);
                 if (item.getClass().equals(String.class))
                     return;
-                CategoryBasic basic = (CategoryBasic) item;
-                CategoryClickHandler.categoryClicker(mContext, basic.type, basic.rid, basic.subject);
+                final CategoryBasic basic = (CategoryBasic) item;
+                final WaitProgressDialog progressDialog = new WaitProgressDialog(mContext);
+                progressDialog.show();
+                ServiceProvider.getResourceDetail(mContext, basic.rid, new VolleyListener(mContext) {
+                    @Override
+                    public void onResponseSuccess(JSONObject jsonObject) {
+                        if (!mActivity.isFinishing()) {
+                            progressDialog.dismiss();
+                        }
+                        CategoryDetail detail = new CategoryDetail(mContext, jsonObject.optJSONObject(Net.DATA), basic.type, basic.rid, basic.subject, null);
+                        CategoryClickHandler.categoryClicker(mContext, detail);
+                    }
+                });
             }
         });
         mContainerView.setOnTouchListener(new View.OnTouchListener() {
@@ -195,16 +210,14 @@ public class MainSearchFragment extends BaseFragment {
         if (resultObject == null) {
             mResultAdpater.clear();
         } else {
-            List<CategoryBasic>[] lists = new List[COUNT_CATEGORY];
+            List[] lists = new List[COUNT_CATEGORY];
             for (int ii = 0; ii < COUNT_CATEGORY; ii++) {
-                JSONObject objectList = resultObject.optJSONObject(KEY_LIST[ii]);
-                if (objectList == null)
+                JSONArray objectList = resultObject.optJSONArray(KEY_LIST[ii]);
+                if (objectList == null || objectList.length() == 0)
                     continue;
-                JSONObject categoryBasicJSONObject = objectList.optJSONObject("0");
                 List<CategoryBasic> categoryBasicList = new ArrayList<>();
-                for (int jj = 1; categoryBasicJSONObject != null; jj++) {
-                    categoryBasicList.add(new CategoryBasic(Category.CATEGORY_NOTICE + ii, categoryBasicJSONObject));
-                    categoryBasicJSONObject = objectList.optJSONObject(jj + "");
+                for (int jj = 0; jj < objectList.length(); jj++) {
+                    categoryBasicList.add(new CategoryBasic(Category.CATEGORY_NOTICE + ii, objectList.optJSONObject(jj)));
                 }
                 lists[ii] = categoryBasicList;
             }

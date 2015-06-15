@@ -1,7 +1,5 @@
 package com.badou.mworking.net.bitmap;
 
-import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.widget.ImageView;
 
@@ -12,45 +10,34 @@ import com.badou.mworking.R;
 import com.badou.mworking.util.BitmapUtil;
 
 public class CircleImageListener implements ImageListener {
-	
-	private ImageView mImageView;
-	private String imgUrl;
-	private int width;
-	private int height;
-	private Context mContext;
 
-	public CircleImageListener(Context context,String imgUrl, ImageView imageView, int width,
-			int height) {
-		mContext = context;
-		mImageView = imageView;
-		this.width = width;
-		this.height = height;
-		this.imgUrl = imgUrl;
-	}
+    private ImageView mImageView;
+    private String mImgUrl;
+    private int mWidth;
+    private int mHeight;
 
-	@Override
-	public void onErrorResponse(VolleyError arg0) {
-		setDefaultHead();
-	}
+    public CircleImageListener(String imgUrl, ImageView imageView, int width, int height) {
+        mImageView = imageView;
+        this.mWidth = width;
+        this.mHeight = height;
+        this.mImgUrl = imgUrl;
+    }
 
-	@Override
-	public void onResponse(ImageContainer arg0, boolean arg1) {
-		Bitmap bmp = arg0.getBitmap();
-		if (bmp != null) {
-			Bitmap headBmp = BitmapUtil.getCirlBitmp(bmp, width, height);
-			BitmapLruCache.getBitmapLruCache().putCircleBitmap(imgUrl, headBmp);
-			mImageView.setImageBitmap(headBmp);
-		} else {
-			setDefaultHead();
-		}
-	}
+    @Override
+    public void onErrorResponse(VolleyError arg0) {
+        mImageView.setImageResource(R.drawable.icon_user_detail_default_head);
+    }
 
-	private void setDefaultHead() {
-		Resources res = mContext.getResources();
-		mImageView.setImageBitmap(BitmapUtil.getCirlBitmp(BitmapUtil
-				.decodeSampledBitmapFromResource(res,
-						R.drawable.icon_user_detail_default_head, width, height),
-				width, height));
-	}
+    @Override
+    public void onResponse(ImageContainer arg0, boolean arg1) {
+        Bitmap bmp = arg0.getBitmap();
+        if (bmp != null) {
+            Bitmap headBmp = BitmapUtil.getCirlBitmp(bmp, mWidth, mHeight);
+            BitmapLruCache.getBitmapLruCache().putCircleBitmap(mImgUrl, headBmp);
+            mImageView.setImageBitmap(headBmp);
+        } else {
+            mImageView.setImageResource(R.drawable.icon_user_detail_default_head);
+        }
+    }
 
 }

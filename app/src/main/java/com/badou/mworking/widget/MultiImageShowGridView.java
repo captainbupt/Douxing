@@ -79,7 +79,7 @@ public class MultiImageShowGridView extends GridView {
                 view.setLayoutParams(new AbsListView.LayoutParams(size, size));
                 ((ImageView) view).setScaleType(ImageView.ScaleType.CENTER_CROP);
             }
-            ImageViewLoader.setSquareImageViewResource(mContext, (ImageView) view, imgUrl, size);
+            ImageViewLoader.setSquareImageViewResource((ImageView) view, R.drawable.icon_image_default, imgUrl, size);
             return view;
         }
     }

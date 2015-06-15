@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import com.badou.mworking.adapter.TaskAdapter;
 import com.badou.mworking.base.BaseCategoryProgressListActivity;
+import com.badou.mworking.model.category.CategoryDetail;
 import com.badou.mworking.model.category.Task;
 import com.badou.mworking.util.CategoryClickHandler;
 import com.badou.mworking.util.NetUtils;
@@ -13,7 +14,7 @@ import com.badou.mworking.util.ToastUtil;
 import org.json.JSONObject;
 
 /**
- *  任务签到界面
+ * 任务签到界面
  */
 public class TaskActivity extends BaseCategoryProgressListActivity {
 
@@ -40,7 +41,7 @@ public class TaskActivity extends BaseCategoryProgressListActivity {
             ToastUtil.showNetExc(mContext);
             return;
         } else {
-            CategoryClickHandler.categoryClicker(mContext, task);
+            CategoryClickHandler.categoryClicker(mContext, new CategoryDetail(mContext, task));
         }
     }
 
