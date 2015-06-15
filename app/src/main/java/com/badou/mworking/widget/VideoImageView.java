@@ -7,14 +7,13 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.badou.mworking.R;
 import com.badou.mworking.VideoPlayActivity;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.util.FileUtils;
-
-import android.widget.FrameLayout;
 
 import java.io.File;
 

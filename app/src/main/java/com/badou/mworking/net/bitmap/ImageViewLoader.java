@@ -10,7 +10,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.badou.mworking.R;
 import com.badou.mworking.net.volley.MyVolley;
-import com.badou.mworking.util.BitmapUtil;
 import com.badou.mworking.util.NetUtils;
 
 /**

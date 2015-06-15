@@ -1,6 +1,5 @@
 package com.badou.mworking.widget;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.AttributeSet;
@@ -8,15 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.badou.mworking.PhotoActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
-
-import android.widget.GridView;
-import android.widget.LinearLayout;
 
 import java.util.List;
 

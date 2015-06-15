@@ -1,13 +1,11 @@
 package com.badou.mworking.widget;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.view.Window;
+import android.widget.ProgressBar;
 
 import com.badou.mworking.R;
-
-import android.app.Activity;
-import android.app.Dialog;
-import android.widget.ProgressBar;
 
 /**
  * Created by Administrator on 2015/5/19.

@@ -1,6 +1,8 @@
 package com.badou.mworking.util;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -20,9 +22,6 @@ import android.text.TextUtils;
 
 import com.badou.mworking.R;
 import com.badou.mworking.VideoTakeActivity;
-
-import android.app.Activity;
-import android.app.AlertDialog;
 
 import java.io.File;
 import java.io.IOException;

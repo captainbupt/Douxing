@@ -31,7 +31,7 @@
             android:paddingRight="@dimen/offset_less"
             android:paddingTop="@dimen/offset_small"
             android:textColor="@color/color_text_black"
-            android:textSize="@dimen/text_size_comment_content" />
+            android:textSize="@dimen/text_size_medium" />
 
         <TextView
             android:id="@+id/tv_view_bottom_send_message_submit"

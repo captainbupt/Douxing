@@ -6,8 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.badou.mworking.base.AppApplication;
-import com.badou.mworking.model.Ask;
-import com.badou.mworking.model.WenDaAnswer;
 
 public class WenDaManage {
 

@@ -1,11 +1,5 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="DiallogStyle" parent="@android:style/Theme.Dialog">
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowBackground">@color/transparent</item>
-        <item name="android:background">@color/transparent</item>
-    </style>
-
     <style name="ll_account_manager_input">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -41,14 +35,6 @@
         <item name="android:inputType">textPassword</item>
     </style>
 
-    <style name="MyTheme.NoTitleBar.CustomBackground" parent="android:Theme.Light">
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowFullscreen">false</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowBackground">@color/transparent</item>
-        <item name="android:windowIsTranslucent">true</item>
-    </style>
-
     <!-- progress的颜色 -->
     <style name="ProgressBarUserCenter" parent="android:Widget.ProgressBar.Horizontal">
         <item name="android:maxHeight">50dip</item>
@@ -73,24 +59,6 @@
         <item name="android:maxHeight">45dip</item>
     </style>
 
-    <!-- 考试的 dialog -->
-    <style name="dialog_Translucent_NoTitle" parent="android:style/Theme.Dialog">
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:background">#00000000</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:colorBackgroundCacheHint">@null</item>
-        <item name="android:windowIsTranslucent">true</item>
-    </style>
-
-    <!-- 个人中心 下发的layout -->
-    <style name="styleUser_center_item_layout">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingBottom">@dimen/offset_medium</item>
-        <item name="android:paddingLeft">@dimen/offset_medium</item>
-        <item name="android:paddingRight">@dimen/offset_small</item>
-        <item name="android:paddingTop">@dimen/offset_medium</item>
-    </style>
 
     <style name="update_progress_style">
         　　

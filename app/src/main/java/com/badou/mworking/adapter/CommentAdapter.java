@@ -1,19 +1,18 @@
 package com.badou.mworking.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.android.volley.VolleyError;
 import com.badou.mworking.R;
-import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.listener.DeleteClickListener;
 import com.badou.mworking.model.Comment;
-import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.net.volley.VolleyListener;
@@ -21,8 +20,6 @@ import com.badou.mworking.util.TimeTransfer;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.WaitProgressDialog;
 
-import android.app.Activity;
-import android.widget.TextView;
 import org.json.JSONObject;
 
 import java.util.List;

@@ -10,12 +10,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.android.volley.VolleyError;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.model.user.UserInfo;
@@ -23,7 +21,6 @@ import com.badou.mworking.net.Net;
 import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.net.ResponseParameters;
 import com.badou.mworking.net.ServiceProvider;
-import com.badou.mworking.net.volley.ResponseError;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.AppManager;
 import com.badou.mworking.util.NetUtils;

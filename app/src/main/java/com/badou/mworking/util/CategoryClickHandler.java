@@ -1,5 +1,6 @@
 package com.badou.mworking.util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
@@ -24,7 +25,6 @@ import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 
-import android.app.Activity;
 import org.json.JSONObject;
 
 import java.io.File;

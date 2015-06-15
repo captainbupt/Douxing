@@ -2,28 +2,21 @@ package com.badou.mworking.adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.listener.DeleteClickListener;
 import com.badou.mworking.model.ChattingListInfo;
-import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
-import com.badou.mworking.net.bitmap.BitmapLruCache;
-import com.badou.mworking.net.bitmap.CircleImageListener;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
-import com.badou.mworking.net.volley.MyVolley;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.TimeTransfer;
 
-import android.app.AlertDialog;
-import android.widget.TextView;
 import org.json.JSONObject;
 
 public class ChatAdapter extends MyBaseAdapter {

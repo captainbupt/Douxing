@@ -2,21 +2,15 @@ package com.badou.mworking;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
-import android.widget.ImageView;
 
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.model.user.UserInfo;
 import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.SP;
-import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.OptimizedImageView;
-import com.umeng.analytics.MobclickAgent;
-
-import android.widget.Toast;
 
 import cn.jpush.android.api.JPushInterface;
 

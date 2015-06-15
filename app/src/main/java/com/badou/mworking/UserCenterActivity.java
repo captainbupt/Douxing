@@ -8,15 +8,14 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
-import com.android.volley.VolleyError;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.model.category.Category;
 import com.badou.mworking.model.user.UserChatterInfo;
 import com.badou.mworking.model.user.UserDetail;
-import com.badou.mworking.util.ImageChooser;
-import com.badou.mworking.util.LVUtil;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.bitmap.BitmapLruCache;
@@ -26,12 +25,11 @@ import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.BitmapUtil;
 import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.FileUtils;
+import com.badou.mworking.util.ImageChooser;
+import com.badou.mworking.util.LVUtil;
 import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.ToastUtil;
 
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;

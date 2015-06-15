@@ -5,15 +5,12 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import com.badou.mworking.R;
-import com.badou.mworking.util.ToastUtil;
-
-import android.widget.GridView;
-import android.widget.LinearLayout;
 
 /**
  * Created by Administrator on 2015/5/26.

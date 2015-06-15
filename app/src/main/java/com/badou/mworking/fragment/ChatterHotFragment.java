@@ -3,19 +3,18 @@ package com.badou.mworking.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-import com.android.volley.VolleyError;
 import com.badou.mworking.ChatterActivity;
 import com.badou.mworking.ChatterUserActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.adapter.ChatterHotAdapter;
 import com.badou.mworking.base.AppApplication;
-import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.base.BaseFragment;
 import com.badou.mworking.model.ChatterHot;
 import com.badou.mworking.net.Net;
@@ -27,7 +26,6 @@ import com.badou.mworking.util.ToastUtil;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
-import android.view.LayoutInflater;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

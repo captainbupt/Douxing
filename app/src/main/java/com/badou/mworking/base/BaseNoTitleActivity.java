@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
-import android.view.Window;
-
 
 import com.badou.mworking.R;
 import com.badou.mworking.util.AppManager;

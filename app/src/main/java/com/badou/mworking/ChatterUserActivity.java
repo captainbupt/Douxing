@@ -3,10 +3,12 @@ package com.badou.mworking;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
-import com.android.volley.VolleyError;
 import com.badou.mworking.adapter.ChatterListAdapter;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseNoTitleActivity;
@@ -24,9 +26,6 @@ import com.badou.mworking.widget.MyScrollListenerScrollView;
 import com.badou.mworking.widget.NoScrollListView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 
-import android.widget.AdapterView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

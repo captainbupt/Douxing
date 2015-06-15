@@ -3,14 +3,13 @@ package com.badou.mworking.adapter;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.model.category.Category;
 import com.badou.mworking.model.category.Exam;
 import com.badou.mworking.util.TimeTransfer;
-
-import android.widget.TextView;
 
 /**
  * Created by Administrator on 2015/5/29.

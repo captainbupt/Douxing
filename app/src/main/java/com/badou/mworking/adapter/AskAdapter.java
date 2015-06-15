@@ -5,14 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.badou.mworking.AskActivity;
-import com.badou.mworking.R;
 import com.badou.mworking.AskDetailActivity;
+import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.listener.CopyClickListener;
 import com.badou.mworking.model.Ask;

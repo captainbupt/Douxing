@@ -1,6 +1,5 @@
 package com.badou.mworking;
 
-import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -9,8 +8,10 @@ import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
-import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseStatisticalActionBarActivity;
 import com.badou.mworking.util.FileUtils;
 import com.badou.mworking.util.NetUtils;
@@ -21,11 +22,6 @@ import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
-
-
-import android.widget.ProgressBar;
-import android.widget.SeekBar;
-import android.widget.TextView;
 
 import java.io.File;
 import java.net.HttpURLConnection;

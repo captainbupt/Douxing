@@ -4,14 +4,13 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.model.ChatterHot;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.util.LVUtil;
-
-import android.widget.TextView;
 
 /**
  * Created by Administrator on 2015/6/12.

@@ -1,9 +1,5 @@
 package com.badou.mworking.adapter;
 
-import android.widget.AdapterView;
-import android.widget.TextView;
-import org.json.JSONObject;
-
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
@@ -11,30 +7,30 @@ import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.android.volley.VolleyError;
 import com.badou.mworking.ChatterUserActivity;
 import com.badou.mworking.R;
-import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.database.TongShQuResManage;
 import com.badou.mworking.listener.CopyClickListener;
 import com.badou.mworking.listener.TopicClickableSpan;
 import com.badou.mworking.model.Chatter;
 import com.badou.mworking.model.user.UserChatterInfo;
-import com.badou.mworking.net.bitmap.ImageViewLoader;
-import com.badou.mworking.util.LVUtil;
-import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
+import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.net.volley.VolleyListener;
+import com.badou.mworking.util.LVUtil;
 import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.SP;
 import com.badou.mworking.util.TimeTransfer;
-import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.MultiImageShowGridView;
 import com.badou.mworking.widget.VideoImageView;
+
+import org.json.JSONObject;
 
 /**
  * 功能描述:同事圈adapter

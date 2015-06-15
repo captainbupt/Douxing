@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.Gallery.LayoutParams;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
@@ -15,8 +14,6 @@ import com.badou.mworking.model.MainBanner;
 import com.badou.mworking.net.bitmap.BitmapLruCache;
 import com.badou.mworking.net.bitmap.PicImageListener;
 import com.badou.mworking.net.volley.MyVolley;
-
-import java.util.ArrayList;
 
 /**
  * 功能描述: 显示banner 的适配器

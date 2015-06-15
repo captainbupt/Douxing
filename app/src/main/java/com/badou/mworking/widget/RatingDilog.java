@@ -13,19 +13,18 @@
  */
 package com.badou.mworking.widget;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
+import android.widget.TextView;
 
 import com.badou.mworking.R;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 
-import android.app.Dialog;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import org.json.JSONObject;
 
 /**

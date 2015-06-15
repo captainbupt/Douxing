@@ -6,7 +6,6 @@ import android.text.TextUtils;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ResponseParameters;
-import com.badou.mworking.util.Constant;
 
 import org.json.JSONException;
 import org.json.JSONObject;

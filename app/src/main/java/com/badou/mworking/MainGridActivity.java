@@ -1,5 +1,6 @@
 package com.badou.mworking;
 
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -9,12 +10,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
-
-import android.app.AlertDialog;
 import android.widget.FrameLayout;
 import android.widget.GridView;
-
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 
@@ -37,15 +37,12 @@ import com.badou.mworking.net.volley.MyVolley;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.AlarmUtil;
 import com.badou.mworking.util.AppManager;
-import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.SP;
 import com.badou.mworking.util.SPUtil;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.BannerGallery;
 import com.badou.mworking.widget.TopFadeScrollView;
 
-import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

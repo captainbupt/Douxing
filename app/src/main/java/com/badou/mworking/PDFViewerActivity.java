@@ -1,12 +1,8 @@
 package com.badou.mworking;
 
-import android.content.Intent;
 import android.os.Bundle;
 
-import com.badou.mworking.base.AppApplication;
-import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.base.BaseStatisticalActionBarActivity;
-import com.badou.mworking.net.Net;
 import com.badou.mworking.util.FileUtils;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.BottomRatingAndCommentView;

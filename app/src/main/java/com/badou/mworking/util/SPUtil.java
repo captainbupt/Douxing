@@ -1,7 +1,6 @@
 package com.badou.mworking.util;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 
 /**
  * 功能描述:  SharedPerences保存数据和读取数据封装之后的工具类

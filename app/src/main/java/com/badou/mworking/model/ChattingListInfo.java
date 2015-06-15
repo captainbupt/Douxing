@@ -2,8 +2,6 @@ package com.badou.mworking.model;
 
 import org.json.JSONObject;
 
-import java.io.Serializable;
-
 /**
  * 功能描述: 聊天列表实体类
  */

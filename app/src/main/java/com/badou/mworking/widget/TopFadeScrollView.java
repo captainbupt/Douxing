@@ -1,20 +1,12 @@
 package com.badou.mworking.widget;
 
-import android.annotation.TargetApi;
 import android.content.Context;
-import android.os.Build;
 import android.os.Handler;
-import android.os.Message;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ScrollView;
 
-import com.nineoldandroids.animation.AnimatorSet;
-import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.view.ViewHelper;
-
-import android.widget.LinearLayout;
 
 /**
  * Created by Administrator on 2015/5/26.
