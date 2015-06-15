@@ -19,6 +19,7 @@ import com.badou.mworking.R;
 import com.badou.mworking.adapter.ClassificationAdapter;
 import com.badou.mworking.model.Classification;
 import com.badou.mworking.model.category.Category;
+import com.badou.mworking.model.category.CategoryDetail;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ResponseParameters;
 import com.badou.mworking.net.ServiceProvider;
@@ -93,7 +94,7 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
             ToastUtil.showNetExc(mContext);
             return;
         } else {
-            CategoryClickHandler.categoryClicker(mContext, category);
+            CategoryClickHandler.categoryClicker(mContext, new CategoryDetail(mContext, category));
         }
     }
 
@@ -334,7 +335,10 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
                 });
     }
 
-    protected void updateCompleted(){};
+    protected void updateCompleted() {
+    }
+
+    ;
 
     private void updateListFromJson(JSONObject data, int beginNum) {
         if (data == null

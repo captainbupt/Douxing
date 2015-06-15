@@ -105,6 +105,10 @@ public class BaseActionBarActivity extends BaseNoTitleActivity {
         mTitleTextView.setText(s);
     }
 
+    public void setActionbarTitle(int resId) {
+        mTitleTextView.setText(resId);
+    }
+
     public void clickLeft() {
     }
 

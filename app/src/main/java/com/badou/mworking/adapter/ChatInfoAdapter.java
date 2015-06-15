@@ -132,8 +132,7 @@ public class ChatInfoAdapter extends MyBaseAdapter {
 			} else {
 				MyVolley.getImageLoader().get(
 						mHeadUrl,
-						new CircleImageListener(mContext, mHeadUrl,
-								vh.mMyHeadImageView, mHeadSize, mHeadSize));
+						new CircleImageListener(mHeadUrl,vh.mMyHeadImageView, mHeadSize, mHeadSize));
 			}
 		}
 
@@ -153,8 +152,7 @@ public class ChatInfoAdapter extends MyBaseAdapter {
 		} else {
 			MyVolley.getImageLoader().get(
 					mOtherHeadUrl,
-					new CircleImageListener(mContext, mOtherHeadUrl, vh.mOtherHeadImageView,
-							mHeadSize, mHeadSize));
+					new CircleImageListener(mOtherHeadUrl, vh.mOtherHeadImageView,mHeadSize, mHeadSize));
 		}
 		vh.mOtherContentTextView.setText(chatInfo.getContent() + "");
 	}

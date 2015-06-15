@@ -1,8 +1,11 @@
 package com.badou.mworking;
 
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -23,7 +26,7 @@ import com.badou.mworking.adapter.MainGridAdapter;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.base.BaseNoTitleActivity;
-import com.badou.mworking.database.MTrainingDBHelper;
+import com.badou.mworking.database.MessageCenterResManager;
 import com.badou.mworking.fragment.MainSearchFragment;
 import com.badou.mworking.model.MainBanner;
 import com.badou.mworking.model.MainIcon;
@@ -32,7 +35,8 @@ import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.net.ResponseParameters;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.bitmap.BitmapLruCache;
-import com.badou.mworking.net.bitmap.IconLoadListener;
+import com.badou.mworking.net.bitmap.NormalImageListener;
+import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.net.volley.MyVolley;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.AlarmUtil;
@@ -59,6 +63,8 @@ import cn.jpush.android.api.JPushInterface;
  */
 public class MainGridActivity extends BaseNoTitleActivity {
 
+    public static final String ACTION_RECEIVER_MESSAGE = "message";
+
     private long mExitTime = 0; // 记录系统时间
     private MainGridAdapter mMainGridAdapter;
 
@@ -83,10 +89,9 @@ public class MainGridActivity extends BaseNoTitleActivity {
 
     private ImageView mUserCentertImageView;    //logo 布局左边图标，点击进入个人中心
     private ImageView mSearchImageView;    //logo 布局右边图标，点击进入搜索页面
+    private ImageView mMessageCenterImageView; // 消息中心
 
-    private FrameLayout mContainerLayout;
     private MainSearchFragment mMainSearchFragment;
-    private boolean isSearching = false;
     private LinearLayout mContentLayout;
 
     @Override
@@ -96,7 +101,6 @@ public class MainGridActivity extends BaseNoTitleActivity {
         initView();
         initListener();
         initData();
-        initJPush();
         int isNewUser;
         isNewUser = SP.getIntSP(mContext, SP.DEFAULTCACHE, ResponseParameters.EXPER_IS_NEW_USER, 0);
         if (1 == isNewUser) {
@@ -106,28 +110,31 @@ public class MainGridActivity extends BaseNoTitleActivity {
 
         // 调用缓存中的企业logoUrl图片，这样断网的情况也会显示出来了，如果本地没有的话，网络获取
         String logoUrl = SP.getStringSP(this, SP.DEFAULTCACHE, "logoUrl", "");
-        initCompanyLog(logoUrl);
+        ImageViewLoader.setImageViewResource(mIconTopImageView, R.drawable.logo, logoUrl);
         checkUpdate();
 
         AlarmUtil alarmUtil = new AlarmUtil();
         alarmUtil.OpenTimer(this);
-
-    }
-
-    private void initJPush() {
 
         JPushInterface.init(getApplicationContext());
         //push 推送默认开启，如果用户关闭掉推送的话，在这里停掉推送
         if (!SPUtil.getPushOption(mContext)) {
             JPushInterface.stopPush(getApplicationContext());
         }
+
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateMessageCenter();
+    }
 
     protected void initView() {
-        mUserCentertImageView = (ImageView) findViewById(R.id.iv_actionbar_left);
-        mSearchImageView = (ImageView) findViewById(R.id.iv_actionbar_right);
-        mIconTopImageView = (ImageView) findViewById(R.id.iv_actionbar_logo);
+        mUserCentertImageView = (ImageView) findViewById(R.id.iv_actionbar_main_user_center);
+        mSearchImageView = (ImageView) findViewById(R.id.iv_actionbar_main_search);
+        mMessageCenterImageView = (ImageView) findViewById(R.id.iv_actionbar_main_message_center);
+        mIconTopImageView = (ImageView) findViewById(R.id.iv_actionbar_main_logo);
         mMainGridView = (GridView) findViewById(R.id.gv_main_grid_second);
         mIndicatorRadioGroup = (RadioGroup) findViewById(R.id.rg_main_focus_indicator_container);
         mBannerGallery = (BannerGallery) findViewById(R.id.gallery_main_banner);
@@ -135,7 +142,6 @@ public class MainGridActivity extends BaseNoTitleActivity {
         mBannerGallery.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, height));
         mScrollView = (TopFadeScrollView) findViewById(R.id.tfsv_main_grid);
         mScrollView.setTopViewId(R.id.rl_main_grid_banner);
-        mContainerLayout = (FrameLayout) findViewById(R.id.fm_main_grid_container);
         mContentLayout = (LinearLayout) findViewById(R.id.ll_main_grid_content_layout);
     }
 
@@ -204,6 +210,12 @@ public class MainGridActivity extends BaseNoTitleActivity {
                 transaction.commit();
             }
         });
+        mMessageCenterImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(mContext, MessageCenterActivity.class));
+            }
+        });
     }
 
     protected void initData() {
@@ -225,7 +237,8 @@ public class MainGridActivity extends BaseNoTitleActivity {
         updateBanner(mBannerList);
         mMainGridAdapter = new MainGridAdapter(mContext, getMainIconList());
         mMainGridView.setAdapter(mMainGridAdapter);
-        mScrollView.scrollTo(0, 0);
+        updateMessageCenter();
+        //mScrollView.scrollTo(0, 0);
     }
 
     /**
@@ -345,7 +358,7 @@ public class MainGridActivity extends BaseNoTitleActivity {
                     String logoUrl = jSONObject
                             .optString(MainBanner.CHK_URL);
                     SP.putStringSP(MainGridActivity.this, SP.DEFAULTCACHE, "logoUrl", logoUrl);
-                    initCompanyLog(logoUrl);
+                    ImageViewLoader.setImageViewResource(mIconTopImageView, R.drawable.logo, logoUrl);
                 }
 
                 JSONArray arrBanner = data.optJSONArray("banner");
@@ -354,7 +367,7 @@ public class MainGridActivity extends BaseNoTitleActivity {
 
                 for (int i = 0; i < arrBanner.length(); i++) {
                     JSONObject jo = arrBanner.optJSONObject(i);
-                    String img = jo.optString(MTrainingDBHelper.CHK_IMG);
+                    String img = jo.optString(MainBanner.CHK_IMG);
                     String url = jo.optString(MainBanner.CHK_URL);
                     String md5 = jo.optString(MainBanner.CHK_RES_MD5);
                     MainBanner banner = new MainBanner(img, url, md5);
@@ -396,21 +409,6 @@ public class MainGridActivity extends BaseNoTitleActivity {
                                 }
                             }).setNegativeButton(R.string.text_cancel, null)
                     .create().show();
-        }
-    }
-
-    /**
-     * 功能描述: 初始化企业logo布局
-     */
-    private void initCompanyLog(String logoUrl) {
-        Bitmap logBmp = BitmapLruCache.getBitmapLruCache().get(logoUrl);
-        if (logBmp != null && logBmp.isRecycled()) {
-            mIconTopImageView.setImageBitmap(logBmp);
-        } else {
-            MyVolley.getImageLoader().get(
-                    logoUrl,
-                    new IconLoadListener(mContext, mIconTopImageView, logoUrl,
-                            R.drawable.logo));
         }
     }
 
@@ -468,4 +466,37 @@ public class MainGridActivity extends BaseNoTitleActivity {
         return bmp;
     }
 
+    private void updateMessageCenter() {
+        if (MessageCenterResManager.getAllItem(mContext).size() > 0) {
+            mMessageCenterImageView.setImageResource(R.drawable.button_title_main_message_checked);
+        } else {
+            mMessageCenterImageView.setImageResource(R.drawable.button_title_main_message_unchecked);
+        }
+    }
+
+    private MessageReceiver mMessageReceiver = new MessageReceiver();
+
+    class MessageReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null && intent.getAction().equals(ACTION_RECEIVER_MESSAGE)) {
+                updateMessageCenter();
+            }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(mMessageReceiver);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ACTION_RECEIVER_MESSAGE);
+        registerReceiver(mMessageReceiver, filter);
+    }
 }

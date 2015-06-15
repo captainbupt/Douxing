@@ -3,10 +3,13 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/Pulltorefresh" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/badou/mworking/AskSubmitActivity.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/badou/mworking/MessageCenterActivity.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/badou/mworking/adapter/ChatterHotAdapter.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/badou/mworking/adapter/ExamAdapter.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/badou/mworking/adapter/MessageCenterAdapter.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/badou/mworking/adapter/UserProgressAdapter.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/badou/mworking/base/BaseStatisticalActionBarActivity.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/badou/mworking/database/MessageCenterResManager.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/badou/mworking/fragment/ChatterHotFragment.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/badou/mworking/fragment/MainSearchFragment.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/badou/mworking/listener/CopyClickListener.java" charset="UTF-8" />

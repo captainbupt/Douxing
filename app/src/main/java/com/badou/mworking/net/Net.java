@@ -237,7 +237,7 @@ public class Net {
     /**
      * 19. 发布同事圈
      */
-    public static String QUESTION_PUBLISH = "/publish?sys=android"
+    public static String CHATTER_PUBLISH = "/publish?sys=android"
             + AppApplication.SYSVERSION + "&ver=" + AppApplication.appVersion;
 
 
@@ -251,13 +251,13 @@ public class Net {
     /**
      * 20.获取某人的同事圈
      */
-    public static String QUESTION_GET_USER = "/viewqas_v2?sys=android"
+    public static String CHATTER_GET_USER = "/viewqas_v2?sys=android"
             + AppApplication.SYSVERSION + "&ver=" + AppApplication.appVersion;
 
     /**
      * 20.获取同事圈话题
      */
-    public static String QUESTION_GET_TOPIC(String uid, String topic, int pageNum, int itemNum) {
+    public static String CHATTER_GET_TOPIC(String uid, String topic, int pageNum, int itemNum) {
         return "/getTopicInfo?sys=android"
                 + AppApplication.SYSVERSION + "&ver=" + AppApplication.appVersion + "&uid="
                 + uid + "&topic=" + topic + "&page_no=" + pageNum + "&item_per_page=" + itemNum;
@@ -266,7 +266,7 @@ public class Net {
     /**
      * 20.获取同事圈话题
      */
-    public static String QUESTION_GET_HOT(String uid, int pageNum, int itemNum) {
+    public static String CHATTER_GET_HOT(String uid, int pageNum, int itemNum) {
         return "/getdaren?sys=android"
                 + AppApplication.SYSVERSION + "&ver=" + AppApplication.appVersion + "&uid="
                 + uid + "&page_no=" + pageNum + "&item_per_page=" + itemNum;
@@ -280,22 +280,24 @@ public class Net {
                 + AppApplication.appVersion + "&uid=" + uid + "&qid=" + qid;
     }
 
+    public static String CHATTER_GET_BY_ID(String uid, String qid) {
+        return "/getonepub?sys=android" + AppApplication.SYSVERSION + "&ver="
+                + AppApplication.appVersion + "&uid=" + uid + "&qid=" + qid;
+    }
+
+    public static String ASK_GET_BY_ID = "/getonepub?sys=android" + AppApplication.SYSVERSION + "&ver="
+            + AppApplication.appVersion;
+
     /**
      * 22.回复问题同事圈
      */
-    public static String QUESTION_REPLY = "/reply?sys=android"
+    public static String CHATTER_REPLY = "/reply?sys=android"
             + AppApplication.SYSVERSION + "&ver=" + AppApplication.appVersion;
 
     /**
      * 23.获取同事圈答复
      */
-    public static String QUESTION_REPLY_GET = "/getreply?sys=android"
-            + AppApplication.SYSVERSION + "&ver=" + AppApplication.appVersion;
-
-    /**
-     * 24. 获取用户的问题／分享列表
-     */
-    public static String QUESTION_USER_GET = "/viewqas?sys=android"
+    public static String CHATTER_REPLY_GET = "/getreply?sys=android"
             + AppApplication.SYSVERSION + "&ver=" + AppApplication.appVersion;
 
     /**

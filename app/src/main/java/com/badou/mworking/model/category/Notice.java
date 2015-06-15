@@ -1,6 +1,7 @@
 package com.badou.mworking.model.category;
 
 import com.badou.mworking.database.MTrainingDBHelper;
+import com.badou.mworking.model.MainBanner;
 
 import org.json.JSONObject;
 
@@ -13,7 +14,6 @@ public class Notice extends Category{
 	public static final String CATEGORY_KEY_NAME = CATEGORY_KEY_NAMES[CATEGORY_TYPE];
 	public static final String CATEGORY_KEY_UNREAD_NUM = CATEGORY_KEY_UNREADS[CATEGORY_TYPE];//通知 的 未读数量
 
-	public String imgUrl;
 
 	/**
 	 * 功能描述: 通知公告json解析
@@ -21,8 +21,6 @@ public class Notice extends Category{
 	 */
 	public Notice(JSONObject jsonObject) {
 		super(jsonObject);
-		this.imgUrl = jsonObject
-				.optString(MTrainingDBHelper.CHK_IMG);
 	}
 
 	@Override

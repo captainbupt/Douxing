@@ -20,6 +20,7 @@ import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.bitmap.BitmapLruCache;
 import com.badou.mworking.net.bitmap.CircleImageListener;
+import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.net.volley.MyVolley;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.BitmapUtil;
@@ -282,8 +283,7 @@ public class UserCenterActivity extends BaseNoTitleActivity {
         } else {
             MyVolley.getImageLoader().get(
                     imgUrl,
-                    new CircleImageListener(mContext, imgUrl, ivUserHeadIcon,
-                            headWidth, headHeight));
+                    new CircleImageListener(imgUrl, ivUserHeadIcon, headWidth, headHeight));
         }
     }
 

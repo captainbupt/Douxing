@@ -3,15 +3,18 @@ package com.badou.mworking.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.badou.mworking.AskDetailActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
+import com.badou.mworking.listener.AdapterItemClickListener;
 import com.badou.mworking.listener.CopyClickListener;
 import com.badou.mworking.model.Ask;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
@@ -22,9 +25,11 @@ import com.badou.mworking.util.TimeTransfer;
  */
 public class AskAdapter extends MyBaseAdapter {
 
+    private AdapterView.OnItemClickListener mOnItemClickListener;
 
-    public AskAdapter(Context context) {
+    public AskAdapter(Context context, AdapterView.OnItemClickListener onItemClickListener) {
         super(context);
+        mOnItemClickListener = onItemClickListener;
     }
 
     @Override
@@ -39,36 +44,24 @@ public class AskAdapter extends MyBaseAdapter {
             convertView.setTag(holder);
         }
         final Ask ask = (Ask) getItem(position);
-        ImageViewLoader.setCircleImageViewResource(mContext, holder.headImageView,
-                ask.userHeadUrl, mContext.getResources().getDimensionPixelSize(R.dimen.icon_head_size_middle));
+        ImageViewLoader.setCircleImageViewResource(holder.headImageView, ask.userHeadUrl, mContext.getResources().getDimensionPixelSize(R.dimen.icon_head_size_middle));
 
         holder.dateTextView.setText(TimeTransfer.long2StringDetailDate(mContext, ask.createTime));
         holder.replyCountTextView.setText(ask.count + "");
         holder.contentTextView.setText(ask.content);
 
         holder.copyClickListener.content = ask.content;
-
-        // 待优化项，可参照ChatterAdapter，降低耦合，优化内存
-        convertView.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-                Intent intent = new Intent();
-                intent.setClass(mContext, AskDetailActivity.class);
-                intent.putExtra(AskDetailActivity.KEY_ASK, ask);
-                // 任意
-                ((Activity) mContext).startActivityForResult(intent, 1);
-            }
-        });
+        holder.viewClickListener.position = position;
         return convertView;
     }
 
-    static class AllViewHolder {
+    class AllViewHolder {
         ImageView headImageView; // 头像
         TextView dateTextView;  //时间
         TextView replyCountTextView;  //回复人数
         TextView contentTextView;
         CopyClickListener copyClickListener;
+        AdapterItemClickListener viewClickListener;
 
         public AllViewHolder(Context context, View view) {
             headImageView = (ImageView) view.findViewById(R.id.iv_adapter_ask_head);
@@ -76,7 +69,19 @@ public class AskAdapter extends MyBaseAdapter {
             replyCountTextView = (TextView) view.findViewById(R.id.tv_adapter_ask_reply_count);
             contentTextView = (TextView) view.findViewById(R.id.tv_adapter_ask_content);
             copyClickListener = new CopyClickListener(context);
+            viewClickListener = new AdapterItemClickListener(context) {
+                @Override
+                public void onClick(View view) {
+                    mOnItemClickListener.onItemClick(null, null, position, getItemId(position));
+                    Intent intent = new Intent();
+                    intent.setClass(mContext, AskDetailActivity.class);
+                    intent.putExtra(AskDetailActivity.KEY_ASK, (Ask) getItem(position));
+                    // 任意
+                    ((Activity) mContext).startActivityForResult(intent, 1);
+                }
+            };
             view.setOnLongClickListener(copyClickListener);
+            view.setOnClickListener(viewClickListener);
         }
     }
 }

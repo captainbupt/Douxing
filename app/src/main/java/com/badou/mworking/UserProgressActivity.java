@@ -15,6 +15,7 @@ import com.badou.mworking.adapter.UserProgressAdapter;
 import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.model.category.Category;
+import com.badou.mworking.model.category.CategoryDetail;
 import com.badou.mworking.model.category.Exam;
 import com.badou.mworking.model.category.Train;
 import com.badou.mworking.model.user.UserDetail;
@@ -114,7 +115,7 @@ public class UserProgressActivity extends BaseNoTitleActivity {
             public void onItemClick(AdapterView<?> arg0, View arg1, int position,
                                     long arg3) {
                 Category category = (Category) mCategoryAdapter.getItem(position);
-                CategoryClickHandler.categoryClicker(mContext, category);
+                CategoryClickHandler.categoryClicker(mContext, new CategoryDetail(mContext, category));
             }
         });
 

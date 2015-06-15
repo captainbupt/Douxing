@@ -93,8 +93,7 @@ public class CommentAdapter extends MyBaseAdapter {
         holder.mDateTextView.setText(pubTime);
 
         /**设置头像**/
-        ImageViewLoader.setCircleImageViewResource(mContext, holder.mHeadImageView, comment.imgUrl,
-                mContext.getResources().getDimensionPixelSize(R.dimen.icon_head_size_middle));
+        ImageViewLoader.setCircleImageViewResource(holder.mHeadImageView, comment.imgUrl,mContext.getResources().getDimensionPixelSize(R.dimen.icon_head_size_middle));
 
 		/*设置楼数*/
         int floorNum = mAllCount - position;

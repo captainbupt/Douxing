@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -75,7 +76,12 @@ public class AskActivity extends BaseBackActionBarActivity {
 
     private void initData() {
         mContentListView.setMode(Mode.BOTH);
-        mAskAdapter = new AskAdapter(mContext);
+        mAskAdapter = new AskAdapter(mContext, new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                mClickPosition = i;
+            }
+        });
         getCache();
         mContentListView.setAdapter(mAskAdapter);
         beginIndex = 1;
@@ -95,9 +101,11 @@ public class AskActivity extends BaseBackActionBarActivity {
         if (resultCode == AskDetailActivity.RESULT_DELETED) {
             mAskAdapter.remove(mClickPosition);
         } else if (resultCode == AskDetailActivity.RESULT_REPLIED) {
-            Ask ask = (Ask) mAskAdapter.getItem(mClickPosition);
-            ask.count = data.getIntExtra(AskDetailActivity.RESULT_KEY_COUNT, ask.count);
-            mAskAdapter.setItem(mClickPosition, ask);
+            if (mClickPosition >= 0 && mClickPosition < mAskAdapter.getCount()) {
+                Ask ask = (Ask) mAskAdapter.getItem(mClickPosition);
+                ask.count = data.getIntExtra(AskDetailActivity.RESULT_KEY_COUNT, ask.count);
+                mAskAdapter.setItem(mClickPosition, ask);
+            }
         }
     }
 

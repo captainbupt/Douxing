@@ -181,8 +181,7 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
         mNameTextView.setText(mChatter.name);
         mTimeTextView.setText(TimeTransfer.long2StringDetailDate(mContext, mChatter.publishTime) + "");
         /**设置头像**/
-        ImageViewLoader.setCircleImageViewResource(mContext, mHeadImageView, mChatter.headUrl,
-                mContext.getResources().getDimensionPixelSize(R.dimen.icon_head_size_middle));
+        ImageViewLoader.setCircleImageViewResource(mHeadImageView, mChatter.headUrl, mContext.getResources().getDimensionPixelSize(R.dimen.icon_head_size_middle));
         // 评论中添加的图片
         boolean isWifi = NetUtils.isWifiConnected(mContext);
         // 判断是否在2G/3G下显示图片

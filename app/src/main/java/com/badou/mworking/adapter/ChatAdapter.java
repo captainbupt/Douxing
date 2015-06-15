@@ -40,7 +40,7 @@ public class ChatAdapter extends MyBaseAdapter {
 
         final ChattingListInfo info = (ChattingListInfo) mItemList.get(position);
         /**设置头像**/
-        ImageViewLoader.setCircleImageViewResource(mContext, holder.headImageView, info.img, mContext.getResources().getDimensionPixelSize(R.dimen.icon_head_size_middle));
+        ImageViewLoader.setCircleImageViewResource(holder.headImageView, info.img, mContext.getResources().getDimensionPixelSize(R.dimen.icon_head_size_middle));
 
         /**设置名字**/
         holder.nameTextView.setText(info.name);

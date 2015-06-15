@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
-import com.badou.mworking.database.WenDaManage;
+import com.badou.mworking.database.AskResManager;
 import com.badou.mworking.listener.FullImageListener;
 import com.badou.mworking.model.Ask;
 import com.badou.mworking.net.ServiceProvider;
@@ -58,13 +58,12 @@ public class AskAnswerAdapter extends MyBaseAdapter {
         holder.contentTextView.setText(ask.content);
         holder.dateTextView.setText(TimeTransfer.long2StringDetailDate(mContext, ask.createTime));
 
-        ImageViewLoader.setCircleImageViewResource(mContext, holder.headImageView,
-                ask.userHeadUrl, mContext.getResources().getDimensionPixelSize(R.dimen.icon_head_size_middle));
-        ImageViewLoader.setSquareImageViewResourceOnWifi(mContext, holder.contentImageView, ask.contentImageUrl, mContext.getResources().getDimensionPixelSize(R.dimen.icon_size_xlarge));
+        ImageViewLoader.setCircleImageViewResource(holder.headImageView, ask.userHeadUrl, mContext.getResources().getDimensionPixelSize(R.dimen.icon_head_size_middle));
+        ImageViewLoader.setSquareImageViewResourceOnWifi(mContext, holder.contentImageView, R.drawable.icon_image_default, ask.contentImageUrl, mContext.getResources().getDimensionPixelSize(R.dimen.icon_size_xlarge));
         holder.contentImageView.setOnClickListener(new FullImageListener(mContext, ask.contentImageUrl));
 
         /** 设置点赞的check **/
-        if (WenDaManage.isSelect(mContext, mAid, ask.createTime / 1000 + "")) {
+        if (AskResManager.isSelect(mContext, mAid, ask.createTime / 1000 + "")) {
             holder.praiseCheckBox.setChecked(true);
             holder.praiseCheckBox.setEnabled(false);
         } else {
@@ -125,7 +124,7 @@ public class AskAnswerAdapter extends MyBaseAdapter {
             @Override
             public void onResponseSuccess(JSONObject response) {
                 ask.count++;
-                WenDaManage.insertItem(mContext, mAid, ask.createTime);
+                AskResManager.insertItem(mContext, mAid, ask.createTime);
                 AskAnswerAdapter.this.notifyDataSetChanged();
             }
 

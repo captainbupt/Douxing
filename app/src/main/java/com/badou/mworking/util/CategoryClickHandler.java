@@ -16,6 +16,7 @@ import com.badou.mworking.base.BaseStatisticalActionBarActivity;
 import com.badou.mworking.model.category.Category;
 import com.badou.mworking.model.category.CategoryDetail;
 import com.badou.mworking.model.category.Task;
+import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.widget.HorizontalProgressDialog;
@@ -37,20 +38,9 @@ public class CategoryClickHandler {
     public static HorizontalProgressDialog progressDialog;
     private static HttpHandler mDownloadHandler;
 
-    public static void categoryClicker(Context context, Category category) {
-        goNextPage(context, new CategoryDetail(context, category));
-        ServiceProvider.doMarkRead(context, category.rid);
-    }
-
-    public static void categoryClicker(final Context context, final int type, final String rid, final String subject) {
-        ServiceProvider.getResourceDetail(context, rid, new VolleyListener(context) {
-            @Override
-            public void onResponseSuccess(JSONObject jsonObject) {
-                CategoryDetail detail = new CategoryDetail(context, jsonObject, type, rid, subject, null);
-                goNextPage(context, detail);
-                ServiceProvider.doMarkRead(context, rid);
-            }
-        });
+    public static void categoryClicker(Context context, CategoryDetail categoryDetail) {
+        goNextPage(context, categoryDetail);
+        ServiceProvider.doMarkRead(context, categoryDetail.rid);
     }
 
     public static void goNextPage(Context context, CategoryDetail categoryDetail) {
