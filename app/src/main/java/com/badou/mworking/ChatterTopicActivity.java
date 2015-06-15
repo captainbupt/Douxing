@@ -6,8 +6,6 @@ import android.support.v4.app.FragmentTransaction;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.fragment.ChatterListFragment;
 
-import android.app.Fragment;
-
 /**
  * Created by Administrator on 2015/6/11.
  */

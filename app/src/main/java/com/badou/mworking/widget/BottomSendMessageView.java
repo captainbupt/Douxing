@@ -11,12 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.badou.mworking.R;
-
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 
 /**
  * Created by Administrator on 2015/6/3.

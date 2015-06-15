@@ -13,16 +13,9 @@
  */
 package com.badou.mworking;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ListView;
 
-import com.android.volley.VolleyError;
 import com.badou.mworking.adapter.ChatInfoAdapter;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseBackActionBarActivity;

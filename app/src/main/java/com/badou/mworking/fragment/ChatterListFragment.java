@@ -1,23 +1,15 @@
 package com.badou.mworking.fragment;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import android.view.LayoutInflater;
-import android.widget.AdapterView;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-import com.android.volley.VolleyError;
 import com.badou.mworking.ChatterActivity;
 import com.badou.mworking.ChatterDetailActivity;
 import com.badou.mworking.R;
@@ -36,6 +28,13 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 功能描述: 同事圈列表页

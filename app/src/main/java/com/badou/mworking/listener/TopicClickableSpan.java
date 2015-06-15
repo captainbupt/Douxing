@@ -1,5 +1,6 @@
 package com.badou.mworking.listener;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -9,12 +10,10 @@ import android.text.TextPaint;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
+import android.widget.TextView;
 
 import com.badou.mworking.ChatterTopicActivity;
 import com.badou.mworking.base.BaseActionBarActivity;
-
-import android.app.Activity;
-import android.widget.TextView;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

@@ -6,8 +6,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
-import com.android.volley.VolleyError;
 import com.badou.mworking.adapter.CommentAdapter;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseBackActionBarActivity;
@@ -24,7 +24,6 @@ import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.SP;
 import com.badou.mworking.util.TimeTransfer;
-import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.BottomSendMessageView;
 import com.badou.mworking.widget.MultiImageShowGridView;
 import com.badou.mworking.widget.NoScrollListView;
@@ -33,7 +32,6 @@ import com.badou.mworking.widget.VideoImageView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 
-import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

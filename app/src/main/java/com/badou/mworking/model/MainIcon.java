@@ -6,11 +6,9 @@ import android.text.TextUtils;
 import com.badou.mworking.R;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.net.RequestParameters;
-import com.badou.mworking.net.ResponseParameters;
 
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;

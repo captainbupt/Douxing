@@ -13,7 +13,6 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.android.volley.VolleyError;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.net.Net;
@@ -22,11 +21,9 @@ import com.badou.mworking.net.ResponseParameters;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.AlarmUtil;
-import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.SP;
 import com.badou.mworking.util.SPUtil;
 import com.badou.mworking.util.ToastUtil;
-import com.badou.mworking.widget.WaitProgressDialog;
 
 import org.json.JSONObject;
 

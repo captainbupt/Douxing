@@ -5,8 +5,6 @@ import android.graphics.Bitmap;
 import android.os.Environment;
 import android.os.StatFs;
 
-import com.badou.mworking.net.DownloadListener;
-
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -60,8 +58,7 @@ public class FileUtils {
      * @param input
      * @return
      */
-    public static File write2SDFromInput(String path, InputStream input,
-                                         DownloadListener downloadListener) {
+    public static File write2SDFromInput(String path, InputStream input) {
         File file = null;
         OutputStream output = null;
         try {
@@ -78,8 +75,6 @@ public class FileUtils {
             while ((length = (input.read(buffer))) > 0) {
                 output.write(buffer, 0, length);
                 totalLength += length;
-                if (downloadListener != null)
-                    downloadListener.onDownloadSizeChange(totalLength);
             }
 
             output.flush();

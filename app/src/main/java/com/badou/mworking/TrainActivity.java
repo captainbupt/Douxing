@@ -3,7 +3,6 @@ package com.badou.mworking;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.android.volley.VolleyError;
 import com.badou.mworking.adapter.TrainAdapter;
 import com.badou.mworking.base.BaseCategoryProgressListActivity;
 import com.badou.mworking.model.category.Category;

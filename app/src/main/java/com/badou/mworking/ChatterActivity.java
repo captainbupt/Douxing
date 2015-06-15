@@ -8,14 +8,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.fragment.ChatterHotFragment;
 import com.badou.mworking.fragment.ChatterListFragment;
-
-import android.widget.RadioButton;
 
 import java.util.ArrayList;
 import java.util.List;

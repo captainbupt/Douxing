@@ -9,14 +9,11 @@ import android.graphics.Bitmap;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
+import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
-import com.badou.mworking.net.bitmap.ImageViewLoader;
-
-import android.widget.GridView;
 
 import java.util.List;
 

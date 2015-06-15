@@ -1,28 +1,24 @@
 package com.badou.mworking;
 
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import org.json.JSONObject;
-
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 
-import com.android.volley.VolleyError;
-import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.model.MainIcon;
-import com.badou.mworking.net.Net;
 import com.badou.mworking.net.RequestParameters;
-import com.badou.mworking.net.ResponseParameters;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.ImageChooser;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.MultiImageEditGridView;
+
+import org.json.JSONObject;
 
 /**
  * 问答提问页面

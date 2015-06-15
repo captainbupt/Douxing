@@ -4,14 +4,13 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.model.category.Exam;
 import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.TimeTransfer;
-
-import android.widget.TextView;
 
 /**
  * 功能描述:  在线考试列表页适配器

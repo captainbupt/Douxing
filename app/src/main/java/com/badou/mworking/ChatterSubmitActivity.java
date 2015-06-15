@@ -11,15 +11,12 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import com.android.volley.VolleyError;
 import com.badou.mworking.adapter.ChatterTopicAdapter;
 import com.badou.mworking.base.BaseBackActionBarActivity;
-import com.badou.mworking.model.Chatter;
 import com.badou.mworking.model.ChatterTopic;
 import com.badou.mworking.model.MainIcon;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.RequestParameters;
-import com.badou.mworking.net.ResponseParameters;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.FileUtils;
@@ -29,16 +26,12 @@ import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.MultiImageEditGridView;
 import com.badou.mworking.widget.VideoImageView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * 功能描述: 同事圈发送消息界面

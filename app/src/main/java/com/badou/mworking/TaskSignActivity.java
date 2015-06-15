@@ -1,6 +1,6 @@
 package com.badou.mworking;
 
-import android.content.DialogInterface;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -13,7 +13,6 @@ import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseStatisticalActionBarActivity;
 import com.badou.mworking.model.category.Task;
 import com.badou.mworking.net.Net;
-import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.Constant;
@@ -35,7 +34,6 @@ import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.SupportMapFragment;
 import com.baidu.mapapi.model.LatLng;
 
-import android.app.AlertDialog;
 import org.json.JSONObject;
 
 /**

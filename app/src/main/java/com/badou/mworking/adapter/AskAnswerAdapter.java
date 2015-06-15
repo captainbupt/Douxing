@@ -1,7 +1,6 @@
 package com.badou.mworking.adapter;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -10,7 +9,6 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.VolleyError;
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.database.WenDaManage;
@@ -20,7 +18,6 @@ import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.TimeTransfer;
-import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.WaitProgressDialog;
 
 import org.json.JSONObject;

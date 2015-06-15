@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.badou.mworking.CommentActivity;
 import com.badou.mworking.R;
@@ -13,9 +16,6 @@ import com.badou.mworking.model.category.CategoryDetail;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import org.json.JSONObject;
 
 /**

@@ -1,9 +1,9 @@
 package com.badou.mworking.widget;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.Resources.NotFoundException;
 import android.text.TextUtils;
-import android.app.ProgressDialog;
 
 import com.badou.mworking.R;
 

@@ -1,13 +1,5 @@
 package com.badou.mworking;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,20 +7,19 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
-import com.android.volley.VolleyError;
 import com.badou.mworking.adapter.AskAnswerAdapter;
-import com.badou.mworking.base.AppApplication;
-import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.listener.DeleteClickListener;
 import com.badou.mworking.listener.FullImageListener;
 import com.badou.mworking.listener.MessageClickListener;
 import com.badou.mworking.model.Ask;
-import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
+import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.TimeTransfer;
@@ -36,6 +27,12 @@ import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.NoScrollListView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 问答详情页面

@@ -69,7 +69,7 @@ public class VideoTakeActivity extends Activity implements SurfaceHolder.Callbac
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         // 设置横屏显示
-        setContentView(R.layout.shexactivity);
+        setContentView(R.layout.activity_video_take);
         handler = new Handler();
         // 设置输出路径
         File file = new File(FileUtils.getChatterVideoDir(this));

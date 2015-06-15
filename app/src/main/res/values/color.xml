@@ -12,131 +12,34 @@
     <!-- 背景橙色 -->
     <color name="color_orange">#f7ab32</color>
     <!-- 文字的灰色 -->
-    <color name="color_text_light_grey">#74ffffff</color>
     <color name="color_text_grey">#989898</color>
     <color name="color_text_black">#3d3d3d</color>
     <color name="color_text_blue">@color/color_blue</color>
     <!-- 分割线的颜色 -->
-    <color name="color_edit_line">#d1d3d1</color>
     <color name="color_layout_bg">@color/color_bg_grey</color>
-    <color name="color_closeBtn_bg_grey">#616161</color>
     <color name="color_border">@color/color_grey</color>
     <color name="color_border_grey">@color/color_grey</color>
 
     <color name="transparent">#00000000</color>
     <color name="color_white">#ffffffff</color>
-    <color name="color_light_white">#FFFFffF0</color>
     <color name="color_black">#ff000000</color>
-    <color name="color_background">#fff8f8f8</color>
     <color name="color_red">#DD523f</color>
     <color name="color_grey">#ffa5a5a5</color>
     <color name="color_light_grey">#fff4f4f4</color>
-    <color name="color_li_item_name_grey">#787878</color>
-    <color name="color_tongshiquanbiqian_grey">#828282</color>
-    <!-- activity login -->
-    <color name="color_login_button_bg_n">#0079d6</color>
-    <color name="color_login_background">#efefef</color>
-    <color name="color_login_divider">#FFE5E7E9</color>
-    <color name="color_login_text_tip">@color/color_white</color>
-    <color name="color_login_text_button">@color/color_white</color>
-    <color name="color_login_text_input">@color/color_white</color>
-    <color name="color_login_edit_line">#e2e1e1</color>
 
-    <drawable name="login_background_info">#33000000</drawable>
-    <drawable name="login_divier_info">#ffd0d3d6</drawable>
-    <drawable name="login_background_button_login">@color/color_blue</drawable>
-    <!-- activity main grid -->
-    <color name="color_main_grid_text">@color/color_white</color>
-
-    <drawable name="main_grid_background_category">@color/color_blue</drawable>
     <!-- activity base -->
     <color name="color_title_bar_text">@color/color_text_blue</color>
-    <!-- <color name="color_tab_selected">#ffb04d04</color> -->
-    <color name="color_tab_selected">@color/color_blue</color>
-    <color name="color_tab_unselected">#fff5f5f5</color>
     <!-- list -->
     <drawable name="color_list_item_normal">@color/color_white</drawable>
     <drawable name="color_list_item_pressed">#fff7fcff</drawable>
 
-    <color name="color_list_item_unread">#ffd4260b</color>
-    <color name="color_list_item_text_subject">@color/color_black</color>
-    <color name="color_list_item_text_department">#ff808080</color>
     <color name="color_list_item_text_time">@color/color_text_grey</color>
-    <color name="color_list_item_feedback_count">#ff6a6a6a</color>
-    <color name="color_list_item_score">#ffd6642e</color>
-    <!-- feedback -->
-    <color name="color_feedback_text_tip">#ff323232</color>
-    <color name="color_feedback_text_button">#ff515151</color>
-    <color name="color_feedback_text_button_confirm">@color/color_white</color>
-    <!-- about -->
-    <color name="color_about_text_info">#ff909090</color>
-    <color name="color_about_text_category">#ff909090</color>
-    <color name="color_about_text_button">@color/color_white</color>
-    <color name="color_yellow">#f1ae37</color>
-    <!-- exam -->
-    <color name="color_exam_text_score">#ff000000</color>
-    <color name="color_exam_info_texts">#ff808080</color>
-    <color name="color_exam_subject_tip">#ff808080</color>
-    <color name="color_exam_subject_highlight">@color/color_blue</color>
-    <color name="color_exam_subject_content">@color/color_black</color>
-    <color name="color_exam_result_comments">#ffff3b2f</color>
     <!-- dialog login error -->
-    <color name="color_login_error_background">@color/color_black</color>
     <color name="color_login_error_tip">@color/color_white</color>
     <color name="color_login_error_button_text">@color/color_black</color>
-    <color name="color_login_error_button_background">@color/color_white</color>
     <!-- user info -->
-    <color name="color_user_top_background">#ffd4652e</color>
-    <color name="color_user_top_info">#ffffffff</color>
-    <color name="color_user_tips">#ff808080</color>
-    <color name="color_user_numbers">#ffd4652e</color>
-    <color name="color_user_progress_background">#989898</color>
-    <color name="color_user_progress">#ff689e15</color>
-    <color name="color_user_exam_title">#ff303030</color>
-    <color name="color_user_divider">#ffe6e6e6</color>
-    <color name="color_user_setting_info">#ff8d8d8d</color>
     <color name="color_user_setting_option">@color/color_black</color>
-    <color name="color_user_setting_divider">@color/color_border</color>
     <color name="color_change_password">#ff303030</color>
-    <!-- comments -->
-    <color name="color_comment_edit_background">#ffa2a2a2</color>
-    <color name="color_comment_edit_submit_background">#ff50c1e9</color>
-    <color name="color_comment_edit_submit">@color/color_white</color>
-    <color name="color_comment_name">#ff191919</color>
-    <color name="color_comment_content">#ff474747</color>
-    <color name="color_comment_time">#ffe3e3e3</color>
-    <color name="color_comment_divider">@color/color_grey</color>
-    <color name="color_light_black">#6C6C71</color>
-    <color name="color_sign_in_top_bg">#3db5ec</color>
-    <!-- sign -->
-    <color name="color_sign_text">@color/color_blue</color>
-    <color name="color_sign_passed">#ff8a15</color>
-    <color name="color_sign_finished">#ff8102</color>
-    <!-- 个人中心 -->
-    <color name="color_user_detail_all">#F0F2F4</color>
-    <color name="color_user_detail_head">@color/color_blue</color>
-    <color name="color_user_detail_progressbar">#f2951c</color>
-    <!-- ques share -->
-    <color name="color_question_share_name">#1b82de</color>
-    <color name="color_question_share_content">@color/color_black</color>
-    <color name="color_question_share_date">#979faa</color>
-
-    <color name="color_examtype">#3984CC</color>
-    <color name="color_examtitle">#0095d6</color>
-    <color name="color_score">#ff757575</color>
-    <!-- 通知公告页  -->
-
-    <!-- 8-15  -->
-    <color name="color_exam_grey">#888383</color>
-    <color name="color_exam_orange">#f49b31</color>
-
-    <!-- 8-16 -->
-    <color name="color_exam_blue">#0099d6</color>
-    <!-- 8-18 -->
-    <color name="color_trian_item_dpt">#5d5e5b</color>
-    <!-- 8-20 -->
-    <color name="color_usercenter_top_bg">#333b3d</color>
-    <color name="color_user_center_textcolor_black">#3d3d3d</color>
 
     <!-- 媒体播放的seekBar 色值 -->
     <color name="color_seekBG_grey">#5e5f65</color>

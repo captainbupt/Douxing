@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.badou.mworking.R;
 import com.badou.mworking.base.AppApplication;
@@ -12,8 +13,6 @@ import com.badou.mworking.model.category.Notice;
 import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.SP;
 import com.badou.mworking.util.TimeTransfer;
-
-import android.widget.TextView;
 
 /**
  * 功能描述: 通知公告adapter

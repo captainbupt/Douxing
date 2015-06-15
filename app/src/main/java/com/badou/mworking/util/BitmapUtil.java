@@ -68,9 +68,7 @@ public class BitmapUtil {
 
 	/**
 	 * 缩放图片
-	 * 
-	 * @param bitmap
-	 * @param f
+	 *
 	 * @return
 	 */
 	public static Bitmap zoom(Bitmap orgBitmap, float wf, float hf) {

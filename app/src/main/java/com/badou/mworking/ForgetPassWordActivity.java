@@ -14,16 +14,15 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.view.View;
 import android.view.View.OnClickListener;
-
 import android.widget.EditText;
 import android.widget.TextView;
-import org.json.JSONObject;
 
-import com.android.volley.VolleyError;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.ToastUtil;
+
+import org.json.JSONObject;
 
 /**
  * 功能描述: 忘记密码

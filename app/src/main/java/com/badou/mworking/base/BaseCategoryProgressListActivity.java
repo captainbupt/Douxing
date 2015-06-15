@@ -9,9 +9,12 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
 
-import com.android.volley.VolleyError;
 import com.badou.mworking.R;
 import com.badou.mworking.adapter.ClassificationAdapter;
 import com.badou.mworking.model.Classification;
@@ -28,10 +31,6 @@ import com.badou.mworking.util.ToastUtil;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

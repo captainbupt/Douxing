@@ -1,18 +1,13 @@
 package com.badou.mworking.widget;
 
+import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.os.Bundle;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.badou.mworking.R;
-import com.badou.mworking.base.BaseNoTitleActivity;
-
-import android.app.Dialog;
 
 public class LoginErrorDialog extends Dialog {
 

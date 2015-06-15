@@ -5,9 +5,6 @@ import android.os.Bundle;
 import com.badou.mworking.adapter.ExamAdapter;
 import com.badou.mworking.base.BaseCategoryProgressListActivity;
 import com.badou.mworking.model.category.Exam;
-import com.badou.mworking.util.CategoryClickHandler;
-import com.badou.mworking.util.NetUtils;
-import com.badou.mworking.util.ToastUtil;
 
 import org.json.JSONObject;
 

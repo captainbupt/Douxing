@@ -6,15 +6,14 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ImageView;
-
-import com.badou.mworking.R;
-import com.badou.mworking.widget.WaitProgressDialog;
-
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.badou.mworking.R;
+import com.badou.mworking.widget.WaitProgressDialog;
 
 public class BaseActionBarActivity extends BaseNoTitleActivity {
 

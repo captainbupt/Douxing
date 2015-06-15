@@ -11,7 +11,7 @@ import android.widget.Adapter;
 import android.widget.LinearLayout;
 
 import com.badou.mworking.R;
-import com.badou.mworking.util.DimenUtils;
+import com.badou.mworking.util.DensityUtil;
 
 public class NoScrollListView extends LinearLayout {
 
@@ -72,7 +72,7 @@ public class NoScrollListView extends LinearLayout {
 	}
 
 	public void setDividerHeight(int dpSize) {
-		this.dividerHeight = DimenUtils.dip2px(context, dpSize);
+		this.dividerHeight = DensityUtil.dip2px(context, dpSize);
 		notifyDataSetChanged();
 	}
 

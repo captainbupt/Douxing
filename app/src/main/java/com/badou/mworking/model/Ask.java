@@ -1,10 +1,5 @@
 package com.badou.mworking.model;
 
-import android.content.ContentValues;
-
-import com.badou.mworking.database.MTrainingDBHelper;
-
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.Serializable;

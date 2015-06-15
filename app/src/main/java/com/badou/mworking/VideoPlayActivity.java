@@ -24,25 +24,24 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-
-import com.badou.mworking.R.color;
-import com.badou.mworking.base.BaseActionBarActivity;
-import com.badou.mworking.base.BaseBackActionBarActivity;
-import com.badou.mworking.model.MainIcon;
-import com.badou.mworking.net.DownloadListener;
-import com.badou.mworking.net.HttpDownloader;
-import com.badou.mworking.net.RequestParameters;
-import com.badou.mworking.widget.FullScreenVideoView;
-import com.badou.mworking.widget.SwipeBackLayout;
-
-import android.widget.CheckBox;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import com.badou.mworking.R.color;
+import com.badou.mworking.base.BaseBackActionBarActivity;
+import com.badou.mworking.model.MainIcon;
+import com.badou.mworking.net.RequestParameters;
+import com.badou.mworking.widget.FullScreenVideoView;
+import com.badou.mworking.widget.SwipeBackLayout;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -106,7 +105,7 @@ public class VideoPlayActivity extends BaseBackActionBarActivity {
                 // 文件存在，下载完成
                 statuNotDown();
                 tvCurrentTime.setText("0%");
-                new DownloadThread().start();
+                downloadFile();
             }
         }
         chkStartPlay.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -145,37 +144,36 @@ public class VideoPlayActivity extends BaseBackActionBarActivity {
         });
     }
 
-    /**
-     * 类: <code> DownloadThread </code> 功能描述: 下载pdf文件的线程 创建人:董奇 创建日期: 2014年7月16日
-     * 上午9:30:29 开发环境: JDK7.0
-     */
-    class DownloadThread extends Thread {
+    private void downloadFile() {
+        HttpUtils httpUtils = new HttpUtils();
+        httpUtils.download(videoURl, videoPath, true, true, new RequestCallBack<File>() {
+            @Override
+            public void onSuccess(ResponseInfo<File> responseInfo) {
+                mVideo.setBackgroundColor(VideoPlayActivity.this.getResources().getColor(color.transparent));
+                mVideo.setVideoPath(videoPath);
+                statuDownFinish();
+                startPlay();
+            }
 
-        @Override
-        public void run() {
-            super.run();
-            // 通过url下载pdf文件
-            HttpDownloader.downFile(videoURl, fileMedia.getAbsolutePath(),
-                    new DownloadListener() {
+            @Override
+            public void onFailure(HttpException e, String s) {
 
-                        @Override
-                        public void onDownloadSizeChange(int downloadSize) {
-                            // 已下载的大小
-                            Message.obtain(mHandler,
-                                    TrainActivity.PROGRESS_CHANGE, downloadSize)
-                                    .sendToTarget();
-                        }
+            }
 
-                        @Override
-                        public void onGetTotalSize(int totalSize) {
-                            // 文件大小
-                            Message.obtain(mHandler,
-                                    TrainActivity.PROGRESS_MAX, totalSize)
-                                    .sendToTarget();
-                        }
-                    });
-            mHandler.sendEmptyMessage(TrainActivity.PROGRESS_FINISH);
-        }
+            @Override
+            public void onLoading(long total, long current, boolean isUploading) {
+                super.onLoading(total, current, isUploading);
+                if (mSeekBar.getMax() != total) {
+                    mSeekBar.setMax((int) total);
+                }
+                mSeekBar.setProgress((int) current);
+                if (mSeekBar.getMax() > 0) {
+                    int proNum = mSeekBar.getProgress() * 100
+                            / mSeekBar.getMax();
+                    tvCurrentTime.setText(proNum + "%");
+                }
+            }
+        });
     }
 
     /**
@@ -220,49 +218,6 @@ public class VideoPlayActivity extends BaseBackActionBarActivity {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
-                case TrainMusicActivity.STATU_START_PLAY:
-                    if (mVideo.isPlaying()) {
-                        if (mVideo.getCurrentPosition() > 0) {
-                            tvCurrentTime.setText(formatTime(mVideo
-                                    .getCurrentPosition()));
-                            int progress = mVideo.getCurrentPosition() * 100
-                                    / mVideo.getDuration();
-                            mSeekBar.setProgress(progress);
-                            if (mVideo.getCurrentPosition() > mVideo.getDuration() - 100) {
-                                tvCurrentTime.setText("00:00");
-                                mSeekBar.setProgress(0);
-                            }
-                            mSeekBar.setSecondaryProgress(mVideo
-                                    .getBufferPercentage());
-                        } else {
-                            tvCurrentTime.setText("00:00");
-                            mSeekBar.setProgress(0);
-                        }
-                    }
-                    break;
-                case TrainActivity.PROGRESS_MAX:
-                    if (mSeekBar != null) {
-                        mSeekBar.setMax((int) msg.obj);
-                    }
-                    break;
-                case TrainActivity.PROGRESS_CHANGE:
-                    // 设置进度条改变
-                    if (mSeekBar != null && msg.obj != null) {
-                        mSeekBar.setProgress((int) msg.obj);
-                        if (mSeekBar.getMax() > 0) {
-                            int proNum = mSeekBar.getProgress() * 100
-                                    / mSeekBar.getMax();
-                            tvCurrentTime.setText(proNum + "%");
-                        }
-                    }
-                    break;
-                case TrainActivity.PROGRESS_FINISH:
-                    mVideo.setBackgroundColor(VideoPlayActivity.this.getResources().getColor(color.transparent));
-                    System.out.println("下载完成");
-                    mVideo.setVideoPath(fileMedia.toString());
-                    statuDownFinish();
-                    startPlay();
-                    break;
                 case VideoPlayActivity.VIDEOPLAY:    //视屏播放时，进度条的改变
                     if (mVideo.getCurrentPosition() > 0) {
                         tvCurrentTime.setText(formatTime(mVideo

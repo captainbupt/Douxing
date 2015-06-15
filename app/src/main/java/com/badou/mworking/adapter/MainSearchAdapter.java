@@ -1,21 +1,16 @@
 package com.badou.mworking.adapter;
 
 import android.content.Context;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.BaseAdapter;
-
-import com.badou.mworking.R;
-import com.badou.mworking.model.category.Category;
-import com.badou.mworking.model.category.CategoryBasic;
-
 import android.widget.TextView;
 
+import com.badou.mworking.R;
+import com.badou.mworking.model.category.CategoryBasic;
+
 import java.util.List;
-import java.util.zip.Inflater;
 
 public class MainSearchAdapter extends BaseAdapter {
 

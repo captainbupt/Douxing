@@ -16,9 +16,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
-import com.android.volley.VolleyError;
 import com.badou.mworking.MainGridActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.adapter.MainSearchAdapter;
@@ -32,15 +34,9 @@ import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.CategoryClickHandler;
 import com.badou.mworking.util.FastBlur;
-import com.badou.mworking.util.ToastUtil;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import org.json.JSONObject;
 
 import java.util.ArrayList;

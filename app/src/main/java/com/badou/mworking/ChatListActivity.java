@@ -6,9 +6,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.android.volley.VolleyError;
 import com.badou.mworking.adapter.ChatAdapter;
-import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.model.ChattingListInfo;

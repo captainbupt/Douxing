@@ -7,9 +7,9 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.badou.mworking.ChatListActivity;
 import com.badou.mworking.ChatterDetailActivity;
 import com.badou.mworking.ChatterUserActivity;
-import com.badou.mworking.ChatListActivity;
 import com.badou.mworking.ExamActivity;
 import com.badou.mworking.NoticeActivity;
 import com.badou.mworking.TaskActivity;
