@@ -33,6 +33,13 @@ public class ExamAdapter extends MyBaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+        int size = mContext.getResources().getDimensionPixelSize(R.dimen.offset_lless);
+        if (position == 0) {
+            convertView.setPadding(0, size, 0, 0);
+        } else {
+            convertView.setPadding(0, 0, 0, 0);
+        }
+
         // 图标资源，默认为已读
         int iconResId = R.drawable.icon_exam_item_read;
         // 判断read字段， 已考完

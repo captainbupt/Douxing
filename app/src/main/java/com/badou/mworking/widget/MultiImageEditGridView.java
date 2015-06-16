@@ -5,15 +5,20 @@ package com.badou.mworking.widget;
  */
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
+import com.badou.mworking.util.LayoutParamsUtil;
 
 import java.util.List;
 
@@ -23,24 +28,35 @@ import java.util.List;
 public class MultiImageEditGridView extends GridView {
 
     private MultiImageEditAdapter mAdapter;
+    private int mMaxImage;
 
     public MultiImageEditGridView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        mAdapter = new MultiImageEditAdapter(context);
+        initAttr(context, attrs);
+        mAdapter = new MultiImageEditAdapter(context, mMaxImage);
         setAdapter(mAdapter);
     }
 
-// 如果需要显示全部item，则使用此段代码
-/*    @Override
-    public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+    public void initAttr(Context context, AttributeSet attrs) {
+        if (attrs != null) {
+            TypedArray typedArray = context.obtainStyledAttributes(attrs,
+                    R.styleable.MultiImageEditGridView);
+            mMaxImage = typedArray.getColor(
+                    R.styleable.MultiImageEditGridView_maxImg, 4);
+            typedArray.recycle();
+        }
+    }
 
+    @Override
+    public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int expandSpec = MeasureSpec.makeMeasureSpec(
                 Integer.MAX_VALUE >> 2, MeasureSpec.AT_MOST);
         super.onMeasure(widthMeasureSpec, expandSpec);
-    }*/
+    }
 
     public void addImage(Bitmap bmp) {
         mAdapter.addItem(bmp);
+        modifyLayout();
     }
 
     public void clear() {
@@ -54,28 +70,34 @@ public class MultiImageEditGridView extends GridView {
         }
     }
 
+    public boolean isMax() {
+        return mAdapter.getListCount() >= mMaxImage;
+    }
+
     public List<Object> getImages() {
         return mAdapter.getItemList();
     }
 
-    public void setOnImageDeleteListener(OnImageDeleteListener onImageDeleteListener) {
-        mAdapter.setOnImageDeleteListener(onImageDeleteListener);
-    }
-
-    public interface OnImageDeleteListener {
-        public void onDelete(int position);
+    private void modifyLayout() {
+        ViewGroup.LayoutParams layoutParams;
+        int paddingSide = getPaddingLeft();
+        int size = getResources().getDimensionPixelSize(R.dimen.image_size_content);
+        int paddingVertical = getResources().getDimensionPixelOffset(R.dimen.offset_medium);
+        int column = Math.min(3, mAdapter.getCount());
+        setNumColumns(column);
+        layoutParams = getLayoutParams();
+        layoutParams.width = 2 * paddingSide + size * column + paddingVertical * (column - 1);
+        layoutParams.height = LayoutParams.WRAP_CONTENT;
+        setLayoutParams(layoutParams);
     }
 
     static class MultiImageEditAdapter extends MyBaseAdapter {
 
-        OnImageDeleteListener mOnImageDeleteListener;
+        private int mMaxImage;
 
-        public void setOnImageDeleteListener(OnImageDeleteListener onImageDeleteListener) {
-            this.mOnImageDeleteListener = onImageDeleteListener;
-        }
-
-        public MultiImageEditAdapter(Context context) {
+        public MultiImageEditAdapter(Context context, int max) {
             super(context);
+            this.mMaxImage = max;
         }
 
         public void deleteItem(int position) {
@@ -90,6 +112,26 @@ public class MultiImageEditGridView extends GridView {
         }
 
         @Override
+        public void addItem(Object object) {
+            Bitmap bitmap = (Bitmap) object;
+            if (getListCount() < mMaxImage) {
+                super.addItem(object);
+            } else { // 已经满了，替换最后一张
+                Bitmap old = (Bitmap) mItemList.get(mMaxImage - 1);
+                mItemList.set(mMaxImage - 1, bitmap);
+                notifyDataSetChanged();
+                if (old != null && !old.isRecycled()) {
+                    old.recycle();
+                }
+            }
+        }
+
+        @Override
+        public int getCount() {
+            return Math.min(super.getCount() + 1, mMaxImage);
+        }
+
+        @Override
         public View getView(final int position, View convertView, ViewGroup viewGroup) {
             ViewHolder holder;
             if (convertView == null) {
@@ -100,16 +142,21 @@ public class MultiImageEditGridView extends GridView {
                 holder = (ViewHolder) convertView.getTag();
             }
             Bitmap bmp = (Bitmap) getItem(position);
-            holder.contentImageView.setImageBitmap(bmp);
-            holder.deleteImageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    deleteItem(position);
-                    if (mOnImageDeleteListener != null) {
-                        mOnImageDeleteListener.onDelete(position);
+            if (bmp == null) {
+                holder.contentImageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                holder.contentImageView.setImageResource(R.drawable.icon_multi_image_edit_add);
+                holder.deleteImageView.setVisibility(View.GONE);
+            } else {
+                holder.contentImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                holder.contentImageView.setImageBitmap(bmp);
+                holder.deleteImageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        deleteItem(position);
                     }
-                }
-            });
+                });
+                holder.deleteImageView.setVisibility(View.VISIBLE);
+            }
             return convertView;
         }
     }
@@ -119,6 +166,7 @@ public class MultiImageEditGridView extends GridView {
         ImageView deleteImageView;
 
         public ViewHolder(View view) {
+            view.setEnabled(false);
             contentImageView = (ImageView) view.findViewById(R.id.iv_adapter_multi_image_edit_content);
             deleteImageView = (ImageView) view.findViewById(R.id.iv_adapter_multi_image_edit_delete);
         }

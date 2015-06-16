@@ -29,6 +29,7 @@
         <attr name="imgUrl" format="string" />
         <attr name="imgSrc" format="fraction" />
     </declare-styleable>
-
-
+    <declare-styleable name="MultiImageEditGridView">
+        <attr name="maxImg" format="integer" />
+    </declare-styleable>
 </resources>

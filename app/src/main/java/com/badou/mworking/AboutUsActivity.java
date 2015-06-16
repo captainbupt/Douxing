@@ -144,8 +144,8 @@ public class AboutUsActivity extends BaseBackActionBarActivity {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    SPUtil.setPushOption(mContext, true);
+                if (!isChecked) {
+                    SPUtil.setPushOption(mContext, false);
                     JPushInterface.resumePush(getApplicationContext());    //推送打开
                     AlarmUtil alarmUtil = new AlarmUtil();
                     alarmUtil.OpenTimer(mContext);

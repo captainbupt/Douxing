@@ -71,7 +71,7 @@ public class InputMethodRelativeLayout extends RelativeLayout {
 	 * @author junjun
 	 *
 	 */
-	public abstract interface OnSizeChangedListenner {
-		public abstract void onSizeChange(boolean paramBoolean, int w, int h);
+	public interface OnSizeChangedListenner {
+		void onSizeChange(boolean paramBoolean, int w, int h);
 	}
 }

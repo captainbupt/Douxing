@@ -51,8 +51,6 @@ public class RatingDilog extends Dialog {
         void onRatingCompleted(int coursewareScore);
     }
 
-    ;
-
     public RatingDilog(Context context, String rid, int currentScore,
                        OnRatingCompletedListener listener) {
         super(context);

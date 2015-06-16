@@ -36,7 +36,7 @@ public interface DecodeService
     
     
 
-    public interface DecodeCallback
+    interface DecodeCallback
     {
         void decodeComplete(Bitmap bitmap);
     }

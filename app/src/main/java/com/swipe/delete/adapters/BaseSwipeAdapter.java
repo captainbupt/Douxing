@@ -1,5 +1,7 @@
 package com.swipe.delete.adapters;
 
+import java.util.List;
+
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -9,14 +11,11 @@ import com.swipe.delete.implments.SwipeItemMangerImpl;
 import com.swipe.delete.interfaces.SwipeAdapterInterface;
 import com.swipe.delete.interfaces.SwipeItemMangerInterface;
 
-import java.util.List;
-
 public abstract class BaseSwipeAdapter extends BaseAdapter implements SwipeItemMangerInterface, SwipeAdapterInterface {
 
     protected SwipeItemMangerImpl mItemManger = new SwipeItemMangerImpl(this);
 
     /**
-     * return the {@link com.daimajia.swipe.SwipeLayout} resource id, int the view item.
      * @param position
      * @return
      */

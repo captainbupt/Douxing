@@ -30,7 +30,7 @@ public class BannerGallery extends Gallery {
 			default:
 				break;
 			}
-		};
+		}
 	};
 
 	private final Timer timer = new Timer();
@@ -62,9 +62,7 @@ public class BannerGallery extends Gallery {
 			MotionEvent paramMotionEvent2) {
 		float f2 = paramMotionEvent2.getX();
 		float f1 = paramMotionEvent1.getX();
-		if (f2 > f1)
-			return true;
-		return false;
+		return f2 > f1;
 	}
 
 	public boolean onFling(MotionEvent paramMotionEvent1,

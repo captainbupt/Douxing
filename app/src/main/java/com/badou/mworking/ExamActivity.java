@@ -20,6 +20,7 @@ public class ExamActivity extends BaseCategoryProgressListActivity {
         CATEGORY_NAME = Exam.CATEGORY_KEY_NAME;
         CATEGORY_UNREAD_NUM = Exam.CATEGORY_KEY_UNREAD_NUM;
         super.onCreate(savedInstanceState);
+        mNoneResultView.setContent(R.drawable.background_none_result_exam, R.string.none_result_category);
         try {
             // 如果8点提醒点击进入的话，这里会报空，应为极光推送没有收到内容，在这里做个异常捕获
             String JPushBundle = getIntent().getExtras().getString(JPushInterface.EXTRA_EXTRA);

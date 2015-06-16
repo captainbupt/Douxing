@@ -11,13 +11,12 @@
         android:divider="@color/transparent"
         android:dividerPadding="@dimen/offset_small" />
 
-    <ImageView
-        android:id="@+id/iv_fragment_chatter_list_none_result"
+    <com.badou.mworking.widget.NoneResultView
+        android:id="@+id/nrv_fragment_chatter_list_none_result"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:background="@drawable/no_content"
         android:visibility="gone" />
 
 </FrameLayout>

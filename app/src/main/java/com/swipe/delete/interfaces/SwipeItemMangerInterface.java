@@ -1,27 +1,27 @@
 package com.swipe.delete.interfaces;
 
+import java.util.List;
+
 import com.swipe.delete.SwipeLayout;
 import com.swipe.delete.implments.SwipeItemMangerImpl;
 
-import java.util.List;
-
 public interface SwipeItemMangerInterface {
 
-    public void openItem(int position);
+    void openItem(int position);
 
-    public void closeItem(int position);
+    void closeItem(int position);
 
-    public void closeAllExcept(SwipeLayout layout);
+    void closeAllExcept(SwipeLayout layout);
 
-    public List<Integer> getOpenItems();
+    List<Integer> getOpenItems();
 
-    public List<SwipeLayout> getOpenLayouts();
+    List<SwipeLayout> getOpenLayouts();
 
-    public void removeShownLayouts(SwipeLayout layout);
+    void removeShownLayouts(SwipeLayout layout);
 
-    public boolean isOpen(int position);
+    boolean isOpen(int position);
 
-    public SwipeItemMangerImpl.Mode getMode();
+    SwipeItemMangerImpl.Mode getMode();
 
-    public void setMode(SwipeItemMangerImpl.Mode mode);
+    void setMode(SwipeItemMangerImpl.Mode mode);
 }

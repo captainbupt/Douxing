@@ -203,7 +203,7 @@ public class AppApplication extends Application {
                     public void onClick(DialogInterface arg0, int arg1) {
                         //退出登录
                         Intent intent = new Intent(context, LoginActivity.class);
-                        ((Activity) context).startActivity(intent);
+                        context.startActivity(intent);
                         ((Activity) context).finish();
                     }
                 }).show();

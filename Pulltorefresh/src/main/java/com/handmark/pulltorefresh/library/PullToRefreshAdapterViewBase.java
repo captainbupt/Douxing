@@ -149,7 +149,7 @@ public abstract class PullToRefreshAdapterViewBase<T extends AbsListView> extend
 	 * @param adapter - Adapter to set
 	 */
 	public void setAdapter(ListAdapter adapter) {
-		((AdapterView<ListAdapter>) mRefreshableView).setAdapter(adapter);
+		mRefreshableView.setAdapter(adapter);
 	}
 
 	/**
@@ -239,8 +239,6 @@ public abstract class PullToRefreshAdapterViewBase<T extends AbsListView> extend
 			removeIndicatorViews();
 		}
 	}
-
-	;
 
 	@Override
 	protected void onPullToRefresh() {

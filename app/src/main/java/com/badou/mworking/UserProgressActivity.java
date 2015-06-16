@@ -14,12 +14,14 @@ import android.widget.TextView;
 import com.badou.mworking.adapter.UserProgressAdapter;
 import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.base.BaseNoTitleActivity;
+import com.badou.mworking.model.MainIcon;
 import com.badou.mworking.model.category.Category;
 import com.badou.mworking.model.category.CategoryDetail;
 import com.badou.mworking.model.category.Exam;
 import com.badou.mworking.model.category.Train;
 import com.badou.mworking.model.user.UserDetail;
 import com.badou.mworking.net.Net;
+import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.CategoryClickHandler;
@@ -100,11 +102,11 @@ public class UserProgressActivity extends BaseNoTitleActivity {
             public void onClick(View arg0) {
                 if (mType == Category.CATEGORY_TRAINING) {
                     Intent intent = new Intent(mContext, TrainActivity.class);
-                    intent.putExtra(BaseActionBarActivity.KEY_TITLE, getResources().getString(R.string.user_center_my_study_progress));
+                    intent.putExtra(BaseActionBarActivity.KEY_TITLE, MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_TRAINING).name);
                     startActivity(intent);
                 } else {
                     Intent intent = new Intent(mContext, ExamActivity.class);
-                    intent.putExtra(BaseActionBarActivity.KEY_TITLE, getResources().getString(R.string.user_center_my_exam));
+                    intent.putExtra(BaseActionBarActivity.KEY_TITLE, MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_EXAM).name);
                     startActivity(intent);
                 }
             }

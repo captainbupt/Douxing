@@ -161,13 +161,6 @@ public class LoginActivity extends BaseNoTitleActivity implements
                     }
 
                     @Override
-                    public void onCompleted() {
-                        if (!mActivity.isFinishing()) {
-                            mProgressDialog.dismiss();
-                        }
-                    }
-
-                    @Override
                     public void onResponseSuccess(JSONObject response) {
                         // 返回码正确时 调用
                         loginSuccess(account,
@@ -203,7 +196,6 @@ public class LoginActivity extends BaseNoTitleActivity implements
      * @param jsonObject 登录成功返回的json
      */
     private void loginSuccess(String account, JSONObject jsonObject) {
-
         UserInfo userInfo = new UserInfo();
         /*** 保存没MD5的用户账户 **/
         userInfo.setUserInfo(account, jsonObject);
@@ -320,7 +312,8 @@ public class LoginActivity extends BaseNoTitleActivity implements
                 //快速体验使用默认的账号和密码直接登录进入，不在采集用户名和公司等信息
                 mLocationClient.start();
                 //发起请求时调用 显示ProgressDialog
-                if (!mActivity.isFinishing()) {
+                if (mActivity.isFinishing()) {
+                    mProgressDialog.setContent(R.string.progress_tips_login_ing);
                     mProgressDialog.show();
                 }
                 break;

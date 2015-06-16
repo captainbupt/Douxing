@@ -4,7 +4,7 @@ public interface DecodingProgressListener
 {
     void decodingProgressChanged(int currentlyDecoding);
 
-    public class DecodingProgressEvent extends SafeEvent<DecodingProgressListener>
+    class DecodingProgressEvent extends SafeEvent<DecodingProgressListener>
     {
         private final int currentlyDecoding;
 

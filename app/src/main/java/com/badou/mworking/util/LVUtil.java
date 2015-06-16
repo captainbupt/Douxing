@@ -34,6 +34,6 @@ public class LVUtil {
 			bg = R.drawable.background_lv_fif;
 		}
 		tv.setText("LV "+lv);
-		tv.setBackgroundResource(bg);;
+		tv.setBackgroundResource(bg);
 	}
 }

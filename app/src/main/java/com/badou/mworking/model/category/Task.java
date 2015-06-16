@@ -76,19 +76,11 @@ public class Task extends Category {
     }
 
     public boolean isOffline() {
-        if (offline == Constant.OVERDUE_YES) {
-            return true;
-        } else {
-            return false;
-        }
+        return offline == Constant.OVERDUE_YES;
     }
 
     public boolean isUpLoadPhoto() {
-        if (photo == Constant.UPLOAD_PHOTO_YES) {
-            return true;
-        } else {
-            return false;
-        }
+        return photo == Constant.UPLOAD_PHOTO_YES;
     }
 
     public boolean isFreeSign() {

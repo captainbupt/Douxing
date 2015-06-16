@@ -85,14 +85,14 @@ public class MainGridActivity extends BaseNoTitleActivity {
     private RadioGroup mIndicatorRadioGroup;
     private List<RadioButton> mIndicatorRadioButtonList;
 
-    private TopFadeScrollView mScrollView;
-
     private ImageView mUserCentertImageView;    //logo 布局左边图标，点击进入个人中心
     private ImageView mSearchImageView;    //logo 布局右边图标，点击进入搜索页面
     private ImageView mMessageCenterImageView; // 消息中心
 
     private MainSearchFragment mMainSearchFragment;
     private LinearLayout mContentLayout;
+
+    private String mLogoUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,8 +109,8 @@ public class MainGridActivity extends BaseNoTitleActivity {
         }
 
         // 调用缓存中的企业logoUrl图片，这样断网的情况也会显示出来了，如果本地没有的话，网络获取
-        String logoUrl = SP.getStringSP(this, SP.DEFAULTCACHE, "logoUrl", "");
-        ImageViewLoader.setImageViewResource(mIconTopImageView, R.drawable.logo, logoUrl);
+        mLogoUrl = SP.getStringSP(this, SP.DEFAULTCACHE, "logoUrl", "");
+        ImageViewLoader.setImageViewResource(mIconTopImageView, R.drawable.logo, mLogoUrl);
         checkUpdate();
 
         AlarmUtil alarmUtil = new AlarmUtil();
@@ -121,7 +121,7 @@ public class MainGridActivity extends BaseNoTitleActivity {
         if (!SPUtil.getPushOption(mContext)) {
             JPushInterface.stopPush(getApplicationContext());
         }
-
+        // mSwipeBackLayout.setEdgeTrackingEnabled(0);
     }
 
     @Override
@@ -140,7 +140,7 @@ public class MainGridActivity extends BaseNoTitleActivity {
         mBannerGallery = (BannerGallery) findViewById(R.id.gallery_main_banner);
         int height = AppApplication.getScreenWidth(mContext) * 400 / 720; // 按屏幕宽度，计算banner高度
         mBannerGallery.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, height));
-        mScrollView = (TopFadeScrollView) findViewById(R.id.tfsv_main_grid);
+        TopFadeScrollView mScrollView = (TopFadeScrollView) findViewById(R.id.tfsv_main_grid);
         mScrollView.setTopViewId(R.id.rl_main_grid_banner);
         mContentLayout = (LinearLayout) findViewById(R.id.ll_main_grid_content_layout);
     }
@@ -276,6 +276,7 @@ public class MainGridActivity extends BaseNoTitleActivity {
                 int pos = position % bList.size();
                 Intent intent = new Intent(mContext, BackWebActivity.class);
                 intent.putExtra(BackWebActivity.KEY_URL, ((MainBanner) bList.get(pos)).getBannerContentURL() + "");
+                intent.putExtra(BackWebActivity.KEY_LOGO_URL, mLogoUrl);
                 startActivity(intent);
             }
         });
@@ -355,10 +356,10 @@ public class MainGridActivity extends BaseNoTitleActivity {
                 JSONObject jSONObject = data
                         .optJSONObject(RequestParameters.CHK_UPDATA_PIC_COMPANY_LOGO);
                 if (jSONObject != null) {
-                    String logoUrl = jSONObject
+                    mLogoUrl = jSONObject
                             .optString(MainBanner.CHK_URL);
-                    SP.putStringSP(MainGridActivity.this, SP.DEFAULTCACHE, "logoUrl", logoUrl);
-                    ImageViewLoader.setImageViewResource(mIconTopImageView, R.drawable.logo, logoUrl);
+                    SP.putStringSP(MainGridActivity.this, SP.DEFAULTCACHE, "logoUrl", mLogoUrl);
+                    ImageViewLoader.setImageViewResource(mIconTopImageView, R.drawable.logo, mLogoUrl);
                 }
 
                 JSONArray arrBanner = data.optJSONArray("banner");

@@ -1,118 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.handmark.pulltorefresh.library.PullToRefreshScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ptrsv_chatter_user_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_layout_bg">
 
-    <com.badou.mworking.widget.MyScrollListenerScrollView
-        android:id="@+id/ptrsv_chatter_user_content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/background_top_dark_blue"
-                android:orientation="vertical"
-                android:paddingBottom="@dimen/offset_large">
-
-                <ImageView
-                    android:id="@+id/iv_chatter_user_top_head"
-                    android:layout_width="@dimen/user_center_image_head_size"
-                    android:layout_height="@dimen/user_center_image_head_size"
-                    android:layout_below="@+id/iv_chatter_user_top_back"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/offset_less"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/icon_user_detail_default_head" />
-
-                <TextView
-                    android:id="@+id/tv_chatter_user_top_level"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@id/iv_chatter_user_top_head"
-                    android:layout_marginTop="@dimen/offset_small"
-                    android:layout_toRightOf="@id/iv_chatter_user_top_head"
-                    android:textColor="#ffffff"
-                    android:textSize="@dimen/text_size_small" />
-
-                <TextView
-                    android:id="@+id/tv_chatter_user_top_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/iv_chatter_user_top_head"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/offset_less"
-                    android:gravity="center_horizontal"
-                    android:text=""
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/text_size_large" />
-
-                <ImageView
-                    android:id="@+id/iv_chatter_user_top_back"
-                    android:layout_width="@dimen/action_bar_img_size"
-                    android:layout_height="@dimen/action_bar_img_size"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true"
-                    android:padding="@dimen/offset_less"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/button_title_bar_back_normal" />
-
-                <TextView
-                    android:id="@+id/tv_chatter_user_top_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/action_bar_img_size"
-                    android:layout_centerHorizontal="true"
-                    android:gravity="center"
-                    android:textColor="@color/color_white"
-                    android:textSize="@dimen/text_size_title_bar_title" />
-            </RelativeLayout>
-
-            <com.badou.mworking.widget.NoScrollListView
-                android:id="@+id/nslv_chatter_user_content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-    </com.badou.mworking.widget.MyScrollListenerScrollView>
-
-    <RelativeLayout
-        android:id="@+id/rl_chatter_user_title"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/color_blue"
-        android:visibility="gone">
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/iv_actionbar_left"
-            android:layout_width="@dimen/action_bar_img_size"
-            android:layout_height="@dimen/action_bar_img_size"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:padding="@dimen/offset_less"
-            android:scaleType="centerInside"
-            android:src="@drawable/button_title_bar_back_black" />
-
-        <TextView
-            android:id="@+id/tv_actionbar_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:ellipsize="end"
-            android:gravity="center_horizontal"
-            android:singleLine="true"
-            android:textColor="@color/color_white"
-            android:textSize="@dimen/text_size_title_bar_title" />
-
-        <View
+        <RelativeLayout
+            android:id="@+id/rl_chatter_user_top"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_alignParentBottom="true"
-            android:background="@color/color_border_grey" />
-    </RelativeLayout>
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_top_dark_blue"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/offset_large">
 
-</FrameLayout>
+            <!-- 这个view用来模拟返回键的位置，保持头像位置一致-->
+            <ImageView
+                android:id="@+id/iv_chatter_user_top_back"
+                android:layout_width="@dimen/action_bar_img_size"
+                android:layout_height="@dimen/action_bar_img_size"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:padding="@dimen/offset_less"
+                android:scaleType="centerInside"
+                android:src="@drawable/button_title_bar_back_normal" />
+
+            <TextView
+                android:id="@+id/tv_chatter_user_top_title"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/action_bar_img_size"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:textColor="@color/color_white"
+                android:textSize="@dimen/text_size_title_bar_title" />
+
+            <ImageView
+                android:id="@+id/iv_chatter_user_top_head"
+                android:layout_width="@dimen/user_center_image_head_size"
+                android:layout_height="@dimen/user_center_image_head_size"
+                android:layout_below="@+id/iv_chatter_user_top_back"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/offset_less"
+                android:scaleType="fitXY"
+                android:src="@drawable/icon_user_detail_default_head" />
+
+            <TextView
+                android:id="@+id/tv_chatter_user_top_level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/iv_chatter_user_top_head"
+                android:layout_marginTop="@dimen/offset_small"
+                android:layout_toRightOf="@id/iv_chatter_user_top_head"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/text_size_small" />
+
+            <TextView
+                android:id="@+id/tv_chatter_user_top_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iv_chatter_user_top_head"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/offset_less"
+                android:gravity="center_horizontal"
+                android:text=""
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_large" />
+
+
+        </RelativeLayout>
+
+        <com.badou.mworking.widget.NoScrollListView
+            android:id="@+id/nslv_chatter_user_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</com.handmark.pulltorefresh.library.PullToRefreshScrollView>

@@ -19,12 +19,6 @@ package com.badou.mworking.util;
 public class Constant {
 
 	/**
-	 * 设置同事圈的fragment 的adapter 是否刷新
-	 */
-	public static boolean is_refresh = false;
-	public static boolean is_del = false; //是否删除
-
-	/**
 	 * 记录显示的tag
 	 */
 	public final static int LIST_ITEM_NUM = 10;

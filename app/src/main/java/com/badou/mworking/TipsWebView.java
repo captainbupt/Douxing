@@ -53,7 +53,6 @@ public class TipsWebView extends BaseNoTitleActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-        layout.attachToActivity(this);
         setContentView(R.layout.act_tiyan_web);
         mContext = TipsWebView.this;
         mWebView = (WebView) findViewById(R.id.webView1);

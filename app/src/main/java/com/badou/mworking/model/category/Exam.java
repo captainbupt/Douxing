@@ -70,10 +70,6 @@ public class Exam extends Category {
     }
 
     public boolean isRead() {
-        if (this.read == 1) {
-            return true;
-        } else {
-            return false;
-        }
+        return this.read == 1;
     }
 }

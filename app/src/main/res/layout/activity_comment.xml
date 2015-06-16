@@ -6,25 +6,23 @@
     android:background="@color/color_layout_bg"
     android:orientation="vertical">
 
-    <com.handmark.pulltorefresh.library.PullToRefreshListView
-        android:id="@+id/ptrlv_activity_comments"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:divider="@null" />
-
     <FrameLayout
-        android:id="@+id/fl_activity_comments_none_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:visibility="gone">
+        android:layout_weight="1">
 
-        <ImageView
+        <com.handmark.pulltorefresh.library.PullToRefreshListView
+            android:id="@+id/ptrlv_activity_comments"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@null" />
+
+
+        <com.badou.mworking.widget.NoneResultView
+            android:id="@+id/nrv_activity_comment_none"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@drawable/no_comment" />
+            android:layout_gravity="center" />
     </FrameLayout>
 
     <com.badou.mworking.widget.BottomSendMessageView

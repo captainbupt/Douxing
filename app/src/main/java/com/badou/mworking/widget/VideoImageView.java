@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
@@ -25,6 +26,8 @@ public class VideoImageView extends FrameLayout {
     private String mUrl;
     private String mQid;
     private ImageView mContentImageView;
+    private ImageView mShowImageView;
+    private ImageView mDeleteImageView;
     private Bitmap mBitmap;
 
     public VideoImageView(Context context, AttributeSet attrs) {
@@ -34,12 +37,39 @@ public class VideoImageView extends FrameLayout {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.view_video_image, this);
         mContentImageView = (ImageView) findViewById(R.id.iv_view_video_image_content);
+        mDeleteImageView = (ImageView) findViewById(R.id.iv_view_video_image_delete);
+        mShowImageView = (ImageView) findViewById(R.id.iv_view_video_image_show);
         setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 toVideoActivity();
             }
         });
+        mDeleteImageView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clear();
+                if (mOnImageDeleteListener != null)
+                    mOnImageDeleteListener.onDelete();
+            }
+        });
+    }
+
+    public interface OnImageDeleteListener {
+        void onDelete();
+    }
+
+    OnImageDeleteListener mOnImageDeleteListener;
+
+    public void setOnImageDeleteListener(OnImageDeleteListener onImageDeleteListener) {
+        mDeleteImageView.setVisibility(View.VISIBLE);
+        this.mOnImageDeleteListener = onImageDeleteListener;
+        int size = getResources().getDimensionPixelSize(R.dimen.image_size_content);
+        int margin = getResources().getDimensionPixelOffset(R.dimen.offset_small);
+        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(size, size);
+        layoutParams.setMargins(margin, margin, 0, 0);
+        mContentImageView.setLayoutParams(layoutParams);
+        mShowImageView.setLayoutParams(layoutParams);
     }
 
     public void setData(Bitmap bitmap, String videoUrl, String qid) {

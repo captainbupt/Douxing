@@ -95,11 +95,15 @@ public abstract class MyBaseAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    @Override
-    public int getCount() {
+    public int getListCount() {
         if (mItemList == null)
             return 0;
         return mItemList.size();
+    }
+
+    @Override
+    public int getCount() {
+        return getListCount();
     }
 
     @Override

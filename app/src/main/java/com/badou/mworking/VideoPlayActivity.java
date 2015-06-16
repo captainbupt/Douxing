@@ -37,7 +37,6 @@ import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.model.MainIcon;
 import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.widget.FullScreenVideoView;
-import com.badou.mworking.widget.SwipeBackLayout;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.ResponseInfo;
@@ -73,8 +72,6 @@ public class VideoPlayActivity extends BaseBackActionBarActivity {
     private SeekBar mSeekBar; // 播放进度条
 
     private static final int VIDEOPLAY = 0; //视屏正在播放
-
-    private SwipeBackLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
