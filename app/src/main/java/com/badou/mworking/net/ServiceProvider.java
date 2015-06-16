@@ -468,7 +468,6 @@ public class ServiceProvider {
                 volleyListener.onResponse(msg.obj);
             }
 
-            ;
         };
 
         new Thread() {
@@ -520,7 +519,6 @@ public class ServiceProvider {
                 handler.obtainMessage(1, result).sendToTarget();
             }
 
-            ;
         }.start();
     }
 
@@ -535,7 +533,6 @@ public class ServiceProvider {
                 volleyListener.onResponse(msg.obj);
             }
 
-            ;
         };
 
         new Thread() {
@@ -587,7 +584,6 @@ public class ServiceProvider {
                 handler.obtainMessage(1, result).sendToTarget();
             }
 
-            ;
         }.start();
     }
 
@@ -783,7 +779,6 @@ public class ServiceProvider {
                     volleyListener.onResponse(msg.obj);
                 }
 
-                ;
             };
             new Thread() {
                 public void run() {
@@ -815,7 +810,6 @@ public class ServiceProvider {
                     new File(tempImgPath).delete();
                 }
 
-                ;
             }.start();
         } else {
             MyVolley.getRequestQueue().add(

@@ -47,7 +47,7 @@ package com.joanzapata.pdfview;
  */
 class SpiralLoopManager {
 
-    public static interface SpiralLoopListener {
+    public interface SpiralLoopListener {
         /**
          * Called on loop update
          * @param row The row number (starting with 0)

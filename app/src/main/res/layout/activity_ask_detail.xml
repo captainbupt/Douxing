@@ -119,13 +119,11 @@
 
             </LinearLayout>
 
-            <ImageView
-                android:id="@+id/iv_activity_ask_detail_none_answer"
+            <com.badou.mworking.widget.NoneResultView
+                android:id="@+id/nrv_activity_ask_detail_none"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:layout_marginTop="@dimen/offset_xxlarge"
-                android:src="@drawable/background_none_answer"
                 android:visibility="gone" />
 
             <com.badou.mworking.widget.NoScrollListView

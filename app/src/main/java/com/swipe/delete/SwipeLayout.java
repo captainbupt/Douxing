@@ -1,5 +1,10 @@
 package com.swipe.delete;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -20,11 +25,6 @@ import android.widget.ListAdapter;
 
 import com.badou.mworking.R;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 @SuppressLint("WrongCall") 
 public class SwipeLayout extends FrameLayout {
 
@@ -43,14 +43,14 @@ public class SwipeLayout extends FrameLayout {
 
     private boolean mSwipeEnabled = true;
 
-    public static enum DragEdge {
+    public enum DragEdge {
         Left,
         Right,
         Top,
-        Bottom;
-    };
+        Bottom
+    }
 
-    public static enum ShowMode {
+    public enum ShowMode {
         LayDown, PullOut
     }
 
@@ -75,12 +75,12 @@ public class SwipeLayout extends FrameLayout {
 
 
     public interface SwipeListener{
-        public void onStartOpen(SwipeLayout layout);
-        public void onOpen(SwipeLayout layout);
-        public void onStartClose(SwipeLayout layout);
-        public void onClose(SwipeLayout layout);
-        public void onUpdate(SwipeLayout layout, int leftOffset, int topOffset);
-        public void onHandRelease(SwipeLayout layout, float xvel, float yvel);
+        void onStartOpen(SwipeLayout layout);
+        void onOpen(SwipeLayout layout);
+        void onStartClose(SwipeLayout layout);
+        void onClose(SwipeLayout layout);
+        void onUpdate(SwipeLayout layout, int leftOffset, int topOffset);
+        void onHandRelease(SwipeLayout layout, float xvel, float yvel);
     }
 
     public void addSwipeListener(SwipeListener l){
@@ -91,7 +91,7 @@ public class SwipeLayout extends FrameLayout {
         mSwipeListeners.remove(l);
     }
 
-    public static interface SwipeDenier {
+    public interface SwipeDenier {
 		/*
 		 * Called in onInterceptTouchEvent
 		 * Determines if this swipe event should be denied
@@ -101,7 +101,7 @@ public class SwipeLayout extends FrameLayout {
 		 * @return true deny
 		 *         false allow
 		 */
-        public boolean shouldDenySwipe(MotionEvent ev);
+        boolean shouldDenySwipe(MotionEvent ev);
     }
 
     public void addSwipeDenier(SwipeDenier denier) {
@@ -117,7 +117,7 @@ public class SwipeLayout extends FrameLayout {
     }
 
     public interface OnRevealListener {
-        public void onReveal(View child, DragEdge edge, float fraction, int distance);
+        void onReveal(View child, DragEdge edge, float fraction, int distance);
     }
 
     /**
@@ -594,11 +594,11 @@ public class SwipeLayout extends FrameLayout {
     }
 
     /**
-     * {@link android.view.View.OnLayoutChangeListener} added in API 11.
+     * {@link OnLayoutChangeListener} added in API 11.
      * I need to support it from API 8.
      */
     public interface OnLayout{
-        public void onLayout(SwipeLayout v);
+        void onLayout(SwipeLayout v);
     }
 
     private List<OnLayout> mOnLayoutListeners;
@@ -871,7 +871,7 @@ public class SwipeLayout extends FrameLayout {
     }
 
     /**
-     * if working in {@link android.widget.AdapterView}, we should response {@link android.widget.Adapter}
+     * if working in {@link AdapterView}, we should response {@link Adapter}
      * isEnable(int position).
      * @return true when item is enabled, else disabled.
      */
@@ -940,9 +940,9 @@ public class SwipeLayout extends FrameLayout {
         }
 
         /**
-         * Simulate the touch event lifecycle. If you use SwipeLayout in {@link android.widget.AdapterView}
+         * Simulate the touch event lifecycle. If you use SwipeLayout in {@link AdapterView}
          * ({@link android.widget.ListView}, {@link android.widget.GridView} etc.) It will manually call
-         * {@link android.widget.AdapterView}.performItemClick, performItemLongClick.
+         * {@link AdapterView}.performItemClick, performItemLongClick.
          * @param e
          * @return
          */
@@ -1289,7 +1289,7 @@ public class SwipeLayout extends FrameLayout {
     }
 
     public interface DoubleClickListener {
-        public void onDoubleClick(SwipeLayout layout, boolean surface);
+        void onDoubleClick(SwipeLayout layout, boolean surface);
     }
 
     private int dp2px(float dp){

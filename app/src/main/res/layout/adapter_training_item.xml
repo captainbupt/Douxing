@@ -2,7 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="@dimen/offset_less">
+    android:paddingTop="@dimen/offset_lless">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -86,10 +86,9 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingRight="@dimen/offset_less"
             android:paddingLeft="@dimen/offset_less"
-            android:paddingTop="@dimen/offset_less"
-            >
+            android:paddingRight="@dimen/offset_less"
+            android:paddingTop="@dimen/offset_less">
 
             <TextView
                 android:id="@+id/tv_adapter_training_item_subject"

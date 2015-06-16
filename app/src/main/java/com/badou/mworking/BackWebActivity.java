@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -16,12 +17,14 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseBackActionBarActivity;
+import com.badou.mworking.base.BaseStatisticalActionBarActivity;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.bitmap.BitmapLruCache;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
@@ -29,6 +32,7 @@ import com.badou.mworking.net.bitmap.NormalImageListener;
 import com.badou.mworking.net.volley.MyVolley;
 import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.SP;
+import com.badou.mworking.util.SPUtil;
 import com.badou.mworking.widget.BottomRatingAndCommentView;
 
 import java.io.File;
@@ -37,19 +41,16 @@ import java.io.File;
  * 功能描述:  actionbar为返回的网页展示页面
  */
 @SuppressLint("SetJavaScriptEnabled")
-public class BackWebActivity extends BaseBackActionBarActivity {
+public class BackWebActivity extends BaseStatisticalActionBarActivity {
 
     public static final String KEY_URL = "url";
-    public static final String KEY_RID = "rid";
+    public static final String KEY_LOGO_URL = "logo";
     public static final String KEY_SHOW_STATISTICAL = "statistical";
     public static final String KEY_SHOW_RATING = "rating";
     public static final String KEY_SHOW_COMMENT = "comment";
 
     private String mUrl;
-    private String mRid;
     private String mCameraFilePath; //拍照路径
-    private boolean isShowStatistical = false; // 是否显示统计的按钮
-
 
     private LinearLayout mNetExceptionLinearLayout;
     private TextView mNetExceptionRepeatTextView;
@@ -82,39 +83,38 @@ public class BackWebActivity extends BaseBackActionBarActivity {
 
     private void initData() {
         mUrl = mReceivedIntent.getStringExtra(KEY_URL);
-        mRid = mReceivedIntent.getStringExtra(KEY_RID);
-        isShowStatistical = mReceivedIntent.getBooleanExtra(KEY_SHOW_STATISTICAL, false);
+        boolean isShowStatistical = mReceivedIntent.getBooleanExtra(KEY_SHOW_STATISTICAL, false);
         boolean isAdmin = ((AppApplication) getApplicationContext())
                 .getUserInfo().isAdmin;
-        if (isAdmin) {
-            if (isShowStatistical) {
-                setRightImage(R.drawable.button_title_admin_statistical);
+        if (isAdmin && isShowStatistical) {
+            setRightImage(R.drawable.button_title_admin_statistical);
+        } else {
+            mTitleRightImageView.setVisibility(View.GONE);
+        }
+        boolean showRating = mReceivedIntent.getBooleanExtra(KEY_SHOW_RATING, false);
+        boolean showComment = mReceivedIntent.getBooleanExtra(KEY_SHOW_COMMENT, false);
+        if (!showRating && !showComment) {
+            mBottomView.setVisibility(View.GONE);
+        } else {
+            mBottomView.setVisibility(View.VISIBLE);
+            if (showRating && showComment) {
+                mBottomView.setData(mRid, 0, 0, -1);
+            } else if (!showRating && showComment) {
+                mBottomView.setData(mRid, -1, 0, -1);
+            } else if (showRating && !showComment) {
+                mBottomView.setData(mRid, 0, -1, -1);
             }
         }
-        boolean flag = NetUtils.isNetConnected(getApplicationContext());
-        if (flag) {
-            boolean showRating = mReceivedIntent.getBooleanExtra(KEY_SHOW_RATING, false);
-            boolean showComment = mReceivedIntent.getBooleanExtra(KEY_SHOW_COMMENT, false);
-            if (!showRating && !showComment) {
-                mBottomView.setVisibility(View.GONE);
-            } else {
-                mBottomView.setVisibility(View.VISIBLE);
-                if (showRating && showComment) {
-                    mBottomView.setData(mRid, 0, 0, -1);
-                } else if (!showRating && showComment) {
-                    mBottomView.setData(mRid, -1, 0, -1);
-                } else if (showRating && !showComment) {
-                    mBottomView.setData(mRid, 0, -1, -1);
-                }
-            }
+        String logoUrl = mReceivedIntent.getStringExtra(KEY_LOGO_URL);
+        if (!TextUtils.isEmpty(logoUrl)) {
+            bannerDate(logoUrl);
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        boolean flag = NetUtils.isNetConnected(getApplicationContext());
-        if (flag) {
+        if (NetUtils.isNetConnected(mContext)) {
             mNetExceptionImageView.setVisibility(ImageView.GONE);
             mNetExceptionLinearLayout.setVisibility(LinearLayout.GONE);
             mWebView.setVisibility(WebView.VISIBLE);
@@ -138,14 +138,14 @@ public class BackWebActivity extends BaseBackActionBarActivity {
     /**
      * 功能描述: banner 跳转进入
      */
-    private void bannerDate() {
-        setActionbarTitle("");
-        getSupportActionBar().setCustomView(R.layout.actionbar_main_grid);
-        ViewGroup layout_action = (ViewGroup) getSupportActionBar().getCustomView().findViewById(R.id.logo_bg);
-        ImageView logoImg = (ImageView) layout_action.findViewById(R.id.iv_actionbar_main_logo);
-        // 调用缓存中的企业logoUrl图片，这样断网的情况也会显示出来了，如果本地没有的话，网络获取
-        String logoUrl = SP.getStringSP(this, SP.DEFAULTCACHE, "logoUrl", "");
-        ImageViewLoader.setImageViewResource(logoImg, R.drawable.logo, logoUrl);
+    private void bannerDate(String logoUrl) {
+        ImageView logoImage = new ImageView(mContext);
+        logoImage.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, getResources().getDimensionPixelOffset(R.dimen.action_bar_img_size)));
+        logoImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        int padding = getResources().getDimensionPixelOffset(R.dimen.offset_less);
+        logoImage.setPadding(padding, padding, padding, padding);
+        ImageViewLoader.setImageViewResource(logoImage, R.drawable.logo, logoUrl);
+        setTitleCustomView(logoImage);
     }
 
     /**
@@ -177,7 +177,8 @@ public class BackWebActivity extends BaseBackActionBarActivity {
                 if (mUploadMessage != null)
                     return;
                 mUploadMessage = uploadMsg;
-                startActivityForResult(createCameraIntent(), 1);
+                //startActivityForResult(createCameraIntent(), 1);
+                startActivityForResult(createDefaultOpenableIntent(), 1);
             }
 
             // For Android < 3.0
@@ -205,9 +206,9 @@ public class BackWebActivity extends BaseBackActionBarActivity {
                     SOldScale = oldScale;
                 }
                 if (newScale - SOldScale < 0.2) {
-                    layout.enableSlide();
+                    mSwipeBackLayout.setEnabled(true);
                 } else {
-                    layout.disableSlide();
+                    mSwipeBackLayout.setEnabled(false);
                 }
             }
 
@@ -285,22 +286,7 @@ public class BackWebActivity extends BaseBackActionBarActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        SPUtil.setWebViewPosition(mContext, mUrl.trim(), mWebView.getScrollY());
         mWebView.destroy();
     }
-
-    /**
-     * 点击actionbar 右上角操作，进入到评论页面
-     */
-    @Override
-    public void clickRight() {
-        String titleStr = getResources().getString(R.string.statistical_data);
-        String uid = ((AppApplication) getApplication()).getUserInfo().userId;
-        String url = Net.getRunHost(BackWebActivity.this) + Net.getTongji(uid, mRid);
-        Intent intent = new Intent();
-        intent.setClass(mContext, BackWebActivity.class);
-        intent.putExtra(BackWebActivity.KEY_URL, url);
-        intent.putExtra(BackWebActivity.KEY_TITLE, titleStr);
-        startActivity(intent);
-    }
-
 }

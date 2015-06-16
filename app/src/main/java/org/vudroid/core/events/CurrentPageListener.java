@@ -4,7 +4,7 @@ public interface CurrentPageListener
 {
     void currentPageChanged(int pageIndex);
 
-    public class CurrentPageChangedEvent extends SafeEvent<CurrentPageListener>
+    class CurrentPageChangedEvent extends SafeEvent<CurrentPageListener>
     {
         private final int pageIndex;
 

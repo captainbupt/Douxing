@@ -42,7 +42,7 @@ public class TrainActivity extends BaseCategoryProgressListActivity {
             CATEGORY_UNREAD_NUM = Category.CATEGORY_KEY_UNREADS[Category.CATEGORY_SHELF];
         }
         super.onCreate(savedInstanceState);
-
+        mNoneResultView.setContent(R.drawable.background_none_result_training, R.string.none_result_category);
     }
 
     @Override

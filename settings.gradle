@@ -1,1 +1,1 @@
-include ':app', 'Pulltorefresh'
+include ':app', 'Pulltorefresh', 'SwipeBackLayout'

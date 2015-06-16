@@ -17,6 +17,7 @@ import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.BottomSendMessageView;
+import com.badou.mworking.widget.NoneResultView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -37,7 +38,7 @@ public class CommentActivity extends BaseBackActionBarActivity {
     private PullToRefreshListView mContentListView;//下拉刷新
     private CommentAdapter mCommentAdapter;
     private BottomSendMessageView mBottomView;
-    private FrameLayout mNoneContentFrameLayout;  // 没有内容时的提示
+    private NoneResultView mNoneResultView;  // 没有内容时的提示
 
     private int mCurrentPage;
     private String mRid = "";
@@ -59,7 +60,8 @@ public class CommentActivity extends BaseBackActionBarActivity {
      * 功能描述:实例化view
      */
     protected void initView() {
-        mNoneContentFrameLayout = (FrameLayout) findViewById(R.id.fl_activity_comments_none_content);
+        mNoneResultView = (NoneResultView) findViewById(R.id.nrv_activity_comment_none);
+        mNoneResultView.setContent(R.drawable.background_none_result_comment, R.string.none_result_comment);
         mContentListView = (PullToRefreshListView) findViewById(R.id.ptrlv_activity_comments);
         mContentListView.setMode(Mode.BOTH);
         mBottomView = (BottomSendMessageView) findViewById(R.id.bsmv_activity_comment);
@@ -119,7 +121,7 @@ public class CommentActivity extends BaseBackActionBarActivity {
         if (isReply) {
             isReply = false;
             mBottomView.clearContent();
-            mBottomView.setContent(getResources().getString(R.string.comment_hint), getResources().getString(R.string.button_submit));
+            mBottomView.setContent(getResources().getString(R.string.comment_hint), getResources().getString(R.string.button_send));
         } else {
             super.onBackPressed();
         }
@@ -158,10 +160,10 @@ public class CommentActivity extends BaseBackActionBarActivity {
         // 如果没有内容的话，显示默认图片
         List<Object> commentList;
         if (mCurrentPage <= 1 && length == 0) {
-            mNoneContentFrameLayout.setVisibility(View.VISIBLE);
+            mNoneResultView.setVisibility(View.VISIBLE);
             mContentListView.setVisibility(View.GONE);
         } else {
-            mNoneContentFrameLayout.setVisibility(View.GONE);
+            mNoneResultView.setVisibility(View.GONE);
             mContentListView.setVisibility(View.VISIBLE);
         }
         commentList = new ArrayList<>();

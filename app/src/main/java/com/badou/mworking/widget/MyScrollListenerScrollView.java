@@ -3,18 +3,21 @@ package com.badou.mworking.widget;
 import android.content.Context;
 import android.os.Handler;
 import android.util.AttributeSet;
+import android.widget.OverScroller;
+import android.widget.ScrollView;
 
+import com.handmark.pulltorefresh.library.OverscrollHelper;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 
 /**
  * Created by Administrator on 2015/5/26.
  */
-public class MyScrollListenerScrollView extends PullToRefreshScrollView {
+public class MyScrollListenerScrollView extends ScrollView {
 
     private OnScrollChangedListener mOnScrollChangedListener;
 
     public interface OnScrollChangedListener {
-        void onScrollChanged(int l, int t, int oldl, int oldt);
+        void onScrollChanged(int y);
 
         void onScrollStopped();
     }
@@ -43,14 +46,4 @@ public class MyScrollListenerScrollView extends PullToRefreshScrollView {
             }
         }
     };
-
-    @Override
-    protected void onScrollChanged(int l, int t, int oldl, int oldt) {
-        if (mOnScrollChangedListener != null) {
-            mOnScrollChangedListener.onScrollChanged(l, t, oldl, oldt);
-        }
-        handler.removeCallbacks(runnable);
-        handler.postDelayed(runnable, 100);
-        super.onScrollChanged(l, t, oldl, oldt);
-    }
 }

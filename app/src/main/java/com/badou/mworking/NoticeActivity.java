@@ -25,6 +25,7 @@ public class NoticeActivity extends BaseCategoryProgressListActivity {
         CATEGORY_NAME = Notice.CATEGORY_KEY_NAME;
         CATEGORY_UNREAD_NUM = Notice.CATEGORY_KEY_UNREAD_NUM;
         super.onCreate(arg0);
+        mNoneResultView.setContent(R.drawable.background_none_result_notice, R.string.none_result_category);
     }
 
     @Override
@@ -40,7 +41,6 @@ public class NoticeActivity extends BaseCategoryProgressListActivity {
     @Override
     protected void onItemClick(int position) {
         Notice notice = (Notice) mCategoryAdapter.getItem(position - 1);
-        int type = notice.subtype;
         ((NoticeAdapter) mCategoryAdapter).read(position - 1);
         ServiceProvider.doMarkRead(mContext, notice.rid);
         mCategoryAdapter.notifyDataSetChanged();

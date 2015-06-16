@@ -7,10 +7,10 @@ import com.android.volley.VolleyError;
  */
 public interface VolleyCallback {
 
-    public void onStart();
+    void onStart();
 
-    public void onSuccess(Object o);
+    void onSuccess(Object o);
 
-    public void onError(VolleyError e);
+    void onError(VolleyError e);
 
 }

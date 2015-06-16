@@ -1,5 +1,11 @@
 package com.swipe.delete.implments;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import android.view.View;
 import android.widget.BaseAdapter;
 
@@ -7,12 +13,6 @@ import com.swipe.delete.SimpleSwipeListener;
 import com.swipe.delete.SwipeLayout;
 import com.swipe.delete.interfaces.SwipeAdapterInterface;
 import com.swipe.delete.interfaces.SwipeItemMangerInterface;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 /**
  * SwipeItemMangerImpl is a helper class to help all the adapters to maintain open status.
@@ -41,7 +41,7 @@ public class SwipeItemMangerImpl implements SwipeItemMangerInterface {
 
     public enum Mode{
         Single, Multiple
-    };
+    }
 
     public Mode getMode(){
         return mode;

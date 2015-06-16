@@ -22,9 +22,9 @@ import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.LVUtil;
 import com.badou.mworking.util.SP;
 import com.badou.mworking.util.ToastUtil;
-import com.badou.mworking.widget.MyScrollListenerScrollView;
 import com.badou.mworking.widget.NoScrollListView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -44,17 +44,18 @@ public class ChatterUserActivity extends BaseNoTitleActivity {
     private String mUid;
     private UserChatterInfo mUserInfo;
 
-    private ImageView mBackImageView;
-    private TextView mTitleTextView;
     private ImageView mHeadImageView;
     private TextView mLevelTextView;
     private TextView mNameTextView;
     private NoScrollListView mContentListView;
-    private RelativeLayout mTitleLayout;
-    private ImageView mHideBackImageView;
-    private TextView mHideTitleTextView;
-    private MyScrollListenerScrollView mScrollView;
+    private ImageView mBackImageView;
+    private TextView mTitleTextView;
+    private RelativeLayout mTopLayout;
+    private View mTitleBackgroundView;
+    private View mTitleBorderView;
+    private PullToRefreshScrollView mScrollView;
     private ChatterListAdapter mChatterAdapter;
+
     private int mCurrentPage;
     private int mClickPosition;
 
@@ -68,16 +69,14 @@ public class ChatterUserActivity extends BaseNoTitleActivity {
     }
 
     private void initView() {
-        mBackImageView = (ImageView) findViewById(R.id.iv_chatter_user_top_back);
-        mTitleTextView = (TextView) findViewById(R.id.tv_chatter_user_top_title);
         mHeadImageView = (ImageView) findViewById(R.id.iv_chatter_user_top_head);
         mLevelTextView = (TextView) findViewById(R.id.tv_chatter_user_top_level);
         mNameTextView = (TextView) findViewById(R.id.tv_chatter_user_top_name);
+        mTopLayout = (RelativeLayout) findViewById(R.id.rl_chatter_user_top);
         mContentListView = (NoScrollListView) findViewById(R.id.nslv_chatter_user_content);
-        mTitleLayout = (RelativeLayout) findViewById(R.id.rl_chatter_user_title);
-        mHideBackImageView = (ImageView) findViewById(R.id.iv_actionbar_left);
-        mHideTitleTextView = (TextView) findViewById(R.id.tv_actionbar_title);
-        mScrollView = (MyScrollListenerScrollView) findViewById(R.id.ptrsv_chatter_user_content);
+        mBackImageView = (ImageView) findViewById(R.id.iv_chatter_user_top_back);
+        mTitleTextView = (TextView) findViewById(R.id.tv_chatter_user_top_title);
+        mScrollView = (PullToRefreshScrollView) findViewById(R.id.ptrsv_chatter_user_content);
     }
 
     private void initListener() {
@@ -87,24 +86,7 @@ public class ChatterUserActivity extends BaseNoTitleActivity {
                 onBackPressed();
             }
         });
-        mHideBackImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
-        mScrollView.setMode(PullToRefreshBase.Mode.PULL_FROM_END);
-        mScrollView.setOnScrollChangedListener(new MyScrollListenerScrollView.OnScrollChangedListener() {
-            @Override
-            public void onScrollChanged(int l, int t, int oldl, int oldt) {
-
-            }
-
-            @Override
-            public void onScrollStopped() {
-
-            }
-        });
+        mScrollView.setMode(PullToRefreshBase.Mode.BOTH);
 
         mScrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ScrollView>() {
             @Override
@@ -145,10 +127,8 @@ public class ChatterUserActivity extends BaseNoTitleActivity {
         mUid = mReceivedIntent.getStringExtra(KEY_UID);
         if (mUid.equals(selfUid)) {
             mTitleTextView.setText(R.string.chatter_user_title_myself);
-            mHideTitleTextView.setText(R.string.chatter_user_title_myself);
         } else {
             mTitleTextView.setText(R.string.chatter_user_title_other);
-            mHideTitleTextView.setText(R.string.chatter_user_title_other);
         }
         mUserInfo = (UserChatterInfo) mReceivedIntent.getSerializableExtra(KEY_USER_CHATTER);
         if (mUserInfo != null) {

@@ -93,7 +93,7 @@ public class PDFView extends SurfaceView {
 
     // 定义回调事件，用于dialog的点击事件
     public interface OnScollListener {
-        public void scoll(int currentPage, int pageConut);
+        void scoll(int currentPage, int pageConut);
     }
 
     public PDFView(Context context) {
@@ -719,11 +719,7 @@ public class PDFView extends SurfaceView {
                 }
 
                 nbItemTreated++;
-                if (nbItemTreated >= nbOfPartsLoadable) {
-                    // Return false to stop the loop
-                    return false;
-                }
-                return true;
+                return nbItemTreated < nbOfPartsLoadable;
             }
         }
 

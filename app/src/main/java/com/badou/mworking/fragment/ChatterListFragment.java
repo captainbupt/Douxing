@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.badou.mworking.ChatterActivity;
@@ -24,6 +23,7 @@ import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.SP;
 import com.badou.mworking.util.ToastUtil;
+import com.badou.mworking.widget.NoneResultView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
@@ -49,7 +49,7 @@ public class ChatterListFragment extends BaseFragment {
 
     private ChatterListAdapter mChatterAdapter;
     private PullToRefreshListView mContentListView;
-    private ImageView mNoneResultImageView;
+    private NoneResultView mNoneResultView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,9 +59,12 @@ public class ChatterListFragment extends BaseFragment {
         mContentListView = (PullToRefreshListView) view
                 .findViewById(R.id.ptrlv_fragment_chatter_list);
         mContentListView.setMode(Mode.BOTH);
-        mNoneResultImageView = (ImageView) view.findViewById(R.id.iv_fragment_chatter_list_none_result);
+        mNoneResultView = (NoneResultView) view.findViewById(R.id.nrv_fragment_chatter_list_none_result);
+
+        mNoneResultView.setContent(R.drawable.background_none_result_chatter, R.string.none_result_chatter);
         initListener();
-        initData();
+        getCache();
+        refreshData();
         return view;
     }
 
@@ -93,8 +96,7 @@ public class ChatterListFragment extends BaseFragment {
         mContentListView.setAdapter(mChatterAdapter);
     }
 
-    private void initData() {
-        getCache();
+    public void refreshData() {
         mCurrentPage = 1;
         mContentListView.setRefreshing();
     }
@@ -133,7 +135,7 @@ public class ChatterListFragment extends BaseFragment {
                             if (beginNum > 1) {
                                 ToastUtil.showUpdateToast(mContext);
                             } else {
-                                mNoneResultImageView.setVisibility(View.VISIBLE);
+                                mNoneResultView.setVisibility(View.VISIBLE);
                                 mChatterAdapter.setList(null);
                             }
                             return;

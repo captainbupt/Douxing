@@ -137,10 +137,10 @@ public class NoScrollListView extends LinearLayout {
 	}
 
 	public interface OnNoScrollItemClickListener {
-		public void onItemClick(View v, int position, long id);
+		void onItemClick(View v, int position, long id);
 	}
 
 	public interface OnNoScrollItemLongClcikListener {
-		public void onItemClick(View v, int position, long id);
+		void onItemClick(View v, int position, long id);
 	}
 }

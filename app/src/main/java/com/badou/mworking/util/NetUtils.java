@@ -23,10 +23,7 @@ public class NetUtils {
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo info = mConnectivity.getActiveNetworkInfo();
 
-		if (info == null || !mConnectivity.getBackgroundDataSetting()) {
-			return false;
-		}
-		return true;
+		return !(info == null || !mConnectivity.getBackgroundDataSetting());
 	}
 
 	/**

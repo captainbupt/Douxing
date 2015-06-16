@@ -55,7 +55,7 @@ public class DragPinchListener implements OnTouchListener {
     private static final int POINTER1 = 0, POINTER2 = 1;
 
     /** Implement this interface to receive Drag events */
-    public static interface OnDragListener {
+    public interface OnDragListener {
 
         /**
          * @param dx The differential X offset
@@ -72,7 +72,7 @@ public class DragPinchListener implements OnTouchListener {
     }
 
     /** Implement this interface to receive Pinch events */
-    public static interface OnPinchListener {
+    public interface OnPinchListener {
 
         /**
          * @param dr    The differential ratio

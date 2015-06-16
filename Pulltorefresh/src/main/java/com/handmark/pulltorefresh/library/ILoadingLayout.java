@@ -11,7 +11,7 @@ public interface ILoadingLayout {
 	 * 
 	 * @param label - Label to set
 	 */
-	public void setLastUpdatedLabel(CharSequence label);
+	void setLastUpdatedLabel(CharSequence label);
 
 	/**
 	 * Set the drawable used in the loading layout. This is the same as calling
@@ -19,7 +19,7 @@ public interface ILoadingLayout {
 	 * 
 	 * @param drawable - Drawable to display
 	 */
-	public void setLoadingDrawable(Drawable drawable);
+	void setLoadingDrawable(Drawable drawable);
 
 	/**
 	 * Set Text to show when the Widget is being Pulled
@@ -27,7 +27,7 @@ public interface ILoadingLayout {
 	 * 
 	 * @param pullLabel - CharSequence to display
 	 */
-	public void setPullLabel(CharSequence pullLabel);
+	void setPullLabel(CharSequence pullLabel);
 
 	/**
 	 * Set Text to show when the Widget is refreshing
@@ -35,7 +35,7 @@ public interface ILoadingLayout {
 	 * 
 	 * @param refreshingLabel - CharSequence to display
 	 */
-	public void setRefreshingLabel(CharSequence refreshingLabel);
+	void setRefreshingLabel(CharSequence refreshingLabel);
 
 	/**
 	 * Set Text to show when the Widget is being pulled, and will refresh when
@@ -44,7 +44,7 @@ public interface ILoadingLayout {
 	 * 
 	 * @param releaseLabel - CharSequence to display
 	 */
-	public void setReleaseLabel(CharSequence releaseLabel);
+	void setReleaseLabel(CharSequence releaseLabel);
 
 	/**
 	 * Set's the Sets the typeface and style in which the text should be
@@ -52,6 +52,6 @@ public interface ILoadingLayout {
 	 * {@link android.widget.TextView#setTypeface(Typeface)
 	 * TextView#setTypeface(Typeface)}.
 	 */
-	public void setTextTypeface(Typeface tf);
+	void setTextTypeface(Typeface tf);
 
 }

@@ -1,5 +1,15 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <style name="MyAppTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <style name="NoTranslucentTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowIsTranslucent">false</item>
+    </style>
+
     <style name="ll_account_manager_input">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -48,13 +58,13 @@
 
     <!-- 星星评分 -->
     <style name="trainingRatingBar" parent="@android:style/Widget.RatingBar">
-        <item name="android:progressDrawable">@drawable/myratingbar</item>
-        <item name="android:minHeight">12dip</item>
-        <item name="android:maxHeight">12dip</item>
+        <item name="android:progressDrawable">@drawable/rating_bar_small</item>
+        <item name="android:minHeight">14dip</item>
+        <item name="android:maxHeight">14dip</item>
     </style>
 
     <style name="DialogRatingBarStyle" parent="@android:style/Widget.RatingBar">
-        <item name="android:progressDrawable">@drawable/coursewarescorerrb</item>
+        <item name="android:progressDrawable">@drawable/rating_bar_large</item>
         <item name="android:minHeight">45dip</item>
         <item name="android:maxHeight">45dip</item>
     </style>

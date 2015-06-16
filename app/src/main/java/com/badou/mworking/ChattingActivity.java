@@ -25,7 +25,6 @@ import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.BottomSendMessageView;
-import com.badou.mworking.widget.SwipeBackLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
@@ -53,8 +52,6 @@ public class ChattingActivity extends BaseBackActionBarActivity {
     public static final String KEY_OTHER_IMG = "img";
     public static final String KEY_NAME = "name";
     public static final String KEY_SELF_IMG = "myimg";
-
-    private SwipeBackLayout layout;
 
     @Override
     protected void onCreate(Bundle bundle) {

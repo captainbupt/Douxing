@@ -29,6 +29,7 @@ import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.SP;
 import com.badou.mworking.util.ToastUtil;
+import com.badou.mworking.widget.NoneResultView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
@@ -65,7 +66,7 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
     private LinearLayout mClassificationLinear;  // 下拉布局
     private FrameLayout mClassificationContainer;
 
-    private ImageView mNoneResultImageView;
+    protected NoneResultView mNoneResultView;
 
     protected PullToRefreshListView mContentListView;
 
@@ -121,11 +122,11 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
         mTitleTriangleImageView = (ImageView) mTitleLayout.findViewById(R.id.iv_actionbar_triangle);
         mTitleTriangleImageView.setVisibility(View.VISIBLE);
         ((TextView) mTitleLayout.findViewById(R.id.tv_actionbar_title)).setText(mReceivedIntent.getStringExtra(KEY_TITLE));
-        mNoneResultImageView = (ImageView) findViewById(R.id.iv_activity_base_progress_list_none_result);
+        mNoneResultView = (NoneResultView) findViewById(R.id.nrv_activity_base_progress_list_none_result);
         mContentListView = (PullToRefreshListView) findViewById(R.id.ptrlv_user_progress_content);
         mContentListView.setMode(PullToRefreshBase.Mode.BOTH);
         mContentListView.setVisibility(View.VISIBLE);
-        mNoneResultImageView.setVisibility(View.GONE);
+        mNoneResultView.setVisibility(View.GONE);
         mClassificationContainer = (FrameLayout) findViewById(R.id.fl_activity_base_progress_classification_container);
         mClassificationLinear = (LinearLayout) mClassificationContainer.findViewById(R.id.ll_activity_base_progress_classification);
         mMainListView = (ListView) mClassificationContainer.findViewById(R.id.lv_classification_list_main);
@@ -233,10 +234,10 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
         String userNum = ((AppApplication) getApplicationContext()).getUserInfo().account;
         String sp = SP.getStringSP(mContext, CATEGORY_NAME, userNum + tag, "");
         if (TextUtils.isEmpty(sp)) {
-            mNoneResultImageView.setVisibility(View.VISIBLE);
+            mNoneResultView.setVisibility(View.VISIBLE);
             return;
         } else {
-            mNoneResultImageView.setVisibility(View.GONE);
+            mNoneResultView.setVisibility(View.GONE);
         }
         JSONArray resultArray;
         try {
@@ -313,7 +314,7 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
     public void updateListView(final int beginNum) {
         showProgressBar();
         // 刷新的时候不显示缺省页面
-        mNoneResultImageView.setVisibility(View.GONE);
+        mNoneResultView.setVisibility(View.GONE);
         mContentListView.setVisibility(View.VISIBLE);
         ServiceProvider.doUpdateLocalResource2(mContext, CATEGORY_NAME, tag, beginNum, Constant.LIST_ITEM_NUM, "", null,
                 new VolleyListener(mContext) {
@@ -338,8 +339,6 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
     protected void updateCompleted() {
     }
 
-    ;
-
     private void updateListFromJson(JSONObject data, int beginNum) {
         if (data == null
                 || data.equals("")) {
@@ -354,12 +353,12 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
             if (beginNum > 0) {
                 ToastUtil.showUpdateToast(mContext);
             } else {
-                mNoneResultImageView.setVisibility(View.VISIBLE);
+                mNoneResultView.setVisibility(View.VISIBLE);
                 mCategoryAdapter.setList(null);
             }
             return;
         }
-        mNoneResultImageView.setVisibility(View.GONE);
+        mNoneResultView.setVisibility(View.GONE);
         /**
          * 保存未读数
          */

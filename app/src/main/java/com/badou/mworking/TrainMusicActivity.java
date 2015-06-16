@@ -141,8 +141,8 @@ public class TrainMusicActivity extends BaseStatisticalActionBarActivity {
 
         // 如果文件已经存在则直接获取文件大写，如果文件不存在则进行网络请求
         if (file.exists()) {
-            float fileSize = (float) (Math.round(file.length() / 1024 / 1024 * 10)) / 10;
-            mFileSizeTextView.setText("音频文件（" + fileSize + "M）");
+            float fileSize = ((float) file.length()) / 1024f / 1024f;
+            mFileSizeTextView.setText(String.format("音频文件（%.1fM）", fileSize));
         } else {
             new Thread(new Runnable() {
 
@@ -151,7 +151,7 @@ public class TrainMusicActivity extends BaseStatisticalActionBarActivity {
                     try {
                         URL DownRul = new URL(mUrl);
                         HttpURLConnection urlcon = (HttpURLConnection) DownRul.openConnection();
-                        float fileSize = (float) (Math.round(urlcon.getContentLength() / 1024 / 1024 * 10)) / 10;
+                        float fileSize = ((float) urlcon.getContentLength()) / 1024 / 1024;
                         mProgressHandler.obtainMessage(FILE_SIZE, fileSize).sendToTarget();
                     } catch (Exception e) {
                         mProgressHandler.obtainMessage(FILE_SIZE, -1f).sendToTarget();
@@ -252,7 +252,7 @@ public class TrainMusicActivity extends BaseStatisticalActionBarActivity {
                 case FILE_SIZE:
                     float fileSize = (float) msg.obj;
                     if (fileSize > 0) {
-                        mFileSizeTextView.setText("音频文件（" + fileSize + "M）");
+                        mFileSizeTextView.setText(String.format("音频文件（%.1fM）", fileSize));
                     } else {
                         ToastUtil.showToast(mContext, R.string.tips_audio_get_size_fail);
                     }

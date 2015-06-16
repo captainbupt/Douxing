@@ -25,6 +25,7 @@ import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.TimeTransfer;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.NoScrollListView;
+import com.badou.mworking.widget.NoneResultView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 
@@ -61,9 +62,9 @@ public class AskDetailActivity extends BaseBackActionBarActivity {
     private TextView mDeleteTextView;
     private NoScrollListView mAnswerListView;
     private LinearLayout mBottomReplyLayout;  //回复
-    private ImageView mNoneAnswerImageView;  // 没有回答时显示的布局
 
     private PullToRefreshScrollView pullToRefreshScrollView;
+    private NoneResultView mNoneResultView;
 
     private int beginIndex = 1;
 
@@ -97,12 +98,13 @@ public class AskDetailActivity extends BaseBackActionBarActivity {
         mNameTextView = (TextView) findViewById(R.id.tv_activity_ask_detail_name);
         mMessageTextView = (TextView) findViewById(R.id.tv_activity_ask_detail_message);
         mDeleteTextView = (TextView) findViewById(R.id.tv_activity_ask_detail_delete);
-        mNoneAnswerImageView = (ImageView) findViewById(R.id.iv_activity_ask_detail_none_answer);
         mHeadImageView = (ImageView) findViewById(R.id.iv_activity_ask_detail_user_head);
         mContentImageView = (ImageView) findViewById(R.id.iv_activity_ask_detail_content);
         // 自定义LinearLayout
         mAnswerListView = (NoScrollListView) findViewById(R.id.nslv_activity_ask_detail_answer);
         mBottomReplyLayout = (LinearLayout) findViewById(R.id.ll_activity_ask_detail_bottom_comment);
+        mNoneResultView = (NoneResultView) findViewById(R.id.nrv_activity_ask_detail_none);
+        mNoneResultView.setContent(-1, R.string.none_result_reply);
     }
 
     /**
@@ -168,29 +170,6 @@ public class AskDetailActivity extends BaseBackActionBarActivity {
         } else {
             mDeleteTextView.setVisibility(View.GONE);
         }
-
-        /**删除和私信逻辑 *//*
-        String userUid = ((AppApplication) this.getApplicationContext())
-                .getUserInfo().userId;
-        String currentUid = ask.getUid();
-        int isGuanliYuan = ask.getDelop();
-        // 点击进入是自己
-        if (userUid.equals(currentUid)) {
-            sixinTv.setVisibility(View.GONE);
-            delAsk.setVisibility(View.VISIBLE);
-            // 点击进入不是自己
-        } else {
-            // 是管理员
-            if (isGuanliYuan == 1) {
-                sixinTv.setVisibility(View.VISIBLE);
-                delAsk.setVisibility(View.VISIBLE);
-                // 不是管理员
-            } else {
-                sixinTv.setVisibility(View.VISIBLE);
-                delAsk.setVisibility(View.GONE);
-            }
-        }*/
-
     }
 
     /**
@@ -235,14 +214,14 @@ public class AskDetailActivity extends BaseBackActionBarActivity {
                 if (length == 0) {
                     if (beginIndex == 1) {
                         mAnswerAdapter.setList(null);
-                        mNoneAnswerImageView.setVisibility(View.VISIBLE);
+                        mNoneResultView.setVisibility(View.VISIBLE);
                     } else {
-                        mNoneAnswerImageView.setVisibility(View.GONE);
+                        mNoneResultView.setVisibility(View.GONE);
                         ToastUtil.showToast(AskDetailActivity.this, "没有更多了");
                     }
                     return;
                 }
-                mNoneAnswerImageView.setVisibility(View.GONE);
+                mNoneResultView.setVisibility(View.GONE);
                 for (int i = 0; i < length; i++) {
                     JSONObject jsonObject = jsonArray.optJSONObject(i);
                     tempAsk.add(new Ask(jsonObject));

@@ -14,6 +14,7 @@ import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.listener.DeleteClickListener;
 import com.badou.mworking.listener.MessageClickListener;
 import com.badou.mworking.listener.TopicClickableSpan;
+import com.badou.mworking.model.Ask;
 import com.badou.mworking.model.Chatter;
 import com.badou.mworking.model.Comment;
 import com.badou.mworking.net.Net;
@@ -24,10 +25,12 @@ import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.SP;
 import com.badou.mworking.util.TimeTransfer;
+import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.BottomSendMessageView;
 import com.badou.mworking.widget.MultiImageShowGridView;
 import com.badou.mworking.widget.NoScrollListView;
 import com.badou.mworking.widget.NoScrollListView.OnNoScrollItemClickListener;
+import com.badou.mworking.widget.NoneResultView;
 import com.badou.mworking.widget.VideoImageView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
@@ -50,7 +53,7 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
 
     private Chatter mChatter;
 
-    private CommentAdapter replyAdapter;// 同事圈list
+    private CommentAdapter mReplyAdapter;// 同事圈list
 
     private PullToRefreshScrollView mPullToRefreshScrollView;
     private ImageView mHeadImageView;
@@ -64,6 +67,8 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
     private TextView mMessageTextView;    //私信
     private BottomSendMessageView mSendMessageView;
     private NoScrollListView mReplyListView;
+
+    private NoneResultView mNoneResultView;
 
     private int mCurrentIndex = 1;
     private boolean isReply;
@@ -101,7 +106,9 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
         mDeleteTextView = (TextView) findViewById(R.id.tv_activity_chatter_detail_delete);
         mSendMessageView = (BottomSendMessageView) findViewById(R.id.bsmv_activity_chatter_detail);
         mReplyListView = (NoScrollListView) findViewById(R.id.nslv_activity_chatter_detail_reply);
-        mPullToRefreshScrollView = (PullToRefreshScrollView) findViewById(R.id.ptrsv_activity_ask_detail);
+        mPullToRefreshScrollView = (PullToRefreshScrollView) findViewById(R.id.ptrsv_activity_chatter_detail);
+        mNoneResultView = (NoneResultView) findViewById(R.id.nrv_activity_chatter_detail_none);
+        mNoneResultView.setContent(-1, R.string.none_result_reply);
     }
 
     /**
@@ -121,7 +128,7 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
 
             @Override
             public void onItemClick(View v, int position, long id) {
-                Comment comment = (Comment) replyAdapter.getItem(position);
+                Comment comment = (Comment) mReplyAdapter.getItem(position);
                 if (comment.name.equals("我")) {
                     return;
                 }
@@ -160,8 +167,8 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
      * 功能描述:设置蓝色title显示内容
      */
     private void initData() {
-        replyAdapter = new CommentAdapter(mContext, mChatter.qid, mChatter.deletable, mProgressDialog);
-        mReplyListView.setAdapter(replyAdapter);
+        mReplyAdapter = new CommentAdapter(mContext, mChatter.qid, mChatter.deletable, mProgressDialog);
+        mReplyListView.setAdapter(mReplyAdapter);
         TopicClickableSpan.setClickTopic(mContext, mContentTextView, mChatter.content);
         /**删除和私信逻辑 */
         String userUid = ((AppApplication) this.getApplicationContext())
@@ -237,7 +244,7 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
     /**
      * 功能描述:通过网络获取最新 回复/提问 的内容
      */
-    private void updateReply(int beginNum) {
+    private void updateReply(final int beginNum) {
         // 获取最新内容
         ServiceProvider.doQuestionShareAnswer(mContext, mChatter.qid, beginNum,
                 Constant.LIST_AROUND_NUM, new VolleyListener(mContext) {
@@ -250,21 +257,30 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
                         if (resultArray == null || resultArray.length() == 0) {
                             return;
                         }
+
                         List<Object> replys = new ArrayList<>();
-                        for (int i = 0; i < resultArray.length(); i++) {
-                            replys.add(new Comment((JSONObject) resultArray.opt(i), Comment.TYPE_CHATTER));
+                        int length = resultArray.length();
+                        if (length == 0) {
+                            if (beginNum == 1) {
+                                mReplyAdapter.setList(null);
+                                mNoneResultView.setVisibility(View.VISIBLE);
+                            } else {
+                                mNoneResultView.setVisibility(View.GONE);
+                                ToastUtil.showToast(mContext, R.string.no_more);
+                            }
+                            return;
                         }
-                        if (mCurrentIndex <= 1) {
-                            replyAdapter.setList(replys, ttlcnt);
+                        mNoneResultView.setVisibility(View.GONE);
+                        for (int i = 0; i < length; i++) {
+                            JSONObject jsonObject = resultArray.optJSONObject(i);
+                            replys.add(new Comment(jsonObject, Comment.TYPE_CHATTER));
+                        }
+                        if (beginNum == 1) {
+                            mReplyAdapter.setList(replys);
                         } else {
-                            mCurrentIndex++;
-                            replyAdapter.addList(replys, ttlcnt);
+                            mReplyAdapter.addList(replys);
                         }
-                        if (replyAdapter.getCount() == 0 && mReplyListView != null) {
-                            mReplyListView.setVisibility(View.GONE);
-                        } else {
-                            mReplyListView.setVisibility(View.VISIBLE);
-                        }
+                        mCurrentIndex++;
                     }
 
                     @Override

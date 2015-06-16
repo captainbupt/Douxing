@@ -25,6 +25,7 @@ public class TaskActivity extends BaseCategoryProgressListActivity {
         CATEGORY_NAME = Task.CATEGORY_KEY_NAME;
         CATEGORY_UNREAD_NUM = Task.CATEGORY_KEY_UNREAD_NUM;
         super.onCreate(savedInstanceState);
+        mNoneResultView.setContent(R.drawable.background_none_result_task, R.string.none_result_category);
     }
 
     @Override

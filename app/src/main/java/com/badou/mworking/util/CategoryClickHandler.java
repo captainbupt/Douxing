@@ -13,6 +13,8 @@ import com.badou.mworking.TrainMusicActivity;
 import com.badou.mworking.TrainVideoActivity;
 import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.base.BaseStatisticalActionBarActivity;
+import com.badou.mworking.model.MainBanner;
+import com.badou.mworking.model.MainIcon;
 import com.badou.mworking.model.category.Category;
 import com.badou.mworking.model.category.CategoryDetail;
 import com.badou.mworking.model.category.Task;
@@ -44,38 +46,39 @@ public class CategoryClickHandler {
     }
 
     public static void goNextPage(Context context, CategoryDetail categoryDetail) {
+        String title = MainIcon.getMainIcon(context, Category.CATEGORY_KEY_ICONS[categoryDetail.type]).name;
         if (categoryDetail.type == Category.CATEGORY_NOTICE || categoryDetail.type == Category.CATEGORY_TRAINING || categoryDetail.type == Category.CATEGORY_SHELF) {
             if (Constant.MWKG_FORAMT_TYPE_PDF == categoryDetail.format) { //返回PDF格式
-                goPDFAndWeb(context, categoryDetail.type, categoryDetail.rid, categoryDetail.url, categoryDetail.tagName);
+                goPDFAndWeb(context, categoryDetail.type, categoryDetail.rid, categoryDetail.url, title);
             } else if (Constant.MWKG_FORAMT_TYPE_MPEG == categoryDetail.format) { // 返回MP4格式
-                goVedio(context, categoryDetail.rid, categoryDetail.tagName, categoryDetail.url, categoryDetail.subject);
+                goVedio(context, categoryDetail.rid, title, categoryDetail.url, categoryDetail.subject);
             } else if (Constant.MWKG_FORAMT_TYPE_HTML == categoryDetail.format) { // 返回html格式
-                goHTML(context, categoryDetail.type, categoryDetail.rid, categoryDetail.url, categoryDetail.tagName);
+                goHTML(context, categoryDetail.type, categoryDetail.rid, categoryDetail.url, title);
             } else if (Constant.MWKG_FORAMT_TYPE_MP3 == categoryDetail.format) { // 返回MP3格式
-                goAudio(context, categoryDetail.rid, categoryDetail.tagName, categoryDetail.url, categoryDetail.subject);
+                goAudio(context, categoryDetail.rid, title, categoryDetail.url, categoryDetail.subject);
             } else {
                 ToastUtil.showToast(context, R.string.category_unsupport_type);
             }
         } else if (categoryDetail.type == Category.CATEGORY_EXAM) {
             if (Constant.MWKG_FORAMT_TYPE_XML == categoryDetail.format) {
-                goHTML(context, categoryDetail.type, categoryDetail.rid, categoryDetail.url, categoryDetail.tagName);
+                goHTML(context, categoryDetail.type, categoryDetail.rid, categoryDetail.url, title);
             } else {
                 ToastUtil.showToast(context, R.string.category_unsupport_type);
             }
         } else if (categoryDetail.type == Category.CATEGORY_TASK) {
             if (Constant.MWKG_FORAMT_TYPE_XML == categoryDetail.format) {
-                goSignActivity(context, categoryDetail.task);
+                goSignActivity(context, title, categoryDetail.task);
             } else {
                 ToastUtil.showToast(context, R.string.category_unsupport_type);
             }
         }
     }
 
-    private static void goSignActivity(Context context, Task task) {
+    private static void goSignActivity(Context context, String title, Task task) {
         Intent intent = new Intent(context, TaskSignActivity.class);
         intent.putExtra(TaskSignActivity.KEY_TASK, task);
         // 获取分类名
-        intent.putExtra(BaseActionBarActivity.KEY_TITLE, context.getResources().getString(R.string.module_default_title_task));
+        intent.putExtra(BaseActionBarActivity.KEY_TITLE, title);
         intent.putExtra(BaseStatisticalActionBarActivity.KEY_RID, task.rid);
         context.startActivity(intent);
     }

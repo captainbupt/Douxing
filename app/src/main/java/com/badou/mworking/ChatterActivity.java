@@ -24,6 +24,8 @@ import java.util.List;
  */
 public class ChatterActivity extends BaseBackActionBarActivity {
 
+    public static final int REQUEST_CHATTER_SUBMIT = 1001;
+
     private RadioGroup mRadioGroup;
     private RadioButton mChatterRadioButton;
     private RadioButton mHotRadioButton;
@@ -93,13 +95,16 @@ public class ChatterActivity extends BaseBackActionBarActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_CHATTER_SUBMIT && resultCode == RESULT_OK) {
+            ((ChatterListFragment) mFragmentAdapter.getItem(0)).refreshData();
+        }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
     public void clickRight() {
         Intent intent = new Intent(mContext, ChatterSubmitActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, REQUEST_CHATTER_SUBMIT);
     }
 
 

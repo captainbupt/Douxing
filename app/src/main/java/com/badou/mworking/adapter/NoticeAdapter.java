@@ -34,25 +34,13 @@ public class NoticeAdapter extends MyBaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         final Notice notice = (Notice) getItem(position);
-
-/*        // 加载图片功能，暂不需要
-        if (null == notice.imgUrl || "".equals(notice.imgUrl)) {
-            holder.setImageResource(R.drawable.icon_def_notice);
+        int size = mContext.getResources().getDimensionPixelSize(R.dimen.offset_lless);
+        // 使得第一条上端有一段空白
+        if (position == 0) {
+            convertView.setPadding(0, size, 0, 0);
         } else {
-            iconImage.setTag(notice.imgUrl);
-            Bitmap bm = BitmapLruCache.getBitmapLruCache().getBitmap(
-                    notice.imgUrl);
-            if (bm != null && notice.imgUrl.equals(iconImage.getTag())) {
-                iconImage.setImageBitmap(bm);
-                bm = null;
-            } else {
-                MyVolley.getImageLoader().get(
-                        notice.imgUrl,
-                        new IconLoadListener(mContext, iconImage, notice
-                                .imgUrl, R.drawable.icon_def_notice));
-            }
-        }*/
-
+            convertView.setPadding(0, 0, 0, 0);
+        }
         if (notice.isRead()) {
             holder.iconImageView.setImageResource(R.drawable.icon_notice_item_read);
             holder.unreadTextView.setVisibility(View.GONE);

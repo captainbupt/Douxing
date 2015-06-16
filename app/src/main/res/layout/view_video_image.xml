@@ -6,12 +6,19 @@
     <ImageView
         android:id="@+id/iv_view_video_image_content"
         android:layout_width="@dimen/image_size_content"
-        android:layout_height="@dimen/image_size_content"
-        android:layout_gravity="center" />
+        android:layout_height="@dimen/image_size_content" />
 
     <ImageView
+        android:id="@+id/iv_view_video_image_show"
+        android:layout_width="@dimen/image_size_content"
+        android:layout_height="@dimen/image_size_content"
+        android:scaleType="centerInside"
+        android:src="@drawable/icon_video_image" />
+
+    <ImageView
+        android:id="@+id/iv_view_video_image_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:src="@drawable/icon_video_image" />
+        android:src="@drawable/icon_multi_image_edit_delete"
+        android:visibility="gone" />
 </FrameLayout>

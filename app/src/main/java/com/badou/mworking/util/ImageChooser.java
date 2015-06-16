@@ -60,6 +60,16 @@ public class ImageChooser {
         void onImageChose(Bitmap bitmap, int type);
     }
 
+    public void setOnOperationClickListener(OnOperationClickListener onOperationClickListener) {
+        this.mOnOperationClickListener = onOperationClickListener;
+    }
+
+    private OnOperationClickListener mOnOperationClickListener;
+
+    public interface OnOperationClickListener {
+        boolean onOperationClick(int type);
+    }
+
     public ImageChooser(Context context, boolean isChoose, boolean isPhoto, boolean isZoom, boolean isVideo) {
         this.mContext = context;
         this.isChoose = isChoose;
@@ -98,11 +108,21 @@ public class ImageChooser {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        boolean result = true;
                         if (mItemList.get(which).equals(mContext.getResources().getString(R.string.choose_sd_Pic))) {
+                            if (mOnOperationClickListener != null && !mOnOperationClickListener.onOperationClick(TYPE_IMAGE)) {
+                                return;
+                            }
                             choosePhoto();// 选择本地图片
                         } else if (mItemList.get(which).equals(mContext.getResources().getString(R.string.choose_camera))) {
+                            if (mOnOperationClickListener != null && !mOnOperationClickListener.onOperationClick(TYPE_IMAGE)) {
+                                return;
+                            }
                             takePhoto();// 拍照
                         } else if (mItemList.get(which).equals(mContext.getResources().getString(R.string.choose_video))) {
+                            if (mOnOperationClickListener != null && !mOnOperationClickListener.onOperationClick(TYPE_VIDEO)) {
+                                return;
+                            }
                             takeVideo();
                         }
                     }

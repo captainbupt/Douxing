@@ -34,6 +34,13 @@ public class TaskAdapter extends MyBaseAdapter {
         }
         Task task = (Task) getItem(position);
 
+        int size = mContext.getResources().getDimensionPixelSize(R.dimen.offset_lless);
+        if (position == 0) {
+            convertView.setPadding(0, size, 0, 0);
+        } else {
+            convertView.setPadding(0, 0, 0, 0);
+        }
+
         // 一定要保证else if 语句的顺序，应为在这一块，优先级别  已签到>已过期>未签到   然后 因为未过期  可能已经签过到了，
         //也可能没有，  如果已经签过到了，显示已签到，如果没有，才显示已过期，所以要注意else if语句的顺序
         // 先判断read字段， 已签到

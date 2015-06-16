@@ -105,24 +105,19 @@ public class ChatterSubmitActivity extends BaseBackActionBarActivity {
                 } else {
                     mImageGridView.setVisibility(View.VISIBLE);
                     mImageGridView.addImage(bitmap);
+                    mVideoImageView.clear();
                     mVideoImageView.setVisibility(View.GONE);
                 }
                 mImageType = type;
             }
         });
-        mImageGridView.setOnImageDeleteListener(new MultiImageEditGridView.OnImageDeleteListener() {
+        mImageChooser.setOnOperationClickListener(new ImageChooser.OnOperationClickListener() {
             @Override
-            public void onDelete(int position) {
-                if (mImageType == ImageChooser.TYPE_VIDEO) {
-                    // 清除视屏文件
-                    File file = new File(FileUtils.getChatterVideoDir(mContext));
-                    if (file.exists()) {
-                        file.delete();
-                    }
+            public boolean onOperationClick(int type) {
+                if (type == ImageChooser.TYPE_IMAGE && mImageGridView.isMax()) {
+                    ToastUtil.showToast(mContext, R.string.chatter_submit_max_image);
                 }
-                if (mImageGridView.getCount() == 0) {
-                    mImageType = -1;
-                }
+                return true;
             }
         });
         mTopicAdapter = new ChatterTopicAdapter(mContext, new ChatterTopicAdapter.OnConfirmClickListener() {
@@ -139,6 +134,15 @@ public class ChatterSubmitActivity extends BaseBackActionBarActivity {
             }
         });
         mTopicListView.setAdapter(mTopicAdapter);
+        mVideoImageView.setOnImageDeleteListener(new VideoImageView.OnImageDeleteListener() {
+            @Override
+            public void onDelete() {
+                mImageGridView.setVisibility(View.VISIBLE);
+                mVideoImageView.clear();
+                mVideoImageView.setVisibility(View.GONE);
+                mImageType = -1;
+            }
+        });
         getTopicList();
     }
 
@@ -178,7 +182,7 @@ public class ChatterSubmitActivity extends BaseBackActionBarActivity {
             ToastUtil.showToast(mContext, R.string.comment_tips_length);
             return;
         }
-        if (mImageType == ImageChooser.TYPE_IMAGE) {
+        if (mImageType == ImageChooser.TYPE_IMAGE && mImageGridView.getCount() > 1) {
             publishQuestionShare(content, mImageGridView.getImages(), mImageType);
         } else if (mImageType == ImageChooser.TYPE_VIDEO) {
             List<Object> tmpList = new ArrayList<>();
@@ -205,7 +209,7 @@ public class ChatterSubmitActivity extends BaseBackActionBarActivity {
         mProgressDialog.setContent(R.string.progress_tips_send_ing);
         mProgressDialog.show();
         Bitmap bitmap = null;
-        if (bitmapList != null)
+        if (bitmapList != null && bitmapList.size() == 1)
             bitmap = (Bitmap) bitmapList.get(0);
         // 提交提问内容
         ServiceProvider.doPublishQuestionShare(mContext, "share", content, bitmap, mAnonymousCheckBox.isChecked() ? 1 : 0,
@@ -285,9 +289,8 @@ public class ChatterSubmitActivity extends BaseBackActionBarActivity {
     }
 
     private void toChatterActivity() {
-        Intent intent = new Intent(mContext, ChatterActivity.class);
-        intent.putExtra(BaseBackActionBarActivity.KEY_TITLE, MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_CHATTER, R.drawable.button_chatter, R.string.module_default_title_chatter).name);
-        startActivity(intent);
+        setResult(RESULT_OK);
+        finish();
     }
 
     private void getTopicList() {

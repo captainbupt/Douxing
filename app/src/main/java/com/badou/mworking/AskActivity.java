@@ -18,6 +18,7 @@ import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.SP;
 import com.badou.mworking.util.ToastUtil;
+import com.badou.mworking.widget.NoneResultView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -34,7 +35,7 @@ import java.util.List;
  */
 public class AskActivity extends BaseBackActionBarActivity {
 
-    private ImageView mNoneResultImageView;  //当没有人提问时显示该图片
+    private NoneResultView mNoneResultView;  //当没有人提问时显示该图片
 
     private PullToRefreshListView mContentListView;
     private AskAdapter mAskAdapter;
@@ -53,8 +54,8 @@ public class AskActivity extends BaseBackActionBarActivity {
 
     private void initView() {
         setRightText(R.string.ask_title_right);
-        mNoneResultImageView = (ImageView) findViewById(R.id.iv_activity_question_none);
-
+        mNoneResultView = (NoneResultView) findViewById(R.id.nrv_activity_question_none);
+        mNoneResultView.setContent(R.drawable.background_none_result_ask, R.string.none_result_ask);
         // 因为需要同时添加单击和长按事件，pullToRefresh并不支持该操作。所以只能在adapter里面进行添加
         mContentListView = (PullToRefreshListView) findViewById(R.id.ptrlv_activity_question_content);
     }
@@ -116,7 +117,7 @@ public class AskActivity extends BaseBackActionBarActivity {
      */
     private void updateListView(int beginNum) {
         showProgressBar();
-        mNoneResultImageView.setVisibility(View.GONE);
+        mNoneResultView.setVisibility(View.GONE);
         ServiceProvider.updateAskList(AskActivity.this, beginNum, Constant.LIST_ITEM_NUM, "", new VolleyListener(AskActivity.this) {
 
             @Override
@@ -132,14 +133,14 @@ public class AskActivity extends BaseBackActionBarActivity {
                 int length = data.length();
                 if (length == 0) {
                     if (beginIndex == 1) {
-                        mNoneResultImageView.setVisibility(View.VISIBLE);
+                        mNoneResultView.setVisibility(View.VISIBLE);
                         mAskAdapter.setList(null);
                     } else {
                         ToastUtil.showUpdateToast(mContext);
                     }
                     return;
                 }
-                mNoneResultImageView.setVisibility(View.GONE);
+                mNoneResultView.setVisibility(View.GONE);
                 for (int i = 0; i < length; i++) {
                     JSONObject jb = data.optJSONObject(i);
                     Ask ask = new Ask(jb);

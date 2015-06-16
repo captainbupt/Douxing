@@ -6,7 +6,7 @@
     android:background="@color/color_layout_bg">
 
     <com.handmark.pulltorefresh.library.PullToRefreshScrollView
-        android:id="@+id/ptrsv_activity_ask_detail"
+        android:id="@+id/ptrsv_activity_chatter_detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/bsmv_activity_chatter_detail"
@@ -120,6 +120,12 @@
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
+
+            <com.badou.mworking.widget.NoneResultView
+                android:id="@+id/nrv_activity_chatter_detail_none"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/offset_xxlarge" />
 
             <com.badou.mworking.widget.NoScrollListView
                 android:id="@+id/nslv_activity_chatter_detail_reply"

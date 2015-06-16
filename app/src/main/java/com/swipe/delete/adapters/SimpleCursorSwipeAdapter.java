@@ -1,5 +1,7 @@
 package com.swipe.delete.adapters;
 
+import java.util.List;
+
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v4.widget.SimpleCursorAdapter;
@@ -10,8 +12,6 @@ import com.swipe.delete.SwipeLayout;
 import com.swipe.delete.implments.SwipeItemMangerImpl;
 import com.swipe.delete.interfaces.SwipeAdapterInterface;
 import com.swipe.delete.interfaces.SwipeItemMangerInterface;
-
-import java.util.List;
 
 public abstract class SimpleCursorSwipeAdapter extends SimpleCursorAdapter implements SwipeItemMangerInterface, SwipeAdapterInterface {
 

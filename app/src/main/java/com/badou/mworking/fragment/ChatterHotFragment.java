@@ -52,7 +52,7 @@ public class ChatterHotFragment extends BaseFragment {
         mContentListView = (PullToRefreshListView) view
                 .findViewById(R.id.ptrlv_fragment_chatter_list);
         mContentListView.setMode(PullToRefreshBase.Mode.BOTH);
-        mNoneResultImageView = (ImageView) view.findViewById(R.id.iv_fragment_chatter_list_none_result);
+        mNoneResultImageView = (ImageView) view.findViewById(R.id.nrv_fragment_chatter_list_none_result);
         initListener();
         initData();
         return view;

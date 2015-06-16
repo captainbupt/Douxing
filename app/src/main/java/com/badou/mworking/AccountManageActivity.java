@@ -56,6 +56,12 @@ public class AccountManageActivity extends BaseBackActionBarActivity {
         mLogoutButton = (Button) findViewById(R.id.btn_logout_password_confirm);
         //修改密码
         mChangePasswordButton = (Button) findViewById(R.id.btn_change_password_confirm);
+        mNewEditText.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mNewEditText.clearFocus();
+            }
+        },300);
     }
 
     private void initListener() {
