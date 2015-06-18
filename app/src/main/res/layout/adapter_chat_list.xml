@@ -13,8 +13,8 @@
         android:padding="@dimen/offset_less">
 
         <RelativeLayout
-            android:layout_width="@dimen/chat_img_head_size"
-            android:layout_height="@dimen/chat_img_head_size"
+            android:layout_width="@dimen/icon_head_size_middle"
+            android:layout_height="@dimen/icon_head_size_middle"
             android:layout_gravity="center_vertical">
 
             <ImageView

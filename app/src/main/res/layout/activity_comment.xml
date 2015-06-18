@@ -14,7 +14,7 @@
         <com.handmark.pulltorefresh.library.PullToRefreshListView
             android:id="@+id/ptrlv_activity_comments"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:divider="@null" />
 
 
@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="0"
         myattrs:contentHint="@string/comment_hint"
-        myattrs:maxText="79"
+        myattrs:maxText="200"
         myattrs:minText="5"
         myattrs:submitText="@string/feekback_submit" />
 

@@ -58,7 +58,7 @@ public class BottomSendMessageView extends LinearLayout {
             mContentEditText.setHint(typedArray.getResourceId(R.styleable.BottomSendMessageView_contentHint, R.string.comment_hint));
             mSubmitTextView.setText(typedArray.getResourceId(R.styleable.BottomSendMessageView_submitText, R.string.feekback_submit));
             mMinText = typedArray.getInt(R.styleable.BottomSendMessageView_minText, 1);
-            mMaxText = typedArray.getInt(R.styleable.BottomSendMessageView_maxText, 79);
+            mMaxText = typedArray.getInt(R.styleable.BottomSendMessageView_maxText, 200);
         }
     }
 
@@ -109,7 +109,7 @@ public class BottomSendMessageView extends LinearLayout {
             @Override
             public void onClick(View arg0) {
                 String content = mContentEditText.getText().toString();
-                content = content.replaceAll("\\n", "");
+                //content = content.replaceAll("\n", "");
                 // 显示或者隐藏输入法
                 imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
                 if (mOnSubmitListener != null) {

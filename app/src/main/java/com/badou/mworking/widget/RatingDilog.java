@@ -15,6 +15,7 @@ package com.badou.mworking.widget;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.LinearLayout;
@@ -82,7 +83,13 @@ public class RatingDilog extends Dialog {
             mTitleTextView.setText(R.string.dialog_rating_title_rated);
             scoreTips(mCurrentScore);
             mScoreRatingBar.setRating(mCurrentScore);
-            mScoreRatingBar.setEnabled(false);
+            // 屏蔽触碰事件，直接使用setEnable(false)的话会使style也失效
+            mScoreRatingBar.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    return true;
+                }
+            });
         }
     }
 

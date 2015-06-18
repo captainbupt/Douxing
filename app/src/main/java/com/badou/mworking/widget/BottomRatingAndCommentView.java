@@ -2,6 +2,7 @@ package com.badou.mworking.widget;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import com.badou.mworking.CommentActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.model.category.CategoryDetail;
+import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 
@@ -83,21 +85,21 @@ public class BottomRatingAndCommentView extends LinearLayout {
         });
     }
 
-    public void setData(String rid, int ratingNumber, int commentNumber, int currentRating) {
+    public void setData(String rid, boolean isRating, boolean isComment) {
         this.mRid = rid;
-        if (ratingNumber > -1) {
+        if (isRating) {
             mRatingLayout.setVisibility(VISIBLE);
         } else {
             mRatingLayout.setVisibility(GONE);
             mDividerView.setVisibility(GONE);
         }
-        if (commentNumber > -1) {
+        if (isComment) {
             mCommentLayout.setVisibility(VISIBLE);
         } else {
             mCommentLayout.setVisibility(GONE);
             mDividerView.setVisibility(GONE);
         }
-        setData(ratingNumber, commentNumber, currentRating);
+        setData(0, 0, 0);
         updateData();
     }
 
@@ -108,12 +110,17 @@ public class BottomRatingAndCommentView extends LinearLayout {
     }
 
     public void updateData() {
+        if (TextUtils.isEmpty(mRid))
+            return;
+        final WaitProgressDialog progressDialog = new WaitProgressDialog(mContext);
+        progressDialog.show();
         ServiceProvider.getResourceDetail(mContext, mRid, new VolleyListener(mContext) {
 
             @Override
             public void onResponseSuccess(JSONObject jsonObject) {
-                CategoryDetail categoryDetail = new CategoryDetail(mContext, jsonObject);
+                CategoryDetail categoryDetail = new CategoryDetail(mContext, jsonObject.optJSONObject(Net.DATA));
                 setData(categoryDetail.ratingNum, categoryDetail.commentNum, categoryDetail.rating);
+                progressDialog.dismiss();
             }
         });
     }

@@ -53,7 +53,7 @@ public class CommentActivity extends BaseBackActionBarActivity {
         initView();
         initData();
         initListener();
-        refreshComment(1);
+        mContentListView.setRefreshing();
     }
 
     /**
@@ -101,7 +101,7 @@ public class CommentActivity extends BaseBackActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> adapter, View v, int position,
                                     long arg3) {
-                Chatter question = (Chatter) mCommentAdapter.getItem(position - 1);
+                Comment question = (Comment) mCommentAdapter.getItem(position - 1);
                 String userName = question.name.trim();
                 // 不可以回复我自己
                 if (userName.equals("我")) {
@@ -133,6 +133,7 @@ public class CommentActivity extends BaseBackActionBarActivity {
      * @param pageNumber
      */
     private void refreshComment(final int pageNumber) {
+        mNoneResultView.setVisibility(View.GONE);
         ServiceProvider.doUpdateComment(mContext, mRid, pageNumber,
                 new VolleyListener(mContext) {
                     @Override
@@ -161,10 +162,8 @@ public class CommentActivity extends BaseBackActionBarActivity {
         List<Object> commentList;
         if (mCurrentPage <= 1 && length == 0) {
             mNoneResultView.setVisibility(View.VISIBLE);
-            mContentListView.setVisibility(View.GONE);
         } else {
             mNoneResultView.setVisibility(View.GONE);
-            mContentListView.setVisibility(View.VISIBLE);
         }
         commentList = new ArrayList<>();
         for (int i = 0; i < length; i++) {

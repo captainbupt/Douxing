@@ -7,7 +7,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/action_bar_img_size"
+        android:layout_height="@dimen/height_title_bar"
         android:background="@color/color_blue"
         android:orientation="horizontal"
         android:paddingBottom="@dimen/offset_less"
@@ -55,7 +55,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/transparent">
+        android:background="#88ffffff">
 
         <LinearLayout
             android:id="@+id/ll_main_search_none"

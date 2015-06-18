@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:paddingTop="@dimen/offset_less">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/color_white"
@@ -19,15 +19,16 @@
             android:id="@+id/iv_adapter_ask_head"
             android:layout_width="@dimen/icon_head_size_middle"
             android:layout_height="@dimen/icon_head_size_middle"
+            android:layout_centerVertical="true"
             android:scaleType="centerInside"
             android:src="@drawable/icon_user_detail_default_head" />
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/offset_medium"
-            android:gravity="left"
-            android:orientation="vertical">
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/iv_adapter_ask_head"
+            android:paddingLeft="@dimen/offset_medium">
 
             <TextView
                 android:id="@+id/tv_adapter_ask_content"
@@ -38,34 +39,35 @@
                 android:textColor="@color/color_text_black"
                 android:textSize="@dimen/text_size_medium" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/tv_adapter_ask_date"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/tv_adapter_ask_content"
                 android:layout_marginTop="@dimen/offset_less"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:textColor="@color/color_text_grey"
+                android:textSize="@dimen/text_size_less" />
 
-                <TextView
-                    android:id="@+id/tv_adapter_ask_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/offset_less"
-                    android:textColor="@color/color_text_grey"
-                    android:textSize="@dimen/text_size_less" />
+            <ImageView
+                android:id="@+id/iv_adapter_ask_reply"
+                android:layout_width="@dimen/around_icon_reply_width"
+                android:layout_height="@dimen/around_icon_reply_width"
+                android:layout_below="@id/tv_adapter_ask_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginRight="@dimen/offset_small"
+                android:layout_marginTop="@dimen/offset_less"
+                android:scaleType="centerInside"
+                android:src="@drawable/icon_bottom_comment" />
 
-                <ImageView
-                    android:layout_width="@dimen/around_icon_reply_width"
-                    android:layout_height="@dimen/around_icon_reply_width"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/icon_bottom_comment" />
-
-                <TextView
-                    android:id="@+id/tv_adapter_ask_reply_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/color_text_grey"
-                    android:textSize="@dimen/text_size_less" />
-            </LinearLayout>
-        </LinearLayout>
-    </LinearLayout>
+            <TextView
+                android:id="@+id/tv_adapter_ask_reply_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_adapter_ask_content"
+                android:layout_marginTop="@dimen/offset_less"
+                android:layout_toRightOf="@id/iv_adapter_ask_reply"
+                android:textColor="@color/color_text_grey"
+                android:textSize="@dimen/text_size_less" />
+        </RelativeLayout>
+    </RelativeLayout>
 </FrameLayout>

@@ -50,7 +50,7 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/music_pic_h"
+            android:layout_height="@dimen/media_play_height"
             android:background="@drawable/background_music_player">
 
             <ImageView
@@ -78,8 +78,8 @@
 
             <ImageView
                 android:id="@+id/iv_activity_music_player_control"
-                android:layout_width="@dimen/music_player_start_size"
-                android:layout_height="@dimen/music_player_start_size"
+                android:layout_width="@dimen/icon_size_small"
+                android:layout_height="@dimen/icon_size_tiny"
                 android:src="@drawable/button_media_start"
                 android:visibility="gone" />
 

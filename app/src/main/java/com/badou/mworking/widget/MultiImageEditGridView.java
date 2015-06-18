@@ -30,6 +30,10 @@ public class MultiImageEditGridView extends GridView {
     private MultiImageEditAdapter mAdapter;
     private int mMaxImage;
 
+    public void setAddOnClickListener(OnClickListener addOnClickListener) {
+        mAdapter.setAddOnClickListener(addOnClickListener);
+    }
+
     public MultiImageEditGridView(Context context, AttributeSet attrs) {
         super(context, attrs);
         initAttr(context, attrs);
@@ -82,7 +86,7 @@ public class MultiImageEditGridView extends GridView {
         ViewGroup.LayoutParams layoutParams;
         int paddingSide = getPaddingLeft();
         int size = getResources().getDimensionPixelSize(R.dimen.image_size_content);
-        int paddingVertical = getResources().getDimensionPixelOffset(R.dimen.offset_medium);
+        int paddingVertical = getResources().getDimensionPixelOffset(R.dimen.offset_lless);
         int column = Math.min(3, mAdapter.getCount());
         setNumColumns(column);
         layoutParams = getLayoutParams();
@@ -93,11 +97,16 @@ public class MultiImageEditGridView extends GridView {
 
     static class MultiImageEditAdapter extends MyBaseAdapter {
 
+        private OnClickListener mAddOnClickListener;
         private int mMaxImage;
 
         public MultiImageEditAdapter(Context context, int max) {
             super(context);
             this.mMaxImage = max;
+        }
+
+        public void setAddOnClickListener(OnClickListener addOnClickListener) {
+            this.mAddOnClickListener = addOnClickListener;
         }
 
         public void deleteItem(int position) {
@@ -142,13 +151,15 @@ public class MultiImageEditGridView extends GridView {
                 holder = (ViewHolder) convertView.getTag();
             }
             Bitmap bmp = (Bitmap) getItem(position);
-            if (bmp == null) {
+            if (bmp == null || bmp.isRecycled()) {
                 holder.contentImageView.setScaleType(ImageView.ScaleType.FIT_XY);
                 holder.contentImageView.setImageResource(R.drawable.icon_multi_image_edit_add);
+                holder.contentImageView.setOnClickListener(mAddOnClickListener);
                 holder.deleteImageView.setVisibility(View.GONE);
             } else {
                 holder.contentImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 holder.contentImageView.setImageBitmap(bmp);
+                holder.contentImageView.setOnClickListener(null);
                 holder.deleteImageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

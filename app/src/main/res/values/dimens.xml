@@ -1,78 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="text_size_small">12sp</dimen>
-    <dimen name="text_size_less">14sp</dimen>
-    <dimen name="text_size_medium">16sp</dimen>
-    <dimen name="text_size_large">18sp</dimen>
-    <dimen name="text_size_xlarge">20sp</dimen>
-    <dimen name="text_size_xxlarge">22sp</dimen>
-    <dimen name="offset_micro">3dp</dimen>
-    <dimen name="offset_small">5dp</dimen>
-    <dimen name="offset_less">7dp</dimen>
-    <dimen name="offset_lless">9dp</dimen>
-    <dimen name="main_offset_less">24dp</dimen>
-    <dimen name="main_offset_less_right">24dp</dimen>
-    <dimen name="offset_medium_top">50dp</dimen>
-    <dimen name="offset_medium">13dp</dimen>
-    <dimen name="offset_large">22dp</dimen>
-    <dimen name="offset_xlarge">34dp</dimen>
-    <dimen name="offset_xxlarge">48dp</dimen>
-    <dimen name="icon_size_tiny">15dp</dimen>
-    <dimen name="icon_size_small">25dp</dimen>
-    <dimen name="icon_size_medium">40dp</dimen>
-    <dimen name="icon_size_large">60dp</dimen>
-    <dimen name="icon_size_xlarge">75dp</dimen>
-    <dimen name="radius_small">3dp</dimen>
-    <dimen name="radius_medium">6dp</dimen>
-    <dimen name="dialog_min_width">220dp</dimen>
-    <!-- activity welcome -->
-    <dimen name="icon_size_main_grid_rb">6dp</dimen>
-    <!-- 登录 8-11  -->
-    <dimen name="login_logo_layout_big_marginB">34dp</dimen>
-    <dimen name="login_logo_layout_big_marginT">38dp</dimen>
-    <dimen name="login_logo_layout_small_marginT">16dp</dimen>
-    <dimen name="login_logo_pic_small_size">42dp</dimen>
-    <dimen name="login_input_icon_size">23dp</dimen>
     <dimen name="login_margin">@dimen/offset_large</dimen>
 
-    <!-- activity main grid -->
-    <dimen name="icon_size_main_grid_category">35dp</dimen>
     <!-- activity base -->
     <dimen name="text_size_title_bar_title">@dimen/text_size_xxlarge</dimen>
     <dimen name="text_size_title_bar_right">@dimen/text_size_medium</dimen>
-
+    <dimen name="height_title_bar">@dimen/icon_size_medium</dimen>
     <!-- login error dialog -->
     <dimen name="text_size_login_error_tip">@dimen/text_size_medium</dimen>
     <dimen name="text_size_login_error_button">@dimen/text_size_medium</dimen>
 
     <!-- user center -->
-    <dimen name="user_center_image_head_size">85dp</dimen>
+    <dimen name="user_center_image_head_size">@dimen/icon_size_xlarge</dimen>
     <dimen name="user_center_icon_content">@dimen/icon_size_small</dimen>
-    <dimen name="user_center_progress_height">8dp</dimen>
-    <dimen name="user_center_icon_forward_width">15dp</dimen>
-    <dimen name="user_center_icon_forward_height">20dp</dimen>
-    <dimen name="about_us_icon_logo_width">93dp</dimen>
-    <dimen name="about_us_icon_logo_height">93dp</dimen>
-    <!-- around -->
-    <dimen name="icon_head_size_small">30dp</dimen>
-    <dimen name="icon_head_size_middle">50dp</dimen>
-    <dimen name="around_icon_hot_rank_width">25dp</dimen>
-    <dimen name="around_icon_reply_width">18dp</dimen>
-    <dimen name="around_icon_reply_height">18dp</dimen>
 
     <!-- list 8-15 -->
     <dimen name="icon_size_category_item">@dimen/icon_size_medium</dimen>
-
-    <!-- item 8-19 -->
-    <dimen name="list_item_train_pic_width">305dp</dimen>
-    <dimen name="list_item_train_pic_height">156dp</dimen>
-
-    <dimen name="button_size_activity_task_sign_bottom">80dp</dimen>
-    <dimen name="layout_size_activity_task_sign_bottom">55dp</dimen>
-
-    <dimen name="image_size_content">75dp</dimen>
-    <dimen name="size_activity_chatter_radio_button">70dp</dimen>
-
 
 </resources>

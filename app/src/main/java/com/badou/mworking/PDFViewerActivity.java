@@ -42,9 +42,9 @@ public class PDFViewerActivity extends BaseStatisticalActionBarActivity {
     private void initData() {
         boolean showRating = mReceivedIntent.getBooleanExtra(KEY_SHOW_RATING, false);
         if (showRating) {
-            mBottomView.setData(mRid, 0, 0, -1);
+            mBottomView.setData(mRid, true, true);
         } else {// 设置-1，用于隐藏评分选项
-            mBottomView.setData(mRid, -1, 0, -1);
+            mBottomView.setData(mRid, false, true);
         }
         mBottomView.updateData();
         showPdf();
@@ -93,6 +93,7 @@ public class PDFViewerActivity extends BaseStatisticalActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        // 更新回复数
         mBottomView.updateData();
     }
 

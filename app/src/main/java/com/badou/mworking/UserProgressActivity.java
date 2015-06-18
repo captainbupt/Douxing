@@ -164,7 +164,7 @@ public class UserProgressActivity extends BaseNoTitleActivity {
             mBottomTextView.setText(R.string.user_progress_bottom_training);
             mTitleTextView.setText(R.string.user_center_my_study_progress);
             mAverageTextView.setVisibility(View.GONE);
-            mTopContentTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(R.dimen.text_user_progress_top_level));
+            mTopContentTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(R.dimen.text_size_medium));
         } else {
             String str1 = " <font color=\'#ffffff\'><b>" + "第" + "</b></font>";//第
             String str2 = " <font color=\'#ffffff\'><b>" + "名, " + "</b></font>";//名

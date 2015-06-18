@@ -18,8 +18,8 @@
 
             <ImageView
                 android:id="@+id/iv_user_progress_top_back"
-                android:layout_width="@dimen/action_bar_img_size"
-                android:layout_height="@dimen/action_bar_img_size"
+                android:layout_width="@dimen/height_title_bar"
+                android:layout_height="@dimen/height_title_bar"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:padding="@dimen/offset_less"
@@ -59,7 +59,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/text_user_progress_top_score" />
+                android:textSize="@dimen/text_size_medium" />
 
             <TextView
                 android:id="@+id/tv_user_progress_top_rank"

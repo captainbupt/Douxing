@@ -167,7 +167,7 @@ public class TrainMusicActivity extends BaseStatisticalActionBarActivity {
         } else {
             statuNotDownLoad();
         }
-        mBottomLayout.setData(mRid, 0, 0, -1);
+        mBottomLayout.setData(mRid, true, true);
 
     }
 
@@ -207,6 +207,13 @@ public class TrainMusicActivity extends BaseStatisticalActionBarActivity {
     private void pausePlay() {
         mPlayerControlImageView.setImageResource(R.drawable.button_media_start);
         mMusicPlayer.pause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // 更新回复数
+        mBottomLayout.updateData();
     }
 
     @Override

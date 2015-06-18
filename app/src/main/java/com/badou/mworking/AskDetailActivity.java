@@ -205,7 +205,6 @@ public class AskDetailActivity extends BaseBackActionBarActivity {
             @Override
             public void onResponseSuccess(JSONObject response) {
                 List<Object> tempAsk = new ArrayList<>();
-                System.out.println(response);
                 JSONArray jsonArray = response.optJSONArray(Net.DATA);
                 if (jsonArray == null) {
                     return;

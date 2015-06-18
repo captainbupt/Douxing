@@ -1,5 +1,6 @@
 package com.badou.mworking.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -11,6 +12,7 @@ import android.widget.ListView;
 
 import com.badou.mworking.ChatterActivity;
 import com.badou.mworking.ChatterDetailActivity;
+import com.badou.mworking.ChatterTopicActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.adapter.ChatterListAdapter;
 import com.badou.mworking.base.AppApplication;
@@ -107,15 +109,18 @@ public class ChatterListFragment extends BaseFragment {
     private void updateData(final int beginNum) {
         ((BaseActionBarActivity) mActivity).showProgressBar();
         Bundle mReceivedArguments = getArguments();
-        String topic = mReceivedArguments == null ? null : mReceivedArguments.getString(KEY_ARGUMENT_TOPIC);
+        final String topic = mReceivedArguments == null ? null : mReceivedArguments.getString(KEY_ARGUMENT_TOPIC);
         // 发起网络请求
         ServiceProvider.doQuestionShareList(mContext, "share", topic, beginNum,
                 Constant.LIST_ITEM_NUM, new VolleyListener(getActivity()) {
 
                     @Override
                     public void onCompleted() {
-                        if (!mActivity.isFinishing()) {
+                        if (mActivity.getClass().equals(ChatterActivity.class) && !mActivity.isFinishing()) {
                             ((ChatterActivity) getActivity()).hideProgressBar();
+                        }
+                        if (mActivity.getClass().equals(ChatterTopicActivity.class) && !mActivity.isFinishing()) {
+                            ((ChatterTopicActivity) getActivity()).hideProgressBar();
                         }
                         mContentListView.onRefreshComplete();
                     }
@@ -147,11 +152,10 @@ public class ChatterListFragment extends BaseFragment {
                             JSONObject jo2 = resultArray.optJSONObject(i);
                             chatters.add(new Chatter(jo2));
                         }
-
                         if (beginNum == 1) {// 页码为1 重新加载第一页
                             final String userNum = ((AppApplication) mContext.getApplicationContext())
                                     .getUserInfo().account;
-                            SP.putStringSP(mContext, SP.CHATTER, userNum, resultArray.toString());
+                            SP.putStringSP(mContext, SP.CHATTER, userNum + topic, resultArray.toString());
                             mChatterAdapter.setList(chatters);
                         } else {// 继续加载
                             mChatterAdapter.addList(chatters);
@@ -163,12 +167,14 @@ public class ChatterListFragment extends BaseFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (mClickPosition >= 0 && mClickPosition < mChatterAdapter.getCount()) {
-            if (resultCode == ChatterDetailActivity.RESULT_REPLY) {
+            if (resultCode == Activity.RESULT_OK) {
                 Chatter chatter = (Chatter) mChatterAdapter.getItem(mClickPosition);
-                chatter.replyNumber = (data.getIntExtra(ChatterDetailActivity.RESULT_KEY_COUNT, 0));
-                mChatterAdapter.setItem(mClickPosition, chatter);
-            } else if (resultCode == ChatterDetailActivity.RESULT_DELETE) {
-                mChatterAdapter.remove(mClickPosition);
+                chatter.replyNumber = (data.getIntExtra(ChatterDetailActivity.RESULT_KEY_COUNT, -1));
+                if (chatter.replyNumber < 0) {
+                    mChatterAdapter.remove(mClickPosition);
+                } else {
+                    mChatterAdapter.setItem(mClickPosition, chatter);
+                }
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -181,7 +187,9 @@ public class ChatterListFragment extends BaseFragment {
         final String userNum = ((AppApplication) mContext.getApplicationContext())
                 .getUserInfo().account;
         ArrayList<Object> list = new ArrayList<>();
-        String sp = SP.getStringSP(getActivity(), SP.CHATTER, userNum, "");
+        Bundle mReceivedArguments = getArguments();
+        final String topic = mReceivedArguments == null ? null : mReceivedArguments.getString(KEY_ARGUMENT_TOPIC);
+        String sp = SP.getStringSP(getActivity(), SP.CHATTER, userNum + topic, "");
         if (TextUtils.isEmpty(sp)) {
             return;
         }

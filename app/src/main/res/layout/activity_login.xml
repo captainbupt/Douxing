@@ -21,8 +21,8 @@
             android:id="@+id/login_logo_layout_v"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/login_logo_layout_big_marginB"
-            android:layout_marginTop="@dimen/login_logo_layout_big_marginT"
+            android:layout_marginBottom="@dimen/offset_xlarge"
+            android:layout_marginTop="@dimen/offset_xlarge"
             android:gravity="center_horizontal"
             android:orientation="vertical"
             android:visibility="visible">
@@ -30,7 +30,7 @@
             <ImageView
                 android:id="@+id/login_logoimg"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/login_logo_up_size"
+                android:layout_height="@dimen/login_logo_pic_large_size"
                 android:adjustViewBounds="true"
                 android:gravity="center"
                 android:scaleType="centerInside"
@@ -39,8 +39,8 @@
             <ImageView
                 android:id="@+id/login_logoimg_text"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/login_logo_center_h"
-                android:layout_marginTop="12dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/offset_medium"
                 android:adjustViewBounds="true"
                 android:gravity="center"
                 android:scaleType="centerInside"
@@ -53,9 +53,9 @@
             android:id="@+id/login_logo_layout_h"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/login_btnlogin_marginT"
+            android:layout_marginBottom="@dimen/offset_xlarge"
             android:layout_marginLeft="6dp"
-            android:layout_marginTop="@dimen/login_logo_layout_small_marginT"
+            android:layout_marginTop="@dimen/offset_large"
             android:gravity="left|center"
             android:orientation="horizontal"
             android:visibility="gone">

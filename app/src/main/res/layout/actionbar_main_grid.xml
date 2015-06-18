@@ -2,13 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/logo_bg"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="@dimen/height_title_bar"
     android:background="@color/color_bg_grey">
 
     <ImageView
         android:id="@+id/iv_actionbar_main_user_center"
-        android:layout_width="@dimen/action_bar_img_size"
-        android:layout_height="@dimen/action_bar_img_size"
+        android:layout_width="@dimen/height_title_bar"
+        android:layout_height="@dimen/height_title_bar"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:padding="@dimen/offset_less"
@@ -17,41 +17,34 @@
 
     <ImageView
         android:id="@+id/iv_actionbar_main_logo"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/action_bar_img_size"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_title_bar"
         android:layout_centerInParent="true"
-        android:padding="@dimen/offset_less"
-        android:scaleType="centerCrop" />
+        android:paddingBottom="@dimen/offset_lless"
+        android:paddingTop="@dimen/offset_lless"
+        android:scaleType="fitCenter" />
 
     <ImageView
         android:id="@+id/iv_actionbar_main_message_center"
-        android:layout_width="@dimen/action_bar_img_size"
-        android:layout_height="@dimen/action_bar_img_size"
+        android:layout_width="@dimen/height_title_bar"
+        android:layout_height="@dimen/height_title_bar"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:paddingBottom="@dimen/offset_less"
-        android:paddingLeft="@dimen/offset_small"
-        android:paddingRight="@dimen/offset_less"
-        android:paddingTop="@dimen/offset_less"
+        android:padding="@dimen/offset_less"
         android:scaleType="centerInside"
         android:src="@drawable/button_title_main_message_unchecked" />
 
     <ImageView
         android:id="@+id/iv_actionbar_main_search"
-        android:layout_width="@dimen/action_bar_img_size"
-        android:layout_height="@dimen/action_bar_img_size"
+        android:layout_width="@dimen/height_title_bar"
+        android:layout_height="@dimen/height_title_bar"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@id/iv_actionbar_main_message_center"
-        android:paddingBottom="@dimen/offset_less"
+        android:paddingBottom="@dimen/offset_lless"
         android:paddingLeft="@dimen/offset_small"
         android:paddingRight="@dimen/offset_small"
-        android:paddingTop="@dimen/offset_less"
+        android:paddingTop="@dimen/offset_lless"
         android:scaleType="centerInside"
         android:src="@drawable/button_title_main_search" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@id/iv_actionbar_main_user_center"
-        android:background="@color/color_border_grey" />
 </RelativeLayout>

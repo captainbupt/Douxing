@@ -2,8 +2,10 @@ package com.badou.mworking;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -61,7 +63,7 @@ public class AccountManageActivity extends BaseBackActionBarActivity {
             public void run() {
                 mNewEditText.clearFocus();
             }
-        },300);
+        }, 300);
     }
 
     private void initListener() {
@@ -85,16 +87,58 @@ public class AccountManageActivity extends BaseBackActionBarActivity {
     private void initData() {
         String account = ((AppApplication) getApplication()).getUserInfo().account;
         mUserNameTextView.setText(account);
-        if (!TextUtils.isEmpty(account)) {
-            if ("anonymous".equals(account)) {
-                mNewEditText.setEnabled(false);
-                mOriginalEditText.setEnabled(false);
-                mConfirmEditText.setEnabled(false);
-                mChangePasswordButton.setBackgroundColor(getResources().getColor(R.color.color_grey));
-                mChangePasswordButton.setEnabled(false);
-                anonymousMode();
-            }
+        if ("anonymous".equals(account)) {
+            mNewEditText.setEnabled(false);
+            mOriginalEditText.setEnabled(false);
+            mConfirmEditText.setEnabled(false);
+            mChangePasswordButton.setBackgroundColor(getResources().getColor(R.color.color_grey));
+            mChangePasswordButton.setEnabled(false);
+            anonymousMode();
+        } else {
+            disableButton();
+            PasswordTextWatcher passwordTextWatcher = new PasswordTextWatcher();
+            mOriginalEditText.addTextChangedListener(passwordTextWatcher);
+            mNewEditText.addTextChangedListener(passwordTextWatcher);
+            mConfirmEditText.addTextChangedListener(passwordTextWatcher);
         }
+    }
+
+    class PasswordTextWatcher implements TextWatcher {
+
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+            String originPassword = mOriginalEditText.getText().toString();
+            String newPassword = mNewEditText.getText().toString();
+            String confirmPassword = mConfirmEditText.getText().toString();
+            if (TextUtils.isEmpty(originPassword) || TextUtils.isEmpty(newPassword) || TextUtils.isEmpty(confirmPassword)
+                    || originPassword.length() < 6 || newPassword.length() < 6 || confirmPassword.length() < 6 || newPassword.equals(confirmPassword)) {
+                disableButton();
+                return;
+            }
+            enableButton();
+        }
+    }
+
+    private void disableButton() {
+        mChangePasswordButton.setTextColor(getResources().getColor(R.color.color_text_black));
+        mChangePasswordButton.setBackgroundResource(R.drawable.background_button_disable);
+        mChangePasswordButton.setEnabled(false);
+    }
+
+    private void enableButton() {
+        mChangePasswordButton.setTextColor(getResources().getColor(R.color.color_text_blue));
+        mChangePasswordButton.setBackgroundResource(R.drawable.background_button_enable_blue);
+        mChangePasswordButton.setEnabled(false);
     }
 
     private void anonymousMode() {

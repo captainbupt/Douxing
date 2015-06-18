@@ -12,7 +12,7 @@ import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.model.MainBanner;
 import com.badou.mworking.net.bitmap.BitmapLruCache;
-import com.badou.mworking.net.bitmap.PicImageListener;
+import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.net.volley.MyVolley;
 
 /**
@@ -44,13 +44,7 @@ public class BannerAdapter extends MyBaseAdapter {
         }
 
         String url = ((MainBanner) mItemList.get(position % mItemList.size())).getBannerImgURL();
-        Bitmap bm = BitmapLruCache.getBitmapLruCache().getBitmap(url);
-        if (bm != null) {
-            viewHolder.imageView.setImageBitmap(bm);
-        } else {
-            MyVolley.getImageLoader().get(url,
-                    new PicImageListener(mContext, viewHolder.imageView, url));
-        }
+        ImageViewLoader.setImageViewResource(viewHolder.imageView, R.drawable.banner_default, url);
         return convertView;
     }
 

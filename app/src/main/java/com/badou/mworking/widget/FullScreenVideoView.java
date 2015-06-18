@@ -24,7 +24,7 @@ public class FullScreenVideoView extends VideoView {
 		super(context, attrs, defStyle);
 	}
 
-	@Override
+/*	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		int width = getDefaultSize(videoWidth, widthMeasureSpec);
 		int height = getDefaultSize(videoHeight, heightMeasureSpec);
@@ -36,7 +36,7 @@ public class FullScreenVideoView extends VideoView {
 //			}
 //		}
 		setMeasuredDimension(width, height);
-	}
+	}*/
 
 	public int getVideoWidth() {
 		return videoWidth;

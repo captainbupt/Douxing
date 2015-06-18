@@ -29,6 +29,7 @@ public class IntroductionActivity extends BaseNoTitleActivity {
         setContentView(R.layout.activity_introductions);
         initView();
         initListener();
+        disableSwipeBack();
     }
 
     private void initView() {

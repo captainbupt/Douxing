@@ -48,9 +48,9 @@ public class AskAdapter extends MyBaseAdapter {
 
         holder.dateTextView.setText(TimeTransfer.long2StringDetailDate(mContext, ask.createTime));
         holder.replyCountTextView.setText(ask.count + "");
-        holder.contentTextView.setText(ask.content);
+        holder.contentTextView.setText(ask.subject);
 
-        holder.copyClickListener.content = ask.content;
+        holder.copyClickListener.content = ask.subject;
         holder.viewClickListener.position = position;
         return convertView;
     }

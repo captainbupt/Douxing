@@ -72,6 +72,7 @@ public class LoginActivity extends BaseNoTitleActivity implements
         initListener();
         initData();
         initLocation();
+        disableSwipeBack();
     }
 
     /**
@@ -157,6 +158,9 @@ public class LoginActivity extends BaseNoTitleActivity implements
 
                     @Override
                     public void onErrorCode(int code) {
+                        if (!mActivity.isFinishing()) {
+                            mProgressDialog.dismiss();
+                        }
                         showErrorDialog(R.string.login_error_incorrect_username_password);
                     }
 
@@ -208,6 +212,9 @@ public class LoginActivity extends BaseNoTitleActivity implements
      * 功能描述:跳转到主页
      */
     private void goMainGrid() {
+        if (!mActivity.isFinishing()) {
+            mProgressDialog.dismiss();
+        }
         Intent intent = new Intent(mContext, MainGridActivity.class);
         startActivity(intent);
         super.finish();
@@ -289,7 +296,7 @@ public class LoginActivity extends BaseNoTitleActivity implements
                 } else {
                     mLocationClient.start();
                     //发起请求时调用 显示ProgressDialog
-                    if (mActivity.isFinishing()) {
+                    if (!mActivity.isFinishing()) {
                         mProgressDialog.setContent(R.string.progress_tips_login_ing);
                         mProgressDialog.show();
                     }
@@ -312,7 +319,7 @@ public class LoginActivity extends BaseNoTitleActivity implements
                 //快速体验使用默认的账号和密码直接登录进入，不在采集用户名和公司等信息
                 mLocationClient.start();
                 //发起请求时调用 显示ProgressDialog
-                if (mActivity.isFinishing()) {
+                if (!mActivity.isFinishing()) {
                     mProgressDialog.setContent(R.string.progress_tips_login_ing);
                     mProgressDialog.show();
                 }

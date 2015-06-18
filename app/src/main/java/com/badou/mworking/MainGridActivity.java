@@ -121,7 +121,7 @@ public class MainGridActivity extends BaseNoTitleActivity {
         if (!SPUtil.getPushOption(mContext)) {
             JPushInterface.stopPush(getApplicationContext());
         }
-        // mSwipeBackLayout.setEdgeTrackingEnabled(0);
+        disableSwipeBack();
     }
 
     @Override

@@ -32,6 +32,7 @@ public class SplashActivity extends BaseNoTitleActivity {
 		//en为英文版，取值zh为中文版。
 		changeLanguage(lang);
 
+		disableSwipeBack();
 		// 等待1-2秒后进入后续界面
 		new Handler().postDelayed(new JumpRunnable(mContext), 1500);
 	}

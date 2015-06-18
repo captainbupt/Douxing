@@ -10,7 +10,16 @@
         android:background="@color/color_layout_bg"
         android:orientation="vertical">
 
-        <include layout="@layout/actionbar_main_grid" />
+        <include
+            layout="@layout/actionbar_main_grid"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_title_bar" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/iv_actionbar_main_user_center"
+            android:background="@color/color_border_grey" />
 
         <com.badou.mworking.widget.TopFadeScrollView
             android:id="@+id/tfsv_main_grid"

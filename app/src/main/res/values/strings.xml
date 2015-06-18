@@ -172,25 +172,28 @@
     <string name="tips_bottom_rating">内容评分</string>
     <string name="tips_bottom_comment">参与讨论</string>
     <string name="statistical_data">统计数据</string>
+    <string name="tips_full_content">查看全文</string>
     <string name="tips_save_internet">当前为省流量模式</string>
     <string name="chatter_title_right">分享</string>
     <string name="chatter_title_hot">达人</string>
     <string name="chatter_submit_topic_hint">#请输入新的话题#</string>
     <string name="chatter_submit_topic_confirm">确认</string>
     <string name="chatter_submit_max_image">图片数已经达到上限了</string>
+    <string name="chatter_open_image_fail">打开图片失败</string>
     <string name="chatter_user_title_myself">我的圈</string>
     <string name="chatter_user_title_other">TA的圈</string>
 
 
     <string name="ask_title_right">提问</string>
     <string name="ask_submit_subject_tip">标题</string>
-    <string name="ask_submit_subject_hint">输入问题的标题</string>
+    <string name="ask_submit_subject_hint">输入问题的标题(40字以内)</string>
     <string name="ask_submit_description_tip">描述</string>
-    <string name="ask_submit_description_hint">输入问题的描述</string>
+    <string name="ask_submit_description_hint">输入问题的描述(大于5个字)…</string>
+    <string name="ask_submit_photo">上传图片附件</string>
     <string name="ask_answer_title_right">发布</string>
     <string name="ask_answer_tip_empty">提问内容不能为空</string>
     <string name="ask_answer_tip_little">内容不少于5个字</string>
-    <string name="ask_answer_hint">输入您的精彩回复吧</string>
+    <string name="ask_answer_hint">写下你的答案(大于5个字)…</string>
     <string name="ask_detail_time">发布时间: </string>
     <string name="ask_detail_bottom">参与讨论</string>
 
@@ -224,6 +227,7 @@
     <string name="none_result_chatter">你的同事圈还没有内容\n赶快向大家分享你此时此刻的\n想法和感受吧</string>
     <string name="none_result_reply">这里还没有回答哦\n做第一个回复TA的人吧</string>
     <string name="none_result_ask">有问题问兜行\n好多同事来帮你</string>
+    <string name="none_result_message_center">暂无未读消息</string>
 
 </resources>
 

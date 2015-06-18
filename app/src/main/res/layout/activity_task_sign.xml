@@ -142,6 +142,7 @@
             android:textSize="@dimen/text_size_large" />
 
         <LinearLayout
+            android:id="@+id/ll_activity_task_sign_my_position"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@id/vw_activity_task_sign_bottom"

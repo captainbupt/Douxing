@@ -77,12 +77,13 @@ public class MainSearchFragment extends BaseFragment {
         initListener();
         initData();
         mBackgroundHandler = new Handler();
-        mBackgroundHandler.postDelayed(new Runnable() {
+        mBackgroundHandler.post(new Runnable() {
             @Override
             public void run() {
+                while (mContainerView.getHeight() == 0) ;
                 blur(((MainGridActivity) mContext).myShot(), mContainerView);
             }
-        }, 20);
+        });
         return mContainerView;
     }
 
