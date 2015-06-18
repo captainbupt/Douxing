@@ -58,13 +58,14 @@
         <FrameLayout
             android:id="@+id/fl_activity_video_player_player_layout"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/music_pic_h"
+            android:layout_height="@dimen/media_play_height"
             android:background="@color/color_black">
 
             <com.badou.mworking.widget.FullScreenVideoView
                 android:id="@+id/fsvv_activity_video_player"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_gravity="center"
                 android:background="@color/color_black" />
 
             <ImageView
@@ -94,8 +95,8 @@
 
             <ImageView
                 android:id="@+id/iv_activity_video_player_control"
-                android:layout_width="@dimen/music_player_start_size"
-                android:layout_height="@dimen/music_player_start_size"
+                android:layout_width="@dimen/icon_size_tiny"
+                android:layout_height="@dimen/icon_size_small"
                 android:src="@drawable/button_media_start"
                 android:visibility="gone" />
 
@@ -129,11 +130,12 @@
 
             <CheckBox
                 android:id="@+id/cb_activity_video_player_zoom"
-                android:layout_width="@dimen/media_player_zoom"
-                android:layout_height="@dimen/media_player_zoom"
+                android:layout_width="@dimen/icon_size_tiny"
+                android:layout_height="@dimen/icon_size_tiny"
                 android:layout_margin="@dimen/offset_small"
                 android:background="@drawable/selector_video_zoom"
-                android:button="@null" />
+                android:button="@null"
+                android:padding="@dimen/icon_size_small" />
         </LinearLayout>
     </RelativeLayout>
 

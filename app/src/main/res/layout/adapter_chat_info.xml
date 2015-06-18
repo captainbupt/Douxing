@@ -10,7 +10,7 @@
         android:id="@+id/tv_adapter_chat_list_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/chatInfo_item_marginTB"
+        android:layout_marginTop="@dimen/offset_lless"
         android:background="@drawable/chattime"
         android:gravity="center"
         android:text=""
@@ -28,14 +28,14 @@
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/chatInfo_item_marginTB"
-            android:layout_marginTop="@dimen/chatInfo_item_marginTB"
+            android:layout_marginBottom="@dimen/offset_lless"
+            android:layout_marginTop="@dimen/offset_lless"
             android:layout_weight="9">
 
             <ImageView
                 android:id="@+id/other_head_img"
-                android:layout_width="@dimen/chat_icon_head_size"
-                android:layout_height="@dimen/chat_icon_head_size"
+                android:layout_width="@dimen/icon_head_size_middle"
+                android:layout_height="@dimen/icon_head_size_middle"
                 android:layout_alignParentLeft="true"
                 android:src="@drawable/icon_user_detail_default_head" />
 
@@ -80,14 +80,14 @@
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/chatInfo_item_marginTB"
-            android:layout_marginTop="@dimen/chatInfo_item_marginTB"
+            android:layout_marginBottom="@dimen/offset_lless"
+            android:layout_marginTop="@dimen/offset_lless"
             android:layout_weight="9">
 
             <ImageView
                 android:id="@+id/my_head_img"
-                android:layout_width="@dimen/chat_icon_head_size"
-                android:layout_height="@dimen/chat_icon_head_size"
+                android:layout_width="@dimen/icon_head_size_middle"
+                android:layout_height="@dimen/icon_head_size_middle"
                 android:layout_alignParentRight="true"
                 android:src="@drawable/icon_user_detail_default_head" />
 

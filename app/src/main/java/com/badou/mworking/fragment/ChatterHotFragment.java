@@ -23,6 +23,7 @@ import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.SP;
 import com.badou.mworking.util.ToastUtil;
+import com.badou.mworking.widget.NoneResultView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
@@ -42,7 +43,7 @@ public class ChatterHotFragment extends BaseFragment {
 
     private ChatterHotAdapter mChatterAdapter;
     private PullToRefreshListView mContentListView;
-    private ImageView mNoneResultImageView;
+    private NoneResultView mNoneResultImageView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,7 +53,7 @@ public class ChatterHotFragment extends BaseFragment {
         mContentListView = (PullToRefreshListView) view
                 .findViewById(R.id.ptrlv_fragment_chatter_list);
         mContentListView.setMode(PullToRefreshBase.Mode.BOTH);
-        mNoneResultImageView = (ImageView) view.findViewById(R.id.nrv_fragment_chatter_list_none_result);
+        mNoneResultImageView = (NoneResultView) view.findViewById(R.id.nrv_fragment_chatter_list_none_result);
         initListener();
         initData();
         return view;

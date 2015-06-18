@@ -4,14 +4,12 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 
+import com.umeng.analytics.MobclickAgent;
+
 import java.util.Stack;
 
 /**
- * 类:  <code> AppManager </code>
  * 功能描述: Activity管理类
- * 创建人:  葛建锋
- * 创建日期: 2014年7月16日 下午9:35:31
- * 开发环境: JDK7.0
  */
 public class AppManager {
 	
@@ -53,26 +51,6 @@ public class AppManager {
 	}
 
 	/**
-	 * 功能描述: 结束当前Activity（堆栈中最后一个压入的）
-	 */
-	public void finishActivity(){
-		Activity activity = activityStack.lastElement();
-		finishActivity(activity);
-	}
-
-	/**
-	 * 功能描述: 结束指定的Activity
-	 * @param activity
-	 */
-	public void finishActivity(Activity activity){
-		if (activity != null){
-			activityStack.remove(activity);
-			activity.finish();
-			activity = null;
-		}
-	}
-
-	/**
 	 * 功能描述: 移除指定的Activity
 	 * @param activity
 	 */
@@ -80,31 +58,6 @@ public class AppManager {
 		if (activity != null){
 			activityStack.remove(activity);
 			activity = null;
-		}
-	}
-
-	/**
-	 * 功能描述: 结束指定类名的Activity
-	 * @param cls
-	 */
-	public static void finishActivity(Class<?> cls){
-		try {
-			Stack<Activity> activityStackTemp = new Stack<Activity>();
-			for (Activity activity : activityStack){
-				if (activity.getClass().equals(cls)){
-					//判断activity是否已经消失,如果未消失,则消失activity,如果栈里面有activity,但是已经消失了,则从栈里面
-					//移除该对象,为了防止多页面跳时,部分activity被错误加入.
-					if(!activity.isFinishing()){
-						activityStackTemp.add(activity);
-						activity.finish();
-					}
-				}
-			}
-			//在list集合遍历的时候，不能删除list中的元素，否则会报java.util.ConcurrentModificationException异常
-			activityStack.removeAll(activityStackTemp);
-		// 在这里捕获空，当程序退出，又接收推送，点击推送，这个方法报空
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -136,6 +89,8 @@ public class AppManager {
 	 */
 	public void AppExit(Context context, Boolean isBackground){
 		try{
+			// 保存友盟数据
+			MobclickAgent.onKillProcess(context);
 			finishAllActivity();
 			ActivityManager activityMgr = (ActivityManager) context
 					.getSystemService(Context.ACTIVITY_SERVICE);

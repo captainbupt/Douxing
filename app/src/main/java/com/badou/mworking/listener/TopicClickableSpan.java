@@ -10,9 +10,11 @@ import android.text.TextPaint;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.badou.mworking.ChatterTopicActivity;
+import com.badou.mworking.adapter.ChatterListAdapter;
 import com.badou.mworking.base.BaseActionBarActivity;
 
 import java.util.regex.Matcher;
@@ -47,8 +49,15 @@ public class TopicClickableSpan extends ClickableSpan {
         ds.setUnderlineText(false); //去掉下划线
     }
 
-    public static void setClickTopic(Context context, TextView textView, String content) {
+    public static void setClickTopic(Context context, final TextView textView, String content, final ChatterListAdapter.ChatterClickListener onItemClickListener) {
         SpannableString spannableString = new SpannableString(content);
+        spannableString.setSpan(new NormalClickableSpan() {
+            @Override
+            public void onClick(View view) {
+                if (onItemClickListener != null)
+                    onItemClickListener.onClick(textView);
+            }
+        }, 0, content.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         Pattern pattern = Pattern.compile("#[\\s\\S]*#");
         Matcher matcher = pattern.matcher(content);
         while (matcher.find()) {
@@ -56,5 +65,13 @@ public class TopicClickableSpan extends ClickableSpan {
             spannableString.setSpan(new TopicClickableSpan(context, matcher.group().replace("#", "")), matcher.start(), matcher.end(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         }
         textView.setText(spannableString);
+    }
+
+    abstract static class NormalClickableSpan extends ClickableSpan{
+
+        @Override
+        public void updateDrawState(TextPaint ds) {
+            ds.setUnderlineText(false); //去掉下划线
+        }
     }
 }

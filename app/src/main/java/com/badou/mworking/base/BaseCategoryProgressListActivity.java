@@ -121,7 +121,8 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
         setTitleCustomView(mTitleLayout);
         mTitleTriangleImageView = (ImageView) mTitleLayout.findViewById(R.id.iv_actionbar_triangle);
         mTitleTriangleImageView.setVisibility(View.VISIBLE);
-        ((TextView) mTitleLayout.findViewById(R.id.tv_actionbar_title)).setText(mReceivedIntent.getStringExtra(KEY_TITLE));
+        mTitleTextView = (TextView) mTitleLayout.findViewById(R.id.tv_actionbar_title);
+        mTitleTextView.setText(mReceivedIntent.getStringExtra(KEY_TITLE));
         mNoneResultView = (NoneResultView) findViewById(R.id.nrv_activity_base_progress_list_none_result);
         mContentListView = (PullToRefreshListView) findViewById(R.id.ptrlv_user_progress_content);
         mContentListView.setMode(PullToRefreshBase.Mode.BOTH);
@@ -369,10 +370,7 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
         if (mCategoryAdapter.getCount() == 0) {
             //添加缓存
             SP.putStringSP(mContext, CATEGORY_NAME, userNum + tag, resultArray.toString());
-        } /*else {
-            String SPJSONArray = SP.getStringSP(mContext, CATEGORY_NAME, userNum + tag, "");
-            addJsonArrayToSP(userNum + tag, SPJSONArray, resultArray);
-        }*/
+        }
         for (int i = 0; i < resultArray.length(); i++) {
             JSONObject jsonObject = resultArray
                     .optJSONObject(i);
@@ -384,23 +382,6 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
             mCategoryAdapter.addList(list);
         }
     }
-
-/*    private void addJsonArrayToSP(String userNum, String SPJSONArray, JSONArray jsonArray) {
-        try {
-            if (TextUtils.isEmpty(SPJSONArray)) {
-                SP.putStringSP(mContext, CATEGORY_NAME, userNum + tag, jsonArray.toString());
-            } else {
-                JSONArray SPJsonArray2 = new JSONArray(SPJSONArray);
-                int length = jsonArray.length();
-                for (int i = 0; i < length; i++) {
-                    SPJsonArray2.put(jsonArray.opt(i));
-                }
-                SP.putStringSP(mContext, CATEGORY_NAME, userNum + tag, SPJsonArray2.toString());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }*/
 
     public void showMenu() {
         mTitleTriangleImageView.setImageResource(R.drawable.icon_triangle_up);

@@ -31,6 +31,10 @@
             android:layout_alignTop="@id/iv_user_center_top_head"
             android:layout_marginTop="@dimen/offset_small"
             android:layout_toRightOf="@id/iv_user_center_top_head"
+            android:paddingBottom="1dp"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:paddingTop="1dp"
             android:textColor="#ffffff"
             android:textSize="@dimen/text_size_small" />
 
@@ -48,8 +52,8 @@
 
         <ImageView
             android:id="@+id/iv_user_center_top_about"
-            android:layout_width="@dimen/action_bar_img_size"
-            android:layout_height="@dimen/action_bar_img_size"
+            android:layout_width="@dimen/height_title_bar"
+            android:layout_height="@dimen/height_title_bar"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:padding="@dimen/offset_less"
@@ -58,8 +62,8 @@
 
         <ImageView
             android:id="@+id/iv_user_center_top_back"
-            android:layout_width="@dimen/action_bar_img_size"
-            android:layout_height="@dimen/action_bar_img_size"
+            android:layout_width="@dimen/height_title_bar"
+            android:layout_height="@dimen/height_title_bar"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:padding="@dimen/offset_less"

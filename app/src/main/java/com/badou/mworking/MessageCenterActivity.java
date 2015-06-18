@@ -18,6 +18,7 @@ import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.CategoryClickHandler;
+import com.badou.mworking.widget.NoneResultView;
 
 import org.json.JSONObject;
 
@@ -28,6 +29,7 @@ public class MessageCenterActivity extends BaseBackActionBarActivity {
 
     private ListView mContentListView;
     private MessageCenterAdapter mContentAdapter;
+    private NoneResultView mNoneResultView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,7 @@ public class MessageCenterActivity extends BaseBackActionBarActivity {
 
     private void initData() {
         mContentListView = (ListView) findViewById(R.id.lv_activity_message_center);
+        mNoneResultView = (NoneResultView) findViewById(R.id.nrv_activity_message_center);
         // 点击事件已经集成到adapter中
         mContentAdapter = new MessageCenterAdapter(mContext);
         mContentAdapter.setList(MessageCenterResManager.getAllItem(mContext));
@@ -50,6 +53,12 @@ public class MessageCenterActivity extends BaseBackActionBarActivity {
                 mContentAdapter.deleteItem(i);
             }
         });
+        mNoneResultView.setContent(R.drawable.background_none_result_notice, R.string.none_result_message_center);
+        if (mContentAdapter.getCount() <= 0) {
+            mNoneResultView.setVisibility(View.VISIBLE);
+        } else {
+            mNoneResultView.setVisibility(View.GONE);
+        }
     }
 
     private void toDetailPage(final Context context, final MessageCenter messageCenter) {

@@ -68,7 +68,10 @@
         <!-- 友盟统计 -->
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="541fe599fd98c52f3d0047c1" />
+            android:value="558004b167e58e9be7001513" />
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="mworking.cn" />
 
         <activity
             android:name="com.badou.mworking.IntroductionActivity"

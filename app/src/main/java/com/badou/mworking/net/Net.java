@@ -341,7 +341,6 @@ public class Net {
      * 28  获取用户聊天记录
      *
      * @param uid
-     * @param qid
      * @return
      */
     public static String GET_CHAT_Info(String uid, String whom) {
@@ -352,8 +351,6 @@ public class Net {
     /**
      * 29  发送消息
      *
-     * @param uid
-     * @param qid
      * @return
      */
     public static String SEND_MSG() {
@@ -427,7 +424,7 @@ public class Net {
 
 
     /**
-     * 功能描述:  android在这儿要传fmt=mp4，服务器会做判断，ios上传的视屏，服务器会做转化
+     * 功能描述:  android在这儿要传fmt=mp4，服务器会做判断，android上传的视屏，服务器会做转化
      *
      * @param uid
      * @param qid
@@ -453,7 +450,7 @@ public class Net {
     }
 
     /**
-     * 功能描述:  android在这儿要传fmt=mp4，服务器会做判断，ios上传的视屏，服务器会做转化
+     * 功能描述:  android在这儿要传fmt=mp4，服务器会做判断，android上传的视屏，服务器会做转化
      *
      * @param uid
      * @return

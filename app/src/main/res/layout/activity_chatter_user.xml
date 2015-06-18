@@ -18,11 +18,10 @@
             android:orientation="vertical"
             android:paddingBottom="@dimen/offset_large">
 
-            <!-- 这个view用来模拟返回键的位置，保持头像位置一致-->
             <ImageView
                 android:id="@+id/iv_chatter_user_top_back"
-                android:layout_width="@dimen/action_bar_img_size"
-                android:layout_height="@dimen/action_bar_img_size"
+                android:layout_width="@dimen/height_title_bar"
+                android:layout_height="@dimen/height_title_bar"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:padding="@dimen/offset_less"
@@ -32,7 +31,7 @@
             <TextView
                 android:id="@+id/tv_chatter_user_top_title"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/action_bar_img_size"
+                android:layout_height="@dimen/height_title_bar"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
@@ -56,6 +55,10 @@
                 android:layout_alignTop="@id/iv_chatter_user_top_head"
                 android:layout_marginTop="@dimen/offset_small"
                 android:layout_toRightOf="@id/iv_chatter_user_top_head"
+                android:paddingBottom="1dp"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:paddingTop="1dp"
                 android:textColor="#ffffff"
                 android:textSize="@dimen/text_size_small" />
 

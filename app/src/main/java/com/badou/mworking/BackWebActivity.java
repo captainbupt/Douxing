@@ -97,13 +97,7 @@ public class BackWebActivity extends BaseStatisticalActionBarActivity {
             mBottomView.setVisibility(View.GONE);
         } else {
             mBottomView.setVisibility(View.VISIBLE);
-            if (showRating && showComment) {
-                mBottomView.setData(mRid, 0, 0, -1);
-            } else if (!showRating && showComment) {
-                mBottomView.setData(mRid, -1, 0, -1);
-            } else if (showRating && !showComment) {
-                mBottomView.setData(mRid, 0, -1, -1);
-            }
+            mBottomView.setData(mRid, showRating, showComment);
         }
         String logoUrl = mReceivedIntent.getStringExtra(KEY_LOGO_URL);
         if (!TextUtils.isEmpty(logoUrl)) {
@@ -114,6 +108,8 @@ public class BackWebActivity extends BaseStatisticalActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        // 更新回复数
+        mBottomView.updateData();
         if (NetUtils.isNetConnected(mContext)) {
             mNetExceptionImageView.setVisibility(ImageView.GONE);
             mNetExceptionLinearLayout.setVisibility(LinearLayout.GONE);
@@ -140,7 +136,7 @@ public class BackWebActivity extends BaseStatisticalActionBarActivity {
      */
     private void bannerDate(String logoUrl) {
         ImageView logoImage = new ImageView(mContext);
-        logoImage.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, getResources().getDimensionPixelOffset(R.dimen.action_bar_img_size)));
+        logoImage.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, getResources().getDimensionPixelOffset(R.dimen.height_title_bar)));
         logoImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
         int padding = getResources().getDimensionPixelOffset(R.dimen.offset_less);
         logoImage.setPadding(padding, padding, padding, padding);

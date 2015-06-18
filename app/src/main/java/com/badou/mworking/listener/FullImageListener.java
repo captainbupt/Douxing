@@ -23,7 +23,7 @@ public class FullImageListener implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         Intent intent = new Intent(mContext, PhotoActivity.class);
-        intent.putExtra(PhotoActivity.MODE_PICZOMM, mUrl);
+        intent.putExtra(PhotoActivity.KEY_URL, mUrl);
         mContext.startActivity(intent);
     }
 }

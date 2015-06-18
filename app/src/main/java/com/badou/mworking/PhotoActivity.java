@@ -6,13 +6,15 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
 import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.net.bitmap.BitmapLruCache;
-import com.badou.mworking.net.bitmap.PicImageListener;
 import com.badou.mworking.net.volley.MyVolley;
 import com.badou.mworking.util.FileUtils;
 import com.badou.mworking.util.ToastUtil;
@@ -28,92 +30,97 @@ import uk.co.senab.photoview.PhotoViewAttacher.OnViewTapListener;
  */
 public class PhotoActivity extends BaseNoTitleActivity {
 
-    public static final String MODE_PICZOMM = "pic_zoom";
+    public static final String KEY_URL = "url";
+    public static final String KEY_PATH = "path";
     private PhotoView photoView;
-    private Context mContext;
     private ImageView downImg; //图片下载
 
-    private Bitmap bitmap;
+    Bitmap bitmap = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photoview);
-        mContext = PhotoActivity.this;
         photoView = (PhotoView) findViewById(R.id.photoView);
         downImg = (ImageView) findViewById(R.id.img_down);
-        try {
-            Intent intent = getIntent();
-            String imgUrl = intent.getStringExtra(MODE_PICZOMM);
-            String imgpath = intent.getStringExtra("filePath");
-            if (imgUrl != null && !imgUrl.equals("")) {
-                bitmap = BitmapLruCache.getBitmapLruCache().getBitmap(imgUrl);
-                if (null != bitmap) {
-                    photoView.setImageBitmap(bitmap);
-                } else {
-                    MyVolley.getImageLoader().get(
-                            imgUrl,
-                            new PicImageListener(mContext,
-                                    photoView, imgUrl));
-                }
-            } else {
-                if (imgpath != null && !imgpath.equals("")) {
-                    BitmapFactory.Options option = new BitmapFactory.Options();
-                    option.inSampleSize = 2;
-                    Bitmap bitmap = BitmapFactory.decodeFile(imgpath, option);
-                    photoView.setImageBitmap(bitmap);
-                }
-            }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
+        String imgUrl = mReceivedIntent.getStringExtra(KEY_URL);
+        String imgpath = mReceivedIntent.getStringExtra(KEY_PATH);
+        if (!TextUtils.isEmpty(imgUrl)) {
+            System.out.println("imgUrl: " + imgUrl);
+            MyVolley.getImageLoader().get(imgUrl,
+                    new ImageLoader.ImageListener() {
+                        @Override
+                        public void onResponse(ImageLoader.ImageContainer imageContainer, boolean b) {
+                            bitmap = imageContainer.getBitmap();
+                            //if (bitmap != null) {  // 此逻辑不可用，不知道为什么
+                                photoView.setImageBitmap(bitmap);
+                           /* } else {
+                                System.out.println("null");
+                                ToastUtil.showToast(mContext, R.string.chatter_open_image_fail);
+                                finish();
+                            }*/
+                        }
+
+                        @Override
+                        public void onErrorResponse(VolleyError volleyError) {
+                            System.out.println("error");
+                            ToastUtil.showToast(mContext, R.string.chatter_open_image_fail);
+                            finish();
+                        }
+                    });
+        } else if (!TextUtils.isEmpty(imgpath)) {
+/*            BitmapFactory.Options option = new BitmapFactory.Options();
+            option.inSampleSize = 2;
+            Bitmap bitmap = BitmapFactory.decodeFile(imgpath, option);*/
+            bitmap = BitmapFactory.decodeFile(imgpath);
+            photoView.setImageBitmap(bitmap);
+        } else {
+            ToastUtil.showToast(mContext, R.string.chatter_open_image_fail);
+            finish();
         }
 
         //设置点击监听
-        photoView.setOnViewTapListener(new OnViewTapListener() {
-            @Override
-            public void onViewTap(View view, float x, float y) {
-                if (PhotoActivity.this != null) {
-                    PhotoActivity.this.finish();
+        photoView.setOnViewTapListener(
+                new OnViewTapListener() {
+                    @Override
+                    public void onViewTap(View view, float x, float y) {
+                        if (PhotoActivity.this != null) {
+                            PhotoActivity.this.finish();
+                        }
+                    }
                 }
-            }
-        });
+        );
 
         // 下载图片
-        downImg.setOnClickListener(new OnClickListener() {
+        downImg.setOnClickListener(
+                new OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                String fileStr = FileUtils.getSDPath(PhotoActivity.this) + "douxing/";
-                File file = new File(fileStr);
-                if (!file.exists()) {
-                    file.mkdirs();
+                    @Override
+                    public void onClick(View v) {
+                        String fileStr = FileUtils.getSDPath(mContext) + "douxing/";
+                        File file = new File(fileStr);
+                        if (!file.exists()) {
+                            file.mkdirs();
+                        }
+                        if (bitmap != null) {
+                            String fileName = System.currentTimeMillis() + ".png";
+                            FileUtils.writeBitmap2SDcard(bitmap, fileStr + fileName);
+                            ToastUtil.showToast(PhotoActivity.this, "图片下载成功");
+                            // 下载完毕之后，发送广播扫描文件，否则的话，相册里面不能及时看到
+                            Uri uri = Uri.fromFile(new File(fileStr + fileName));
+                            Intent localIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri);
+                            PhotoActivity.this.sendBroadcast(localIntent);
+                        }
+                    }
                 }
-                if (bitmap != null) {
-                    String fileName = System.currentTimeMillis() + ".png";
-                    FileUtils.writeBitmap2SDcard(bitmap, fileStr + fileName);
-                    ToastUtil.showToast(PhotoActivity.this, "图片下载成功");
-                    // 下载完毕之后，发送广播扫描文件，否则的话，相册里面不能及时看到
-                    Uri uri = Uri.fromFile(new File(fileStr + fileName));
-                    Intent localIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri);
-                    PhotoActivity.this.sendBroadcast(localIntent);
-                }
-            }
-        });
-    }
-
-    public void onResume() {
-        super.onResume();
-        MobclickAgent.onResume(this);
-    }
-
-    public void onPause() {
-        super.onPause();
-        MobclickAgent.onPause(this);
+        );
     }
 
     @Override
-    public void finish() {
-        overridePendingTransition(0, R.anim.base_slide_right_out);
-        super.finish();
+    protected void onDestroy() {
+        if (bitmap != null && !bitmap.isRecycled()) {
+            bitmap.recycle();
+        }
+        super.onDestroy();
     }
 }

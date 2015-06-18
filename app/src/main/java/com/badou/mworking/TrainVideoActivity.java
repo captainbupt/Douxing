@@ -37,6 +37,7 @@ import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest;
 
 import java.io.File;
 import java.net.HttpURLConnection;
@@ -227,7 +228,7 @@ public class TrainVideoActivity extends BaseStatisticalActionBarActivity {
             mTotalTimeTextView.setText("0%");
         }
 
-        mBottomLayout.setData(mRid, 0, 0, -1);
+        mBottomLayout.setData(mRid, true, true);
     }
 
     /**
@@ -283,6 +284,7 @@ public class TrainVideoActivity extends BaseStatisticalActionBarActivity {
 
                         @Override
                         public void onLoading(long total, long current, boolean isUploading) {
+                            System.out.println("total: " + total + ", current: " + current);
                             if (mProgressSeekBar.getMax() != total)
                                 mProgressSeekBar.setMax((int) total);
                             mProgressSeekBar.setProgress((int) current);
@@ -313,7 +315,7 @@ public class TrainVideoActivity extends BaseStatisticalActionBarActivity {
         mBottomLayout.setVisibility(View.VISIBLE);
         mTopContainerLayout.setVisibility(View.VISIBLE);
         getSupportActionBar().show();
-        int height = getResources().getDimensionPixelSize(R.dimen.music_pic_h);
+        int height = getResources().getDimensionPixelSize(R.dimen.media_play_height);
         int screenWidth = DensityUtil.getWidthInPx(this);
         int marginLR = getResources().getDimensionPixelOffset(R.dimen.offset_lless);
         mContainerLayout.setPadding(marginLR, 0, marginLR, 0);
@@ -407,7 +409,6 @@ public class TrainVideoActivity extends BaseStatisticalActionBarActivity {
 
         mCurrentTimeTextView.setText("00:00");
         mProgressSeekBar.setProgress(0);
-
         mVideoPlayer.setVideoPath(mSaveFilePath);
         mVideoPlayer.requestFocus();
         mVideoPlayer.setOnPreparedListener(new OnPreparedListener() {
@@ -543,6 +544,13 @@ public class TrainVideoActivity extends BaseStatisticalActionBarActivity {
         if (mDownloadingHandler != null)
             mDownloadingHandler.cancel();
         super.onDestroy();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // 更新回复数
+        mBottomLayout.updateData();
     }
 
     @Override

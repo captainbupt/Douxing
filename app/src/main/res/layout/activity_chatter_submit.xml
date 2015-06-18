@@ -34,8 +34,8 @@
         android:paddingLeft="@dimen/offset_medium"
         android:paddingRight="@dimen/offset_medium"
         android:paddingTop="@dimen/offset_less"
-        myattr:maxImg="4"
-        android:verticalSpacing="@dimen/offset_less" />
+        android:verticalSpacing="@dimen/offset_less"
+        myattr:maxImg="4" />
 
     <com.badou.mworking.widget.VideoImageView
         android:id="@+id/viv_activity_chatter_submit"
@@ -115,12 +115,28 @@
             android:layout_height="match_parent"
             android:background="@color/color_border_grey" />
 
-        <include
+        <LinearLayout
             android:id="@+id/ll_activity_chatter_submit_bottom_photo"
-            layout="@layout/layout_bottom_photo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="@dimen/offset_medium">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_bottom_photo" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/offset_less"
+                android:text="@string/bottom_submit_photo"
+                android:textColor="@color/color_text_black"
+                android:textSize="@dimen/text_size_medium" />
+        </LinearLayout>
     </LinearLayout>
 
     <ListView

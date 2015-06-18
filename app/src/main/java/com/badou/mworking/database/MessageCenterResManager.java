@@ -3,10 +3,12 @@ package com.badou.mworking.database;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.text.TextUtils;
 
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.model.Chatter;
 import com.badou.mworking.model.MessageCenter;
+import com.badou.mworking.model.user.UserInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +25,10 @@ public class MessageCenterResManager {
         MTrainingDBHelper mTrainingDBHelper = MTrainingDBHelper
                 .getMTrainingDBHelper();
         SQLiteDatabase dbWriter = mTrainingDBHelper.getDatabase();
-        String userNum = ((AppApplication) context.getApplicationContext())
-                .getUserInfo().account;
+        UserInfo userInfo = ((AppApplication) context.getApplicationContext()).getUserInfo();
+        if (userInfo == null || TextUtils.isEmpty(userInfo.account))
+            return;
+        String userNum = userInfo.account;
         dbWriter.insert(MTrainingDBHelper.TBL_NAME_MESSAGE_CENTER + userNum.replace("@", ""), null, message.getContentValue());
         mTrainingDBHelper.closeDatabase();
     }

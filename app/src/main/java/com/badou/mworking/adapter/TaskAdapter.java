@@ -40,7 +40,6 @@ public class TaskAdapter extends MyBaseAdapter {
         } else {
             convertView.setPadding(0, 0, 0, 0);
         }
-
         // 一定要保证else if 语句的顺序，应为在这一块，优先级别  已签到>已过期>未签到   然后 因为未过期  可能已经签过到了，
         //也可能没有，  如果已经签过到了，显示已签到，如果没有，才显示已过期，所以要注意else if语句的顺序
         // 先判断read字段， 已签到
@@ -101,9 +100,9 @@ public class TaskAdapter extends MyBaseAdapter {
      */
     public void setRead(int position) {
         Task task = (Task) getItem(position);
-        if (task.isRead()) {
+        if (!task.isRead()) {
             task.read = Constant.FINISH_YES;
-            this.notifyDataSetChanged();
+            setItem(position, task);
             int unreadNum = SP.getIntSP(mContext, SP.DEFAULTCACHE, Task.CATEGORY_KEY_UNREAD_NUM, 0);
             if (unreadNum > 0) {
                 SP.putIntSP(mContext, SP.DEFAULTCACHE, Task.CATEGORY_KEY_UNREAD_NUM, unreadNum - 1);

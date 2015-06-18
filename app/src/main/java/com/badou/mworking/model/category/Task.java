@@ -23,7 +23,6 @@ public class Task extends Category {
     public int offline;// 是否过期
     public int type;// TYPE
     public int photo;// 是否上传照片
-    public int read;  //是否已经完成签到         1代表已经签到
 
     public long startline;// 开始时间
     public long deadline;// 结束时间

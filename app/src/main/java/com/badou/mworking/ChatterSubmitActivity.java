@@ -89,11 +89,16 @@ public class ChatterSubmitActivity extends BaseBackActionBarActivity {
         mBottomPhotoLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mTopicListView.setVisibility(View.GONE);
-                mImageChooser.takeImage(getResources().getString(R.string.add_picture));
+                addImage();
             }
         });
-        mImageChooser = new ImageChooser(mContext, true, true, true, true);
+        mImageGridView.setAddOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addImage();
+            }
+        });
+        mImageChooser = new ImageChooser(mContext, true, true, false, true);
         mImageChooser.setOnImageChosenListener(new ImageChooser.OnImageChosenListener() {
             @Override
             public void onImageChose(Bitmap bitmap, int type) {
@@ -144,6 +149,11 @@ public class ChatterSubmitActivity extends BaseBackActionBarActivity {
             }
         });
         getTopicList();
+    }
+
+    private void addImage() {
+        mTopicListView.setVisibility(View.GONE);
+        mImageChooser.takeImage(getResources().getString(R.string.add_picture));
     }
 
     private void onTopicSelected(String content) {

@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import com.badou.mworking.BackWebActivity;
 import com.badou.mworking.PDFViewerActivity;
 import com.badou.mworking.R;
+import com.badou.mworking.TaskActivity;
 import com.badou.mworking.TaskSignActivity;
 import com.badou.mworking.TrainMusicActivity;
 import com.badou.mworking.TrainVideoActivity;
@@ -80,7 +81,11 @@ public class CategoryClickHandler {
         // 获取分类名
         intent.putExtra(BaseActionBarActivity.KEY_TITLE, title);
         intent.putExtra(BaseStatisticalActionBarActivity.KEY_RID, task.rid);
-        context.startActivity(intent);
+        if (context.getClass().equals(TaskActivity.class)) {
+            ((TaskActivity) context).startActivityForResult(intent, 1);
+        } else {
+            context.startActivity(intent);
+        }
     }
 
     /**
@@ -94,7 +99,7 @@ public class CategoryClickHandler {
         intent.putExtra(BaseActionBarActivity.KEY_TITLE, title);
         intent.putExtra(BackWebActivity.KEY_RID, rid);
         intent.putExtra(BackWebActivity.KEY_SHOW_STATISTICAL, true);
-        if (type == Category.CATEGORY_TRAINING) {
+        if (type == Category.CATEGORY_TRAINING || type == Category.CATEGORY_SHELF) {
             intent.putExtra(PDFViewerActivity.KEY_SHOW_RATING, true);
             intent.putExtra(PDFViewerActivity.KEY_SHOW_COMMENT, true);
         } else if (type == Category.CATEGORY_NOTICE) {

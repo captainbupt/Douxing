@@ -44,7 +44,7 @@
                     <TextView
                         android:id="@+id/tv_activity_chatter_detail_name"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="0dp"
                         android:layout_marginTop="@dimen/offset_small"
                         android:layout_weight="1"
                         android:textColor="@color/color_text_grey"
@@ -98,25 +98,26 @@
                             android:textSize="@dimen/text_size_less" />
 
                         <TextView
+                            android:id="@+id/tv_activity_chatter_detail_message"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/offset_micro"
+                            android:singleLine="true"
+                            android:text="@string/operation_message"
+                            android:textColor="@color/color_blue"
+                            android:textSize="@dimen/text_size_less" />
+
+                        <TextView
                             android:id="@+id/tv_activity_chatter_detail_delete"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/offset_less"
                             android:padding="@dimen/offset_micro"
                             android:singleLine="true"
                             android:text="@string/operation_delete"
                             android:textColor="@color/color_blue"
                             android:textSize="@dimen/text_size_less" />
 
-                        <TextView
-                            android:id="@+id/tv_activity_chatter_detail_message"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/offset_less"
-                            android:padding="@dimen/offset_micro"
-                            android:singleLine="true"
-                            android:text="@string/operation_message"
-                            android:textColor="@color/color_blue"
-                            android:textSize="@dimen/text_size_less" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -125,7 +126,8 @@
                 android:id="@+id/nrv_activity_chatter_detail_none"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/offset_xxlarge" />
+                android:layout_gravity="center"
+                android:layout_marginTop="80dp" />
 
             <com.badou.mworking.widget.NoScrollListView
                 android:id="@+id/nslv_activity_chatter_detail_reply"

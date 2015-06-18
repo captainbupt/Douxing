@@ -193,14 +193,19 @@ public class ImageChooser {
                         if (isZoom)
                             startPhotoZoom(data.getData());
                         else {
-                            getResult(data);
+                            Uri originalUri = data.getData(); // 获得图片的uri
+                            String path = getPath(mContext, originalUri);
+                            BitmapFactory.Options option1 = new BitmapFactory.Options();
+                            option1.inSampleSize = 2;
+                            Bitmap bitmap = BitmapFactory.decodeFile(path, option1);
+                            if (mOnImageChosenListener != null)
+                                mOnImageChosenListener.onImageChose(bitmap, TYPE_IMAGE);
                         }
                     }
                     break;
                 case CAMERA_REQUEST_CODE:
                     if (FileUtils.hasSdcard()) {
-                        File file = new File(mContext.getExternalCacheDir()
-                                .getAbsolutePath() + File.separator + "temp.jpg");
+                        File file = new File(mContext.getExternalCacheDir().getAbsolutePath() + File.separator + "temp.jpg");
                         BitmapFactory.Options option = new BitmapFactory.Options();
                         option.inSampleSize = 2;
                         Bitmap bitmap = BitmapFactory.decodeFile(file.toString(), option); //根据Path读取资源图片

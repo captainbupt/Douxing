@@ -88,9 +88,15 @@ public class ChatterUserActivity extends BaseNoTitleActivity {
         });
         mScrollView.setMode(PullToRefreshBase.Mode.BOTH);
 
-        mScrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ScrollView>() {
+        mScrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ScrollView>() {
             @Override
-            public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
+            public void onPullDownToRefresh(PullToRefreshBase<ScrollView> refreshView) {
+                mCurrentPage = 1;
+                updateData(mCurrentPage);
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ScrollView> refreshView) {
                 updateData(mCurrentPage);
             }
         });
@@ -111,12 +117,18 @@ public class ChatterUserActivity extends BaseNoTitleActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (mClickPosition >= 0 && mClickPosition < mChatterAdapter.getCount()) {
-            if (resultCode == ChatterDetailActivity.RESULT_REPLY) {
+            if (resultCode == RESULT_OK) {
                 Chatter chatter = (Chatter) mChatterAdapter.getItem(mClickPosition);
-                chatter.replyNumber = (data.getIntExtra(ChatterDetailActivity.RESULT_KEY_COUNT, 0));
-                mChatterAdapter.setItem(mClickPosition, chatter);
-            } else if (resultCode == ChatterDetailActivity.RESULT_DELETE) {
-                mChatterAdapter.remove(mClickPosition);
+                if (data == null) {
+                    chatter.replyNumber = -1;
+                } else {
+                    chatter.replyNumber = (data.getIntExtra(ChatterDetailActivity.RESULT_KEY_COUNT, -1));
+                }
+                if (chatter.replyNumber < 0) {
+                    mChatterAdapter.remove(mClickPosition);
+                } else {
+                    mChatterAdapter.setItem(mClickPosition, chatter);
+                }
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -143,6 +155,7 @@ public class ChatterUserActivity extends BaseNoTitleActivity {
     }
 
     private void updateData(final int beginNum) {
+        final String selfuid = ((AppApplication) getApplication()).getUserInfo().userId;
         // 发起网络请求
         ServiceProvider.doGetUserChatterList(mContext, "share", mUid, beginNum,
                 Constant.LIST_ITEM_NUM, new VolleyListener(mContext) {
@@ -187,12 +200,11 @@ public class ChatterUserActivity extends BaseNoTitleActivity {
                             Chatter chatter = new Chatter(jo2);
                             chatter.headUrl = mUserInfo.headUrl;
                             chatter.level = mUserInfo.level;
+                            if (mUid.equals(selfuid))
+                                chatter.deletable = true;
                             chatters.add(chatter);
                         }
                         if (beginNum == 1) {// 页码为1 重新加载第一页
-                            final String userNum = ((AppApplication) mContext.getApplicationContext())
-                                    .getUserInfo().account;
-                            SP.putStringSP(mContext, SP.CHATTER, userNum, resultArray.toString());
                             mChatterAdapter.setList(chatters);
                         } else {// 继续加载
                             mChatterAdapter.addList(chatters);

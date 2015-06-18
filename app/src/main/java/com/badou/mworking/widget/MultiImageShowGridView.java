@@ -33,7 +33,7 @@ public class MultiImageShowGridView extends GridView {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(context, PhotoActivity.class);
-                intent.putExtra(PhotoActivity.MODE_PICZOMM, (String) mAdapter.getItem(i));
+                intent.putExtra(PhotoActivity.KEY_URL, (String) mAdapter.getItem(i));
                 context.startActivity(intent);
             }
         });
@@ -52,7 +52,7 @@ public class MultiImageShowGridView extends GridView {
         if (imgUrlList != null) {
             int paddingSide = getPaddingLeft();
             int size = getResources().getDimensionPixelSize(R.dimen.image_size_content);
-            int paddingVertical = getResources().getDimensionPixelOffset(R.dimen.offset_medium);
+            int paddingVertical = getResources().getDimensionPixelOffset(R.dimen.offset_less);
             int column = Math.min(3, imgUrlList.size());
             setNumColumns(column);
             layoutParams = new LinearLayout.LayoutParams(2 * paddingSide + size * column + paddingVertical * (column - 1), LinearLayout.LayoutParams.WRAP_CONTENT);

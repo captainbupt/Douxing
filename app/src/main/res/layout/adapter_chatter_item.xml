@@ -64,6 +64,15 @@
                 android:textColor="@color/color_text_black"
                 android:textSize="@dimen/text_size_medium" />
 
+            <TextView
+                android:id="@+id/tv_adapter_chatter_full_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tips_full_content"
+                android:textColor="@color/color_blue"
+                android:textSize="@dimen/text_size_less"
+                android:visibility="gone" />
+
             <com.badou.mworking.widget.VideoImageView
                 android:id="@+id/viv_adapter_chatter_video"
                 android:layout_width="wrap_content"

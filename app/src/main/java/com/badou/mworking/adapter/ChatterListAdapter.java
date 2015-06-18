@@ -63,12 +63,15 @@ public class ChatterListAdapter extends MyBaseAdapter {
         String content = chatter.content;
         if (content.length() > 100) {
             content = content.substring(0, 100) + "...";
+            holder.fullContentTextView.setVisibility(View.VISIBLE);
+        } else {
+            holder.fullContentTextView.setVisibility(View.GONE);
         }
-        TopicClickableSpan.setClickTopic(mContext, holder.contentTextView, content);
+        TopicClickableSpan.setClickTopic(mContext, holder.contentTextView, content, holder.chatterClickListener);
         holder.dateTextView.setText(TimeTransfer.long2StringDetailDate(mContext,
                 chatter.publishTime));
         holder.replyNumberTextView.setText("" + chatter.replyNumber);
-        ImageViewLoader.setCircleImageViewResource( holder.headImageView, chatter.headUrl, mContext.getResources().getDimensionPixelSize(R.dimen.icon_head_size_middle));
+        ImageViewLoader.setCircleImageViewResource(holder.headImageView, chatter.headUrl, mContext.getResources().getDimensionPixelSize(R.dimen.icon_head_size_middle));
 
         // 评论中添加的图片
         boolean isWifi = NetUtils.isWifiConnected(mContext);
@@ -125,6 +128,7 @@ public class ChatterListAdapter extends MyBaseAdapter {
         TextView dateTextView;// 下方日期时间
         TextView levelTextView; // 等级
         TextView contentTextView;// 评论的内容
+        TextView fullContentTextView;
         VideoImageView videoImageView;
         MultiImageShowGridView imageGridView;
         TextView saveInternetTextView; // 省流量模式
@@ -137,18 +141,14 @@ public class ChatterListAdapter extends MyBaseAdapter {
         ChatterClickListener chatterClickListener;
 
         public ViewHolder(Context context, View view) {
-            headImageView = (ImageView) view
-                    .findViewById(R.id.iv_adapter_chatter_head);
-            nameTextView = (TextView) view
-                    .findViewById(R.id.tv_adapter_chatter_name);
-            contentTextView = (TextView) view
-                    .findViewById(R.id.tv_adapter_chatter_content);
-            dateTextView = (TextView) view
-                    .findViewById(R.id.tv_adapter_chatter_time);
+            headImageView = (ImageView) view.findViewById(R.id.iv_adapter_chatter_head);
+            nameTextView = (TextView) view.findViewById(R.id.tv_adapter_chatter_name);
+            contentTextView = (TextView) view.findViewById(R.id.tv_adapter_chatter_content);
+            fullContentTextView = (TextView) view.findViewById(R.id.tv_adapter_chatter_full_content);
+            dateTextView = (TextView) view.findViewById(R.id.tv_adapter_chatter_time);
             videoImageView = (VideoImageView) view.findViewById(R.id.viv_adapter_chatter_video);
             imageGridView = (MultiImageShowGridView) view.findViewById(R.id.misgv_adapter_chatter_image);
-            replyNumberTextView = (TextView) view
-                    .findViewById(R.id.tv_adapter_chatter_reply_number);
+            replyNumberTextView = (TextView) view.findViewById(R.id.tv_adapter_chatter_reply_number);
             praiseCheckBox = (CheckBox) view.findViewById(R.id.cb_adapter_chatter_praise);
             praiseNumberTextView = (TextView) view.findViewById(R.id.tv_adapter_chatter_praise_number);
             levelTextView = (TextView) view.findViewById(R.id.tv_adapter_chatter_level);
@@ -168,7 +168,7 @@ public class ChatterListAdapter extends MyBaseAdapter {
         }
     }
 
-    class ChatterClickListener implements OnClickListener {
+    public class ChatterClickListener implements OnClickListener {
 
         public int position;
 

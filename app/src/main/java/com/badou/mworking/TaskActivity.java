@@ -53,14 +53,14 @@ public class TaskActivity extends BaseCategoryProgressListActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (mCategoryAdapter != null) {
-                if (mClickPosition > -1 & mClickPosition < mCategoryAdapter.getCount()) {
+                if (mClickPosition > -1 && mClickPosition < mCategoryAdapter.getCount()) {
                     ((TaskAdapter) mCategoryAdapter).setRead(mClickPosition);
                 }
             }
         }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
 

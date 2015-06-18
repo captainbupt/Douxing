@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.base.BaseBackActionBarActivity;
@@ -28,7 +28,7 @@ public class AskSubmitActivity extends BaseBackActionBarActivity {
     private EditText mSubjectEditView;
     private EditText mDescriptionEditView;
     private MultiImageEditGridView mImageGridView;
-    private LinearLayout mBottomPhotoLayout;
+    private TextView mBottomPhotoTextView;
     private ImageChooser mImageChooser;
 
     @Override
@@ -48,17 +48,23 @@ public class AskSubmitActivity extends BaseBackActionBarActivity {
         mSubjectEditView = (EditText) findViewById(R.id.et_activity_ask_submit_subject);
         mDescriptionEditView = (EditText) findViewById(R.id.et_activity_ask_submit_description);
         mImageGridView = (MultiImageEditGridView) findViewById(R.id.miegv_activity_ask_submit);
-        mBottomPhotoLayout = (LinearLayout) findViewById(R.id.ll_activity_ask_submit_photo);
+        mBottomPhotoTextView = (TextView) findViewById(R.id.tv_activity_ask_submit_photo);
     }
 
     private void initListener() {
-        mBottomPhotoLayout.setOnClickListener(new View.OnClickListener() {
+        mBottomPhotoTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mImageChooser.takeImage(getResources().getString(R.string.add_picture));
             }
         });
-        mImageChooser = new ImageChooser(mContext, true, true, true);
+        mImageGridView.setAddOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mImageChooser.takeImage(getResources().getString(R.string.add_picture));
+            }
+        });
+        mImageChooser = new ImageChooser(mContext, true, true, false);
         mImageChooser.setOnImageChosenListener(new ImageChooser.OnImageChosenListener() {
             @Override
             public void onImageChose(Bitmap bitmap, int type) {
@@ -85,12 +91,12 @@ public class AskSubmitActivity extends BaseBackActionBarActivity {
         if (TextUtils.isEmpty(subject) || TextUtils.isEmpty(content)) {
             ToastUtil.showToast(mContext, R.string.ask_answer_tip_empty);
             return;
-        } else if (content.length() < 5) {
+        } else if (content.replace(" ", "").length() < 5 || subject.replace(" ", "").length() < 5) {
             ToastUtil.showToast(mContext, R.string.ask_answer_tip_little);
             return;
         }
         Bitmap bitmap = null;
-        if (mImageGridView.getCount() > 0)
+        if (mImageGridView.getCount() > 1)
             bitmap = (Bitmap) mImageGridView.getImages().get(0);
         // 提交提问内容
         ServiceProvider.doPublishAsk(mContext, subject, content, bitmap,

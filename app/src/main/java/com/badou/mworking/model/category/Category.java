@@ -25,7 +25,7 @@ public abstract class Category implements Serializable {
 
     public static final String[] CATEGORY_KEY_NAMES = new String[]{"notice", "training", "exam", "task", "shelf"};
     public static final String[] CATEGORY_KEY_UNREADS = new String[]{"noticeUnreadNum", "trainUnreadNum", "examUnreadNum", "taskUnreadNum", "shelfUnreadNum"};
-    public static final String[] CATEGORY_KEY_ICONS = new String[]{RequestParameters.CHK_UPDATA_PIC_NOTICE,RequestParameters.CHK_UPDATA_PIC_TRAINING,RequestParameters.CHK_UPDATA_PIC_EXAM,RequestParameters.CHK_UPDATA_PIC_TASK,RequestParameters.CHK_UPDATA_PIC_SHELF};
+    public static final String[] CATEGORY_KEY_ICONS = new String[]{RequestParameters.CHK_UPDATA_PIC_NOTICE, RequestParameters.CHK_UPDATA_PIC_TRAINING, RequestParameters.CHK_UPDATA_PIC_EXAM, RequestParameters.CHK_UPDATA_PIC_TASK, RequestParameters.CHK_UPDATA_PIC_SHELF};
 
     public int tag; // 类别id
     public String subject; // 标题

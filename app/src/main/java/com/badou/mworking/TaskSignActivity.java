@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.badou.mworking.base.AppApplication;
@@ -25,11 +26,14 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MarkerOptions;
+import com.baidu.mapapi.map.MyLocationConfiguration;
+import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.SupportMapFragment;
 import com.baidu.mapapi.model.LatLng;
@@ -50,13 +54,14 @@ public class TaskSignActivity extends BaseStatisticalActionBarActivity implement
     private TextView mDescriptionTextView;
     private TextView mLocationTextView;
     private TextView mSignTextView;
+    private LinearLayout mSelfPositionLayout;
 
 
     private Task task;
     private Bitmap photo = null;
     public LocationClient mLocationClient;
-    private Boolean isSign = false; //是否签到， 区别是否是否是首次进入需要显示地图
-    private BDLocation signLocation = null;   //爆粗签到的location值
+    private boolean isSign = false; //是否签到， 否表示显示我的位置
+    private boolean isFirst = true;
     private String locationStr = "";
 
     private ImageChooser mImageChooser;
@@ -84,6 +89,7 @@ public class TaskSignActivity extends BaseStatisticalActionBarActivity implement
         mDescriptionTextView = (TextView) findViewById(R.id.tv_activity_task_sign_description);
         mLocationTextView = (TextView) findViewById(R.id.tv_activity_task_sign_location);
         mSignTextView = (TextView) findViewById(R.id.tv_activity_task_sign_bottom);
+        mSelfPositionLayout = (LinearLayout) findViewById(R.id.ll_activity_task_sign_my_position);
     }
 
     private void initListener() {
@@ -103,9 +109,8 @@ public class TaskSignActivity extends BaseStatisticalActionBarActivity implement
                 if (task.photo == 1) {
                     mImageChooser.takeImage(null);
                 } else {
-                    isSign = true;
                     mProgressDialog.show();
-                    mLocationClient.start();
+                    startLocation(true);
                 }
             }
         });
@@ -115,12 +120,25 @@ public class TaskSignActivity extends BaseStatisticalActionBarActivity implement
             public void onImageChose(Bitmap bitmap, int type) {
                 if (bitmap != null) {
                     photo = bitmap;
-                    isSign = true;
                     mProgressDialog.show();
-                    mLocationClient.start();
+                    startLocation(true);
                 }
             }
         });
+        mSelfPositionLayout.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isFirst = false;
+                startLocation(false);
+            }
+        });
+    }
+
+    private void startLocation(boolean isSign) {
+        this.isSign = isSign;
+/*        if (mLocationClient.isStarted())
+            mLocationClient.stop();*/
+        mLocationClient.start();
     }
 
     private void initData() {
@@ -175,9 +193,8 @@ public class TaskSignActivity extends BaseStatisticalActionBarActivity implement
     }
 
     private void initMap() {
-        if (task.isFreeSign()) {
-            mLocationClient.start();
-        } else {
+        startLocation(false);
+        if (!task.isFreeSign()) {
             LatLng location = new LatLng(task.latitude, task.longitude);
             MapStatusUpdate u1 = MapStatusUpdateFactory.newLatLng(location);
             MapStatusUpdate u2 = MapStatusUpdateFactory.zoomTo(16);
@@ -185,8 +202,8 @@ public class TaskSignActivity extends BaseStatisticalActionBarActivity implement
                     .findFragmentById(R.id.map));
             OverlayOptions ooA = new MarkerOptions().position(location).icon(bdA).draggable(false);
             map.getBaiduMap().addOverlay(ooA);
-            map.getBaiduMap().setMapStatus(u1);
-            map.getBaiduMap().setMapStatus(u2);
+            map.getBaiduMap().animateMapStatus(u1);
+            map.getBaiduMap().animateMapStatus(u2);
         }
     }
 
@@ -223,15 +240,22 @@ public class TaskSignActivity extends BaseStatisticalActionBarActivity implement
             return;
         }
         if (!isSign) {
-            LatLng location1 = new LatLng(location.getLatitude(), location.getLongitude());
-            MapStatusUpdate u1 = MapStatusUpdateFactory.newLatLng(location1);
-            MapStatusUpdate u2 = MapStatusUpdateFactory.zoomTo(18);
-            SupportMapFragment map = (SupportMapFragment) (getSupportFragmentManager()
-                    .findFragmentById(R.id.map));
-            OverlayOptions ooA = new MarkerOptions().position(location1).icon(bdA).draggable(false);
-            map.getBaiduMap().addOverlay(ooA);
-            map.getBaiduMap().setMapStatus(u1);
-            map.getBaiduMap().setMapStatus(u2);
+            BaiduMap mBaiduMap = ((SupportMapFragment) (getSupportFragmentManager()
+                    .findFragmentById(R.id.map))).getBaiduMap();
+            // 开启定位图层  
+            mBaiduMap.setMyLocationEnabled(true);
+            // 构造定位数据  
+            MyLocationData locData = new MyLocationData.Builder()
+                    .accuracy(location.getRadius()).latitude(location.getLatitude())
+                    .longitude(location.getLongitude()).build();
+            // 设置定位数据  
+            mBaiduMap.setMyLocationData(locData);
+            if (!(isFirst && !task.isFreeSign())) { // 首次进入且有目标地点的时候，不需要跳转
+                MapStatusUpdate u1 = MapStatusUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude()));
+                MapStatusUpdate u2 = MapStatusUpdateFactory.zoomTo(16);
+                mBaiduMap.animateMapStatus(u2);
+                mBaiduMap.animateMapStatus(u1);
+            }
         } else {
             isSign = false;
             uploadImage(location);
@@ -275,7 +299,7 @@ public class TaskSignActivity extends BaseStatisticalActionBarActivity implement
                             SP.putIntSP(mContext, SP.DEFAULTCACHE, userNum + Task.CATEGORY_KEY_UNREAD_NUM, unreadNum - 1);
                         }
                         disableSignButton(true);
-                        setResult(RESULT_OK, null);
+                        setResult(RESULT_OK);
                     }
 
                     @Override

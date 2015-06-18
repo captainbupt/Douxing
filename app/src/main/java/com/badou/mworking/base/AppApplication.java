@@ -11,6 +11,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 
 import com.badou.mworking.LoginActivity;
@@ -21,6 +22,7 @@ import com.badou.mworking.net.bitmap.BitmapLruCache;
 import com.badou.mworking.net.volley.MyVolley;
 import com.badou.mworking.util.CrashHandler;
 import com.baidu.mapapi.SDKInitializer;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.HashSet;
 import java.util.Locale;
@@ -68,13 +70,17 @@ public class AppApplication extends Application {
             e.printStackTrace();
         }
 
-
         MTrainingDBHelper.init(getApplicationContext());
         JPushInterface.setDebugMode(false);
         JPushInterface.init(this);
         getScreenLevel();
         // 在使用 SDK 各组间之前初始化 context 信息，传入 ApplicationContext
         SDKInitializer.initialize(this);
+
+        // 设置友盟统计模式可以同时统计Activity和Fragment
+        MobclickAgent.openActivityDurationTrack(false);
+        // 实时统计数据
+        // MobclickAgent.updateOnlineConfig(this);
     }
 
     /**

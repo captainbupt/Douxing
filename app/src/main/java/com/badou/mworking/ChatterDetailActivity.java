@@ -1,6 +1,7 @@
 package com.badou.mworking;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -47,8 +48,6 @@ import java.util.List;
 public class ChatterDetailActivity extends BaseBackActionBarActivity {
 
     public static final String KEY_CHATTER = "chatter";
-    public static final int RESULT_DELETE = 11;
-    public static final int RESULT_REPLY = 12;
     public static final String RESULT_KEY_COUNT = "count";
 
     private Chatter mChatter;
@@ -169,7 +168,7 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
     private void initData() {
         mReplyAdapter = new CommentAdapter(mContext, mChatter.qid, mChatter.deletable, mProgressDialog);
         mReplyListView.setAdapter(mReplyAdapter);
-        TopicClickableSpan.setClickTopic(mContext, mContentTextView, mChatter.content);
+        TopicClickableSpan.setClickTopic(mContext, mContentTextView, mChatter.content, null);
         /**删除和私信逻辑 */
         String userUid = ((AppApplication) this.getApplicationContext())
                 .getUserInfo().userId;
@@ -211,11 +210,12 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
             mVideoImageView.setVisibility(View.GONE);
             mImageGridView.setVisibility(View.GONE);
             if (TextUtils.isEmpty(mChatter.imgUrl) && TextUtils.isEmpty(mChatter.videoUrl) && mChatter.photoUrls.size() == 0) {
-                mSendMessageView.setVisibility(View.GONE);
+                mSaveInternetTextView.setVisibility(View.GONE);
             } else {
                 mSaveInternetTextView.setVisibility(View.VISIBLE);
             }
         }
+        mSendMessageView.setContent(getResources().getString(R.string.comment_hint), getResources().getString(R.string.button_send));
     }
 
     /**
@@ -228,8 +228,8 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
                 mContext) {
             @Override
             public void onResponseSuccess(JSONObject response) {
-                setResult(RESULT_DELETE);
-                finish();
+                setResult(RESULT_OK);
+                ChatterDetailActivity.super.finish();
             }
 
             @Override
@@ -239,6 +239,14 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void finish() {
+        Intent intent = new Intent();
+        intent.putExtra(RESULT_KEY_COUNT, mReplyAdapter.getAllCount());
+        setResult(RESULT_OK, intent);
+        super.finish();
     }
 
     /**
@@ -257,28 +265,30 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
                         if (resultArray == null || resultArray.length() == 0) {
                             return;
                         }
-
                         List<Object> replys = new ArrayList<>();
                         int length = resultArray.length();
                         if (length == 0) {
                             if (beginNum == 1) {
-                                mReplyAdapter.setList(null);
+                                mReplyAdapter.setList(null, ttlcnt);
+                                mReplyListView.setVisibility(View.GONE);
                                 mNoneResultView.setVisibility(View.VISIBLE);
                             } else {
+                                mReplyListView.setVisibility(View.VISIBLE);
                                 mNoneResultView.setVisibility(View.GONE);
                                 ToastUtil.showToast(mContext, R.string.no_more);
                             }
                             return;
                         }
+                        mReplyListView.setVisibility(View.VISIBLE);
                         mNoneResultView.setVisibility(View.GONE);
                         for (int i = 0; i < length; i++) {
                             JSONObject jsonObject = resultArray.optJSONObject(i);
                             replys.add(new Comment(jsonObject, Comment.TYPE_CHATTER));
                         }
                         if (beginNum == 1) {
-                            mReplyAdapter.setList(replys);
+                            mReplyAdapter.setList(replys, ttlcnt);
                         } else {
-                            mReplyAdapter.addList(replys);
+                            mReplyAdapter.addList(replys, ttlcnt);
                         }
                         mCurrentIndex++;
                     }
