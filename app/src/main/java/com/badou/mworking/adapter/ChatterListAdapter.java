@@ -26,6 +26,7 @@ import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.LVUtil;
 import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.SP;
+import com.badou.mworking.util.SPUtil;
 import com.badou.mworking.util.TimeTransfer;
 import com.badou.mworking.widget.MultiImageShowGridView;
 import com.badou.mworking.widget.VideoImageView;
@@ -74,13 +75,8 @@ public class ChatterListAdapter extends MyBaseAdapter {
         ImageViewLoader.setCircleImageViewResource(holder.headImageView, chatter.headUrl, mContext.getResources().getDimensionPixelSize(R.dimen.icon_head_size_middle));
 
         // 评论中添加的图片
-        boolean isWifi = NetUtils.isWifiConnected(mContext);
-        // 判断是否在2G/3G下显示图片
-        boolean isShowImg = SP.getBooleanSP(mContext, SP.DEFAULTCACHE,
-                "pic_show", false);
-
         // 没有的话，判断是否是wifi网络
-        if (isWifi || isShowImg) {
+        if (NetUtils.isWifiConnected(mContext) || !SPUtil.getSaveInternetOption(mContext)) {
             holder.saveInternetTextView.setVisibility(View.GONE);
             if (!TextUtils.isEmpty(chatter.videoUrl)) {
                 holder.videoImageView.setVisibility(View.VISIBLE);

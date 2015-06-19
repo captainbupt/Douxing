@@ -103,8 +103,9 @@ public class MainSearchFragment extends BaseFragment {
             public void onClick(View view) {
                 if (TextUtils.isEmpty(mTitleEditView.getText().toString())) {
                     FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                    transaction.remove(MainSearchFragment.this);
+                    transaction.hide(MainSearchFragment.this);
                     transaction.commit();
+                    ((MainGridActivity) mActivity).isSearching = false;
                 } else {
                     clearResult();
                 }

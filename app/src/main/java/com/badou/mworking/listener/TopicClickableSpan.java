@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.badou.mworking.ChatterTopicActivity;
+import com.badou.mworking.R;
 import com.badou.mworking.adapter.ChatterListAdapter;
 import com.badou.mworking.base.BaseActionBarActivity;
 
@@ -50,24 +51,25 @@ public class TopicClickableSpan extends ClickableSpan {
     }
 
     public static void setClickTopic(Context context, final TextView textView, String content, final ChatterListAdapter.ChatterClickListener onItemClickListener) {
+        textView.setOnClickListener(onItemClickListener);
         SpannableString spannableString = new SpannableString(content);
-        spannableString.setSpan(new NormalClickableSpan() {
+/*        spannableString.setSpan(new NormalClickableSpan() {
             @Override
             public void onClick(View view) {
                 if (onItemClickListener != null)
                     onItemClickListener.onClick(textView);
             }
-        }, 0, content.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        }, 0, content.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);*/
         Pattern pattern = Pattern.compile("#[\\s\\S]*#");
         Matcher matcher = pattern.matcher(content);
         while (matcher.find()) {
-            spannableString.setSpan(new ForegroundColorSpan(Color.BLUE), matcher.start(), matcher.end(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             spannableString.setSpan(new TopicClickableSpan(context, matcher.group().replace("#", "")), matcher.start(), matcher.end(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            spannableString.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.color_text_blue)), matcher.start(), matcher.end(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         }
         textView.setText(spannableString);
     }
 
-    abstract static class NormalClickableSpan extends ClickableSpan{
+    abstract static class NormalClickableSpan extends ClickableSpan {
 
         @Override
         public void updateDrawState(TextPaint ds) {

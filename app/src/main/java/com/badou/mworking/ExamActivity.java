@@ -5,6 +5,10 @@ import android.os.Bundle;
 import com.badou.mworking.adapter.ExamAdapter;
 import com.badou.mworking.base.BaseCategoryProgressListActivity;
 import com.badou.mworking.model.category.Exam;
+import com.badou.mworking.net.Net;
+import com.badou.mworking.net.ServiceProvider;
+import com.badou.mworking.net.volley.VolleyListener;
+import com.badou.mworking.util.Constant;
 
 import org.json.JSONObject;
 
@@ -14,6 +18,8 @@ import cn.jpush.android.api.JPushInterface;
  * ExamActivity 考试页面
  */
 public class ExamActivity extends BaseCategoryProgressListActivity {
+
+    private int mClickPosition = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,15 +48,44 @@ public class ExamActivity extends BaseCategoryProgressListActivity {
         return new Exam(jsonObject);
     }
 
-/* 遗留功能，暂不需要
-   @Override
-    public void clickRight() {
-        // tag 值大于 0 ，  代表在线考试，点击跳入搜索，    tag<0, 代表 等级考试， 点击跳入等级考试页面，  tag = 0 表示全部
-        if (tag >= 0) {
-        } else {
-            Intent inten = new Intent(mContext, MyRatingActivity.class);
-            startActivity(inten);
+    @Override
+    protected void onItemClick(int position) {
+        mClickPosition = position - 1;
+        super.onItemClick(position);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mClickPosition >= 0 && mClickPosition < mCategoryAdapter.getCount()) {
+            updateExam(mClickPosition);
         }
-    }*/
+    }
+
+    private void updateExam(final int position) {
+        showProgressBar();
+        ServiceProvider.doUpdateLocalResource2(mContext, Exam.CATEGORY_KEY_NAME, tag, position , 1, "", null,
+                new VolleyListener(mContext) {
+
+                    @Override
+                    public void onCompleted() {
+                        hideProgressBar();
+                    }
+
+                    @Override
+                    public void onResponseSuccess(JSONObject response) {
+                        JSONObject data = null;
+                        try {
+                            data = response.optJSONObject(Net.DATA).optJSONArray(Net.LIST).optJSONObject(0);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        if (data != null) {
+                            Exam exam = new Exam(data);
+                            mCategoryAdapter.setItem(position, exam);
+                        }
+                    }
+                });
+    }
 }
 

@@ -317,24 +317,6 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
         // 刷新的时候不显示缺省页面
         mNoneResultView.setVisibility(View.GONE);
         mContentListView.setVisibility(View.VISIBLE);
-        ServiceProvider.doUpdateLocalResource2(mContext, CATEGORY_NAME, tag, beginNum, Constant.LIST_ITEM_NUM, "", null,
-                new VolleyListener(mContext) {
-
-                    @Override
-                    public void onCompleted() {
-                        mContentListView.onRefreshComplete();
-                        hideProgressBar();
-                    }
-
-                    @Override
-                    public void onResponseSuccess(JSONObject response) {
-                        updateListFromJson(response
-                                .optJSONObject(Net.DATA), beginNum);
-                        mContentListView.onRefreshComplete();
-                        hideProgressBar();
-                        updateCompleted();
-                    }
-                });
     }
 
     protected void updateCompleted() {

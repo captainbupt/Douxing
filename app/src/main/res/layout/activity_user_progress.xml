@@ -29,7 +29,7 @@
             <TextView
                 android:id="@+id/tv_user_progress_top_title"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/height_title_bar"
                 android:layout_centerInParent="true"
                 android:singleLine="true"
                 android:textColor="@color/color_white"
@@ -59,7 +59,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_medium" />
+                android:textSize="30sp" />
 
             <TextView
                 android:id="@+id/tv_user_progress_top_rank"

@@ -59,12 +59,12 @@ public class PDFViewerActivity extends BaseStatisticalActionBarActivity {
             if (file.exists() && file.length() > 0) {
                 //加载pdf文件
                 mPdfView.fromFile(file).showMinimap(false).enableSwipe(true).load();
-                mPdfView.postDelayed(new Runnable() {
+                /*mPdfView.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         mPdfView.jumpTo(SPUtil.getPdfPage(mContext, mRid));
                     }
-                }, 1000);
+                }, 1000);*/
             } else {
                 file.delete();
                 finish();
@@ -77,6 +77,7 @@ public class PDFViewerActivity extends BaseStatisticalActionBarActivity {
                     if (finalFile != null) {
                         finalFile.delete();
                     }
+                    finish();
                     ToastUtil.showToast(mContext, R.string.tips_pdf_view_open_error);
                 }
             });

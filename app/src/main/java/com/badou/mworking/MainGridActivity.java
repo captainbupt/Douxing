@@ -1,5 +1,6 @@
 package com.badou.mworking;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -93,11 +94,24 @@ public class MainGridActivity extends BaseNoTitleActivity {
     private LinearLayout mContentLayout;
 
     private String mLogoUrl;
+    public boolean isSearching = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_grid);
+        if ("anonymous".equals(((AppApplication) getApplication()).getUserInfo().account)) {
+            new AlertDialog.Builder(mContext).setTitle(R.string.tip_anonymous_title).setMessage(R.string.tip_anonymous_content).setPositiveButton(R.string.tip_anonymous_confirm, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    ((AppApplication) getApplication()).clearUserInfo();
+                    //退出登录
+                    Intent intent = new Intent(mContext, LoginActivity.class);
+                    mContext.startActivity(intent);
+                    ((Activity) mContext).finish();
+                }
+            }).setNegativeButton(R.string.tip_anonymous_cancel, null).show();
+        }
         initView();
         initListener();
         initData();
@@ -128,6 +142,7 @@ public class MainGridActivity extends BaseNoTitleActivity {
     protected void onResume() {
         super.onResume();
         updateMessageCenter();
+        mMainGridAdapter.notifyDataSetChanged();
     }
 
     protected void initView() {
@@ -203,11 +218,14 @@ public class MainGridActivity extends BaseNoTitleActivity {
         mSearchImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mMainSearchFragment == null)
-                    mMainSearchFragment = new MainSearchFragment();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.fl_main_grid_fragment_container, mMainSearchFragment);
+                if (mMainSearchFragment == null) {
+                    mMainSearchFragment = new MainSearchFragment();
+                    transaction.replace(R.id.fl_main_grid_fragment_container, mMainSearchFragment);
+                }
+                transaction.show(mMainSearchFragment);
                 transaction.commit();
+                isSearching = true;
             }
         });
         mMessageCenterImageView.setOnClickListener(new View.OnClickListener() {
@@ -313,10 +331,10 @@ public class MainGridActivity extends BaseNoTitleActivity {
     @Override
     public void onBackPressed() {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        if (mMainSearchFragment != null) {
-            transaction.remove(mMainSearchFragment);
+        if (isSearching) {
+            transaction.hide(mMainSearchFragment);
             transaction.commit();
-            mMainSearchFragment = null;
+            isSearching = false;
         } else {
             // 应为系统当前的系统毫秒数一定小于2000
             if ((System.currentTimeMillis() - mExitTime) > 2000) {
