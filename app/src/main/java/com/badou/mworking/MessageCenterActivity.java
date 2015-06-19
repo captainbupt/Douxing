@@ -18,6 +18,7 @@ import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.CategoryClickHandler;
+import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.NoneResultView;
 
 import org.json.JSONObject;
@@ -75,6 +76,11 @@ public class MessageCenterActivity extends BaseBackActionBarActivity {
                     CategoryDetail detail = new CategoryDetail(context, jsonObject.optJSONObject(Net.DATA), messageCenter.getCategoryType(), messageCenter.add, messageCenter.description, null);
                     CategoryClickHandler.categoryClicker(mContext, detail);
                 }
+
+                @Override
+                public void onErrorCode(int code) {
+                    showErrorResponse();
+                }
             });
         } else if (messageCenter.type.equals(MessageCenter.TYPE_CHATTER)) {
             ServiceProvider.doGetChatterById(context, messageCenter.add, new VolleyListener(context) {
@@ -88,6 +94,12 @@ public class MessageCenterActivity extends BaseBackActionBarActivity {
                     intent.putExtra(ChatterDetailActivity.KEY_CHATTER, chatter);
                     context.startActivity(intent);
                 }
+
+                @Override
+                public void onErrorCode(int code) {
+                    showErrorResponse();
+                }
+
             });
         } else if (messageCenter.type.equals(MessageCenter.TYPE_ASK)) {
             ServiceProvider.doGetAskById(context, messageCenter.add, new VolleyListener(context) {
@@ -101,7 +113,19 @@ public class MessageCenterActivity extends BaseBackActionBarActivity {
                     intent.putExtra(AskDetailActivity.KEY_ASK, ask);
                     context.startActivity(intent);
                 }
+
+                @Override
+                public void onErrorCode(int code) {
+                    showErrorResponse();
+                }
             });
+        }
+    }
+
+    private void showErrorResponse() {
+        ToastUtil.showToast(mContext, R.string.tip_message_center_resource_gone);
+        if (!mActivity.isFinishing()) {
+            mProgressDialog.dismiss();
         }
     }
 }

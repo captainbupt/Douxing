@@ -26,6 +26,7 @@ import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.CategoryClickHandler;
 import com.badou.mworking.util.Constant;
+import com.badou.mworking.util.DensityUtil;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.HorizontalProgressDialog;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -164,7 +165,7 @@ public class UserProgressActivity extends BaseNoTitleActivity {
             mBottomTextView.setText(R.string.user_progress_bottom_training);
             mTitleTextView.setText(R.string.user_center_my_study_progress);
             mAverageTextView.setVisibility(View.GONE);
-            mTopContentTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(R.dimen.text_size_medium));
+            mTopContentTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, DensityUtil.sp2px(mContext,50));
         } else {
             String str1 = " <font color=\'#ffffff\'><b>" + "第" + "</b></font>";//第
             String str2 = " <font color=\'#ffffff\'><b>" + "名, " + "</b></font>";//名
@@ -212,8 +213,6 @@ public class UserProgressActivity extends BaseNoTitleActivity {
                                 || resultArray.length() == 0) {
                             if (beginIndex > 0) {
                                 ToastUtil.showUpdateToast(UserProgressActivity.this);
-                            } else {
-                                mContentListView.setVisibility(View.GONE);
                             }
                             return;
                         }

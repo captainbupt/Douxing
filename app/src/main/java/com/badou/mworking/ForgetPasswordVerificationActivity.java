@@ -101,7 +101,7 @@ public class ForgetPasswordVerificationActivity extends BaseBackActionBarActivit
         public void afterTextChanged(Editable editable) {
             String newPassword = mPasswordEditText.getText().toString();
             String confirmPassword = mConfirmationEditText.getText().toString();
-            if (newPassword.equals(confirmPassword) && !TextUtils.isEmpty(newPassword) && newPassword.length() >= 6) {
+            if (!TextUtils.isEmpty(newPassword) && newPassword.length() >= 6 && !TextUtils.isEmpty(confirmPassword) && confirmPassword.length() >= 6) {
                 mNextTextView.setTextColor(getResources().getColorStateList(R.color.color_button_text_red));
                 mNextTextView.setBackgroundResource(R.drawable.background_button_enable_red);
                 mNextTextView.setEnabled(true);

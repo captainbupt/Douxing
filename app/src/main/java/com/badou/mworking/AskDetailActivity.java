@@ -164,7 +164,9 @@ public class AskDetailActivity extends BaseBackActionBarActivity {
             ImageViewLoader.setSquareImageViewResource(mContentImageView, R.drawable.icon_image_default, mAsk.contentImageUrl, getResources().getDimensionPixelSize(R.dimen.icon_size_xlarge));
         else
             mContentImageView.setVisibility(View.GONE);
-
+        if (mAsk.userName.equals("我")) {
+            mMessageTextView.setVisibility(View.GONE);
+        }
         if (mAsk.isDeletable) {
             mDeleteTextView.setVisibility(View.VISIBLE);
         } else {

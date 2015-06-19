@@ -121,7 +121,7 @@ public class AccountManageActivity extends BaseBackActionBarActivity {
             String newPassword = mNewEditText.getText().toString();
             String confirmPassword = mConfirmEditText.getText().toString();
             if (TextUtils.isEmpty(originPassword) || TextUtils.isEmpty(newPassword) || TextUtils.isEmpty(confirmPassword)
-                    || originPassword.length() < 6 || newPassword.length() < 6 || confirmPassword.length() < 6 || newPassword.equals(confirmPassword)) {
+                    || originPassword.length() < 6 || newPassword.length() < 6 || confirmPassword.length() < 6) {
                 disableButton();
                 return;
             }
@@ -136,9 +136,9 @@ public class AccountManageActivity extends BaseBackActionBarActivity {
     }
 
     private void enableButton() {
-        mChangePasswordButton.setTextColor(getResources().getColor(R.color.color_text_blue));
+        mChangePasswordButton.setTextColor(getResources().getColor(R.color.color_button_text_blue));
         mChangePasswordButton.setBackgroundResource(R.drawable.background_button_enable_blue);
-        mChangePasswordButton.setEnabled(false);
+        mChangePasswordButton.setEnabled(true);
     }
 
     private void anonymousMode() {

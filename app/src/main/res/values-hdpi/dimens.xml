@@ -42,8 +42,8 @@
     <dimen name="about_us_icon_logo_width">93dp</dimen>
     <dimen name="about_us_icon_logo_height">93dp</dimen>
     <!-- around -->
-    <dimen name="icon_head_size_small">25dp</dimen>
-    <dimen name="icon_head_size_middle">40dp</dimen>
+    <dimen name="icon_head_size_small">20dp</dimen>
+    <dimen name="icon_head_size_middle">35dp</dimen>
     <dimen name="around_icon_hot_rank_width">25dp</dimen>
     <dimen name="around_icon_reply_width">16dp</dimen>
     <dimen name="around_icon_reply_height">16dp</dimen>

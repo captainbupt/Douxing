@@ -27,8 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_centerVertical="true"
-                android:paddingBottom="@dimen/offset_less"
-                android:paddingTop="@dimen/offset_less"
+                android:padding="@dimen/offset_less"
                 android:scaleType="centerInside"
                 android:src="@drawable/button_title_main_search" />
 
@@ -45,6 +44,7 @@
             android:id="@+id/tv_main_search_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:paddingLeft="@dimen/offset_less"
             android:text="@string/main_search_cancel"
             android:textColor="@color/color_white"

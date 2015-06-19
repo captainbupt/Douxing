@@ -132,9 +132,9 @@ public class AboutUsActivity extends BaseBackActionBarActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    SP.putBooleanSP(mContext, SP.DEFAULTCACHE, "pic_show", true);
+                    SPUtil.setSaveInternetOption(mContext, true);
                 } else {
-                    SP.putBooleanSP(mContext, SP.DEFAULTCACHE, "pic_show", false);
+                    SPUtil.setSaveInternetOption(mContext, false);
                 }
             }
         });
@@ -144,16 +144,16 @@ public class AboutUsActivity extends BaseBackActionBarActivity {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (!isChecked) {
+                if (isChecked) {
                     SPUtil.setPushOption(mContext, false);
-                    JPushInterface.resumePush(getApplicationContext());    //推送打开
-                    AlarmUtil alarmUtil = new AlarmUtil();
-                    alarmUtil.OpenTimer(mContext);
-                } else {
-                    SPUtil.setPushOption(mContext, true);
                     JPushInterface.stopPush(getApplicationContext());   //推送关闭
                     AlarmUtil alarmUtil = new AlarmUtil();
                     alarmUtil.cancel(mContext);
+                } else {
+                    SPUtil.setPushOption(mContext, true);
+                    JPushInterface.resumePush(getApplicationContext());    //推送打开
+                    AlarmUtil alarmUtil = new AlarmUtil();
+                    alarmUtil.OpenTimer(mContext);
                 }
             }
         });

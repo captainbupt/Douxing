@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.database.AskResManager;
+import com.badou.mworking.listener.CopyClickListener;
 import com.badou.mworking.listener.FullImageListener;
 import com.badou.mworking.model.Ask;
 import com.badou.mworking.net.ServiceProvider;
@@ -79,14 +80,14 @@ public class AskAnswerAdapter extends MyBaseAdapter {
                 praise(position);
             }
         });
-
+        holder.copyClickListener.content = ask.content;
         final int floorNum = mReplyCount - position;
         holder.floorTextView.setText(floorNum + mContext.getResources().getString(R.string.floor_num));
 
         return convertView;
     }
 
-    static class ViewHolder {
+    class ViewHolder {
 
         ImageView headImageView;
         ImageView contentImageView;
@@ -96,6 +97,7 @@ public class AskAnswerAdapter extends MyBaseAdapter {
         TextView floorTextView;
         TextView praiseTextView;    //点赞数量
         CheckBox praiseCheckBox;   //点赞checkbox
+        CopyClickListener copyClickListener;
 
         public ViewHolder(View view) {
             contentImageView = (ImageView) view.findViewById(R.id.iv_adapter_ask_answer);
@@ -110,6 +112,8 @@ public class AskAnswerAdapter extends MyBaseAdapter {
             floorTextView = (TextView) view.findViewById(R.id.tv_adapter_ask_answer_floor);
             praiseTextView = (TextView) view.findViewById(R.id.tv_adapter_ask_answer_praise_count);
             praiseCheckBox = (CheckBox) view.findViewById(R.id.cb_adapter_ask_answer_praise);
+            copyClickListener = new CopyClickListener(mContext);
+            view.setOnClickListener(copyClickListener);
         }
     }
 

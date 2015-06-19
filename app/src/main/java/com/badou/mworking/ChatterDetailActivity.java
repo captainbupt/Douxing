@@ -25,6 +25,7 @@ import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.SP;
+import com.badou.mworking.util.SPUtil;
 import com.badou.mworking.util.TimeTransfer;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.BottomSendMessageView;
@@ -189,13 +190,9 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
         /**设置头像**/
         ImageViewLoader.setCircleImageViewResource(mHeadImageView, mChatter.headUrl, mContext.getResources().getDimensionPixelSize(R.dimen.icon_head_size_middle));
         // 评论中添加的图片
-        boolean isWifi = NetUtils.isWifiConnected(mContext);
         // 判断是否在2G/3G下显示图片
-        boolean isShowImg = SP.getBooleanSP(mContext, SP.DEFAULTCACHE,
-                "pic_show", false);
-
         // 没有的话，判断是否是wifi网络
-        if (isWifi || isShowImg) {
+        if (NetUtils.isWifiConnected(mContext) || !SPUtil.getSaveInternetOption(mContext)) {
             mSaveInternetTextView.setVisibility(View.GONE);
             if (!TextUtils.isEmpty(mChatter.videoUrl)) {
                 mImageGridView.setVisibility(View.GONE);

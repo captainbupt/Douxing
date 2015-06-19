@@ -186,21 +186,19 @@ public class ImageChooser {
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK) {
+        if (resultCode == Activity.RESULT_OK && data != null) {
             switch (requestCode) {
                 case IMAGE_REQUEST_CODE:
-                    if (data != null) {
-                        if (isZoom)
-                            startPhotoZoom(data.getData());
-                        else {
-                            Uri originalUri = data.getData(); // 获得图片的uri
-                            String path = getPath(mContext, originalUri);
-                            BitmapFactory.Options option1 = new BitmapFactory.Options();
-                            option1.inSampleSize = 2;
-                            Bitmap bitmap = BitmapFactory.decodeFile(path, option1);
-                            if (mOnImageChosenListener != null)
-                                mOnImageChosenListener.onImageChose(bitmap, TYPE_IMAGE);
-                        }
+                    if (isZoom)
+                        startPhotoZoom(data.getData());
+                    else {
+                        Uri originalUri = data.getData(); // 获得图片的uri
+                        String path = getPath(mContext, originalUri);
+                        BitmapFactory.Options option1 = new BitmapFactory.Options();
+                        option1.inSampleSize = 2;
+                        Bitmap bitmap = BitmapFactory.decodeFile(path, option1);
+                        if (mOnImageChosenListener != null)
+                            mOnImageChosenListener.onImageChose(bitmap, TYPE_IMAGE);
                     }
                     break;
                 case CAMERA_REQUEST_CODE:

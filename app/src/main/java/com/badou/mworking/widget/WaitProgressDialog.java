@@ -1,5 +1,6 @@
 package com.badou.mworking.widget;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.Resources.NotFoundException;
@@ -58,4 +59,9 @@ public class WaitProgressDialog extends ProgressDialog {
         }
     }
 
+    @Override
+    public void dismiss() {
+        if (!((Activity) mContext).isFinishing())
+            super.dismiss();
+    }
 }
