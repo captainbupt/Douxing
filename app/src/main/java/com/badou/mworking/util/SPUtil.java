@@ -19,11 +19,11 @@ public class SPUtil {
 
     public static final String PUSH_NOTIFICATIONS = "push_notifications";
 
-    public static void setPushOption(Context context, boolean isOn) {
+    public static void setClosePushOption(Context context, boolean isOn) {
         SP.putBooleanSP(context, SP.DEFAULTCACHE, PUSH_NOTIFICATIONS, isOn);
     }
 
-    public static boolean getPushOption(Context context) {
+    public static boolean getClosePushOption(Context context) {
         return SP.getBooleanSP(context, SP.DEFAULTCACHE, PUSH_NOTIFICATIONS, false);
     }
 

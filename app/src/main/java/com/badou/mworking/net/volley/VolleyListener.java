@@ -44,9 +44,7 @@ public abstract class VolleyListener implements Response.ErrorListener,
 
     public abstract void onResponseSuccess(JSONObject response);
 
-    public void onErrorCode(int code) {
-        ToastUtil.showToast(mContext, "错误码: " + code);
-    }
+    public void onErrorCode(int code) { }
 
 
     @Override

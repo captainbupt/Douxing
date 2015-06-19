@@ -27,6 +27,7 @@ import com.badou.mworking.R;
 import com.badou.mworking.adapter.MainSearchAdapter;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseFragment;
+import com.badou.mworking.model.MainIcon;
 import com.badou.mworking.model.category.Category;
 import com.badou.mworking.model.category.CategoryBasic;
 import com.badou.mworking.model.category.CategoryDetail;
@@ -36,6 +37,7 @@ import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.CategoryClickHandler;
 import com.badou.mworking.util.FastBlur;
+import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.WaitProgressDialog;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -56,8 +58,6 @@ public class MainSearchFragment extends BaseFragment {
     private static final String[] KEY_LIST = new String[]{"notice", "training", "exam", "task", "shelf"};
     private static final String[] KEY_CATEGORY_NAME = new String[]{RequestParameters.CHK_UPDATA_PIC_NOTICE, RequestParameters.CHK_UPDATA_PIC_TRAINING,
             RequestParameters.CHK_UPDATA_PIC_EXAM, RequestParameters.CHK_UPDATA_PIC_TASK, RequestParameters.CHK_UPDATA_PIC_SHELF};
-    private static final int[] DEFAULT_CATEGORY_NAME = new int[]{R.string.module_default_title_notice, R.string.module_default_title_training,
-            R.string.module_default_title_exam, R.string.module_default_title_task, R.string.module_default_title_shelf};
 
     private LinearLayout mContainerView;
     private TextView mCancelTextView;
@@ -153,6 +153,11 @@ public class MainSearchFragment extends BaseFragment {
                         CategoryDetail detail = new CategoryDetail(mContext, jsonObject.optJSONObject(Net.DATA), basic.type, basic.rid, basic.subject, null);
                         CategoryClickHandler.categoryClicker(mContext, detail);
                     }
+
+                    @Override
+                    public void onErrorCode(int code) {
+                        ToastUtil.showToast(mContext, R.string.tip_message_center_resource_gone);
+                    }
                 });
             }
         });
@@ -176,7 +181,7 @@ public class MainSearchFragment extends BaseFragment {
     private void initData() {
         this.mCategoryNames = new String[COUNT_CATEGORY];
         for (int ii = 0; ii < COUNT_CATEGORY; ii++) {
-            mCategoryNames[ii] = getMainIconTitle(KEY_CATEGORY_NAME[ii], DEFAULT_CATEGORY_NAME[ii]);
+            mCategoryNames[ii] = MainIcon.getMainIcon(mContext, KEY_CATEGORY_NAME[ii]).name;
         }
         mResultAdpater = new MainSearchAdapter(mContext, mCategoryNames);
         mResultListView.setAdapter(mResultAdpater);
@@ -259,34 +264,6 @@ public class MainSearchFragment extends BaseFragment {
         mNoneResultImageView.setImageResource(R.drawable.icon_main_search_tip);
         mNoneResultLayout.setVisibility(View.VISIBLE);
         mResultListView.setVisibility(View.GONE);
-    }
-
-    /**
-     * @param key               icon键值
-     * @param defaultTitleResId 默认名称
-     */
-    private String getMainIconTitle(String key, int defaultTitleResId) {
-        JSONObject mainIconJSONObject = getMainIconJSONObject(key);
-        String title = mainIconJSONObject.optString("name");
-        if (TextUtils.isEmpty(title)) {
-            title = mContext.getResources().getString(defaultTitleResId);
-        }
-        return title;
-    }
-
-    /**
-     * 功能描述: 更新数据库中mainIcon的name 字段和 priority 字段
-     */
-    private JSONObject getMainIconJSONObject(String key) {
-        JSONObject shuffle = ((AppApplication) mContext.getApplicationContext()).getUserInfo().shuffleStr;
-        Iterator it = shuffle.keys();
-        while (it.hasNext()) {
-            String IconKey = (String) it.next();
-            if (key.equals(IconKey)) {
-                return shuffle.optJSONObject(IconKey);
-            }
-        }
-        return null;
     }
 
     private void blur(Bitmap bkg, View view) {

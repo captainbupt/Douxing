@@ -19,8 +19,6 @@ import java.util.Map;
 public class MainIcon {
 
 
-
-
     public String mainIconId = "";//模块
     public int resId = -1;//图片的url
     public String priority = "0"; // 模块的优先级，级别越高，在主页面中显示的越前面，该字段在登录时返回，默认最后一个是更多，倒数第二个是个人中心，所以没有这两个的级别返回
@@ -33,13 +31,9 @@ public class MainIcon {
         this.priority = priority;
     }
 
-    public final static Map<String, MainIcon> mainIconMap = new HashMap<>(8);
 
     public static MainIcon getMainIcon(Context context, String key) {
-        MainIcon mainIcon = mainIconMap.get(key);
-        if (mainIcon != null)
-            return mainIcon;
-
+        MainIcon mainIcon = null;
         if (key.equals(RequestParameters.CHK_UPDATA_PIC_ASK)) {
             mainIcon = getMainIcon(context, RequestParameters.CHK_UPDATA_PIC_ASK, R.drawable.button_ask, R.string.module_default_title_ask);
         } else if (key.equals(RequestParameters.CHK_UPDATA_PIC_SHELF)) {
@@ -57,7 +51,6 @@ public class MainIcon {
         } else if (key.equals(RequestParameters.CHK_UPDATA_PIC_NOTICE)) {
             mainIcon = getMainIcon(context, RequestParameters.CHK_UPDATA_PIC_NOTICE, R.drawable.button_notice, R.string.module_default_title_notice);
         }
-        mainIconMap.put(key, mainIcon);
         return mainIcon;
     }
 
