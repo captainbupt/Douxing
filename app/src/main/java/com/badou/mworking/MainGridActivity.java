@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -35,10 +34,7 @@ import com.badou.mworking.net.Net;
 import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.net.ResponseParameters;
 import com.badou.mworking.net.ServiceProvider;
-import com.badou.mworking.net.bitmap.BitmapLruCache;
-import com.badou.mworking.net.bitmap.NormalImageListener;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
-import com.badou.mworking.net.volley.MyVolley;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.AlarmUtil;
 import com.badou.mworking.util.AppManager;
@@ -132,7 +128,7 @@ public class MainGridActivity extends BaseNoTitleActivity {
 
         JPushInterface.init(getApplicationContext());
         //push 推送默认开启，如果用户关闭掉推送的话，在这里停掉推送
-        if (!SPUtil.getPushOption(mContext)) {
+        if (SPUtil.getClosePushOption(mContext)) {
             JPushInterface.stopPush(getApplicationContext());
         }
         disableSwipeBack();
@@ -383,7 +379,6 @@ public class MainGridActivity extends BaseNoTitleActivity {
                 JSONArray arrBanner = data.optJSONArray("banner");
 
                 String bannerInfo = "";
-
                 for (int i = 0; i < arrBanner.length(); i++) {
                     JSONObject jo = arrBanner.optJSONObject(i);
                     String img = jo.optString(MainBanner.CHK_IMG);

@@ -120,9 +120,8 @@
                     android:id="@+id/tv_adapter_chatter_praise_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:minEms="2"
-                    android:padding="@dimen/offset_micro"
+                    android:gravity="start"
+                    android:minEms="1"
                     android:singleLine="true"
                     android:textColor="@color/color_text_grey"
                     android:textSize="@dimen/text_size_less" />
@@ -139,9 +138,8 @@
                     android:id="@+id/tv_adapter_chatter_reply_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:minEms="2"
-                    android:padding="@dimen/offset_micro"
+                    android:gravity="start"
+                    android:minEms="1"
                     android:singleLine="true"
                     android:textColor="@color/color_text_grey"
                     android:textSize="@dimen/text_size_less" />

@@ -21,7 +21,6 @@ import com.badou.mworking.net.ResponseParameters;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.AlarmUtil;
-import com.badou.mworking.util.SP;
 import com.badou.mworking.util.SPUtil;
 import com.badou.mworking.util.ToastUtil;
 
@@ -66,7 +65,7 @@ public class AboutUsActivity extends BaseBackActionBarActivity {
 
     private void initData() {
         mShowPictureCheckBox.setChecked(SPUtil.getSaveInternetOption(mContext));
-        mPushCheckBox.setChecked(SPUtil.getPushOption(mContext));
+        mPushCheckBox.setChecked(SPUtil.getClosePushOption(mContext));
         mInfoTextView.setText(mContext.getResources().getString(
                 R.string.app_name)
                 + AppApplication.appVersion);
@@ -145,12 +144,12 @@ public class AboutUsActivity extends BaseBackActionBarActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    SPUtil.setPushOption(mContext, false);
+                    SPUtil.setClosePushOption(mContext, true);
                     JPushInterface.stopPush(getApplicationContext());   //推送关闭
                     AlarmUtil alarmUtil = new AlarmUtil();
                     alarmUtil.cancel(mContext);
                 } else {
-                    SPUtil.setPushOption(mContext, true);
+                    SPUtil.setClosePushOption(mContext, false);
                     JPushInterface.resumePush(getApplicationContext());    //推送打开
                     AlarmUtil alarmUtil = new AlarmUtil();
                     alarmUtil.OpenTimer(mContext);

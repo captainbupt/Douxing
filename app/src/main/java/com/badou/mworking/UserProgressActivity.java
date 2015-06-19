@@ -179,6 +179,7 @@ public class UserProgressActivity extends BaseNoTitleActivity {
             mBottomTextView.setText(R.string.user_progress_bottom_exam);
             mAverageTextView.setVisibility(View.VISIBLE);
             mTitleTextView.setText(R.string.user_center_my_exam);
+            mTopContentTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, DensityUtil.sp2px(mContext,80));
         }
         mCategoryAdapter = new UserProgressAdapter(mContext, mType);
         mContentListView.setAdapter(mCategoryAdapter);

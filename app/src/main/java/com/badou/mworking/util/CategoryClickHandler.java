@@ -214,7 +214,8 @@ public class CategoryClickHandler {
                         goPdfView(context, type, rid, title);
                         mDownloadHandler.cancel();
                         mDownloadHandler = null;
-                        progressDialog.dismiss();
+                        if (!((Activity) context).isFinishing())
+                            progressDialog.dismiss();
                     }
 
 
@@ -223,7 +224,8 @@ public class CategoryClickHandler {
                         new File(path + ".tmp").delete();
                         ToastUtil.showToast(context,
                                 R.string.train_result_download_fail);
-                        progressDialog.dismiss();
+                        if (!((Activity) context).isFinishing())
+                            progressDialog.dismiss();
                     }
                 });
     }

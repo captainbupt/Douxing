@@ -118,9 +118,10 @@ public class PhotoActivity extends BaseNoTitleActivity {
 
     @Override
     protected void onDestroy() {
-        if (bitmap != null && !bitmap.isRecycled()) {
+// 导致SwipeBack无效
+/*        if (bitmap != null && !bitmap.isRecycled()) {
             bitmap.recycle();
-        }
+        }*/
         super.onDestroy();
     }
 }
