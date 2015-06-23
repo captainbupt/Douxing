@@ -96,7 +96,8 @@ public class AskSubmitActivity extends BaseBackActionBarActivity {
             return;
         }
         Bitmap bitmap = null;
-        if (mImageGridView.getCount() > 1)
+
+        if (mImageGridView.getImages() != null && mImageGridView.getImages().size() >= 1)
             bitmap = (Bitmap) mImageGridView.getImages().get(0);
         // 提交提问内容
         ServiceProvider.doPublishAsk(mContext, subject, content, bitmap,

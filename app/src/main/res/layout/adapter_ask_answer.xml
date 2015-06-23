@@ -95,7 +95,7 @@
                     android:id="@+id/tv_adapter_ask_answer_praise_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/color_text_grey"
+                    android:textColor="@color/color_text_blue"
                     android:textSize="@dimen/text_size_less" />
             </LinearLayout>
         </LinearLayout>

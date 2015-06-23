@@ -38,9 +38,6 @@ import java.io.File;
  */
 public class CategoryClickHandler {
 
-    public static HorizontalProgressDialog progressDialog;
-    private static HttpHandler mDownloadHandler;
-
     public static void categoryClicker(Context context, CategoryDetail categoryDetail) {
         goNextPage(context, categoryDetail);
         ServiceProvider.doMarkRead(context, categoryDetail.rid);
@@ -99,13 +96,8 @@ public class CategoryClickHandler {
         intent.putExtra(BaseActionBarActivity.KEY_TITLE, title);
         intent.putExtra(BackWebActivity.KEY_RID, rid);
         intent.putExtra(BackWebActivity.KEY_SHOW_STATISTICAL, true);
-        if (type == Category.CATEGORY_TRAINING || type == Category.CATEGORY_SHELF) {
-            intent.putExtra(PDFViewerActivity.KEY_SHOW_RATING, true);
-            intent.putExtra(PDFViewerActivity.KEY_SHOW_COMMENT, true);
-        } else if (type == Category.CATEGORY_NOTICE) {
-            intent.putExtra(PDFViewerActivity.KEY_SHOW_RATING, false);
-            intent.putExtra(PDFViewerActivity.KEY_SHOW_COMMENT, true);
-        }
+        intent.putExtra(BackWebActivity.KEY_SHOW_RATING, type == Category.CATEGORY_TRAINING || type == Category.CATEGORY_SHELF);
+        intent.putExtra(BackWebActivity.KEY_SHOW_COMMENT, true);
         context.startActivity(intent);
     }
 
@@ -134,15 +126,16 @@ public class CategoryClickHandler {
     /**
      * 功能描述:跳转到pdf浏览页面,设置此资源课件已读
      */
-    public static void goPdfView(Context context, int type, String rid, String title) {
+    public static void goPdfView(Context context, int type, String rid, String title, String url) {
         if (!((Activity) context).isFinishing()) {
             // 系统版本>=11 使用第三方的pdf阅读
             if (android.os.Build.VERSION.SDK_INT >= 11) {
                 Intent intent = new Intent(context, PDFViewerActivity.class);
                 intent.putExtra(PDFViewerActivity.KEY_RID, rid);
-                intent.putExtra(PDFViewerActivity.KEY_SHOW_RATING, type == Category.CATEGORY_TRAINING);
+                intent.putExtra(PDFViewerActivity.KEY_SHOW_RATING, type == Category.CATEGORY_TRAINING || type == Category.CATEGORY_SHELF);
                 intent.putExtra(PDFViewerActivity.KEY_SHOW_COMMENT, true);
                 intent.putExtra(BaseActionBarActivity.KEY_TITLE, title);
+                intent.putExtra(PDFViewerActivity.KEY_URL, url);
                 context.startActivity(intent);
             }
         }
@@ -154,79 +147,12 @@ public class CategoryClickHandler {
          * 判断是pdf还是web
          */
         if (android.os.Build.VERSION.SDK_INT >= 11) {// pdf
-            // 声明pdf文件要保存的路径
-            if (FileUtils.getAvailaleSize() / 1024 / 1024 <= 9) {
-                ToastUtil.showToast(context, R.string.train_sd_size_limited);
-                return;
-            }
-            String path = FileUtils.getTrainCacheDir(context) + rid + ".pdf";
-            File file = new File(path);
-            // pdf文件不存在
-            if (!file.exists() || !file.isFile() || file.isDirectory()
-                    || file.length() == 0) {
-                startDownload(context, type, rid, url, title);
-            } else {
-                // pdf文件已存在 调用
-                goPdfView(context, type, rid, title);
-            }
+            // pdf文件已存在 调用
+            goPdfView(context, type, rid, title, url);
         } else {// web
             String company = SP.getStringSP(context, SP.DEFAULTCACHE, Constant.COMPANY, "badou");
             final String webPdfUrl = Constant.TRAIN_IMG_SHOW + company + File.separator + rid + Constant.TRAIN_IMG_FORMAT;
             goHTML(context, type, rid, webPdfUrl, title);
         }
-    }
-
-    private static void startDownload(final Context context, final int type, final String rid, String url, final String title) {
-        final String ENDWITH_PDF = ".pdf";
-        if (mDownloadHandler != null) {
-            ToastUtil.showToast(context, R.string.action_update_download_ing);
-            return;
-        }
-        final String path = FileUtils.getTrainCacheDir(context) + rid + ENDWITH_PDF;
-        if (TextUtils.isEmpty(path)) {
-            ToastUtil.showToast(context,
-                    R.string.train_result_download_memory_error);
-            return;
-        }
-
-        if (progressDialog == null) {
-            progressDialog = new HorizontalProgressDialog(context);
-            progressDialog.setCancelable(false);
-        }
-        progressDialog.show();
-        HttpUtils http = new HttpUtils();
-        mDownloadHandler = http.download(url,
-                path + ".tmp",
-                true, // 如果目标文件存在，接着未完成的部分继续下载。服务器不支持RANGE时将从新下载。
-                true, // 如果从请求返回信息中获取到文件名，下载完成后自动重命名。
-                new RequestCallBack<File>() {
-
-                    @Override
-                    public void onLoading(long total, long current, boolean isUploading) {
-                        if (progressDialog.getProgressMax() != total)
-                            progressDialog.setProgressMax((int) total);
-                        progressDialog.setProgress((int) current);
-                    }
-
-                    @Override
-                    public void onSuccess(ResponseInfo<File> responseInfo) {
-                        FileUtils.renameFile(FileUtils.getTrainCacheDir(context), rid + ENDWITH_PDF + ".tmp", rid + ENDWITH_PDF);
-                        goPdfView(context, type, rid, title);
-                        mDownloadHandler.cancel();
-                        mDownloadHandler = null;
-                        if (!((Activity) context).isFinishing())
-                            progressDialog.dismiss();
-                    }
-
-
-                    @Override
-                    public void onFailure(HttpException error, String msg) {
-                        new File(path + ".tmp").delete();
-                        ToastUtil.showToast(context,
-                                R.string.train_result_download_fail);
-                        if (!((Activity) context).isFinishing())
-                            progressDialog.dismiss();
-                    }
-                });
     }
 }

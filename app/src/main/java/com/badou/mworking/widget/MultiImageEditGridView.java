@@ -90,7 +90,7 @@ public class MultiImageEditGridView extends GridView {
         int column = Math.min(3, mAdapter.getCount());
         setNumColumns(column);
         layoutParams = getLayoutParams();
-        layoutParams.width = 2 * paddingSide + size * column + paddingVertical * (column - 1);
+        layoutParams.width = 2 * paddingSide + size * column + paddingVertical * (column );
         layoutParams.height = LayoutParams.WRAP_CONTENT;
         setLayoutParams(layoutParams);
     }

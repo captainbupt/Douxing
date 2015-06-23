@@ -26,6 +26,10 @@ import com.badou.mworking.util.ToastUtil;
 
 import org.json.JSONObject;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnCheckedChanged;
+import butterknife.OnClick;
 import cn.jpush.android.api.JPushInterface;
 
 /**
@@ -33,14 +37,12 @@ import cn.jpush.android.api.JPushInterface;
  */
 public class AboutUsActivity extends BaseBackActionBarActivity {
 
-    private TextView mInfoTextView;
-    private CheckBox mShowPictureCheckBox;  //是否显示图片
-    private CheckBox mPushCheckBox;    //是否推送提醒
-
-    private LinearLayout mUpdateLinearLayout;    // 检查更新
-    private LinearLayout mClearCacheLinearLayout;  //缓存管理
-    private LinearLayout mFrequentlyQuestionLinearLayout; //常见问题
-    private LinearLayout mContactUsLinearLayout;  //联系我们
+    @InjectView(R.id.tv_info)
+    TextView tvInfo;
+    @InjectView(R.id.cb_push)
+    CheckBox cbPush;
+    @InjectView(R.id.cb_save)
+    CheckBox cbSave;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,122 +50,23 @@ public class AboutUsActivity extends BaseBackActionBarActivity {
         setActionbarTitle(mContext.getResources().getString(
                 R.string.title_name_about));
         setContentView(R.layout.activity_about_us);
-        initView();
+        ButterKnife.inject(this);
         initData();
-        initListener();
-    }
-
-    protected void initView() {
-        mInfoTextView = (TextView) findViewById(R.id.tv_user_setting_info);
-        mShowPictureCheckBox = (CheckBox) findViewById(R.id.cb_about_us_save);
-        mPushCheckBox = (CheckBox) findViewById(R.id.cb_about_us_push);
-        mUpdateLinearLayout = (LinearLayout) findViewById(R.id.ll_about_us_check_update);
-        mClearCacheLinearLayout = (LinearLayout) findViewById(R.id.ll_about_us_clear_cache);
-        mFrequentlyQuestionLinearLayout = (LinearLayout) findViewById(R.id.ll_about_us_faq);
-        mContactUsLinearLayout = (LinearLayout) findViewById(R.id.ll_about_us_contact);
     }
 
     private void initData() {
-        mShowPictureCheckBox.setChecked(SPUtil.getSaveInternetOption(mContext));
-        mPushCheckBox.setChecked(SPUtil.getClosePushOption(mContext));
-        mInfoTextView.setText(mContext.getResources().getString(
+        cbSave.setChecked(SPUtil.getSaveInternetOption(mContext));
+        cbPush.setChecked(SPUtil.getClosePushOption(mContext));
+        tvInfo.setText(mContext.getResources().getString(
                 R.string.app_name)
                 + AppApplication.appVersion);
     }
 
-    private void initListener() {
-        // 检测更新
-        mUpdateLinearLayout.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                checkUpdate(false);
-            }
-        });
-
-        // 清除缓存
-        mClearCacheLinearLayout.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(mContext, ClearCacheActivity.class));
-            }
-        });
-
-        // 常见问题
-        mFrequentlyQuestionLinearLayout.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent1 = new Intent(mContext,
-                        TipsWebView.class);
-                intent1.putExtra(BackWebActivity.KEY_URL,
-                        Net.getRunHost(AboutUsActivity.this) + Net.FAQ);
-                intent1.putExtra(TipsWebView.KEY_TITLE, getResources().getString(R.string.about_us_frequent_question));
-                startActivity(intent1);
-            }
-        });
-
-        // 联系我们
-        mContactUsLinearLayout.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new AlertDialog.Builder(mContext)
-                        .setMessage(R.string.about_tips_phone
-                        )
-                        .setPositiveButton(
-                                R.string.about_btn_tophone,
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(
-                                            DialogInterface dialog,
-                                            int which) {
-                                        Intent intent = new Intent(
-                                                "android.intent.action.CALL",
-                                                Uri.parse("tel:4008233773"));
-                                        startActivity(intent);
-                                        overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
-                                    }
-                                }).setNegativeButton(R.string.text_cancel, null)
-                        .create().show();
-            }
-        });
-
-        //是否显示图片开关
-        mShowPictureCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    SPUtil.setSaveInternetOption(mContext, true);
-                } else {
-                    SPUtil.setSaveInternetOption(mContext, false);
-                }
-            }
-        });
-
-        //是否开启推送开关
-        mPushCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    SPUtil.setClosePushOption(mContext, true);
-                    JPushInterface.stopPush(getApplicationContext());   //推送关闭
-                    AlarmUtil alarmUtil = new AlarmUtil();
-                    alarmUtil.cancel(mContext);
-                } else {
-                    SPUtil.setClosePushOption(mContext, false);
-                    JPushInterface.resumePush(getApplicationContext());    //推送打开
-                    AlarmUtil alarmUtil = new AlarmUtil();
-                    alarmUtil.OpenTimer(mContext);
-                }
-            }
-        });
-    }
-
-    private void checkUpdate(boolean isAuto) {
-        if (!isAuto) {
-            mProgressDialog.setTitle(R.string.message_tips);
-            mProgressDialog.setContent(R.string.action_update_check_ing);
-            mProgressDialog.show();
-        }
+    @OnClick(R.id.ll_check_update)
+    void checkUpdate() {
+        mProgressDialog.setTitle(R.string.message_tips);
+        mProgressDialog.setContent(R.string.action_update_check_ing);
+        mProgressDialog.show();
         ServiceProvider.doCheckUpdate(mContext, null, new VolleyListener(mContext) {
 
                     @Override
@@ -207,5 +110,66 @@ public class AboutUsActivity extends BaseBackActionBarActivity {
                 }
 
         );
+    }
+
+    // 清除缓存
+    @OnClick(R.id.ll_clear_cache)
+    void clearCache() {
+        startActivity(new Intent(mContext, ClearCacheActivity.class));
+    }
+
+    // 常见问题
+    @OnClick(R.id.ll_faq)
+    void frequentQuestion() {
+        Intent intent1 = new Intent(mContext,
+                TipsWebView.class);
+        intent1.putExtra(BackWebActivity.KEY_URL,
+                Net.getRunHost(AboutUsActivity.this) + Net.FAQ);
+        intent1.putExtra(TipsWebView.KEY_TITLE, getResources().getString(R.string.about_us_frequent_question));
+        startActivity(intent1);
+    }
+
+    // 联系我们
+    @OnClick(R.id.ll_contact)
+    void contactUs() {
+        new AlertDialog.Builder(mContext).setMessage(R.string.about_tips_phone)
+                .setPositiveButton(R.string.about_btn_tophone,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(
+                                    DialogInterface dialog,
+                                    int which) {
+                                Intent intent = new Intent(
+                                        "android.intent.action.CALL",
+                                        Uri.parse("tel:4008233773"));
+                                startActivity(intent);
+                            }
+                        }).setNegativeButton(R.string.text_cancel, null).show();
+    }
+
+    //是否显示图片开关
+    @OnCheckedChanged(R.id.cb_save)
+    void saveInternetOption(CompoundButton buttonView, boolean isChecked) {
+        if (isChecked) {
+            SPUtil.setSaveInternetOption(mContext, true);
+        } else {
+            SPUtil.setSaveInternetOption(mContext, false);
+        }
+    }
+
+    //是否开启推送开关
+    @OnCheckedChanged(R.id.cb_push)
+    void closePushOption(CompoundButton buttonView, boolean isChecked) {
+        if (isChecked) {
+            SPUtil.setClosePushOption(mContext, true);
+            JPushInterface.stopPush(getApplicationContext());   //推送关闭
+            AlarmUtil alarmUtil = new AlarmUtil();
+            alarmUtil.cancel(mContext);
+        } else {
+            SPUtil.setClosePushOption(mContext, false);
+            JPushInterface.resumePush(getApplicationContext());    //推送打开
+            AlarmUtil alarmUtil = new AlarmUtil();
+            alarmUtil.OpenTimer(mContext);
+        }
     }
 }

@@ -37,6 +37,7 @@
                 android:textSize="@dimen/text_size_title_bar_title" />
         </RelativeLayout>
 
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -59,8 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:textColor="@android:color/white"
-                android:textSize="30sp" />
+                android:textColor="@android:color/white" />
 
             <TextView
                 android:id="@+id/tv_user_progress_top_rank"
@@ -71,6 +71,7 @@
                 android:textSize="@dimen/text_size_medium" />
 
         </RelativeLayout>
+
     </LinearLayout>
 
     <TextView

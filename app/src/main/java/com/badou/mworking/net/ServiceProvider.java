@@ -952,7 +952,6 @@ public class ServiceProvider {
                 .getUserInfo().userId;
         // url 编码，    url请求不支持中问，需要将中文进行url编码
         key = key.replace("\n", "");
-        key = key.replace(" ", "");
         if (!TextUtils.isEmpty(key)) {
             try {
                 key = URLEncoder.encode(key, "UTF-8");

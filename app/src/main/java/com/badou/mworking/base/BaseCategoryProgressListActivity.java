@@ -171,6 +171,7 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
         mClassificationContainer.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
+                hideMenu();
                 return true;
             }
         });

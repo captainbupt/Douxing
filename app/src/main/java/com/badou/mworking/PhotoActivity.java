@@ -46,7 +46,6 @@ public class PhotoActivity extends BaseNoTitleActivity {
         String imgUrl = mReceivedIntent.getStringExtra(KEY_URL);
         String imgpath = mReceivedIntent.getStringExtra(KEY_PATH);
         if (!TextUtils.isEmpty(imgUrl)) {
-            System.out.println("imgUrl: " + imgUrl);
             MyVolley.getImageLoader().get(imgUrl,
                     new ImageLoader.ImageListener() {
                         @Override
@@ -63,7 +62,6 @@ public class PhotoActivity extends BaseNoTitleActivity {
 
                         @Override
                         public void onErrorResponse(VolleyError volleyError) {
-                            System.out.println("error");
                             ToastUtil.showToast(mContext, R.string.chatter_open_image_fail);
                             finish();
                         }

@@ -12,6 +12,7 @@ import com.badou.mworking.ChatterDetailActivity;
 import com.badou.mworking.ChatterUserActivity;
 import com.badou.mworking.ExamActivity;
 import com.badou.mworking.MainGridActivity;
+import com.badou.mworking.MessageCenterActivity;
 import com.badou.mworking.NoticeActivity;
 import com.badou.mworking.TaskActivity;
 import com.badou.mworking.TrainActivity;
@@ -76,6 +77,7 @@ public class JPushReceiver extends BroadcastReceiver {
 /*                Log.d(TAG, "[MyReceiver] 用户点击打开了通知");
                 JPushInterface.reportNotificationOpened(context,
                         bundle.getString(JPushInterface.EXTRA_MSG_ID));*/
+                toMessageCenter(context, bundle);
             } else if (JPushInterface.ACTION_RICHPUSH_CALLBACK.equals(intent
                     .getAction())) {
 /*                Log.d(TAG,
@@ -120,6 +122,12 @@ public class JPushReceiver extends BroadcastReceiver {
             Intent intent = new Intent(MainGridActivity.ACTION_RECEIVER_MESSAGE);
             context.sendBroadcast(intent);
         }
+    }
+
+    private void toMessageCenter(Context context, Bundle bundle) {
+        Intent intent = new Intent(context, MessageCenterActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
     }
 
 }

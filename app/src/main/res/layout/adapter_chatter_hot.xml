@@ -46,6 +46,7 @@
         android:id="@+id/tv_adapter_chatter_hot_level"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/offset_small"
         android:paddingBottom="1dp"
         android:paddingLeft="2dp"
         android:paddingRight="2dp"

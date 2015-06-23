@@ -55,7 +55,7 @@ public class MultiImageShowGridView extends GridView {
             int paddingVertical = getResources().getDimensionPixelOffset(R.dimen.offset_less);
             int column = Math.min(2, imgUrlList.size());
             setNumColumns(column);
-            layoutParams = new LinearLayout.LayoutParams(2 * paddingSide + size * column + paddingVertical * (column - 1), LinearLayout.LayoutParams.WRAP_CONTENT);
+            layoutParams = new LinearLayout.LayoutParams(2 * paddingSide + size * column + paddingVertical * (column), LinearLayout.LayoutParams.WRAP_CONTENT);
         } else {
             layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         }

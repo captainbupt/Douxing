@@ -39,7 +39,6 @@ public class WaitProgressDialog extends ProgressDialog {
         setContent(msg);
         setTitle(mContext.getString(R.string.message_tips));
         setCanceledOnTouchOutside(false);
-        setCancelable(false);
     }
 
     public void setContent(String msg) {
@@ -57,6 +56,12 @@ public class WaitProgressDialog extends ProgressDialog {
             setContent(mContext.getResources().getString(R.string.message_wait));
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void show() {
+        if (!((Activity) mContext).isFinishing())
+            super.show();
     }
 
     @Override

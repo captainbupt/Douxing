@@ -15,6 +15,7 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.net.Uri;
+import android.os.Build;
 import android.util.Base64;
 
 import java.io.ByteArrayInputStream;
@@ -31,6 +32,16 @@ import java.net.URL;
  * 功能描述: 图片处理工具类
  */
 public class BitmapUtil {
+
+	public static int getBitmapSize(Bitmap bitmap){
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){    //API 19
+			return bitmap.getAllocationByteCount();
+		}
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1){//API 12
+			return bitmap.getByteCount();
+		}
+		return bitmap.getRowBytes() * bitmap.getHeight();                //earlier version
+	}
 
 	public static Bitmap narrowBitMap(Bitmap bm, int newWidth) {
 		// 获得图片的宽高
@@ -142,7 +153,7 @@ public class BitmapUtil {
 		if (orgBitmap == null)
 			return null;
 		if (orgBitmap.getHeight() > reqHeight
-				|| orgBitmap.getWidth() > reqWidth) {
+				&& orgBitmap.getWidth() > reqWidth) {
 			// 计算出实际宽高和目标宽高的比率
 			float heightRatio = (float) reqHeight
 					/ (float) orgBitmap.getHeight();

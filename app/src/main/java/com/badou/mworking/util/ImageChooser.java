@@ -185,19 +185,20 @@ public class ImageChooser {
         ((Activity) mContext).startActivityForResult(intent, VIDEO_REQUEST_CODE);
     }
 
+    public static final int MAX_WIDTH = 800;
+    public static final int MAX_HEIGHT = 1200;
+
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case IMAGE_REQUEST_CODE:
-                    if(data != null) {
+                    if (data != null) {
                         if (isZoom)
                             startPhotoZoom(data.getData());
                         else {
                             Uri originalUri = data.getData(); // 获得图片的uri
                             String path = getPath(mContext, originalUri);
-                            BitmapFactory.Options option1 = new BitmapFactory.Options();
-                            option1.inSampleSize = 4;
-                            Bitmap bitmap = BitmapFactory.decodeFile(path, option1);
+                            Bitmap bitmap = BitmapUtil.decodeSampledBitmapFromFile(path, MAX_WIDTH, MAX_HEIGHT);
                             if (mOnImageChosenListener != null)
                                 mOnImageChosenListener.onImageChose(bitmap, TYPE_IMAGE);
                         }
@@ -207,8 +208,8 @@ public class ImageChooser {
                     if (FileUtils.hasSdcard()) {
                         File file = new File(mContext.getExternalCacheDir().getAbsolutePath() + File.separator + "temp.jpg");
                         BitmapFactory.Options option = new BitmapFactory.Options();
-                        option.inSampleSize = 4;
-                        Bitmap bitmap = BitmapFactory.decodeFile(file.toString(), option); //根据Path读取资源图片
+                        option.inSampleSize = 2;
+                        Bitmap bitmap = BitmapUtil.decodeSampledBitmapFromFile(file.getAbsolutePath(), MAX_WIDTH, MAX_HEIGHT);
                         Matrix matrix = new Matrix();
                         int width = bitmap.getWidth();
                         int height = bitmap.getHeight();

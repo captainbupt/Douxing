@@ -1,5 +1,6 @@
 package com.badou.mworking.widget;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.view.Window;
@@ -15,13 +16,15 @@ import com.badou.mworking.R;
 public class HorizontalProgressDialog extends Dialog {
 
     ProgressBar progressBar;
+    private Context mContext;
 
     public HorizontalProgressDialog(Context context) {
         super(context);
+        this.mContext = context;
         // 对话框加载布局文件
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.load_progerss_layout);
-
+        setCanceledOnTouchOutside(false);
         progressBar = (ProgressBar) findViewById(R.id.load_progressBar);
         progressBar.setProgress(0);
     }
@@ -36,5 +39,17 @@ public class HorizontalProgressDialog extends Dialog {
 
     public int getProgressMax() {
         return progressBar.getMax();
+    }
+
+    @Override
+    public void show() {
+        if (!((Activity) mContext).isFinishing())
+            super.show();
+    }
+
+    @Override
+    public void dismiss() {
+        if (!((Activity) mContext).isFinishing())
+            super.dismiss();
     }
 }

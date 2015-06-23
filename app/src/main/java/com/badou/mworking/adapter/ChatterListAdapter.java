@@ -25,7 +25,6 @@ import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.LVUtil;
 import com.badou.mworking.util.NetUtils;
-import com.badou.mworking.util.SP;
 import com.badou.mworking.util.SPUtil;
 import com.badou.mworking.util.TimeTransfer;
 import com.badou.mworking.widget.MultiImageShowGridView;
@@ -62,15 +61,8 @@ public class ChatterListAdapter extends MyBaseAdapter {
 
         holder.nameTextView.setText(chatter.name);
         String content = chatter.content;
-        if (content.length() > 100) {
-            content = content.substring(0, 100) + "...";
-            holder.fullContentTextView.setVisibility(View.VISIBLE);
-        } else {
-            holder.fullContentTextView.setVisibility(View.GONE);
-        }
-        TopicClickableSpan.setClickTopic(mContext, holder.contentTextView, content, holder.chatterClickListener);
-        holder.dateTextView.setText(TimeTransfer.long2StringDetailDate(mContext,
-                chatter.publishTime));
+        TopicClickableSpan.setClickTopic(mContext, holder.contentTextView, content, 100, holder.chatterClickListener);
+        holder.dateTextView.setText(TimeTransfer.long2ChatterDetailData(mContext, chatter.publishTime));
         holder.replyNumberTextView.setText("" + chatter.replyNumber);
         ImageViewLoader.setCircleImageViewResource(holder.headImageView, chatter.headUrl, mContext.getResources().getDimensionPixelSize(R.dimen.icon_head_size_middle));
 
@@ -96,7 +88,12 @@ public class ChatterListAdapter extends MyBaseAdapter {
         /** 设置点赞数和监听 **/
         holder.praiseNumberTextView.setText(chatter.praiseNumber + "");
         // 设置显示级别
-        LVUtil.setTextViewBg(holder.levelTextView, chatter.level);
+        if (chatter.name.equals("神秘的TA")) {
+            holder.levelTextView.setVisibility(View.GONE);
+        } else {
+            holder.levelTextView.setVisibility(View.VISIBLE);
+            LVUtil.setTextViewBg(holder.levelTextView, chatter.level);
+        }
         /** 设置点赞的check **/
         if (ChatterResManager.isSelect(mContext, chatter.qid)) {
             holder.praiseCheckBox.setChecked(true);
@@ -180,6 +177,9 @@ public class ChatterListAdapter extends MyBaseAdapter {
         @Override
         public void onClick(View v) {
             UserChatterInfo userChatterInfo = new UserChatterInfo((Chatter) getItem(position));
+            if (userChatterInfo.name.equals("神秘的TA")) {
+                return;
+            }
             Intent intent = new Intent(mContext, ChatterUserActivity.class);
             intent.putExtra(ChatterUserActivity.KEY_UID, ((Chatter) getItem(position)).uid);
             intent.putExtra(ChatterUserActivity.KEY_USER_CHATTER, userChatterInfo);

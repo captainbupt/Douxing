@@ -119,13 +119,13 @@ public class BaseActionBarActivity extends BaseNoTitleActivity {
     public void setRightImage(int resId) {
         mTitleRightImageView.setImageResource(resId);
         mTitleRightImageView.setVisibility(View.VISIBLE);
-        mTitleRightTextView.setVisibility(View.GONE);
+        mTitleRightTextView.setVisibility(View.INVISIBLE);
     }
 
     public void setRightText(int resId) {
         mTitleRightTextView.setText(resId);
         mTitleRightTextView.setVisibility(View.VISIBLE);
-        mTitleRightImageView.setVisibility(View.GONE);
+        mTitleRightImageView.setVisibility(View.INVISIBLE);
     }
 
     public void setTitleCustomView(View view) {

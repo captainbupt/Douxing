@@ -36,10 +36,10 @@ public class LVUtil {
         }
         if (lv >= 10) {
             tv.setText("LV " + lv);
-            tv.setPadding(2, 1, 2, 1);
+            tv.setPadding(6, 1, 6, 1);
         } else {
             tv.setText(" LV " + lv + " ");
-            tv.setPadding(3, 1, 3, 1);
+            tv.setPadding(7, 1, 7, 1);
         }
         tv.setBackgroundResource(bg);
     }

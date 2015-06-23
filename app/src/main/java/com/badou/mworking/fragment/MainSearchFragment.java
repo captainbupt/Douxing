@@ -68,7 +68,8 @@ public class MainSearchFragment extends BaseFragment {
     private PullToRefreshListView mResultListView;
     private MainSearchAdapter mResultAdpater;
     private String[] mCategoryNames;
-    private Handler mBackgroundHandler;
+    private WaitProgressDialog progressDialog;
+    private static Handler mBackgroundHandler;
 
     @Override
     public View onCreateView(android.view.LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -76,14 +77,15 @@ public class MainSearchFragment extends BaseFragment {
         initView(mContainerView);
         initListener();
         initData();
-        mBackgroundHandler = new Handler();
-        mBackgroundHandler.post(new Runnable() {
+        if (mBackgroundHandler == null)
+            mBackgroundHandler = new Handler();
+/*        mBackgroundHandler.post(new Runnable() {
             @Override
             public void run() {
                 while (mContainerView.getHeight() == 0) ;
                 blur(((MainGridActivity) mContext).myShot(), mContainerView);
             }
-        });
+        });*/
         return mContainerView;
     }
 
@@ -94,6 +96,9 @@ public class MainSearchFragment extends BaseFragment {
         mNoneResultTextView = (TextView) view.findViewById(R.id.tv_main_search_none);
         mResultListView = (PullToRefreshListView) view.findViewById(R.id.ptrlv_main_search_results);
         mTitleEditView = (EditText) view.findViewById(R.id.et_main_search_title);
+        progressDialog = new WaitProgressDialog(mContext);
+        progressDialog.setCancelable(false);
+        setFocus();
         clearResult();
     }
 
@@ -101,14 +106,7 @@ public class MainSearchFragment extends BaseFragment {
         mCancelTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (TextUtils.isEmpty(mTitleEditView.getText().toString())) {
-                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                    transaction.hide(MainSearchFragment.this);
-                    transaction.commit();
-                    ((MainGridActivity) mActivity).isSearching = false;
-                } else {
-                    clearResult();
-                }
+                backPressed();
             }
         });
         mTitleEditView.addTextChangedListener(new TextWatcher() {
@@ -142,7 +140,6 @@ public class MainSearchFragment extends BaseFragment {
                 if (item.getClass().equals(String.class))
                     return;
                 final CategoryBasic basic = (CategoryBasic) item;
-                final WaitProgressDialog progressDialog = new WaitProgressDialog(mContext);
                 progressDialog.show();
                 ServiceProvider.getResourceDetail(mContext, basic.rid, new VolleyListener(mContext) {
                     @Override
@@ -170,6 +167,34 @@ public class MainSearchFragment extends BaseFragment {
         });
     }
 
+    public void backPressed() {
+        if (TextUtils.isEmpty(mTitleEditView.getText().toString())) {
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            transaction.hide(MainSearchFragment.this);
+            transaction.commit();
+            ((MainGridActivity) mActivity).isSearching = false;
+            InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(mTitleEditView.getWindowToken(), 0);
+        } else {
+            clearResult();
+        }
+    }
+
+    public void setFocus() {
+        if (mTitleEditView != null) {
+            mTitleEditView.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mTitleEditView.setFocusable(true);
+                    mTitleEditView.setFocusableInTouchMode(true);
+                    mTitleEditView.requestFocus();
+                    InputMethodManager inputManager = (InputMethodManager) mTitleEditView.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    inputManager.showSoftInput(mTitleEditView, 0);
+                }
+            }, 300);
+        }
+    }
+
     private Runnable mUpdateRunnable = new Runnable() {
 
         @Override
@@ -195,7 +220,6 @@ public class MainSearchFragment extends BaseFragment {
 
             @Override
             public void onErrorCode(int code) {
-                super.onErrorCode(code);
                 updateListFromJson(null, key);
             }
 
@@ -268,7 +292,7 @@ public class MainSearchFragment extends BaseFragment {
 
     private void blur(Bitmap bkg, View view) {
         float radius = 2;
-        float scaleFactor = 16;
+        float scaleFactor = 32;
 
         Bitmap overlay = Bitmap.createBitmap((int) (view.getMeasuredWidth() / scaleFactor), (int) (view.getMeasuredHeight() / scaleFactor), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(overlay);

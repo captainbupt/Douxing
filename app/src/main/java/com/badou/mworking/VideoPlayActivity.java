@@ -36,6 +36,7 @@ import com.badou.mworking.R.color;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.model.MainIcon;
 import com.badou.mworking.net.RequestParameters;
+import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.FullScreenVideoView;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
@@ -142,19 +143,22 @@ public class VideoPlayActivity extends BaseBackActionBarActivity {
     }
 
     private void downloadFile() {
+        mProgressDialog.show();
         HttpUtils httpUtils = new HttpUtils();
         httpUtils.download(videoURl, videoPath, true, true, new RequestCallBack<File>() {
             @Override
             public void onSuccess(ResponseInfo<File> responseInfo) {
                 mVideo.setBackgroundColor(VideoPlayActivity.this.getResources().getColor(color.transparent));
                 mVideo.setVideoPath(videoPath);
+                mProgressDialog.dismiss();
                 statuDownFinish();
                 startPlay();
             }
 
             @Override
             public void onFailure(HttpException e, String s) {
-
+                mProgressDialog.dismiss();
+                ToastUtil.showNetExc(mContext);
             }
 
             @Override
