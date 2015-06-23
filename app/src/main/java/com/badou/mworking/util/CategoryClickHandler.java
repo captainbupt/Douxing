@@ -97,7 +97,7 @@ public class CategoryClickHandler {
         intent.putExtra(BackWebActivity.KEY_RID, rid);
         intent.putExtra(BackWebActivity.KEY_SHOW_STATISTICAL, true);
         intent.putExtra(BackWebActivity.KEY_SHOW_RATING, type == Category.CATEGORY_TRAINING || type == Category.CATEGORY_SHELF);
-        intent.putExtra(BackWebActivity.KEY_SHOW_COMMENT, true);
+        intent.putExtra(BackWebActivity.KEY_SHOW_COMMENT, type == Category.CATEGORY_TRAINING || type == Category.CATEGORY_SHELF || type == Category.CATEGORY_NOTICE);
         context.startActivity(intent);
     }
 

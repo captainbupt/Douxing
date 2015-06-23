@@ -76,11 +76,6 @@ public class AppApplication extends Application {
         getScreenLevel();
         // 在使用 SDK 各组间之前初始化 context 信息，传入 ApplicationContext
         SDKInitializer.initialize(this);
-
-        // 设置友盟统计模式可以同时统计Activity和Fragment
-        MobclickAgent.openActivityDurationTrack(false);
-        // 实时统计数据
-        // MobclickAgent.updateOnlineConfig(this);
     }
 
     /**

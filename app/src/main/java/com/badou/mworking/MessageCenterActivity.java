@@ -129,4 +129,12 @@ public class MessageCenterActivity extends BaseBackActionBarActivity {
         ToastUtil.showToast(mContext, R.string.tip_message_center_resource_gone);
         mProgressDialog.dismiss();
     }
+
+    @Override
+    public void finish() {
+        Intent intent = new Intent(mContext, MainGridActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        super.finish();
+    }
 }

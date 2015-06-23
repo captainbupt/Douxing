@@ -11,6 +11,7 @@ import com.badou.mworking.model.user.UserInfo;
 import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.SP;
 import com.badou.mworking.widget.OptimizedImageView;
+import com.umeng.analytics.MobclickAgent;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -35,6 +36,10 @@ public class SplashActivity extends BaseNoTitleActivity {
 		disableSwipeBack();
 		// 等待1-2秒后进入后续界面
 		new Handler().postDelayed(new JumpRunnable(mContext), 1500);
+
+		// 设置友盟统计模式可以同时统计Activity和Fragment
+		MobclickAgent.openActivityDurationTrack(false);
+		MobclickAgent.updateOnlineConfig(mContext);
 	}
 
 	class JumpRunnable implements Runnable{
