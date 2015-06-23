@@ -55,6 +55,7 @@
                 android:layout_below="@id/tv_adapter_ask_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginRight="@dimen/offset_small"
+                android:paddingTop="1dp"
                 android:layout_marginTop="@dimen/offset_less"
                 android:scaleType="centerInside"
                 android:src="@drawable/icon_bottom_comment" />

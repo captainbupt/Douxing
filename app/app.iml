@@ -91,12 +91,12 @@
     <orderEntry type="library" exported="" name="jpush-sdk-release1.6.1" level="project" />
     <orderEntry type="library" exported="" name="butterknife-6.1.0" level="project" />
     <orderEntry type="library" exported="" name="nineoldandroids-2.4.0" level="project" />
-    <orderEntry type="library" exported="" name="umeng-analytics-v5.4.1" level="project" />
     <orderEntry type="library" exported="" name="locSDK_3.1" level="project" />
     <orderEntry type="library" exported="" name="android-support-v4" level="project" />
     <orderEntry type="library" exported="" name="volley" level="project" />
     <orderEntry type="library" exported="" name="support-v4-21.0.3" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-21.0.3" level="project" />
+    <orderEntry type="library" exported="" name="umeng-analytics-v5.5.3" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-19.0.1" level="project" />
     <orderEntry type="module" module-name="Pulltorefresh" exported="" />
     <orderEntry type="module" module-name="SwipeBackLayout" exported="" />

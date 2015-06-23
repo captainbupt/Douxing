@@ -43,7 +43,6 @@ dependencies {
     compile files('libs/baidumapapi_v3_3_0.jar')
     compile files('libs/jpush-sdk-release1.6.1.jar')
     compile files('libs/locSDK_3.1.jar')
-    compile files('libs/umeng-analytics-v5.4.1.jar')
     compile files('libs/volley.jar')
     compile files('libs/xUtils-2.6.14.jar')
     compile project(':Pulltorefresh')
@@ -51,4 +50,5 @@ dependencies {
     compile files('libs/android-support-v4.jar')
     compile project(':SwipeBackLayout')
     compile 'com.jakewharton:butterknife:6.1.0'
+    compile files('libs/umeng-analytics-v5.5.3.jar')
 }

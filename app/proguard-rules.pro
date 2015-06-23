@@ -36,6 +36,10 @@
 -keep public class com.badou.mworking.R$*{
 public static final int *;
 }
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
 
 # volley
 -keep class com.android.volley.**{*;}
