@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.badou.mworking.R;
 import com.badou.mworking.util.AppManager;
+import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.WaitProgressDialog;
 import com.nineoldandroids.view.ViewHelper;
 import com.umeng.analytics.MobclickAgent;
@@ -89,6 +90,28 @@ public class BaseNoTitleActivity extends ActionBarActivity implements SwipeBackA
     public void startActivity(Intent intent) {
         super.startActivity(intent);
         overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
+    }
+
+    public void showToast(int resId) {
+        ToastUtil.showToast(mContext, resId);
+    }
+
+    public void showToast(String message) {
+        ToastUtil.showToast(mContext, message);
+    }
+
+    public void showProgressDialog(int resId) {
+        mProgressDialog.setContent(resId);
+        mProgressDialog.show();
+    }
+
+    public void showProgressDialog(String message) {
+        mProgressDialog.setContent(message);
+        mProgressDialog.show();
+    }
+
+    public void hideProgressDialog(){
+        mProgressDialog.dismiss();
     }
 
     // 从SwipeBackActivity中抄过来的

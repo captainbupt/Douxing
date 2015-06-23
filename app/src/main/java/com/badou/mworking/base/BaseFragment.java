@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 
+import com.badou.mworking.util.ToastUtil;
 import com.umeng.analytics.MobclickAgent;
 
 /**
@@ -32,13 +33,11 @@ public class BaseFragment extends Fragment {
         MobclickAgent.onPageEnd(getClass().getName());
     }
 
-/*    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if(isVisibleToUser){
-            MobclickAgent.onPageStart(getClass().getName()); //统计页面
-        }else{
-            MobclickAgent.onPageEnd(getClass().getName());
-        }
-    }*/
+    public void showToast(int resId) {
+        ToastUtil.showToast(mContext, resId);
+    }
+
+    public void showToast(String message) {
+        ToastUtil.showToast(mContext, message);
+    }
 }
