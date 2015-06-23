@@ -62,6 +62,11 @@ public class ChatterListAdapter extends MyBaseAdapter {
         holder.nameTextView.setText(chatter.name);
         String content = chatter.content;
         TopicClickableSpan.setClickTopic(mContext, holder.contentTextView, content, 100, holder.chatterClickListener);
+        if(holder.contentTextView.getText().length() > 100){
+            holder.fullContentTextView.setVisibility(View.VISIBLE);
+        }else{
+            holder.fullContentTextView.setVisibility(View.GONE);
+        }
         holder.dateTextView.setText(TimeTransfer.long2ChatterDetailData(mContext, chatter.publishTime));
         holder.replyNumberTextView.setText("" + chatter.replyNumber);
         ImageViewLoader.setCircleImageViewResource(holder.headImageView, chatter.headUrl, mContext.getResources().getDimensionPixelSize(R.dimen.icon_head_size_middle));
