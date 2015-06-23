@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -208,7 +209,8 @@ public class MainGridActivity extends BaseNoTitleActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, UserCenterActivity.class);
                 intent.putExtra(BaseActionBarActivity.KEY_TITLE, getResources().getString(R.string.title_name_user_center));
-                startActivity(intent);
+                MainGridActivity.super.startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_from_bottom, R.anim.slide_out_to_bottom);
             }
         });
         mSearchImageView.setOnClickListener(new View.OnClickListener() {
@@ -221,6 +223,7 @@ public class MainGridActivity extends BaseNoTitleActivity {
                 }
                 transaction.show(mMainSearchFragment);
                 transaction.commit();
+                mMainSearchFragment.setFocus();
                 isSearching = true;
             }
         });
@@ -326,11 +329,8 @@ public class MainGridActivity extends BaseNoTitleActivity {
      */
     @Override
     public void onBackPressed() {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         if (isSearching) {
-            transaction.hide(mMainSearchFragment);
-            transaction.commit();
-            isSearching = false;
+            mMainSearchFragment.backPressed();
         } else {
             // 应为系统当前的系统毫秒数一定小于2000
             if ((System.currentTimeMillis() - mExitTime) > 2000) {

@@ -46,3 +46,8 @@ public static final int *;
 # nineoldandroid
 #-libraryjars libs/nineoldandroids-2.4.0.jar
 -keep class com.nineoldandroids.**{*;}
+
+# butterknife
+-dontwarn butterknife.internal.**
+-keep class **$$ViewInjector { *; }
+-keepnames class * { @butterknife.InjectView *;}

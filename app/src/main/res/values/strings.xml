@@ -235,6 +235,31 @@
     <string name="none_result_ask">有问题问兜行\n好多同事来帮你</string>
     <string name="none_result_message_center">暂无未读消息</string>
 
+    <string name="error_code_40001">参数格式非法</string>
+    <string name="error_code_40002">非法电话号码格式</string>
+    <string name="error_code_40003">非法用户ID</string>
+    <string name="error_code_40004">非法资源ID</string>
+    <string name="error_code_40005">非法gps值</string>
+    <string name="error_code_40006">非法模块类型</string>
+    <string name="error_code_40007">非法组织结构</string>
+    <string name="error_code_40008">非法帖子ID</string>
+    <string name="error_code_40009">非法验证码</string>
+    <string name="error_code_50001">用户名/密码校验失败</string>
+    <string name="error_code_50002">用户不存在</string>
+    <string name="error_code_50003">资源不存在</string>
+    <string name="error_code_50004">无权限访问</string>
+    <string name="error_code_50005">GPS位置不符</string>
+    <string name="error_code_50006">用户不存在</string>
+    <string name="error_code_50007">帖子不存在</string>
+    <string name="error_code_50008">内容为空</string>
+    <string name="error_code_50009">用户已存在</string>
+    <string name="error_code_50010">访问过于频繁</string>
+    <string name="error_code_50011">非可用时段</string>
+    <string name="error_code_50012">岗位受限</string>
+    <string name="error_code_50013">部门受限</string>
+    <string name="error_code_50014">等级受限</string>
+    <string name="error_code_50015">分类操作失败</string>
+    
 </resources>
 
 

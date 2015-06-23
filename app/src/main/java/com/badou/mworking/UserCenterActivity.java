@@ -58,9 +58,16 @@ public class UserCenterActivity extends BaseNoTitleActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_center);
+        disableSwipeBack();
         initView();
         initListener();
         initData();
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_from_bottom, R.anim.slide_out_to_bottom);
     }
 
     private void initView() {

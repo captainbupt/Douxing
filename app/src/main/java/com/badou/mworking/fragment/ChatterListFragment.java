@@ -115,6 +115,11 @@ public class ChatterListFragment extends BaseFragment {
                 Constant.LIST_ITEM_NUM, new VolleyListener(getActivity()) {
 
                     @Override
+                    public void onErrorCode(int code) {
+                        mNoneResultView.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
                     public void onCompleted() {
                         if (mActivity.getClass().equals(ChatterActivity.class) && !mActivity.isFinishing()) {
                             ((ChatterActivity) getActivity()).hideProgressBar();
@@ -139,12 +144,14 @@ public class ChatterListFragment extends BaseFragment {
                         if (resultArray == null || resultArray.length() == 0) {
                             if (beginNum > 1) {
                                 ToastUtil.showUpdateToast(mContext);
+                                mNoneResultView.setVisibility(View.GONE);
                             } else {
                                 mNoneResultView.setVisibility(View.VISIBLE);
                                 mChatterAdapter.setList(null);
                             }
                             return;
                         }
+                        mNoneResultView.setVisibility(View.GONE);
                         mCurrentPage++;
                         // 新加载的内容添加到list
                         List<Object> chatters = new ArrayList<>();
@@ -169,7 +176,11 @@ public class ChatterListFragment extends BaseFragment {
         if (mClickPosition >= 0 && mClickPosition < mChatterAdapter.getCount()) {
             if (resultCode == Activity.RESULT_OK) {
                 Chatter chatter = (Chatter) mChatterAdapter.getItem(mClickPosition);
-                chatter.replyNumber = (data.getIntExtra(ChatterDetailActivity.RESULT_KEY_COUNT, -1));
+                if (data != null) {
+                    chatter.replyNumber = (data.getIntExtra(ChatterDetailActivity.RESULT_KEY_COUNT, -1));
+                } else {
+                    chatter.replyNumber = -1;
+                }
                 if (chatter.replyNumber < 0) {
                     mChatterAdapter.remove(mClickPosition);
                 } else {

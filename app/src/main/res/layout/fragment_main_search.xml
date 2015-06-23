@@ -29,13 +29,14 @@
                 android:layout_centerVertical="true"
                 android:padding="@dimen/offset_less"
                 android:scaleType="centerInside"
-                android:src="@drawable/button_title_main_search" />
+                android:src="@drawable/icon_fragment_main_search" />
 
             <EditText
                 android:id="@+id/et_main_search_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
+                android:singleLine="true"
                 android:textColor="@color/color_text_black"
                 android:textSize="@dimen/text_size_small" />
         </LinearLayout>
@@ -55,7 +56,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#88ffffff">
+        android:background="#f8ffffff">
 
         <LinearLayout
             android:id="@+id/ll_main_search_none"

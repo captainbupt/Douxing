@@ -27,79 +27,48 @@ import org.json.JSONObject;
 
 import java.util.regex.Pattern;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
+
 /**
  * 功能描述: 账号管理页面（个人中心点击设置后进入）
  */
 public class AccountManageActivity extends BaseBackActionBarActivity {
 
-    private EditText mOriginalEditText;
-    private EditText mNewEditText;
-    private EditText mConfirmEditText;
-    private TextView mUserNameTextView;
-    private Button mLogoutButton;    //退出登录
-    private Button mChangePasswordButton; // 修改密码
+    @InjectView(R.id.tv_username)
+    TextView tvUsername;
+    @InjectView(R.id.et_original)
+    EditText etOriginal;
+    @InjectView(R.id.et_new)
+    EditText etNew;
+    @InjectView(R.id.et_confirm)
+    EditText etConfirm;
+    @InjectView(R.id.btn_change_password)
+    Button btnChangePassword;
+    @InjectView(R.id.btn_logout)
+    Button btnLogout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setActionbarTitle(mContext.getResources().getString(R.string.title_name_Myzhanghao));
         setContentView(R.layout.activity_account_manager);
-        initView();
-        initListener();
+        ButterKnife.inject(this);
         initData();
-    }
-
-    private void initView() {
-        mUserNameTextView = (TextView) findViewById(R.id.tv_change_password_username);
-        mOriginalEditText = (EditText) findViewById(R.id.et_change_password_original);
-        mNewEditText = (EditText) findViewById(R.id.et_change_password_new);
-        mConfirmEditText = (EditText) findViewById(R.id.et_change_password_confirm);
-        //退出登录
-        mLogoutButton = (Button) findViewById(R.id.btn_logout_password_confirm);
-        //修改密码
-        mChangePasswordButton = (Button) findViewById(R.id.btn_change_password_confirm);
-        mNewEditText.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mNewEditText.clearFocus();
-            }
-        }, 300);
-    }
-
-    private void initListener() {
-        mChangePasswordButton.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                changePassword(mOriginalEditText.getText().toString(),
-                        mNewEditText.getText().toString(),
-                        mConfirmEditText.getText().toString());
-            }
-        });
-        mLogoutButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                logout();
-            }
-        });
     }
 
     private void initData() {
         String account = ((AppApplication) getApplication()).getUserInfo().account;
-        mUserNameTextView.setText(account);
+        tvUsername.setText(account);
         if ("anonymous".equals(account)) {
-            mNewEditText.setEnabled(false);
-            mOriginalEditText.setEnabled(false);
-            mConfirmEditText.setEnabled(false);
-            mChangePasswordButton.setBackgroundColor(getResources().getColor(R.color.color_grey));
-            mChangePasswordButton.setEnabled(false);
             anonymousMode();
         } else {
             disableButton();
             PasswordTextWatcher passwordTextWatcher = new PasswordTextWatcher();
-            mOriginalEditText.addTextChangedListener(passwordTextWatcher);
-            mNewEditText.addTextChangedListener(passwordTextWatcher);
-            mConfirmEditText.addTextChangedListener(passwordTextWatcher);
+            etOriginal.addTextChangedListener(passwordTextWatcher);
+            etNew.addTextChangedListener(passwordTextWatcher);
+            etConfirm.addTextChangedListener(passwordTextWatcher);
         }
     }
 
@@ -117,9 +86,9 @@ public class AccountManageActivity extends BaseBackActionBarActivity {
 
         @Override
         public void afterTextChanged(Editable editable) {
-            String originPassword = mOriginalEditText.getText().toString();
-            String newPassword = mNewEditText.getText().toString();
-            String confirmPassword = mConfirmEditText.getText().toString();
+            String originPassword = etOriginal.getText().toString();
+            String newPassword = etNew.getText().toString();
+            String confirmPassword = etConfirm.getText().toString();
             if (TextUtils.isEmpty(originPassword) || TextUtils.isEmpty(newPassword) || TextUtils.isEmpty(confirmPassword)
                     || originPassword.length() < 6 || newPassword.length() < 6 || confirmPassword.length() < 6) {
                 disableButton();
@@ -130,41 +99,37 @@ public class AccountManageActivity extends BaseBackActionBarActivity {
     }
 
     private void disableButton() {
-        mChangePasswordButton.setTextColor(getResources().getColor(R.color.color_text_black));
-        mChangePasswordButton.setBackgroundResource(R.drawable.background_button_disable);
-        mChangePasswordButton.setEnabled(false);
+        btnChangePassword.setTextColor(getResources().getColor(R.color.color_text_black));
+        btnChangePassword.setBackgroundResource(R.drawable.background_button_disable);
+        btnChangePassword.setEnabled(false);
     }
 
     private void enableButton() {
-        mChangePasswordButton.setTextColor(getResources().getColor(R.color.color_button_text_blue));
-        mChangePasswordButton.setBackgroundResource(R.drawable.background_button_enable_blue);
-        mChangePasswordButton.setEnabled(true);
+        btnChangePassword.setTextColor(getResources().getColor(R.color.color_button_text_blue));
+        btnChangePassword.setBackgroundResource(R.drawable.background_button_enable_blue);
+        btnChangePassword.setEnabled(true);
     }
 
     private void anonymousMode() {
-        mChangePasswordButton.setBackgroundResource(R.drawable.background_button_disable);
-        mChangePasswordButton.setTextColor(getResources().getColor(R.color.color_text_black));
-        mChangePasswordButton.setEnabled(false);
-        mNewEditText.setInputType(InputType.TYPE_NULL);
-        mOriginalEditText.setInputType(InputType.TYPE_NULL);
-        mConfirmEditText.setInputType(InputType.TYPE_NULL);
-        mNewEditText.setOnClickListener(new AnonymousOnClickListener());
-        mOriginalEditText.setOnClickListener(new AnonymousOnClickListener());
-        mConfirmEditText.setOnClickListener(new AnonymousOnClickListener());
+        disableButton();
+        etNew.setInputType(InputType.TYPE_NULL);
+        etOriginal.setInputType(InputType.TYPE_NULL);
+        etConfirm.setInputType(InputType.TYPE_NULL);
+        etNew.setOnClickListener(new AnonymousOnClickListener());
+        etOriginal.setOnClickListener(new AnonymousOnClickListener());
+        etConfirm.setOnClickListener(new AnonymousOnClickListener());
     }
 
     class AnonymousOnClickListener implements OnClickListener {
-
         @Override
         public void onClick(View view) {
             ToastUtil.showToast(mContext, "你是游客，请退出登录");
         }
     }
 
-    /**
-     * 功能描述: 退出登录
-     */
-    private void logout() {
+    // 功能描述: 退出登录
+    @OnClick(R.id.btn_logout)
+    void logout() {
         ((AppApplication) getApplication()).clearUserInfo();
         AppManager.getAppManager().finishAllActivity();
         Intent intent = new Intent(mContext, LoginActivity.class);
@@ -172,23 +137,19 @@ public class AccountManageActivity extends BaseBackActionBarActivity {
         finish();
     }
 
-    /**
-     * 功能描述:  修改密码
-     *
-     * @param originalPassword 旧密码
-     * @param newPassword      新密码
-     * @param confirmPassword  确认新密码
-     */
-    private void changePassword(String originalPassword, String newPassword,
-                                String confirmPassword) {
+    // 功能描述:  修改密码
+    @OnClick(R.id.btn_change_password)
+    void changePassword() {
+        String originalPassword = etOriginal.getText().toString();
+        String newPassword = etNew.getText().toString();
+        String confirmPassword = etConfirm.getText().toString();
 
         Pattern pattern = Pattern.compile("^[A-Za-z0-9@\\_\\-\\.]+$");
         boolean a = pattern.matcher(newPassword).matches();
 
         if (TextUtils.isEmpty(originalPassword)) {
             ToastUtil.showToast(mContext, R.string.change_error_empty_password_original);
-        } else if (TextUtils.isEmpty(newPassword)
-                || TextUtils.isEmpty(confirmPassword)) {
+        } else if (TextUtils.isEmpty(newPassword)|| TextUtils.isEmpty(confirmPassword)) {
             ToastUtil.showToast(mContext, R.string.change_error_empty_password_new);
         } else if (originalPassword.length() < 6) {
             ToastUtil.showToast(mContext, R.string.change_error_short_password_original);
@@ -196,14 +157,9 @@ public class AccountManageActivity extends BaseBackActionBarActivity {
             ToastUtil.showToast(mContext, R.string.change_error_short_password_new);
         } else if (!a) {
             ToastUtil.showToast(mContext, R.string.tips_username_input_New_MiMa);
-        }
-        /**
-         * chygt 修改于2014.6.12 判断新旧密码是否一致的问题 如果一致需要重新输入
-         * **/
-        else if (originalPassword.equals(newPassword)) {
+        } else if (originalPassword.equals(newPassword)) {
             ToastUtil.showToast(mContext, R.string.change_error_same_new_original);
-        } else if (TextUtils.isEmpty(confirmPassword)
-                || !newPassword.equals(confirmPassword)) {
+        } else if (TextUtils.isEmpty(confirmPassword) || !newPassword.equals(confirmPassword)) {
             ToastUtil.showToast(mContext, R.string.change_error_different_password);
         } else {
             mProgressDialog.setContent(R.string.change_action_change_passwrod);
@@ -213,21 +169,17 @@ public class AccountManageActivity extends BaseBackActionBarActivity {
 
                         @Override
                         public void onErrorCode(int code) {
-                            ToastUtil.showToast(mContext, mActivity
-                                    .getString(R.string.change_error_incorrect_password));
+                            ToastUtil.showToast(mContext, mActivity.getString(R.string.change_error_incorrect_password));
                         }
 
                         @Override
                         public void onCompleted() {
-                            if (!mActivity.isFinishing()) {
-                                mProgressDialog.dismiss();
-                            }
+                            mProgressDialog.dismiss();
                         }
 
                         @Override
                         public void onResponseSuccess(JSONObject response) {
-                            changePasswordSuccess(response
-                                    .optJSONObject(Net.DATA));
+                            changePasswordSuccess(response.optJSONObject(Net.DATA));
                         }
                     });
         }
@@ -239,12 +191,10 @@ public class AccountManageActivity extends BaseBackActionBarActivity {
      * @param data
      */
     private void changePasswordSuccess(JSONObject data) {
-        UserInfo userInfo = ((AppApplication) getApplicationContext())
-                .getUserInfo();
+        UserInfo userInfo = ((AppApplication) getApplicationContext()).getUserInfo();
         userInfo.userId = data.optString(RequestParameters.USER_ID);
         userInfo.saveUserInfo(getApplicationContext());
-        MTrainingDBHelper.getMTrainingDBHelper().createUserTable(
-                userInfo.userId);
+        MTrainingDBHelper.getMTrainingDBHelper().createUserTable(userInfo.userId);
         ToastUtil.showToast(mContext, mActivity
                 .getString(R.string.change_result_change_password_success));
         finish();

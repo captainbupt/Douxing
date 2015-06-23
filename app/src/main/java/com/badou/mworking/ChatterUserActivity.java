@@ -50,9 +50,6 @@ public class ChatterUserActivity extends BaseNoTitleActivity {
     private NoScrollListView mContentListView;
     private ImageView mBackImageView;
     private TextView mTitleTextView;
-    private RelativeLayout mTopLayout;
-    private View mTitleBackgroundView;
-    private View mTitleBorderView;
     private PullToRefreshScrollView mScrollView;
     private ChatterListAdapter mChatterAdapter;
 
@@ -72,7 +69,6 @@ public class ChatterUserActivity extends BaseNoTitleActivity {
         mHeadImageView = (ImageView) findViewById(R.id.iv_chatter_user_top_head);
         mLevelTextView = (TextView) findViewById(R.id.tv_chatter_user_top_level);
         mNameTextView = (TextView) findViewById(R.id.tv_chatter_user_top_name);
-        mTopLayout = (RelativeLayout) findViewById(R.id.rl_chatter_user_top);
         mContentListView = (NoScrollListView) findViewById(R.id.nslv_chatter_user_content);
         mBackImageView = (ImageView) findViewById(R.id.iv_chatter_user_top_back);
         mTitleTextView = (TextView) findViewById(R.id.tv_chatter_user_top_title);
@@ -144,7 +140,6 @@ public class ChatterUserActivity extends BaseNoTitleActivity {
         }
         mUserInfo = (UserChatterInfo) mReceivedIntent.getSerializableExtra(KEY_USER_CHATTER);
         if (mUserInfo != null) {
-            System.out.println(mUserInfo.headUrl);
             ImageViewLoader.setCircleImageViewResource(mHeadImageView, mUserInfo.headUrl, getResources().getDimensionPixelSize(R.dimen.user_center_image_head_size));
             mNameTextView.setText(mUserInfo.name + "\n" + mUserInfo.department);
             LVUtil.setTextViewBg(mLevelTextView, mUserInfo.level);
@@ -175,6 +170,11 @@ public class ChatterUserActivity extends BaseNoTitleActivity {
                             ToastUtil.showNetExc(mContext);
                             return;
                         }
+                        String name = contentObject.optString("name");
+                        String department = contentObject.optString("dpt");
+                        String imgUrl = contentObject.optString("imgurl");
+                        mNameTextView.setText(name + "\n" + department);
+                        ImageViewLoader.setCircleImageViewResource(mHeadImageView, imgUrl, getResources().getDimensionPixelSize(R.dimen.user_center_image_head_size));
                         // 加载到最后时 提示无更新
                         JSONArray resultArray = contentObject
                                 .optJSONObject(Net.LIST).optJSONArray(Net.RESULT);

@@ -27,10 +27,14 @@ import com.swipe.delete.SwipeLayout;
 
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+
 /**
  * Created by Administrator on 2015/6/15.
  */
 public class MessageCenterAdapter extends MyBaseAdapter {
+    SimpleDateFormat df = new SimpleDateFormat("MM-dd HH:mm");
+
     public MessageCenterAdapter(Context context) {
         super(context);
     }
@@ -47,7 +51,7 @@ public class MessageCenterAdapter extends MyBaseAdapter {
         }
         MessageCenter messageCenter = (MessageCenter) getItem(i);
         holder.descriptionTextView.setText(messageCenter.description);
-        holder.timeTextView.setText(TimeTransfer.long2StringDate(mContext, messageCenter.ts));
+        holder.timeTextView.setText(df.format(messageCenter.ts));
         holder.deleteListener.position = i;
         return view;
     }
@@ -84,5 +88,19 @@ public class MessageCenterAdapter extends MyBaseAdapter {
         MessageCenter messageCenter = (MessageCenter) getItem(position);
         MessageCenterResManager.deleteItem(mContext, messageCenter);
         remove(position);
+        if (getCount() == 0 && onEmptyListener != null) {
+            onEmptyListener.onEmpty();
+        }
     }
+
+    OnEmptyListener onEmptyListener;
+
+    public void setOnEmptyListener(OnEmptyListener onEmptyListener) {
+        this.onEmptyListener = onEmptyListener;
+    }
+
+    public interface OnEmptyListener {
+        void onEmpty();
+    }
+
 }

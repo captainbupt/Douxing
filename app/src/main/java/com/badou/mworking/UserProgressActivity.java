@@ -50,11 +50,11 @@ public class UserProgressActivity extends BaseNoTitleActivity {
 
     public ImageView mBackImageView;  // action 左侧iv
     public TextView mTitleTextView;  // action 中间tv
-    private TextView mAverageTextView;
     private TextView mTopContentTextView;
     private TextView mTopRankTextView;
     private TextView mMiddleTextView;
     private TextView mBottomTextView;
+    private TextView mAverageTextView;
     private PullToRefreshListView mContentListView;
     private UserProgressAdapter mCategoryAdapter;
 
@@ -80,12 +80,12 @@ public class UserProgressActivity extends BaseNoTitleActivity {
     protected void initView() {
         mBackImageView = (ImageView) findViewById(R.id.iv_user_progress_top_back);
         mTitleTextView = (TextView) findViewById(R.id.tv_user_progress_top_title);
-        mAverageTextView = (TextView) findViewById(R.id.tv_user_progress_top_average);
         mTopContentTextView = (TextView) findViewById(R.id.tv_user_progress_top_content);
         mTopRankTextView = (TextView) findViewById(R.id.tv_user_progress_top_rank);
         mMiddleTextView = (TextView) findViewById(R.id.tv_user_progress_middle_tip);
         mContentListView = (PullToRefreshListView) findViewById(R.id.ptrlv_user_progress_content);
         mBottomTextView = (TextView) findViewById(R.id.tv_user_progress_bottom);
+        mAverageTextView = (TextView) findViewById(R.id.tv_user_progress_top_average);
         mContentListView.setMode(Mode.BOTH);
     }
 
@@ -117,7 +117,7 @@ public class UserProgressActivity extends BaseNoTitleActivity {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position,
                                     long arg3) {
-                Category category = (Category) mCategoryAdapter.getItem(position);
+                Category category = (Category) mCategoryAdapter.getItem(position - 1);
                 CategoryClickHandler.categoryClicker(mContext, new CategoryDetail(mContext, category));
             }
         });
@@ -165,7 +165,7 @@ public class UserProgressActivity extends BaseNoTitleActivity {
             mBottomTextView.setText(R.string.user_progress_bottom_training);
             mTitleTextView.setText(R.string.user_center_my_study_progress);
             mAverageTextView.setVisibility(View.GONE);
-            mTopContentTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, DensityUtil.sp2px(mContext,50));
+            mTopContentTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, DensityUtil.sp2px(mContext, 50));
         } else {
             String str1 = " <font color=\'#ffffff\'><b>" + "第" + "</b></font>";//第
             String str2 = " <font color=\'#ffffff\'><b>" + "名, " + "</b></font>";//名
@@ -179,7 +179,7 @@ public class UserProgressActivity extends BaseNoTitleActivity {
             mBottomTextView.setText(R.string.user_progress_bottom_exam);
             mAverageTextView.setVisibility(View.VISIBLE);
             mTitleTextView.setText(R.string.user_center_my_exam);
-            mTopContentTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, DensityUtil.sp2px(mContext,80));
+            mTopContentTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, DensityUtil.sp2px(mContext, 70));
         }
         mCategoryAdapter = new UserProgressAdapter(mContext, mType);
         mContentListView.setAdapter(mCategoryAdapter);

@@ -45,6 +45,15 @@ public class TimeTransfer {
         return long2StringDate(context, timeMills) + " " + long2StringTimeHour(timeMills);
     }
 
+    public static String long2ChatterDetailData(Context context, long timeMills) {
+        String result = long2StringDate(context, timeMills);
+        if (result.equals(context.getResources().getString(R.string.time_text_jinTian))) {
+            return long2StringDetailDate(context, timeMills);
+        } else {
+            return result;
+        }
+    }
+
     /**
      * 超过一小时的时间
      */

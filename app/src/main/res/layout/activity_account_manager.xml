@@ -25,7 +25,7 @@
                 android:text="@string/text_account" />
 
             <TextView
-                android:id="@+id/tv_change_password_username"
+                android:id="@+id/tv_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/color_text_black"
@@ -48,7 +48,7 @@
                 android:text="@string/text_oldPass" />
 
             <EditText
-                android:id="@+id/et_change_password_original"
+                android:id="@+id/et_original"
                 style="@style/et_account_manager_input"
                 android:hint="@string/change_hint_password_original" />
         </LinearLayout>
@@ -69,7 +69,7 @@
                 android:text="@string/text_newPass" />
 
             <EditText
-                android:id="@+id/et_change_password_new"
+                android:id="@+id/et_new"
                 style="@style/et_account_manager_input"
                 android:hint="@string/change_hint_password_new" />
         </LinearLayout>
@@ -90,14 +90,14 @@
                 android:text="@string/text_newPass" />
 
             <EditText
-                android:id="@+id/et_change_password_confirm"
+                android:id="@+id/et_confirm"
                 style="@style/et_account_manager_input"
                 android:hint="@string/change_hint_password_confirm" />
         </LinearLayout>
     </LinearLayout>
 
     <Button
-        android:id="@+id/btn_change_password_confirm"
+        android:id="@+id/btn_change_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/offset_large"
@@ -111,7 +111,7 @@
 
 
     <Button
-        android:id="@+id/btn_logout_password_confirm"
+        android:id="@+id/btn_logout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/offset_large"

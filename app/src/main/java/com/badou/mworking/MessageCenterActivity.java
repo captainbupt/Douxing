@@ -50,8 +50,7 @@ public class MessageCenterActivity extends BaseBackActionBarActivity {
         mContentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                toDetailPage(mContext, (MessageCenter) mContentAdapter.getItem(i));
-                mContentAdapter.deleteItem(i);
+                toDetailPage(mContext, i, (MessageCenter) mContentAdapter.getItem(i));
             }
         });
         mNoneResultView.setContent(R.drawable.background_none_result_notice, R.string.none_result_message_center);
@@ -60,9 +59,15 @@ public class MessageCenterActivity extends BaseBackActionBarActivity {
         } else {
             mNoneResultView.setVisibility(View.GONE);
         }
+        mContentAdapter.setOnEmptyListener(new MessageCenterAdapter.OnEmptyListener() {
+            @Override
+            public void onEmpty() {
+                mNoneResultView.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
-    private void toDetailPage(final Context context, final MessageCenter messageCenter) {
+    private void toDetailPage(final Context context, final int position, final MessageCenter messageCenter) {
         mProgressDialog.show();
         if (messageCenter.type.equals(MessageCenter.TYPE_NOTICE) || messageCenter.type.equals(MessageCenter.TYPE_EXAM)
                 || messageCenter.type.equals(MessageCenter.TYPE_TRAINING) || messageCenter.type.equals(MessageCenter.TYPE_TASK)
@@ -70,34 +75,32 @@ public class MessageCenterActivity extends BaseBackActionBarActivity {
             ServiceProvider.getResourceDetail(context, messageCenter.add, new VolleyListener(context) {
                 @Override
                 public void onResponseSuccess(JSONObject jsonObject) {
-                    if (!mActivity.isFinishing()) {
-                        mProgressDialog.dismiss();
-                    }
+                    mProgressDialog.dismiss();
                     CategoryDetail detail = new CategoryDetail(context, jsonObject.optJSONObject(Net.DATA), messageCenter.getCategoryType(), messageCenter.add, messageCenter.description, null);
                     CategoryClickHandler.categoryClicker(mContext, detail);
+                    mContentAdapter.deleteItem(position);
                 }
 
                 @Override
                 public void onErrorCode(int code) {
-                    showErrorResponse();
+                    showErrorResponse(position);
                 }
             });
         } else if (messageCenter.type.equals(MessageCenter.TYPE_CHATTER)) {
             ServiceProvider.doGetChatterById(context, messageCenter.add, new VolleyListener(context) {
                 @Override
                 public void onResponseSuccess(JSONObject response) {
-                    if (!mActivity.isFinishing()) {
-                        mProgressDialog.dismiss();
-                    }
+                    mProgressDialog.dismiss();
                     Chatter chatter = new Chatter(response.optJSONObject(Net.DATA));
                     Intent intent = new Intent(mContext, ChatterDetailActivity.class);
                     intent.putExtra(ChatterDetailActivity.KEY_CHATTER, chatter);
                     context.startActivity(intent);
+                    mContentAdapter.deleteItem(position);
                 }
 
                 @Override
                 public void onErrorCode(int code) {
-                    showErrorResponse();
+                    showErrorResponse(position);
                 }
 
             });
@@ -105,27 +108,25 @@ public class MessageCenterActivity extends BaseBackActionBarActivity {
             ServiceProvider.doGetAskById(context, messageCenter.add, new VolleyListener(context) {
                 @Override
                 public void onResponseSuccess(JSONObject response) {
-                    if (!mActivity.isFinishing()) {
-                        mProgressDialog.dismiss();
-                    }
+                    mProgressDialog.dismiss();
                     Ask ask = new Ask(response.optJSONObject(Net.DATA));
                     Intent intent = new Intent(mContext, AskDetailActivity.class);
                     intent.putExtra(AskDetailActivity.KEY_ASK, ask);
                     context.startActivity(intent);
+                    mContentAdapter.deleteItem(position);
                 }
 
                 @Override
                 public void onErrorCode(int code) {
-                    showErrorResponse();
+                    showErrorResponse(position);
                 }
             });
         }
     }
 
-    private void showErrorResponse() {
+    private void showErrorResponse(int position) {
+        mContentAdapter.deleteItem(position);
         ToastUtil.showToast(mContext, R.string.tip_message_center_resource_gone);
-        if (!mActivity.isFinishing()) {
-            mProgressDialog.dismiss();
-        }
+        mProgressDialog.dismiss();
     }
 }

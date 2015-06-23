@@ -169,7 +169,12 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
     private void initData() {
         mReplyAdapter = new CommentAdapter(mContext, mChatter.qid, mChatter.deletable, mProgressDialog);
         mReplyListView.setAdapter(mReplyAdapter);
-        TopicClickableSpan.setClickTopic(mContext, mContentTextView, mChatter.content, null);
+        TopicClickableSpan.setClickTopic(mContext, mContentTextView, mChatter.content,Integer.MAX_VALUE, new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
         /**删除和私信逻辑 */
         String userUid = ((AppApplication) this.getApplicationContext())
                 .getUserInfo().userId;
@@ -238,14 +243,6 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
         });
     }
 
-    @Override
-    public void finish() {
-        Intent intent = new Intent();
-        intent.putExtra(RESULT_KEY_COUNT, mReplyAdapter.getAllCount());
-        setResult(RESULT_OK, intent);
-        super.finish();
-    }
-
     /**
      * 功能描述:通过网络获取最新 回复/提问 的内容
      */
@@ -287,6 +284,9 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
                         } else {
                             mReplyAdapter.addList(replys, ttlcnt);
                         }
+                        Intent intent = new Intent();
+                        intent.putExtra(RESULT_KEY_COUNT, ttlcnt);
+                        setResult(RESULT_OK, intent);
                         mCurrentIndex++;
                     }
 

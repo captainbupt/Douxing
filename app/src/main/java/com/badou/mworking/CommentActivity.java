@@ -1,5 +1,6 @@
 package com.badou.mworking;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -35,6 +36,7 @@ import java.util.List;
 public class CommentActivity extends BaseBackActionBarActivity {
 
     public static final String KEY_RID = "rid";
+    public static final String RESPONSE_COUNT = "count";
     private PullToRefreshListView mContentListView;//下拉刷新
     private CommentAdapter mCommentAdapter;
     private BottomSendMessageView mBottomView;
@@ -178,6 +180,9 @@ public class CommentActivity extends BaseBackActionBarActivity {
         } else {
             mCommentAdapter.addList(commentList, allCount);
         }
+        Intent intent = new Intent();
+        intent.putExtra(RESPONSE_COUNT, allCount);
+        setResult(RESULT_OK, intent);
     }
 
     private void submitComment(String comment) {
