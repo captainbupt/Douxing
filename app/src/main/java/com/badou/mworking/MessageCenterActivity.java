@@ -121,6 +121,9 @@ public class MessageCenterActivity extends BaseBackActionBarActivity {
                     showErrorResponse(position);
                 }
             });
+        } else {
+            ToastUtil.showToast(mContext, R.string.category_unsupport_type);
+            mProgressDialog.dismiss();
         }
     }
 
