@@ -1,4 +1,4 @@
-package com.badou.mworking.model.user;
+package com.badou.mworking.entity.user;
 
 import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.net.ResponseParameters;

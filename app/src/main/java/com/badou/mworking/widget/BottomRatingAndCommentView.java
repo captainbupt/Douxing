@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.badou.mworking.CommentActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.base.BaseActionBarActivity;
-import com.badou.mworking.model.category.CategoryDetail;
+import com.badou.mworking.entity.category.CategoryDetail;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;

@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseNoTitleActivity;
-import com.badou.mworking.model.user.UserInfo;
+import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.util.NetUtils;
 
 import org.json.JSONException;

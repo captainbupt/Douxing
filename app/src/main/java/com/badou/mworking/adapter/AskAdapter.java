@@ -3,9 +3,7 @@ package com.badou.mworking.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -16,7 +14,7 @@ import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.listener.AdapterItemClickListener;
 import com.badou.mworking.listener.CopyClickListener;
-import com.badou.mworking.model.Ask;
+import com.badou.mworking.entity.Ask;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.util.TimeTransfer;
 

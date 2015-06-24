@@ -6,9 +6,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
 
 import com.badou.mworking.base.AppApplication;
-import com.badou.mworking.model.Chatter;
-import com.badou.mworking.model.MessageCenter;
-import com.badou.mworking.model.user.UserInfo;
+import com.badou.mworking.entity.MessageCenter;
+import com.badou.mworking.entity.user.UserInfo;
 
 import java.util.ArrayList;
 import java.util.List;

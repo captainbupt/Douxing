@@ -1,6 +1,5 @@
 package com.badou.mworking.fragment;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -25,12 +24,11 @@ import android.widget.TextView;
 import com.badou.mworking.MainGridActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.adapter.MainSearchAdapter;
-import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseFragment;
-import com.badou.mworking.model.MainIcon;
-import com.badou.mworking.model.category.Category;
-import com.badou.mworking.model.category.CategoryBasic;
-import com.badou.mworking.model.category.CategoryDetail;
+import com.badou.mworking.entity.MainIcon;
+import com.badou.mworking.entity.category.Category;
+import com.badou.mworking.entity.category.CategoryBasic;
+import com.badou.mworking.entity.category.CategoryDetail;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.net.ServiceProvider;
@@ -46,7 +44,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**

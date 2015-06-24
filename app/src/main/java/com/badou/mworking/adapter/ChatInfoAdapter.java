@@ -23,7 +23,7 @@ import android.widget.TextView;
 
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
-import com.badou.mworking.model.ChatInfo;
+import com.badou.mworking.entity.ChatInfo;
 import com.badou.mworking.net.bitmap.BitmapLruCache;
 import com.badou.mworking.net.bitmap.CircleImageListener;
 import com.badou.mworking.net.volley.MyVolley;

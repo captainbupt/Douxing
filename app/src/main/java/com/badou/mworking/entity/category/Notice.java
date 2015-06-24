@@ -1,7 +1,4 @@
-package com.badou.mworking.model.category;
-
-import com.badou.mworking.database.MTrainingDBHelper;
-import com.badou.mworking.model.MainBanner;
+package com.badou.mworking.entity.category;
 
 import org.json.JSONObject;
 

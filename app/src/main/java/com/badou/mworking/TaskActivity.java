@@ -5,8 +5,8 @@ import android.os.Bundle;
 
 import com.badou.mworking.adapter.TaskAdapter;
 import com.badou.mworking.base.BaseCategoryProgressListActivity;
-import com.badou.mworking.model.category.CategoryDetail;
-import com.badou.mworking.model.category.Task;
+import com.badou.mworking.entity.category.CategoryDetail;
+import com.badou.mworking.entity.category.Task;
 import com.badou.mworking.util.CategoryClickHandler;
 import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.ToastUtil;

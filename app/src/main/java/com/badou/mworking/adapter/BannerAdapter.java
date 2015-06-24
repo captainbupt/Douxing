@@ -1,7 +1,6 @@
 package com.badou.mworking.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Gallery.LayoutParams;
@@ -10,10 +9,8 @@ import android.widget.ImageView.ScaleType;
 
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
-import com.badou.mworking.model.MainBanner;
-import com.badou.mworking.net.bitmap.BitmapLruCache;
+import com.badou.mworking.entity.MainBanner;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
-import com.badou.mworking.net.volley.MyVolley;
 
 /**
  * 功能描述: 显示banner 的适配器

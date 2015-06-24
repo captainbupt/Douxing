@@ -11,18 +11,16 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.text.TextUtils;
 import android.util.DisplayMetrics;
 
 import com.badou.mworking.LoginActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.database.MTrainingDBHelper;
-import com.badou.mworking.model.user.UserInfo;
+import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.bitmap.BitmapLruCache;
 import com.badou.mworking.net.volley.MyVolley;
 import com.badou.mworking.util.CrashHandler;
 import com.baidu.mapapi.SDKInitializer;
-import com.umeng.analytics.MobclickAgent;
 
 import java.util.HashSet;
 import java.util.Locale;
@@ -85,7 +83,7 @@ public class AppApplication extends Application {
      */
     public UserInfo getUserInfo() {
         if (userInfo == null) {
-            userInfo = UserInfo.getUserInfo(this);
+            userInfo = UserInfo.getUserInfoFromSP(this);
         }
         return userInfo;
     }
@@ -109,15 +107,6 @@ public class AppApplication extends Application {
 
         // en为英文版，取值zh为中文版。
         AppApplication.changeAppLanguage(getResources(), userInfo.language);
-    }
-
-    /**
-     * 功能描述:  清除用户信息
-     */
-    public void clearUserInfo() {
-        UserInfo.clearUserData(getApplicationContext());
-        userInfo = null;
-        JPushInterface.stopPush(this);
     }
 
     private String getVersionName() throws Exception {

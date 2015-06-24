@@ -1,6 +1,6 @@
-package com.badou.mworking.model.user;
+package com.badou.mworking.entity.user;
 
-import com.badou.mworking.model.Chatter;
+import com.badou.mworking.entity.Chatter;
 
 import org.json.JSONObject;
 

@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
-import com.badou.mworking.model.category.Exam;
+import com.badou.mworking.entity.category.Exam;
 import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.TimeTransfer;
 

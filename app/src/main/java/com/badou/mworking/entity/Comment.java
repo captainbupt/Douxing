@@ -1,4 +1,4 @@
-package com.badou.mworking.model;
+package com.badou.mworking.entity;
 
 import com.badou.mworking.net.ResponseParameters;
 

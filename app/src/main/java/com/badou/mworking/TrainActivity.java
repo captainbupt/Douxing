@@ -5,9 +5,9 @@ import android.os.Bundle;
 
 import com.badou.mworking.adapter.TrainAdapter;
 import com.badou.mworking.base.BaseCategoryProgressListActivity;
-import com.badou.mworking.model.category.Category;
-import com.badou.mworking.model.category.CategoryDetail;
-import com.badou.mworking.model.category.Train;
+import com.badou.mworking.entity.category.Category;
+import com.badou.mworking.entity.category.CategoryDetail;
+import com.badou.mworking.entity.category.Train;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ResponseParameters;
 import com.badou.mworking.net.ServiceProvider;

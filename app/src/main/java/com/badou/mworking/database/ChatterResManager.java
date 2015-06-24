@@ -5,7 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.badou.mworking.base.AppApplication;
-import com.badou.mworking.model.Chatter;
+import com.badou.mworking.entity.Chatter;
 
 public class ChatterResManager {
 

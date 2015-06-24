@@ -19,7 +19,7 @@ import android.widget.ListView;
 import com.badou.mworking.adapter.ChatInfoAdapter;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseBackActionBarActivity;
-import com.badou.mworking.model.ChatInfo;
+import com.badou.mworking.entity.ChatInfo;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;

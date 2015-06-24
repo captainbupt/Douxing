@@ -5,13 +5,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.FrameLayout;
 import android.widget.ListView;
 
 import com.badou.mworking.adapter.CommentAdapter;
 import com.badou.mworking.base.BaseBackActionBarActivity;
-import com.badou.mworking.model.Chatter;
-import com.badou.mworking.model.Comment;
+import com.badou.mworking.entity.Comment;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ResponseParameters;
 import com.badou.mworking.net.ServiceProvider;

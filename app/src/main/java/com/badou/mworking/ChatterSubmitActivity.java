@@ -13,10 +13,8 @@ import android.widget.ListView;
 
 import com.badou.mworking.adapter.ChatterTopicAdapter;
 import com.badou.mworking.base.BaseBackActionBarActivity;
-import com.badou.mworking.model.ChatterTopic;
-import com.badou.mworking.model.MainIcon;
+import com.badou.mworking.entity.ChatterTopic;
 import com.badou.mworking.net.Net;
-import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.FileUtils;
@@ -28,7 +26,6 @@ import com.badou.mworking.widget.VideoImageView;
 
 import org.json.JSONObject;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;

@@ -11,7 +11,7 @@
  *        修改内容:
  * 版本: V1.0   
  */
-package com.badou.mworking.model;
+package com.badou.mworking.entity;
 
 import org.json.JSONObject;
 

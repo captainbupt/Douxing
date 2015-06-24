@@ -1,4 +1,4 @@
-package com.badou.mworking.model;
+package com.badou.mworking.entity;
 
 import android.content.ContentValues;
 
