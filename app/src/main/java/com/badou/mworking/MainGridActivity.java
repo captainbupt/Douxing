@@ -452,11 +452,14 @@ public class MainGridActivity extends BaseNoTitleActivity {
          */
         int access = ((AppApplication) mContext.getApplicationContext())
                 .getUserInfo().access;
-
-        char[] accessArray = Integer.toBinaryString(access).toCharArray();
-        for (int i = mainIconList.size() - 1; i >= 0; i--) {
-            if (i >= accessArray.length || accessArray[i] == '0')
-                mainIconList.remove(i);
+        char[] accessArray = new char[mainIconList.size()];
+        for (int ii = accessArray.length - 1; ii >= 0; ii--) {
+            accessArray[ii] = (char) (access % 2 + '0');
+            access /= 2;
+        }
+        for (int ii = accessArray.length - 1; ii >= 0; ii--) {
+            if (accessArray[accessArray.length - ii - 1] == '0')
+                mainIconList.remove(ii);
         }
 
         Collections.sort(mainIconList, new Comparator<Object>() {
