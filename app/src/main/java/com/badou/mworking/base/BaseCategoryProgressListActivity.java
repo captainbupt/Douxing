@@ -328,6 +328,12 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
                     }
 
                     @Override
+                    public void onResponse(Object responseObject) {
+                        super.onResponse(responseObject);
+                        System.out.println("response: " + responseObject);
+                    }
+
+                    @Override
                     public void onResponseSuccess(JSONObject response) {
                         updateListFromJson(response
                                 .optJSONObject(Net.DATA), beginNum);
