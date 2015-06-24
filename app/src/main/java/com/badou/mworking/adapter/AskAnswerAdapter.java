@@ -14,7 +14,7 @@ import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.database.AskResManager;
 import com.badou.mworking.listener.CopyClickListener;
 import com.badou.mworking.listener.FullImageListener;
-import com.badou.mworking.model.Ask;
+import com.badou.mworking.entity.Ask;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.net.volley.VolleyListener;

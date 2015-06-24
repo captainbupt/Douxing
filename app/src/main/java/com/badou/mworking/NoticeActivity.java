@@ -4,8 +4,8 @@ import android.os.Bundle;
 
 import com.badou.mworking.adapter.NoticeAdapter;
 import com.badou.mworking.base.BaseCategoryProgressListActivity;
-import com.badou.mworking.model.category.CategoryDetail;
-import com.badou.mworking.model.category.Notice;
+import com.badou.mworking.entity.category.CategoryDetail;
+import com.badou.mworking.entity.category.Notice;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.util.CategoryClickHandler;
 

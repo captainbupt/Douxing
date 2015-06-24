@@ -1,4 +1,4 @@
-package com.badou.mworking.model.category;
+package com.badou.mworking.entity.category;
 
 import android.content.Context;
 import android.text.TextUtils;

@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.badou.mworking.R;
-import com.badou.mworking.model.category.CategoryBasic;
+import com.badou.mworking.entity.category.CategoryBasic;
 
 import java.util.List;
 

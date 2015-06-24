@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseNoTitleActivity;
-import com.badou.mworking.model.user.UserInfo;
+import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.net.ResponseParameters;
@@ -200,10 +200,10 @@ public class LoginActivity extends BaseNoTitleActivity implements
      * @param jsonObject 登录成功返回的json
      */
     private void loginSuccess(String account, JSONObject jsonObject) {
+        System.out.println(jsonObject);
         UserInfo userInfo = new UserInfo();
         /*** 保存没MD5的用户账户 **/
         userInfo.setUserInfo(account, jsonObject);
-        System.out.println("shuffle: " + userInfo.shuffleStr);
         // 保存用户登录成功返回的信息 到sharePreferncers
         ((AppApplication) getApplicationContext()).setUserInfo(userInfo);
         goMainGrid();

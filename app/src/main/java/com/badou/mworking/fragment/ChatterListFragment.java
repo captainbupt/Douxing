@@ -18,7 +18,7 @@ import com.badou.mworking.adapter.ChatterListAdapter;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.base.BaseFragment;
-import com.badou.mworking.model.Chatter;
+import com.badou.mworking.entity.Chatter;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;

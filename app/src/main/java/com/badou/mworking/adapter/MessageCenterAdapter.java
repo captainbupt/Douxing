@@ -1,31 +1,17 @@
 package com.badou.mworking.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.badou.mworking.AskDetailActivity;
-import com.badou.mworking.ChatterDetailActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.database.MessageCenterResManager;
 import com.badou.mworking.listener.AdapterItemClickListener;
-import com.badou.mworking.model.Ask;
-import com.badou.mworking.model.Chatter;
-import com.badou.mworking.model.MessageCenter;
-import com.badou.mworking.net.Net;
-import com.badou.mworking.net.ServiceProvider;
-import com.badou.mworking.net.volley.VolleyListener;
-import com.badou.mworking.util.CategoryClickHandler;
-import com.badou.mworking.util.TimeTransfer;
-import com.nineoldandroids.view.ViewHelper;
+import com.badou.mworking.entity.MessageCenter;
 import com.swipe.delete.SwipeLayout;
-
-import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 

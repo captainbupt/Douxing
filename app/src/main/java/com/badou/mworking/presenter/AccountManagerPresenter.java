@@ -1,22 +1,18 @@
 package com.badou.mworking.presenter;
 
-import android.content.DialogInterface;
-import android.text.Editable;
+import android.content.Context;
 import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.view.View;
 
 import com.badou.mworking.AccountManageActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.base.AppApplication;
-import com.badou.mworking.base.BaseFragment;
 import com.badou.mworking.database.MTrainingDBHelper;
-import com.badou.mworking.model.user.UserInfo;
+import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
-import com.badou.mworking.util.ToastUtil;
+import com.badou.mworking.util.Navigator;
 
 import org.json.JSONObject;
 
@@ -26,25 +22,27 @@ import java.util.regex.Pattern;
  * Created by Administrator on 2015/6/23 0023.
  */
 public class AccountManagerPresenter extends Presenter {
-
+    Context context;
     AccountManageActivity accountManageActivity;
     UserInfo userInfo;
 
     public void setAccountManageActivity(AccountManageActivity accountManageActivity) {
+        this.context = accountManageActivity;
         this.accountManageActivity = accountManageActivity;
     }
 
     public void initialize() {
         this.userInfo = ((AppApplication) accountManageActivity.getApplication()).getUserInfo();
         accountManageActivity.setAccount(userInfo.account);
-        if ("anonymous".equals(userInfo.account)) {
+        accountManageActivity.setActionbarTitle(context.getResources().getString(R.string.title_name_Myzhanghao));
+        if (UserInfo.ANONYMOUS_ACCOUNT.equals(userInfo.account)) {
             accountManageActivity.anonymousMode();
         } else {
             accountManageActivity.normalMode();
         }
     }
 
-    public void passwordChanged(String originPassword, String newPassword, String confirmPassword) {
+    public void passwordModified(String originPassword, String newPassword, String confirmPassword) {
         if (TextUtils.isEmpty(originPassword) || TextUtils.isEmpty(newPassword) || TextUtils.isEmpty(confirmPassword)
                 || originPassword.length() < 6 || newPassword.length() < 6 || confirmPassword.length() < 6) {
             accountManageActivity.disableButton();
@@ -53,7 +51,7 @@ public class AccountManagerPresenter extends Presenter {
         }
     }
 
-    void changePassword(String originPassword, String newPassword, String confirmPassword) {
+    public void changePassword(String originPassword, String newPassword, String confirmPassword) {
         Pattern pattern = Pattern.compile("^[A-Za-z0-9@\\_\\-\\.]+$");
         boolean a = pattern.matcher(newPassword).matches();
 
@@ -95,14 +93,22 @@ public class AccountManagerPresenter extends Presenter {
     }
 
     /**
-     * ¹¦ÄÜÃèÊö:  ÐÞ¸ÄÃÜÂë
+     * åŠŸèƒ½æè¿°:  ä¿®æ”¹å¯†ç 
      */
     private void changePasswordSuccess(JSONObject data) {
-        UserInfo userInfo = ((AppApplication) accountManageActivity.getApplication()).getUserInfo();
         userInfo.userId = data.optString(RequestParameters.USER_ID);
         userInfo.saveUserInfo(accountManageActivity.getApplicationContext());
         MTrainingDBHelper.getMTrainingDBHelper().createUserTable(userInfo.userId);
         accountManageActivity.showToast(R.string.change_result_change_password_success);
         accountManageActivity.finish();
+    }
+
+    public void logout() {
+        Navigator.toLoginPage(accountManageActivity);
+        accountManageActivity.finish();
+    }
+
+    public void anonymousClicked() {
+        accountManageActivity.showToast(R.string.tip_anonymous_logout);
     }
 }

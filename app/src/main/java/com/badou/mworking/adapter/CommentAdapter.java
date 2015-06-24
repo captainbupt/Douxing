@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.listener.DeleteClickListener;
-import com.badou.mworking.model.Comment;
+import com.badou.mworking.entity.Comment;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.net.volley.VolleyListener;

@@ -4,24 +4,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
 
-import com.badou.mworking.ChatListActivity;
-import com.badou.mworking.ChatterDetailActivity;
-import com.badou.mworking.ChatterUserActivity;
-import com.badou.mworking.ExamActivity;
 import com.badou.mworking.MainGridActivity;
-import com.badou.mworking.MessageCenterActivity;
-import com.badou.mworking.NoticeActivity;
-import com.badou.mworking.TaskActivity;
-import com.badou.mworking.TrainActivity;
 import com.badou.mworking.database.MessageCenterResManager;
-import com.badou.mworking.model.MessageCenter;
-import com.badou.mworking.util.AppManager;
+import com.badou.mworking.entity.MessageCenter;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.Calendar;
 

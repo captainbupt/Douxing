@@ -1,8 +1,8 @@
-package com.badou.mworking.model.category;
+package com.badou.mworking.entity.category;
 
 import android.content.Context;
 
-import com.badou.mworking.model.MainIcon;
+import com.badou.mworking.entity.MainIcon;
 import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.net.ResponseParameters;
 import com.badou.mworking.util.Constant;

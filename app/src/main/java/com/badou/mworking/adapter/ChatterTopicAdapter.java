@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
-import com.badou.mworking.model.ChatterTopic;
+import com.badou.mworking.entity.ChatterTopic;
 
 /**
  * Created by Administrator on 2015/6/11.

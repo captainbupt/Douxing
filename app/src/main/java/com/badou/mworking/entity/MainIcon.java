@@ -1,4 +1,4 @@
-package com.badou.mworking.model;
+package com.badou.mworking.entity;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -9,9 +9,7 @@ import com.badou.mworking.net.RequestParameters;
 
 import org.json.JSONObject;
 
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 
 /**
  * 功能描述:主页的icon

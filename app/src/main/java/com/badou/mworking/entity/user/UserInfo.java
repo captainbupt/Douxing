@@ -1,4 +1,4 @@
-package com.badou.mworking.model.user;
+package com.badou.mworking.entity.user;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -10,7 +10,12 @@ import com.badou.mworking.util.SP;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import cn.jpush.android.api.JPushInterface;
+
 public class UserInfo {
+
+    public static final String ANONYMOUS_ACCOUNT = "anonymous";
+    public static final String ANONYMOUS_PASSWORD = "anonymous";
 
     public String userId;      //用户id
     public int access;            // 模块权限
@@ -23,6 +28,14 @@ public class UserInfo {
     public String language;
     public JSONObject shuffleStr;
     public String host;
+
+    static UserInfo userInfo;
+
+    public static UserInfo getUserInfo(Context context) {
+        if (userInfo == null)
+            userInfo = getUserInfoFromSP(context);
+        return userInfo;
+    }
 
     /**
      * 功能描述:保存用户信息到sp中    但企业名称没有保存
@@ -64,13 +77,13 @@ public class UserInfo {
         editor.commit();
     }
 
-    public static UserInfo getUserInfo(Context mContext) {
-        String userId = SP.getStringSP(mContext, SP.DEFAULTCACHE, ResponseParameters.USER_ID, "");
-        String account = SP.getStringSP(mContext, SP.DEFAULTCACHE, ResponseParameters.USER_ACCOUNT, "");
+    public static UserInfo getUserInfoFromSP(Context context) {
+        String userId = SP.getStringSP(context, SP.DEFAULTCACHE, ResponseParameters.USER_ID, "");
+        String account = SP.getStringSP(context, SP.DEFAULTCACHE, ResponseParameters.USER_ACCOUNT, "");
         if (TextUtils.isEmpty(userId) || TextUtils.isEmpty(account)) {
             return null;
         }
-        SharedPreferences sp = mContext.getSharedPreferences(SP.DEFAULTCACHE,
+        SharedPreferences sp = context.getSharedPreferences(SP.DEFAULTCACHE,
                 Context.MODE_PRIVATE);
         UserInfo userInfo = new UserInfo();
         userInfo.account = account;
@@ -105,5 +118,14 @@ public class UserInfo {
             this.company = jsonObject.optString(ResponseParameters.USER_COMPANY);
             this.host = jsonObject.optString(ResponseParameters.USER_HOST);
         }
+    }
+
+    /**
+     * 功能描述:  清除用户信息
+     */
+    public static void clearUserInfo(Context context) {
+        UserInfo.clearUserData(context);
+        userInfo = null;
+        JPushInterface.stopPush(context);
     }
 }

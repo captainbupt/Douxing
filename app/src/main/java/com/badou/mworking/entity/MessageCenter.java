@@ -1,11 +1,11 @@
-package com.badou.mworking.model;
+package com.badou.mworking.entity;
 
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.os.Bundle;
 
 import com.badou.mworking.database.MTrainingDBHelper;
-import com.badou.mworking.model.category.Category;
+import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.net.ResponseParameters;
 
 import org.json.JSONException;

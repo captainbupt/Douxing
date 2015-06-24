@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.badou.mworking.R;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.MyBaseAdapter;
-import com.badou.mworking.model.category.Train;
+import com.badou.mworking.entity.category.Train;
 import com.badou.mworking.net.bitmap.BitmapLruCache;
 import com.badou.mworking.net.bitmap.NormalImageListener;
 import com.badou.mworking.net.volley.MyVolley;

@@ -13,14 +13,13 @@ import android.widget.TextView;
 
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseNoTitleActivity;
-import com.badou.mworking.model.category.Category;
-import com.badou.mworking.model.user.UserChatterInfo;
-import com.badou.mworking.model.user.UserDetail;
+import com.badou.mworking.entity.category.Category;
+import com.badou.mworking.entity.user.UserChatterInfo;
+import com.badou.mworking.entity.user.UserDetail;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.bitmap.BitmapLruCache;
 import com.badou.mworking.net.bitmap.CircleImageListener;
-import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.net.volley.MyVolley;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.BitmapUtil;

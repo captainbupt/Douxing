@@ -3,7 +3,6 @@ package com.badou.mworking.util;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.text.TextUtils;
 
 import com.badou.mworking.BackWebActivity;
 import com.badou.mworking.PDFViewerActivity;
@@ -14,22 +13,11 @@ import com.badou.mworking.TrainMusicActivity;
 import com.badou.mworking.TrainVideoActivity;
 import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.base.BaseStatisticalActionBarActivity;
-import com.badou.mworking.model.MainBanner;
-import com.badou.mworking.model.MainIcon;
-import com.badou.mworking.model.category.Category;
-import com.badou.mworking.model.category.CategoryDetail;
-import com.badou.mworking.model.category.Task;
-import com.badou.mworking.net.Net;
+import com.badou.mworking.entity.MainIcon;
+import com.badou.mworking.entity.category.Category;
+import com.badou.mworking.entity.category.CategoryDetail;
+import com.badou.mworking.entity.category.Task;
 import com.badou.mworking.net.ServiceProvider;
-import com.badou.mworking.net.volley.VolleyListener;
-import com.badou.mworking.widget.HorizontalProgressDialog;
-import com.lidroid.xutils.HttpUtils;
-import com.lidroid.xutils.exception.HttpException;
-import com.lidroid.xutils.http.HttpHandler;
-import com.lidroid.xutils.http.ResponseInfo;
-import com.lidroid.xutils.http.callback.RequestCallBack;
-
-import org.json.JSONObject;
 
 import java.io.File;
 

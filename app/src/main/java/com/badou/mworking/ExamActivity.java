@@ -4,11 +4,10 @@ import android.os.Bundle;
 
 import com.badou.mworking.adapter.ExamAdapter;
 import com.badou.mworking.base.BaseCategoryProgressListActivity;
-import com.badou.mworking.model.category.Exam;
+import com.badou.mworking.entity.category.Exam;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
-import com.badou.mworking.util.Constant;
 
 import org.json.JSONObject;
 

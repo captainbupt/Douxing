@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.badou.mworking.R;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.MyBaseAdapter;
-import com.badou.mworking.model.category.Notice;
+import com.badou.mworking.entity.category.Notice;
 import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.SP;
 import com.badou.mworking.util.TimeTransfer;
