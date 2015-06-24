@@ -71,7 +71,7 @@ public class MessageCenterActivity extends BaseBackActionBarActivity {
         mProgressDialog.show();
         if (messageCenter.type.equals(MessageCenter.TYPE_NOTICE) || messageCenter.type.equals(MessageCenter.TYPE_EXAM)
                 || messageCenter.type.equals(MessageCenter.TYPE_TRAINING) || messageCenter.type.equals(MessageCenter.TYPE_TASK)
-                || messageCenter.type.equals(MessageCenter.TYPE_TASK)) {
+                || messageCenter.type.equals(MessageCenter.TYPE_SHELF)) {
             ServiceProvider.getResourceDetail(context, messageCenter.add, new VolleyListener(context) {
                 @Override
                 public void onResponseSuccess(JSONObject jsonObject) {
@@ -128,13 +128,5 @@ public class MessageCenterActivity extends BaseBackActionBarActivity {
         mContentAdapter.deleteItem(position);
         ToastUtil.showToast(mContext, R.string.tip_message_center_resource_gone);
         mProgressDialog.dismiss();
-    }
-
-    @Override
-    public void finish() {
-        Intent intent = new Intent(mContext, MainGridActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-        super.finish();
     }
 }

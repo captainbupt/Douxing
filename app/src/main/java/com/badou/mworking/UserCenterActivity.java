@@ -29,8 +29,10 @@ import com.badou.mworking.util.FileUtils;
 import com.badou.mworking.util.ImageChooser;
 import com.badou.mworking.util.LVUtil;
 import com.badou.mworking.util.NetUtils;
+import com.badou.mworking.util.SP;
 import com.badou.mworking.util.ToastUtil;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -210,7 +212,8 @@ public class UserCenterActivity extends BaseNoTitleActivity {
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
-
+        mUserDetail = getUserCache();
+        updateViewValue();
         mProgressDialog.setContent(R.string.user_detail_download_ing);
 
         mProgressDialog.show();
@@ -227,11 +230,27 @@ public class UserCenterActivity extends BaseNoTitleActivity {
             @Override
             public void onResponseSuccess(JSONObject response) {
                 JSONObject jObject = response.optJSONObject(Net.DATA);
+                saveUserCache(jObject);
                 mUserDetail = new UserDetail(jObject);
                 updateViewValue();
             }
         });
     }
+
+    private void saveUserCache(JSONObject jsonObject) {
+        SP.putStringSP(mContext, SP.DEFAULTCACHE, "userdetail", jsonObject.toString());
+    }
+
+    private UserDetail getUserCache() {
+        try {
+            JSONObject jsonObject = new JSONObject(SP.getStringSP(mContext, SP.DEFAULTCACHE, "userdetail", ""));
+            return new UserDetail(jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
