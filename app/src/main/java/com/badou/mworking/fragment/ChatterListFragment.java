@@ -116,6 +116,13 @@ public class ChatterListFragment extends BaseFragment {
                 Constant.LIST_ITEM_NUM, new VolleyListener(getActivity()) {
 
                     @Override
+                    public void onErrorCode(int code) {
+                        if (code != -1) {
+                            mNoneResultView.setVisibility(View.VISIBLE);
+                        }
+                    }
+
+                    @Override
                     public void onCompleted() {
                         if (mActivity.getClass().equals(ChatterActivity.class) && !mActivity.isFinishing()) {
                             ((ChatterActivity) getActivity()).hideProgressBar();
