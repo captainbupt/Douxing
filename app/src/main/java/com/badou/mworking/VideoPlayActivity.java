@@ -34,7 +34,7 @@ import android.widget.TextView;
 
 import com.badou.mworking.R.color;
 import com.badou.mworking.base.BaseBackActionBarActivity;
-import com.badou.mworking.entity.MainIcon;
+import com.badou.mworking.entity.Main.MainIcon;
 import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.FullScreenVideoView;

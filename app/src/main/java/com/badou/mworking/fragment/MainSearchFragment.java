@@ -25,7 +25,7 @@ import com.badou.mworking.MainGridActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.adapter.MainSearchAdapter;
 import com.badou.mworking.base.BaseFragment;
-import com.badou.mworking.entity.MainIcon;
+import com.badou.mworking.entity.Main.MainIcon;
 import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.CategoryBasic;
 import com.badou.mworking.entity.category.CategoryDetail;

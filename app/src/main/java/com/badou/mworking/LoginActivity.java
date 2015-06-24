@@ -17,12 +17,14 @@ import android.widget.TextView;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.entity.user.UserInfo;
+import com.badou.mworking.entity.user.UserInfoTmp;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.net.ResponseParameters;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.AppManager;
+import com.badou.mworking.util.GsonUtil;
 import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.SP;
 import com.badou.mworking.util.ToastUtil;
@@ -200,8 +202,7 @@ public class LoginActivity extends BaseNoTitleActivity implements
      * @param jsonObject 登录成功返回的json
      */
     private void loginSuccess(String account, JSONObject jsonObject) {
-        System.out.println(jsonObject);
-        UserInfo userInfo = new UserInfo();
+        UserInfo userInfo = GsonUtil.fromJson(jsonObject, UserInfo.class);
         /*** 保存没MD5的用户账户 **/
         userInfo.setUserInfo(account, jsonObject);
         // 保存用户登录成功返回的信息 到sharePreferncers

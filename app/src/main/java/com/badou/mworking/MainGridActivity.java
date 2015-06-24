@@ -1,6 +1,5 @@
 package com.badou.mworking;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -29,7 +28,7 @@ import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.database.MessageCenterResManager;
 import com.badou.mworking.fragment.MainSearchFragment;
 import com.badou.mworking.entity.MainBanner;
-import com.badou.mworking.entity.MainIcon;
+import com.badou.mworking.entity.Main.MainIcon;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.net.ResponseParameters;
@@ -38,6 +37,7 @@ import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.AlarmUtil;
 import com.badou.mworking.util.AppManager;
+import com.badou.mworking.util.Navigator;
 import com.badou.mworking.util.SP;
 import com.badou.mworking.util.SPUtil;
 import com.badou.mworking.util.ToastUtil;
@@ -100,11 +100,8 @@ public class MainGridActivity extends BaseNoTitleActivity {
             new AlertDialog.Builder(mContext).setTitle(R.string.tip_anonymous_title).setMessage(R.string.tip_anonymous_content).setPositiveButton(R.string.tip_anonymous_confirm, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    ((AppApplication) getApplication()).clearUserInfo();
-                    //退出登录
-                    Intent intent = new Intent(mContext, LoginActivity.class);
-                    mContext.startActivity(intent);
-                    ((Activity) mContext).finish();
+                    Navigator.toLoginPage(mActivity);
+                    mActivity.finish();
                 }
             }).setNegativeButton(R.string.tip_anonymous_cancel, null).show();
         }

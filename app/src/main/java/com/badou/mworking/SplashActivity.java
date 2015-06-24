@@ -7,7 +7,7 @@ import android.os.Handler;
 
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseNoTitleActivity;
-import com.badou.mworking.entity.user.UserInfo;
+import com.badou.mworking.entity.user.UserInfoTmp;
 import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.SP;
 import com.badou.mworking.widget.OptimizedImageView;
@@ -55,7 +55,7 @@ public class SplashActivity extends BaseNoTitleActivity {
 			//判断是否是第一次启动程序
 			if (!SP.getBooleanSP(mContext, SP.DEFAULTCACHE, KEY_IS_FIRST, true)) {
 				//查看shareprefernces中是否保存的UserInfo(登录时保存的)
-				UserInfo userInfo = UserInfo.getUserInfoFromSP(getApplicationContext());
+				UserInfoTmp userInfo = UserInfoTmp.getUserInfoFromSP(getApplicationContext());
 				if (userInfo == null) {
 					goLogin();
 				} else {
@@ -89,7 +89,7 @@ public class SplashActivity extends BaseNoTitleActivity {
 	/**
 	 * 功能描述: 跳转到主页面
 	 */
-	private void goMain(UserInfo userInfo) {
+	private void goMain(UserInfoTmp userInfo) {
 		Intent intent = new Intent(this, MainGridActivity.class);
 		//把用户信息保存到Application
 		((AppApplication) getApplication()).setUserInfo(userInfo);

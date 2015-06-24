@@ -7,7 +7,7 @@ import com.badou.mworking.AccountManageActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.database.MTrainingDBHelper;
-import com.badou.mworking.entity.user.UserInfo;
+import com.badou.mworking.entity.user.UserInfoTmp;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.net.ServiceProvider;
@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
 public class AccountManagerPresenter extends Presenter {
     Context context;
     AccountManageActivity accountManageActivity;
-    UserInfo userInfo;
+    UserInfoTmp userInfo;
 
     public void setAccountManageActivity(AccountManageActivity accountManageActivity) {
         this.context = accountManageActivity;
@@ -35,7 +35,7 @@ public class AccountManagerPresenter extends Presenter {
         this.userInfo = ((AppApplication) accountManageActivity.getApplication()).getUserInfo();
         accountManageActivity.setAccount(userInfo.account);
         accountManageActivity.setActionbarTitle(context.getResources().getString(R.string.title_name_Myzhanghao));
-        if (UserInfo.ANONYMOUS_ACCOUNT.equals(userInfo.account)) {
+        if (UserInfoTmp.ANONYMOUS_ACCOUNT.equals(userInfo.account)) {
             accountManageActivity.anonymousMode();
         } else {
             accountManageActivity.normalMode();

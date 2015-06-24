@@ -10,16 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseBackActionBarActivity;
-import com.badou.mworking.database.MTrainingDBHelper;
-import com.badou.mworking.entity.user.UserInfo;
-import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.presenter.AccountManagerPresenter;
-import com.badou.mworking.util.Navigator;
-import com.badou.mworking.util.ToastUtil;
-
-import org.json.JSONObject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;

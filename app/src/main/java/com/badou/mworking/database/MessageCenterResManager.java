@@ -7,7 +7,7 @@ import android.text.TextUtils;
 
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.entity.MessageCenter;
-import com.badou.mworking.entity.user.UserInfo;
+import com.badou.mworking.entity.user.UserInfoTmp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,7 @@ public class MessageCenterResManager {
         MTrainingDBHelper mTrainingDBHelper = MTrainingDBHelper
                 .getMTrainingDBHelper();
         SQLiteDatabase dbWriter = mTrainingDBHelper.getDatabase();
-        UserInfo userInfo = ((AppApplication) context.getApplicationContext()).getUserInfo();
+        UserInfoTmp userInfo = ((AppApplication) context.getApplicationContext()).getUserInfo();
         if (userInfo == null || TextUtils.isEmpty(userInfo.account))
             return;
         String userNum = userInfo.account;

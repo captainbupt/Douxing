@@ -16,7 +16,7 @@ import android.util.DisplayMetrics;
 import com.badou.mworking.LoginActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.database.MTrainingDBHelper;
-import com.badou.mworking.entity.user.UserInfo;
+import com.badou.mworking.entity.user.UserInfoTmp;
 import com.badou.mworking.net.bitmap.BitmapLruCache;
 import com.badou.mworking.net.volley.MyVolley;
 import com.badou.mworking.util.CrashHandler;
@@ -36,7 +36,7 @@ public class AppApplication extends Application {
     // tag
     public static String appVersion;
     public static final String SYSVERSION = android.os.Build.VERSION.RELEASE;
-    private UserInfo userInfo;
+    private UserInfoTmp userInfo;
 
     public static String screenlg = "md";
 
@@ -81,9 +81,9 @@ public class AppApplication extends Application {
      *
      * @return 用户信息类的对象实体
      */
-    public UserInfo getUserInfo() {
+    public UserInfoTmp getUserInfo() {
         if (userInfo == null) {
-            userInfo = UserInfo.getUserInfoFromSP(this);
+            userInfo = UserInfoTmp.getUserInfoFromSP(this);
         }
         return userInfo;
     }
@@ -93,7 +93,7 @@ public class AppApplication extends Application {
      *
      * @param userInfo
      */
-    public void setUserInfo(UserInfo userInfo) {
+    public void setUserInfo(UserInfoTmp userInfo) {
         this.userInfo = userInfo;
         userInfo.saveUserInfo(getApplicationContext());
         Set<String> tags = new HashSet<>();

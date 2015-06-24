@@ -14,10 +14,7 @@ public class Net {
     public static final String HTTP_IP = "ip_address";  // Sp中保存的ip
 
     public static final String DATA = "data";
-    public static final String MSG = "msg";
-    public static final String RESULT = "result";
     public static final String CODE = "errcode";
-    public static final String LIST = "list";
     public static final int SUCCESS = 0;
     public static final int LOGOUT = 50002;
 
