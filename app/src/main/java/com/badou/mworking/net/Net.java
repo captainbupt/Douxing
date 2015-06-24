@@ -285,7 +285,7 @@ public class Net {
                 + AppApplication.appVersion + "&uid=" + uid + "&qid=" + qid;
     }
 
-    public static String ASK_GET_BY_ID = "/getonepub?sys=android" + AppApplication.SYSVERSION + "&ver="
+    public static String ASK_GET_BY_ID = "/getoneask?sys=android" + AppApplication.SYSVERSION + "&ver="
             + AppApplication.appVersion;
 
     /**

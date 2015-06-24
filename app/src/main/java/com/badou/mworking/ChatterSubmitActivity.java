@@ -4,13 +4,17 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
+import com.android.volley.VolleyError;
 import com.badou.mworking.adapter.ChatterTopicAdapter;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.entity.ChatterTopic;
@@ -22,6 +26,7 @@ import com.badou.mworking.util.ImageChooser;
 import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.MultiImageEditGridView;
+import com.badou.mworking.widget.NoScrollListView;
 import com.badou.mworking.widget.VideoImageView;
 
 import org.json.JSONObject;
@@ -42,8 +47,11 @@ public class ChatterSubmitActivity extends BaseBackActionBarActivity {
     private LinearLayout mBottomAnonymousLayout;
     private LinearLayout mBottomPhotoLayout;
     private CheckBox mAnonymousCheckBox;
-    private ListView mTopicListView;
+    private ScrollView mTopicScrollView;
+    private NoScrollListView mTopicListView;
     private ChatterTopicAdapter mTopicAdapter;
+    private TextView mTopicCustomConfirmTextView;
+    private EditText mTopicCustomEditText;
 
     private int mImageType = -1;
     private ImageChooser mImageChooser;
@@ -67,14 +75,23 @@ public class ChatterSubmitActivity extends BaseBackActionBarActivity {
         mBottomPhotoLayout = (LinearLayout) findViewById(R.id.ll_activity_chatter_submit_bottom_photo);
         mAnonymousCheckBox = (CheckBox) findViewById(R.id.cb_activity_chatter_bottom_anonymous);
         mVideoImageView = (VideoImageView) findViewById(R.id.viv_activity_chatter_submit);
-        mTopicListView = (ListView) findViewById(R.id.lv_activity_chatter_submit_topic);
+        mTopicScrollView = (ScrollView) findViewById(R.id.sv_activity_chatter_submit_topic);
+        mTopicListView = (NoScrollListView) findViewById(R.id.nslv_activity_chatter_submit_topic);
+        mTopicCustomConfirmTextView = (TextView) findViewById(R.id.tv_activity_chatter_submit_confirm);
+        mTopicCustomEditText = (EditText) findViewById(R.id.et_activity_chatter_submit_topic_edit);
     }
 
     private void initListener() {
         mBottomTopicLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mTopicListView.setVisibility(mTopicListView.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+                if (mTopicListView.getVisibility() == View.VISIBLE) {
+                    mTopicScrollView.setVisibility(View.GONE);
+                    mContentEditText.setEnabled(true);
+                } else {
+                    mTopicScrollView.setVisibility(View.VISIBLE);
+                    mContentEditText.setEnabled(false);
+                }
             }
         });
         mBottomAnonymousLayout.setOnClickListener(new View.OnClickListener() {
@@ -122,16 +139,18 @@ public class ChatterSubmitActivity extends BaseBackActionBarActivity {
                 return true;
             }
         });
-        mTopicAdapter = new ChatterTopicAdapter(mContext, new ChatterTopicAdapter.OnConfirmClickListener() {
+        mTopicAdapter = new ChatterTopicAdapter(mContext);
+        mTopicCustomConfirmTextView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onConfirm(String topic) {
+            public void onClick(View view) {
+                String topic = mTopicCustomEditText.getText().toString().replace("#", "").replace(" ", "").trim();
                 onTopicSelected(topic);
             }
         });
-        mTopicListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mTopicListView.setOnItemClickListener(new NoScrollListView.OnNoScrollItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                ChatterTopic chatterTopic = (ChatterTopic) mTopicAdapter.getItem(i - 1);
+            public void onItemClick(View v, int position, long id) {
+                ChatterTopic chatterTopic = (ChatterTopic) mTopicAdapter.getItem(position);
                 onTopicSelected(chatterTopic.key);
             }
         });
@@ -159,13 +178,15 @@ public class ChatterSubmitActivity extends BaseBackActionBarActivity {
         Matcher matcher = pattern.matcher(temp);
         matcher.replaceFirst("");*/
         mContentEditText.setText("#" + content + "#" + temp.replaceFirst("#[\\s\\S]*#", ""));
-        mTopicListView.setVisibility(View.GONE);
+        mTopicScrollView.setVisibility(View.GONE);
+        mContentEditText.setEnabled(true);
     }
 
     @Override
     public void onBackPressed() {
         if (mTopicListView.getVisibility() == View.VISIBLE) {
-            mTopicListView.setVisibility(View.GONE);
+            mTopicScrollView.setVisibility(View.GONE);
+            mContentEditText.setEnabled(true);
             return;
         }
         super.onBackPressed();
@@ -246,6 +267,10 @@ public class ChatterSubmitActivity extends BaseBackActionBarActivity {
                         mProgressDialog.dismiss();
                     }
 
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        super.onErrorResponse(error);
+                    }
                 });
     }
 

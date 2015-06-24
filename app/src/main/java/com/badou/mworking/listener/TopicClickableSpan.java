@@ -56,6 +56,7 @@ public class TopicClickableSpan extends ClickableSpan {
     }
 
     public static void setClickTopic(Context context, final TextView textView, String content, int max, View.OnClickListener onItemClickListener) {
+        textView.setOnLongClickListener(new CopyClickListener(context, content));
         textView.setOnClickListener(onItemClickListener);
         SpannableString spannableString;
         if (content.length() > max) {

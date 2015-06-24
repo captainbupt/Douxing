@@ -17,40 +17,13 @@ import com.badou.mworking.entity.ChatterTopic;
  */
 public class ChatterTopicAdapter extends MyBaseAdapter {
 
-    private LinearLayout mEditLayout;
-    private OnConfirmClickListener mOnConfirmClickListener;
-
-    public interface OnConfirmClickListener {
-        void onConfirm(String content);
-    }
-
-    public ChatterTopicAdapter(Context context, OnConfirmClickListener onConfirmClickListener) {
+    public ChatterTopicAdapter(Context context) {
         super(context);
-        mOnConfirmClickListener = onConfirmClickListener;
-        mEditLayout = (LinearLayout) mInflater.inflate(R.layout.layout_adapter_chatter_topic_edit, null);
-        final EditText contentEditText = (EditText) mEditLayout.findViewById(R.id.et_adapter_chatter_topic_edit);
-        mEditLayout.findViewById(R.id.tv_adapter_chatter_topic_confirm).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mOnConfirmClickListener != null) {
-                    mOnConfirmClickListener.onConfirm(contentEditText.getText().toString().replace("#", "").replace(" ", "").trim());
-                }
-                contentEditText.setText("");
-            }
-        });
-    }
-
-    @Override
-    public int getCount() {
-        return super.getCount() + 1;
     }
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        if (i == 0) {
-            return mEditLayout;
-        }
-        if (view == null || !view.getClass().equals(TextView.class)) {
+        if (view == null) {
             int smallSize = mContext.getResources().getDimensionPixelOffset(R.dimen.offset_small);
             int mediumSize = mContext.getResources().getDimensionPixelOffset(R.dimen.offset_medium);
             view = new TextView(mContext);
@@ -58,7 +31,7 @@ public class ChatterTopicAdapter extends MyBaseAdapter {
             ((TextView) view).setTextSize(TypedValue.COMPLEX_UNIT_PX, mContext.getResources().getDimensionPixelSize(R.dimen.text_size_medium));
             ((TextView) view).setTextColor(mContext.getResources().getColor(R.color.color_text_black));
         }
-        ((TextView) view).setText("#" + ((ChatterTopic) getItem(i - 1)).key + "#");
+        ((TextView) view).setText("#" + ((ChatterTopic) getItem(i)).key + "#");
         return view;
     }
 }

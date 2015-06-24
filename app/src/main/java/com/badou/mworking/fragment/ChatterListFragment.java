@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.android.volley.VolleyError;
 import com.badou.mworking.ChatterActivity;
 import com.badou.mworking.ChatterDetailActivity;
 import com.badou.mworking.ChatterTopicActivity;
@@ -116,7 +117,9 @@ public class ChatterListFragment extends BaseFragment {
 
                     @Override
                     public void onErrorCode(int code) {
-                        mNoneResultView.setVisibility(View.VISIBLE);
+                        if (code != -1) {
+                            mNoneResultView.setVisibility(View.VISIBLE);
+                        }
                     }
 
                     @Override

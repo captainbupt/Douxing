@@ -11,6 +11,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.badou.mworking.R;
 import com.badou.mworking.net.volley.MyVolley;
 import com.badou.mworking.util.NetUtils;
+import com.badou.mworking.util.SPUtil;
 
 /**
  * Created by Administrator on 2015/6/8.
@@ -43,15 +44,16 @@ public class ImageViewLoader {
         imageView.setVisibility(View.VISIBLE);
         //评论中添加的图片
         boolean isWifi = NetUtils.isWifiConnected(context);
+        boolean isSaveInternet = SPUtil.getSaveInternetOption(context);
         Bitmap contentBmp = BitmapLruCache.getBitmapLruCache().get(url);
         if (contentBmp != null && contentBmp.isRecycled()) {
             imageView.setImageBitmap(contentBmp);
         } else {
-            if (isWifi) {
+//            if (isWifi || !isSaveInternet) {
                 setSquareImageViewResource(imageView, defaultResId, url, size);
-            } else {
+/*            } else {
                 imageView.setImageResource(R.drawable.icon_image_default);
-            }
+            }*/
         }
     }
 
