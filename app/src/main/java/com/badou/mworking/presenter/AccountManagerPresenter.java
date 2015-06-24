@@ -28,6 +28,30 @@ import java.util.regex.Pattern;
 public class AccountManagerPresenter extends Presenter {
 
     AccountManageActivity accountManageActivity;
+    UserInfo userInfo;
+
+    public void setAccountManageActivity(AccountManageActivity accountManageActivity) {
+        this.accountManageActivity = accountManageActivity;
+    }
+
+    public void initialize() {
+        this.userInfo = ((AppApplication) accountManageActivity.getApplication()).getUserInfo();
+        accountManageActivity.setAccount(userInfo.account);
+        if ("anonymous".equals(userInfo.account)) {
+            accountManageActivity.anonymousMode();
+        } else {
+            accountManageActivity.normalMode();
+        }
+    }
+
+    public void passwordChanged(String originPassword, String newPassword, String confirmPassword) {
+        if (TextUtils.isEmpty(originPassword) || TextUtils.isEmpty(newPassword) || TextUtils.isEmpty(confirmPassword)
+                || originPassword.length() < 6 || newPassword.length() < 6 || confirmPassword.length() < 6) {
+            accountManageActivity.disableButton();
+        } else {
+            accountManageActivity.enableButton();
+        }
+    }
 
     void changePassword(String originPassword, String newPassword, String confirmPassword) {
         Pattern pattern = Pattern.compile("^[A-Za-z0-9@\\_\\-\\.]+$");
