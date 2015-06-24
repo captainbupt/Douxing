@@ -20,6 +20,7 @@ import com.badou.mworking.net.Net;
 import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
+import com.badou.mworking.presenter.AccountManagerPresenter;
 import com.badou.mworking.util.AppManager;
 import com.badou.mworking.util.ToastUtil;
 
@@ -49,27 +50,17 @@ public class AccountManageActivity extends BaseBackActionBarActivity {
     @InjectView(R.id.btn_logout)
     Button btnLogout;
 
+    AccountManagerPresenter presenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setActionbarTitle(mContext.getResources().getString(R.string.title_name_Myzhanghao));
         setContentView(R.layout.activity_account_manager);
         ButterKnife.inject(this);
-        initData();
-    }
-
-    private void initData() {
-        String account = ((AppApplication) getApplication()).getUserInfo().account;
-        tvUsername.setText(account);
-        if ("anonymous".equals(account)) {
-            anonymousMode();
-        } else {
-            disableButton();
-            PasswordTextWatcher passwordTextWatcher = new PasswordTextWatcher();
-            etOriginal.addTextChangedListener(passwordTextWatcher);
-            etNew.addTextChangedListener(passwordTextWatcher);
-            etConfirm.addTextChangedListener(passwordTextWatcher);
-        }
+        presenter = new AccountManagerPresenter();
+        presenter.setAccountManageActivity(this);
+        presenter.initialize();
     }
 
     class PasswordTextWatcher implements TextWatcher {
@@ -98,19 +89,19 @@ public class AccountManageActivity extends BaseBackActionBarActivity {
         }
     }
 
-    private void disableButton() {
+    public void disableButton() {
         btnChangePassword.setTextColor(getResources().getColor(R.color.color_text_black));
         btnChangePassword.setBackgroundResource(R.drawable.background_button_disable);
         btnChangePassword.setEnabled(false);
     }
 
-    private void enableButton() {
+    public void enableButton() {
         btnChangePassword.setTextColor(getResources().getColor(R.color.color_button_text_blue));
         btnChangePassword.setBackgroundResource(R.drawable.background_button_enable_blue);
         btnChangePassword.setEnabled(true);
     }
 
-    private void anonymousMode() {
+    public void anonymousMode() {
         disableButton();
         etNew.setInputType(InputType.TYPE_NULL);
         etOriginal.setInputType(InputType.TYPE_NULL);
@@ -118,6 +109,18 @@ public class AccountManageActivity extends BaseBackActionBarActivity {
         etNew.setOnClickListener(new AnonymousOnClickListener());
         etOriginal.setOnClickListener(new AnonymousOnClickListener());
         etConfirm.setOnClickListener(new AnonymousOnClickListener());
+    }
+
+    public void normalMode() {
+        disableButton();
+        PasswordTextWatcher passwordTextWatcher = new PasswordTextWatcher();
+        etOriginal.addTextChangedListener(passwordTextWatcher);
+        etNew.addTextChangedListener(passwordTextWatcher);
+        etConfirm.addTextChangedListener(passwordTextWatcher);
+    }
+
+    public void setAccount(String account) {
+        tvUsername.setText(account);
     }
 
     class AnonymousOnClickListener implements OnClickListener {
@@ -149,7 +152,7 @@ public class AccountManageActivity extends BaseBackActionBarActivity {
 
         if (TextUtils.isEmpty(originalPassword)) {
             ToastUtil.showToast(mContext, R.string.change_error_empty_password_original);
-        } else if (TextUtils.isEmpty(newPassword)|| TextUtils.isEmpty(confirmPassword)) {
+        } else if (TextUtils.isEmpty(newPassword) || TextUtils.isEmpty(confirmPassword)) {
             ToastUtil.showToast(mContext, R.string.change_error_empty_password_new);
         } else if (originalPassword.length() < 6) {
             ToastUtil.showToast(mContext, R.string.change_error_short_password_original);
