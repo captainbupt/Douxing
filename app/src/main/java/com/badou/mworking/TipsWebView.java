@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseNoTitleActivity;
-import com.badou.mworking.entity.user.UserInfo;
+import com.badou.mworking.entity.user.UserInfoTmp;
 import com.badou.mworking.util.NetUtils;
 
 import org.json.JSONException;
@@ -156,7 +156,7 @@ public class TipsWebView extends BaseNoTitleActivity {
     private void loginSuccess(JSONObject jsonObject) {
         // 验证成功 跳转到ExperienceDetailAct
         String acount = getIntent().getStringExtra(KEY_TipsWebView_PHONE);
-        UserInfo userInfo = new UserInfo();
+        UserInfoTmp userInfo = new UserInfoTmp();
         /***保存没MD5的用户账户 **/
         userInfo.setUserInfo(acount, jsonObject);
         // 保存用户登录成功返回的信息 到sharePreferncers

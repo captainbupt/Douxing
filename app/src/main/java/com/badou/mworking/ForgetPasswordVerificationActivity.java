@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseBackActionBarActivity;
-import com.badou.mworking.entity.user.UserInfo;
+import com.badou.mworking.entity.user.UserInfoTmp;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
@@ -153,7 +153,7 @@ public class ForgetPasswordVerificationActivity extends BaseBackActionBarActivit
      */
     private void loginSuccess(String acount,
                               JSONObject jsonObject) {
-        UserInfo userInfo = new UserInfo();
+        UserInfoTmp userInfo = new UserInfoTmp();
         userInfo.setUserInfo(acount, jsonObject);
         // 保存用户登录成功返回的信息 到sharePreferncers
         ((AppApplication) getApplicationContext()).setUserInfo(userInfo);

@@ -13,7 +13,7 @@ import com.badou.mworking.TrainMusicActivity;
 import com.badou.mworking.TrainVideoActivity;
 import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.base.BaseStatisticalActionBarActivity;
-import com.badou.mworking.entity.MainIcon;
+import com.badou.mworking.entity.Main.MainIcon;
 import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.CategoryDetail;
 import com.badou.mworking.entity.category.Task;

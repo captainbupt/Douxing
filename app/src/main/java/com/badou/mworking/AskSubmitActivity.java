@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.base.BaseBackActionBarActivity;
-import com.badou.mworking.entity.MainIcon;
+import com.badou.mworking.entity.Main.MainIcon;
 import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;

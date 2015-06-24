@@ -9,6 +9,7 @@ import com.badou.mworking.R;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.util.ToastUtil;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONObject;
 
@@ -17,7 +18,7 @@ import java.lang.reflect.Field;
 /**
  * Created by yee on 3/7/14.
  */
-public abstract class VolleyListener implements Response.ErrorListener,
+public abstract class VolleyListener<T> implements Response.ErrorListener,
         Response.Listener {
 
     private Context mContext;
