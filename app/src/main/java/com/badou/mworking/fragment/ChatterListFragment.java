@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.android.volley.VolleyError;
 import com.badou.mworking.ChatterActivity;
 import com.badou.mworking.ChatterDetailActivity;
 import com.badou.mworking.ChatterTopicActivity;
@@ -113,11 +114,6 @@ public class ChatterListFragment extends BaseFragment {
         // 发起网络请求
         ServiceProvider.doQuestionShareList(mContext, "share", topic, beginNum,
                 Constant.LIST_ITEM_NUM, new VolleyListener(getActivity()) {
-
-                    @Override
-                    public void onErrorCode(int code) {
-                        mNoneResultView.setVisibility(View.VISIBLE);
-                    }
 
                     @Override
                     public void onCompleted() {
