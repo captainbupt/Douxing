@@ -21,6 +21,11 @@ public class CopyClickListener implements View.OnClickListener, View.OnLongClick
         this.mContext = context;
     }
 
+    public CopyClickListener(Context context, String content) {
+        this.mContext = context;
+        this.content = content;
+    }
+
     @Override
     public void onClick(View view) {
         showCopyDialog(mContext, content);

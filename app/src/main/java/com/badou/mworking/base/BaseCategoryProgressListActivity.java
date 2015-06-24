@@ -354,6 +354,12 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
         }
         final String userNum = ((AppApplication) getApplicationContext())
                 .getUserInfo().account;
+        /**
+         * 保存未读数
+         */
+        if (tag == 0) {
+            SP.putIntSP(mContext, SP.DEFAULTCACHE, userNum + CATEGORY_UNREAD_NUM, data.optInt(ResponseParameters.NEWCNT));
+        }
         List<Object> list = new ArrayList<>();
         JSONArray resultArray = data.optJSONArray(Net.LIST);
         if (resultArray == null
@@ -367,12 +373,6 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
             return;
         }
         mNoneResultView.setVisibility(View.GONE);
-        /**
-         * 保存未读数
-         */
-        if (tag == 0) {
-            SP.putIntSP(mContext, SP.DEFAULTCACHE, userNum + CATEGORY_UNREAD_NUM, data.optInt(ResponseParameters.NEWCNT));
-        }
         //添加缓存
         if (mCategoryAdapter.getCount() == 0) {
             //添加缓存
