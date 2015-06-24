@@ -133,6 +133,10 @@ public class MainGridActivity extends BaseNoTitleActivity {
             JPushInterface.stopPush(getApplicationContext());
         }
         disableSwipeBack();
+
+        if (mReceivedIntent.getBooleanExtra("messagecenter", false)) {
+            startActivity(new Intent(mContext, MessageCenterActivity.class));
+        }
     }
 
     @Override
@@ -432,15 +436,15 @@ public class MainGridActivity extends BaseNoTitleActivity {
     private List<Object> getMainIconList() {
         List<Object> mainIconList = new ArrayList<>();
 
-        // 用此顺序，可以保证没有缓存的时候能够按顺序显示
-        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_ASK));
-        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_SHELF));
+        // 顺序和权限码一一对应，不能混乱
+        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_NOTICE));
+        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_TRAINING));
+        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_EXAM));
+        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_TASK));
         mainIconList.add(MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_SURVEY));
         mainIconList.add(MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_CHATTER));
-        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_TASK));
-        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_EXAM));
-        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_TRAINING));
-        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_NOTICE));
+        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_SHELF));
+        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_ASK));
 
         /**
          * 权限， 设置隐藏显示
@@ -450,8 +454,8 @@ public class MainGridActivity extends BaseNoTitleActivity {
                 .getUserInfo().access;
 
         char[] accessArray = Integer.toBinaryString(access).toCharArray();
-        for (int i = accessArray.length - 1; i >= 0; i--) {
-            if (accessArray[i] == '0')
+        for (int i = mainIconList.size() - 1; i >= 0; i--) {
+            if (i >= accessArray.length || accessArray[i] == '0')
                 mainIconList.remove(i);
         }
 
