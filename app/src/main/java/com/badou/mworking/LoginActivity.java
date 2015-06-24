@@ -203,6 +203,7 @@ public class LoginActivity extends BaseNoTitleActivity implements
         UserInfo userInfo = new UserInfo();
         /*** 保存没MD5的用户账户 **/
         userInfo.setUserInfo(account, jsonObject);
+        System.out.println("shuffle: " + userInfo.shuffleStr);
         // 保存用户登录成功返回的信息 到sharePreferncers
         ((AppApplication) getApplicationContext()).setUserInfo(userInfo);
         goMainGrid();
