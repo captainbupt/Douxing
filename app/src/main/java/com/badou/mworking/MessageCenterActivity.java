@@ -14,13 +14,16 @@ import com.badou.mworking.model.Ask;
 import com.badou.mworking.model.Chatter;
 import com.badou.mworking.model.MessageCenter;
 import com.badou.mworking.model.category.CategoryDetail;
+import com.badou.mworking.model.user.UserDetail;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.CategoryClickHandler;
+import com.badou.mworking.util.SP;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.NoneResultView;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -121,9 +124,28 @@ public class MessageCenterActivity extends BaseBackActionBarActivity {
                     showErrorResponse(position);
                 }
             });
+        } else if (messageCenter.type.equals(MessageCenter.TYPE_CHAT)) {
+            mProgressDialog.dismiss();
+            Intent intent = new Intent(mContext, ChatListActivity.class);
+            UserDetail userDetail = getUserCache();
+            if (userDetail != null) {
+                intent.putExtra(ChatListActivity.KEY_HEAD_URL, userDetail.headimg);
+            }
+            context.startActivity(intent);
+            mContentAdapter.deleteItem(position);
         } else {
             ToastUtil.showToast(mContext, R.string.category_unsupport_type);
             mProgressDialog.dismiss();
+        }
+    }
+
+    private UserDetail getUserCache() {
+        try {
+            JSONObject jsonObject = new JSONObject(SP.getStringSP(mContext, SP.DEFAULTCACHE, "userdetail", ""));
+            return new UserDetail(jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
