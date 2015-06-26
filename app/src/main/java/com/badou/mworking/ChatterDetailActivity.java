@@ -169,7 +169,7 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
     private void initData() {
         mReplyAdapter = new CommentAdapter(mContext, mChatter.qid, mChatter.deletable, mProgressDialog);
         mReplyListView.setAdapter(mReplyAdapter);
-        TopicClickableSpan.setClickTopic(mContext, mContentTextView, mChatter.content,Integer.MAX_VALUE, new View.OnClickListener(){
+        TopicClickableSpan.setClickTopic(mContext, mContentTextView, mChatter.content, Integer.MAX_VALUE, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -178,9 +178,11 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
         /**删除和私信逻辑 */
         String userUid = ((AppApplication) this.getApplicationContext())
                 .getUserInfo().userId;
+        boolean isAdmin = ((AppApplication) this.getApplicationContext())
+                .getUserInfo().isAdmin;
         String currentUid = mChatter.uid;
         // 点击进入是自己      (TextUtils.isEmpty(currentUid) 我的圈中没有返回uid字段，因为那是自己，当uid为空时，判断为是自己，也就是我的圈跳转进入的，只显示删除)
-        if (userUid.equals(currentUid) || TextUtils.isEmpty(currentUid)) {
+        if (userUid.equals(currentUid) || (TextUtils.isEmpty(currentUid) && !isAdmin)) {
             mMessageTextView.setVisibility(View.GONE);
         } else {
             mMessageTextView.setVisibility(View.VISIBLE);
