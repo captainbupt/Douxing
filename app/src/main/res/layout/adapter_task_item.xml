@@ -9,12 +9,6 @@
         android:layout_height="wrap_content"
         android:background="@color/color_white">
 
-        <ImageView
-            android:id="@+id/iv_adapter_task_top"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/flag_category_top" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -75,6 +69,11 @@
                 android:textColor="@color/color_white" />
         </LinearLayout>
 
+        <ImageView
+            android:id="@+id/iv_adapter_task_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/flag_category_top" />
     </FrameLayout>
 
     <View

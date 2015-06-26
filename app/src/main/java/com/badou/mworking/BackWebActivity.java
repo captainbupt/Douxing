@@ -137,8 +137,8 @@ public class BackWebActivity extends BaseStatisticalActionBarActivity {
     private void bannerDate(String logoUrl) {
         ImageView logoImage = new ImageView(mContext);
         logoImage.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, getResources().getDimensionPixelOffset(R.dimen.height_title_bar)));
-        logoImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        int padding = getResources().getDimensionPixelOffset(R.dimen.offset_less);
+        logoImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+        int padding = getResources().getDimensionPixelOffset(R.dimen.offset_lless);
         logoImage.setPadding(padding, padding, padding, padding);
         ImageViewLoader.setImageViewResource(logoImage, R.drawable.logo, logoUrl);
         setTitleCustomView(logoImage);
