@@ -36,6 +36,7 @@ public abstract class Category implements Serializable {
     public String url; // 资源url 对应不同类型
     public int subtype; // 资源类型
     public int read; // 是否完成
+    public boolean isStore;
 
     public Category(JSONObject jsonObject) {
         this.rid = jsonObject.optString(ResponseParameters.CATEGORY_RID);
@@ -50,6 +51,7 @@ public abstract class Category implements Serializable {
         this.subtype = jsonObject.optInt(ResponseParameters.CATEGORY_SUBTYPE);
         // 为空的时候为已完成
         this.read = jsonObject.optInt(ResponseParameters.CATEGORY_UNREAD, 1);
+        this.isStore = jsonObject.optBoolean("store");
     }
 
     public abstract int getCategoryType();

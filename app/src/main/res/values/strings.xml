@@ -31,6 +31,7 @@
     <string name="sign_task_button_sign">签到</string>
     <string name="user_center_my_exam">我的考试</string>
     <string name="user_center_my_study_progress">我的学习</string>
+    <string name="user_center_my_store">我的收藏</string>
     <string name="user_center_my_group">我的圈</string>
     <string name="login_error_button_confirm">确认</string>
     <string name="comment_hint">我来说两句（大于5个字）&#8230;</string>
@@ -218,6 +219,7 @@
     <string name="progress_tips_delete_ing">删除中，请稍后…</string>
     <string name="progress_tips_submit_ing">提交中…</string>
     <string name="progress_tips_login_ing">登录中…</string>
+    <string name="progress_tips_store_ing">收藏中，请稍后…</string>
 
     <string name="module_default_title_notice">通知公告</string>
     <string name="module_default_title_chatter">同事圈</string>
@@ -234,6 +236,7 @@
     <string name="none_result_reply">这里还没有回答哦\n做第一个回复TA的人吧</string>
     <string name="none_result_ask">有问题问兜行\n好多同事来帮你</string>
     <string name="none_result_message_center">暂无未读消息</string>
+    <string name="none_result_store">快去添加我的收藏吧</string>
 
     <string name="error_code_40001">参数格式非法</string>
     <string name="error_code_40002">非法电话号码格式</string>

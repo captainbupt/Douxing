@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.android.volley.VolleyError;
+import com.badou.mworking.AskDetailActivity;
 import com.badou.mworking.ChatterActivity;
 import com.badou.mworking.ChatterDetailActivity;
 import com.badou.mworking.ChatterTopicActivity;
@@ -19,6 +20,7 @@ import com.badou.mworking.adapter.ChatterListAdapter;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.base.BaseFragment;
+import com.badou.mworking.model.Ask;
 import com.badou.mworking.model.Chatter;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
@@ -63,7 +65,6 @@ public class ChatterListFragment extends BaseFragment {
                 .findViewById(R.id.ptrlv_fragment_chatter_list);
         mContentListView.setMode(Mode.BOTH);
         mNoneResultView = (NoneResultView) view.findViewById(R.id.nrv_fragment_chatter_list_none_result);
-
         mNoneResultView.setContent(R.drawable.background_none_result_chatter, R.string.none_result_chatter);
         initListener();
         getCache();
@@ -72,6 +73,18 @@ public class ChatterListFragment extends BaseFragment {
     }
 
     private void initListener() {
+        mContentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                // 跳转到单条的Item的页面，并传递数据
+                Chatter chatter = (Chatter) mChatterAdapter.getItem(i - 1);
+                Intent intent = new Intent(mContext, ChatterDetailActivity.class);
+                intent.putExtra(ChatterDetailActivity.KEY_CHATTER, chatter);
+                startActivityForResult(intent, REQUEST_CHATTER_DETAIL);
+            }
+        });
+        mChatterAdapter = new ChatterListAdapter(mContext, true);
+        mContentListView.setAdapter(mChatterAdapter);
         mContentListView.setOnRefreshListener(new OnRefreshListener2<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
@@ -85,18 +98,6 @@ public class ChatterListFragment extends BaseFragment {
                 updateData(mCurrentPage);
             }
         });
-        mChatterAdapter = new ChatterListAdapter(mContext, new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mClickPosition = position;
-                // 跳转到单条的Item的页面，并传递数据
-                Chatter chatter = (Chatter) mChatterAdapter.getItem(position);
-                Intent intent = new Intent(mContext, ChatterDetailActivity.class);
-                intent.putExtra(ChatterDetailActivity.KEY_CHATTER, chatter);
-                startActivityForResult(intent, REQUEST_CHATTER_DETAIL);
-            }
-        }, true);
-        mContentListView.setAdapter(mChatterAdapter);
     }
 
     public void refreshData() {
@@ -176,19 +177,14 @@ public class ChatterListFragment extends BaseFragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (mClickPosition >= 0 && mClickPosition < mChatterAdapter.getCount()) {
-            if (resultCode == Activity.RESULT_OK) {
+        if (resultCode == Activity.RESULT_OK && mClickPosition >= 0 && mClickPosition < mChatterAdapter.getCount()) {
+            if (data.getBooleanExtra(ChatterDetailActivity.RESULT_KEY_STORE, false)) {
+                mChatterAdapter.remove(mClickPosition);
+            } else {
                 Chatter chatter = (Chatter) mChatterAdapter.getItem(mClickPosition);
-                if (data != null) {
-                    chatter.replyNumber = (data.getIntExtra(ChatterDetailActivity.RESULT_KEY_COUNT, -1));
-                } else {
-                    chatter.replyNumber = -1;
-                }
-                if (chatter.replyNumber < 0) {
-                    mChatterAdapter.remove(mClickPosition);
-                } else {
-                    mChatterAdapter.setItem(mClickPosition, chatter);
-                }
+                chatter.replyNumber = data.getIntExtra(ChatterDetailActivity.RESULT_KEY_COUNT, chatter.replyNumber);
+                chatter.isStore = data.getBooleanExtra(ChatterDetailActivity.RESULT_KEY_STORE, chatter.isStore);
+                mChatterAdapter.setItem(mClickPosition, chatter);
             }
         }
         super.onActivityResult(requestCode, resultCode, data);

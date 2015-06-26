@@ -18,6 +18,7 @@ import com.badou.mworking.listener.TopicClickableSpan;
 import com.badou.mworking.model.Ask;
 import com.badou.mworking.model.Chatter;
 import com.badou.mworking.model.Comment;
+import com.badou.mworking.model.Store;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
@@ -33,6 +34,7 @@ import com.badou.mworking.widget.MultiImageShowGridView;
 import com.badou.mworking.widget.NoScrollListView;
 import com.badou.mworking.widget.NoScrollListView.OnNoScrollItemClickListener;
 import com.badou.mworking.widget.NoneResultView;
+import com.badou.mworking.widget.TextViewFixTouchConsume;
 import com.badou.mworking.widget.VideoImageView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
@@ -49,8 +51,12 @@ import java.util.List;
 public class ChatterDetailActivity extends BaseBackActionBarActivity {
 
     public static final String KEY_CHATTER = "chatter";
-    public static final String RESULT_KEY_COUNT = "count";
 
+    public static final String RESULT_KEY_DELETE = "delete";
+    public static final String RESULT_KEY_COUNT = "count";
+    public static final String RESULT_KEY_STORE = "store";
+
+    Intent resultIntent = new Intent();
     private Chatter mChatter;
 
     private CommentAdapter mReplyAdapter;// 同事圈list
@@ -58,7 +64,7 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
     private PullToRefreshScrollView mPullToRefreshScrollView;
     private ImageView mHeadImageView;
     private TextView mNameTextView;
-    private TextView mContentTextView;
+    private TextViewFixTouchConsume mContentTextView;
     private MultiImageShowGridView mImageGridView;
     private VideoImageView mVideoImageView;
     private TextView mSaveInternetTextView;
@@ -91,13 +97,18 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
         }, 700);
     }
 
+    @Override
+    protected void onStoreChanged(boolean isStore) {
+        mChatter.isStore = isStore;
+    }
+
     /**
      * 功能描述:实例化自定义listview,设置显示的内容
      */
     protected void initView() {
         mHeadImageView = (ImageView) findViewById(R.id.iv_activity_chatter_detail_head);
         mNameTextView = (TextView) findViewById(R.id.tv_activity_chatter_detail_name);
-        mContentTextView = (TextView) findViewById(R.id.tv_activity_chatter_detail_content);
+        mContentTextView = (TextViewFixTouchConsume) findViewById(R.id.tv_activity_chatter_detail_content);
         mImageGridView = (MultiImageShowGridView) findViewById(R.id.misgv_activity_chatter_detail_image);
         mVideoImageView = (VideoImageView) findViewById(R.id.viv_activity_chatter_detail_video);
         mSaveInternetTextView = (TextView) findViewById(R.id.tv_activity_chatter_detail_save_internet);
@@ -167,14 +178,10 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
      * 功能描述:设置蓝色title显示内容
      */
     private void initData() {
+        addStoreImageView(mChatter.isStore, Store.TYPE_STRING_CHATTER, mChatter.qid);
         mReplyAdapter = new CommentAdapter(mContext, mChatter.qid, mChatter.deletable, mProgressDialog);
         mReplyListView.setAdapter(mReplyAdapter);
-        TopicClickableSpan.setClickTopic(mContext, mContentTextView, mChatter.content, Integer.MAX_VALUE, new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
+        TopicClickableSpan.setClickTopic(mContext, mContentTextView, mChatter.content, Integer.MAX_VALUE);
         /**删除和私信逻辑 */
         String userUid = ((AppApplication) this.getApplicationContext())
                 .getUserInfo().userId;
@@ -232,7 +239,7 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
                 mContext) {
             @Override
             public void onResponseSuccess(JSONObject response) {
-                setResult(RESULT_OK);
+                resultIntent.putExtra(RESULT_KEY_DELETE, true);
                 ChatterDetailActivity.super.finish();
             }
 
@@ -286,9 +293,7 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
                         } else {
                             mReplyAdapter.addList(replys, ttlcnt);
                         }
-                        Intent intent = new Intent();
-                        intent.putExtra(RESULT_KEY_COUNT, ttlcnt);
-                        setResult(RESULT_OK, intent);
+                        mReceivedIntent.putExtra(RESULT_KEY_COUNT, mChatter.replyNumber);
                         mCurrentIndex++;
                     }
 
@@ -354,5 +359,12 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
                     mProgressDialog.dismiss();
             }
         });
+    }
+
+    @Override
+    public void finish() {
+        mReceivedIntent.putExtra(RESULT_KEY_STORE, mChatter.isStore);
+        setResult(RESULT_OK, mReceivedIntent);
+        super.finish();
     }
 }

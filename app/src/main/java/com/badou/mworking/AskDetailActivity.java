@@ -17,6 +17,7 @@ import com.badou.mworking.listener.DeleteClickListener;
 import com.badou.mworking.listener.FullImageListener;
 import com.badou.mworking.listener.MessageClickListener;
 import com.badou.mworking.model.Ask;
+import com.badou.mworking.model.Store;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
@@ -44,9 +45,11 @@ public class AskDetailActivity extends BaseBackActionBarActivity {
 
     public static final int REQUEST_REPLY = 11;
 
-    public static final int RESULT_DELETED = 11;
-    public static final int RESULT_REPLIED = 12;
+    public static final String RESULT_KEY_DELETE = "delete";
     public static final String RESULT_KEY_COUNT = "count";
+    public static final String RESULT_KEY_STORE = "store";
+
+    Intent resultIntent = new Intent();
 
     private Ask mAsk;
 
@@ -86,6 +89,11 @@ public class AskDetailActivity extends BaseBackActionBarActivity {
                 pullToRefreshScrollView.setRefreshing();
             }
         }, 700);
+    }
+
+    @Override
+    protected void onStoreChanged(boolean isStore) {
+        mAsk.isStore = isStore;
     }
 
     /**
@@ -149,6 +157,7 @@ public class AskDetailActivity extends BaseBackActionBarActivity {
     }
 
     private void initData() {
+        addStoreImageView(mAsk.isStore, Store.TYPE_STRING_ASK, mAsk.aid);
         ImageViewLoader.setSquareImageViewResource(mContentImageView, R.drawable.icon_image_default, mAsk.contentImageUrl, getResources().getDimensionPixelSize(R.dimen.icon_size_xlarge));
         mAnswerAdapter = new AskAnswerAdapter(AskDetailActivity.this, mAsk.aid, mAsk.count);
         mAnswerListView.setAdapter(mAnswerAdapter);
@@ -183,7 +192,7 @@ public class AskDetailActivity extends BaseBackActionBarActivity {
 
             @Override
             public void onResponseSuccess(JSONObject response) {
-                setResult(RESULT_DELETED, null);
+                resultIntent.putExtra(RESULT_KEY_DELETE, true);
                 finish();
             }
 
@@ -255,9 +264,14 @@ public class AskDetailActivity extends BaseBackActionBarActivity {
             beginIndex = 1;
             mAnswerAdapter.setReplyCount(mAsk.count);
             updateListView(1);
-            Intent intent = new Intent();
-            intent.putExtra(RESULT_KEY_COUNT, mAsk.count);
-            setResult(RESULT_REPLIED, intent);
+            mReceivedIntent.putExtra(RESULT_KEY_COUNT, mAsk.count);
         }
+    }
+
+    @Override
+    public void finish() {
+        mReceivedIntent.putExtra(RESULT_KEY_STORE, mAsk.isStore);
+        setResult(RESULT_OK, mReceivedIntent);
+        super.finish();
     }
 }

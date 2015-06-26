@@ -2,6 +2,7 @@ package com.badou.mworking;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -24,7 +25,6 @@ import android.widget.TextView;
 
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseBackActionBarActivity;
-import com.badou.mworking.base.BaseStatisticalActionBarActivity;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.bitmap.BitmapLruCache;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
@@ -41,13 +41,17 @@ import java.io.File;
  * 功能描述:  actionbar为返回的网页展示页面
  */
 @SuppressLint("SetJavaScriptEnabled")
-public class BackWebActivity extends BaseStatisticalActionBarActivity {
+public class BackWebActivity extends BaseBackActionBarActivity {
 
     public static final String KEY_URL = "url";
+    public static final String KEY_RID = "rid";
     public static final String KEY_LOGO_URL = "logo";
     public static final String KEY_SHOW_STATISTICAL = "statistical";
     public static final String KEY_SHOW_RATING = "rating";
     public static final String KEY_SHOW_COMMENT = "comment";
+    public static final String KEY_SHOW_STORE = "store";
+    public static final String KEY_IS_STORE = "isstore";
+    public static final String KEY_STORE_TYPE = "storetype";
 
     private String mUrl;
     private String mCameraFilePath; //拍照路径
@@ -73,6 +77,20 @@ public class BackWebActivity extends BaseStatisticalActionBarActivity {
         initWebView();
     }
 
+    public static Intent getIntent(Context context, String rid, String url, String logoUrl, boolean isStatistical, boolean isRating, boolean isComment, boolean showStore, boolean isStore, String storeType) {
+        Intent intent = new Intent(context, BackWebActivity.class);
+        intent.putExtra(KEY_RID, rid);
+        intent.putExtra(KEY_URL, url);
+        intent.putExtra(KEY_LOGO_URL, logoUrl);
+        intent.putExtra(KEY_SHOW_STATISTICAL, isStatistical);
+        intent.putExtra(KEY_SHOW_RATING, isRating);
+        intent.putExtra(KEY_SHOW_COMMENT, isComment);
+        intent.putExtra(KEY_SHOW_STORE, showStore);
+        intent.putExtra(KEY_IS_STORE, isStore);
+        intent.putExtra(KEY_STORE_TYPE, storeType);
+        return intent;
+    }
+
     private void initView() {
         mWebView = (WebView) findViewById(R.id.wv_activity_web_view);
         mNetExceptionLinearLayout = (LinearLayout) findViewById(R.id.ll_activity_web_view_exception);
@@ -83,13 +101,18 @@ public class BackWebActivity extends BaseStatisticalActionBarActivity {
 
     private void initData() {
         mUrl = mReceivedIntent.getStringExtra(KEY_URL);
+        String rid = mReceivedIntent.getStringExtra(KEY_RID);
+        boolean showStore = mReceivedIntent.getBooleanExtra(KEY_SHOW_STORE, false);
         boolean isShowStatistical = mReceivedIntent.getBooleanExtra(KEY_SHOW_STATISTICAL, false);
         boolean isAdmin = ((AppApplication) getApplicationContext())
                 .getUserInfo().isAdmin;
+        if (showStore) {
+            boolean isStore = mReceivedIntent.getBooleanExtra(KEY_IS_STORE, false);
+            String type = mReceivedIntent.getStringExtra(KEY_STORE_TYPE);
+            addStoreImageView(isStore, type, rid);
+        }
         if (isAdmin && isShowStatistical) {
-            setRightImage(R.drawable.button_title_admin_statistical);
-        } else {
-            mTitleRightImageView.setVisibility(View.GONE);
+            addStatisticalImageView(rid);
         }
         boolean showRating = mReceivedIntent.getBooleanExtra(KEY_SHOW_RATING, false);
         boolean showComment = mReceivedIntent.getBooleanExtra(KEY_SHOW_COMMENT, false);
@@ -97,10 +120,10 @@ public class BackWebActivity extends BaseStatisticalActionBarActivity {
             mBottomView.setVisibility(View.GONE);
         } else {
             mBottomView.setVisibility(View.VISIBLE);
-            mBottomView.setData(mRid, showRating, showComment);
+            mBottomView.setData(rid, showRating, showComment);
         }
-        String logoUrl = mReceivedIntent.getStringExtra(KEY_LOGO_URL);
-        if (!TextUtils.isEmpty(logoUrl)) {
+        if (mReceivedIntent.hasExtra(KEY_LOGO_URL)) {
+            String logoUrl = mReceivedIntent.getStringExtra(KEY_LOGO_URL);
             bannerDate(logoUrl);
         }
     }
@@ -137,8 +160,8 @@ public class BackWebActivity extends BaseStatisticalActionBarActivity {
     private void bannerDate(String logoUrl) {
         ImageView logoImage = new ImageView(mContext);
         logoImage.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, getResources().getDimensionPixelOffset(R.dimen.height_title_bar)));
-        logoImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        int padding = getResources().getDimensionPixelOffset(R.dimen.offset_less);
+        logoImage.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        int padding = getResources().getDimensionPixelOffset(R.dimen.offset_lless);
         logoImage.setPadding(padding, padding, padding, padding);
         ImageViewLoader.setImageViewResource(logoImage, R.drawable.logo, logoUrl);
         setTitleCustomView(logoImage);

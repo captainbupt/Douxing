@@ -3,9 +3,11 @@ package com.badou.mworking.base;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
@@ -44,6 +46,7 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
 
     private ImageView mTitleTriangleImageView;
     private View mTitleLayout;
+    private TextView mTitleReadTextView;
     private boolean status_menu_show = false;
 
     protected String CATEGORY_NAME = "";
@@ -70,6 +73,8 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
 
     protected PullToRefreshListView mContentListView;
 
+    protected int mClickPosition = -1;
+    private boolean isUnread = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +101,8 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
             return;
         } else {
             CategoryClickHandler.categoryClicker(mContext, new CategoryDetail(mContext, category));
+            mClickPosition = position - 1;
+            //mCategoryAdapter.remove(position - 1);
         }
     }
 
@@ -116,6 +123,14 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
      * 初始化action 布局
      */
     private void initProgressView() {
+        mTitleReadTextView = new TextView(mContext);
+        mTitleReadTextView.setText(R.string.category_unread);
+        mTitleReadTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(R.dimen.text_size_less));
+        int paddingLess = getResources().getDimensionPixelOffset(R.dimen.offset_less);
+        mTitleReadTextView.setPadding(paddingLess, 0, paddingLess, 0);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        layoutParams.setMargins(0, 0, paddingLess, 0);
+        mTitleReadTextView.setLayoutParams(layoutParams);
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mTitleLayout = inflater.inflate(R.layout.actionbar_progress, null);
         setTitleCustomView(mTitleLayout);
@@ -135,6 +150,13 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
     }
 
     private void initProgressListener() {
+        addTitleRightView(mTitleReadTextView, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isUnread = !isUnread;
+                setUnread(isUnread);
+            }
+        });
         mTitleLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -190,7 +212,7 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
         mContentListView.setAdapter(mCategoryAdapter);
         setCategoryItemFromCache(tag);
         //updateListView(0);
-        mContentListView.setRefreshing();
+        setUnread(false);
     }
 
     private class OnMainClassificationClickListener implements AdapterView.OnItemClickListener {
@@ -318,7 +340,7 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
         // 刷新的时候不显示缺省页面
         mNoneResultView.setVisibility(View.GONE);
         mContentListView.setVisibility(View.VISIBLE);
-        ServiceProvider.doUpdateLocalResource2(mContext, CATEGORY_NAME, tag, beginNum, Constant.LIST_ITEM_NUM, "", null,
+        ServiceProvider.doUpdateLocalResource2(mContext, CATEGORY_NAME, tag, beginNum, Constant.LIST_ITEM_NUM, "", isUnread ? "0" : null,
                 new VolleyListener(mContext) {
 
                     @Override
@@ -330,7 +352,6 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
                     @Override
                     public void onResponse(Object responseObject) {
                         super.onResponse(responseObject);
-                        System.out.println("response: " + responseObject);
                     }
 
                     @Override
@@ -432,6 +453,17 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
             }
         });
         status_menu_show = false;
+    }
+
+    private void setUnread(boolean unread) {
+        if (unread) {
+            mTitleReadTextView.setTextColor(getResources().getColor(R.color.color_white));
+            mTitleReadTextView.setBackgroundResource(R.drawable.background_button_enable_blue_normal);
+        } else {
+            mTitleReadTextView.setTextColor(getResources().getColor(R.color.color_border_grey));
+            mTitleReadTextView.setBackgroundResource(R.drawable.background_border_radius_small_grey);
+        }
+        mContentListView.setRefreshing();
     }
 
 }
