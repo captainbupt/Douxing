@@ -27,7 +27,7 @@ public class Constant {
 	
 	public static final String LANGUAGE = "language";
 	public static final String COMPANY = "company";
-    public static final String LV_URL = "http://mworking.cn:8421/webview/userTitle.html?uid="; // 访问等级页面的url
+    public static final String LV_URL = "http://ops.mworking.cn/webview/userTitle.html?uid="; // 访问等级页面的url
     
     public static final int MWKG_FORAMT_TYPE_HTML = 1;      //html格式，用webview
     public static final int MWKG_FORAMT_TYPE_PDF = 2; 	    //pdf格式，安卓调pdf阅读器，ios调webview

@@ -10,6 +10,7 @@ import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -297,7 +298,11 @@ public class MainGridActivity extends BaseNoTitleActivity {
                 int pos = position % bList.size();
                 Intent intent = new Intent(mContext, BackWebActivity.class);
                 intent.putExtra(BackWebActivity.KEY_URL, ((MainBanner) bList.get(pos)).getBannerContentURL() + "");
-                intent.putExtra(BackWebActivity.KEY_LOGO_URL, mLogoUrl);
+                if (TextUtils.isEmpty(mLogoUrl)) {
+                    intent.putExtra(BackWebActivity.KEY_LOGO_URL, "invalid"); // 非法值
+                } else {
+                    intent.putExtra(BackWebActivity.KEY_LOGO_URL, mLogoUrl);
+                }
                 startActivity(intent);
             }
         });

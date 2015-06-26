@@ -182,7 +182,7 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
                 .getUserInfo().isAdmin;
         String currentUid = mChatter.uid;
         // 点击进入是自己      (TextUtils.isEmpty(currentUid) 我的圈中没有返回uid字段，因为那是自己，当uid为空时，判断为是自己，也就是我的圈跳转进入的，只显示删除)
-        if (userUid.equals(currentUid) || (TextUtils.isEmpty(currentUid) && !isAdmin)) {
+        if (userUid.equals(currentUid) || TextUtils.isEmpty(currentUid)) {
             mMessageTextView.setVisibility(View.GONE);
         } else {
             mMessageTextView.setVisibility(View.VISIBLE);
