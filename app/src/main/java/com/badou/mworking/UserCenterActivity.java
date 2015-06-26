@@ -217,6 +217,17 @@ public class UserCenterActivity extends BaseNoTitleActivity {
         mProgressDialog.setContent(R.string.user_detail_download_ing);
 
         mProgressDialog.show();
+
+        updateData();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateData();
+    }
+
+    private void updateData() {
         // 获取用户详情
         ServiceProvider.doOptainUserDetail(mContext, mUid, new VolleyListener(
                 mContext) {
@@ -363,11 +374,11 @@ public class UserCenterActivity extends BaseNoTitleActivity {
             chatNumTextView.setVisibility(View.VISIBLE);
             chatNumTextView.setText(nmsg + "");
             // 如果是两位数的话，换一个背景
-            if (nmsg > 9) {
+/*            if (nmsg > 9) {
                 chatNumTextView.setBackgroundResource(R.drawable.icon_chat_unread_long);
             } else {
                 chatNumTextView.setBackgroundResource(R.drawable.icon_chat_unread);
-            }
+            }*/
         }
 
     }
