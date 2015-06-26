@@ -19,8 +19,6 @@ import cn.jpush.android.api.JPushInterface;
  */
 public class ExamActivity extends BaseCategoryProgressListActivity {
 
-    private int mClickPosition = -1;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         CATEGORY_NAME = Exam.CATEGORY_KEY_NAME;

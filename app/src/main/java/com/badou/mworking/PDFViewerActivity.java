@@ -5,7 +5,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 
-import com.badou.mworking.base.BaseStatisticalActionBarActivity;
+import com.badou.mworking.base.AppApplication;
+import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.util.FileUtils;
 import com.badou.mworking.util.SPUtil;
 import com.badou.mworking.util.ToastUtil;
@@ -23,11 +24,14 @@ import java.io.File;
 /**
  * 功能描述: pdf 显示页面
  */
-public class PDFViewerActivity extends BaseStatisticalActionBarActivity {
+public class PDFViewerActivity extends BaseBackActionBarActivity {
 
     public static final String KEY_SHOW_RATING = "rating";
     public static final String KEY_SHOW_COMMENT = "comment";
     public static final String KEY_URL = "url";
+    public static final String KEY_RID = "rid";
+    public static final String KEY_IS_STORE = "store";
+    public static final String KEY_STORE_TYPE = "type";
 
     public static HorizontalProgressDialog progressDialog;
 
@@ -35,6 +39,7 @@ public class PDFViewerActivity extends BaseStatisticalActionBarActivity {
     private BottomRatingAndCommentView mBottomView;
     private String mFilePath;
     private HttpHandler mHttpHandler;
+    private String mRid;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,7 +47,6 @@ public class PDFViewerActivity extends BaseStatisticalActionBarActivity {
         setContentView(R.layout.activity_pdf_viewer);
         initView();
         initData();
-
     }
 
     protected void initView() {
@@ -54,6 +58,7 @@ public class PDFViewerActivity extends BaseStatisticalActionBarActivity {
      * 初始化数据
      */
     private void initData() {
+        mRid = mReceivedIntent.getStringExtra(KEY_RID);
         boolean showRating = mReceivedIntent.getBooleanExtra(KEY_SHOW_RATING, false);
         if (showRating) {
             mBottomView.setData(mRid, true, true);
@@ -61,6 +66,12 @@ public class PDFViewerActivity extends BaseStatisticalActionBarActivity {
             mBottomView.setData(mRid, false, true);
         }
         mBottomView.updateData();
+        boolean isStore = mReceivedIntent.getBooleanExtra(KEY_IS_STORE, false);
+        String type = mReceivedIntent.getStringExtra(KEY_STORE_TYPE);
+        addStoreImageView(isStore, type, mRid);
+        if (((AppApplication) getApplication()).getUserInfo().isAdmin) {
+            addStatisticalImageView(mRid);
+        }
         // 声明pdf文件要保存的路径
         mFilePath = FileUtils.getTrainCacheDir(mContext) + mRid + ".pdf";
         File file = new File(mFilePath);

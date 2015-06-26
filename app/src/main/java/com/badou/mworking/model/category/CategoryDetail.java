@@ -28,6 +28,7 @@ public class CategoryDetail {
     public int rating;
     public int sign;
     public String categoryName;
+    public boolean isStore;
 
     public Task task;
 
@@ -50,6 +51,7 @@ public class CategoryDetail {
         this.ratingTotal = jsonObject.optInt(ResponseParameters.RESOURCE_RATING_TOTAL);
         this.url = jsonObject.optString(ResponseParameters.RESOURCE_URL);
         this.format = jsonObject.optInt(ResponseParameters.RESOURCE_FORMAT);
+        this.isStore = jsonObject.optInt("store", 0) == 1;
         String contentString = jsonObject.optString(ResponseParameters.RESOURCE_CONTENT);
         if (!TextUtils.isEmpty(contentString)) {
             try {
@@ -87,5 +89,6 @@ public class CategoryDetail {
             task = (Task) category;
         }
         this.categoryName = category.getCategoryName(context);
+        this.isStore = category.isStore;
     }
 }

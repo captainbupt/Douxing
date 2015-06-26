@@ -25,7 +25,9 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.badou.mworking.base.BaseStatisticalActionBarActivity;
+import com.badou.mworking.base.AppApplication;
+import com.badou.mworking.base.BaseBackActionBarActivity;
+import com.badou.mworking.model.Store;
 import com.badou.mworking.util.DensityUtil;
 import com.badou.mworking.util.FileUtils;
 import com.badou.mworking.util.NetUtils;
@@ -44,10 +46,12 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 
-public class TrainVideoActivity extends BaseStatisticalActionBarActivity {
+public class TrainVideoActivity extends BaseBackActionBarActivity {
 
     public static final String KEY_SUBJECT = "subject";
     public static final String KEY_URL = "url";
+    public static final String KEY_RID = "rid";
+    public static final String KEY_IS_STORE = "store";
 
     public static final String ENDWITH_MP4 = ".mp4"; // MP4后缀
     public static final int STATU_START_PLAY = 5; // 播放计时器
@@ -79,9 +83,11 @@ public class TrainVideoActivity extends BaseStatisticalActionBarActivity {
     private String mSaveFilePath = ""; // 文件路径
 
     private String mUrl = "";
+    private String mRid;
     private ProgressHandler mProgressHandler;
     private HttpHandler mDownloadingHandler; // 下载
     private boolean isChanging = false;// 互斥变量，防止定时器与SeekBar拖动时进度冲突
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -191,6 +197,11 @@ public class TrainVideoActivity extends BaseStatisticalActionBarActivity {
      * 功能描述: 数据初始化
      */
     protected void initData() {
+        mRid = mReceivedIntent.getStringExtra(KEY_RID);
+        boolean isStore = mReceivedIntent.getBooleanExtra(KEY_IS_STORE, false);
+        addStoreImageView(isStore, Store.TYPE_STRING_TRAINING, mRid);
+        if (((AppApplication) getApplication()).getUserInfo().isAdmin)
+            addStatisticalImageView(mRid);
         mSaveFilePath = FileUtils.getTrainCacheDir(mContext) + mRid
                 + ENDWITH_MP4;
         mVideoTitleTextView.setText(mReceivedIntent.getStringExtra(KEY_SUBJECT));

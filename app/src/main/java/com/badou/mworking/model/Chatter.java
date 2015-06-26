@@ -33,6 +33,7 @@ public class Chatter implements Serializable {
     public List<Object> photoUrls;//内容中图片地址
     public String imgUrl;
     public String videoUrl;    //视屏下载地址
+    public boolean isStore;
 
     public Chatter(JSONObject jsonObject) {
         uid = jsonObject.optString(ResponseParameters.USER_ID);
@@ -56,6 +57,7 @@ public class Chatter implements Serializable {
         }
         imgUrl = jsonObject.optString(ResponseParameters.QUESTION_PICTURE_URL);
         videoUrl = jsonObject.optString(ResponseParameters.QUESTION_VIDEO_URL);
+        isStore = jsonObject.optBoolean("store");
     }
 
     public ContentValues getValues() {

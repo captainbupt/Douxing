@@ -11,7 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.badou.mworking.base.AppApplication;
-import com.badou.mworking.base.BaseStatisticalActionBarActivity;
+import com.badou.mworking.base.BaseBackActionBarActivity;
+import com.badou.mworking.model.Store;
 import com.badou.mworking.model.category.Task;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
@@ -43,7 +44,7 @@ import org.json.JSONObject;
 /**
  * 功能描述:  任务签到页面
  */
-public class TaskSignActivity extends BaseStatisticalActionBarActivity implements BDLocationListener {
+public class TaskSignActivity extends BaseBackActionBarActivity implements BDLocationListener {
 
     public static final String KEY_TASK = "task";
 
@@ -143,6 +144,9 @@ public class TaskSignActivity extends BaseStatisticalActionBarActivity implement
 
     private void initData() {
         task = (Task) mReceivedIntent.getSerializableExtra(KEY_TASK);
+        addStoreImageView(task.isStore, Store.TYPE_STRING_TASK, task.rid);
+        if (((AppApplication) getApplication()).getUserInfo().isAdmin)
+            addStatisticalImageView(task.rid);
         boolean finish = task.isRead();
         String comment = task.comment;
         if (comment == null || comment.equals("")) {

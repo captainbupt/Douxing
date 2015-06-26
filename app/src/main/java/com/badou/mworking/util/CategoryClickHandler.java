@@ -13,7 +13,6 @@ import com.badou.mworking.TaskSignActivity;
 import com.badou.mworking.TrainMusicActivity;
 import com.badou.mworking.TrainVideoActivity;
 import com.badou.mworking.base.BaseActionBarActivity;
-import com.badou.mworking.base.BaseStatisticalActionBarActivity;
 import com.badou.mworking.model.MainBanner;
 import com.badou.mworking.model.MainIcon;
 import com.badou.mworking.model.category.Category;
@@ -77,7 +76,6 @@ public class CategoryClickHandler {
         intent.putExtra(TaskSignActivity.KEY_TASK, task);
         // 获取分类名
         intent.putExtra(BaseActionBarActivity.KEY_TITLE, title);
-        intent.putExtra(BaseStatisticalActionBarActivity.KEY_RID, task.rid);
         if (context.getClass().equals(TaskActivity.class)) {
             ((TaskActivity) context).startActivityForResult(intent, 1);
         } else {
@@ -109,7 +107,7 @@ public class CategoryClickHandler {
         Intent intent = new Intent(context, TrainVideoActivity.class);
         intent.putExtra(TrainVideoActivity.KEY_URL, url);
         intent.putExtra(TrainVideoActivity.KEY_SUBJECT, subject);
-        intent.putExtra(BaseStatisticalActionBarActivity.KEY_RID, rid);
+        intent.putExtra(TrainVideoActivity.KEY_RID, rid);
         intent.putExtra(BaseActionBarActivity.KEY_TITLE, title);
         context.startActivity(intent);
     }
@@ -118,7 +116,7 @@ public class CategoryClickHandler {
         Intent intent = new Intent(context, TrainMusicActivity.class);
         intent.putExtra(TrainMusicActivity.KEY_URL, url);
         intent.putExtra(TrainMusicActivity.KEY_SUBJECT, subject);
-        intent.putExtra(BaseStatisticalActionBarActivity.KEY_RID, rid);
+        intent.putExtra(TrainMusicActivity.KEY_RID, rid);
         intent.putExtra(BaseActionBarActivity.KEY_TITLE, title);
         context.startActivity(intent);
     }

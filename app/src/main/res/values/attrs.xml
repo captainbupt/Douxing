@@ -25,11 +25,16 @@
         <attr name="submitText" format="reference" />
         <attr name="contentHint" format="reference" />
     </declare-styleable>
-    <declare-styleable name="OptimizedImageView">
-        <attr name="imgUrl" format="string" />
-        <attr name="imgSrc" format="fraction" />
-    </declare-styleable>
+    <!--    <declare-styleable name="OptimizedImageView">
+            <attr name="imgUrl" format="string" />
+            <attr name="imgSrc" format="fraction" />
+        </declare-styleable>-->
     <declare-styleable name="MultiImageEditGridView">
         <attr name="maxImg" format="integer" />
     </declare-styleable>
+    <declare-styleable name="NoneResultView">
+        <attr name="tipText" format="reference" />
+        <attr name="imgSrc" format="reference" />
+    </declare-styleable>
+
 </resources>

@@ -12,7 +12,9 @@ import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.badou.mworking.base.BaseStatisticalActionBarActivity;
+import com.badou.mworking.base.AppApplication;
+import com.badou.mworking.base.BaseBackActionBarActivity;
+import com.badou.mworking.model.Store;
 import com.badou.mworking.util.FileUtils;
 import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.ToastUtil;
@@ -28,7 +30,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 
-public class TrainMusicActivity extends BaseStatisticalActionBarActivity {
+public class TrainMusicActivity extends BaseBackActionBarActivity {
 
     public static final int STATU_START_PLAY = 5; // 播放计时器
     private static final int FILE_SIZE = 6;
@@ -36,6 +38,8 @@ public class TrainMusicActivity extends BaseStatisticalActionBarActivity {
 
     public static final String KEY_SUBJECT = "subject";
     public static final String KEY_URL = "url";
+    public static final String KEY_RID = "rid";
+    public static final String KEY_IS_STORE = "store";
 
     private TextView mMusicTitleTextView; // 标题
     private ImageView mPlayerControlImageView; //开始/暂停 播放
@@ -57,6 +61,7 @@ public class TrainMusicActivity extends BaseStatisticalActionBarActivity {
 
     private String mSaveFilePath; // 保存文件的路径,无文件名
 
+    private String mRid;
     private String mUrl = "";
 
     public void onCreate(Bundle savedInstanceState) {
@@ -130,6 +135,11 @@ public class TrainMusicActivity extends BaseStatisticalActionBarActivity {
     private void initData() {
         mRid = mReceivedIntent.getStringExtra(KEY_RID);
         mUrl = mReceivedIntent.getStringExtra(KEY_URL);
+        boolean isStore = mReceivedIntent.getBooleanExtra(KEY_IS_STORE, false);
+        addStoreImageView(isStore, Store.TYPE_STRING_TRAINING, mRid);
+        if (((AppApplication) getApplication()).getUserInfo().isAdmin)
+            addStatisticalImageView(mRid);
+
         mMusicTitleTextView.setText(mReceivedIntent.getStringExtra(KEY_SUBJECT));
         mMusicPlayer = new MediaPlayer();
         mSaveFilePath = FileUtils.getTrainCacheDir(mContext) + mRid + ENDWITH_MP3;

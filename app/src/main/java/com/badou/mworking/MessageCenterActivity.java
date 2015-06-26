@@ -19,6 +19,7 @@ import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.CategoryClickHandler;
+import com.badou.mworking.util.ResourceClickHandler;
 import com.badou.mworking.util.SP;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.NoneResultView;
@@ -72,86 +73,29 @@ public class MessageCenterActivity extends BaseBackActionBarActivity {
 
     private void toDetailPage(final Context context, final int position, final MessageCenter messageCenter) {
         mProgressDialog.show();
+        ResourceClickHandler.OnCompleteListener onCompleteListener = new ResourceClickHandler.OnCompleteListener() {
+            @Override
+            public void onComplete(boolean isSuccess) {
+                mProgressDialog.dismiss();
+                mContentAdapter.deleteItem(position);
+                if (!isSuccess) {
+                    ToastUtil.showToast(mContext, R.string.tip_message_center_resource_gone);
+                }
+            }
+        };
         if (messageCenter.type.equals(MessageCenter.TYPE_NOTICE) || messageCenter.type.equals(MessageCenter.TYPE_EXAM)
                 || messageCenter.type.equals(MessageCenter.TYPE_TRAINING) || messageCenter.type.equals(MessageCenter.TYPE_TASK)
                 || messageCenter.type.equals(MessageCenter.TYPE_SHELF)) {
-            ServiceProvider.getResourceDetail(context, messageCenter.add, new VolleyListener(context) {
-                @Override
-                public void onResponseSuccess(JSONObject jsonObject) {
-                    mProgressDialog.dismiss();
-                    CategoryDetail detail = new CategoryDetail(context, jsonObject.optJSONObject(Net.DATA), messageCenter.getCategoryType(), messageCenter.add, messageCenter.description, null);
-                    CategoryClickHandler.categoryClicker(mContext, detail);
-                    mContentAdapter.deleteItem(position);
-                }
-
-                @Override
-                public void onErrorCode(int code) {
-                    showErrorResponse(position);
-                }
-            });
+            ResourceClickHandler.toCategoryPage(context, messageCenter.getCategoryType(), messageCenter.add, messageCenter.description, onCompleteListener);
         } else if (messageCenter.type.equals(MessageCenter.TYPE_CHATTER)) {
-            ServiceProvider.doGetChatterById(context, messageCenter.add, new VolleyListener(context) {
-                @Override
-                public void onResponseSuccess(JSONObject response) {
-                    mProgressDialog.dismiss();
-                    Chatter chatter = new Chatter(response.optJSONObject(Net.DATA));
-                    Intent intent = new Intent(mContext, ChatterDetailActivity.class);
-                    intent.putExtra(ChatterDetailActivity.KEY_CHATTER, chatter);
-                    context.startActivity(intent);
-                    mContentAdapter.deleteItem(position);
-                }
-
-                @Override
-                public void onErrorCode(int code) {
-                    showErrorResponse(position);
-                }
-
-            });
+            ResourceClickHandler.toChatterPage(context, messageCenter.add, onCompleteListener);
         } else if (messageCenter.type.equals(MessageCenter.TYPE_ASK)) {
-            ServiceProvider.doGetAskById(context, messageCenter.add, new VolleyListener(context) {
-                @Override
-                public void onResponseSuccess(JSONObject response) {
-                    mProgressDialog.dismiss();
-                    Ask ask = new Ask(response.optJSONObject(Net.DATA));
-                    Intent intent = new Intent(mContext, AskDetailActivity.class);
-                    intent.putExtra(AskDetailActivity.KEY_ASK, ask);
-                    context.startActivity(intent);
-                    mContentAdapter.deleteItem(position);
-                }
-
-                @Override
-                public void onErrorCode(int code) {
-                    showErrorResponse(position);
-                }
-            });
+            ResourceClickHandler.toAskPage(context, messageCenter.add, onCompleteListener);
         } else if (messageCenter.type.equals(MessageCenter.TYPE_CHAT)) {
-            mProgressDialog.dismiss();
-            Intent intent = new Intent(mContext, ChatListActivity.class);
-            UserDetail userDetail = getUserCache();
-            if (userDetail != null) {
-                intent.putExtra(ChatListActivity.KEY_HEAD_URL, userDetail.headimg);
-            }
-            context.startActivity(intent);
-            mContentAdapter.deleteItem(position);
+            ResourceClickHandler.toChatPage(context, onCompleteListener);
         } else {
             ToastUtil.showToast(mContext, R.string.category_unsupport_type);
             mProgressDialog.dismiss();
         }
-    }
-
-    private UserDetail getUserCache() {
-        try {
-            JSONObject jsonObject = new JSONObject(SP.getStringSP(mContext, SP.DEFAULTCACHE, "userdetail", ""));
-            return new UserDetail(jsonObject);
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    private void showErrorResponse(int position) {
-        mContentAdapter.deleteItem(position);
-        ToastUtil.showToast(mContext, R.string.tip_message_center_resource_gone);
-        mProgressDialog.dismiss();
     }
 }

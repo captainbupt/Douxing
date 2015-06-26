@@ -594,4 +594,20 @@ public class Net {
         return "/viewres?sys=android"
                 + AppApplication.SYSVERSION + "&ver=" + AppApplication.appVersion;
     }
+
+    public static String addStore() {
+        return "/addstore?sys=android"
+                + AppApplication.SYSVERSION + "&ver=" + AppApplication.appVersion;
+    }
+
+    public static String deleteStore() {
+        return "/delstore?sys=android"
+                + AppApplication.SYSVERSION + "&ver=" + AppApplication.appVersion;
+    }
+
+    public static String getStore(String uid, int pageNum, int itemNum) {
+        return "/getstore?sys=android" + AppApplication.SYSVERSION + "&ver=" + AppApplication.appVersion +
+                "&uid=" + uid + "&page_no=" + pageNum + "&item_per_page=" + itemNum;
+    }
+
 }
