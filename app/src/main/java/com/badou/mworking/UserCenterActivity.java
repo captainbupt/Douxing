@@ -217,7 +217,6 @@ public class UserCenterActivity extends BaseNoTitleActivity {
         mProgressDialog.setContent(R.string.user_detail_download_ing);
 
         mProgressDialog.show();
-
         updateData();
     }
 
@@ -379,6 +378,8 @@ public class UserCenterActivity extends BaseNoTitleActivity {
             } else {
                 chatNumTextView.setBackgroundResource(R.drawable.icon_chat_unread);
             }*/
+        } else {
+            chatNumTextView.setVisibility(View.GONE);
         }
 
     }
