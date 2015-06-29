@@ -221,7 +221,6 @@ public class UserCenterActivity extends BaseNoTitleActivity {
         mProgressDialog.setContent(R.string.user_detail_download_ing);
 
         mProgressDialog.show();
-
         updateData();
     }
 
