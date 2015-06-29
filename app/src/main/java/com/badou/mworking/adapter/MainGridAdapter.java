@@ -12,6 +12,7 @@ import com.badou.mworking.R;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.model.MainIcon;
+import com.badou.mworking.model.category.Category;
 import com.badou.mworking.model.category.Exam;
 import com.badou.mworking.model.category.Notice;
 import com.badou.mworking.model.category.Task;
@@ -77,18 +78,16 @@ public class MainGridAdapter extends MyBaseAdapter {
         String userNum = ((AppApplication) mContext.getApplicationContext())
                 .getUserInfo().account;
         if (RequestParameters.CHK_UPDATA_PIC_NOTICE.equals(tag)) {//通知公告
-            num = SP.getIntSP(mContext, SP.DEFAULTCACHE, userNum + Notice.CATEGORY_KEY_UNREAD_NUM, 0);
+            num = SP.getIntSP(mContext, SP.DEFAULTCACHE, userNum + Category.CATEGORY_KEY_UNREADS[Category.CATEGORY_NOTICE], 0);
         } else if (RequestParameters.CHK_UPDATA_PIC_TRAINING.equals(tag)) {//微培训
-            num = SP.getIntSP(mContext, SP.DEFAULTCACHE, userNum + Train.CATEGORY_KEY_UNREAD_NUM, 0);
+            num = SP.getIntSP(mContext, SP.DEFAULTCACHE, userNum + Category.CATEGORY_KEY_UNREADS[Category.CATEGORY_TRAINING], 0);
         } else if (RequestParameters.CHK_UPDATA_PIC_EXAM.equals(tag)) {//在线考试
-            num = SP.getIntSP(mContext, SP.DEFAULTCACHE, userNum + Exam.CATEGORY_KEY_UNREAD_NUM, 0);
+            num = SP.getIntSP(mContext, SP.DEFAULTCACHE, userNum + Category.CATEGORY_KEY_UNREADS[Category.CATEGORY_EXAM], 0);
         } else if (RequestParameters.CHK_UPDATA_PIC_TASK.equals(tag)) {//任务签到
-            num = SP.getIntSP(mContext, SP.DEFAULTCACHE, userNum + Task.CATEGORY_KEY_UNREAD_NUM, 0);
+            num = SP.getIntSP(mContext, SP.DEFAULTCACHE, userNum + Category.CATEGORY_KEY_UNREADS[Category.CATEGORY_TASK], 0);
+        } else if (RequestParameters.CHK_UPDATA_PIC_SHELF.equals(tag)) {
+            num = SP.getIntSP(mContext, SP.DEFAULTCACHE, userNum + Category.CATEGORY_KEY_UNREADS[Category.CATEGORY_SHELF], 0);
         }
-        //主页没有聊天模块，默认这个数量就没有了
-//		else if (RequestParams.CHK_UPDATA_PIC_CHAT.equals(tag)) { //聊天
-//			num = SP.getIntSP(mContext, userNum+ChattingFragment.KEY_SP_UNREAD_NUM, 0);
-//		}
         if (num == 0) {
             tv.setVisibility(View.GONE);
         } else {

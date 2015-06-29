@@ -11,7 +11,6 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -178,7 +177,7 @@ public class MainGridActivity extends BaseNoTitleActivity {
                         break;
                     case RequestParameters.CHK_UPDATA_PIC_TRAINING: // 微培训
                         intent.setClass(mContext, TrainActivity.class);
-                        intent.putExtra(TrainActivity.KEY_TRAINING, true);
+                        intent.putExtra(TrainActivity.KEY_IS_TRAINING, true);
                         break;
                     case RequestParameters.CHK_UPDATA_PIC_EXAM: // 在线考试
                         intent.setClass(mContext, ExamActivity.class);
@@ -201,7 +200,7 @@ public class MainGridActivity extends BaseNoTitleActivity {
                         break;
                     case RequestParameters.CHK_UPDATA_PIC_SHELF: //橱窗
                         intent.setClass(mContext, TrainActivity.class);
-                        intent.putExtra(TrainActivity.KEY_TRAINING, false);
+                        intent.putExtra(TrainActivity.KEY_IS_TRAINING, false);
                         break;
                 }
                 intent.putExtra(BaseActionBarActivity.KEY_TITLE, mainIcon.name);

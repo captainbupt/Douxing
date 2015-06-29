@@ -189,10 +189,10 @@ public class BaseActionBarActivity extends BaseNoTitleActivity {
         addTitleRightView(imageView, new OnClickListener() {
             @Override
             public void onClick(View view) {
-                mProgressDialog.setContent(R.string.progress_tips_store_ing);
-                mProgressDialog.show();
                 boolean isStored = (boolean) imageView.getTag();
                 if (isStored) {
+                    mProgressDialog.setContent(R.string.progress_tips_delete_store_ing);
+                    mProgressDialog.show();
                     ServiceProvider.deleteStore(mContext, sid, type, new VolleyListener(mContext) {
                         @Override
                         public void onResponseSuccess(JSONObject response) {
@@ -207,6 +207,8 @@ public class BaseActionBarActivity extends BaseNoTitleActivity {
                         }
                     });
                 } else {
+                    mProgressDialog.setContent(R.string.progress_tips_store_ing);
+                    mProgressDialog.show();
                     ServiceProvider.addStore(mContext, sid, type, new VolleyListener(mContext) {
                         @Override
                         public void onResponseSuccess(JSONObject response) {

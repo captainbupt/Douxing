@@ -25,8 +25,6 @@ import com.badou.mworking.util.TimeTransfer;
  */
 public class TrainAdapter extends MyBaseAdapter {
 
-    private boolean isUserCenter = false;
-
     /**
      * 微培训/我的学习
      *
@@ -34,16 +32,6 @@ public class TrainAdapter extends MyBaseAdapter {
      */
     public TrainAdapter(Context mContext) {
         super(mContext);
-    }
-
-    public void updateRating(String rid, int rating) {
-        for (Object o : mItemList) {
-            Train train = (Train) o;
-            if (train.rid.equals(rid)) {
-                train.ecnt++;
-                train.eval += rating;
-            }
-        }
     }
 
     @Override
@@ -89,38 +77,19 @@ public class TrainAdapter extends MyBaseAdapter {
             holder.ratingbar.setRating((float) train.eval / train.ecnt);
         }
         // 该课件是否已读
-        if (train.isRead()) {
+        if (train.isRead) {
             holder.unreadTextView.setVisibility(View.GONE);
         } else {
             holder.unreadTextView.setVisibility(View.VISIBLE);
         }
         /** 显示是否置顶 **/
-        if (train.top == Constant.TOP_YES) {
+        if (train.isTop) {
             holder.topImageView.setVisibility(View.VISIBLE);
         } else {
             holder.topImageView.setVisibility(View.GONE);
         }
         holder.commentNumberTextView.setText(train.commentNum + "");
         return convertView;
-    }
-
-    /**
-     * 功能描述:设置是否已读,并更新sp
-     *
-     * @param position
-     */
-    public void read(int position) {
-        String userNum = ((AppApplication) mContext.getApplicationContext())
-                .getUserInfo().account;
-        Train train = (Train) getItem(position);
-        if (train.isRead()) {
-            train.read = Constant.READ_YES;
-            this.notifyDataSetChanged();
-            int unreadNum = SP.getIntSP(mContext, SP.DEFAULTCACHE, userNum + Train.CATEGORY_KEY_UNREAD_NUM, 0);
-            if (unreadNum > 0) {
-                SP.putIntSP(mContext, SP.DEFAULTCACHE, userNum + Train.CATEGORY_KEY_UNREAD_NUM, unreadNum - 1);
-            }
-        }
     }
 
     static class ViewHolder {
