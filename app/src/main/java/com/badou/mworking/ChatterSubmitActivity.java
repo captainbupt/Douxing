@@ -93,7 +93,7 @@ public class ChatterSubmitActivity extends BaseBackActionBarActivity {
         mBottomTopicLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mTopicListView.getVisibility() == View.VISIBLE) {
+                if (mTopicScrollView.getVisibility() == View.VISIBLE) {
                     mTopicScrollView.setVisibility(View.GONE);
                     mContentEditText.setEnabled(true);
                 } else {
