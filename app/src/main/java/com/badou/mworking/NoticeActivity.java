@@ -1,9 +1,11 @@
 package com.badou.mworking;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.badou.mworking.adapter.NoticeAdapter;
 import com.badou.mworking.base.BaseCategoryProgressListActivity;
+import com.badou.mworking.model.category.Category;
 import com.badou.mworking.model.category.CategoryDetail;
 import com.badou.mworking.model.category.Notice;
 import com.badou.mworking.net.ServiceProvider;
@@ -16,14 +18,10 @@ import org.json.JSONObject;
  */
 public class NoticeActivity extends BaseCategoryProgressListActivity {
 
-    public static final int PROGRESS_CHANGE = 0x1;
-    public static final int PROGRESS_FINISH = 0x2;
-    public static final int PROGRESS_MAX = 0x3;
-
     @Override
     protected void onCreate(Bundle arg0) {
-        CATEGORY_NAME = Notice.CATEGORY_KEY_NAME;
-        CATEGORY_UNREAD_NUM = Notice.CATEGORY_KEY_UNREAD_NUM;
+        CATEGORY_NAME = Category.CATEGORY_KEY_NAMES[Category.CATEGORY_NOTICE];
+        CATEGORY_UNREAD_NUM = Category.CATEGORY_KEY_UNREADS[Category.CATEGORY_NOTICE];
         super.onCreate(arg0);
         mNoneResultView.setContent(R.drawable.background_none_result_notice, R.string.none_result_category);
     }
@@ -35,15 +33,20 @@ public class NoticeActivity extends BaseCategoryProgressListActivity {
 
     @Override
     protected Object parseObject(JSONObject jsonObject) {
-        return new Notice(jsonObject);
+        return new Notice(mContext,jsonObject);
     }
 
     @Override
-    protected void onItemClick(int position) {
-        Notice notice = (Notice) mCategoryAdapter.getItem(position - 1);
-        ((NoticeAdapter) mCategoryAdapter).read(position - 1);
-        ServiceProvider.doMarkRead(mContext, notice.rid);
-        mCategoryAdapter.notifyDataSetChanged();
-        CategoryClickHandler.categoryClicker(mContext, new CategoryDetail(mContext, notice));
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_DETAIL && resultCode == RESULT_OK) {
+            if (mClickPosition >= 0 && mClickPosition < mCategoryAdapter.getCount()) {
+                Notice notice = (Notice) data.getSerializableExtra(NoticeBaseActivity.RESPONSE_NOTICE);
+                if (!notice.isAvailable()) {
+                    setRead(mClickPosition);
+                }
+                mCategoryAdapter.setItem(mClickPosition, notice);
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

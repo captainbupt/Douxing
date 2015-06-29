@@ -1,7 +1,6 @@
 package com.badou.mworking;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -10,22 +9,11 @@ import android.widget.ListView;
 import com.badou.mworking.adapter.MessageCenterAdapter;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.database.MessageCenterResManager;
-import com.badou.mworking.model.Ask;
-import com.badou.mworking.model.Chatter;
 import com.badou.mworking.model.MessageCenter;
 import com.badou.mworking.model.category.CategoryDetail;
-import com.badou.mworking.model.user.UserDetail;
-import com.badou.mworking.net.Net;
-import com.badou.mworking.net.ServiceProvider;
-import com.badou.mworking.net.volley.VolleyListener;
-import com.badou.mworking.util.CategoryClickHandler;
 import com.badou.mworking.util.ResourceClickHandler;
-import com.badou.mworking.util.SP;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.NoneResultView;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * Created by Administrator on 2015/6/15.

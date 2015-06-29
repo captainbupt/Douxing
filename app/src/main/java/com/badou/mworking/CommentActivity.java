@@ -180,9 +180,6 @@ public class CommentActivity extends BaseBackActionBarActivity {
         } else {
             mCommentAdapter.addList(commentList, allCount);
         }
-        Intent intent = new Intent();
-        intent.putExtra(RESPONSE_COUNT, allCount);
-        setResult(RESULT_OK, intent);
     }
 
     private void submitComment(String comment) {
@@ -218,5 +215,14 @@ public class CommentActivity extends BaseBackActionBarActivity {
      */
     private void submitSuccess() {
         refreshComment(1);
+    }
+
+    // 将评论数返回
+    @Override
+    public void finish() {
+        Intent intent = new Intent();
+        intent.putExtra(RESPONSE_COUNT, mCommentAdapter.getAllCount());
+        setResult(RESULT_OK, intent);
+        super.finish();
     }
 }

@@ -219,6 +219,7 @@
     <string name="progress_tips_delete_ing">删除中，请稍后…</string>
     <string name="progress_tips_submit_ing">提交中…</string>
     <string name="progress_tips_login_ing">登录中…</string>
+    <string name="progress_tips_delete_store_ing">取消收藏中，请稍后…</string>
     <string name="progress_tips_store_ing">收藏中，请稍后…</string>
 
     <string name="module_default_title_notice">通知公告</string>

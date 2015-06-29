@@ -6,24 +6,18 @@ import android.content.Intent;
 import com.badou.mworking.AskDetailActivity;
 import com.badou.mworking.ChatListActivity;
 import com.badou.mworking.ChatterDetailActivity;
-import com.badou.mworking.R;
 import com.badou.mworking.model.Ask;
 import com.badou.mworking.model.Chatter;
-import com.badou.mworking.model.MessageCenter;
 import com.badou.mworking.model.category.Category;
 import com.badou.mworking.model.category.CategoryDetail;
 import com.badou.mworking.model.user.UserDetail;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
-import com.badou.mworking.widget.WaitProgressDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- * Created by Administrator on 2015/6/25 0025.
- */
 public class ResourceClickHandler {
 
     public interface OnCompleteListener {
@@ -36,7 +30,7 @@ public class ResourceClickHandler {
             public void onResponseSuccess(JSONObject jsonObject) {
                 onCompleteListener.onComplete(true);
                 CategoryDetail detail = new CategoryDetail(context, jsonObject.optJSONObject(Net.DATA), type, rid, subject, null);
-                CategoryClickHandler.categoryClicker(context, detail);
+                context.startActivity(CategoryClickHandler.getIntent(context, Category.getCategoryFromDetail(detail)));
             }
 
             @Override

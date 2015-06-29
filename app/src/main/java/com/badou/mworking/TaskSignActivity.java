@@ -1,6 +1,7 @@
 package com.badou.mworking;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -12,9 +13,11 @@ import android.widget.TextView;
 
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseBackActionBarActivity;
+import com.badou.mworking.model.MainIcon;
 import com.badou.mworking.model.Store;
 import com.badou.mworking.model.category.Task;
 import com.badou.mworking.net.Net;
+import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.Constant;
@@ -33,7 +36,6 @@ import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MarkerOptions;
-import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.SupportMapFragment;
@@ -47,6 +49,7 @@ import org.json.JSONObject;
 public class TaskSignActivity extends BaseBackActionBarActivity implements BDLocationListener {
 
     public static final String KEY_TASK = "task";
+    public static final String RESPONSE_TASK = "task";
 
     private TextView mBeginDateTextView;
     private TextView mBeginTimeTextView;
@@ -58,8 +61,8 @@ public class TaskSignActivity extends BaseBackActionBarActivity implements BDLoc
     private LinearLayout mSelfPositionLayout;
 
 
-    private Task task;
-    private Bitmap photo = null;
+    private Task mTask;
+    private Bitmap mPhoto = null;
     public LocationClient mLocationClient;
     private boolean isSign = false; //是否签到， 否表示显示我的位置
     private boolean isFirst = true;
@@ -70,11 +73,21 @@ public class TaskSignActivity extends BaseBackActionBarActivity implements BDLoc
     // 初始化全局 bitmap 信息，不用时及时 recycle
     BitmapDescriptor bdA = BitmapDescriptorFactory.fromResource(R.drawable.icon_gcoding);
 
+    public static Intent getIntent(Context context, Task task) {
+        Intent intent = new Intent(context, TaskSignActivity.class);
+        intent.putExtra(KEY_TASK, task);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_sign);
+        setActionbarTitle(MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_TASK).name);
+        addStoreImageView(mTask.isStore, Store.TYPE_STRING_TASK, mTask.rid);
+        if (((AppApplication) getApplication()).getUserInfo().isAdmin) {
+            addStatisticalImageView(mTask.rid);
+        }
         initView();
         initListener();
         initData();
@@ -103,11 +116,11 @@ public class TaskSignActivity extends BaseBackActionBarActivity implements BDLoc
                     return;
                 }
                 long timeNow = System.currentTimeMillis();
-                if (task.startline > timeNow) {
+                if (mTask.startline > timeNow) {
                     ToastUtil.showToast(mContext, R.string.task_notStart);
                     return;
                 }
-                if (task.photo == 1) {
+                if (mTask.isPhoto) {
                     mImageChooser.takeImage(null);
                 } else {
                     mProgressDialog.show();
@@ -120,7 +133,7 @@ public class TaskSignActivity extends BaseBackActionBarActivity implements BDLoc
             @Override
             public void onImageChose(Bitmap bitmap, int type) {
                 if (bitmap != null) {
-                    photo = bitmap;
+                    mPhoto = bitmap;
                     mProgressDialog.show();
                     startLocation(true);
                 }
@@ -143,19 +156,18 @@ public class TaskSignActivity extends BaseBackActionBarActivity implements BDLoc
     }
 
     private void initData() {
-        task = (Task) mReceivedIntent.getSerializableExtra(KEY_TASK);
-        addStoreImageView(task.isStore, Store.TYPE_STRING_TASK, task.rid);
+        mTask = (Task) mReceivedIntent.getSerializableExtra(KEY_TASK);
+        addStoreImageView(mTask.isStore, Store.TYPE_STRING_TASK, mTask.rid);
         if (((AppApplication) getApplication()).getUserInfo().isAdmin)
-            addStatisticalImageView(task.rid);
-        boolean finish = task.isRead();
-        String comment = task.comment;
+            addStatisticalImageView(mTask.rid);
+        String comment = mTask.comment;
         if (comment == null || comment.equals("")) {
             mDescriptionTextView.setText(mContext.getResources().getString(R.string.text_null));
         } else {
             mDescriptionTextView.setText(comment);
         }
-        long beginTime = task.startline;      //任务开始时间
-        long endTime = task.deadline;      //任务结束时间
+        long beginTime = mTask.startline;      //任务开始时间
+        long endTime = mTask.deadline;      //任务结束时间
 
         mBeginDateTextView.setText(TimeTransfer.long2StringDateUnit(beginTime));
         mBeginTimeTextView.setText(TimeTransfer.long2StringTimeHour(beginTime) + "至");
@@ -164,19 +176,18 @@ public class TaskSignActivity extends BaseBackActionBarActivity implements BDLoc
 
         mProgressDialog.setContent(R.string.sign_action_sign_ing);
 
-        if (finish) {// 已签到
+        if (mTask.isRead) {// 已签到
             disableSignButton(true);
         } else {
-            if (task.isOffline()) { // 已过期
+            if (mTask.isOffline) { // 已过期
                 disableSignButton(false);
-                task.read = Constant.FINISH_YES;
             } else { // 未签到
                 enableSignButton();
             }
         }
 
-        String place = task.place;
-        if (!TextUtils.isEmpty(task.place) && !" ".equals(task.place)) {
+        String place = mTask.place;
+        if (!TextUtils.isEmpty(mTask.place) && !" ".equals(mTask.place)) {
             mLocationTextView.setText(place);
         } else {
             mLocationTextView.setText(R.string.sign_in_task_address_empty);
@@ -198,8 +209,8 @@ public class TaskSignActivity extends BaseBackActionBarActivity implements BDLoc
 
     private void initMap() {
         startLocation(false);
-        if (!task.isFreeSign()) {
-            LatLng location = new LatLng(task.latitude, task.longitude);
+        if (!mTask.isFreeSign()) {
+            LatLng location = new LatLng(mTask.latitude, mTask.longitude);
             MapStatusUpdate u1 = MapStatusUpdateFactory.newLatLng(location);
             MapStatusUpdate u2 = MapStatusUpdateFactory.zoomTo(16);
             SupportMapFragment map = (SupportMapFragment) (getSupportFragmentManager()
@@ -254,7 +265,7 @@ public class TaskSignActivity extends BaseBackActionBarActivity implements BDLoc
                     .longitude(location.getLongitude()).build();
             // 设置定位数据  
             mBaiduMap.setMyLocationData(locData);
-            if (!(isFirst && !task.isFreeSign())) { // 首次进入且有目标地点的时候，不需要跳转
+            if (!(isFirst && !mTask.isFreeSign())) { // 首次进入且有目标地点的时候，不需要跳转
                 MapStatusUpdate u1 = MapStatusUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude()));
                 MapStatusUpdate u2 = MapStatusUpdateFactory.zoomTo(16);
                 mBaiduMap.animateMapStatus(u2);
@@ -274,8 +285,8 @@ public class TaskSignActivity extends BaseBackActionBarActivity implements BDLoc
         String lon = String.valueOf(location.getLongitude());
         String uid = ((AppApplication) getApplicationContext())
                 .getUserInfo().userId;
-        ServiceProvider.doUpdateBitmap(mContext, photo,
-                Net.getRunHost(mContext) + Net.SIGN(task.rid, uid, lat, lon),
+        ServiceProvider.doUpdateBitmap(mContext, mPhoto,
+                Net.getRunHost(mContext) + Net.SIGN(mTask.rid, uid, lat, lon),
                 new VolleyListener(mContext) {
 
                     @Override
@@ -287,23 +298,15 @@ public class TaskSignActivity extends BaseBackActionBarActivity implements BDLoc
 
                     @Override
                     public void onResponseSuccess(JSONObject response) {
-                        if (photo != null && photo.isRecycled()) {
-                            photo.recycle();
+                        if (mPhoto != null && mPhoto.isRecycled()) {
+                            mPhoto.recycle();
                         }
                         // 签到成功
-                        task.read = Constant.FINISH_YES;
-                        if (task.isFreeSign()) {
-                            task.place = locationStr;
-                        }
-                        // 签到成功， 减去1
-                        String userNum = ((AppApplication) getApplicationContext())
-                                .getUserInfo().account;
-                        int unreadNum = SP.getIntSP(mContext, SP.DEFAULTCACHE, userNum + Task.CATEGORY_KEY_UNREAD_NUM, 0);
-                        if (unreadNum > 0) {
-                            SP.putIntSP(mContext, SP.DEFAULTCACHE, userNum + Task.CATEGORY_KEY_UNREAD_NUM, unreadNum - 1);
+                        mTask.isRead = true;
+                        if (mTask.isFreeSign()) {
+                            mTask.place = locationStr;
                         }
                         disableSignButton(true);
-                        setResult(RESULT_OK);
                     }
 
                     @Override
@@ -319,5 +322,13 @@ public class TaskSignActivity extends BaseBackActionBarActivity implements BDLoc
 
     @Override
     public void onReceivePoi(BDLocation arg0) {
+    }
+
+    @Override
+    public void finish() {
+        Intent intent = new Intent();
+        intent.putExtra(RESPONSE_TASK, mTask);
+        setResult(RESULT_OK, intent);
+        super.finish();
     }
 }

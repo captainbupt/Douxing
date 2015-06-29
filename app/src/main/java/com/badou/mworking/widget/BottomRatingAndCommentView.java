@@ -1,12 +1,13 @@
 package com.badou.mworking.widget;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -25,6 +26,8 @@ import org.json.JSONObject;
  */
 public class BottomRatingAndCommentView extends LinearLayout {
 
+    public static final int REQUEST_COMMENT = 145;
+
     private Context mContext;
     private String mRid;
     private int mCurrentScore;
@@ -37,14 +40,36 @@ public class BottomRatingAndCommentView extends LinearLayout {
     public BottomRatingAndCommentView(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.mContext = context;
-        setLayoutParams(new FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.MATCH_PARENT,
-                FrameLayout.LayoutParams.MATCH_PARENT));
-        LayoutInflater inflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.view_bottom_comment_and_rating, this);
         initView();
         initListener();
+        initAttr(context, attrs);
+    }
+
+    public void initAttr(Context context, AttributeSet attrs) {
+        if (attrs != null) {
+            TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.BottomRatingAndCommentView);
+            boolean showRating = typedArray.getBoolean(R.styleable.BottomRatingAndCommentView_showRating, true);
+            boolean showComment = typedArray.getBoolean(R.styleable.BottomRatingAndCommentView_showComment, true);
+            typedArray.recycle();
+            setContent(showRating, showComment);
+        }
+    }
+
+    public void setContent(boolean isRating, boolean isComment) {
+        if (isRating) {
+            mRatingLayout.setVisibility(VISIBLE);
+        } else {
+            mRatingLayout.setVisibility(GONE);
+            mDividerView.setVisibility(GONE);
+        }
+        if (isComment) {
+            mCommentLayout.setVisibility(VISIBLE);
+        } else {
+            mCommentLayout.setVisibility(GONE);
+            mDividerView.setVisibility(GONE);
+        }
     }
 
     private void initView() {
@@ -65,10 +90,6 @@ public class BottomRatingAndCommentView extends LinearLayout {
                     public void onRatingCompleted(int score) {
                         mCurrentScore = score;
                         updateData();
-                        /*Intent intent = new Intent();
-                        intent.putExtra(TrainActivity.KEY_RATING, score);
-                        intent.putExtra(TrainActivity.KEY_RID, mCategoryEntity.rid);
-                        ((Activity) mContext).setResult(Activity.RESULT_OK, intent);*/
                     }
                 }).show();
             }
@@ -76,36 +97,31 @@ public class BottomRatingAndCommentView extends LinearLayout {
         mCommentLayout.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext,
-                        CommentActivity.class);
+                Intent intent = new Intent(mContext, CommentActivity.class);
                 intent.putExtra(CommentActivity.KEY_RID, mRid);
                 intent.putExtra(BaseActionBarActivity.KEY_TITLE, mContext.getResources().getString(R.string.title_name_comment));
-                mContext.startActivity(intent);
+                ((Activity) mContext).startActivityForResult(intent, REQUEST_COMMENT);
             }
         });
     }
 
-    public void setData(String rid, boolean isRating, boolean isComment) {
+    public void setData(String rid, int ratingNumber, int commentNumber, int currentRating) {
         this.mRid = rid;
-        if (isRating) {
-            mRatingLayout.setVisibility(VISIBLE);
-        } else {
-            mRatingLayout.setVisibility(GONE);
-            mDividerView.setVisibility(GONE);
-        }
-        if (isComment) {
-            mCommentLayout.setVisibility(VISIBLE);
-        } else {
-            mCommentLayout.setVisibility(GONE);
-            mDividerView.setVisibility(GONE);
-        }
-        setData(0, 0, 0);
-        updateData();
+        setData(ratingNumber, commentNumber, currentRating);
+        // updateData();
     }
 
     public void setData(int ratingNumber, int commentNumber, int currentRating) {
+        setRatingData(ratingNumber, currentRating);
+        setCommentData(commentNumber);
+    }
+
+    public void setRatingData(int ratingNumber, int currentRating) {
         this.mCurrentScore = currentRating;
         mRatingNumberTextView.setText(String.format("(%d)", ratingNumber));
+    }
+
+    public void setCommentData(int commentNumber) {
         mCommentNumberTextView.setText(String.format("(%d)", commentNumber));
     }
 
@@ -118,11 +134,23 @@ public class BottomRatingAndCommentView extends LinearLayout {
 
             @Override
             public void onResponseSuccess(JSONObject jsonObject) {
+                progressDialog.dismiss();
                 CategoryDetail categoryDetail = new CategoryDetail(mContext, jsonObject.optJSONObject(Net.DATA));
                 setData(categoryDetail.ratingNum, categoryDetail.commentNum, categoryDetail.rating);
-                progressDialog.dismiss();
+                if (onRatingCommentDataUpdated != null) {
+                    onRatingCommentDataUpdated.onDataChanged(categoryDetail.ratingNum, categoryDetail.commentNum, categoryDetail.rating);
+                }
             }
         });
     }
 
+    public interface OnRatingCommentDataUpdated {
+        void onDataChanged(int ratingNumber, int commentNumber, int currentRating);
+    }
+
+    OnRatingCommentDataUpdated onRatingCommentDataUpdated;
+
+    public void setOnRatingCommentDataUpdated(OnRatingCommentDataUpdated onRatingCommentDataUpdated) {
+        this.onRatingCommentDataUpdated = onRatingCommentDataUpdated;
+    }
 }

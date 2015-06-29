@@ -41,7 +41,7 @@ public class NoticeAdapter extends MyBaseAdapter {
         } else {
             convertView.setPadding(0, 0, 0, 0);
         }
-        if (notice.isRead()) {
+        if (!notice.isAvailable()) {
             holder.iconImageView.setImageResource(R.drawable.icon_notice_item_read);
             holder.unreadTextView.setVisibility(View.GONE);
         } else {
@@ -50,7 +50,7 @@ public class NoticeAdapter extends MyBaseAdapter {
         }
         holder.subjectTextView.setText(notice.subject);
         holder.dateTextView.setText(TimeTransfer.long2StringDetailDate(mContext, notice.time));
-        if (notice.top == Constant.TOP_YES) {
+        if (notice.isTop) {
             holder.topImageView.setVisibility(View.VISIBLE);
         } else {
             holder.topImageView.setVisibility(View.GONE);
@@ -71,26 +71,6 @@ public class NoticeAdapter extends MyBaseAdapter {
             dateTextView = (TextView) view.findViewById(R.id.tv_adapter_notice_date);
             iconImageView = (ImageView) view.findViewById(R.id.iv_adapter_notice_icon);
             unreadTextView = (TextView) view.findViewById(R.id.tv_adapter_notice_unread);
-        }
-    }
-
-
-    /**
-     * 9
-     * 功能描述: 设置已读
-     *
-     * @param position
-     */
-    public void read(int position) {
-        String userNum = ((AppApplication) mContext.getApplicationContext()).getUserInfo().account;
-        Notice notice = (Notice) getItem(position);
-        if (!notice.isRead()) {
-            notice.read = Constant.READ_YES;
-            this.notifyDataSetChanged();
-            int unreadNum = SP.getIntSP(mContext, SP.DEFAULTCACHE, userNum + Notice.CATEGORY_KEY_UNREAD_NUM, 0);
-            if (unreadNum > 0) {
-                SP.putIntSP(mContext, SP.DEFAULTCACHE, userNum + Notice.CATEGORY_KEY_UNREAD_NUM, unreadNum - 1);
-            }
         }
     }
 }

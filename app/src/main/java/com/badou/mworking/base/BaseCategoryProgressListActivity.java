@@ -1,6 +1,7 @@
 package com.badou.mworking.base;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.TypedValue;
@@ -21,7 +22,8 @@ import com.badou.mworking.R;
 import com.badou.mworking.adapter.ClassificationAdapter;
 import com.badou.mworking.model.Classification;
 import com.badou.mworking.model.category.Category;
-import com.badou.mworking.model.category.CategoryDetail;
+import com.badou.mworking.model.category.Exam;
+import com.badou.mworking.model.category.Notice;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ResponseParameters;
 import com.badou.mworking.net.ServiceProvider;
@@ -43,6 +45,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class BaseCategoryProgressListActivity extends BaseBackActionBarActivity {
+
+    protected final int REQUEST_DETAIL = 1;
 
     private ImageView mTitleTriangleImageView;
     private View mTitleLayout;
@@ -100,9 +104,22 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
             ToastUtil.showNetExc(mContext);
             return;
         } else {
-            CategoryClickHandler.categoryClicker(mContext, new CategoryDetail(mContext, category));
+            startActivityForResult(CategoryClickHandler.getIntent(mContext, category), REQUEST_DETAIL);
             mClickPosition = position - 1;
-            //mCategoryAdapter.remove(position - 1);
+        }
+    }
+
+    /**
+     * 功能描述: 设置已读
+     */
+    protected void setRead(int position) {
+        Category category = (Category) mCategoryAdapter.getItem(position);
+        if (category.isAvailable()) {
+            String userNum = ((AppApplication) mContext.getApplicationContext()).getUserInfo().account;
+            int unreadNum = SP.getIntSP(mContext, SP.DEFAULTCACHE, userNum + CATEGORY_UNREAD_NUM, 0);
+            if (unreadNum > 0) {
+                SP.putIntSP(mContext, SP.DEFAULTCACHE, userNum + CATEGORY_UNREAD_NUM, unreadNum - 1);
+            }
         }
     }
 
@@ -211,7 +228,6 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
         }
         mContentListView.setAdapter(mCategoryAdapter);
         setCategoryItemFromCache(tag);
-        //updateListView(0);
         setUnread(false);
     }
 
@@ -356,8 +372,7 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
 
                     @Override
                     public void onResponseSuccess(JSONObject response) {
-                        updateListFromJson(response
-                                .optJSONObject(Net.DATA), beginNum);
+                        updateListFromJson(response.optJSONObject(Net.DATA), beginNum);
                         mContentListView.onRefreshComplete();
                         hideProgressBar();
                         updateCompleted();
@@ -369,8 +384,7 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
     }
 
     private void updateListFromJson(JSONObject data, int beginNum) {
-        if (data == null
-                || data.equals("")) {
+        if (data == null || data.equals("")) {
             return;
         }
         final String userNum = ((AppApplication) getApplicationContext())
@@ -383,8 +397,7 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
         }
         List<Object> list = new ArrayList<>();
         JSONArray resultArray = data.optJSONArray(Net.LIST);
-        if (resultArray == null
-                || resultArray.length() == 0) {
+        if (resultArray == null || resultArray.length() == 0) {
             if (beginNum > 0) {
                 ToastUtil.showUpdateToast(mContext);
             } else {
@@ -395,13 +408,12 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
         }
         mNoneResultView.setVisibility(View.GONE);
         //添加缓存
-        if (mCategoryAdapter.getCount() == 0) {
+        if (beginNum == 0) {
             //添加缓存
             SP.putStringSP(mContext, CATEGORY_NAME, userNum + tag, resultArray.toString());
         }
         for (int i = 0; i < resultArray.length(); i++) {
-            JSONObject jsonObject = resultArray
-                    .optJSONObject(i);
+            JSONObject jsonObject = resultArray.optJSONObject(i);
             list.add(parseObject(jsonObject));
         }
         if (beginNum == 0) {

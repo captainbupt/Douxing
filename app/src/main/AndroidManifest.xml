@@ -133,13 +133,29 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.badou.mworking.TrainActivity"
-
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.badou.mworking.TrainWebViewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.badou.mworking.TrainPDFViewActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.badou.mworking.NoticeActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name="com.badou.mworking.NoticePDFViewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.badou.mworking.NoticeWebViewActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name="com.badou.mworking.ExamActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.badou.mworking.ExamWebViewActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.badou.mworking.ClearCacheActivity"
@@ -160,8 +176,7 @@
         <activity
             android:name="com.badou.mworking.UserCenterActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".TaskSignActivity"
             android:screenOrientation="portrait" />
@@ -196,9 +211,6 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".ChatListActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".PDFViewerActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.badou.mworking.TipsWebView"

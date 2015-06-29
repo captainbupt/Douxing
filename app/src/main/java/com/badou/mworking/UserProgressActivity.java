@@ -18,6 +18,7 @@ import com.badou.mworking.model.MainIcon;
 import com.badou.mworking.model.category.Category;
 import com.badou.mworking.model.category.CategoryDetail;
 import com.badou.mworking.model.category.Exam;
+import com.badou.mworking.model.category.Task;
 import com.badou.mworking.model.category.Train;
 import com.badou.mworking.model.user.UserDetail;
 import com.badou.mworking.net.Net;
@@ -45,6 +46,8 @@ import java.util.List;
  */
 public class UserProgressActivity extends BaseNoTitleActivity {
 
+    private final int REQUEST_DETAIL = 1;
+
     public static final String KEY_TYPE = "type";
     public static final String KEY_USERINFO = "userinfo";
 
@@ -61,7 +64,7 @@ public class UserProgressActivity extends BaseNoTitleActivity {
     private int beginIndex = 0;
 
     private int mType;
-    private HorizontalProgressDialog pro;// 文件下载的进度条
+    private int mClickedPosition = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,8 +120,9 @@ public class UserProgressActivity extends BaseNoTitleActivity {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position,
                                     long arg3) {
+                mClickedPosition = position - 1;
                 Category category = (Category) mCategoryAdapter.getItem(position - 1);
-                CategoryClickHandler.categoryClicker(mContext, new CategoryDetail(mContext, category));
+                startActivityForResult(CategoryClickHandler.getIntent(mContext, category), REQUEST_DETAIL);
             }
         });
 
@@ -134,6 +138,22 @@ public class UserProgressActivity extends BaseNoTitleActivity {
                 updataListView(beginIndex);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && requestCode == REQUEST_DETAIL) {
+            if (mCategoryAdapter != null && mClickedPosition > -1 && mClickedPosition < mCategoryAdapter.getCount()) {
+                if (mType == Category.CATEGORY_TRAINING) {
+                    Train train = (Train) data.getSerializableExtra(TrainBaseActivity.RESPONSE_TRAINING);
+                    mCategoryAdapter.setItem(mClickedPosition, train);
+                } else {
+                    Exam exam = (Exam) data.getSerializableExtra(ExamBaseActivity.RESPONSE_EXAM);
+                    mCategoryAdapter.setItem(mClickedPosition, exam);
+                }
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private void initData() {
@@ -220,9 +240,9 @@ public class UserProgressActivity extends BaseNoTitleActivity {
                         for (int i = 0; i < resultArray.length(); i++) {
                             JSONObject jsonObject = resultArray.optJSONObject(i);
                             if (mType == Category.CATEGORY_EXAM) {
-                                list.add(new Exam(jsonObject));
+                                list.add(new Exam(mContext, jsonObject));
                             } else {
-                                list.add(new Train(jsonObject));
+                                list.add(new Train(mContext, jsonObject, true));
                             }
                             beginIndex++;
                         }

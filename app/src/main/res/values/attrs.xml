@@ -36,5 +36,8 @@
         <attr name="tipText" format="reference" />
         <attr name="imgSrc" format="reference" />
     </declare-styleable>
-
+    <declare-styleable name="BottomRatingAndCommentView">
+        <attr name="showRating" format="boolean" />
+        <attr name="showComment" format="boolean" />
+    </declare-styleable>
 </resources>

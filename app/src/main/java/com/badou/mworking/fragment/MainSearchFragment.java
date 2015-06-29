@@ -1,7 +1,7 @@
 package com.badou.mworking.fragment;
 
-import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -25,7 +25,6 @@ import android.widget.TextView;
 import com.badou.mworking.MainGridActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.adapter.MainSearchAdapter;
-import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseFragment;
 import com.badou.mworking.model.MainIcon;
 import com.badou.mworking.model.category.Category;
@@ -46,7 +45,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -147,8 +145,8 @@ public class MainSearchFragment extends BaseFragment {
                         if (!mActivity.isFinishing()) {
                             progressDialog.dismiss();
                         }
-                        CategoryDetail detail = new CategoryDetail(mContext, jsonObject.optJSONObject(Net.DATA), basic.type, basic.rid, basic.subject, null);
-                        CategoryClickHandler.categoryClicker(mContext, detail);
+                        Category c = Category.getCategoryFromDetail(new CategoryDetail(mContext, jsonObject.optJSONObject(Net.DATA), basic.type, basic.rid, basic.subject, null));
+                        startActivity(CategoryClickHandler.getIntent(mContext, c));
                     }
 
                     @Override

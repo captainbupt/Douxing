@@ -1,5 +1,7 @@
 package com.badou.mworking;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
@@ -28,6 +30,7 @@ import android.widget.TextView;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.model.Store;
+import com.badou.mworking.model.category.Train;
 import com.badou.mworking.util.DensityUtil;
 import com.badou.mworking.util.FileUtils;
 import com.badou.mworking.util.NetUtils;
@@ -46,12 +49,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 
-public class TrainVideoActivity extends BaseBackActionBarActivity {
-
-    public static final String KEY_SUBJECT = "subject";
-    public static final String KEY_URL = "url";
-    public static final String KEY_RID = "rid";
-    public static final String KEY_IS_STORE = "store";
+public class TrainVideoActivity extends TrainBaseActivity {
 
     public static final String ENDWITH_MP4 = ".mp4"; // MP4后缀
     public static final int STATU_START_PLAY = 5; // 播放计时器
@@ -70,7 +68,6 @@ public class TrainVideoActivity extends BaseBackActionBarActivity {
     private ImageView mDownloadImageView;
     private ProgressBar mDownloadingProgressBar;
     private SeekBar mProgressSeekBar;
-    private BottomRatingAndCommentView mBottomLayout;
     private RelativeLayout mContainerLayout;
     private FrameLayout mPlayerContainerLayout;
     private LinearLayout mProgressContainerLayout;
@@ -82,12 +79,15 @@ public class TrainVideoActivity extends BaseBackActionBarActivity {
     private int playTime;
     private String mSaveFilePath = ""; // 文件路径
 
-    private String mUrl = "";
-    private String mRid;
     private ProgressHandler mProgressHandler;
     private HttpHandler mDownloadingHandler; // 下载
     private boolean isChanging = false;// 互斥变量，防止定时器与SeekBar拖动时进度冲突
 
+    public static Intent getIntent(Context context, Train train) {
+        Intent intent = new Intent(context, TrainVideoActivity.class);
+        intent.putExtra(KEY_TRAINING, train);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +110,6 @@ public class TrainVideoActivity extends BaseBackActionBarActivity {
         mFileSizeTextView = (TextView) findViewById(R.id.tv_activity_video_player_size);
         mDownloadingProgressBar = (ProgressBar) findViewById(R.id.pb_activity_video_player_downloading);
         mProgressSeekBar = (SeekBar) findViewById(R.id.sb_activity_video_player);
-        mBottomLayout = (BottomRatingAndCommentView) findViewById(R.id.bracv_activity_video_player);
         mRotationCheckBox = (CheckBox) findViewById(R.id.cb_activity_video_player_zoom);
         mContainerLayout = (RelativeLayout) findViewById(R.id.rl_activity_video_player_container);
         mPlayerContainerLayout = (FrameLayout) findViewById(R.id.fl_activity_video_player_player_layout);
@@ -197,15 +196,8 @@ public class TrainVideoActivity extends BaseBackActionBarActivity {
      * 功能描述: 数据初始化
      */
     protected void initData() {
-        mRid = mReceivedIntent.getStringExtra(KEY_RID);
-        boolean isStore = mReceivedIntent.getBooleanExtra(KEY_IS_STORE, false);
-        addStoreImageView(isStore, Store.TYPE_STRING_TRAINING, mRid);
-        if (((AppApplication) getApplication()).getUserInfo().isAdmin)
-            addStatisticalImageView(mRid);
-        mSaveFilePath = FileUtils.getTrainCacheDir(mContext) + mRid
-                + ENDWITH_MP4;
-        mVideoTitleTextView.setText(mReceivedIntent.getStringExtra(KEY_SUBJECT));
-        mUrl = mReceivedIntent.getStringExtra(KEY_URL);
+        mSaveFilePath = FileUtils.getTrainCacheDir(mContext) + mTrain.rid + ENDWITH_MP4;
+        mVideoTitleTextView.setText(mTrain.subject);
         mProgressHandler = new ProgressHandler();
 
         File file = new File(mSaveFilePath);
@@ -219,7 +211,7 @@ public class TrainVideoActivity extends BaseBackActionBarActivity {
                 @Override
                 public void run() {
                     try {
-                        URL DownRul = new URL(mUrl);
+                        URL DownRul = new URL(mTrain.url);
                         HttpURLConnection urlcon = (HttpURLConnection) DownRul.openConnection();
                         float fileSize = ((float) urlcon.getContentLength()) / 1024f / 1024f;
                         mProgressHandler.obtainMessage(FILE_SIZE, fileSize).sendToTarget();
@@ -238,8 +230,6 @@ public class TrainVideoActivity extends BaseBackActionBarActivity {
             statusNotDownLoad();
             mTotalTimeTextView.setText("0%");
         }
-
-        mBottomLayout.setData(mRid, true, true);
     }
 
     /**
@@ -287,7 +277,7 @@ public class TrainVideoActivity extends BaseBackActionBarActivity {
         mDownloadingProgressBar.setVisibility(View.VISIBLE);
         if (mDownloadingHandler == null) {
             HttpUtils http = new HttpUtils();
-            mDownloadingHandler = http.download(mUrl,
+            mDownloadingHandler = http.download(mTrain.url,
                     mSaveFilePath + ".tmp",
                     true, // 如果目标文件存在，接着未完成的部分继续下载。服务器不支持RANGE时将从新下载。
                     true, // 如果从请求返回信息中获取到文件名，下载完成后自动重命名。
@@ -305,7 +295,7 @@ public class TrainVideoActivity extends BaseBackActionBarActivity {
 
                         @Override
                         public void onSuccess(ResponseInfo<File> responseInfo) {
-                            FileUtils.renameFile(FileUtils.getTrainCacheDir(mContext), mRid + ENDWITH_MP4 + ".tmp", mRid + ENDWITH_MP4);
+                            FileUtils.renameFile(FileUtils.getTrainCacheDir(mContext), mTrain.rid + ENDWITH_MP4 + ".tmp", mTrain.rid + ENDWITH_MP4);
                             statusDownloadFinish();
                             initVideo();
                         }
@@ -323,7 +313,7 @@ public class TrainVideoActivity extends BaseBackActionBarActivity {
      * 功能描述: 竖屏显示布局
      */
     private void showVerticalView() {
-        mBottomLayout.setVisibility(View.VISIBLE);
+        mBottomView.setVisibility(View.VISIBLE);
         mTopContainerLayout.setVisibility(View.VISIBLE);
         getSupportActionBar().show();
         int height = getResources().getDimensionPixelSize(R.dimen.media_play_height);
@@ -349,7 +339,7 @@ public class TrainVideoActivity extends BaseBackActionBarActivity {
      * 功能描述: 横屏隐藏布局
      */
     private void showHorizontalView() {
-        mBottomLayout.setVisibility(View.GONE);
+        mBottomView.setVisibility(View.GONE);
         mTopContainerLayout.setVisibility(View.GONE);
         getSupportActionBar().hide();
         int screenHeight = DensityUtil.getHeightInPx(mContext);
@@ -555,13 +545,6 @@ public class TrainVideoActivity extends BaseBackActionBarActivity {
         if (mDownloadingHandler != null)
             mDownloadingHandler.cancel();
         super.onDestroy();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        // 更新回复数
-        mBottomLayout.updateData();
     }
 
     @Override
