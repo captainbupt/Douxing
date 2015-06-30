@@ -46,7 +46,12 @@ public class AskSubmitActivity extends BaseBackActionBarActivity {
      * 初始化
      */
     private void initView() {
-        setRightImage(R.drawable.button_title_send);
+        setRightImage(R.drawable.button_title_send, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendWenDaContent();
+            }
+        });
         mSubjectEditView = (EditText) findViewById(R.id.et_activity_ask_submit_subject);
         mDescriptionEditView = (EditText) findViewById(R.id.et_activity_ask_submit_description);
         mImageGridView = (MultiImageEditGridView) findViewById(R.id.miegv_activity_ask_submit);
@@ -79,12 +84,6 @@ public class AskSubmitActivity extends BaseBackActionBarActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         mImageChooser.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
-    public void clickRight() {
-        super.clickRight();
-        sendWenDaContent();
     }
 
     private void sendWenDaContent() {

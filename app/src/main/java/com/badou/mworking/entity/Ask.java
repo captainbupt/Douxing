@@ -22,6 +22,7 @@ public class Ask implements Serializable {
     public int userLevel; //等级
     public boolean isDeletable; // 是否有删除权限
     public String subject; // 标题
+    public boolean isStore;
 
     /**
      * 功能描述: json解析
@@ -30,6 +31,7 @@ public class Ask implements Serializable {
      */
     public Ask(JSONObject jsonObject) {
         super();
+        System.out.println(jsonObject);
         this.content = jsonObject.optString("content");
         this.count = jsonObject.optInt("count");
         this.contentImageUrl = jsonObject.optString("picurl");
@@ -45,5 +47,6 @@ public class Ask implements Serializable {
         this.whom = jsonObject.optString("whom");
         this.isDeletable = jsonObject.optInt("delop", 0) == 1;
         this.subject = jsonObject.optString("subject");
+        this.isStore = jsonObject.optBoolean("store");
     }
 }

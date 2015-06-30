@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -90,7 +91,13 @@ public class ChatterActivity extends BaseBackActionBarActivity {
     private void initData() {
         mChatterRadioButton.setText(mReceivedIntent.getStringExtra(BaseActionBarActivity.KEY_TITLE));
         mChatterRadioButton.setChecked(true);
-        setRightText(R.string.chatter_title_right);
+        setRightText(R.string.chatter_title_right, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, ChatterSubmitActivity.class);
+                startActivityForResult(intent, REQUEST_CHATTER_SUBMIT);
+            }
+        });
     }
 
     @Override
@@ -100,13 +107,6 @@ public class ChatterActivity extends BaseBackActionBarActivity {
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
-
-    @Override
-    public void clickRight() {
-        Intent intent = new Intent(mContext, ChatterSubmitActivity.class);
-        startActivityForResult(intent, REQUEST_CHATTER_SUBMIT);
-    }
-
 
     static class ChatterFragmentPagerAdapter extends FragmentPagerAdapter {
 

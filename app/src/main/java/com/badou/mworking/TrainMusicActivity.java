@@ -1,5 +1,7 @@
 package com.badou.mworking;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -12,11 +14,10 @@ import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.badou.mworking.base.BaseStatisticalActionBarActivity;
+import com.badou.mworking.entity.category.Train;
 import com.badou.mworking.util.FileUtils;
 import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.ToastUtil;
-import com.badou.mworking.widget.BottomRatingAndCommentView;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.HttpHandler;
@@ -28,14 +29,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 
-public class TrainMusicActivity extends BaseStatisticalActionBarActivity {
+public class TrainMusicActivity extends TrainBaseActivity {
 
     public static final int STATU_START_PLAY = 5; // 播放计时器
     private static final int FILE_SIZE = 6;
     public static final String ENDWITH_MP3 = ".mp3"; // MP3后缀名
-
-    public static final String KEY_SUBJECT = "subject";
-    public static final String KEY_URL = "url";
 
     private TextView mMusicTitleTextView; // 标题
     private ImageView mPlayerControlImageView; //开始/暂停 播放
@@ -46,8 +44,6 @@ public class TrainMusicActivity extends BaseStatisticalActionBarActivity {
     private ProgressBar mDownloadingProgressBar;
     private SeekBar mProgressSeekBar;
 
-    private BottomRatingAndCommentView mBottomLayout;
-
     private MediaPlayer mMusicPlayer = null;
 
     private boolean isChanging = false;// 互斥变量，防止定时器与SeekBar拖动时进度冲突
@@ -57,7 +53,11 @@ public class TrainMusicActivity extends BaseStatisticalActionBarActivity {
 
     private String mSaveFilePath; // 保存文件的路径,无文件名
 
-    private String mUrl = "";
+    public static Intent getIntent(Context context, Train train) {
+        Intent intent = new Intent(context, TrainMusicActivity.class);
+        intent.putExtra(KEY_TRAINING, train);
+        return intent;
+    }
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,7 +79,6 @@ public class TrainMusicActivity extends BaseStatisticalActionBarActivity {
         mFileSizeTextView = (TextView) findViewById(R.id.tv_activity_music_player_size);
         mDownloadingProgressBar = (ProgressBar) findViewById(R.id.pb_activity_music_player_downloading);
         mProgressSeekBar = (SeekBar) findViewById(R.id.sb_activity_music_player);
-        mBottomLayout = (BottomRatingAndCommentView) findViewById(R.id.bracv_activity_music_player);
     }
 
     private void initListener() {
@@ -128,16 +127,12 @@ public class TrainMusicActivity extends BaseStatisticalActionBarActivity {
     }
 
     private void initData() {
-        mRid = mReceivedIntent.getStringExtra(KEY_RID);
-        mUrl = mReceivedIntent.getStringExtra(KEY_URL);
-        mMusicTitleTextView.setText(mReceivedIntent.getStringExtra(KEY_SUBJECT));
+        mMusicTitleTextView.setText(mTrain.subject);
         mMusicPlayer = new MediaPlayer();
-        mSaveFilePath = FileUtils.getTrainCacheDir(mContext) + mRid + ENDWITH_MP3;
+        mSaveFilePath = FileUtils.getTrainCacheDir(mContext) + mTrain.rid + ENDWITH_MP3;
 
         mProgressHandler = new ProgressHandler();
         File file = new File(mSaveFilePath);
-
-        System.out.println(mUrl);
 
         // 如果文件已经存在则直接获取文件大写，如果文件不存在则进行网络请求
         if (file.exists()) {
@@ -149,7 +144,7 @@ public class TrainMusicActivity extends BaseStatisticalActionBarActivity {
                 @Override
                 public void run() {
                     try {
-                        URL DownRul = new URL(mUrl);
+                        URL DownRul = new URL(mTrain.url);
                         HttpURLConnection urlcon = (HttpURLConnection) DownRul.openConnection();
                         float fileSize = ((float) urlcon.getContentLength()) / 1024 / 1024;
                         mProgressHandler.obtainMessage(FILE_SIZE, fileSize).sendToTarget();
@@ -165,10 +160,8 @@ public class TrainMusicActivity extends BaseStatisticalActionBarActivity {
             statuDownloadFinish();
             initMedia();
         } else {
-            statuNotDownLoad();
+            statusNotDownLoad();
         }
-        mBottomLayout.setData(mRid, true, true);
-
     }
 
     /**
@@ -186,7 +179,7 @@ public class TrainMusicActivity extends BaseStatisticalActionBarActivity {
             e.printStackTrace();
             ToastUtil.showToast(mContext, R.string.tips_audio_error);
             new File(mSaveFilePath).delete();
-            statuNotDownLoad();
+            statusNotDownLoad();
             return;
         }
         mProgressSeekBar.setMax(mMusicPlayer.getDuration());// 设置进度条
@@ -207,13 +200,6 @@ public class TrainMusicActivity extends BaseStatisticalActionBarActivity {
     private void pausePlay() {
         mPlayerControlImageView.setImageResource(R.drawable.button_media_start);
         mMusicPlayer.pause();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        // 更新回复数
-        mBottomLayout.updateData();
     }
 
     @Override
@@ -273,7 +259,7 @@ public class TrainMusicActivity extends BaseStatisticalActionBarActivity {
     /**
      * 没下载的状态 *
      */
-    private void statuNotDownLoad() {
+    private void statusNotDownLoad() {
         mTotalTimeTextView.setText("0%");
         mDownloadImageView.setVisibility(View.VISIBLE);
         mPlayerControlImageView.setVisibility(View.GONE);
@@ -312,7 +298,7 @@ public class TrainMusicActivity extends BaseStatisticalActionBarActivity {
         mDownloadingProgressBar.setVisibility(View.VISIBLE);
         if (mDownloadingHandler == null) {
             HttpUtils http = new HttpUtils();
-            mDownloadingHandler = http.download(mUrl,
+            mDownloadingHandler = http.download(mTrain.url,
                     mSaveFilePath + ".tmp",
                     true, // 如果目标文件存在，接着未完成的部分继续下载。服务器不支持RANGE时将从新下载。
                     true, // 如果从请求返回信息中获取到文件名，下载完成后自动重命名。
@@ -330,7 +316,7 @@ public class TrainMusicActivity extends BaseStatisticalActionBarActivity {
 
                         @Override
                         public void onSuccess(ResponseInfo<File> responseInfo) {
-                            FileUtils.renameFile(FileUtils.getTrainCacheDir(mContext), mRid + ENDWITH_MP3 + ".tmp", mRid + ENDWITH_MP3);
+                            FileUtils.renameFile(FileUtils.getTrainCacheDir(mContext), mTrain.rid + ENDWITH_MP3 + ".tmp", mTrain.rid + ENDWITH_MP3);
                             statuDownloadFinish();
                             initMedia();
                             startPlay();

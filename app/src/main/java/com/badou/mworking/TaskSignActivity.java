@@ -1,6 +1,7 @@
 package com.badou.mworking;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -11,10 +12,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.badou.mworking.base.AppApplication;
-import com.badou.mworking.base.BaseStatisticalActionBarActivity;
+import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.Task;
+import com.badou.mworking.entity.main.MainIcon;
 import com.badou.mworking.entity.user.UserInfo;
+import com.badou.mworking.base.BaseBackActionBarActivity;
+import com.badou.mworking.entity.Store;
 import com.badou.mworking.net.Net;
+import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.Constant;
@@ -43,9 +48,10 @@ import org.json.JSONObject;
 /**
  * 功能描述:  任务签到页面
  */
-public class TaskSignActivity extends BaseStatisticalActionBarActivity implements BDLocationListener {
+public class TaskSignActivity extends BaseBackActionBarActivity implements BDLocationListener {
 
     public static final String KEY_TASK = "task";
+    public static final String RESPONSE_TASK = "task";
 
     private TextView mBeginDateTextView;
     private TextView mBeginTimeTextView;
@@ -57,8 +63,8 @@ public class TaskSignActivity extends BaseStatisticalActionBarActivity implement
     private LinearLayout mSelfPositionLayout;
 
 
-    private Task task;
-    private Bitmap photo = null;
+    private Task mTask;
+    private Bitmap mPhoto = null;
     public LocationClient mLocationClient;
     private boolean isSign = false; //是否签到， 否表示显示我的位置
     private boolean isFirst = true;
@@ -69,11 +75,21 @@ public class TaskSignActivity extends BaseStatisticalActionBarActivity implement
     // 初始化全局 bitmap 信息，不用时及时 recycle
     BitmapDescriptor bdA = BitmapDescriptorFactory.fromResource(R.drawable.icon_gcoding);
 
+    public static Intent getIntent(Context context, Task task) {
+        Intent intent = new Intent(context, TaskSignActivity.class);
+        intent.putExtra(KEY_TASK, task);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_sign);
+        setActionbarTitle(UserInfo.getUserInfo().getShuffle().getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_TASK).getName());
+        addStoreImageView(mTask.isStore, Store.TYPE_STRING_TASK, mTask.rid);
+        if (UserInfo.getUserInfo().isAdmin()) {
+            addStatisticalImageView(mTask.rid);
+        }
         initView();
         initListener();
         initData();
@@ -102,11 +118,11 @@ public class TaskSignActivity extends BaseStatisticalActionBarActivity implement
                     return;
                 }
                 long timeNow = System.currentTimeMillis();
-                if (task.startline > timeNow) {
+                if (mTask.startline > timeNow) {
                     ToastUtil.showToast(mContext, R.string.task_notStart);
                     return;
                 }
-                if (task.photo == 1) {
+                if (mTask.isPhoto) {
                     mImageChooser.takeImage(null);
                 } else {
                     mProgressDialog.show();
@@ -119,7 +135,7 @@ public class TaskSignActivity extends BaseStatisticalActionBarActivity implement
             @Override
             public void onImageChose(Bitmap bitmap, int type) {
                 if (bitmap != null) {
-                    photo = bitmap;
+                    mPhoto = bitmap;
                     mProgressDialog.show();
                     startLocation(true);
                 }
@@ -142,16 +158,18 @@ public class TaskSignActivity extends BaseStatisticalActionBarActivity implement
     }
 
     private void initData() {
-        task = (Task) mReceivedIntent.getSerializableExtra(KEY_TASK);
-        boolean finish = task.isRead();
-        String comment = task.comment;
+        mTask = (Task) mReceivedIntent.getSerializableExtra(KEY_TASK);
+        addStoreImageView(mTask.isStore, Store.TYPE_STRING_TASK, mTask.rid);
+        if (UserInfo.getUserInfo().isAdmin())
+            addStatisticalImageView(mTask.rid);
+        String comment = mTask.comment;
         if (comment == null || comment.equals("")) {
             mDescriptionTextView.setText(mContext.getResources().getString(R.string.text_null));
         } else {
             mDescriptionTextView.setText(comment);
         }
-        long beginTime = task.startline;      //任务开始时间
-        long endTime = task.deadline;      //任务结束时间
+        long beginTime = mTask.startline;      //任务开始时间
+        long endTime = mTask.deadline;      //任务结束时间
 
         mBeginDateTextView.setText(TimeTransfer.long2StringDateUnit(beginTime));
         mBeginTimeTextView.setText(TimeTransfer.long2StringTimeHour(beginTime) + "至");
@@ -160,19 +178,18 @@ public class TaskSignActivity extends BaseStatisticalActionBarActivity implement
 
         mProgressDialog.setContent(R.string.sign_action_sign_ing);
 
-        if (finish) {// 已签到
+        if (mTask.isRead) {// 已签到
             disableSignButton(true);
         } else {
-            if (task.isOffline()) { // 已过期
+            if (mTask.isOffline) { // 已过期
                 disableSignButton(false);
-                task.read = Constant.FINISH_YES;
             } else { // 未签到
                 enableSignButton();
             }
         }
 
-        String place = task.place;
-        if (!TextUtils.isEmpty(task.place) && !" ".equals(task.place)) {
+        String place = mTask.place;
+        if (!TextUtils.isEmpty(mTask.place) && !" ".equals(mTask.place)) {
             mLocationTextView.setText(place);
         } else {
             mLocationTextView.setText(R.string.sign_in_task_address_empty);
@@ -194,8 +211,8 @@ public class TaskSignActivity extends BaseStatisticalActionBarActivity implement
 
     private void initMap() {
         startLocation(false);
-        if (!task.isFreeSign()) {
-            LatLng location = new LatLng(task.latitude, task.longitude);
+        if (!mTask.isFreeSign()) {
+            LatLng location = new LatLng(mTask.latitude, mTask.longitude);
             MapStatusUpdate u1 = MapStatusUpdateFactory.newLatLng(location);
             MapStatusUpdate u2 = MapStatusUpdateFactory.zoomTo(16);
             SupportMapFragment map = (SupportMapFragment) (getSupportFragmentManager()
@@ -250,7 +267,7 @@ public class TaskSignActivity extends BaseStatisticalActionBarActivity implement
                     .longitude(location.getLongitude()).build();
             // 设置定位数据  
             mBaiduMap.setMyLocationData(locData);
-            if (!(isFirst && !task.isFreeSign())) { // 首次进入且有目标地点的时候，不需要跳转
+            if (!(isFirst && !mTask.isFreeSign())) { // 首次进入且有目标地点的时候，不需要跳转
                 MapStatusUpdate u1 = MapStatusUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude()));
                 MapStatusUpdate u2 = MapStatusUpdateFactory.zoomTo(16);
                 mBaiduMap.animateMapStatus(u2);
@@ -269,8 +286,8 @@ public class TaskSignActivity extends BaseStatisticalActionBarActivity implement
         String lat = String.valueOf(location.getLatitude());
         String lon = String.valueOf(location.getLongitude());
         String uid = UserInfo.getUserInfo().getUid();
-        ServiceProvider.doUpdateBitmap(mContext, photo,
-                Net.getRunHost(mContext) + Net.SIGN(task.rid, uid, lat, lon),
+        ServiceProvider.doUpdateBitmap(mContext, mPhoto,
+                Net.getRunHost(mContext) + Net.SIGN(mTask.rid, uid, lat, lon),
                 new VolleyListener(mContext) {
 
                     @Override
@@ -282,22 +299,20 @@ public class TaskSignActivity extends BaseStatisticalActionBarActivity implement
 
                     @Override
                     public void onResponseSuccess(JSONObject response) {
-                        if (photo != null && photo.isRecycled()) {
-                            photo.recycle();
-                        }
-                        // 签到成功
-                        task.read = Constant.FINISH_YES;
-                        if (task.isFreeSign()) {
-                            task.place = locationStr;
+                        if (mPhoto != null && mPhoto.isRecycled()) {
+                            mPhoto.recycle();
                         }
                         // 签到成功， 减去1
                         String userNum = UserInfo.getUserInfo().getAccount();
-                        int unreadNum = SP.getIntSP(mContext, SP.DEFAULTCACHE, userNum + Task.CATEGORY_KEY_UNREAD_NUM, 0);
+                        int unreadNum = SP.getIntSP(mContext, SP.DEFAULTCACHE, userNum + Category.CATEGORY_KEY_UNREADS[Category.CATEGORY_TASK], 0);
                         if (unreadNum > 0) {
-                            SP.putIntSP(mContext, SP.DEFAULTCACHE, userNum + Task.CATEGORY_KEY_UNREAD_NUM, unreadNum - 1);
+                            SP.putIntSP(mContext, SP.DEFAULTCACHE, userNum + Category.CATEGORY_KEY_UNREADS[Category.CATEGORY_TASK], unreadNum - 1);
+                            mTask.isRead = true;
+                            if (mTask.isFreeSign()) {
+                                mTask.place = locationStr;
+                            }
+                            disableSignButton(true);
                         }
-                        disableSignButton(true);
-                        setResult(RESULT_OK);
                     }
 
                     @Override
@@ -313,5 +328,13 @@ public class TaskSignActivity extends BaseStatisticalActionBarActivity implement
 
     @Override
     public void onReceivePoi(BDLocation arg0) {
+    }
+
+    @Override
+    public void finish() {
+        Intent intent = new Intent();
+        intent.putExtra(RESPONSE_TASK, mTask);
+        setResult(RESULT_OK, intent);
+        super.finish();
     }
 }

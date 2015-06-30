@@ -192,9 +192,8 @@
             <com.badou.mworking.widget.NoScrollListView
                 android:id="@+id/nslv_activity_chatter_submit_topic"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@color/color_white"
-                android:visibility="gone"
                 myattr:dividerColor="@color/color_border_grey"
                 myattr:dividerHeight="1dp" />
         </LinearLayout>

@@ -53,7 +53,13 @@ public class AskActivity extends BaseBackActionBarActivity {
     }
 
     private void initView() {
-        setRightText(R.string.ask_title_right);
+        setRightText(R.string.ask_title_right, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, AskSubmitActivity.class);
+                startActivity(intent);
+            }
+        });
         mNoneResultView = (NoneResultView) findViewById(R.id.nrv_activity_question_none);
         mNoneResultView.setContent(R.drawable.background_none_result_ask, R.string.none_result_ask);
         // 因为需要同时添加单击和长按事件，pullToRefresh并不支持该操作。所以只能在adapter里面进行添加
@@ -91,20 +97,14 @@ public class AskActivity extends BaseBackActionBarActivity {
     }
 
     @Override
-    public void clickRight() {
-        super.clickRight();
-        Intent intent = new Intent(this, AskSubmitActivity.class);
-        startActivity(intent);
-    }
-
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == AskDetailActivity.RESULT_DELETED) {
-            mAskAdapter.remove(mClickPosition);
-        } else if (resultCode == AskDetailActivity.RESULT_REPLIED) {
-            if (mClickPosition >= 0 && mClickPosition < mAskAdapter.getCount()) {
+        if (resultCode == RESULT_OK && mClickPosition >= 0 && mClickPosition < mAskAdapter.getCount()) {
+            if (data.getBooleanExtra(AskDetailActivity.RESULT_KEY_STORE, false)) {
+                mAskAdapter.remove(mClickPosition);
+            } else {
                 Ask ask = (Ask) mAskAdapter.getItem(mClickPosition);
                 ask.count = data.getIntExtra(AskDetailActivity.RESULT_KEY_COUNT, ask.count);
+                ask.isStore = data.getBooleanExtra(AskDetailActivity.RESULT_KEY_STORE, ask.isStore);
                 mAskAdapter.setItem(mClickPosition, ask);
             }
         }

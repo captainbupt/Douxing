@@ -43,7 +43,7 @@ public class ExamAdapter extends MyBaseAdapter {
         // 图标资源，默认为已读
         int iconResId = R.drawable.icon_exam_item_read;
         // 判断read字段， 已考完
-        if (exam.isRead()) {
+        if (exam.isRead) {
             if (exam.isGraded) { //显示:已考完(判断是不是是不是个人中心进入的)
                 holder.unreadTextView.setTextColor(mContext.getResources().getColor(R.color.color_red));
                 holder.unreadTextView.setBackgroundColor(mContext.getResources().getColor(R.color.transparent));
@@ -55,7 +55,7 @@ public class ExamAdapter extends MyBaseAdapter {
             }
             // 未考试
         } else {
-            if (exam.offline == Constant.OVERDUE_YES) { //显示:已过期
+            if (exam.isOffline) { //显示:已过期
                 holder.unreadTextView.setTextColor(mContext.getResources().getColor(R.color.color_text_grey));
                 holder.unreadTextView.setBackgroundColor(mContext.getResources().getColor(R.color.transparent));
                 holder.unreadTextView.setText(R.string.category_expired);
@@ -67,7 +67,7 @@ public class ExamAdapter extends MyBaseAdapter {
             }
         }
         holder.iconImageView.setImageResource(iconResId);
-        if (exam.top == Constant.TOP_YES) {
+        if (exam.isTop) {
             holder.topImageView.setVisibility(View.VISIBLE);
         } else {
             holder.topImageView.setVisibility(View.INVISIBLE);

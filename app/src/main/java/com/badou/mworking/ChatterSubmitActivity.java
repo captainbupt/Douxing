@@ -63,7 +63,12 @@ public class ChatterSubmitActivity extends BaseBackActionBarActivity {
         initView();
         initListener();
         // 设置图片
-        setRightImage(R.drawable.button_title_send);
+        setRightImage(R.drawable.button_title_send, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                send();
+            }
+        });
         setActionbarTitle("分享");
     }
 
@@ -85,7 +90,7 @@ public class ChatterSubmitActivity extends BaseBackActionBarActivity {
         mBottomTopicLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mTopicListView.getVisibility() == View.VISIBLE) {
+                if (mTopicScrollView.getVisibility() == View.VISIBLE) {
                     mTopicScrollView.setVisibility(View.GONE);
                     mContentEditText.setEnabled(true);
                 } else {
@@ -192,8 +197,7 @@ public class ChatterSubmitActivity extends BaseBackActionBarActivity {
         super.onBackPressed();
     }
 
-    @Override
-    public void clickRight() {
+    public void send() {
         // 断网判断
         if (!NetUtils.isNetConnected(this)) {
             ToastUtil.showNetExc(mContext);

@@ -57,9 +57,9 @@ public class TipsWebView extends BaseNoTitleActivity {
         mContext = TipsWebView.this;
         mWebView = (WebView) findViewById(R.id.webView1);
         tvbottomBtn = (TextView) this.findViewById(R.id.tv_bottom);
-        llNetException = (LinearLayout) findViewById(R.id.ll_activity_web_view_exception);
-        tvBadouNetExceptionRepeat = (TextView) findViewById(R.id.tv_activity_web_view_exception_repeat);
-        ivNetException = (ImageView) findViewById(R.id.iv_activity_web_view_exception);
+        llNetException = (LinearLayout) findViewById(R.id.net_exception_linear_layout);
+        tvBadouNetExceptionRepeat = (TextView) findViewById(R.id.net_exception_repeat_text_view);
+        ivNetException = (ImageView) findViewById(R.id.net_exception_image_view);
 
         TextView titleTv = (TextView) initAction();
         final int tag = ACT_TipsWebView;
@@ -129,22 +129,6 @@ public class TipsWebView extends BaseNoTitleActivity {
                 .findViewById(R.id.iv_actionbar_left);
         TextView tvTitle = (TextView) this
                 .findViewById(R.id.tv_actionbar_title);
-        ImageView ivRight = (ImageView) this
-                .findViewById(R.id.iv_actionbar_right);
-        ivLeft.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                finish();
-            }
-        });
-        ivRight.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-
-            }
-        });
-        ivRight.setVisibility(View.GONE);
         return tvTitle;
     }
 

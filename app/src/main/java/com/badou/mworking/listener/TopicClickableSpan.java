@@ -5,12 +5,15 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.text.Layout;
+import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.TextView;
@@ -19,6 +22,7 @@ import com.badou.mworking.ChatterTopicActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.adapter.ChatterListAdapter;
 import com.badou.mworking.base.BaseActionBarActivity;
+import com.badou.mworking.widget.TextViewFixTouchConsume;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -51,44 +55,28 @@ public class TopicClickableSpan extends ClickableSpan {
 
     @Override
     public void updateDrawState(TextPaint ds) {
-        ds.setColor(ds.linkColor);
+        ds.setColor(mContext.getResources().getColor(R.color.color_text_blue));
         ds.setUnderlineText(false); //去掉下划线
     }
 
-    public static void setClickTopic(Context context, final TextView textView, String content, int max, View.OnClickListener onItemClickListener) {
-        textView.setOnLongClickListener(new CopyClickListener(context, content));
-        textView.setOnClickListener(onItemClickListener);
+    public static void setClickTopic(Context context, final TextViewFixTouchConsume textView, String content, int max) {
         SpannableString spannableString;
         if (content.length() > max) {
             spannableString = new SpannableString(content.substring(0, 100) + "...");
         } else {
             spannableString = new SpannableString(content);
         }
-/*        spannableString.setSpan(new NormalClickableSpan() {
-            @Override
-            public void onClick(View view) {
-                if (onItemClickListener != null)
-                    onItemClickListener.onClick(textView);
-            }
-        }, 0, content.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);*/
         Pattern pattern = Pattern.compile("#[^#]+#");
         Matcher matcher = pattern.matcher(content);
         while (matcher.find()) {
             if (matcher.start() < max) {
                 spannableString.setSpan(new TopicClickableSpan(context, matcher.group().replace("#", "")), matcher.start(), Math.min(matcher.end(), spannableString.length()), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-                spannableString.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.color_text_blue)), matcher.start(), Math.min(matcher.end(), spannableString.length()), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             }
         }
         textView.setText(spannableString);
         textView.setMovementMethod(LinkMovementMethod.getInstance());
-        textView.setFocusable(false);
-    }
-
-    abstract static class NormalClickableSpan extends ClickableSpan {
-
-        @Override
-        public void updateDrawState(TextPaint ds) {
-            ds.setUnderlineText(false); //去掉下划线
-        }
+        textView.setMovementMethod(
+                TextViewFixTouchConsume.LocalLinkMovementMethod.getInstance()
+        );
     }
 }

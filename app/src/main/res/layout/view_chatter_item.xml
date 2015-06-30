@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/color_white"
+    android:orientation="horizontal"
+    android:padding="@dimen/offset_medium">
+
+    <!-- 同事圈的列表 item -->
+
+    <ImageView
+        android:id="@+id/iv_adapter_chatter_head"
+        android:layout_width="@dimen/icon_head_size_middle"
+        android:layout_height="@dimen/icon_head_size_middle"
+        android:layout_marginRight="@dimen/offset_less"
+        android:scaleType="centerInside"
+        android:src="@drawable/icon_user_detail_default_head" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_adapter_chatter_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_text_grey"
+                android:textSize="@dimen/text_size_medium" />
+
+            <TextView
+                android:id="@+id/tv_adapter_chatter_level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/offset_small"
+                android:background="@drawable/background_lv_fir"
+                android:paddingBottom="1dp"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:paddingTop="1dp"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/text_size_small" />
+        </LinearLayout>
+
+        <com.badou.mworking.widget.TextViewFixTouchConsume
+            android:id="@+id/tv_adapter_chatter_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/offset_small"
+            android:lineSpacingExtra="@dimen/offset_small"
+            android:textColor="@color/color_text_black"
+            android:textSize="@dimen/text_size_medium" />
+
+        <TextView
+            android:id="@+id/tv_adapter_chatter_full_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tips_full_content"
+            android:textColor="@color/color_blue"
+            android:textSize="@dimen/text_size_less"
+            android:visibility="gone" />
+
+        <com.badou.mworking.widget.VideoImageView
+            android:id="@+id/viv_adapter_chatter_video"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/offset_small" />
+
+        <com.badou.mworking.widget.MultiImageShowGridView
+            android:id="@+id/misgv_adapter_chatter_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/offset_small" />
+
+        <TextView
+            android:id="@+id/tv_adapter_chatter_save_internet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/offset_small"
+            android:text="@string/tips_save_internet"
+            android:textColor="@color/color_grey"
+            android:textSize="@dimen/text_size_less"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/offset_small"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_adapter_chatter_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/color_text_grey"
+                android:textSize="@dimen/text_size_less" />
+
+            <CheckBox
+                android:id="@+id/cb_adapter_chatter_praise"
+                android:layout_width="@dimen/around_icon_reply_width"
+                android:layout_height="@dimen/around_icon_reply_height"
+                android:background="@drawable/icon_praise"
+                android:button="@null" />
+
+            <TextView
+                android:id="@+id/tv_adapter_chatter_praise_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:minEms="1"
+                android:singleLine="true"
+                android:textColor="@color/color_text_blue"
+                android:textSize="@dimen/text_size_less" />
+
+
+            <ImageView
+                android:layout_width="@dimen/around_icon_reply_width"
+                android:layout_height="@dimen/around_icon_reply_height"
+                android:layout_marginLeft="@dimen/offset_less"
+                android:background="@drawable/icon_comment"
+                android:scaleType="centerInside" />
+
+            <TextView
+                android:id="@+id/tv_adapter_chatter_reply_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:minEms="1"
+                android:singleLine="true"
+                android:textColor="@color/color_text_blue"
+                android:textSize="@dimen/text_size_less" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

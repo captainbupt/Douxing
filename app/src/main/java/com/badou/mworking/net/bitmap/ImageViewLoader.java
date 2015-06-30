@@ -50,7 +50,7 @@ public class ImageViewLoader {
             imageView.setImageBitmap(contentBmp);
         } else {
 //            if (isWifi || !isSaveInternet) {
-                setSquareImageViewResource(imageView, defaultResId, url, size);
+            setSquareImageViewResource(imageView, defaultResId, url, size);
 /*            } else {
                 imageView.setImageResource(R.drawable.icon_image_default);
             }*/
@@ -58,6 +58,10 @@ public class ImageViewLoader {
     }
 
     public static void setImageViewResource(final ImageView imageView, final int defaultRes, final String url) {
+        if (TextUtils.isEmpty(url)) {
+            imageView.setImageResource(defaultRes);
+            return;
+        }
         Bitmap headBmp = BitmapLruCache.getBitmapLruCache().getBitmap(url);
         if (headBmp != null && !headBmp.isRecycled()) {
             imageView.setImageBitmap(headBmp);
