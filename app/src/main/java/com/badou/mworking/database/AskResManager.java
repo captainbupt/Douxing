@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.badou.mworking.base.AppApplication;
+import com.badou.mworking.entity.user.UserInfo;
 
 public class AskResManager {
 
@@ -18,8 +19,7 @@ public class AskResManager {
         MTrainingDBHelper mTrainingDBHelper = MTrainingDBHelper
                 .getMTrainingDBHelper();
         SQLiteDatabase dbReader = mTrainingDBHelper.getDatabase();
-        String userNum = ((AppApplication) context.getApplicationContext())
-                .getUserInfo().account;
+        String userNum = UserInfo.getUserInfo().getAccount();
         ContentValues contentValues = new ContentValues();
         contentValues.put(MTrainingDBHelper.WENDA_QID, aid + (createTime / 1000));
 
@@ -45,8 +45,7 @@ public class AskResManager {
         MTrainingDBHelper mTrainingDBHelper = MTrainingDBHelper
                 .getMTrainingDBHelper();
         SQLiteDatabase dbReader = mTrainingDBHelper.getDatabase();
-        String userNum = ((AppApplication) context.getApplicationContext())
-                .getUserInfo().account;
+        String userNum = UserInfo.getUserInfo().getAccount();
         try {
             Cursor c1 = dbReader.query(MTrainingDBHelper.TBL_NAME_WENDADIANZAN + userNum.replace("@", ""),
                     null,

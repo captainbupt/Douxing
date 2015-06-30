@@ -163,7 +163,7 @@ public class PDFViewerActivity extends BaseStatisticalActionBarActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        SPUtil.setPdfPage(mContext, mRid, mPdfView.getCurrentPage() + 1);
+        SPUtil.setPdfPage( mRid, mPdfView.getCurrentPage() + 1);
         if (mHttpHandler != null) {
             mHttpHandler.cancel();
         }

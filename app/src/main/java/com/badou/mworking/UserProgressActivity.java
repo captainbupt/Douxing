@@ -14,12 +14,13 @@ import android.widget.TextView;
 import com.badou.mworking.adapter.UserProgressAdapter;
 import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.base.BaseNoTitleActivity;
-import com.badou.mworking.entity.Main.MainIcon;
+import com.badou.mworking.entity.main.MainIcon;
 import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.CategoryDetail;
 import com.badou.mworking.entity.category.Exam;
 import com.badou.mworking.entity.category.Train;
 import com.badou.mworking.entity.user.UserDetail;
+import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.net.ServiceProvider;
@@ -103,11 +104,11 @@ public class UserProgressActivity extends BaseNoTitleActivity {
             public void onClick(View arg0) {
                 if (mType == Category.CATEGORY_TRAINING) {
                     Intent intent = new Intent(mContext, TrainActivity.class);
-                    intent.putExtra(BaseActionBarActivity.KEY_TITLE, MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_TRAINING).name);
+                    intent.putExtra(BaseActionBarActivity.KEY_TITLE, UserInfo.getUserInfo().getShuffle().getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_TRAINING).getName());
                     startActivity(intent);
                 } else {
                     Intent intent = new Intent(mContext, ExamActivity.class);
-                    intent.putExtra(BaseActionBarActivity.KEY_TITLE, MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_EXAM).name);
+                    intent.putExtra(BaseActionBarActivity.KEY_TITLE, UserInfo.getUserInfo().getShuffle().getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_EXAM).getName());
                     startActivity(intent);
                 }
             }
@@ -209,7 +210,7 @@ public class UserProgressActivity extends BaseNoTitleActivity {
                             return;
                         }
                         JSONArray resultArray = data
-                                .optJSONArray(Net.LIST);
+                                .optJSONArray("list");
                         if (resultArray == null
                                 || resultArray.length() == 0) {
                             if (beginIndex > 0) {

@@ -16,6 +16,7 @@ import com.badou.mworking.adapter.ChatterHotAdapter;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseFragment;
 import com.badou.mworking.entity.ChatterHot;
+import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
@@ -117,7 +118,7 @@ public class ChatterHotFragment extends BaseFragment {
                         }
                         // 加载到最后时 提示无更新
                         JSONArray resultArray = contentObject
-                                .optJSONArray(Net.LIST);
+                                .optJSONArray("list");
                         if (resultArray == null || resultArray.length() == 0) {
                             if (beginNum > 1) {
                                 ToastUtil.showUpdateToast(mContext);
@@ -136,8 +137,7 @@ public class ChatterHotFragment extends BaseFragment {
                         }
 
                         if (beginNum == 1) {// 页码为1 重新加载第一页
-                            final String userNum = ((AppApplication) mContext.getApplicationContext())
-                                    .getUserInfo().account;
+                            final String userNum = UserInfo.getUserInfo().getAccount();
                             SP.putStringSP(mContext, SP.CHATTERHOT, userNum, resultArray.toString());
                             mChatterAdapter.setList(chatters);
                         } else {// 继续加载
@@ -151,8 +151,7 @@ public class ChatterHotFragment extends BaseFragment {
      * 功能描述:  获取缓存
      */
     public void getCache() {
-        final String userNum = ((AppApplication) mContext.getApplicationContext())
-                .getUserInfo().account;
+        final String userNum = UserInfo.getUserInfo().getAccount();
         ArrayList<Object> list = new ArrayList<>();
         String sp = SP.getStringSP(getActivity(), SP.CHATTERHOT, userNum, "");
         if (TextUtils.isEmpty(sp)) {

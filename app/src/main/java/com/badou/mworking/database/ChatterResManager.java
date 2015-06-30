@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.entity.Chatter;
+import com.badou.mworking.entity.user.UserInfo;
 
 public class ChatterResManager {
 
@@ -19,8 +20,7 @@ public class ChatterResManager {
         MTrainingDBHelper mTrainingDBHelper = MTrainingDBHelper
                 .getMTrainingDBHelper();
         SQLiteDatabase dbWriter = mTrainingDBHelper.getDatabase();
-        String userNum = ((AppApplication) context.getApplicationContext())
-                .getUserInfo().account;
+        String userNum = UserInfo.getUserInfo().getAccount();
         try {
 
             dbWriter.insert(MTrainingDBHelper.TBL_NAME_TONG_SHI_QUAN + userNum.replace("@", ""), null, question.getValues());
@@ -45,8 +45,7 @@ public class ChatterResManager {
         MTrainingDBHelper mTrainingDBHelper = MTrainingDBHelper
                 .getMTrainingDBHelper();
         SQLiteDatabase dbReader = mTrainingDBHelper.getDatabase();
-        String userNum = ((AppApplication) context.getApplicationContext())
-                .getUserInfo().account;
+        String userNum = UserInfo.getUserInfo().getAccount();
         try {
 
             Cursor c1 = dbReader.query(MTrainingDBHelper.TBL_NAME_TONG_SHI_QUAN  + userNum.replace("@", ""),

@@ -4,6 +4,10 @@ import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+
+import com.badou.mworking.R;
 
 /**
  * Created by Administrator on 2015/5/19.
@@ -11,13 +15,25 @@ import android.view.View;
  */
 public class IntroductionPagerAdapter extends PagerAdapter {
 
-    private Context mContext;
+    public static final int COUNT_IMAGE = 4;
 
     private View[] mViewArray;
 
-    public IntroductionPagerAdapter(Context context, View[] viewArray) {
-        this.mContext = context;
-        this.mViewArray = viewArray;
+    public IntroductionPagerAdapter(Context context) {
+        this.mViewArray = createViews(context);
+    }
+
+    private View[] createViews(Context context) {
+        View[] views = new View[COUNT_IMAGE];
+
+        for (int i = 0; i < COUNT_IMAGE; i++) {
+            ImageView imageView = new ImageView(context);
+            imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imageView.setImageResource(R.drawable.background_welcome_1 + i);
+            views[i] = imageView;
+        }
+        return views;
     }
 
     /**

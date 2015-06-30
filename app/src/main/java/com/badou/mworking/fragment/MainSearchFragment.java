@@ -25,10 +25,11 @@ import com.badou.mworking.MainGridActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.adapter.MainSearchAdapter;
 import com.badou.mworking.base.BaseFragment;
-import com.badou.mworking.entity.Main.MainIcon;
+import com.badou.mworking.entity.main.MainIcon;
 import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.CategoryBasic;
 import com.badou.mworking.entity.category.CategoryDetail;
+import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.net.ServiceProvider;
@@ -203,7 +204,7 @@ public class MainSearchFragment extends BaseFragment {
     private void initData() {
         this.mCategoryNames = new String[COUNT_CATEGORY];
         for (int ii = 0; ii < COUNT_CATEGORY; ii++) {
-            mCategoryNames[ii] = MainIcon.getMainIcon(mContext, KEY_CATEGORY_NAME[ii]).name;
+            mCategoryNames[ii] = UserInfo.getUserInfo().getShuffle().getMainIcon(mContext, KEY_CATEGORY_NAME[ii]).getName();
         }
         mResultAdpater = new MainSearchAdapter(mContext, mCategoryNames);
         mResultListView.setAdapter(mResultAdpater);

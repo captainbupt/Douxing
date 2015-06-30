@@ -24,6 +24,7 @@ public class GsonUtil {
         return gson.toJson(object);
     }
 
+    // Collect需要使用此方法
     public static String toJson(Object object, Type type) {
         return gson.toJson(object, type);
     }

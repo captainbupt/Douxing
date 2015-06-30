@@ -6,24 +6,26 @@ import com.google.gson.annotations.SerializedName;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.List;
 
-public class BaseNetEntity<T> {
+public class BaseNetListEntity<T> {
+
     @SerializedName(Net.CODE)
     @Expose
     int errcode;
     @SerializedName(Net.DATA)
     @Expose
-    T data;
+    List<T> data;
 
-    public static BaseNetEntity fromJson(String json, Class clazz) {
+    public static BaseNetListEntity fromJson(String json, Class clazz) {
         Gson gson = new Gson();
-        Type objectType = type(BaseNetEntity.class, clazz);
+        Type objectType = type(BaseNetListEntity.class, clazz);
         return gson.fromJson(json, objectType);
     }
 
     public String toJson(Class<T> clazz) {
         Gson gson = new Gson();
-        Type objectType = type(BaseNetEntity.class, clazz);
+        Type objectType = type(BaseNetListEntity.class, clazz);
         return gson.toJson(this, objectType);
     }
 
@@ -43,11 +45,4 @@ public class BaseNetEntity<T> {
         };
     }
 
-    public int getErrcode() {
-        return errcode;
-    }
-
-    public T getData() {
-        return data;
-    }
 }

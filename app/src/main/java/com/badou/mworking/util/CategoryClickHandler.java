@@ -13,10 +13,11 @@ import com.badou.mworking.TrainMusicActivity;
 import com.badou.mworking.TrainVideoActivity;
 import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.base.BaseStatisticalActionBarActivity;
-import com.badou.mworking.entity.Main.MainIcon;
+import com.badou.mworking.entity.main.MainIcon;
 import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.CategoryDetail;
 import com.badou.mworking.entity.category.Task;
+import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.ServiceProvider;
 
 import java.io.File;
@@ -32,7 +33,7 @@ public class CategoryClickHandler {
     }
 
     public static void goNextPage(Context context, CategoryDetail categoryDetail) {
-        String title = MainIcon.getMainIcon(context, Category.CATEGORY_KEY_ICONS[categoryDetail.type]).name;
+        String title = UserInfo.getUserInfo().getShuffle().getMainIcon(context, Category.CATEGORY_KEY_ICONS[categoryDetail.type]).getName();
         if (categoryDetail.type == Category.CATEGORY_NOTICE || categoryDetail.type == Category.CATEGORY_TRAINING || categoryDetail.type == Category.CATEGORY_SHELF) {
             if (Constant.MWKG_FORAMT_TYPE_PDF == categoryDetail.format) { //返回PDF格式
                 goPDFAndWeb(context, categoryDetail.type, categoryDetail.rid, categoryDetail.url, title);

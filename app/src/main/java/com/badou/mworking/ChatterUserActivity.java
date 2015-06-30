@@ -13,6 +13,7 @@ import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.entity.Chatter;
 import com.badou.mworking.entity.user.UserChatterInfo;
+import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
@@ -129,7 +130,7 @@ public class ChatterUserActivity extends BaseNoTitleActivity {
     }
 
     private void initData() {
-        String selfUid = ((AppApplication) getApplication()).getUserInfo().userId;
+        String selfUid = UserInfo.getUserInfo().getUid();
         mUid = mReceivedIntent.getStringExtra(KEY_UID);
         if (mUid.equals(selfUid)) {
             mTitleTextView.setText(R.string.chatter_user_title_myself);
@@ -148,7 +149,7 @@ public class ChatterUserActivity extends BaseNoTitleActivity {
     }
 
     private void updateData(final int beginNum) {
-        final String selfuid = ((AppApplication) getApplication()).getUserInfo().userId;
+        final String selfuid = UserInfo.getUserInfo().getUid();
         // 发起网络请求
         ServiceProvider.doGetUserChatterList(mContext, "share", mUid, beginNum,
                 Constant.LIST_ITEM_NUM, new VolleyListener(mContext) {
@@ -175,7 +176,7 @@ public class ChatterUserActivity extends BaseNoTitleActivity {
                         ImageViewLoader.setCircleImageViewResource(mHeadImageView, imgUrl, getResources().getDimensionPixelSize(R.dimen.user_center_image_head_size));
                         // 加载到最后时 提示无更新
                         JSONArray resultArray = contentObject
-                                .optJSONObject(Net.LIST).optJSONArray(Net.RESULT);
+                                .optJSONObject("list").optJSONArray("result");
                         if (resultArray == null || resultArray.length() == 0) {
                             if (beginNum > 1) {
                                 ToastUtil.showUpdateToast(mContext);

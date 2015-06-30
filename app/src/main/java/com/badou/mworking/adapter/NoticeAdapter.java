@@ -10,6 +10,7 @@ import com.badou.mworking.R;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.entity.category.Notice;
+import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.SP;
 import com.badou.mworking.util.TimeTransfer;
@@ -82,7 +83,7 @@ public class NoticeAdapter extends MyBaseAdapter {
      * @param position
      */
     public void read(int position) {
-        String userNum = ((AppApplication) mContext.getApplicationContext()).getUserInfo().account;
+        String userNum = UserInfo.getUserInfo().getAccount();
         Notice notice = (Notice) getItem(position);
         if (!notice.isRead()) {
             notice.read = Constant.READ_YES;

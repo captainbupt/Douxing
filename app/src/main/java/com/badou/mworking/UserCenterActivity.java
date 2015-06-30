@@ -16,6 +16,7 @@ import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.user.UserChatterInfo;
 import com.badou.mworking.entity.user.UserDetail;
+import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.bitmap.BitmapLruCache;
@@ -202,8 +203,7 @@ public class UserCenterActivity extends BaseNoTitleActivity {
     private void initData() {
         // 获取用户的uid
         try {
-            mUid = ((AppApplication) mContext.getApplicationContext())
-                    .getUserInfo().userId;
+            mUid = UserInfo.getUserInfo().getUid();
             // 根据uid拿到用户头像的路径
             finalImgPath = mActivity.getExternalFilesDir(
                     Environment.DIRECTORY_PICTURES).getAbsolutePath()
@@ -415,8 +415,7 @@ public class UserCenterActivity extends BaseNoTitleActivity {
 
                 @Override
                 public void onClick(View arg0) {
-                    String userId = ((AppApplication) mContext.getApplicationContext())
-                            .getUserInfo().userId;
+                    String userId = UserInfo.getUserInfo().getUid();
                     Intent intent = new Intent(mContext, BackWebActivity.class);
                     intent.putExtra("title", "等级介绍");
                     intent.putExtra(BackWebActivity.KEY_URL, Constant.LV_URL + userId);

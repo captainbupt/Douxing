@@ -46,9 +46,7 @@ public class AccountManageActivity extends BaseBackActionBarActivity {
     }
 
     private void initialize(){
-        presenter = new AccountManagerPresenter();
-        presenter.setAccountManageActivity(this);
-        presenter.initialize();
+        presenter = new AccountManagerPresenter(this);
     }
 
     public void disableButton() {

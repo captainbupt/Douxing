@@ -1,5 +1,6 @@
 package com.badou.mworking;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -38,6 +39,9 @@ public class ForgetPassWordActivity extends BaseBackActionBarActivity {
     private static final int totalTime = 120;
     private int recLen = totalTime;
 
+    public static Intent getIntent(Context context) {
+        return new Intent(context, ForgetPassWordActivity.class);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,7 +146,7 @@ public class ForgetPassWordActivity extends BaseBackActionBarActivity {
                 Intent intent = new Intent(mContext, TipsWebView.class);
                 intent.putExtra(BackWebActivity.KEY_URL,
                         "http://mworking.cn/badou/verify-help.html");
-                intent.putExtra(TipsWebView.KEY_TITLE,getResources().getString(R.string.notGetMsg));
+                intent.putExtra(TipsWebView.KEY_TITLE, getResources().getString(R.string.notGetMsg));
                 startActivity(intent);
             }
         });

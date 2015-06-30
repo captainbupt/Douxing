@@ -55,8 +55,8 @@ public class AboutUsActivity extends BaseBackActionBarActivity {
     }
 
     private void initData() {
-        cbSave.setChecked(SPUtil.getSaveInternetOption(mContext));
-        cbPush.setChecked(SPUtil.getClosePushOption(mContext));
+        cbSave.setChecked(SPUtil.getSaveInternetOption());
+        cbPush.setChecked(SPUtil.getClosePushOption());
         tvInfo.setText(mContext.getResources().getString(
                 R.string.app_name)
                 + AppApplication.appVersion);
@@ -151,9 +151,9 @@ public class AboutUsActivity extends BaseBackActionBarActivity {
     @OnCheckedChanged(R.id.cb_save)
     void saveInternetOption(CompoundButton buttonView, boolean isChecked) {
         if (isChecked) {
-            SPUtil.setSaveInternetOption(mContext, true);
+            SPUtil.setSaveInternetOption( true);
         } else {
-            SPUtil.setSaveInternetOption(mContext, false);
+            SPUtil.setSaveInternetOption( false);
         }
     }
 
@@ -161,12 +161,12 @@ public class AboutUsActivity extends BaseBackActionBarActivity {
     @OnCheckedChanged(R.id.cb_push)
     void closePushOption(CompoundButton buttonView, boolean isChecked) {
         if (isChecked) {
-            SPUtil.setClosePushOption(mContext, true);
+            SPUtil.setClosePushOption( true);
             JPushInterface.stopPush(getApplicationContext());   //推送关闭
             AlarmUtil alarmUtil = new AlarmUtil();
             alarmUtil.cancel(mContext);
         } else {
-            SPUtil.setClosePushOption(mContext, false);
+            SPUtil.setClosePushOption( false);
             JPushInterface.resumePush(getApplicationContext());    //推送打开
             AlarmUtil alarmUtil = new AlarmUtil();
             alarmUtil.OpenTimer(mContext);

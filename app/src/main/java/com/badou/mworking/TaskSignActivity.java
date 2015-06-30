@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseStatisticalActionBarActivity;
 import com.badou.mworking.entity.category.Task;
+import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
@@ -267,8 +268,7 @@ public class TaskSignActivity extends BaseStatisticalActionBarActivity implement
         }
         String lat = String.valueOf(location.getLatitude());
         String lon = String.valueOf(location.getLongitude());
-        String uid = ((AppApplication) getApplicationContext())
-                .getUserInfo().userId;
+        String uid = UserInfo.getUserInfo().getUid();
         ServiceProvider.doUpdateBitmap(mContext, photo,
                 Net.getRunHost(mContext) + Net.SIGN(task.rid, uid, lat, lon),
                 new VolleyListener(mContext) {
@@ -291,8 +291,7 @@ public class TaskSignActivity extends BaseStatisticalActionBarActivity implement
                             task.place = locationStr;
                         }
                         // 签到成功， 减去1
-                        String userNum = ((AppApplication) getApplicationContext())
-                                .getUserInfo().account;
+                        String userNum = UserInfo.getUserInfo().getAccount();
                         int unreadNum = SP.getIntSP(mContext, SP.DEFAULTCACHE, userNum + Task.CATEGORY_KEY_UNREAD_NUM, 0);
                         if (unreadNum > 0) {
                             SP.putIntSP(mContext, SP.DEFAULTCACHE, userNum + Task.CATEGORY_KEY_UNREAD_NUM, unreadNum - 1);

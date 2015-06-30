@@ -10,7 +10,9 @@ import android.widget.TextView;
 
 import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.base.BaseBackActionBarActivity;
-import com.badou.mworking.entity.Main.MainIcon;
+import com.badou.mworking.entity.main.MainIcon;
+import com.badou.mworking.entity.main.Shuffle;
+import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
@@ -107,7 +109,7 @@ public class AskSubmitActivity extends BaseBackActionBarActivity {
                     public void onResponseSuccess(JSONObject response) {
                         Intent intent = new Intent(mContext, AskActivity.class);
                         intent.putExtra(BaseActionBarActivity.KEY_TITLE,
-                                MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_ASK, R.drawable.button_ask, R.string.module_default_title_ask).name);
+                                UserInfo.getUserInfo().getShuffle().getMainIcon(mContext, Shuffle.BUTTON_ASK).getName());
                         startActivity(intent);
                         finish();
                     }

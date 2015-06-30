@@ -13,6 +13,7 @@ import com.badou.mworking.R;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.entity.category.Train;
+import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.bitmap.BitmapLruCache;
 import com.badou.mworking.net.bitmap.NormalImageListener;
 import com.badou.mworking.net.volley.MyVolley;
@@ -110,8 +111,7 @@ public class TrainAdapter extends MyBaseAdapter {
      * @param position
      */
     public void read(int position) {
-        String userNum = ((AppApplication) mContext.getApplicationContext())
-                .getUserInfo().account;
+        String userNum = UserInfo.getUserInfo().getAccount();
         Train train = (Train) getItem(position);
         if (train.isRead()) {
             train.read = Constant.READ_YES;
