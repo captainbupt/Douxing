@@ -95,9 +95,10 @@ public class ChatterUserActivity extends BaseNoTitleActivity {
                 updateData(mCurrentPage);
             }
         });
-        mChatterAdapter = new ChatterListAdapter(mContext, new AdapterView.OnItemClickListener() {
+        mChatterAdapter = new ChatterListAdapter(mContext, false);
+        mContentListView.setOnItemClickListener(new NoScrollListView.OnNoScrollItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(View v, int position, long id) {
                 mClickPosition = position;
                 // 跳转到单条的Item的页面，并传递数据
                 Chatter chatter = (Chatter) mChatterAdapter.getItem(position);
@@ -105,7 +106,7 @@ public class ChatterUserActivity extends BaseNoTitleActivity {
                 intent.putExtra(ChatterDetailActivity.KEY_CHATTER, chatter);
                 startActivityForResult(intent, REQUEST_CHATTER_DETAIL);
             }
-        }, false);
+        });
         mContentListView.setAdapter(mChatterAdapter);
     }
 

@@ -9,6 +9,7 @@ import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -179,7 +180,7 @@ public class MainGridActivity extends BaseNoTitleActivity {
                         break;
                     case RequestParameters.CHK_UPDATA_PIC_TRAINING: // 微培训
                         intent.setClass(mContext, TrainActivity.class);
-                        intent.putExtra(TrainActivity.KEY_TRAINING, true);
+                        intent.putExtra(TrainActivity.KEY_IS_TRAINING, true);
                         break;
                     case RequestParameters.CHK_UPDATA_PIC_EXAM: // 在线考试
                         intent.setClass(mContext, ExamActivity.class);
@@ -201,7 +202,7 @@ public class MainGridActivity extends BaseNoTitleActivity {
                         break;
                     case RequestParameters.CHK_UPDATA_PIC_SHELF: //橱窗
                         intent.setClass(mContext, TrainActivity.class);
-                        intent.putExtra(TrainActivity.KEY_TRAINING, false);
+                        intent.putExtra(TrainActivity.KEY_IS_TRAINING, false);
                         break;
                 }
                 intent.putExtra(BaseActionBarActivity.KEY_TITLE, mainIcon.getName());
@@ -298,7 +299,11 @@ public class MainGridActivity extends BaseNoTitleActivity {
                 int pos = position % bList.size();
                 Intent intent = new Intent(mContext, BackWebActivity.class);
                 intent.putExtra(BackWebActivity.KEY_URL, ((MainBanner) bList.get(pos)).getBannerContentURL() + "");
-                intent.putExtra(BackWebActivity.KEY_LOGO_URL, mLogoUrl);
+                if (TextUtils.isEmpty(mLogoUrl)) {
+                    intent.putExtra(BackWebActivity.KEY_LOGO_URL, "invalid"); // 非法值
+                } else {
+                    intent.putExtra(BackWebActivity.KEY_LOGO_URL, mLogoUrl);
+                }
                 startActivity(intent);
             }
         });

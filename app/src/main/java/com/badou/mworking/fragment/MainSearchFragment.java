@@ -1,6 +1,7 @@
 package com.badou.mworking.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -145,8 +146,8 @@ public class MainSearchFragment extends BaseFragment {
                         if (!mActivity.isFinishing()) {
                             progressDialog.dismiss();
                         }
-                        CategoryDetail detail = new CategoryDetail(mContext, jsonObject.optJSONObject(Net.DATA), basic.type, basic.rid, basic.subject, null);
-                        CategoryClickHandler.categoryClicker(mContext, detail);
+                        Category c = Category.getCategoryFromDetail(new CategoryDetail(mContext, jsonObject.optJSONObject(Net.DATA), basic.type, basic.rid, basic.subject, null));
+                        startActivity(CategoryClickHandler.getIntent(mContext, c));
                     }
 
                     @Override

@@ -12,9 +12,6 @@ import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ResponseParameters;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
-import com.badou.mworking.util.CategoryClickHandler;
-import com.badou.mworking.util.NetUtils;
-import com.badou.mworking.util.ToastUtil;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -24,19 +21,16 @@ import org.json.JSONObject;
  */
 public class TrainActivity extends BaseCategoryProgressListActivity {
 
-    public static final int PROGRESS_CHANGE = 10;
-    public static final int PROGRESS_MAX = 11;
-    public static final int PROGRESS_FINISH = 12;
-    public static final String KEY_RATING = "rating";
-    public static final String KEY_RID = "rid";
-    public static final String KEY_TRAINING = "training";
+    public static final String KEY_IS_TRAINING = "training";
+    private boolean isTraining;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         mReceivedIntent = getIntent();
-        if (mReceivedIntent.getBooleanExtra(KEY_TRAINING, true)) {
-            CATEGORY_NAME = Train.CATEGORY_KEY_NAME;
-            CATEGORY_UNREAD_NUM = Train.CATEGORY_KEY_UNREAD_NUM;
+        isTraining = mReceivedIntent.getBooleanExtra(KEY_IS_TRAINING, true);
+        if (mReceivedIntent.getBooleanExtra(KEY_IS_TRAINING, true)) {
+            CATEGORY_NAME = Category.CATEGORY_KEY_NAMES[Category.CATEGORY_TRAINING];
+            CATEGORY_UNREAD_NUM = Category.CATEGORY_KEY_UNREADS[Category.CATEGORY_TRAINING];
         } else {
             CATEGORY_NAME = Category.CATEGORY_KEY_NAMES[Category.CATEGORY_SHELF];
             CATEGORY_UNREAD_NUM = Category.CATEGORY_KEY_UNREADS[Category.CATEGORY_SHELF];
@@ -52,32 +46,22 @@ public class TrainActivity extends BaseCategoryProgressListActivity {
 
     @Override
     protected Object parseObject(JSONObject jsonObject) {
-        return new Train(jsonObject);
+        return new Train(mContext, jsonObject, isTraining);
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_DETAIL && resultCode == RESULT_OK) {
+            if (mClickPosition >= 0 && mClickPosition < mCategoryAdapter.getCount()) {
+                Train train = (Train) data.getSerializableExtra(TrainBaseActivity.RESPONSE_TRAINING);
+                if (!train.isAvailable()) {
+                    setRead(mClickPosition);
+                }
+                mCategoryAdapter.setItem(mClickPosition, train);
+            }
+        }
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            int rating = data.getIntExtra(KEY_RATING, 0);
-            String rid = data.getStringExtra(KEY_RID);
-            ((TrainAdapter) mCategoryAdapter).updateRating(rid, rating);
-        }
-    }
-
-    @Override
-    public void onItemClick(int position) {
-        Train train = (Train) mCategoryAdapter.getItem(position - 1);
-
-        if (NetUtils.isNetConnected(mContext)) {
-            CategoryClickHandler.categoryClicker(mContext, new CategoryDetail(mContext, train));
-            // 向服务提交课件信息
-            ((TrainAdapter) mCategoryAdapter).read(position - 1);
-            mCategoryAdapter.notifyDataSetChanged();
-        } else {
-            ToastUtil.showNetExc(mContext);
-        }
-
     }
 
     @Override

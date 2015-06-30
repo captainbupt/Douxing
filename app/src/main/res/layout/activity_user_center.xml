@@ -84,7 +84,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/offset_less"
+                android:layout_marginTop="@dimen/offset_lless"
                 android:background="@color/color_white"
                 android:orientation="vertical"
                 android:paddingLeft="@dimen/offset_medium"
@@ -96,10 +96,9 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:paddingBottom="@dimen/offset_less"
-                    android:paddingLeft="@dimen/offset_less"
-                    android:paddingRight="@dimen/offset_small"
-                    android:paddingTop="@dimen/offset_less">
+                    android:paddingBottom="@dimen/offset_lless"
+                    android:paddingLeft="@dimen/offset_small"
+                    android:paddingTop="@dimen/offset_lless">
 
                     <ImageView
                         android:layout_width="@dimen/user_center_icon_content"
@@ -162,10 +161,9 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:paddingBottom="@dimen/offset_less"
-                    android:paddingLeft="@dimen/offset_less"
-                    android:paddingRight="@dimen/offset_small"
-                    android:paddingTop="@dimen/offset_less">
+                    android:paddingBottom="@dimen/offset_lless"
+                    android:paddingLeft="@dimen/offset_small"
+                    android:paddingTop="@dimen/offset_lless">
 
                     <ImageView
                         android:layout_width="@dimen/user_center_icon_content"
@@ -202,7 +200,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/offset_small"
+                android:layout_marginTop="@dimen/offset_less"
                 android:background="@color/color_white"
                 android:orientation="vertical"
                 android:paddingLeft="@dimen/offset_medium"
@@ -215,10 +213,9 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:paddingBottom="@dimen/offset_less"
-                    android:paddingLeft="@dimen/offset_less"
-                    android:paddingRight="@dimen/offset_small"
-                    android:paddingTop="@dimen/offset_less">
+                    android:paddingBottom="@dimen/offset_lless"
+                    android:paddingLeft="@dimen/offset_small"
+                    android:paddingTop="@dimen/offset_lless">
 
                     <ImageView
                         android:layout_width="@dimen/user_center_icon_content"
@@ -259,10 +256,9 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:paddingBottom="@dimen/offset_less"
-                    android:paddingLeft="@dimen/offset_less"
-                    android:paddingRight="@dimen/offset_small"
-                    android:paddingTop="@dimen/offset_less">
+                    android:paddingBottom="@dimen/offset_lless"
+                    android:paddingLeft="@dimen/offset_small"
+                    android:paddingTop="@dimen/offset_lless">
 
                     <ImageView
                         android:layout_width="@dimen/user_center_icon_content"
@@ -283,12 +279,63 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="@dimen/offset_less"
+                        android:background="@drawable/icon_chat_unread"
+                        android:gravity="center"
+                        android:paddingBottom="1dp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="1dp"
+                        android:textColor="@color/color_white"
+                        android:textSize="@dimen/text_size_less"
+                        android:visibility="gone" />
+
+                    <ImageView
+                        android:layout_width="@dimen/user_center_icon_forward_width"
+                        android:layout_height="@dimen/user_center_icon_forward_height"
+                        android:src="@drawable/icon_user_center_forward" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/color_bg_grey" />
+
+                <LinearLayout
+                    android:id="@+id/ll_user_center_store"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/offset_lless"
+                    android:paddingLeft="@dimen/offset_small"
+                    android:paddingTop="@dimen/offset_lless">
+
+                    <ImageView
+                        android:layout_width="@dimen/user_center_icon_content"
+                        android:layout_height="@dimen/user_center_icon_content"
+                        android:src="@drawable/icon_user_center_store" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/offset_less"
+                        android:layout_weight="1.0"
+                        android:text="@string/user_center_my_store"
+                        android:textColor="@color/color_text_black"
+                        android:textSize="@dimen/text_size_medium" />
+
+                    <TextView
+                        android:id="@+id/tv_user_center_store_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/offset_less"
+                        android:background="@drawable/icon_chat_unread"
                         android:gravity="center"
                         android:paddingBottom="1dp"
                         android:paddingLeft="4dp"
                         android:paddingRight="4dp"
                         android:paddingTop="1dp"
-                        android:textColor="@color/color_text_black"
+                        android:textColor="@color/color_white"
                         android:textSize="@dimen/text_size_less"
                         android:visibility="gone" />
 
@@ -302,7 +349,7 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/offset_small"
+                android:layout_marginTop="@dimen/offset_less"
                 android:background="@color/color_white"
                 android:paddingLeft="@dimen/offset_medium"
                 android:paddingRight="@dimen/offset_medium">
@@ -313,10 +360,9 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:paddingBottom="@dimen/offset_less"
-                    android:paddingLeft="@dimen/offset_less"
-                    android:paddingRight="@dimen/offset_small"
-                    android:paddingTop="@dimen/offset_less">
+                    android:paddingBottom="@dimen/offset_lless"
+                    android:paddingLeft="@dimen/offset_small"
+                    android:paddingTop="@dimen/offset_lless">
 
                     <ImageView
                         android:layout_width="@dimen/user_center_icon_content"

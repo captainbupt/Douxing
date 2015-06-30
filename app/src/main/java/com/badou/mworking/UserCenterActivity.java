@@ -53,6 +53,7 @@ public class UserCenterActivity extends BaseNoTitleActivity {
     private Bitmap headBmp;
     private String imgCacheUrl = "";
     private TextView chatNumTextView;   //聊天未读数量
+    private TextView storeNumTextView;   //收藏数量
 
     private ImageChooser mImageChooser;
 
@@ -79,6 +80,7 @@ public class UserCenterActivity extends BaseNoTitleActivity {
         // 用户头像
         ivUserHeadIcon = (ImageView) findViewById(R.id.iv_user_center_top_head);
         levelTextView = (TextView) findViewById(R.id.tv_user_center_top_level);
+        storeNumTextView = (TextView) findViewById(R.id.tv_user_center_store_number);
 
     }
 
@@ -130,8 +132,7 @@ public class UserCenterActivity extends BaseNoTitleActivity {
 
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(mActivity,
-                                UserProgressActivity.class);
+                        Intent intent = new Intent(mActivity, UserProgressActivity.class);
                         Bundle bundle = new Bundle();
                         bundle.putSerializable(UserProgressActivity.KEY_USERINFO, mUserDetail);
                         intent.putExtras(bundle);
@@ -159,8 +160,7 @@ public class UserCenterActivity extends BaseNoTitleActivity {
 
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(mActivity,
-                                UserProgressActivity.class);
+                        Intent intent = new Intent(mActivity, UserProgressActivity.class);
                         Bundle bundle = new Bundle();
                         bundle.putSerializable(UserProgressActivity.KEY_USERINFO, mUserDetail);
                         intent.putExtras(bundle);
@@ -174,8 +174,7 @@ public class UserCenterActivity extends BaseNoTitleActivity {
                 .setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(mActivity,
-                                ChatListActivity.class);
+                        Intent intent = new Intent(mActivity, ChatListActivity.class);
                         intent.putExtra(ChatListActivity.KEY_HEAD_URL, mUserDetail.headimg);
                         startActivity(intent);
                     }
@@ -185,8 +184,7 @@ public class UserCenterActivity extends BaseNoTitleActivity {
                 .setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startActivity(new Intent(mActivity,
-                                AccountManageActivity.class));
+                        startActivity(new Intent(mActivity, AccountManageActivity.class));
                     }
                 });
         // 进入关于我们
@@ -194,8 +192,14 @@ public class UserCenterActivity extends BaseNoTitleActivity {
 
             @Override
             public void onClick(View arg0) {
-                startActivity(new Intent(mActivity,
-                        AboutUsActivity.class));
+                startActivity(new Intent(mActivity, AboutUsActivity.class));
+            }
+        });
+
+        findViewById(R.id.ll_user_center_store).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(mActivity, StoreActivity.class));
             }
         });
     }
@@ -216,6 +220,16 @@ public class UserCenterActivity extends BaseNoTitleActivity {
         mProgressDialog.setContent(R.string.user_detail_download_ing);
 
         mProgressDialog.show();
+        updateData();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateData();
+    }
+
+    private void updateData() {
         // 获取用户详情
         ServiceProvider.doOptainUserDetail(mContext, mUid, new VolleyListener(
                 mContext) {
@@ -361,12 +375,15 @@ public class UserCenterActivity extends BaseNoTitleActivity {
         if (nmsg > 0) {
             chatNumTextView.setVisibility(View.VISIBLE);
             chatNumTextView.setText(nmsg + "");
-            // 如果是两位数的话，换一个背景
-            if (nmsg > 9) {
-                chatNumTextView.setBackgroundResource(R.drawable.icon_chat_unread_long);
-            } else {
-                chatNumTextView.setBackgroundResource(R.drawable.icon_chat_unread);
-            }
+        } else {
+            chatNumTextView.setVisibility(View.GONE);
+        }
+        int storeNumber = mUserDetail.store;
+        if (storeNumber > 0) {
+            storeNumTextView.setVisibility(View.VISIBLE);
+            storeNumTextView.setText(storeNumber + "");
+        } else {
+            storeNumTextView.setVisibility(View.GONE);
         }
 
     }

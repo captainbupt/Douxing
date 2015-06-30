@@ -31,6 +31,20 @@ public class NoneResultView extends LinearLayout {
         mTextView = (TextView) findViewById(R.id.tv_view_none_result);
     }
 
+    public void initAttr(Context context, AttributeSet attrs) {
+        setOrientation(VERTICAL);
+        if (attrs != null) {
+            TypedArray typedArray = context.obtainStyledAttributes(attrs,
+                    R.styleable.NoneResultView);
+            int imgResId = typedArray.getColor(
+                    R.styleable.NoneResultView_imgSrc, -1);
+            int textResId = typedArray.getDimensionPixelOffset(
+                    R.styleable.NoneResultView_tipText, -1);
+            typedArray.recycle();
+            setContent(imgResId, textResId);
+        }
+    }
+
     public void setImageResource(int imgResId) {
         if (imgResId == -1) {
             mImageView.setVisibility(View.GONE);
@@ -39,8 +53,16 @@ public class NoneResultView extends LinearLayout {
         }
     }
 
+    public void setTextResource(int textResId) {
+        if (textResId == -1) {
+            mTextView.setVisibility(View.GONE);
+        } else {
+            mTextView.setText(textResId);
+        }
+    }
+
     public void setContent(int imgResId, int resultResId) {
         setImageResource(imgResId);
-        mTextView.setText(resultResId);
+        setTextResource(resultResId);
     }
 }

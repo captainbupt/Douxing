@@ -1,15 +1,16 @@
-package com.badou.mworking;
+package com.badou.mworking.fragment;
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
-import com.badou.mworking.base.BaseStatisticalActionBarActivity;
+import com.badou.mworking.R;
+import com.badou.mworking.base.BaseFragment;
 import com.badou.mworking.util.FileUtils;
 import com.badou.mworking.util.SPUtil;
 import com.badou.mworking.util.ToastUtil;
-import com.badou.mworking.widget.BottomRatingAndCommentView;
 import com.badou.mworking.widget.HorizontalProgressDialog;
 import com.joanzapata.pdfview.PDFView;
 import com.lidroid.xutils.HttpUtils;
@@ -20,54 +21,51 @@ import com.lidroid.xutils.http.callback.RequestCallBack;
 
 import java.io.File;
 
-/**
- * 功能描述: pdf 显示页面
- */
-public class PDFViewerActivity extends BaseStatisticalActionBarActivity {
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
-    public static final String KEY_SHOW_RATING = "rating";
-    public static final String KEY_SHOW_COMMENT = "comment";
+public class PDFViewFragment extends BaseFragment {
+
+    public static final String KEY_RID = "rid";
     public static final String KEY_URL = "url";
 
-    public static HorizontalProgressDialog progressDialog;
+    @InjectView(R.id.pdf_view)
+    PDFView mPdfView;
 
-    private PDFView mPdfView;
-    private BottomRatingAndCommentView mBottomView;
+    private String mRid;
     private String mFilePath;
-    private HttpHandler mHttpHandler;
+    private HttpHandler<File> mHttpHandler;
+    private HorizontalProgressDialog progressDialog;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pdf_viewer);
-        initView();
-        initData();
-
+    public static Bundle getArgument(String rid, String url) {
+        Bundle bundle = new Bundle();
+        bundle.putString(KEY_RID, rid);
+        bundle.putString(KEY_URL, url);
+        return bundle;
     }
 
-    protected void initView() {
-        mPdfView = (PDFView) this.findViewById(R.id.pdfview_activity_pdf_view);
-        mBottomView = (BottomRatingAndCommentView) findViewById(R.id.bracv_activity_pdf_view);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_pdf_view, container, false);
+        ButterKnife.inject(this, view);
+        initData();
+        return view;
     }
 
     /**
      * 初始化数据
      */
     private void initData() {
-        boolean showRating = mReceivedIntent.getBooleanExtra(KEY_SHOW_RATING, false);
-        if (showRating) {
-            mBottomView.setData(mRid, true, true);
-        } else {// 设置-1，用于隐藏评分选项
-            mBottomView.setData(mRid, false, true);
-        }
-        mBottomView.updateData();
+        Bundle bundle = getArguments();
+        mRid = bundle.getString(KEY_RID);
+        String mUrl = bundle.getString(KEY_URL);
         // 声明pdf文件要保存的路径
         mFilePath = FileUtils.getTrainCacheDir(mContext) + mRid + ".pdf";
         File file = new File(mFilePath);
         if (file.exists()) {
             showPdf();
         } else {
-            startDownload(mReceivedIntent.getStringExtra(KEY_URL));
+            startDownload(mUrl);
         }
     }
 
@@ -87,17 +85,15 @@ public class PDFViewerActivity extends BaseStatisticalActionBarActivity {
                 }, 1000);*/
             } else {
                 file.delete();
-                finish();
+                mActivity.finish();
                 ToastUtil.showToast(mContext, R.string.tips_pdf_view_open_error);
             }
             final File finalFile = file;
             mPdfView.setOnOpenPDFFailedListener(new PDFView.OnOpenPDFFailedListener() {
                 @Override
                 public void onOpenFailed() {
-                    if (finalFile != null) {
-                        finalFile.delete();
-                    }
-                    finish();
+                    finalFile.delete();
+                    mActivity.finish();
                     ToastUtil.showToast(mContext, R.string.tips_pdf_view_open_error);
                 }
             });
@@ -152,20 +148,13 @@ public class PDFViewerActivity extends BaseStatisticalActionBarActivity {
                 });
     }
 
-
     @Override
-    protected void onResume() {
-        super.onResume();
-        // 更新回复数
-        mBottomView.updateData();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        SPUtil.setPdfPage( mRid, mPdfView.getCurrentPage() + 1);
+    public void onDestroyView() {
+        SPUtil.setPdfPage(mRid, mPdfView.getCurrentPage() + 1);
         if (mHttpHandler != null) {
             mHttpHandler.cancel();
         }
+        super.onDestroyView();
+        ButterKnife.reset(this);
     }
 }

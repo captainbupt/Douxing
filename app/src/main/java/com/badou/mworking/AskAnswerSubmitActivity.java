@@ -74,15 +74,13 @@ public class AskAnswerSubmitActivity extends BaseBackActionBarActivity {
     private void initData() {
         mProgressDialog.setContent(R.string.progress_tips_submit_ing);
         mAid = mReceivedIntent.getStringExtra(KEY_AID);
-        setRightImage(R.drawable.button_title_send);
+        setRightImage(R.drawable.button_title_send, new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendReply();
+            }
+        });
         setActionbarTitle("回答");
-    }
-
-
-    @Override
-    public void clickRight() {
-        super.clickRight();
-        sendReply();
     }
 
     @Override

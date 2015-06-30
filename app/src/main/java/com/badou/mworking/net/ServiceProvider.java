@@ -1202,4 +1202,44 @@ public class ServiceProvider {
         MyVolley.getRequestQueue().start();
     }
 
+    public static void addStore(Context context, String sid, String type, VolleyListener volleyListener) {
+        String uid = UserInfo.getUserInfo().getUid();
+        JSONObject json = new JSONObject();
+        try {
+            json.put("uid", uid);
+            json.put("sid", sid);
+            json.put("type", type);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        MyVolley.getRequestQueue().add(
+                new JsonObjectRequest(Request.Method.POST, Net.getRunHost(context) + Net.addStore(),
+                        json, volleyListener, volleyListener));
+        MyVolley.getRequestQueue().start();
+    }
+
+    public static void deleteStore(Context context, String sid, String type, VolleyListener volleyListener) {
+        String uid = UserInfo.getUserInfo().getUid();
+        JSONObject json = new JSONObject();
+        try {
+            json.put("uid", uid);
+            json.put("sid", sid);
+            json.put("type", type);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        MyVolley.getRequestQueue().add(
+                new JsonObjectRequest(Request.Method.POST, Net.getRunHost(context) + Net.deleteStore(),
+                        json, volleyListener, volleyListener));
+        MyVolley.getRequestQueue().start();
+    }
+
+    public static void getStore(Context context, int pageNum, int itemNum, VolleyListener volleyListener) {
+        String uid = UserInfo.getUserInfo().getUid();
+        MyVolley.getRequestQueue().add(
+                new JsonObjectRequest(Request.Method.GET, Net.getRunHost(context) + Net.getStore(uid, pageNum, itemNum),
+                        null, volleyListener, volleyListener));
+        MyVolley.getRequestQueue().start();
+    }
+
 }

@@ -51,7 +51,7 @@
                         android:textSize="@dimen/text_size_medium" />
 
 
-                    <TextView
+                    <com.badou.mworking.widget.TextViewFixTouchConsume
                         android:id="@+id/tv_activity_chatter_detail_content"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

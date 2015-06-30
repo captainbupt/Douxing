@@ -1,11 +1,14 @@
 package com.badou.mworking.base;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
@@ -43,8 +46,11 @@ import java.util.List;
 
 public abstract class BaseCategoryProgressListActivity extends BaseBackActionBarActivity {
 
+    protected final int REQUEST_DETAIL = 1;
+
     private ImageView mTitleTriangleImageView;
     private View mTitleLayout;
+    private TextView mTitleReadTextView;
     private boolean status_menu_show = false;
 
     protected String CATEGORY_NAME = "";
@@ -71,6 +77,8 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
 
     protected PullToRefreshListView mContentListView;
 
+    protected int mClickPosition = -1;
+    private boolean isUnread = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +104,22 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
             ToastUtil.showNetExc(mContext);
             return;
         } else {
-            CategoryClickHandler.categoryClicker(mContext, new CategoryDetail(mContext, category));
+            startActivityForResult(CategoryClickHandler.getIntent(mContext, category), REQUEST_DETAIL);
+            mClickPosition = position - 1;
+        }
+    }
+
+    /**
+     * 功能描述: 设置已读
+     */
+    protected void setRead(int position) {
+        Category category = (Category) mCategoryAdapter.getItem(position);
+        if (category.isAvailable()) {
+            String userNum = UserInfo.getUserInfo().getAccount();
+            int unreadNum = SP.getIntSP(mContext, SP.DEFAULTCACHE, userNum + CATEGORY_UNREAD_NUM, 0);
+            if (unreadNum > 0) {
+                SP.putIntSP(mContext, SP.DEFAULTCACHE, userNum + CATEGORY_UNREAD_NUM, unreadNum - 1);
+            }
         }
     }
 
@@ -117,6 +140,14 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
      * 初始化action 布局
      */
     private void initProgressView() {
+        mTitleReadTextView = new TextView(mContext);
+        mTitleReadTextView.setText(R.string.category_unread);
+        mTitleReadTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(R.dimen.text_size_less));
+        int paddingLess = getResources().getDimensionPixelOffset(R.dimen.offset_less);
+        mTitleReadTextView.setPadding(paddingLess, 0, paddingLess, 0);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        layoutParams.setMargins(0, 0, paddingLess, 0);
+        mTitleReadTextView.setLayoutParams(layoutParams);
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mTitleLayout = inflater.inflate(R.layout.actionbar_progress, null);
         setTitleCustomView(mTitleLayout);
@@ -136,6 +167,13 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
     }
 
     private void initProgressListener() {
+        addTitleRightView(mTitleReadTextView, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isUnread = !isUnread;
+                setUnread(isUnread);
+            }
+        });
         mTitleLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -190,8 +228,7 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
         }
         mContentListView.setAdapter(mCategoryAdapter);
         setCategoryItemFromCache(tag);
-        //updateListView(0);
-        mContentListView.setRefreshing();
+        setUnread(false);
     }
 
     private class OnMainClassificationClickListener implements AdapterView.OnItemClickListener {
@@ -319,7 +356,7 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
         // 刷新的时候不显示缺省页面
         mNoneResultView.setVisibility(View.GONE);
         mContentListView.setVisibility(View.VISIBLE);
-        ServiceProvider.doUpdateLocalResource2(mContext, CATEGORY_NAME, tag, beginNum, Constant.LIST_ITEM_NUM, "", null,
+        ServiceProvider.doUpdateLocalResource2(mContext, CATEGORY_NAME, tag, beginNum, Constant.LIST_ITEM_NUM, "", isUnread ? "0" : null,
                 new VolleyListener(mContext) {
 
                     @Override
@@ -331,13 +368,11 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
                     @Override
                     public void onResponse(Object responseObject) {
                         super.onResponse(responseObject);
-                        System.out.println("response: " + responseObject);
                     }
 
                     @Override
                     public void onResponseSuccess(JSONObject response) {
-                        updateListFromJson(response
-                                .optJSONObject(Net.DATA), beginNum);
+                        updateListFromJson(response.optJSONObject(Net.DATA), beginNum);
                         mContentListView.onRefreshComplete();
                         hideProgressBar();
                         updateCompleted();
@@ -349,8 +384,7 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
     }
 
     private void updateListFromJson(JSONObject data, int beginNum) {
-        if (data == null
-                || data.equals("")) {
+        if (data == null || data.equals("")) {
             return;
         }
         final String userNum =  UserInfo.getUserInfo().getAccount();
@@ -374,13 +408,12 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
         }
         mNoneResultView.setVisibility(View.GONE);
         //添加缓存
-        if (mCategoryAdapter.getCount() == 0) {
+        if (beginNum == 0) {
             //添加缓存
             SP.putStringSP(mContext, CATEGORY_NAME, userNum + tag, resultArray.toString());
         }
         for (int i = 0; i < resultArray.length(); i++) {
-            JSONObject jsonObject = resultArray
-                    .optJSONObject(i);
+            JSONObject jsonObject = resultArray.optJSONObject(i);
             list.add(parseObject(jsonObject));
         }
         if (beginNum == 0) {
@@ -432,6 +465,17 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
             }
         });
         status_menu_show = false;
+    }
+
+    private void setUnread(boolean unread) {
+        if (unread) {
+            mTitleReadTextView.setTextColor(getResources().getColor(R.color.color_white));
+            mTitleReadTextView.setBackgroundResource(R.drawable.background_button_enable_blue_normal);
+        } else {
+            mTitleReadTextView.setTextColor(getResources().getColor(R.color.color_border_grey));
+            mTitleReadTextView.setBackgroundResource(R.drawable.background_border_radius_small_grey);
+        }
+        mContentListView.setRefreshing();
     }
 
 }

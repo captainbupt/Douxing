@@ -18,8 +18,8 @@ public class Net {
     public static final int SUCCESS = 0;
     public static final int LOGOUT = 50002;
 
-    public static String FORGET_PASSWORD = "/faq.html#wjmm";
-    public static String FAQ = "/faq.html";
+    public static final String FORGET_PASSWORD = "/faq.html#wjmm";
+    public static final String FAQ = "/faq.html";
 
     public static String MARK_READ(String rid, String uid) {
         return "/markread?sys=android" + AppApplication.SYSVERSION + "&ver="
@@ -31,7 +31,7 @@ public class Net {
                 + AppApplication.appVersion + "&uid=" + uid;
     }
 
-    public static String Http_Host_ip = "http://115.28.138.79";
+    public static final String Http_Host_ip = "http://115.28.138.79";
 
     public static String getRunHost(Context context) {
         String ip = SP.getStringSP(context, SP.DEFAULTCACHE, Net.HTTP_IP, "");
@@ -591,4 +591,20 @@ public class Net {
         return "/viewres?sys=android"
                 + AppApplication.SYSVERSION + "&ver=" + AppApplication.appVersion;
     }
+
+    public static String addStore() {
+        return "/addstore?sys=android"
+                + AppApplication.SYSVERSION + "&ver=" + AppApplication.appVersion;
+    }
+
+    public static String deleteStore() {
+        return "/delstore?sys=android"
+                + AppApplication.SYSVERSION + "&ver=" + AppApplication.appVersion;
+    }
+
+    public static String getStore(String uid, int pageNum, int itemNum) {
+        return "/getstore?sys=android" + AppApplication.SYSVERSION + "&ver=" + AppApplication.appVersion +
+                "&uid=" + uid + "&page_no=" + pageNum + "&item_per_page=" + itemNum;
+    }
+
 }
