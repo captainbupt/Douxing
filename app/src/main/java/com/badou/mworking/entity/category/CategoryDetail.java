@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.badou.mworking.base.AppApplication;
+import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ResponseParameters;
 
@@ -37,7 +38,7 @@ public class CategoryDetail {
         this.rid = rid;
         this.subject = subject;
         if (type == Category.CATEGORY_EXAM) {
-            String uid = ((AppApplication) context.getApplicationContext()).getUserInfo().userId;
+            String uid = UserInfo.getUserInfo().getUid();
             this.url = Net.getRunHost(context) + Net.EXAM_ITEM(uid, rid);
         }
         this.categoryName = categoryName;
@@ -77,10 +78,10 @@ public class CategoryDetail {
         this.subject = category.subject;
         this.tagName = category.getClassificationName(context);
         if (category.getCategoryType() == Category.CATEGORY_EXAM) {
-            String uid = ((AppApplication) context.getApplicationContext()).getUserInfo().userId;
+            String uid = UserInfo.getUserInfo().getUid();
             this.url = Net.getRunHost(context) + Net.EXAM_ITEM(uid, category.rid);
         } else {
-            this.url = category.url + "&uid=" + ((AppApplication) context.getApplicationContext()).getUserInfo().userId;
+            this.url = category.url + "&uid=" + UserInfo.getUserInfo().getUid();
         }
         this.format = category.subtype;
         if (category.getCategoryType() == Category.CATEGORY_TASK) {

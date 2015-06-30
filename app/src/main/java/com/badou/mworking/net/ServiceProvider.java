@@ -17,9 +17,11 @@ import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.badou.mworking.R;
 import com.badou.mworking.base.AppApplication;
+import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.volley.MyVolley;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.BitmapUtil;
+import com.badou.mworking.util.DensityUtil;
 import com.badou.mworking.util.EncryptionByMD5;
 import com.badou.mworking.util.FileUtils;
 import com.badou.mworking.util.ToastUtil;
@@ -163,8 +165,7 @@ public class ServiceProvider {
                                         VolleyListener volleyListener) {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put(RequestParameters.USER_ID, ((AppApplication) context
-                    .getApplicationContext()).getUserInfo().userId);
+            jsonObject.put(RequestParameters.USER_ID, UserInfo.getUserInfo().getUid());
             jsonObject
                     .put(RequestParameters.cp_ORIGINAL_PASSWORD, originalPassword);
             jsonObject.put(RequestParameters.cp_NEW_PASSWORD, newPassword);
@@ -181,8 +182,7 @@ public class ServiceProvider {
 
     public static void doUpdateLocalResource(Context context, String type,
                                              String ts, VolleyListener volleyListener) {
-        String uid = ((AppApplication) context.getApplicationContext())
-                .getUserInfo().userId;
+        String uid = UserInfo.getUserInfo().getUid();
         if (ts == null)
             return;
         long tsInSecond = Long.parseLong(ts) / 1000;
@@ -195,8 +195,7 @@ public class ServiceProvider {
 
     public static void doSubmitTrainMark(Context context, String rid, int mark,
                                          VolleyListener volleyListener) {
-        String uid = ((AppApplication) context.getApplicationContext())
-                .getUserInfo().userId;
+        String uid = UserInfo.getUserInfo().getUid();
         MyVolley.getRequestQueue().add(
                 new JsonObjectRequest(Request.Method.GET, Net.getRunHost(context)
                         + Net.SUMIT_TRAIN_MARK(uid, rid, mark), null,
@@ -217,8 +216,7 @@ public class ServiceProvider {
         for (int i = 0; i < rids.length; i++) {
             array.put(rids[i]);
         }
-        String uid = ((AppApplication) context.getApplicationContext())
-                .getUserInfo().userId;
+        String uid = UserInfo.getUserInfo().getUid();
         MyVolley.getRequestQueue().add(
                 new MyJsonRequest(Request.Method.POST, Net.getRunHost(context)
                         + Net.GET_MAC_POST(uid), array.toString(),
@@ -228,8 +226,7 @@ public class ServiceProvider {
 
     public static void doUpdateComment(Context context, String rid,
                                        int pageNumber, VolleyListener volleyListener) {
-        String uid = ((AppApplication) context.getApplicationContext())
-                .getUserInfo().userId;
+        String uid = UserInfo.getUserInfo().getUid();
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put(RequestParameters.USER_ID, uid);
@@ -248,8 +245,7 @@ public class ServiceProvider {
 
     public static void doSubmitComment(Context context, String rid,
                                        String content, VolleyListener volleyListener) {
-        String uid = ((AppApplication) context.getApplicationContext())
-                .getUserInfo().userId;
+        String uid = UserInfo.getUserInfo().getUid();
         MyVolley.getRequestQueue().add(
                 new MyJsonRequest(Request.Method.POST, Net.getRunHost(context)
                         + Net.SUBMIT_COMMENT(uid, rid), content,
@@ -269,8 +265,7 @@ public class ServiceProvider {
      */
     public static void doReplyComment(Context context, String rid, String whom,
                                       String content, VolleyListener volleyListener) {
-        String uid = ((AppApplication) context.getApplicationContext())
-                .getUserInfo().userId;
+        String uid = UserInfo.getUserInfo().getUid();
         MyVolley.getRequestQueue().add(
                 new MyJsonRequest(Request.Method.POST, Net.getRunHost(context)
                         + Net.SUBMIT_PERSON_COMMENT(uid, rid, whom), content,
@@ -280,8 +275,7 @@ public class ServiceProvider {
 
     public static void doCheckUpdate(Context context, JSONObject jsonObject,
                                      VolleyListener volleyListener) {
-        String uid = ((AppApplication) context.getApplicationContext())
-                .getUserInfo().userId;
+        String uid = UserInfo.getUserInfo().getUid();
         try {
             if (jsonObject == null) {
                 jsonObject = new JSONObject();
@@ -294,10 +288,30 @@ public class ServiceProvider {
         }
         MyVolley.getRequestQueue().add(
                 new JsonObjectRequest(Request.Method.POST, Net.getRunHost(context)
-                        + Net.CHECK_UPDATE(uid, AppApplication.screenlg), jsonObject, volleyListener,
+                        + Net.CHECK_UPDATE(uid, getScreenLevel(context)), jsonObject, volleyListener,
                         volleyListener));
 
         MyVolley.getRequestQueue().start();
+    }
+
+    /**
+     * 功能描述: 获取屏幕级别
+     */
+    public static String getScreenLevel(Context context) {
+        int screenWidthPx = DensityUtil.getWidthInPx(context);
+        //适配240 320 480 屏幕
+        if (screenWidthPx >= 240 && screenWidthPx < 720 - 100) {
+            return "sm";
+            //适配中等密度 720
+        } else if (screenWidthPx >= 720 - 100 && screenWidthPx < 1080 - 100) {
+            return "md";
+            //适配1080
+        } else if (screenWidthPx >= 1080 - 100) {
+            return "lg";
+            // 默认给定中屏尺寸
+        } else {
+            return "md";
+        }
     }
 
     public static void doUpdateMTraning(final Context context, final String url) {
@@ -363,8 +377,7 @@ public class ServiceProvider {
                                               final String type, final String content, Bitmap bitmap, int anonymous,
                                               final VolleyListener volleyListener) {
         JSONObject jsonObject = new JSONObject();
-        String uid = ((AppApplication) context.getApplicationContext())
-                .getUserInfo().userId;
+        String uid = UserInfo.getUserInfo().getUid();
         try {
             jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_UID,
                     uid);
@@ -387,8 +400,7 @@ public class ServiceProvider {
      * 功能描述: 摄像上传
      */
     public static void doUploadVideo(final Context context, String qid, String filePath, final VolleyListener volleyListener) {
-        String uid = ((AppApplication) context.getApplicationContext())
-                .getUserInfo().userId;
+        String uid = UserInfo.getUserInfo().getUid();
         final String url = Net.getRunHost(context) + Net.PUBVIDEO(uid, qid);
         RequestParams params = new RequestParams();
         FileEntity entity = new FileEntity(new File(filePath),
@@ -417,8 +429,7 @@ public class ServiceProvider {
      * 功能描述: 图片上传
      */
     public static void doUploadImage(final Context context, String qid, int index, Bitmap bitmap, final VolleyListener volleyListener) {
-        String uid = ((AppApplication) context.getApplicationContext())
-                .getUserInfo().userId;
+        String uid = UserInfo.getUserInfo().getUid();
         final String url = Net.getRunHost(context) + Net.PUBIMAGE(uid, qid, index);
         final String tempFilePath = FileUtils.getChatterDir(context) + "temp.jpg";
         FileUtils.writeBitmap2SDcard(bitmap, tempFilePath);
@@ -451,8 +462,7 @@ public class ServiceProvider {
     }
 
     public static void doGetTopicList(Context context, VolleyListener volleyListener) {
-        String uid = ((AppApplication) context.getApplicationContext())
-                .getUserInfo().userId;
+        String uid = UserInfo.getUserInfo().getUid();
         final String url = Net.getRunHost(context) + Net.TOPICLIST(uid);
         MyVolley.getRequestQueue().add(new JsonObjectRequest(Request.Method.GET, url, null, volleyListener, volleyListener));
     }
@@ -474,8 +484,7 @@ public class ServiceProvider {
             public void run() {
                 final String url = Net.getRunHost(context) + Net.pubAsk();
                 JSONObject jsonObject = new JSONObject();
-                String uid = ((AppApplication) context.getApplicationContext())
-                        .getUserInfo().userId;
+                String uid = UserInfo.getUserInfo().getUid();
                 try {
                     jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_UID,
                             uid);
@@ -539,8 +548,7 @@ public class ServiceProvider {
             public void run() {
                 final String url = Net.getRunHost(context) + Net.pubAsnswer();
                 JSONObject jsonObject = new JSONObject();
-                String uid = ((AppApplication) context.getApplicationContext())
-                        .getUserInfo().userId;
+                String uid = UserInfo.getUserInfo().getUid();
                 try {
                     jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_UID,
                             uid);
@@ -588,15 +596,14 @@ public class ServiceProvider {
     }
 
     public static void doGetChatterById(Context context, String qid, VolleyListener volleyListener) {
-        String uid = ((AppApplication) context.getApplicationContext())
-                .getUserInfo().userId;
+        String uid = UserInfo.getUserInfo().getUid();
         String url = Net.getRunHost(context) + Net.CHATTER_GET_BY_ID(uid, qid);
         MyVolley.getRequestQueue().add(
                 new JsonObjectRequest(Request.Method.GET, url, null, volleyListener, volleyListener));
     }
 
     public static void doGetAskById(Context context, String aid, VolleyListener volleyListener) {
-        String uid = ((AppApplication) context.getApplicationContext()).getUserInfo().userId;
+        String uid = UserInfo.getUserInfo().getUid();
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("uid", uid);
@@ -615,8 +622,7 @@ public class ServiceProvider {
     public static void doAnswerQuestionShare(Context context, String qid,
                                              String content, VolleyListener volleyListener) {
         JSONObject jsonObject = new JSONObject();
-        String uid = ((AppApplication) context.getApplicationContext())
-                .getUserInfo().userId;
+        String uid = UserInfo.getUserInfo().getUid();
         try {
             jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_UID, uid);
             jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_QID, qid);
@@ -636,8 +642,7 @@ public class ServiceProvider {
      */
     public static void doQuestionShareList(Context context, String type, String topic,
                                            int page_no, int item_per_page, VolleyListener volleyListener) {
-        String uid = ((AppApplication) context.getApplicationContext())
-                .getUserInfo().userId;
+        String uid = UserInfo.getUserInfo().getUid();
         // 正常查询页面
         if (TextUtils.isEmpty(topic)) {
             JSONObject jsonObject = new JSONObject();
@@ -670,8 +675,7 @@ public class ServiceProvider {
      * 获取最新问题／分享的列表
      */
     public static void doGetChatterHot(Context context, int page_no, int item_per_page, VolleyListener volleyListener) {
-        String uid = ((AppApplication) context.getApplicationContext())
-                .getUserInfo().userId;
+        String uid = UserInfo.getUserInfo().getUid();
         String url = Net.getRunHost(context) + Net.CHATTER_GET_HOT(uid, page_no, item_per_page);
         MyVolley.getRequestQueue().add(
                 new JsonObjectRequest(Request.Method.POST, url, null,
@@ -682,8 +686,7 @@ public class ServiceProvider {
      * 获取某一特定用户的同事圈列表
      */
     public static void doGetUserChatterList(Context context, String type, String uid, int page_no, int item_per_page, VolleyListener volleyListener) {
-        String selfuid = ((AppApplication) context.getApplicationContext())
-                .getUserInfo().userId;
+        String selfuid = UserInfo.getUserInfo().getUid();
         // 正常查询页面
         JSONObject jsonObject = new JSONObject();
         try {
@@ -709,8 +712,7 @@ public class ServiceProvider {
     public static void doQuestionShareAnswer(Context context, String qid,
                                              int page_no, int item_per_page, VolleyListener volleyListener) {
         JSONObject jsonObject = new JSONObject();
-        String uid = ((AppApplication) context.getApplicationContext())
-                .getUserInfo().userId;
+        String uid = UserInfo.getUserInfo().getUid();
         try {
             jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_UID, uid);
             jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_QID, qid);
@@ -741,8 +743,7 @@ public class ServiceProvider {
 
             }
         };
-        String uid = ((AppApplication) context.getApplicationContext())
-                .getUserInfo().userId;
+        String uid = UserInfo.getUserInfo().getUid();
         MyVolley.getRequestQueue().add(
                 new JsonObjectRequest(Request.Method.GET, Net.getRunHost(context)
                         + Net.MARK_READ(rid, uid), null, volleyListener,
@@ -758,8 +759,7 @@ public class ServiceProvider {
      */
     public static void doGetCategorys(Context context, String type,
                                       VolleyListener volleyListener) {
-        String uid = ((AppApplication) context.getApplicationContext())
-                .getUserInfo().userId;
+        String uid = UserInfo.getUserInfo().getUid();
         MyVolley.getRequestQueue().add(
                 new JsonObjectRequest(Request.Method.GET, Net.getRunHost(context)
                         + Net.GET_TAG(uid, type), null, volleyListener,
@@ -821,8 +821,7 @@ public class ServiceProvider {
 
     public static void doGetLibrary(Context context,
                                     VolleyListener volleyListener) {
-        String uid = ((AppApplication) context.getApplicationContext())
-                .getUserInfo().userId;
+        String uid = UserInfo.getUserInfo().getUid();
         MyVolley.getRequestQueue().add(
                 new JsonObjectRequest(Request.Method.GET, Net.getRunHost(context)
                         + Net.KNOWLEDGE_LIBIRARY(uid), null, volleyListener,
@@ -835,8 +834,7 @@ public class ServiceProvider {
      */
     public static void doMyGroup_del(Context context, String qid, VolleyListener volleyListener) {
         JSONObject jsonObject = new JSONObject();
-        String uid = ((AppApplication) context.getApplicationContext())
-                .getUserInfo().userId;
+        String uid = UserInfo.getUserInfo().getUid();
         try {
             jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_UID, uid);
             jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_QID, qid);
@@ -858,8 +856,7 @@ public class ServiceProvider {
      * @param volleyListener
      */
     public static void doSetCredit(Context context, String qid, VolleyListener volleyListener) {
-        String uid = ((AppApplication) context.getApplicationContext())
-                .getUserInfo().userId;
+        String uid = UserInfo.getUserInfo().getUid();
         String url = Net.getRunHost(context) + Net.SET_CREDIT(uid, qid);
         MyVolley.getRequestQueue().add(
                 new JsonObjectRequest(Request.Method.GET, url, null,
@@ -875,8 +872,7 @@ public class ServiceProvider {
      * @param volleyListener
      */
     public static void dogetChatList(Context context, VolleyListener volleyListener) {
-        String uid = ((AppApplication) context.getApplicationContext())
-                .getUserInfo().userId;
+        String uid = UserInfo.getUserInfo().getUid();
         String url = Net.getRunHost(context) + Net.GET_CHAT_LIST(uid, "");
         MyVolley.getRequestQueue().add(
                 new JsonObjectRequest(Request.Method.GET, url, null,
@@ -892,8 +888,7 @@ public class ServiceProvider {
      * @param volleyListener
      */
     public static void dogetChatInfo(Context context, String whom, VolleyListener volleyListener) {
-        String uid = ((AppApplication) context.getApplicationContext())
-                .getUserInfo().userId;
+        String uid = UserInfo.getUserInfo().getUid();
         String url = Net.getRunHost(context) + Net.GET_CHAT_Info(uid, whom);
         MyVolley.getRequestQueue().add(
                 new JsonObjectRequest(Request.Method.GET, url, null,
@@ -905,8 +900,7 @@ public class ServiceProvider {
      * 29. 发送消息(聊天)
      */
     public static void doSendChat(Context context, String content, String whom, VolleyListener volleyListener) {
-        String uid = ((AppApplication) context.getApplicationContext())
-                .getUserInfo().userId;
+        String uid = UserInfo.getUserInfo().getUid();
         String url = Net.getRunHost(context) + Net.SEND_MSG();
         JSONObject json = new JSONObject();
         try {
@@ -927,8 +921,7 @@ public class ServiceProvider {
      */
     public static void doUpdateLocalResource2(Context context, String type, int tag,
                                               int begin, int limit, String searchStr, String done, VolleyListener volleyListener) {
-        String uid = ((AppApplication) context.getApplicationContext())
-                .getUserInfo().userId;
+        String uid = UserInfo.getUserInfo().getUid();
         // url 编码，    url请求不支持中问，需要将中文进行url编码
         if (!TextUtils.isEmpty(searchStr)) {
             try {
@@ -948,8 +941,7 @@ public class ServiceProvider {
      * 功能描述:   搜索 接口          2014-12-15
      */
     public static void doSearch(Context context, String key, VolleyListener volleyListener) {
-        String uid = ((AppApplication) context.getApplicationContext())
-                .getUserInfo().userId;
+        String uid = UserInfo.getUserInfo().getUid();
         // url 编码，    url请求不支持中问，需要将中文进行url编码
         key = key.replace("\n", "");
         if (!TextUtils.isEmpty(key)) {
@@ -969,8 +961,7 @@ public class ServiceProvider {
      * 功能描述: 课件打分
      */
     public static void coursewareScoring(Context context, String rid, String credit, VolleyListener volleyListener) {
-        String uid = ((AppApplication) context.getApplicationContext())
-                .getUserInfo().userId;
+        String uid = UserInfo.getUserInfo().getUid();
         MyVolley.getRequestQueue().add(
                 new JsonObjectRequest(Request.Method.GET, Net.getRunHost(context) + Net.COURSEWARE_SCORING(uid, rid, credit),
                         null, volleyListener, volleyListener));
@@ -988,8 +979,7 @@ public class ServiceProvider {
      * @param volleyListener
      */
     public static void ReplyComment(Context context, String qid, String content, String whom, VolleyListener volleyListener) {
-        String uid = ((AppApplication) context.getApplicationContext())
-                .getUserInfo().userId;
+        String uid = UserInfo.getUserInfo().getUid();
         JSONObject json = new JSONObject();
         try {
             json.put("uid", uid);
@@ -1014,8 +1004,7 @@ public class ServiceProvider {
      * 功能描述:  删除评论回复
      */
     public static void deleteReplyComment(Context context, String qid, int floor, VolleyListener volleyListener) {
-        String uid = ((AppApplication) context.getApplicationContext())
-                .getUserInfo().userId;
+        String uid = UserInfo.getUserInfo().getUid();
         JSONObject json = new JSONObject();
         try {
             json.put("uid", uid);
@@ -1045,8 +1034,7 @@ public class ServiceProvider {
      * @param volleyListener
      */
     public static void updateAskList(Context context, int page, int limit, String searchStr, VolleyListener volleyListener) {
-        String uid = ((AppApplication) context.getApplicationContext())
-                .getUserInfo().userId;
+        String uid = UserInfo.getUserInfo().getUid();
         // url 编码，    url请求不支持中问，需要将中文进行url编码
         if (!TextUtils.isEmpty(searchStr)) {
             try {
@@ -1074,8 +1062,7 @@ public class ServiceProvider {
      * 获取回答列表
      */
     public static void updateAnswerList(Context context, int page, int limit, String aid, VolleyListener volleyListener) {
-        String uid = ((AppApplication) context.getApplicationContext())
-                .getUserInfo().userId;
+        String uid = UserInfo.getUserInfo().getUid();
         JSONObject json = new JSONObject();
         try {
             json.put("uid", uid);
@@ -1096,8 +1083,7 @@ public class ServiceProvider {
      * 删除问答
      */
     public static void deleteAsk(Context context, String aid, VolleyListener volleyListener) {
-        String uid = ((AppApplication) context.getApplicationContext())
-                .getUserInfo().userId;
+        String uid = UserInfo.getUserInfo().getUid();
         JSONObject json = new JSONObject();
         try {
             json.put("uid", uid);
@@ -1120,8 +1106,7 @@ public class ServiceProvider {
      * @param volleyListener
      */
     public static void pollAnswer(Context context, String aid, String ts, VolleyListener volleyListener) {
-        String uid = ((AppApplication) context.getApplicationContext())
-                .getUserInfo().userId;
+        String uid = UserInfo.getUserInfo().getUid();
         JSONObject json = new JSONObject();
         try {
             json.put("uid", uid);
@@ -1144,8 +1129,7 @@ public class ServiceProvider {
      * @param volleyListener
      */
     public static void getViewrank(Context context, String tag, VolleyListener volleyListener) {
-        String uid = ((AppApplication) context.getApplicationContext())
-                .getUserInfo().userId;
+        String uid = UserInfo.getUserInfo().getUid();
         JSONObject json = new JSONObject();
         try {
             json.put("uid", uid);
@@ -1163,8 +1147,7 @@ public class ServiceProvider {
      * 获取用户历史等级考试
      */
     public static void getPastrank(Context context, String tag, VolleyListener volleyListener) {
-        String uid = ((AppApplication) context.getApplicationContext())
-                .getUserInfo().userId;
+        String uid = UserInfo.getUserInfo().getUid();
         JSONObject json = new JSONObject();
         try {
             json.put("uid", uid);
@@ -1187,8 +1170,7 @@ public class ServiceProvider {
      * @param volleyListener
      */
     public static void delChat(Context context, String whom, VolleyListener volleyListener) {
-        String uid = ((AppApplication) context.getApplicationContext())
-                .getUserInfo().userId;
+        String uid = UserInfo.getUserInfo().getUid();
         JSONObject json = new JSONObject();
         try {
             json.put("uid", uid);
@@ -1206,8 +1188,7 @@ public class ServiceProvider {
      * 获取资源
      */
     public static void getResourceDetail(Context context, String rid, VolleyListener volleyListener) {
-        String uid = ((AppApplication) context.getApplicationContext())
-                .getUserInfo().userId;
+        String uid = UserInfo.getUserInfo().getUid();
         JSONObject json = new JSONObject();
         try {
             json.put("uid", uid);

@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/badou/mworking/entity/main/Shuffle.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/badou/mworking/entity/user/UserInfo.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/badou/mworking/presenter/AccountManagerPresenter.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/badou/mworking/presenter/IntroductionPresenter.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/badou/mworking/presenter/LoginPresenter.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/badou/mworking/presenter/SplashPresenter.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/badou/mworking/util/GsonUtil.java" charset="UTF-8" />
   </component>
 </project>

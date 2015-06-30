@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.badou.mworking.widget.InputMethodRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/loginpage"
+    android:id="@+id/base_container"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/color_bg_grey"
@@ -9,7 +9,7 @@
     <!-- com.badou.mworking.widget.InputMethodRelativeLayout -->
 
     <LinearLayout
-        android:id="@+id/login_container"
+        android:id="@+id/top_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -18,7 +18,7 @@
         <!-- 大logo -->
 
         <LinearLayout
-            android:id="@+id/login_logo_layout_v"
+            android:id="@+id/normal_content_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/offset_xlarge"
@@ -28,7 +28,6 @@
             android:visibility="visible">
 
             <ImageView
-                android:id="@+id/login_logoimg"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/login_logo_pic_large_size"
                 android:adjustViewBounds="true"
@@ -37,7 +36,6 @@
                 android:src="@drawable/login_logo" />
 
             <ImageView
-                android:id="@+id/login_logoimg_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/offset_medium"
@@ -50,7 +48,7 @@
         <!-- 小LOGO -->
 
         <LinearLayout
-            android:id="@+id/login_logo_layout_h"
+            android:id="@+id/small_content_container"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/offset_xlarge"
@@ -94,7 +92,7 @@
                     android:src="@drawable/icon_activity_login_username" />
 
                 <EditText
-                    android:id="@+id/et_login_username"
+                    android:id="@+id/username_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/login_input_icon_size"
                     android:layout_marginLeft="@dimen/offset_small"
@@ -123,7 +121,7 @@
                     android:src="@drawable/icon_activity_login_password" />
 
                 <EditText
-                    android:id="@+id/et_login_password"
+                    android:id="@+id/password_edit_text"
                     android:layout_width="fill_parent"
                     android:layout_height="@dimen/login_input_icon_size"
                     android:layout_marginLeft="@dimen/offset_small"
@@ -140,7 +138,7 @@
         <!-- 登录按钮在java中修改的背景色 -->
 
         <Button
-            android:id="@+id/btn_login_sign_in"
+            android:id="@+id/login_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/offset_large"
@@ -153,14 +151,14 @@
     </LinearLayout>
 
     <RelativeLayout
-        android:id="@+id/reg_and_forget_password_layout"
+        android:id="@+id/bottom_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/login_container"
+        android:layout_below="@+id/top_container"
         android:layout_marginTop="@dimen/offset_less">
 
         <TextView
-            android:id="@+id/btn_login_experience"
+            android:id="@+id/experience_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -172,7 +170,7 @@
             android:textSize="@dimen/text_size_less" />
 
         <TextView
-            android:id="@+id/tv_login_forget_password"
+            android:id="@+id/forget_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

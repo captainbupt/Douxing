@@ -38,7 +38,7 @@ public class BaseNoTitleActivity extends ActionBarActivity implements SwipeBackA
         mActivity = this;
         mReceivedIntent = getIntent();
         AppManager.getAppManager().addActivity(this);
-        mProgressDialog = new WaitProgressDialog(mContext);
+        mProgressDialog = new WaitProgressDialog(mActivity);
         getSupportActionBar().hide();
         mHelper = new SwipeBackActivityHelper(this);
         mHelper.onActivityCreate();
@@ -61,14 +61,12 @@ public class BaseNoTitleActivity extends ActionBarActivity implements SwipeBackA
     @Override
     protected void onResume() {
         super.onResume();
-        MobclickAgent.onPageStart(getClass().getName());
         MobclickAgent.onResume(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        MobclickAgent.onPageEnd(getClass().getName());
         MobclickAgent.onPause(this);
     }
 

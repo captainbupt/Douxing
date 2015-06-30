@@ -73,7 +73,7 @@ public class ChatterListAdapter extends MyBaseAdapter {
 
         // 评论中添加的图片
         // 没有的话，判断是否是wifi网络
-        if (NetUtils.isWifiConnected(mContext) || !SPUtil.getSaveInternetOption(mContext)) {
+        if (NetUtils.isWifiConnected(mContext) || !SPUtil.getSaveInternetOption()) {
             holder.saveInternetTextView.setVisibility(View.GONE);
             if (!TextUtils.isEmpty(chatter.videoUrl)) {
                 holder.videoImageView.setVisibility(View.VISIBLE);

@@ -44,7 +44,7 @@ public class ImageViewLoader {
         imageView.setVisibility(View.VISIBLE);
         //评论中添加的图片
         boolean isWifi = NetUtils.isWifiConnected(context);
-        boolean isSaveInternet = SPUtil.getSaveInternetOption(context);
+        boolean isSaveInternet = SPUtil.getSaveInternetOption();
         Bitmap contentBmp = BitmapLruCache.getBitmapLruCache().get(url);
         if (contentBmp != null && contentBmp.isRecycled()) {
             imageView.setImageBitmap(contentBmp);

@@ -25,6 +25,7 @@ import android.widget.TextView;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.base.BaseStatisticalActionBarActivity;
+import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.bitmap.BitmapLruCache;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
@@ -84,8 +85,7 @@ public class BackWebActivity extends BaseStatisticalActionBarActivity {
     private void initData() {
         mUrl = mReceivedIntent.getStringExtra(KEY_URL);
         boolean isShowStatistical = mReceivedIntent.getBooleanExtra(KEY_SHOW_STATISTICAL, false);
-        boolean isAdmin = ((AppApplication) getApplicationContext())
-                .getUserInfo().isAdmin;
+        boolean isAdmin = UserInfo.getUserInfo().isAdmin();
         if (isAdmin && isShowStatistical) {
             setRightImage(R.drawable.button_title_admin_statistical);
         } else {
@@ -282,7 +282,7 @@ public class BackWebActivity extends BaseStatisticalActionBarActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        SPUtil.setWebViewPosition(mContext, mUrl.trim(), mWebView.getScrollY());
+        SPUtil.setWebViewPosition( mUrl.trim(), mWebView.getScrollY());
         mWebView.destroy();
     }
 }

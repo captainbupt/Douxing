@@ -75,7 +75,7 @@ public class ExamActivity extends BaseCategoryProgressListActivity {
                     public void onResponseSuccess(JSONObject response) {
                         JSONObject data = null;
                         try {
-                            data = response.optJSONObject(Net.DATA).optJSONArray(Net.LIST).optJSONObject(0);
+                            data = response.optJSONObject(Net.DATA).optJSONArray("list").optJSONObject(0);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

@@ -26,9 +26,10 @@ import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.database.MessageCenterResManager;
+import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.fragment.MainSearchFragment;
 import com.badou.mworking.entity.MainBanner;
-import com.badou.mworking.entity.Main.MainIcon;
+import com.badou.mworking.entity.main.MainIcon;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.net.ResponseParameters;
@@ -37,7 +38,7 @@ import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.AlarmUtil;
 import com.badou.mworking.util.AppManager;
-import com.badou.mworking.util.Navigator;
+import com.badou.mworking.util.DensityUtil;
 import com.badou.mworking.util.SP;
 import com.badou.mworking.util.SPUtil;
 import com.badou.mworking.util.ToastUtil;
@@ -92,15 +93,19 @@ public class MainGridActivity extends BaseNoTitleActivity {
     private String mLogoUrl;
     public boolean isSearching = false;
 
+    public static Intent getIntent(Context context) {
+        return new Intent(context, MainGridActivity.class);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_grid);
-        if ("anonymous".equals(((AppApplication) getApplication()).getUserInfo().account)) {
+        if (UserInfo.ANONYMOUS_ACCOUNT.equals(UserInfo.getUserInfo().getAccount())) {
             new AlertDialog.Builder(mContext).setTitle(R.string.tip_anonymous_title).setMessage(R.string.tip_anonymous_content).setPositiveButton(R.string.tip_anonymous_confirm, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    Navigator.toLoginPage(mActivity);
+                    startActivity(LoginActivity.getIntent(mContext));
                     mActivity.finish();
                 }
             }).setNegativeButton(R.string.tip_anonymous_cancel, null).show();
@@ -125,7 +130,7 @@ public class MainGridActivity extends BaseNoTitleActivity {
 
         JPushInterface.init(getApplicationContext());
         //push 推送默认开启，如果用户关闭掉推送的话，在这里停掉推送
-        if (SPUtil.getClosePushOption(mContext)) {
+        if (SPUtil.getClosePushOption()) {
             JPushInterface.stopPush(getApplicationContext());
         }
         disableSwipeBack();
@@ -150,7 +155,7 @@ public class MainGridActivity extends BaseNoTitleActivity {
         mMainGridView = (GridView) findViewById(R.id.gv_main_grid_second);
         mIndicatorRadioGroup = (RadioGroup) findViewById(R.id.rg_main_focus_indicator_container);
         mBannerGallery = (BannerGallery) findViewById(R.id.gallery_main_banner);
-        int height = AppApplication.getScreenWidth(mContext) * 400 / 720; // 按屏幕宽度，计算banner高度
+        int height = DensityUtil.getWidthInPx(mContext) * 400 / 720; // 按屏幕宽度，计算banner高度
         mBannerGallery.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, height));
         TopFadeScrollView mScrollView = (TopFadeScrollView) findViewById(R.id.tfsv_main_grid);
         mScrollView.setTopViewId(R.id.rl_main_grid_banner);
@@ -168,7 +173,7 @@ public class MainGridActivity extends BaseNoTitleActivity {
                                     long arg3) {
                 Intent intent = new Intent();
                 MainIcon mainIcon = (MainIcon) mMainGridAdapter.getItem(arg2);
-                switch (mainIcon.mainIconId) {
+                switch (mainIcon.getKey()) {
                     case RequestParameters.CHK_UPDATA_PIC_NOTICE: // 通知公告
                         intent.setClass(mContext, NoticeActivity.class);
                         break;
@@ -180,8 +185,7 @@ public class MainGridActivity extends BaseNoTitleActivity {
                         intent.setClass(mContext, ExamActivity.class);
                         break;
                     case RequestParameters.CHK_UPDATA_PIC_SURVEY: // 培训调研
-                        String uid = ((AppApplication) getApplicationContext())
-                                .getUserInfo().userId;
+                        String uid = UserInfo.getUserInfo().getUid();
                         String url = Net.getWeiDiaoYanURl() + uid;
                         intent.setClass(mContext, BackWebActivity.class);
                         intent.putExtra(BackWebActivity.KEY_URL, url);
@@ -200,7 +204,7 @@ public class MainGridActivity extends BaseNoTitleActivity {
                         intent.putExtra(TrainActivity.KEY_TRAINING, false);
                         break;
                 }
-                intent.putExtra(BaseActionBarActivity.KEY_TITLE, mainIcon.name);
+                intent.putExtra(BaseActionBarActivity.KEY_TITLE, mainIcon.getName());
                 startActivity(intent);
             }
         });
@@ -252,7 +256,8 @@ public class MainGridActivity extends BaseNoTitleActivity {
         mBannerGallery.setAdapter(mBannerAdapter);
         updateIndicator(mBannerList);
         updateBanner(mBannerList);
-        mMainGridAdapter = new MainGridAdapter(mContext, getMainIconList());
+        UserInfo userInfo = UserInfo.getUserInfo();
+        mMainGridAdapter = new MainGridAdapter(mContext, userInfo.getShuffle().getMainIconList(mContext, userInfo.getAccess()));
         mMainGridView.setAdapter(mMainGridAdapter);
         updateMessageCenter();
         //mScrollView.scrollTo(0, 0);
@@ -424,47 +429,6 @@ public class MainGridActivity extends BaseNoTitleActivity {
                             }).setNegativeButton(R.string.text_cancel, null)
                     .create().show();
         }
-    }
-
-    /**
-     * 功能描述:初始化MainIcon的数据
-     */
-    private List<Object> getMainIconList() {
-        List<Object> mainIconList = new ArrayList<>();
-
-        // 顺序和权限码一一对应，不能混乱
-        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_NOTICE));
-        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_TRAINING));
-        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_EXAM));
-        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_TASK));
-        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_SURVEY));
-        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_CHATTER));
-        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_SHELF));
-        mainIconList.add(MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_ASK));
-
-        /**
-         * 权限， 设置隐藏显示
-         * @param access 后台返回的十进制权限制
-         */
-        int access = ((AppApplication) mContext.getApplicationContext())
-                .getUserInfo().access;
-        char[] accessArray = new char[mainIconList.size()];
-        for (int ii = accessArray.length - 1; ii >= 0; ii--) {
-            accessArray[ii] = (char) (access % 2 + '0');
-            access /= 2;
-        }
-        for (int ii = accessArray.length - 1; ii >= 0; ii--) {
-            if (accessArray[accessArray.length - ii - 1] == '0')
-                mainIconList.remove(ii);
-        }
-
-        Collections.sort(mainIconList, new Comparator<Object>() {
-            @Override
-            public int compare(Object t1, Object t2) {
-                return Integer.valueOf(((MainIcon) t1).priority) < Integer.valueOf(((MainIcon) t2).priority) ? 1 : -1;
-            }
-        }); //对list进行排序
-        return mainIconList;
     }
 
     public Bitmap myShot() {

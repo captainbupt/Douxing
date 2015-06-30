@@ -9,6 +9,7 @@ import com.badou.mworking.TrainActivity;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.entity.category.Exam;
 import com.badou.mworking.entity.category.Train;
+import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.util.NotificationUtil;
 import com.badou.mworking.util.SP;
 
@@ -49,7 +50,7 @@ public class AlarmReceiver extends BroadcastReceiver {
      * 功能描述:  获取缓存
      */
     private boolean getUnreadNum(Context context, String key) {
-        String userNum = ((AppApplication) context.getApplicationContext()).getUserInfo().account;
+        String userNum = UserInfo.getUserInfo().getAccount();
         int unreadNum = SP.getIntSP(context, SP.DEFAULTCACHE, userNum + key, 0);
         if (unreadNum <= 0) {
             return false;

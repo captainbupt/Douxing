@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import com.badou.mworking.BackWebActivity;
 import com.badou.mworking.R;
+import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.Net;
 
 public class BaseStatisticalActionBarActivity extends BaseBackActionBarActivity {
@@ -18,8 +19,7 @@ public class BaseStatisticalActionBarActivity extends BaseBackActionBarActivity 
         super.onCreate(savedInstanceState);
         mRid = mReceivedIntent.getStringExtra(KEY_RID);
         // 是否是管理员
-        if (((AppApplication) getApplicationContext())
-                .getUserInfo().isAdmin) {
+        if (UserInfo.getUserInfo().isAdmin()) {
             setRightImage(R.drawable.button_title_admin_statistical);
         }
     }
@@ -27,7 +27,7 @@ public class BaseStatisticalActionBarActivity extends BaseBackActionBarActivity 
     @Override
     public void clickRight() {
         String titleStr = getResources().getString(R.string.statistical_data);
-        String uid = ((AppApplication) getApplicationContext()).getUserInfo().userId;
+        String uid = UserInfo.getUserInfo().getUid();
         String url = Net.getRunHost(mContext) + Net.getTongji(uid, mRid);
         Intent intent = new Intent(mContext, BackWebActivity.class);
         intent.putExtra(BackWebActivity.KEY_URL, url);

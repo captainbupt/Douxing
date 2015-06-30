@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.badou.mworking.adapter.CommentAdapter;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseBackActionBarActivity;
+import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.listener.DeleteClickListener;
 import com.badou.mworking.listener.MessageClickListener;
 import com.badou.mworking.listener.TopicClickableSpan;
@@ -167,15 +168,14 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
     private void initData() {
         mReplyAdapter = new CommentAdapter(mContext, mChatter.qid, mChatter.deletable, mProgressDialog);
         mReplyListView.setAdapter(mReplyAdapter);
-        TopicClickableSpan.setClickTopic(mContext, mContentTextView, mChatter.content,Integer.MAX_VALUE, new View.OnClickListener(){
+        TopicClickableSpan.setClickTopic(mContext, mContentTextView, mChatter.content, Integer.MAX_VALUE, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
             }
         });
         /**删除和私信逻辑 */
-        String userUid = ((AppApplication) this.getApplicationContext())
-                .getUserInfo().userId;
+        String userUid = UserInfo.getUserInfo().getUid();
         String currentUid = mChatter.uid;
         // 点击进入是自己      (TextUtils.isEmpty(currentUid) 我的圈中没有返回uid字段，因为那是自己，当uid为空时，判断为是自己，也就是我的圈跳转进入的，只显示删除)
         if (userUid.equals(currentUid) || TextUtils.isEmpty(currentUid)) {
@@ -195,7 +195,7 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
         // 评论中添加的图片
         // 判断是否在2G/3G下显示图片
         // 没有的话，判断是否是wifi网络
-        if (NetUtils.isWifiConnected(mContext) || !SPUtil.getSaveInternetOption(mContext)) {
+        if (NetUtils.isWifiConnected(mContext) || !SPUtil.getSaveInternetOption()) {
             mSaveInternetTextView.setVisibility(View.GONE);
             if (!TextUtils.isEmpty(mChatter.videoUrl)) {
                 mImageGridView.setVisibility(View.GONE);
@@ -252,7 +252,7 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
                     @Override
                     public void onResponseSuccess(JSONObject response) {
                         JSONObject data = response.optJSONObject(Net.DATA);
-                        JSONArray resultArray = data.optJSONArray(Net.RESULT);
+                        JSONArray resultArray = data.optJSONArray("result");
                         int ttlcnt = data.optInt("ttlcnt");
                         if (resultArray == null || resultArray.length() == 0) {
                             return;

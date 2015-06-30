@@ -2,7 +2,9 @@ package com.badou.mworking.entity.category;
 
 import android.content.Context;
 
-import com.badou.mworking.entity.Main.MainIcon;
+import com.badou.mworking.entity.main.MainIcon;
+import com.badou.mworking.entity.main.Shuffle;
+import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.net.ResponseParameters;
 import com.badou.mworking.util.Constant;
@@ -75,17 +77,18 @@ public abstract class Category implements Serializable {
     }
 
     public String getCategoryName(Context context) {
+        Shuffle shuffle = UserInfo.getUserInfo().getShuffle();
         int type = getCategoryType();
         if (type == CATEGORY_NOTICE) {
-            return MainIcon.getMainIcon(context, RequestParameters.CHK_UPDATA_PIC_NOTICE).name;
+            return shuffle.getMainIcon(context, RequestParameters.CHK_UPDATA_PIC_NOTICE).getName();
         } else if (type == CATEGORY_EXAM) {
-            return MainIcon.getMainIcon(context, RequestParameters.CHK_UPDATA_PIC_EXAM).name;
+            return shuffle.getMainIcon(context, RequestParameters.CHK_UPDATA_PIC_EXAM).getName();
         } else if (type == CATEGORY_TASK) {
-            return MainIcon.getMainIcon(context, RequestParameters.CHK_UPDATA_PIC_TASK).name;
+            return shuffle.getMainIcon(context, RequestParameters.CHK_UPDATA_PIC_TASK).getName();
         } else if (type == CATEGORY_TRAINING) {
-            return MainIcon.getMainIcon(context, RequestParameters.CHK_UPDATA_PIC_TRAINING).name;
+            return shuffle.getMainIcon(context, RequestParameters.CHK_UPDATA_PIC_TRAINING).getName();
         } else if (type == CATEGORY_SHELF) {
-            return MainIcon.getMainIcon(context, RequestParameters.CHK_UPDATA_PIC_SHELF).name;
+            return shuffle.getMainIcon(context, RequestParameters.CHK_UPDATA_PIC_SHELF).getName();
         }
         return null;
     }

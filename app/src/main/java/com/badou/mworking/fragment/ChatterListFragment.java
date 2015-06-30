@@ -20,6 +20,7 @@ import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.base.BaseFragment;
 import com.badou.mworking.entity.Chatter;
+import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
@@ -143,7 +144,7 @@ public class ChatterListFragment extends BaseFragment {
                         }
                         // 加载到最后时 提示无更新
                         JSONArray resultArray = contentObject
-                                .optJSONArray(Net.RESULT);
+                                .optJSONArray("result");
                         if (resultArray == null || resultArray.length() == 0) {
                             if (beginNum > 1) {
                                 ToastUtil.showUpdateToast(mContext);
@@ -163,8 +164,7 @@ public class ChatterListFragment extends BaseFragment {
                             chatters.add(new Chatter(jo2));
                         }
                         if (beginNum == 1) {// 页码为1 重新加载第一页
-                            final String userNum = ((AppApplication) mContext.getApplicationContext())
-                                    .getUserInfo().account;
+                            final String userNum = UserInfo.getUserInfo().getAccount();
                             SP.putStringSP(mContext, SP.CHATTER, userNum + topic, resultArray.toString());
                             mChatterAdapter.setList(chatters);
                         } else {// 继续加载
@@ -198,8 +198,7 @@ public class ChatterListFragment extends BaseFragment {
      * 功能描述:  获取缓存
      */
     public void getCache() {
-        final String userNum = ((AppApplication) mContext.getApplicationContext())
-                .getUserInfo().account;
+        final String userNum = UserInfo.getUserInfo().getAccount();
         ArrayList<Object> list = new ArrayList<>();
         Bundle mReceivedArguments = getArguments();
         final String topic = mReceivedArguments == null ? null : mReceivedArguments.getString(KEY_ARGUMENT_TOPIC);

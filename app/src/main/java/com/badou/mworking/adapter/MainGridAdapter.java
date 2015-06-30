@@ -11,12 +11,14 @@ import android.widget.TextView;
 import com.badou.mworking.R;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.MyBaseAdapter;
-import com.badou.mworking.entity.Main.MainIcon;
+import com.badou.mworking.entity.main.MainIcon;
 import com.badou.mworking.entity.category.Exam;
 import com.badou.mworking.entity.category.Notice;
 import com.badou.mworking.entity.category.Task;
 import com.badou.mworking.entity.category.Train;
+import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.RequestParameters;
+import com.badou.mworking.util.DensityUtil;
 import com.badou.mworking.util.SP;
 
 import java.util.List;
@@ -41,12 +43,12 @@ public class MainGridAdapter extends MyBaseAdapter {
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
             int margin = mContext.getResources().getDimensionPixelOffset(R.dimen.offset_small);
-            convertView.setLayoutParams(new AbsListView.LayoutParams(AppApplication.getScreenWidth(mContext) / 2 - margin, AbsListView.LayoutParams.WRAP_CONTENT));
+            convertView.setLayoutParams(new AbsListView.LayoutParams(DensityUtil.getWidthInPx(mContext) / 2 - margin, AbsListView.LayoutParams.WRAP_CONTENT));
         }
         MainIcon mainIcon = (MainIcon) getItem(position);
-        holder.imageView.setTag(mainIcon.mainIconId);
-        holder.imageView.setImageResource(mainIcon.resId);
-        holder.textView.setText(mainIcon.name);
+        holder.imageView.setTag(mainIcon.getKey());
+        holder.imageView.setImageResource(mainIcon.getResId());
+        holder.textView.setText(mainIcon.getName());
         setIconUnreadNum(holder.tvUnreadNum, (String) holder.imageView.getTag());
         return convertView;
     }
@@ -74,8 +76,7 @@ public class MainGridAdapter extends MyBaseAdapter {
     private void setIconUnreadNum(TextView tv, String tag) {
         int num = 0;
         // 为了解决换帐号登录的问题
-        String userNum = ((AppApplication) mContext.getApplicationContext())
-                .getUserInfo().account;
+        String userNum = UserInfo.getUserInfo().getAccount();
         if (RequestParameters.CHK_UPDATA_PIC_NOTICE.equals(tag)) {//通知公告
             num = SP.getIntSP(mContext, SP.DEFAULTCACHE, userNum + Notice.CATEGORY_KEY_UNREAD_NUM, 0);
         } else if (RequestParameters.CHK_UPDATA_PIC_TRAINING.equals(tag)) {//微培训

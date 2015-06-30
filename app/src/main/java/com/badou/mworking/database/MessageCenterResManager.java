@@ -7,14 +7,11 @@ import android.text.TextUtils;
 
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.entity.MessageCenter;
-import com.badou.mworking.entity.user.UserInfoTmp;
+import com.badou.mworking.entity.user.UserInfo;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Administrator on 2015/6/15.
- */
 public class MessageCenterResManager {
 
     /**
@@ -24,10 +21,10 @@ public class MessageCenterResManager {
         MTrainingDBHelper mTrainingDBHelper = MTrainingDBHelper
                 .getMTrainingDBHelper();
         SQLiteDatabase dbWriter = mTrainingDBHelper.getDatabase();
-        UserInfoTmp userInfo = ((AppApplication) context.getApplicationContext()).getUserInfo();
-        if (userInfo == null || TextUtils.isEmpty(userInfo.account))
+        UserInfo userInfo = UserInfo.getUserInfo();
+        if (userInfo == null || TextUtils.isEmpty(userInfo.getAccount()))
             return;
-        String userNum = userInfo.account;
+        String userNum = userInfo.getAccount();
         dbWriter.insert(MTrainingDBHelper.TBL_NAME_MESSAGE_CENTER + userNum.replace("@", ""), null, message.getContentValue());
         mTrainingDBHelper.closeDatabase();
     }
@@ -36,8 +33,7 @@ public class MessageCenterResManager {
         MTrainingDBHelper mTrainingDBHelper = MTrainingDBHelper
                 .getMTrainingDBHelper();
         SQLiteDatabase dbReader = mTrainingDBHelper.getDatabase();
-        String userNum = ((AppApplication) context.getApplicationContext())
-                .getUserInfo().account;
+        String userNum = UserInfo.getUserInfo().getAccount();
         List<Object> messageCenterList = new ArrayList<>();
         Cursor cursor = dbReader.query(MTrainingDBHelper.TBL_NAME_MESSAGE_CENTER + userNum.replace("@", ""),
                 null, null, null, null, null, MTrainingDBHelper.MESSAGE_CENTER_TS + " DESC");
@@ -53,8 +49,7 @@ public class MessageCenterResManager {
         MTrainingDBHelper mTrainingDBHelper = MTrainingDBHelper
                 .getMTrainingDBHelper();
         SQLiteDatabase dbWriter = mTrainingDBHelper.getDatabase();
-        String userNum = ((AppApplication) context.getApplicationContext())
-                .getUserInfo().account;
+        String userNum = UserInfo.getUserInfo().getAccount();
         dbWriter.delete(MTrainingDBHelper.TBL_NAME_MESSAGE_CENTER + userNum.replace("@", ""), MTrainingDBHelper.PRIMARY_ID + "= ?", new String[]{message.id + ""});
         mTrainingDBHelper.closeDatabase();
     }

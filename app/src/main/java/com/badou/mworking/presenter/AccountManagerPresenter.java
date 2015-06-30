@@ -4,38 +4,37 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.badou.mworking.AccountManageActivity;
+import com.badou.mworking.IntroductionActivity;
 import com.badou.mworking.R;
-import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.database.MTrainingDBHelper;
-import com.badou.mworking.entity.user.UserInfoTmp;
+import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.RequestParameters;
+import com.badou.mworking.net.RestRepository;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
-import com.badou.mworking.util.Navigator;
+import com.badou.mworking.util.SPUtil;
+import com.badou.mworking.view.BaseView;
 
 import org.json.JSONObject;
 
 import java.util.regex.Pattern;
 
-/**
- * Created by Administrator on 2015/6/23 0023.
- */
 public class AccountManagerPresenter extends Presenter {
-    Context context;
     AccountManageActivity accountManageActivity;
-    UserInfoTmp userInfo;
+    UserInfo userInfo;
 
-    public void setAccountManageActivity(AccountManageActivity accountManageActivity) {
-        this.context = accountManageActivity;
-        this.accountManageActivity = accountManageActivity;
+    public AccountManagerPresenter(Context context) {
+        super(context);
+        this.accountManageActivity = (AccountManageActivity) context;
+        initialize(accountManageActivity);
     }
 
-    public void initialize() {
-        this.userInfo = ((AppApplication) accountManageActivity.getApplication()).getUserInfo();
-        accountManageActivity.setAccount(userInfo.account);
-        accountManageActivity.setActionbarTitle(context.getResources().getString(R.string.title_name_Myzhanghao));
-        if (UserInfoTmp.ANONYMOUS_ACCOUNT.equals(userInfo.account)) {
+    private void initialize(AccountManageActivity accountManageActivity) {
+        this.userInfo = UserInfo.getUserInfo();
+        accountManageActivity.setAccount(userInfo.getAccount());
+        accountManageActivity.setActionbarTitle(accountManageActivity.getResources().getString(R.string.title_name_Myzhanghao));
+        if (UserInfo.ANONYMOUS_ACCOUNT.equals(userInfo.getAccount())) {
             accountManageActivity.anonymousMode();
         } else {
             accountManageActivity.normalMode();
@@ -71,6 +70,8 @@ public class AccountManagerPresenter extends Presenter {
             accountManageActivity.showToast(R.string.change_error_different_password);
         } else {
             accountManageActivity.showProgressDialog(R.string.change_action_change_passwrod);
+            RestRepository restRepository = new RestRepository();
+           // Observable<String> changePassword = restRepository.changePassword(originPassword, newPassword);
             ServiceProvider.doChangePassword(accountManageActivity, originPassword,
                     newPassword, new VolleyListener(accountManageActivity) {
 
@@ -96,19 +97,24 @@ public class AccountManagerPresenter extends Presenter {
      * 功能描述:  修改密码
      */
     private void changePasswordSuccess(JSONObject data) {
-        userInfo.userId = data.optString(RequestParameters.USER_ID);
-        userInfo.saveUserInfo(accountManageActivity.getApplicationContext());
-        MTrainingDBHelper.getMTrainingDBHelper().createUserTable(userInfo.userId);
+        userInfo.setUid(data.optString(RequestParameters.USER_ID));
+        SPUtil.setUserInfo(userInfo);
+        MTrainingDBHelper.getMTrainingDBHelper().createUserTable(userInfo.getUid());
         accountManageActivity.showToast(R.string.change_result_change_password_success);
         accountManageActivity.finish();
     }
 
     public void logout() {
-        Navigator.toLoginPage(accountManageActivity);
+        accountManageActivity.startActivity(IntroductionActivity.getIntent(mContext));
         accountManageActivity.finish();
     }
 
     public void anonymousClicked() {
         accountManageActivity.showToast(R.string.tip_anonymous_logout);
+    }
+
+    @Override
+    public void attachView(BaseView v) {
+
     }
 }

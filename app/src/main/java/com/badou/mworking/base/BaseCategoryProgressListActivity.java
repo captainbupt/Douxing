@@ -20,6 +20,7 @@ import com.badou.mworking.adapter.ClassificationAdapter;
 import com.badou.mworking.entity.Classification;
 import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.CategoryDetail;
+import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ResponseParameters;
 import com.badou.mworking.net.ServiceProvider;
@@ -233,7 +234,7 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
      */
     public void setCategoryItemFromCache(int tag) {
         List<Object> list = new ArrayList<>();
-        String userNum = ((AppApplication) getApplicationContext()).getUserInfo().account;
+        String userNum =  UserInfo.getUserInfo().getAccount();
         String sp = SP.getStringSP(mContext, CATEGORY_NAME, userNum + tag, "");
         if (TextUtils.isEmpty(sp)) {
             mNoneResultView.setVisibility(View.VISIBLE);
@@ -352,8 +353,7 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
                 || data.equals("")) {
             return;
         }
-        final String userNum = ((AppApplication) getApplicationContext())
-                .getUserInfo().account;
+        final String userNum =  UserInfo.getUserInfo().getAccount();
         /**
          * 保存未读数
          */
@@ -361,7 +361,7 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
             SP.putIntSP(mContext, SP.DEFAULTCACHE, userNum + CATEGORY_UNREAD_NUM, data.optInt(ResponseParameters.NEWCNT));
         }
         List<Object> list = new ArrayList<>();
-        JSONArray resultArray = data.optJSONArray(Net.LIST);
+        JSONArray resultArray = data.optJSONArray("list");
         if (resultArray == null
                 || resultArray.length() == 0) {
             if (beginNum > 0) {

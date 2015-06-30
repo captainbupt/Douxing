@@ -16,10 +16,11 @@ import android.util.DisplayMetrics;
 import com.badou.mworking.LoginActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.database.MTrainingDBHelper;
-import com.badou.mworking.entity.user.UserInfoTmp;
 import com.badou.mworking.net.bitmap.BitmapLruCache;
 import com.badou.mworking.net.volley.MyVolley;
 import com.badou.mworking.util.CrashHandler;
+import com.badou.mworking.util.GsonUtil;
+import com.badou.mworking.util.SPUtil;
 import com.baidu.mapapi.SDKInitializer;
 
 import java.util.HashSet;
@@ -35,20 +36,9 @@ public class AppApplication extends Application {
 
     // tag
     public static String appVersion;
+    public static final String SYSTYPE = "android";
     public static final String SYSVERSION = android.os.Build.VERSION.RELEASE;
-    private UserInfoTmp userInfo;
-
-    public static String screenlg = "md";
-
-    private static AppApplication appApplication;
-
-    //公开，静态的工厂方法
-    public static AppApplication getInstance() {
-        if (appApplication == null) {
-            appApplication = new AppApplication();
-        }
-        return appApplication;
-    }
+    public static final String SYSPARAM = SYSTYPE + SYSVERSION;
 
     @Override
     public void onCreate() {
@@ -68,45 +58,14 @@ public class AppApplication extends Application {
             e.printStackTrace();
         }
 
+        SPUtil.initialize(this);
+        GsonUtil.initialize();
+
         MTrainingDBHelper.init(getApplicationContext());
         JPushInterface.setDebugMode(false);
         JPushInterface.init(this);
-        getScreenLevel();
         // 在使用 SDK 各组间之前初始化 context 信息，传入 ApplicationContext
         SDKInitializer.initialize(this);
-    }
-
-    /**
-     * 功能描述:  获取用户信息
-     *
-     * @return 用户信息类的对象实体
-     */
-    public UserInfoTmp getUserInfo() {
-        if (userInfo == null) {
-            userInfo = UserInfoTmp.getUserInfoFromSP(this);
-        }
-        return userInfo;
-    }
-
-    /**
-     * 功能描述:  设置保存用户对象信息
-     *
-     * @param userInfo
-     */
-    public void setUserInfo(UserInfoTmp userInfo) {
-        this.userInfo = userInfo;
-        userInfo.saveUserInfo(getApplicationContext());
-        Set<String> tags = new HashSet<>();
-        tags.add(userInfo.tag);
-        if (JPushInterface.isPushStopped(this))
-            JPushInterface.resumePush(this);
-        JPushInterface.setTags(getApplicationContext(), tags, null);
-        JPushInterface.setAlias(getApplicationContext(), userInfo.userId,
-                null);
-        MTrainingDBHelper.getMTrainingDBHelper().createUserTable(userInfo.account);
-
-        // en为英文版，取值zh为中文版。
-        AppApplication.changeAppLanguage(getResources(), userInfo.language);
     }
 
     private String getVersionName() throws Exception {
@@ -117,48 +76,6 @@ public class AppApplication extends Application {
                 0);
         String version = packInfo.versionName;
         return version;
-    }
-
-    /**
-     * 功能描述: 获取屏幕高度
-     *
-     * @return 屏幕高度
-     */
-    public static int getScreenHeight(Context context) {
-        // 获得手机分辨率
-        DisplayMetrics dm = context.getResources().getDisplayMetrics();
-        return dm.heightPixels;
-    }
-
-    /**
-     * 功能描述: 获取屏幕宽度
-     *
-     * @return 屏幕宽度
-     */
-    public static int getScreenWidth(Context context) {
-        // 获得手机分辨率
-        DisplayMetrics dm = context.getResources().getDisplayMetrics();
-        return dm.widthPixels;
-    }
-
-    /**
-     * 功能描述: 获取屏幕级别
-     */
-    public void getScreenLevel() {
-        int screenWidthPx = getScreenWidth(getApplicationContext());
-        //适配240 320 480 屏幕
-        if (screenWidthPx >= 240 && screenWidthPx < 720 - 100) {
-            screenlg = "sm";
-            //适配中等密度 720
-        } else if (screenWidthPx >= 720 - 100 && screenWidthPx < 1080 - 100) {
-            screenlg = "md";
-            //适配1080
-        } else if (screenWidthPx >= 1080 - 100) {
-            screenlg = "lg";
-            // 默认给定中屏尺寸
-        } else {
-            screenlg = "md";
-        }
     }
 
     /**

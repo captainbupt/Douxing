@@ -11,6 +11,7 @@ import com.badou.mworking.adapter.AskAdapter;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.entity.Ask;
+import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
@@ -145,7 +146,7 @@ public class AskActivity extends BaseBackActionBarActivity {
                     Ask ask = new Ask(jb);
                     askTemp.add(ask);
                 }
-                String userNum = ((AppApplication) getApplicationContext()).getUserInfo().account;
+                String userNum = UserInfo.getUserInfo().getAccount();
                 //添加缓存
                 if (beginIndex == 1) {
                     mAskAdapter.setList(askTemp);
@@ -163,7 +164,7 @@ public class AskActivity extends BaseBackActionBarActivity {
      * 功能描述:  获取缓存
      */
     public void getCache() {
-        String userNum = ((AppApplication) getApplicationContext()).getUserInfo().account;
+        String userNum = UserInfo.getUserInfo().getAccount();
         List<Object> list = new ArrayList<>();
         String sp = SP.getStringSP(AskActivity.this, SP.ASK, userNum + Ask.WENDACACHE, "");
         if (TextUtils.isEmpty(sp)) {

@@ -14,6 +14,11 @@ public class SP {
     public static final String CHATTERHOT = "tongshiquanhot";  // 同事圈缓存
     public static final String ASK = "wenda";  // 问答缓存
 
+    public static void removeSP(Context context, String fileName, String key) {
+        SharedPreferences sp = context.getSharedPreferences(fileName, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.remove(key).commit();
+    }
 
     // save float shared preference
     public static void putFloatSP(Context context, String fileName, String key, float value) {
