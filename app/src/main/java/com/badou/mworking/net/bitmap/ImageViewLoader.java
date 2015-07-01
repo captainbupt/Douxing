@@ -50,7 +50,7 @@ public class ImageViewLoader {
             imageView.setImageBitmap(contentBmp);
         } else {
 //            if (isWifi || !isSaveInternet) {
-                setSquareImageViewResource(imageView, defaultResId, url, size);
+            setSquareImageViewResource(imageView, defaultResId, url, size);
 /*            } else {
                 imageView.setImageResource(R.drawable.icon_image_default);
             }*/

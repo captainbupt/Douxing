@@ -140,7 +140,12 @@ public class BackWebActivity extends BaseStatisticalActionBarActivity {
         logoImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         int padding = getResources().getDimensionPixelOffset(R.dimen.offset_lless);
         logoImage.setPadding(padding, padding, padding, padding);
-        ImageViewLoader.setImageViewResource(logoImage, R.drawable.logo, logoUrl);
+        System.out.println(logoUrl);
+        if (logoUrl.equals("invalid")) {
+            logoImage.setImageResource(R.drawable.logo);
+        } else {
+            ImageViewLoader.setImageViewResource(logoImage, R.drawable.logo, logoUrl);
+        }
         setTitleCustomView(logoImage);
     }
 
