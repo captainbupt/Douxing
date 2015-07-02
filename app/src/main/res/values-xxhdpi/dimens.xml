@@ -18,6 +18,7 @@
     <dimen name="icon_size_tiny">30dp</dimen>
     <dimen name="icon_size_small">40dp</dimen>
     <dimen name="icon_size_medium">50dp</dimen>
+    <dimen name="icon_size_larger">65dp</dimen>
     <dimen name="icon_size_large">80dp</dimen>
     <dimen name="icon_size_xlarge">95dp</dimen>
     <dimen name="radius_small">3dp</dimen>

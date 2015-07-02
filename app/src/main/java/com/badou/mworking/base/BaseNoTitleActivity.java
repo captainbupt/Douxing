@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.badou.mworking.R;
 import com.badou.mworking.util.AppManager;
 import com.badou.mworking.widget.WaitProgressDialog;
+import com.easemob.applib.controller.HXSDKHelper;
 import com.nineoldandroids.view.ViewHelper;
 import com.umeng.analytics.MobclickAgent;
 
@@ -60,14 +61,15 @@ public class BaseNoTitleActivity extends ActionBarActivity implements SwipeBackA
     @Override
     protected void onResume() {
         super.onResume();
-        MobclickAgent.onPageStart(getClass().getName());
         MobclickAgent.onResume(this);
+
+        // onresume时，取消notification显示
+        HXSDKHelper.getInstance().getNotifier().reset();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        MobclickAgent.onPageEnd(getClass().getName());
         MobclickAgent.onPause(this);
     }
 

@@ -23,6 +23,7 @@ public class UserInfo {
     public String language;
     public JSONObject shuffleStr;
     public String host;
+    public String emchatPassword;
 
     /**
      * 功能描述:保存用户信息到sp中    但企业名称没有保存
@@ -44,6 +45,7 @@ public class UserInfo {
         editor.putString(ResponseParameters.USER_LANGUAGE, language);
         editor.putString(ResponseParameters.USER_COMPANY, company);
         editor.putString(ResponseParameters.USER_HOST, host);
+        editor.putString("hxpwd", emchatPassword);
         editor.commit();
     }
 
@@ -61,6 +63,7 @@ public class UserInfo {
         editor.remove(ResponseParameters.USER_LANGUAGE);
         editor.remove(ResponseParameters.USER_COMPANY);
         editor.remove(ResponseParameters.USER_HOST);
+        editor.remove("hxpwd");
         editor.commit();
     }
 
@@ -88,6 +91,7 @@ public class UserInfo {
         userInfo.language = sp.getString(ResponseParameters.USER_LANGUAGE, "");
         userInfo.company = sp.getString(ResponseParameters.USER_COMPANY, "");
         userInfo.host = sp.getString(ResponseParameters.USER_HOST, "");
+        userInfo.emchatPassword = sp.getString("hxpwd", "");
         return userInfo;
     }
 
@@ -104,6 +108,7 @@ public class UserInfo {
             this.language = jsonObject.optString(ResponseParameters.USER_LANGUAGE);
             this.company = jsonObject.optString(ResponseParameters.USER_COMPANY);
             this.host = jsonObject.optString(ResponseParameters.USER_HOST);
+            this.emchatPassword = jsonObject.optString("hxpwd");
         }
     }
 }

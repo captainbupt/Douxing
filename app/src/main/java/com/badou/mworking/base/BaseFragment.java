@@ -20,18 +20,6 @@ public class BaseFragment extends Fragment {
         mActivity = activity;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        MobclickAgent.onPageStart(getClass().getName()); //统计页面
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        MobclickAgent.onPageEnd(getClass().getName());
-    }
-
 /*    @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);

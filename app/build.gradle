@@ -38,7 +38,8 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:19.0.+' // 不要使用更新的v7，会导致actionbar显示不全
+    compile 'com.android.support:appcompat-v7:19.0.+'
+    // 不要使用更新的v7，会导致actionbar显示不全
     compile 'com.android.support:support-v4:19.0.+'
     compile files('libs/baidumapapi_v3_3_0.jar')
     compile files('libs/jpush-sdk-release1.6.1.jar')
@@ -51,4 +52,6 @@ dependencies {
     compile project(':SwipeBackLayout')
     compile 'com.jakewharton:butterknife:6.1.0'
     compile files('libs/umeng-analytics-v5.5.3.jar')
+    compile files('libs/easemobchat_2.2.0.jar')
+    compile 'com.squareup.picasso:picasso:2.5.2'
 }
