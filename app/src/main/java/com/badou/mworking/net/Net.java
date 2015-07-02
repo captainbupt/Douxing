@@ -610,4 +610,8 @@ public class Net {
                 "&uid=" + uid + "&page_no=" + pageNum + "&item_per_page=" + itemNum;
     }
 
+    public static String getContactList() {
+        return "/gethxtxl?sys=android" + AppApplication.SYSVERSION + "&ver=" + AppApplication.appVersion;
+    }
+
 }

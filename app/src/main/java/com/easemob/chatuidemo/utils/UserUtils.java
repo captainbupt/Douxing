@@ -1,6 +1,7 @@
 package com.easemob.chatuidemo.utils;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.badou.mworking.R;
@@ -36,7 +37,7 @@ public class UserUtils {
      */
     public static void setUserAvatar(Context context, String username, ImageView imageView) {
         User user = getUserInfo(username);
-        if (user != null) {
+        if (user != null && !TextUtils.isEmpty(user.getAvatar())) {
             Picasso.with(context).load(user.getAvatar()).placeholder(R.drawable.icon_emchat_single).into(imageView);
         } else {
             Picasso.with(context).load(R.drawable.icon_emchat_single).into(imageView);

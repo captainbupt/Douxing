@@ -409,7 +409,6 @@
         <activity
             android:name="com.easemob.chatuidemo.activity.GroupPickContactsActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/horizontal_slide"
             android:windowSoftInputMode="adjustPan" >
         </activity>
         <!-- 地图 -->

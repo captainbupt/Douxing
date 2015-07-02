@@ -18,7 +18,6 @@ import android.widget.RelativeLayout;
 
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
-import com.badou.mworking.util.LayoutParamsUtil;
 
 import java.util.List;
 

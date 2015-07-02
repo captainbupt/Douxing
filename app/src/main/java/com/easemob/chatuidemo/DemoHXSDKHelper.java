@@ -382,10 +382,13 @@ public class DemoHXSDKHelper extends HXSDKHelper{
      * @return
      */
     public Map<String, User> getContactList() {
-        if (getHXId() != null && contactList == null) {
+        /*if (getHXId() != null && contactList == null) {
+            contactList = ((DemoHXSDKModel) getModel()).getContactList();
+        }*/
+        if (contactList == null) {
             contactList = ((DemoHXSDKModel) getModel()).getContactList();
         }
-        
+
         return contactList;
     }
 
