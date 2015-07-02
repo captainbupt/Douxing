@@ -1261,4 +1261,17 @@ public class ServiceProvider {
         MyVolley.getRequestQueue().start();
     }
 
+    public static void getContacts(Context context, VolleyListener volleyListener) {
+        String uid = ((AppApplication) context.getApplicationContext()).getUserInfo().userId;
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(RequestParameters.USER_ID, uid);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        MyVolley.getRequestQueue().add(new JsonObjectRequest(Request.Method.POST, Net.getRunHost(context) + Net.getContactList(),
+                jsonObject, volleyListener, volleyListener));
+        MyVolley.getRequestQueue().start();
+    }
+
 }

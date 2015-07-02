@@ -98,7 +98,7 @@ public class Sidebar extends View{
 				}
 			}
 		} catch (Exception e) {
-			Log.e("setHeaderTextAndscroll", e.getMessage());
+			Log.e("setHeaderTextAndscroll", " "+e.getMessage());
 		}
 		
 	}

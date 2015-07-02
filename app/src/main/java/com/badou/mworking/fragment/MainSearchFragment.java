@@ -35,7 +35,6 @@ import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.CategoryClickHandler;
-import com.badou.mworking.util.FastBlur;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.WaitProgressDialog;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -286,21 +285,6 @@ public class MainSearchFragment extends BaseFragment {
         mNoneResultImageView.setImageResource(R.drawable.icon_main_search_tip);
         mNoneResultLayout.setVisibility(View.VISIBLE);
         mResultListView.setVisibility(View.GONE);
-    }
-
-    private void blur(Bitmap bkg, View view) {
-        float radius = 2;
-        float scaleFactor = 32;
-
-        Bitmap overlay = Bitmap.createBitmap((int) (view.getMeasuredWidth() / scaleFactor), (int) (view.getMeasuredHeight() / scaleFactor), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(overlay);
-        canvas.translate(-view.getLeft() / scaleFactor, -view.getTop() / scaleFactor);
-        canvas.scale(1 / scaleFactor, 1 / scaleFactor);
-        Paint paint = new Paint();
-        paint.setFlags(Paint.FILTER_BITMAP_FLAG);
-        canvas.drawBitmap(bkg, 0, 0, paint);
-        overlay = FastBlur.doBlur(overlay, (int) radius, true);
-        view.setBackgroundDrawable(new BitmapDrawable(getResources(), overlay));
     }
 }
 

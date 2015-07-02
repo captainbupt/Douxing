@@ -1,6 +1,6 @@
 /**
  * Copyright (C) 2013-2014 EaseMob Technologies. All rights reserved.
- * <p>
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -97,6 +97,12 @@ public class MainActivity extends BaseBackActionBarActivity implements EMEventLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setActionbarTitle(R.string.title_name_emchat);
+        setRightImage(R.drawable.button_title_add, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(mContext, GroupPickContactsActivity.class));
+            }
+        });
         if (savedInstanceState != null && savedInstanceState.getBoolean(Constant.ACCOUNT_REMOVED, false)) {
             // 防止被移除后，没点确定按钮然后按了home键，长期在后台又进app导致的crash
             // 三个fragment里加的判断同理
