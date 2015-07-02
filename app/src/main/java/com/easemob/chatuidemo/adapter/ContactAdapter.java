@@ -126,7 +126,6 @@ public class ContactAdapter extends ArrayAdapter<User> implements SectionIndexer
             if (holder.unreadMsgView != null)
                 holder.unreadMsgView.setVisibility(View.INVISIBLE);
         }
-
         return convertView;
     }
 
