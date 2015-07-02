@@ -44,6 +44,7 @@ import com.badou.mworking.util.SPUtil;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.BannerGallery;
 import com.badou.mworking.widget.TopFadeScrollView;
+import com.easemob.chatuidemo.activity.MainActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -234,7 +235,7 @@ public class MainGridActivity extends BaseNoTitleActivity {
         mMessageCenterImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(mContext, MessageCenterActivity.class));
+                startActivity(new Intent(mContext, MainActivity.class));
             }
         });
     }
