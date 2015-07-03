@@ -69,14 +69,14 @@ public class MTrainingDBHelper extends SQLiteOpenHelper {
                 + MESSAGE_CENTER_TYPE + " TEXT, " + MESSAGE_CENTER_DESCRIPTION + " TEXT, "
                 + MESSAGE_CENTER_ADD + " TEXT, " + MESSAGE_CENTER_TS + " LONG )");
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TBL_NAME_EMCHAT_DEPARTMENT + userNum + " ( "
-                + PRIMARY_ID + " BIGINT PRIMARY KEY,"
-                + EMCHAT_DEPARTMENT_NAME + " TEXT, " + EMCHAT_DEPARTMENT_PARENT + " BIGINT, "
+                + PRIMARY_ID + " LONG PRIMARY KEY,"
+                + EMCHAT_DEPARTMENT_NAME + " TEXT, " + EMCHAT_DEPARTMENT_PARENT + " LONG, "
                 + EMCHAT_DEPARTMENT_SON + " TEXT )");
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TBL_NAME_EMCHAT_ROLE + userNum + " ( "
                 + PRIMARY_ID + " INTEGER PRIMARY KEY," + EMCHAT_ROLE_NAME + " TEXT )");
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TBL_NAME_EMCHAT_USER + userNum + " ( "
                 + EMCHAT_USER_NAME + " TEXT PRIMARY KEY,"
-                + EMCHAT_NICK_NAME + " TEXT, " + EMCHAT_DEPARTMENT + " BIGINT, "
+                + EMCHAT_NICK_NAME + " TEXT, " + EMCHAT_DEPARTMENT + " LONG, "
                 + EMCHAT_ROLE + " INTEGER, " + EMCHAT_IMG_URL + " TEXT )");
         mTrainingDBHelper.closeDatabase();
     }

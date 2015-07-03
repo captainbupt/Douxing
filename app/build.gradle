@@ -15,8 +15,8 @@ android {
         applicationId "com.badou.mworking"
         minSdkVersion 9
         targetSdkVersion 19
-        versionCode 19
-        versionName '1.6.0'
+        versionCode 20
+        versionName '1.6.2'
     }
     buildTypes {
         release {

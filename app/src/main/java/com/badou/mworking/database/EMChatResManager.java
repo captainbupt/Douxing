@@ -51,6 +51,25 @@ public class EMChatResManager {
         return departments;
     }
 
+    public static List<Department> getChildDepartments(Context context, long parentId) {
+        MTrainingDBHelper mTrainingDBHelper = MTrainingDBHelper.getMTrainingDBHelper();
+        SQLiteDatabase dbReader = mTrainingDBHelper.getDatabase();
+        String userNum = ((AppApplication) context.getApplicationContext()).getUserInfo().account;
+        List<Department> departments = new ArrayList<>();
+        Cursor cursor = dbReader.query(MTrainingDBHelper.TBL_NAME_EMCHAT_DEPARTMENT + userNum.replace("@", ""),
+                null, MTrainingDBHelper.EMCHAT_DEPARTMENT_PARENT + " = ?", new String[]{parentId + ""}, null, null, null);
+        while (cursor.moveToNext()) {
+            long id = cursor.getLong(cursor.getColumnIndex(MTrainingDBHelper.PRIMARY_ID));
+            String name = cursor.getString(cursor.getColumnIndex(MTrainingDBHelper.EMCHAT_DEPARTMENT_NAME));
+            String sons = cursor.getString(cursor.getColumnIndex(MTrainingDBHelper.EMCHAT_DEPARTMENT_SON));
+            long parent = cursor.getLong(cursor.getColumnIndex(MTrainingDBHelper.EMCHAT_DEPARTMENT_PARENT));
+            departments.add(new Department(id, name, parent, sons));
+        }
+        cursor.close();
+        mTrainingDBHelper.closeDatabase();
+        return departments;
+    }
+
     public static Department getDepartment(Context context, long id) {
         MTrainingDBHelper mTrainingDBHelper = MTrainingDBHelper.getMTrainingDBHelper();
         SQLiteDatabase dbReader = mTrainingDBHelper.getDatabase();

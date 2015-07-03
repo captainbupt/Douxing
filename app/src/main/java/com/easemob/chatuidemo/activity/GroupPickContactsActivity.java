@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.SpannableString;
@@ -166,7 +167,8 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
         view.findViewById(R.id.filter_department).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(mActivity, DepartmentListActivity.class);
+                startActivity(intent);
             }
         });
         view.findViewById(R.id.filter_role).setOnClickListener(new View.OnClickListener() {

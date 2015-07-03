@@ -7,13 +7,10 @@ import android.widget.BaseAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Administrator on 2015/5/20.
- */
-public abstract class MyBaseAdapter extends BaseAdapter {
+public abstract class MyBaseAdapter<T> extends BaseAdapter {
 
     protected LayoutInflater mInflater;
-    protected List<Object> mItemList;
+    protected List<T> mItemList;
     protected Context mContext;
 
     public MyBaseAdapter(Context context) {
@@ -21,7 +18,7 @@ public abstract class MyBaseAdapter extends BaseAdapter {
         this.mInflater = LayoutInflater.from(mContext);
     }
 
-    public MyBaseAdapter(Context context, List<Object> list) {
+    public MyBaseAdapter(Context context, List<T> list) {
         this.mContext = context;
         this.mItemList = list;
         this.mInflater = LayoutInflater.from(mContext);
@@ -35,7 +32,7 @@ public abstract class MyBaseAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public void setItem(int position, Object item) {
+    public void setItem(int position, T item) {
         if (position < 0 || position >= getCount()) {
             return;
         }
@@ -43,14 +40,14 @@ public abstract class MyBaseAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public List<Object> getItemList() {
+    public List<T> getItemList() {
         return mItemList;
     }
 
     /**
      * 功能描述: 重新设置list
      */
-    public void setList(List<Object> list) {
+    public void setList(List<T> list) {
         this.mItemList = list;
         notifyDataSetChanged();
     }
@@ -58,7 +55,7 @@ public abstract class MyBaseAdapter extends BaseAdapter {
     /**
      * 功能描述:添加上拉新加载的 list
      */
-    public void addList(List<Object> list) {
+    public void addList(List<T> list) {
         if (list == null || list.size() == 0) {
             return;
         }
@@ -74,7 +71,7 @@ public abstract class MyBaseAdapter extends BaseAdapter {
     /**
      * 功能描述: 添加一个item
      */
-    public void addItem(Object object) {
+    public void addItem(T object) {
         if (object == null)
             return;
         if (mItemList == null) {
@@ -87,7 +84,7 @@ public abstract class MyBaseAdapter extends BaseAdapter {
     /**
      * 功能描述:替换一个item
      */
-    public void changeItem(int position, Object object) {
+    public void changeItem(int position, T object) {
         if (object != null) {
             //替换指定元素
             mItemList.set(position, object);
@@ -107,7 +104,7 @@ public abstract class MyBaseAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int i) {
+    public T getItem(int i) {
         if (mItemList == null || i < 0 || i >= mItemList.size())
             return null;
         return mItemList.get(i);
