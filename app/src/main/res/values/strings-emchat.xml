@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="filter_department">按部门筛选</string>
+    <string name="filter_role">按岗位筛选</string>
+    <string name="filter_selected">已选%d人</string>
     <string name="text_ack_msg">已读</string>
     <string name="text_delivered_msg">送达</string>
     <string name="back">返回</string>

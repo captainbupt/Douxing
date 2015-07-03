@@ -2,29 +2,27 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="@dimen/padding_search_bar"
-    android:paddingRight="27dp"
-    android:paddingTop="7dp"
-    android:paddingBottom="7dp"
     android:background="#ededed"
-     >
+    android:paddingBottom="@dimen/offset_less"
+    android:paddingLeft="@dimen/offset_medium"
+    android:paddingRight="27dp"
+    android:paddingTop="@dimen/offset_less">
 
     <EditText
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:paddingLeft="5dp"
         android:id="@+id/query"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:layout_marginLeft="4dp"
         android:background="@drawable/seabar_input"
         android:drawableLeft="@drawable/search_bar_icon_normal"
         android:focusable="true"
         android:focusableInTouchMode="true"
-         android:textSize="16sp"
-         android:layout_marginLeft="4dp"
+        android:paddingBottom="5dp"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
         android:singleLine="true"
-         />
+        android:textSize="16sp" />
 
     <ImageButton
         android:id="@+id/search_clear"

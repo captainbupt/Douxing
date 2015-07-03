@@ -20,6 +20,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseIntArray;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,7 @@ import android.widget.ImageView;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
+import com.badou.mworking.model.emchat.Department;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
 import com.easemob.chatuidemo.Constant;
@@ -38,24 +40,29 @@ import com.easemob.chatuidemo.utils.UserUtils;
 import com.easemob.chatuidemo.widget.Sidebar;
 import com.easemob.util.EMLog;
 
+import org.w3c.dom.Text;
+
+import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
+
 /**
  * 简单的好友Adapter实现
- *
  */
-public class ContactAdapter extends ArrayAdapter<User> implements SectionIndexer {
+public class ContactAdapter extends ArrayAdapter<User> implements SectionIndexer, StickyListHeadersAdapter {
     private static final String TAG = "ContactAdapter";
     List<String> list;
-    List<User> userList;
-    List<User> copyUserList;
+    protected List<User> userList;
+    protected List<User> copyUserList;
     private LayoutInflater layoutInflater;
     private SparseIntArray positionOfSection;
     private SparseIntArray sectionOfPosition;
     private int res;
     private MyFilter myFilter;
-    private boolean notiyfyByFilter;
+    protected boolean notiyfyByFilter;
+    private Context mContext;
 
     public ContactAdapter(Context context, int resource, List<User> objects) {
         super(context, resource, objects);
+        this.mContext = context;
         this.res = resource;
         this.userList = objects;
         copyUserList = new ArrayList<User>();
@@ -63,11 +70,35 @@ public class ContactAdapter extends ArrayAdapter<User> implements SectionIndexer
         layoutInflater = LayoutInflater.from(context);
     }
 
+    @Override
+    public View getHeaderView(int i, View view, ViewGroup viewGroup) {
+        if (view == null) {
+            view = new TextView(mContext);
+            view.setBackgroundColor(mContext.getResources().getColor(R.color.color_grey));
+            int medium = mContext.getResources().getDimensionPixelOffset(R.dimen.offset_medium);
+            int micro = mContext.getResources().getDimensionPixelOffset(R.dimen.offset_micro);
+            view.setPadding(medium, micro, medium, micro);
+            ((TextView) view).setTextColor(mContext.getResources().getColor(R.color.color_text_black));
+            ((TextView) view).setTextSize(TypedValue.COMPLEX_UNIT_PX, mContext.getResources().getDimensionPixelSize(R.dimen.text_size_less));
+        }
+        ((TextView) view).setText(getItem(i).getHeader());
+        return view;
+    }
+
+    @Override
+    public long getHeaderId(int i) {
+        String header = getItem(i).getHeader();
+        if (!TextUtils.isEmpty(header))
+            return getItem(i).getHeader().charAt(0);
+        else
+            return 0;
+    }
+
     private static class ViewHolder {
         ImageView avatar;
         TextView unreadMsgView;
         TextView nameTextview;
-        TextView tvHeader;
+        TextView tvDepartment;
     }
 
     @Override
@@ -79,7 +110,7 @@ public class ContactAdapter extends ArrayAdapter<User> implements SectionIndexer
             holder.avatar = (ImageView) convertView.findViewById(R.id.avatar);
             holder.unreadMsgView = (TextView) convertView.findViewById(R.id.unread_msg_number);
             holder.nameTextview = (TextView) convertView.findViewById(R.id.name);
-            holder.tvHeader = (TextView) convertView.findViewById(R.id.header);
+            holder.tvDepartment = (TextView) convertView.findViewById(R.id.department);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -91,7 +122,7 @@ public class ContactAdapter extends ArrayAdapter<User> implements SectionIndexer
         //设置nick，demo里不涉及到完整user，用username代替nick显示
         String username = user.getUsername();
         String header = user.getHeader();
-        if (position == 0 || header != null && !header.equals(getItem(position - 1).getHeader())) {
+/*        if (position == 0 || header != null && !header.equals(getItem(position - 1).getHeader())) {
             if (TextUtils.isEmpty(header)) {
                 holder.tvHeader.setVisibility(View.GONE);
             } else {
@@ -100,7 +131,7 @@ public class ContactAdapter extends ArrayAdapter<User> implements SectionIndexer
             }
         } else {
             holder.tvHeader.setVisibility(View.GONE);
-        }
+        }*/
         //显示申请与通知item
         if (username.equals(Constant.NEW_FRIENDS_USERNAME)) {
             holder.nameTextview.setText(user.getNick());
@@ -121,6 +152,8 @@ public class ContactAdapter extends ArrayAdapter<User> implements SectionIndexer
             holder.avatar.setImageResource(R.drawable.groups_icon);
         } else {
             holder.nameTextview.setText(user.getNick());
+            Department department = user.getDepartment(mContext);
+            holder.tvDepartment.setText(department == null ? "暂无" : department.getName());
             //设置用户头像
             UserUtils.setUserAvatar(getContext(), username, holder.avatar);
             if (holder.unreadMsgView != null)
@@ -203,9 +236,9 @@ public class ContactAdapter extends ArrayAdapter<User> implements SectionIndexer
                 final ArrayList<User> newValues = new ArrayList<User>();
                 for (int i = 0; i < count; i++) {
                     final User user = mOriginalList.get(i);
-                    String username = user.getUsername();
+                    String username = user.getNick();
 
-                    if (username.startsWith(prefixString)) {
+                    if (username.contains(prefixString)) {
                         newValues.add(user);
                     } else {
                         final String[] words = username.split(" ");
