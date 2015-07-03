@@ -16,26 +16,35 @@ package com.easemob.chatuidemo.activity;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextWatcher;
+import android.text.style.ForegroundColorSpan;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.ListView;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseBackActionBarActivity;
-import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.database.EMChatResManager;
 import com.badou.mworking.model.emchat.Department;
 import com.badou.mworking.model.emchat.Role;
@@ -44,32 +53,37 @@ import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupManager;
-import com.easemob.chatuidemo.Constant;
 import com.badou.mworking.R;
 import com.easemob.chatuidemo.adapter.ContactAdapter;
 import com.easemob.chatuidemo.domain.User;
 import com.easemob.chatuidemo.widget.Sidebar;
 import com.easemob.exceptions.EaseMobException;
-import com.lidroid.xutils.DbUtils;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
+
 public class GroupPickContactsActivity extends BaseBackActionBarActivity {
-    private ListView listView;
+    private StickyListHeadersListView listView;
     /**
      * 是否为一个新建的群组
      */
     protected boolean isCreatingNewGroup;
-    /**
-     * 是否为单选
-     */
-    private boolean isSignleChecked = false;
+
     private PickContactAdapter contactAdapter;
     /**
      * group中一开始就有的成员
      */
     private List<String> exitingMembers;
+    private TextView selectedNumberTextView;
+
+    ImageButton clearSearch;
+    EditText query;
+
+    List<Department> departments;
+    List<Role> roles;
+    List<User> contacts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +91,8 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
         setContentView(R.layout.activity_group_pick_contacts);
         setActionbarTitle(R.string.title_name_emchat_contact);
 
-        listView = (ListView) findViewById(R.id.list);
+
+        listView = (StickyListHeadersListView) findViewById(R.id.list);
         ((Sidebar) findViewById(R.id.sidebar)).setListView(listView);
         listView.setOnItemClickListener(new OnItemClickListener() {
 
@@ -89,6 +104,9 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
             }
         });
 
+        initSearch();
+        initHeader();
+
         setRightText(R.string.emchat_contact_title_right, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -96,9 +114,9 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
                 createGroup(members.toArray(new String[members.size()]));
             }
         });
-        final List<Department> departments = EMChatResManager.getDepartments(mContext);
-        final List<Role> roles = EMChatResManager.getRoles(mContext);
-        final List<User> contacts = EMChatResManager.getContacts(mContext);
+        departments = EMChatResManager.getDepartments(mContext);
+        roles = EMChatResManager.getRoles(mContext);
+        contacts = EMChatResManager.getContacts(mContext);
 
         if (departments.size() == 0 || roles.size() == 0 || contacts.size() == 0) {
             mProgressDialog.show();
@@ -123,7 +141,6 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
                         user.setDepartment(Long.parseLong(userObject.optString("department")));
                         user.setRole(Integer.parseInt(userObject.optString("role")));
                         user.setAvatar(userObject.optString("imgurl"));
-                        user.setHeader(String.valueOf(user.getNick().charAt(0)));
                         contacts.add(user);
                     }
                     EMChatResManager.insertContacts(mContext, contacts);
@@ -142,6 +159,79 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
             initContactList(contacts);
         }
 
+    }
+
+    private void initHeader() {
+        View view = LayoutInflater.from(mContext).inflate(R.layout.view_emchat_contact_list_header, null);
+        view.findViewById(R.id.filter_department).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        view.findViewById(R.id.filter_role).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        ((CheckBox) view.findViewById(R.id.filter_selected)).setOnCheckedChangeListener(new OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                contactAdapter.setSelected(b);
+            }
+        });
+        selectedNumberTextView = (TextView) view.findViewById(R.id.selected_number);
+        setSelectedNumber(0);
+        listView.addHeaderView(view);
+    }
+
+    private void setSelectedNumber(int number) {
+        String numberStr = number + "";
+        SpannableString spannableString = new SpannableString(String.format(getString(R.string.filter_selected), number));
+        spannableString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.color_blue)), 2, 2 + numberStr.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        selectedNumberTextView.setText(spannableString);
+    }
+
+    private void initSearch() {
+        //搜索框
+        query = (EditText) findViewById(R.id.query);
+        query.setHint(R.string.search);
+        clearSearch = (ImageButton) findViewById(R.id.search_clear);
+        query.addTextChangedListener(new TextWatcher() {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                contactAdapter.getFilter().filter(s);
+                if (s.length() > 0) {
+                    clearSearch.setVisibility(View.VISIBLE);
+                } else {
+                    clearSearch.setVisibility(View.INVISIBLE);
+
+                }
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            public void afterTextChanged(Editable s) {
+            }
+        });
+        clearSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                query.getText().clear();
+                hideSoftKeyboard();
+            }
+        });
+    }
+
+    void hideSoftKeyboard() {
+        if (getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN) {
+            if (getCurrentFocus() != null) {
+                InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        }
     }
 
     private void getDepartmentInfo(List<Department> departments, JSONArray departmentArray, long parent) {
@@ -191,7 +281,7 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
         Collections.sort(alluserList, new Comparator<User>() {
             @Override
             public int compare(User lhs, User rhs) {
-                return (lhs.getUsername().compareTo(rhs.getUsername()));
+                return (lhs.getSpell().compareTo(rhs.getSpell()));
 
             }
         });
@@ -250,10 +340,10 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
      */
     private List<String> getToBeAddMembers() {
         List<String> members = new ArrayList<String>();
-        int length = contactAdapter.isCheckedArray.length;
+        int length = contacts.size();
         for (int i = 0; i < length; i++) {
-            String username = contactAdapter.getItem(i).getUsername();
-            if (contactAdapter.isCheckedArray[i] && !exitingMembers.contains(username)) {
+            String username = contacts.get(i).getUsername();
+            if (contactAdapter.isCheckedMap.get(username) && !exitingMembers.contains(username)) {
                 members.add(username);
             }
         }
@@ -261,23 +351,28 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
         return members;
     }
 
+
     /**
      * adapter
      */
     private class PickContactAdapter extends ContactAdapter {
 
-        private boolean[] isCheckedArray;
+        private Map<String, Boolean> isCheckedMap;
 
         public PickContactAdapter(Context context, int resource, List<User> users) {
             super(context, resource, users);
-            isCheckedArray = new boolean[users.size()];
+            isCheckedMap = new HashMap<>(users.size());
+            for (User user : users) {
+                isCheckedMap.put(user.getUsername(), false);
+            }
         }
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
             View view = super.getView(position, convertView, parent);
 //			if (position > 0) {
-            final String username = getItem(position).getUsername();
+            User user = getItem(position);
+            final String username = user.getUsername();
             // 选择框checkbox
             final CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkbox);
             if (exitingMembers != null && exitingMembers.contains(username)) {
@@ -286,7 +381,6 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
                 checkBox.setButtonDrawable(R.drawable.checkbox_bg_selector);
             }
             if (checkBox != null) {
-                // checkBox.setOnCheckedChangeListener(null);
 
                 checkBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
                     @Override
@@ -296,29 +390,36 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
                             isChecked = true;
                             checkBox.setChecked(true);
                         }
-                        isCheckedArray[position] = isChecked;
-                        //如果是单选模式
-                        if (isSignleChecked && isChecked) {
-                            for (int i = 0; i < isCheckedArray.length; i++) {
-                                if (i != position) {
-                                    isCheckedArray[i] = false;
-                                }
-                            }
-                            contactAdapter.notifyDataSetChanged();
-                        }
-
+                        isCheckedMap.put(username, isChecked);
+                        setSelectedNumber(getToBeAddMembers().size());
                     }
                 });
                 // 群组中原来的成员一直设为选中状态
                 if (exitingMembers.contains(username)) {
                     checkBox.setChecked(true);
-                    isCheckedArray[position] = true;
+                    isCheckedMap.put(username, true);
                 } else {
-                    checkBox.setChecked(isCheckedArray[position]);
+                    checkBox.setChecked(isCheckedMap.get(username));
                 }
             }
 //			}
             return view;
+        }
+
+        public void setSelected(boolean isSelected) {
+            if (isSelected) {
+                userList.clear();
+                for (User user : copyUserList) {
+                    if (isCheckedMap.get(user.getUsername())) {
+                        userList.add(user);
+                    }
+                }
+                notiyfyByFilter = true;
+                notifyDataSetChanged();
+                notiyfyByFilter = false;
+            } else {
+                getFilter().filter(null);
+            }
         }
     }
 

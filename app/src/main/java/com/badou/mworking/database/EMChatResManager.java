@@ -51,6 +51,24 @@ public class EMChatResManager {
         return departments;
     }
 
+    public static Department getDepartment(Context context, long id) {
+        MTrainingDBHelper mTrainingDBHelper = MTrainingDBHelper.getMTrainingDBHelper();
+        SQLiteDatabase dbReader = mTrainingDBHelper.getDatabase();
+        String userNum = ((AppApplication) context.getApplicationContext()).getUserInfo().account;
+        Cursor cursor = dbReader.query(MTrainingDBHelper.TBL_NAME_EMCHAT_DEPARTMENT + userNum.replace("@", ""),
+                null, MTrainingDBHelper.PRIMARY_ID + " = ?", new String[]{id + ""}, null, null, null);
+        Department department = null;
+        if (cursor.moveToNext()) {
+            String name = cursor.getString(cursor.getColumnIndex(MTrainingDBHelper.EMCHAT_DEPARTMENT_NAME));
+            String sons = cursor.getString(cursor.getColumnIndex(MTrainingDBHelper.EMCHAT_DEPARTMENT_SON));
+            long parent = cursor.getLong(cursor.getColumnIndex(MTrainingDBHelper.EMCHAT_DEPARTMENT_PARENT));
+            department = new Department(id, name, parent, sons);
+        }
+        cursor.close();
+        mTrainingDBHelper.closeDatabase();
+        return department;
+    }
+
     public static void insertRoles(Context context, List<Role> roles) {
         String userNum = ((AppApplication) context.getApplicationContext()).getUserInfo().account;
         MTrainingDBHelper mTrainingDBHelper = MTrainingDBHelper.getMTrainingDBHelper();
@@ -113,7 +131,6 @@ public class EMChatResManager {
             user.setDepartment(cursor.getLong(cursor.getColumnIndex(MTrainingDBHelper.EMCHAT_DEPARTMENT)));
             user.setRole(cursor.getInt(cursor.getColumnIndex(MTrainingDBHelper.EMCHAT_ROLE)));
             user.setAvatar(cursor.getString(cursor.getColumnIndex(MTrainingDBHelper.EMCHAT_IMG_URL)));
-            user.setHeader(String.valueOf(user.getNick().charAt(0)));
             departments.add(user);
         }
         cursor.close();

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/color_white"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_border_grey" />
+
+    <LinearLayout
+        android:id="@+id/filter_department"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/offset_lless"
+        android:paddingLeft="@dimen/offset_medium"
+        android:paddingRight="@dimen/offset_large"
+        android:paddingTop="@dimen/offset_lless">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/filter_department"
+            android:textColor="@color/color_text_black"
+            android:textSize="@dimen/text_size_medium" />
+
+        <ImageView
+            android:layout_width="@dimen/user_center_icon_forward_width"
+            android:layout_height="@dimen/user_center_icon_forward_height"
+            android:src="@drawable/icon_user_center_forward" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_border_grey" />
+
+    <LinearLayout
+        android:id="@+id/filter_role"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/offset_lless"
+        android:paddingLeft="@dimen/offset_medium"
+        android:paddingRight="@dimen/offset_large"
+        android:paddingTop="@dimen/offset_lless">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/filter_role"
+            android:textColor="@color/color_text_black"
+            android:textSize="@dimen/text_size_medium" />
+
+        <ImageView
+            android:layout_width="@dimen/user_center_icon_forward_width"
+            android:layout_height="@dimen/user_center_icon_forward_height"
+            android:src="@drawable/icon_user_center_forward" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_border_grey" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/offset_small"
+        android:paddingLeft="@dimen/offset_medium"
+        android:paddingRight="@dimen/offset_large"
+        android:paddingTop="@dimen/offset_small">
+
+        <TextView
+            android:id="@+id/selected_number"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/color_text_black"
+            android:textSize="@dimen/text_size_less" />
+
+        <CheckBox
+            android:id="@+id/filter_selected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/cb_emchat_filter" />
+    </LinearLayout>
+</LinearLayout>
