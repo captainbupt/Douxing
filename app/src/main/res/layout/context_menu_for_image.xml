@@ -37,7 +37,7 @@
         android:textColor="@android:color/black"
         android:textSize="20sp" />
 
-    <View
+<!--    <View
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="@android:color/darker_gray" />
@@ -52,6 +52,6 @@
         android:padding="10dp"
         android:text="@string/forward"
         android:textColor="@android:color/black"
-        android:textSize="20sp" />
+        android:textSize="20sp" />-->
 
 </LinearLayout>

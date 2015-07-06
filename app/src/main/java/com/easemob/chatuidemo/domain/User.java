@@ -45,7 +45,6 @@ public class User extends EMContact {
         if (header.charAt(0) < 'A' || header.charAt(0) > 'Z') {
             header = "#";
         }
-        System.out.println("spell: " + spell);
     }
 
     public void setHeader(String header) {

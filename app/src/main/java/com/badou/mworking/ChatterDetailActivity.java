@@ -240,7 +240,7 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
             @Override
             public void onResponseSuccess(JSONObject response) {
                 resultIntent.putExtra(RESULT_KEY_DELETE, true);
-                ChatterDetailActivity.super.finish();
+                finish();
             }
 
             @Override
@@ -293,7 +293,7 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
                         } else {
                             mReplyAdapter.addList(replys, ttlcnt);
                         }
-                        mReceivedIntent.putExtra(RESULT_KEY_COUNT, mChatter.replyNumber);
+                        resultIntent.putExtra(RESULT_KEY_COUNT, mChatter.replyNumber);
                         mCurrentIndex++;
                     }
 
@@ -363,8 +363,8 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
 
     @Override
     public void finish() {
-        mReceivedIntent.putExtra(RESULT_KEY_STORE, mChatter.isStore);
-        setResult(RESULT_OK, mReceivedIntent);
+        resultIntent.putExtra(RESULT_KEY_STORE, mChatter.isStore);
+        setResult(RESULT_OK, resultIntent);
         super.finish();
     }
 }

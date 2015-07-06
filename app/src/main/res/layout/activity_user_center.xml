@@ -329,15 +329,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="@dimen/offset_less"
-                        android:background="@drawable/icon_chat_unread"
-                        android:gravity="center"
-                        android:paddingBottom="1dp"
-                        android:paddingLeft="4dp"
-                        android:paddingRight="4dp"
-                        android:paddingTop="1dp"
-                        android:textColor="@color/color_white"
-                        android:textSize="@dimen/text_size_less"
-                        android:visibility="gone" />
+                        android:textColor="@color/color_text_black"
+                        android:textSize="@dimen/text_size_medium" />
 
                     <ImageView
                         android:layout_width="@dimen/user_center_icon_forward_width"

@@ -28,6 +28,7 @@ import android.widget.TextView;
 import com.easemob.applib.utils.HXPreferenceUtils;
 import com.badou.mworking.R;
 import com.easemob.chatuidemo.adapter.ContactAdapter;
+import com.easemob.chatuidemo.adapter.PickContactsAdapter;
 import com.easemob.util.DensityUtil;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
@@ -95,11 +96,11 @@ public class Sidebar extends View {
         }
         String headerString = sections[sectionForPoint(event.getY())];
         header.setText(headerString);
-        ContactAdapter adapter;
+        PickContactsAdapter adapter;
         if (mListView != null) {
-            adapter = (ContactAdapter) mListView.getAdapter();
+            adapter = (PickContactsAdapter) mListView.getAdapter();
         } else {
-            adapter = (ContactAdapter) mStickyListView.getAdapter();
+            adapter = (PickContactsAdapter) mStickyListView.getAdapter();
         }
         String[] adapterSections = (String[]) adapter.getSections();
         try {

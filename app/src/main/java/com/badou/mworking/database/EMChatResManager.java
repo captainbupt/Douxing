@@ -140,7 +140,7 @@ public class EMChatResManager {
         MTrainingDBHelper mTrainingDBHelper = MTrainingDBHelper.getMTrainingDBHelper();
         SQLiteDatabase dbReader = mTrainingDBHelper.getDatabase();
         String userNum = ((AppApplication) context.getApplicationContext()).getUserInfo().account;
-        List<User> departments = new ArrayList<>();
+        List<User> users = new ArrayList<>();
         Cursor cursor = dbReader.query(MTrainingDBHelper.TBL_NAME_EMCHAT_USER + userNum.replace("@", ""),
                 null, null, null, null, null, null);
         while (cursor.moveToNext()) {
@@ -150,11 +150,11 @@ public class EMChatResManager {
             user.setDepartment(cursor.getLong(cursor.getColumnIndex(MTrainingDBHelper.EMCHAT_DEPARTMENT)));
             user.setRole(cursor.getInt(cursor.getColumnIndex(MTrainingDBHelper.EMCHAT_ROLE)));
             user.setAvatar(cursor.getString(cursor.getColumnIndex(MTrainingDBHelper.EMCHAT_IMG_URL)));
-            departments.add(user);
+            users.add(user);
         }
         cursor.close();
         mTrainingDBHelper.closeDatabase();
-        return departments;
+        return users;
     }
 
 }

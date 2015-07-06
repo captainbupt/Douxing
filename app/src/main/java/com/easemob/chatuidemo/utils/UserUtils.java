@@ -19,13 +19,8 @@ public class UserUtils {
     public static User getUserInfo(String username) {
         User user = AppApplication.getInstance().getContactList().get(username);
         if (user == null) {
+            System.out.println("cannot find user: " + username);
             user = new User(username);
-        }
-
-        if (user != null) {
-            //demo没有这些数据，临时填充
-            user.setNick(username);
-//            user.setAvatar("http://downloads.easemob.com/downloads/57.png");
         }
         return user;
     }

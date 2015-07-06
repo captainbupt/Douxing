@@ -8,12 +8,11 @@
     android:paddingRight="27dp"
     android:paddingTop="@dimen/offset_less">
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/query"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="4dp"
         android:background="@drawable/seabar_input"
         android:drawableLeft="@drawable/search_bar_icon_normal"
         android:focusable="true"

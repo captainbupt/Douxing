@@ -20,7 +20,9 @@ public abstract class MyBaseAdapter<T> extends BaseAdapter {
 
     public MyBaseAdapter(Context context, List<T> list) {
         this.mContext = context;
-        this.mItemList = list;
+        this.mItemList = new ArrayList<>();
+        if (list != null)
+            mItemList.addAll(list);
         this.mInflater = LayoutInflater.from(mContext);
     }
 
@@ -48,7 +50,11 @@ public abstract class MyBaseAdapter<T> extends BaseAdapter {
      * 功能描述: 重新设置list
      */
     public void setList(List<T> list) {
-        this.mItemList = list;
+        if (mItemList == null)
+            mItemList = new ArrayList<>();
+        this.mItemList.clear();
+        if (list != null)
+            this.mItemList.addAll(list);
         notifyDataSetChanged();
     }
 

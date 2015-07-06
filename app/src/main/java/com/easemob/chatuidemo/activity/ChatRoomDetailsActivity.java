@@ -89,7 +89,7 @@ public class ChatRoomDetailsActivity extends BaseActivity implements OnClickList
 		loadingPB = (ProgressBar) findViewById(R.id.progressBar);
 		exitBtn = (Button) findViewById(R.id.btn_exit_grp);
 		deleteBtn = (Button) findViewById(R.id.btn_exitdel_grp);
-		blacklistLayout = (RelativeLayout) findViewById(R.id.rl_blacklist);
+		//blacklistLayout = (RelativeLayout) findViewById(R.id.rl_blacklist);
 		changeGroupNameLayout = (RelativeLayout) findViewById(R.id.rl_change_group_name);
 
 		blockGroupMsgLayout = (RelativeLayout)findViewById(R.id.rl_switch_block_groupmsg);

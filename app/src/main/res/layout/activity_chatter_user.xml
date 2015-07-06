@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.handmark.pulltorefresh.library.PullToRefreshScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:myattr="http://schemas.android.com/apk/res-auto"
     android:id="@+id/ptrsv_chatter_user_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -81,5 +82,15 @@
             android:id="@+id/nslv_chatter_user_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
+        <com.badou.mworking.widget.NoneResultView
+            android:id="@+id/nrv_chatter_user_none_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            myattr:imgSrc="@drawable/background_none_result_chatter"
+            myattr:tipText="@string/none_result_chatter"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/offset_xxlarge"
+            android:visibility="gone" />
     </LinearLayout>
 </com.handmark.pulltorefresh.library.PullToRefreshScrollView>
