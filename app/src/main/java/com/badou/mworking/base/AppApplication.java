@@ -71,8 +71,8 @@ public class AppApplication extends Application {
         BitmapLruCache.init(getApplicationContext());
         MyVolley.init(getApplicationContext());
         //开启异常捕获
-        CrashHandler crashHandler = CrashHandler.getInstance();
-        crashHandler.init(this);
+/*        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(this);*/
         //获取程序版本
         try {
             appVersion = getVersionName();
@@ -167,8 +167,6 @@ public class AppApplication extends Application {
 
         // en为英文版，取值zh为中文版。
         AppApplication.changeAppLanguage(getResources(), userInfo.language);
-
-        com.easemob.chatuidemo.activity.LoginActivity.login(this, userInfo.account, userInfo.emchatPassword);
     }
 
     /**

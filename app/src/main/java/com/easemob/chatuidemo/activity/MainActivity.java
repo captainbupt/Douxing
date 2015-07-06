@@ -14,7 +14,9 @@
 package com.easemob.chatuidemo.activity;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -39,6 +41,13 @@ import android.widget.Toast;
 
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseBackActionBarActivity;
+import com.badou.mworking.database.EMChatResManager;
+import com.badou.mworking.model.emchat.Department;
+import com.badou.mworking.model.emchat.Role;
+import com.badou.mworking.net.Net;
+import com.badou.mworking.net.ServiceProvider;
+import com.badou.mworking.net.volley.VolleyListener;
+import com.badou.mworking.util.SPUtil;
 import com.easemob.EMCallBack;
 import com.easemob.EMConnectionListener;
 import com.easemob.EMError;
@@ -71,6 +80,9 @@ import com.easemob.util.EMLog;
 import com.easemob.util.HanziToPinyin;
 import com.easemob.util.NetUtils;
 import com.umeng.analytics.MobclickAgent;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class MainActivity extends BaseBackActionBarActivity implements EMEventListener {
 
@@ -108,20 +120,16 @@ public class MainActivity extends BaseBackActionBarActivity implements EMEventLi
             // 三个fragment里加的判断同理
             AppApplication.getInstance().logout(null);
             finish();
-            startActivity(new Intent(this, LoginActivity.class));
+            //startActivity(new Intent(this, LoginActivity.class));
             return;
         } else if (savedInstanceState != null && savedInstanceState.getBoolean("isConflict", false)) {
             // 防止被T后，没点确定按钮然后按了home键，长期在后台又进app导致的crash
             // 三个fragment里加的判断同理
             finish();
-            startActivity(new Intent(this, LoginActivity.class));
+            //startActivity(new Intent(this, LoginActivity.class));
             return;
         }
         setContentView(R.layout.activity_main);
-
-        // MobclickAgent.setDebugMode( true );
-        // --?--
-        MobclickAgent.updateOnlineConfig(this);
 
         if (getIntent().getBooleanExtra("conflict", false) && !isConflictDialogShow) {
             showConflictDialog();
@@ -140,6 +148,78 @@ public class MainActivity extends BaseBackActionBarActivity implements EMEventLi
                 .commit();
 
         init();
+        long currentTime = Calendar.getInstance().getTimeInMillis();
+        long lastTime = SPUtil.getContactLastUpdateTime(mContext);
+        lastTime = 0;
+        if (currentTime - lastTime > 1000l * 60l * 60l * 24l) {
+            initContacts();
+        }
+    }
+
+    private void initContacts() {
+        mProgressDialog.show();
+        ServiceProvider.getContacts(mContext, new VolleyListener(mContext) {
+            @Override
+            public void onResponseSuccess(JSONObject response) {
+                JSONObject data = response.optJSONObject(Net.DATA);
+                JSONObject roleJsonObject = data.optJSONObject("rolecfg");
+                JSONArray userArray = data.optJSONArray("usrlst");
+                List<Department> departments = new ArrayList<Department>();
+                List<Role> roles = new ArrayList<Role>();
+                List<User> contacts = new ArrayList<User>();
+                getDepartmentInfo(departments, data.optJSONArray("dptcfg"), -1l);
+                Iterator<String> iterator = roleJsonObject.keys();
+                while (iterator.hasNext()) {
+                    String name = iterator.next();
+                    int id = Integer.parseInt(roleJsonObject.optString(name));
+                    roles.add(new Role(id, name));
+                }
+                for (int ii = 0; ii < userArray.length(); ii++) {
+                    JSONObject userObject = userArray.optJSONObject(ii);
+                    User user = new User();
+                    user.setUsername(userObject.optString("employee_id"));
+                    user.setNick(userObject.optString("name"));
+                    user.setDepartment(Long.parseLong(userObject.optString("department")));
+                    user.setRole(Integer.parseInt(userObject.optString("role")));
+                    user.setAvatar(userObject.optString("imgurl"));
+                    contacts.add(user);
+                }
+                EMChatResManager.insertContacts(mContext, contacts);
+                EMChatResManager.insertDepartments(mContext, departments);
+                EMChatResManager.insertRoles(mContext, roles);
+                AppApplication.getInstance().setContactList(null);
+                SPUtil.setContactLastUpdateTime(mContext, Calendar.getInstance().getTimeInMillis());
+            }
+
+            @Override
+            public void onCompleted() {
+                mProgressDialog.dismiss();
+            }
+        });
+    }
+
+    private void getDepartmentInfo(List<Department> departments, JSONArray departmentArray, long parent) {
+        if (departmentArray == null || departmentArray.length() == 0) {
+            return;
+        }
+        for (int ii = 0; ii < departmentArray.length(); ii++) {
+            JSONObject jsonObject = departmentArray.optJSONObject(ii);
+            String name = jsonObject.optString("name");
+            long id = jsonObject.optLong("dpt");
+            JSONArray sonArray = jsonObject.optJSONArray("son");
+            long[] sons;
+            if (sonArray == null || sonArray.length() == 0) {
+                sons = new long[0];
+            } else {
+                sons = new long[sonArray.length()];
+                for (int jj = 0; jj < sonArray.length(); jj++) {
+                    sons[jj] = sonArray.optJSONObject(jj).optLong("dpt");
+                }
+                getDepartmentInfo(departments, sonArray, id);
+            }
+            Department department = new Department(id, name, parent, sons);
+            departments.add(department);
+        }
     }
 
     private void init() {
@@ -780,15 +860,6 @@ public class MainActivity extends BaseBackActionBarActivity implements EMEventLi
         super.onSaveInstanceState(outState);
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            moveTaskToBack(false);
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-
     private android.app.AlertDialog.Builder conflictBuilder;
     private android.app.AlertDialog.Builder accountRemovedBuilder;
     private boolean isConflictDialogShow;
@@ -850,7 +921,7 @@ public class MainActivity extends BaseBackActionBarActivity implements EMEventLi
                         dialog.dismiss();
                         accountRemovedBuilder = null;
                         finish();
-                        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                        //startActivity(new Intent(MainActivity.this, LoginActivity.class));
                     }
                 });
                 accountRemovedBuilder.setCancelable(false);
@@ -890,8 +961,7 @@ public class MainActivity extends BaseBackActionBarActivity implements EMEventLi
                             public void run() {
                                 // 重新显示登陆页面
                                 finish();
-                                startActivity(new Intent(MainActivity.this, LoginActivity.class));
-
+                                //startActivity(new Intent(MainActivity.this, LoginActivity.class));
                             }
                         });
                     }

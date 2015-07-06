@@ -49,7 +49,6 @@ public class ChatterListAdapter extends MyBaseAdapter {
 
         ViewHolder(View view) {
             ButterKnife.inject(this, view);
-            swipeLayout.setSwipeEnabled(false);
         }
     }
 }

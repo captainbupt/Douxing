@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -21,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.badou.mworking.adapter.BannerAdapter;
 import com.badou.mworking.adapter.MainGridAdapter;
@@ -31,6 +33,7 @@ import com.badou.mworking.database.MessageCenterResManager;
 import com.badou.mworking.fragment.MainSearchFragment;
 import com.badou.mworking.model.MainBanner;
 import com.badou.mworking.model.MainIcon;
+import com.badou.mworking.model.user.UserInfo;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.net.ResponseParameters;
@@ -44,7 +47,18 @@ import com.badou.mworking.util.SPUtil;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.BannerGallery;
 import com.badou.mworking.widget.TopFadeScrollView;
+import com.easemob.EMCallBack;
+import com.easemob.EMEventListener;
+import com.easemob.EMNotifierEvent;
+import com.easemob.chat.EMChatManager;
+import com.easemob.chat.EMConversation;
+import com.easemob.chat.EMGroupManager;
+import com.easemob.chat.EMMessage;
+import com.easemob.chatuidemo.Constant;
+import com.easemob.chatuidemo.DemoHXSDKHelper;
 import com.easemob.chatuidemo.activity.MainActivity;
+import com.easemob.chatuidemo.db.UserDao;
+import com.easemob.chatuidemo.domain.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -53,7 +67,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -261,6 +277,97 @@ public class MainGridActivity extends BaseNoTitleActivity {
         mMainGridView.setAdapter(mMainGridAdapter);
         updateMessageCenter();
         //mScrollView.scrollTo(0, 0);
+        UserInfo userInfo = ((AppApplication) getApplication()).getUserInfo();
+        loginEMChat(userInfo.account, userInfo.emchatPassword);
+    }
+
+
+    /**
+     * 登录
+     */
+    public void loginEMChat(final String currentUsername, final String currentPassword) {
+        if (TextUtils.isEmpty(currentPassword)) {
+            ToastUtil.showToast(mContext, R.string.Login_failed);
+            return;
+        }
+        if (!DemoHXSDKHelper.getInstance().isLogined()) {
+            // 调用sdk登陆方法登陆聊天服务器
+            EMChatManager.getInstance().login(currentUsername, currentPassword, new EMCallBack() {
+
+                @Override
+                public void onSuccess() {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            // 登陆成功，保存用户名密码
+                            AppApplication.getInstance().setUserName(currentUsername);
+                            AppApplication.getInstance().setPassword(currentPassword);
+
+                            try {
+                                // ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
+                                // ** manually load all local groups and
+                                EMGroupManager.getInstance().loadAllGroups();
+                                EMChatManager.getInstance().loadAllConversations();
+                                // 处理好友和群组
+                                initializeContacts(mContext);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                // 取好友或者群聊失败，不让进入主页面
+                                AppApplication.getInstance().logout(null);
+                                Toast.makeText(mContext, R.string.login_failure_failed, Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            // 更新当前用户的nickname 此方法的作用是在ios离线推送时能够显示用户nick
+                            boolean updatenick = EMChatManager.getInstance().updateCurrentUserNick(
+                                    AppApplication.currentUserNick.trim());
+                            if (!updatenick) {
+                                Log.e("LoginActivity", "update current user nick fail");
+                            }
+                        }
+                    });
+                }
+
+                @Override
+                public void onProgress(int progress, String status) {
+                }
+
+                @Override
+                public void onError(final int code, final String message) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ToastUtil.showToast(mContext, R.string.Login_failed);
+                        }
+                    });
+                }
+            });
+        }
+    }
+
+    private static void initializeContacts(Context context) {
+        Map<String, User> userlist = new HashMap<String, User>();
+        // 添加user"申请与通知"
+        User newFriends = new User();
+        newFriends.setUsername(Constant.NEW_FRIENDS_USERNAME);
+        String strChat = context.getResources().getString(
+                R.string.Application_and_notify);
+        newFriends.setNick(strChat);
+
+        userlist.put(Constant.NEW_FRIENDS_USERNAME, newFriends);
+        // 添加"群聊"
+        User groupUser = new User();
+        String strGroup = context.getResources().getString(R.string.group_chat);
+        groupUser.setUsername(Constant.GROUP_USERNAME);
+        groupUser.setNick(strGroup);
+        groupUser.setHeader("");
+        userlist.put(Constant.GROUP_USERNAME, groupUser);
+
+        // 存入内存
+        AppApplication.getInstance().setContactList(userlist);
+        // 存入db
+        UserDao dao = new UserDao(context.getApplicationContext());
+        List<User> users = new ArrayList<User>(userlist.values());
+        dao.saveContactList(users);
     }
 
     /**
@@ -493,16 +600,31 @@ public class MainGridActivity extends BaseNoTitleActivity {
     }
 
     private void updateMessageCenter() {
-        if (MessageCenterResManager.getAllItem(mContext).size() > 0) {
+        if (MessageCenterResManager.getAllItem(mContext).size() > 0 || getUnreadMsgCountTotal() > 0) {
             mMessageCenterImageView.setImageResource(R.drawable.button_title_main_message_checked);
         } else {
             mMessageCenterImageView.setImageResource(R.drawable.button_title_main_message_unchecked);
         }
     }
 
-    private MessageReceiver mMessageReceiver = new MessageReceiver();
+    public int getUnreadMsgCountTotal() {
+        int unreadMsgCountTotal = 0;
+        int chatroomUnreadMsgCount = 0;
+        unreadMsgCountTotal = EMChatManager.getInstance().getUnreadMsgsCount();
+        for (EMConversation conversation : EMChatManager.getInstance().getAllConversations().values()) {
+            if (conversation.getType() == EMConversation.EMConversationType.ChatRoom)
+                chatroomUnreadMsgCount = chatroomUnreadMsgCount + conversation.getUnreadMsgCount();
+        }
+        return unreadMsgCountTotal - chatroomUnreadMsgCount;
+    }
 
-    class MessageReceiver extends BroadcastReceiver {
+    private EMEventListener mEMEventListener = new EMEventListener() {
+        @Override
+        public void onEvent(EMNotifierEvent event) {
+            updateMessageCenter();
+        }
+    };
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
 
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -510,12 +632,13 @@ public class MainGridActivity extends BaseNoTitleActivity {
                 updateMessageCenter();
             }
         }
-    }
+    };
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(mMessageReceiver);
+        EMChatManager.getInstance().unregisterEventListener(mEMEventListener);
     }
 
     @Override
@@ -524,5 +647,7 @@ public class MainGridActivity extends BaseNoTitleActivity {
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_RECEIVER_MESSAGE);
         registerReceiver(mMessageReceiver, filter);
+        //有选择性的接收某些类型event事件
+        EMChatManager.getInstance().registerEventListener(mEMEventListener, new EMNotifierEvent.Event[]{EMNotifierEvent.Event.EventNewMessage});
     }
 }

@@ -99,7 +99,7 @@
     <string name="Open_group_members_invited">开放群成员邀请</string>
     <string name="Open_group_chat">公开的群聊</string>
     <string name="blacklist">黑名单列表</string>
-    <string name="Empty_the_chat_record">清空聊天记录</string>
+    <string name="Empty_the_chat_record">删除该群</string>
     <string name="Shielding_of_the_message">屏蔽群消息</string>
     <string name="dismiss_group">解散群聊</string>
     <string name="Select_the_contact">选择联系人</string>
@@ -183,6 +183,7 @@
     <string name="remove_group_of">解除群屏蔽失败，请检查网络或稍后重试</string>
     <string name="group_is_blocked">正在屏蔽群组...</string>
     <string name="group_of_shielding">群屏蔽失败，请检查网络或稍后重试</string>
+    <string name="group_of_shielding_owner">群主不能屏蔽群消息</string>
     <string name="sure_to_empty_this">确定清空此群的聊天记录吗？</string>
     <string name="The_delete_button_is_clicked">删除按钮被点击</string>
     <string name="Add_a_button_was_clicked">添加按钮被点击</string>
@@ -286,4 +287,6 @@
     <string name="searching">正在搜索..</string>
     <string name="hanging_up">正在挂断..</string>
     <string name="illegal_user_name">用户名不合法</string>
+
+    <string name="group_member_empty">请选择群成员</string>
 </resources>

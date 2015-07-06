@@ -30,6 +30,15 @@ public class Department {
         return id;
     }
 
+    public long getTopId() {
+        int level = 0;
+        long top = this.id;
+        for (level = 0; top % 100 == 0; level++, top /= 100) ;
+        top++;
+        for (int jj = 0; jj < level; jj++, top *= 100) ;
+        return top;
+    }
+
     public String getName() {
         return name;
     }

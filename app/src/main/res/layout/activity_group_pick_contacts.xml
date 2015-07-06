@@ -8,11 +8,44 @@
         android:id="@+id/search_bar_view"
         layout="@layout/search_bar_with_padding" />
 
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/search_bar_view"
+        android:background="@color/color_border_grey" />
+
+    <LinearLayout
+        android:id="@+id/selected_panel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/offset_small"
+        android:paddingLeft="@dimen/offset_medium"
+        android:paddingRight="@dimen/offset_large"
+        android:paddingTop="@dimen/offset_small">
+
+        <TextView
+            android:id="@+id/selected_number"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/color_text_black"
+            android:textSize="@dimen/text_size_less" />
+
+        <CheckBox
+            android:id="@+id/filter_selected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/cb_emchat_filter" />
+    </LinearLayout>
+
     <se.emilsjolander.stickylistheaders.StickyListHeadersListView
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/search_bar_view"
+        android:layout_below="@id/selected_panel"
         android:background="@android:color/transparent"
         android:cacheColorHint="#00000000"
         android:descendantFocusability="afterDescendants"
