@@ -29,6 +29,15 @@ import butterknife.InjectView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 public class PickContactsAdapter extends MyBaseAdapter<User> implements SectionIndexer, StickyListHeadersAdapter {
+    private final int TYPE_ALL = 0;
+    private final int TYPE_ROLE = 1;
+    private final int TYPE_DEPARTMENT = 2;
+    private final int TYPE_USER = 3;
+
+    private int mCurrentType = TYPE_ALL;
+    private Object mFilter = null;
+    private boolean isSelected = false;
+
     protected List<User> mOriginUserList;
     private SparseIntArray mPositionOfSection;
     private SparseIntArray mSectionOfPosition;
@@ -122,16 +131,6 @@ public class PickContactsAdapter extends MyBaseAdapter<User> implements SectionI
         return convertView;
     }
 
-    @Override
-    public User getItem(int position) {
-        return super.getItem(position);
-    }
-
-    @Override
-    public int getCount() {
-        return super.getCount();
-    }
-
     public int getPositionForSection(int section) {
         return mPositionOfSection.get(section);
     }
@@ -163,16 +162,22 @@ public class PickContactsAdapter extends MyBaseAdapter<User> implements SectionI
     }
 
     public void setSelected(boolean isSelected) {
-        if (isSelected) {
-            mItemList.clear();
-            for (User user : mOriginUserList) {
-                if (mIsCheckedMap.get(user.getUsername())) {
-                    mItemList.add(user);
-                }
-            }
-            notifyDataSetChanged();
-        } else {
-            showAll();
+        this.isSelected = isSelected;
+        switch (mCurrentType) {
+            case TYPE_ALL:
+                showAll();
+                break;
+            case TYPE_ROLE:
+                setRole((Role) mFilter);
+                break;
+            case TYPE_DEPARTMENT:
+                setDepartment((Department) mFilter);
+                break;
+            case TYPE_USER:
+                setUser((User) mFilter);
+                break;
+            default:
+                showAll();
         }
     }
 
@@ -180,10 +185,13 @@ public class PickContactsAdapter extends MyBaseAdapter<User> implements SectionI
         if (role == null) {
             showAll();
         } else {
+            mCurrentType = TYPE_ROLE;
+            mFilter = role;
             mItemList.clear();
             for (User user : mOriginUserList) {
                 if (user.getRole() == role.getId()) {
-                    mItemList.add(user);
+                    if (!isSelected || mIsCheckedMap.get(user.getUsername()))
+                        mItemList.add(user);
                 }
             }
             notifyDataSetChanged();
@@ -194,8 +202,11 @@ public class PickContactsAdapter extends MyBaseAdapter<User> implements SectionI
         if (user == null) {
             showAll();
         } else {
+            mCurrentType = TYPE_USER;
+            mFilter = user;
             mItemList.clear();
-            mItemList.add(user);
+            if (!isSelected || mIsCheckedMap.get(user.getUsername()))
+                mItemList.add(user);
             notifyDataSetChanged();
         }
     }
@@ -204,11 +215,14 @@ public class PickContactsAdapter extends MyBaseAdapter<User> implements SectionI
         if (department == null) {
             showAll();
         } else {
+            mCurrentType = TYPE_DEPARTMENT;
+            mFilter = department;
             long top = department.getTopId();
             mItemList.clear();
             for (User user : mOriginUserList) {
                 if (user.getDepartment() >= department.getId() && user.getDepartment() < top) {
-                    mItemList.add(user);
+                    if (!isSelected || mIsCheckedMap.get(user.getUsername()))
+                        mItemList.add(user);
                 }
             }
             notifyDataSetChanged();
@@ -217,7 +231,14 @@ public class PickContactsAdapter extends MyBaseAdapter<User> implements SectionI
 
     public void showAll() {
         mItemList.clear();
-        mItemList.addAll(mOriginUserList);
+        if (isSelected) {
+            for (User user : mOriginUserList) {
+                if (mIsCheckedMap.get(user.getUsername()))
+                    mItemList.add(user);
+            }
+        } else {
+            mItemList.addAll(mOriginUserList);
+        }
         notifyDataSetChanged();
     }
 
