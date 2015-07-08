@@ -1,10 +1,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/fm_main_grid_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/ll_main_grid_content_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/color_layout_bg"
@@ -18,11 +16,11 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@id/iv_actionbar_main_user_center"
+            android:layout_below="@id/user_center_image_view"
             android:background="@color/color_border_grey" />
 
         <com.badou.mworking.widget.TopFadeScrollView
-            android:id="@+id/tfsv_main_grid"
+            android:id="@+id/top_fade_scroll_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="none">
@@ -33,27 +31,27 @@
                 android:orientation="vertical">
 
                 <RelativeLayout
-                    android:id="@+id/rl_main_grid_banner"
+                    android:id="@+id/banner_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <com.badou.mworking.widget.BannerGallery
-                        android:id="@+id/gallery_main_banner"
+                        android:id="@+id/banner_gallery"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
                     <RadioGroup
-                        android:id="@+id/rg_main_focus_indicator_container"
+                        android:id="@+id/banner_indicator"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignBottom="@id/gallery_main_banner"
+                        android:layout_alignBottom="@id/banner_gallery"
                         android:layout_marginBottom="@dimen/offset_less"
                         android:gravity="center"
                         android:orientation="horizontal" />
                 </RelativeLayout>
 
                 <com.badou.mworking.widget.LineGridView
-                    android:id="@+id/gv_main_grid_second"
+                    android:id="@+id/content_grid_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/offset_small"
@@ -65,7 +63,7 @@
     </LinearLayout>
 
     <FrameLayout
-        android:id="@+id/fl_main_grid_fragment_container"
+        android:id="@+id/search_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </FrameLayout>

@@ -1,12 +1,9 @@
 package com.badou.mworking;
 
 import android.app.AlertDialog;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
@@ -14,87 +11,73 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 
 import com.badou.mworking.adapter.BannerAdapter;
 import com.badou.mworking.adapter.MainGridAdapter;
-import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.base.BaseNoTitleActivity;
-import com.badou.mworking.database.MessageCenterResManager;
+import com.badou.mworking.entity.main.MainBanner;
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.fragment.MainSearchFragment;
-import com.badou.mworking.entity.MainBanner;
-import com.badou.mworking.entity.main.MainIcon;
-import com.badou.mworking.net.Net;
-import com.badou.mworking.net.RequestParameters;
-import com.badou.mworking.net.ResponseParameters;
-import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
-import com.badou.mworking.net.volley.VolleyListener;
-import com.badou.mworking.util.AlarmUtil;
+import com.badou.mworking.presenter.MainPresenter;
 import com.badou.mworking.util.AppManager;
-import com.badou.mworking.util.DensityUtil;
-import com.badou.mworking.util.SP;
-import com.badou.mworking.util.SPUtil;
 import com.badou.mworking.util.ToastUtil;
+import com.badou.mworking.view.MainGridView;
 import com.badou.mworking.widget.BannerGallery;
+import com.badou.mworking.widget.LineGridView;
 import com.badou.mworking.widget.TopFadeScrollView;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.easemob.chatuidemo.activity.MainActivity;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
-import cn.jpush.android.api.JPushInterface;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
+import butterknife.OnItemClick;
+import butterknife.OnItemSelected;
 
 /**
  * 功能描述: 主页面
  */
-public class MainGridActivity extends BaseNoTitleActivity {
+public class MainGridActivity extends BaseNoTitleActivity implements MainGridView {
 
-    public static final String ACTION_RECEIVER_MESSAGE = "message";
+    public static final String KEY_MESSAGE_CENTER = "messagecenter";
 
-    private long mExitTime = 0; // 记录系统时间
+    @InjectView(R.id.user_center_image_view)
+    ImageView mUserCenterImageView;
+    @InjectView(R.id.logo_image_view)
+    ImageView mLogoImageView;
+    @InjectView(R.id.message_center_image_view)
+    ImageView mMessageCenterImageView;
+    @InjectView(R.id.search_image_view)
+    ImageView mSearchImageView;
+    @InjectView(R.id.banner_gallery)
+    BannerGallery mBannerGallery;
+    @InjectView(R.id.banner_indicator)
+    RadioGroup mBannerIndicator;
+    @InjectView(R.id.content_grid_view)
+    LineGridView mContentGridView;
+    @InjectView(R.id.top_fade_scroll_view)
+    TopFadeScrollView mTopFadeScrollView;
+
     private MainGridAdapter mMainGridAdapter;
 
-    private GridView mMainGridView;
-
-    private ImageView mIconTopImageView; // 企业log imageview
-    /**
-     * 保存banner的adapter
-     */
+    // 保存banner的adapter
     private BannerAdapter mBannerAdapter;
-    /**
-     * 显示bannner*
-     */
-    private BannerGallery mBannerGallery = null;
-    /**
-     * 小原点*
-     */
-    private RadioGroup mIndicatorRadioGroup;
     private List<RadioButton> mIndicatorRadioButtonList;
 
-    private ImageView mUserCentertImageView;    //logo 布局左边图标，点击进入个人中心
-    private ImageView mSearchImageView;    //logo 布局右边图标，点击进入搜索页面
-    private ImageView mMessageCenterImageView; // 消息中心
-
     private MainSearchFragment mMainSearchFragment;
-    private LinearLayout mContentLayout;
 
-    private String mLogoUrl;
-    public boolean isSearching = false;
+    private MainPresenter mMainPresenter;
 
-    public static Intent getIntent(Context context) {
+    public static Intent getIntent(Context context, boolean toMessageCenter) {
+        Intent intent = new Intent(context, MainGridActivity.class);
+        intent.putExtra(KEY_MESSAGE_CENTER, toMessageCenter);
         return new Intent(context, MainGridActivity.class);
     }
 
@@ -102,218 +85,145 @@ public class MainGridActivity extends BaseNoTitleActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_grid);
-        if (UserInfo.ANONYMOUS_ACCOUNT.equals(UserInfo.getUserInfo().getAccount())) {
-            new AlertDialog.Builder(mContext).setTitle(R.string.tip_anonymous_title).setMessage(R.string.tip_anonymous_content).setPositiveButton(R.string.tip_anonymous_confirm, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    startActivity(LoginActivity.getIntent(mContext));
-                    mActivity.finish();
-                }
-            }).setNegativeButton(R.string.tip_anonymous_cancel, null).show();
-        }
-        initView();
-        initListener();
-        initData();
-        int isNewUser;
-        isNewUser = SP.getIntSP(mContext, SP.DEFAULTCACHE, ResponseParameters.EXPER_IS_NEW_USER, 0);
-        if (1 == isNewUser) {
-            new AlertDialog.Builder(MainGridActivity.this).setTitle("欢迎回来!").setMessage(getResources().getString(R.string.main_tips_olduser)).setPositiveButton("确定", null).show();
-            SP.putIntSP(mContext, SP.DEFAULTCACHE, ResponseParameters.EXPER_IS_NEW_USER, 0);
-        }
+        ButterKnife.inject(this);
+        initialize();
+    }
 
-        // 调用缓存中的企业logoUrl图片，这样断网的情况也会显示出来了，如果本地没有的话，网络获取
-        mLogoUrl = SP.getStringSP(this, SP.DEFAULTCACHE, "logoUrl", "");
-        ImageViewLoader.setImageViewResource(mIconTopImageView, R.drawable.logo, mLogoUrl);
-        checkUpdate();
-
-        AlarmUtil alarmUtil = new AlarmUtil();
-        alarmUtil.OpenTimer(this);
-
-        JPushInterface.init(getApplicationContext());
-        //push 推送默认开启，如果用户关闭掉推送的话，在这里停掉推送
-        if (SPUtil.getClosePushOption()) {
-            JPushInterface.stopPush(getApplicationContext());
-        }
+    private void initialize() {
+        mTopFadeScrollView.setTopViewId(R.id.banner_container);
         disableSwipeBack();
+        mBannerAdapter = new BannerAdapter(mContext);
+        mBannerGallery.setAdapter(mBannerAdapter);
+        UserInfo userInfo = UserInfo.getUserInfo();
+        mMainGridAdapter = new MainGridAdapter(mContext, userInfo.getShuffle().getMainIconList(mContext, userInfo.getAccess()));
+        mContentGridView.setAdapter(mMainGridAdapter);
+        mMainPresenter = new MainPresenter(mContext, mReceivedIntent);
+        mMainPresenter.attachView(this);
+    }
 
-        if (mReceivedIntent.getBooleanExtra("messagecenter", false)) {
-            startActivity(new Intent(mContext, MessageCenterActivity.class));
+    @Override
+    public void setLogoImage(String url) {
+        ImageViewLoader.setImageViewResource(mLogoImageView, R.drawable.logo, url);
+    }
+
+    @Override
+    public void setBannerData(List<MainBanner> bannerList) {
+        updateIndicator(bannerList);
+        updateBanner(bannerList);
+    }
+
+    @Override
+    public void showExperienceDialog() {
+        new AlertDialog.Builder(mContext).setTitle(R.string.tip_anonymous_title).setMessage(R.string.tip_anonymous_content).setPositiveButton(R.string.tip_anonymous_confirm, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                startActivity(LoginActivity.getIntent(mContext));
+                mActivity.finish();
+            }
+        }).setNegativeButton(R.string.tip_anonymous_cancel, null).show();
+    }
+
+    @Override
+    public void setMessageCenterStatus(boolean isUnread) {
+        if (isUnread) {
+            mMessageCenterImageView.setImageResource(R.drawable.button_title_main_message_checked);
+        } else {
+            mMessageCenterImageView.setImageResource(R.drawable.button_title_main_message_unchecked);
+        }
+    }
+
+    @Override
+    public void showSearchFragment() {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.show(mMainSearchFragment);
+        transaction.commit();
+        mMainSearchFragment.setFocus();
+    }
+
+    @Override
+    public void hideSearchFragment() {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.hide(mMainSearchFragment);
+        transaction.commit();
+    }
+
+    @Override
+    public void updateUnreadNumber() {
+        mMainGridAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void setIndicator(int index) {
+        if (mBannerIndicator.getChildCount() > 0) {
+            index = index % mBannerIndicator.getChildCount();
+            if (mIndicatorRadioButtonList != null && index < mIndicatorRadioButtonList.size())
+                mIndicatorRadioButtonList.get(index).setChecked(true);
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        updateMessageCenter();
-        mMainGridAdapter.notifyDataSetChanged();
+        mMainPresenter.resume();
     }
 
-    protected void initView() {
-        mUserCentertImageView = (ImageView) findViewById(R.id.iv_actionbar_main_user_center);
-        mSearchImageView = (ImageView) findViewById(R.id.iv_actionbar_main_search);
-        mMessageCenterImageView = (ImageView) findViewById(R.id.iv_actionbar_main_message_center);
-        mIconTopImageView = (ImageView) findViewById(R.id.iv_actionbar_main_logo);
-        mMainGridView = (GridView) findViewById(R.id.gv_main_grid_second);
-        mIndicatorRadioGroup = (RadioGroup) findViewById(R.id.rg_main_focus_indicator_container);
-        mBannerGallery = (BannerGallery) findViewById(R.id.gallery_main_banner);
-        int height = DensityUtil.getWidthInPx(mContext) * 400 / 720; // 按屏幕宽度，计算banner高度
-        mBannerGallery.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, height));
-        TopFadeScrollView mScrollView = (TopFadeScrollView) findViewById(R.id.tfsv_main_grid);
-        mScrollView.setTopViewId(R.id.rl_main_grid_banner);
-        mContentLayout = (LinearLayout) findViewById(R.id.ll_main_grid_content_layout);
-    }
-
-    /**
-     * 功能描述:设置view的监听
-     */
-    protected void initListener() {
-        mMainGridView.setOnItemClickListener(new OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-                                    long arg3) {
-                Intent intent = new Intent();
-                MainIcon mainIcon = (MainIcon) mMainGridAdapter.getItem(arg2);
-                switch (mainIcon.getKey()) {
-                    case RequestParameters.CHK_UPDATA_PIC_NOTICE: // 通知公告
-                        intent.setClass(mContext, NoticeActivity.class);
-                        break;
-                    case RequestParameters.CHK_UPDATA_PIC_TRAINING: // 微培训
-                        intent.setClass(mContext, TrainActivity.class);
-                        intent.putExtra(TrainActivity.KEY_IS_TRAINING, true);
-                        break;
-                    case RequestParameters.CHK_UPDATA_PIC_EXAM: // 在线考试
-                        intent.setClass(mContext, ExamActivity.class);
-                        break;
-                    case RequestParameters.CHK_UPDATA_PIC_SURVEY: // 培训调研
-                        String uid = UserInfo.getUserInfo().getUid();
-                        String url = Net.getWeiDiaoYanURl() + uid;
-                        intent.setClass(mContext, BackWebActivity.class);
-                        intent.putExtra(BackWebActivity.KEY_URL, url);
-                        break;
-                    case RequestParameters.CHK_UPDATA_PIC_TASK: // 任务签到
-                        intent.setClass(mContext, TaskActivity.class);
-                        break;
-                    case RequestParameters.CHK_UPDATA_PIC_CHATTER: // 同事圈
-                        intent.setClass(mContext, ChatterActivity.class);
-                        break;
-                    case RequestParameters.CHK_UPDATA_PIC_ASK: //问答
-                        intent.setClass(mContext, AskActivity.class);
-                        break;
-                    case RequestParameters.CHK_UPDATA_PIC_SHELF: //橱窗
-                        intent.setClass(mContext, TrainActivity.class);
-                        intent.putExtra(TrainActivity.KEY_IS_TRAINING, false);
-                        break;
-                }
-                intent.putExtra(BaseActionBarActivity.KEY_TITLE, mainIcon.getName());
-                startActivity(intent);
-            }
-        });
-        mUserCentertImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(mContext, UserCenterActivity.class);
-                intent.putExtra(BaseActionBarActivity.KEY_TITLE, getResources().getString(R.string.title_name_user_center));
-                MainGridActivity.super.startActivity(intent);
-                overridePendingTransition(R.anim.slide_in_from_bottom, R.anim.slide_out_to_bottom);
-            }
-        });
-        mSearchImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                if (mMainSearchFragment == null) {
-                    mMainSearchFragment = new MainSearchFragment();
-                    transaction.replace(R.id.fl_main_grid_fragment_container, mMainSearchFragment);
-                }
-                transaction.show(mMainSearchFragment);
-                transaction.commit();
-                mMainSearchFragment.setFocus();
-                isSearching = true;
-            }
-        });
-        mMessageCenterImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(mContext, MessageCenterActivity.class));
-            }
-        });
-    }
-
-    protected void initData() {
-        // 取出SP中的banner内容
-        mBannerAdapter = new BannerAdapter(mContext);
-        List<Object> mBannerList = new ArrayList<>();
-        String bannerStr = SP.getStringSP(this, SP.DEFAULTCACHE, "banner", "");
-        if (bannerStr != null && !bannerStr.equals("")) {
-            String[] bannerInfos = bannerStr.split(",");
-            for (String string : bannerInfos) {
-                String[] bannerInfo = string.split("@");
-                MainBanner mainBanner = new MainBanner(bannerInfo[0],
-                        bannerInfo[1], bannerInfo[2]);
-                mBannerList.add(mainBanner);
-            }
+    @Override
+    public MainSearchFragment getSearchFragment() {
+        if (mMainSearchFragment == null) {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            mMainSearchFragment = new MainSearchFragment();
+            transaction.replace(R.id.search_container, mMainSearchFragment);
+            transaction.hide(mMainSearchFragment);
+            transaction.commit();
         }
-        mBannerGallery.setAdapter(mBannerAdapter);
-        updateIndicator(mBannerList);
-        updateBanner(mBannerList);
-        UserInfo userInfo = UserInfo.getUserInfo();
-        mMainGridAdapter = new MainGridAdapter(mContext, userInfo.getShuffle().getMainIconList(mContext, userInfo.getAccess()));
-        mMainGridView.setAdapter(mMainGridAdapter);
-        updateMessageCenter();
-        //mScrollView.scrollTo(0, 0);
+        return mMainSearchFragment;
     }
+
+    @OnItemClick(R.id.content_grid_view)
+    void onCategoryClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+        mMainPresenter.onItemClick(arg0, arg1, arg2, arg3);
+    }
+
+    @OnClick(R.id.user_center_image_view)
+    void onUserCenterClick() {
+        mMainPresenter.onUserCenterClick();
+    }
+
+    @OnClick(R.id.search_image_view)
+    void onSearchClick() {
+        mMainPresenter.onSearchClick();
+    }
+
+    @OnClick(R.id.message_center_image_view)
+    void onMessageCenterClick() {
+        mMainPresenter.onMessageCenterClick();
+    }
+
+
+    @OnItemClick(R.id.banner_gallery)
+    void onBannerClick(AdapterView<?> parent, View view, int position, long id) {
+        mMainPresenter.onBannerClick(parent, view, position, id);
+    }
+
+    @OnItemSelected(R.id.banner_gallery)
+    void onBannerSelected(AdapterView<?> parent, View view, int selIndex, long id) {
+        mMainPresenter.onBannerSelected(parent, view, selIndex, id);
+    }
+
 
     /**
      * 功能描述: 更新显示的banner
      */
-    private void updateBanner(final List<Object> bList) {
+    private void updateBanner(final List<MainBanner> bList) {
         mBannerAdapter.setList(bList);
         mBannerGallery.setFocusable(true);
-        if (bList.size() <= 0) { // 如果没有banner，则取消点击事件
-            mBannerGallery.setOnItemSelectedListener(null);
-            mBannerGallery.setOnItemClickListener(null);
-            return;
-        }
-        mBannerGallery.setOnItemSelectedListener(new OnItemSelectedListener() {
-
-            public void onItemSelected(AdapterView<?> arg0, View arg1,
-                                       int selIndex, long arg3) {
-                selIndex = selIndex % bList.size();
-                if (mIndicatorRadioButtonList != null && selIndex < mIndicatorRadioButtonList.size())
-                    mIndicatorRadioButtonList.get(selIndex).setChecked(true);
-            }
-
-            public void onNothingSelected(AdapterView<?> arg0) {
-                if (mIndicatorRadioButtonList != null && mIndicatorRadioButtonList.size() > 0)
-                    mIndicatorRadioButtonList.get(0).setChecked(true);
-            }
-        });
-        /**
-         * 点击跳转到webview页
-         */
-        mBannerGallery.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                int pos = position % bList.size();
-                Intent intent = new Intent(mContext, BackWebActivity.class);
-                intent.putExtra(BackWebActivity.KEY_URL, ((MainBanner) bList.get(pos)).getBannerContentURL() + "");
-                if (TextUtils.isEmpty(mLogoUrl)) {
-                    intent.putExtra(BackWebActivity.KEY_LOGO_URL, "invalid"); // 非法值
-                } else {
-                    intent.putExtra(BackWebActivity.KEY_LOGO_URL, mLogoUrl);
-                }
-                startActivity(intent);
-            }
-        });
     }
 
     /**
      * 功能描述: 定义底部滑动的小点
      */
-    private void updateIndicator(List<Object> bannerList) {
-        this.mIndicatorRadioGroup.removeAllViews();
+    private void updateIndicator(List<MainBanner> bannerList) {
+        this.mBannerIndicator.removeAllViews();
         if (bannerList == null || bannerList.size() <= 0) {
             return;
         }
@@ -330,7 +240,7 @@ public class MainGridActivity extends BaseNoTitleActivity {
             radioButton
                     .setBackgroundResource(R.drawable.background_rb_welcome);
             mIndicatorRadioButtonList.add(radioButton);
-            this.mIndicatorRadioGroup.addView(radioButton);
+            this.mBannerIndicator.addView(radioButton);
         }
     }
 
@@ -339,150 +249,12 @@ public class MainGridActivity extends BaseNoTitleActivity {
      */
     @Override
     public void onBackPressed() {
-        if (isSearching) {
-            mMainSearchFragment.backPressed();
-        } else {
-            // 应为系统当前的系统毫秒数一定小于2000
-            if ((System.currentTimeMillis() - mExitTime) > 2000) {
-                ToastUtil.showToast(mContext, R.string.main_exit_tips);
-                mExitTime = System.currentTimeMillis();
-            } else {
-                AppManager.getAppManager().AppExit(this, false);
-            }
-        }
-    }
-
-    /**
-     * 功能描述:网络请求更新资源包，         这里是上传MD5来进行匹配，应为本地icon图片已经缓存，每次上传null，会把完整信息请求下来，
-     * 如果url匹配，不会再下载图片内容
-     */
-    private void checkUpdate() {
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put(RequestParameters.CHK_UPDATA_PIC_COMPANY_LOGO, "");
-            jsonObject.put(RequestParameters.CHK_UPDATA_BANNER, "");
-            jsonObject.put(RequestParameters.CHK_UPDATA_PIC_NEWVER, "");
-        } catch (JSONException e1) {
-            e1.printStackTrace();
-        }
-        /**
-         * 发起请求
-         */
-        ServiceProvider.doCheckUpdate(mContext, jsonObject, new VolleyListener(
-                mContext) {
-
-            @Override
-            public void onResponseSuccess(JSONObject response) {
-                List<Object> list = new ArrayList<>();
-                JSONObject data = response.optJSONObject(Net.DATA);
-                apkUpdate(data);
-
-                JSONObject jSONObject = data
-                        .optJSONObject(RequestParameters.CHK_UPDATA_PIC_COMPANY_LOGO);
-                if (jSONObject != null) {
-                    mLogoUrl = jSONObject
-                            .optString(MainBanner.CHK_URL);
-                    SP.putStringSP(MainGridActivity.this, SP.DEFAULTCACHE, "logoUrl", mLogoUrl);
-                    ImageViewLoader.setImageViewResource(mIconTopImageView, R.drawable.logo, mLogoUrl);
-                }
-
-                JSONArray arrBanner = data.optJSONArray("banner");
-
-                String bannerInfo = "";
-                for (int i = 0; i < arrBanner.length(); i++) {
-                    JSONObject jo = arrBanner.optJSONObject(i);
-                    String img = jo.optString(MainBanner.CHK_IMG);
-                    String url = jo.optString(MainBanner.CHK_URL);
-                    String md5 = jo.optString(MainBanner.CHK_RES_MD5);
-                    MainBanner banner = new MainBanner(img, url, md5);
-                    list.add(banner);
-                    bannerInfo = bannerInfo
-                            + banner.bannerToString(img, url, md5);
-                }
-                updateBanner(list);
-                updateIndicator(list);
-                // 保存banner信息数据到sp
-                SP.putStringSP(MainGridActivity.this, SP.DEFAULTCACHE, "banner", bannerInfo);
-            }
-        });
-    }
-
-    /**
-     * 在主页验证是否有软件更新
-     */
-    private void apkUpdate(JSONObject dataJson) {
-        JSONObject newVerjson = dataJson
-                .optJSONObject(RequestParameters.CHK_UPDATA_PIC_NEWVER);
-        boolean hasNew = newVerjson.optInt(ResponseParameters.CHECKUPDATE_NEW) == 1;
-        if (hasNew) {
-            final String info = newVerjson
-                    .optString(ResponseParameters.CHECKUPDATE_INFO);
-            final String url = newVerjson
-                    .optString(ResponseParameters.CHECKUPDATE_URL);
-            new AlertDialog.Builder(mContext)
-                    .setTitle(R.string.main_tips_update_title)
-                    .setMessage(info)
-                    .setPositiveButton(R.string.main_tips_update_btn_ok,
-                            new DialogInterface.OnClickListener() {
-
-                                @Override
-                                public void onClick(DialogInterface dialog,
-                                                    int which) {
-                                    ServiceProvider.doUpdateMTraning(mActivity,
-                                            url);
-                                }
-                            }).setNegativeButton(R.string.text_cancel, null)
-                    .create().show();
-        }
-    }
-
-    public Bitmap myShot() {
-
-        mContentLayout.buildDrawingCache();
-        // 获取屏幕宽和高
-        int widths = mContentLayout.getWidth();
-        int heights = mContentLayout.getHeight();
-        // 允许当前窗口保存缓存信息
-        mContentLayout.setDrawingCacheEnabled(true);
-        // 去掉状态栏
-        Bitmap bmp = Bitmap.createBitmap(mContentLayout.getDrawingCache(), 0,
-                0, widths, heights);
-        // 销毁缓存信息
-        mContentLayout.destroyDrawingCache();
-        return bmp;
-    }
-
-    private void updateMessageCenter() {
-        if (MessageCenterResManager.getAllItem(mContext).size() > 0) {
-            mMessageCenterImageView.setImageResource(R.drawable.button_title_main_message_checked);
-        } else {
-            mMessageCenterImageView.setImageResource(R.drawable.button_title_main_message_unchecked);
-        }
-    }
-
-    private MessageReceiver mMessageReceiver = new MessageReceiver();
-
-    class MessageReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent != null && intent.getAction().equals(ACTION_RECEIVER_MESSAGE)) {
-                updateMessageCenter();
-            }
-        }
+        mMainPresenter.onBackPressed();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(mMessageReceiver);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(ACTION_RECEIVER_MESSAGE);
-        registerReceiver(mMessageReceiver, filter);
+        mMainPresenter.destroy();
     }
 }

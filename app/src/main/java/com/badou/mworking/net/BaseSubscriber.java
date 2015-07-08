@@ -13,7 +13,7 @@ import java.lang.reflect.Field;
 
 import rx.Subscriber;
 
-public abstract class BaseSubscriber extends Subscriber<BaseNetEntity> {
+public abstract class BaseSubscriber<T> extends Subscriber<BaseNetEntity<T>> {
 
     private Context mContext;
     private BaseView mBaseView;
@@ -36,7 +36,7 @@ public abstract class BaseSubscriber extends Subscriber<BaseNetEntity> {
     }
 
     @Override
-    public void onNext(BaseNetEntity baseNetEntity) {
+    public void onNext(BaseNetEntity<T> baseNetEntity) {
         if (baseNetEntity.getErrcode() == Net.LOGOUT) {
             AppApplication.logoutShow(mContext);
             return;
@@ -48,7 +48,7 @@ public abstract class BaseSubscriber extends Subscriber<BaseNetEntity> {
         onResponseSuccess(baseNetEntity.data);
     }
 
-    public abstract void onResponseSuccess(Object data);
+    public abstract void onResponseSuccess(T data);
 
     public void onErrorCode(int code) {
         try {

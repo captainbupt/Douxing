@@ -15,10 +15,14 @@ public class MTrainingDBHelper extends SQLiteOpenHelper {
     private SQLiteDatabase mDatabase;
     // 不要随意更改或者添加删除列名，会导致升级时发生错误
     private static final String DB_NAME = "coll.db";
-    private static final int DB_VERSION = 1;       //数据库版本
+    // private static final int DB_VERSION = 1;       //数据库版本1.6.0
+    private static final int DB_VERSION = 2;       //数据库版本1.6.2
     public static final String TBL_NAME_TONG_SHI_QUAN = "credit";// 同事圈 表名
     public static final String TBL_NAME_WENDADIANZAN = "wendadianzan";// 问答点赞
-    public static final String TBL_NAME_MESSAGE_CENTER = "messagecenter";// 问答点赞
+    public static final String TBL_NAME_MESSAGE_CENTER = "messagecenter";// 消息中心
+    public static final String TBL_NAME_EMCHAT_DEPARTMENT = "emdpt";// 环信部门
+    public static final String TBL_NAME_EMCHAT_ROLE = "emrole";// 环信岗位
+    public static final String TBL_NAME_EMCHAT_USER = "emuser";// 环信好友
     public static final String PRIMARY_ID = "_id";//id
 
     public static final String QUAN_IS_CHECK = "state";//是否点赞(int)
@@ -31,6 +35,17 @@ public class MTrainingDBHelper extends SQLiteOpenHelper {
     public static final String MESSAGE_CENTER_ADD = "adds";
     public static final String MESSAGE_CENTER_TS = "ts";
 
+    public static final String EMCHAT_DEPARTMENT_PARENT = "parent";
+    public static final String EMCHAT_DEPARTMENT_NAME = "name";
+    public static final String EMCHAT_DEPARTMENT_SON = "son";
+
+    public static final String EMCHAT_ROLE_NAME = "name";
+
+    public static final String EMCHAT_USER_NAME = "username";
+    public static final String EMCHAT_NICK_NAME = "nickname";
+    public static final String EMCHAT_DEPARTMENT = "department";
+    public static final String EMCHAT_ROLE = "role";
+    public static final String EMCHAT_IMG_URL = "imgurl";
 
     public MTrainingDBHelper(Context c) {
         super(c, DB_NAME, null, DB_VERSION);
@@ -42,16 +57,27 @@ public class MTrainingDBHelper extends SQLiteOpenHelper {
 
     public void createUserTable(String userNum) {
         SQLiteDatabase db = getDatabase();
-        db.execSQL("CREATE TABLE IF NOT EXISTS " + TBL_NAME_TONG_SHI_QUAN + userNum.replace("@", "") + " ( "
+        userNum = userNum.replace("@", "");
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + TBL_NAME_TONG_SHI_QUAN + userNum + " ( "
                 + PRIMARY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + QUAN_QID + " TEXT, " + QUAN_IS_CHECK + " INTEGER )");
-        db.execSQL("CREATE TABLE IF NOT EXISTS " + TBL_NAME_WENDADIANZAN + userNum.replace("@", "") + " ( "
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + TBL_NAME_WENDADIANZAN + userNum + " ( "
                 + PRIMARY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + WENDA_QID + " TEXT )");
-        db.execSQL("CREATE TABLE IF NOT EXISTS " + TBL_NAME_MESSAGE_CENTER + userNum.replace("@", "") + " ( "
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + TBL_NAME_MESSAGE_CENTER + userNum + " ( "
                 + PRIMARY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + MESSAGE_CENTER_TYPE + " TEXT, " + MESSAGE_CENTER_DESCRIPTION + " TEXT, "
                 + MESSAGE_CENTER_ADD + " TEXT, " + MESSAGE_CENTER_TS + " LONG )");
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + TBL_NAME_EMCHAT_DEPARTMENT + userNum + " ( "
+                + PRIMARY_ID + " LONG PRIMARY KEY,"
+                + EMCHAT_DEPARTMENT_NAME + " TEXT, " + EMCHAT_DEPARTMENT_PARENT + " LONG, "
+                + EMCHAT_DEPARTMENT_SON + " TEXT )");
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + TBL_NAME_EMCHAT_ROLE + userNum + " ( "
+                + PRIMARY_ID + " INTEGER PRIMARY KEY," + EMCHAT_ROLE_NAME + " TEXT )");
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + TBL_NAME_EMCHAT_USER + userNum + " ( "
+                + EMCHAT_USER_NAME + " TEXT PRIMARY KEY,"
+                + EMCHAT_NICK_NAME + " TEXT, " + EMCHAT_DEPARTMENT + " LONG, "
+                + EMCHAT_ROLE + " INTEGER, " + EMCHAT_IMG_URL + " TEXT )");
         mTrainingDBHelper.closeDatabase();
     }
 
@@ -109,6 +135,22 @@ public class MTrainingDBHelper extends SQLiteOpenHelper {
         }
     }
 
+
+    public void clear(String tableName) {
+        String sql = "DELETE FROM " + tableName + ";";
+        SQLiteDatabase db = getDatabase();
+        db.execSQL(sql);
+        revertSeq(tableName);
+        closeDatabase();
+    }
+
+    private void revertSeq(String tableName) {
+        String sql = "update sqlite_sequence set seq=0 where name='" + tableName + "'";
+        SQLiteDatabase db = getDatabase();
+        db.execSQL(sql);
+        closeDatabase();
+    }
+
     /**
      * 功能描述:  删除表中数据
      *
@@ -119,7 +161,7 @@ public class MTrainingDBHelper extends SQLiteOpenHelper {
     public void del(String tableName, String column, String id) {
         SQLiteDatabase db = getDatabase();
         db.delete(tableName, column + "=?", new String[]{id + ""});
-        mTrainingDBHelper.closeDatabase();
+        closeDatabase();
     }
 
     /**
@@ -134,7 +176,6 @@ public class MTrainingDBHelper extends SQLiteOpenHelper {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        mTrainingDBHelper.closeDatabase();
+        closeDatabase();
     }
-
 }

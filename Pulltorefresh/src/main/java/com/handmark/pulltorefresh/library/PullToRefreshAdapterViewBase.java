@@ -149,7 +149,7 @@ public abstract class PullToRefreshAdapterViewBase<T extends AbsListView> extend
 	 * @param adapter - Adapter to set
 	 */
 	public void setAdapter(ListAdapter adapter) {
-		mRefreshableView.setAdapter(adapter);
+		((AdapterView)mRefreshableView).setAdapter(adapter);
 	}
 
 	/**

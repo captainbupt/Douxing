@@ -10,20 +10,16 @@ import com.badou.mworking.R;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.domain.LoginUseCase;
 import com.badou.mworking.entity.user.UserInfo;
-import com.badou.mworking.net.BaseNetEntity;
 import com.badou.mworking.net.BaseSubscriber;
 import com.badou.mworking.util.EncryptionByMD5;
-import com.badou.mworking.util.GsonUtil;
 import com.badou.mworking.util.NetUtils;
-import com.badou.mworking.util.SPUtil;
+import com.badou.mworking.util.SPHelper;
 import com.badou.mworking.view.LoginView;
 import com.badou.mworking.view.BaseView;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
-
-import org.json.JSONObject;
 
 import java.util.regex.Pattern;
 
@@ -43,7 +39,7 @@ public class LoginPresenter extends Presenter implements BDLocationListener {
     public void attachView(BaseView v) {
         mLoginView = (LoginView) v;
         mLoginView.showNormalLayout();
-        mLoginView.setAccount(SPUtil.getUserAccount());
+        mLoginView.setAccount(SPHelper.getUserAccount());
         initLocation();
     }
 
@@ -72,7 +68,7 @@ public class LoginPresenter extends Presenter implements BDLocationListener {
      */
     public void verify(final String account, final String password, double latitude, double longitude) {
         LoginUseCase loginUseCase = new LoginUseCase(account, EncryptionByMD5.getMD5(password.getBytes()), latitude + "", longitude + "");
-        loginUseCase.execute(new BaseSubscriber(mContext, mLoginView) {
+        loginUseCase.execute(new BaseSubscriber<UserInfo>(mContext, mLoginView) {
             @Override
             public void onCompleted() {
                 mLoginView.hideProgressDialog();
@@ -84,8 +80,8 @@ public class LoginPresenter extends Presenter implements BDLocationListener {
             }
 
             @Override
-            public void onResponseSuccess(Object data) {
-                loginSuccess(account, (UserInfo) data);
+            public void onResponseSuccess(UserInfo data) {
+                loginSuccess(account, data);
             }
         });
     }
@@ -93,7 +89,7 @@ public class LoginPresenter extends Presenter implements BDLocationListener {
     // 登录成功 保存信息
     private void loginSuccess(String account, UserInfo userInfo) {
         mLoginView.hideProgressDialog();
-        Intent intent = MainGridActivity.getIntent(mContext);
+        Intent intent = MainGridActivity.getIntent(mContext, false);
         /*** 保存没MD5的用户账户 **/
         UserInfo.setUserInfo((AppApplication) mContext.getApplicationContext(), account, userInfo);
         mActivity.startActivity(intent);

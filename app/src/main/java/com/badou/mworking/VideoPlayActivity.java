@@ -37,12 +37,12 @@ import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.entity.main.MainIcon;
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.RequestParameters;
+import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.FullScreenVideoView;
-import com.lidroid.xutils.HttpUtils;
-import com.lidroid.xutils.exception.HttpException;
-import com.lidroid.xutils.http.ResponseInfo;
-import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.loopj.android.http.RangeFileAsyncHttpResponseHandler;
+
+import org.apache.http.Header;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -145,35 +145,34 @@ public class VideoPlayActivity extends BaseBackActionBarActivity {
 
     private void downloadFile() {
         mProgressDialog.show();
-        HttpUtils httpUtils = new HttpUtils();
-        httpUtils.download(videoURl, videoPath, true, true, new RequestCallBack<File>() {
+        ServiceProvider.doDownloadTrainingFile(videoURl, videoPath, new RangeFileAsyncHttpResponseHandler(new File(videoPath)) {
+
             @Override
-            public void onSuccess(ResponseInfo<File> responseInfo) {
-                mVideo.setBackgroundColor(VideoPlayActivity.this.getResources().getColor(color.transparent));
-                mVideo.setVideoPath(videoPath);
-                mProgressDialog.dismiss();
-                statuDownFinish();
-                startPlay();
+            public void onProgress(long bytesWritten, long totalSize) {
+                super.onProgress(bytesWritten, totalSize);
+                if (mSeekBar.getMax() != (int) totalSize) {
+                    mSeekBar.setMax((int) totalSize);
+                }
+                mSeekBar.setProgress((int) bytesWritten);
+                if (mSeekBar.getMax() > 0) {
+                    int proNum = mSeekBar.getProgress() * 100 / mSeekBar.getMax();
+                    tvCurrentTime.setText(proNum + "%");
+                }
             }
 
             @Override
-            public void onFailure(HttpException e, String s) {
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
                 mProgressDialog.dismiss();
                 ToastUtil.showNetExc(mContext);
             }
 
             @Override
-            public void onLoading(long total, long current, boolean isUploading) {
-                super.onLoading(total, current, isUploading);
-                if (mSeekBar.getMax() != total) {
-                    mSeekBar.setMax((int) total);
-                }
-                mSeekBar.setProgress((int) current);
-                if (mSeekBar.getMax() > 0) {
-                    int proNum = mSeekBar.getProgress() * 100
-                            / mSeekBar.getMax();
-                    tvCurrentTime.setText(proNum + "%");
-                }
+            public void onSuccess(int statusCode, Header[] headers, File file) {
+                mVideo.setBackgroundColor(VideoPlayActivity.this.getResources().getColor(color.transparent));
+                mVideo.setVideoPath(videoPath);
+                mProgressDialog.dismiss();
+                statuDownFinish();
+                startPlay();
             }
         });
     }
@@ -285,6 +284,13 @@ public class VideoPlayActivity extends BaseBackActionBarActivity {
             return true;
         }
     };
+
+    @Override
+    protected void onDestroy() {
+        mProgressDialog.dismiss();
+        ServiceProvider.cancelRequest();
+        super.onDestroy();
+    }
 
     /**
      * 没有下载文件 *

@@ -8,7 +8,7 @@ import com.badou.mworking.LoginActivity;
 import com.badou.mworking.MainGridActivity;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.entity.user.UserInfo;
-import com.badou.mworking.util.SPUtil;
+import com.badou.mworking.util.SPHelper;
 import com.badou.mworking.view.SplashView;
 import com.badou.mworking.view.BaseView;
 
@@ -37,18 +37,18 @@ public class SplashPresenter extends Presenter {
         @Override
         public void run() {
             //判断是否是第一次启动程序
-            if (!SPUtil.getIsFirst()) {
+            if (!SPHelper.getIsFirst()) {
                 //查看shareprefernces中是否保存的UserInfo(登录时保存的)
-                UserInfo userInfo = SPUtil.getUserInfo();
+                UserInfo userInfo = SPHelper.getUserInfo();
                 if (userInfo == null) {
                     goLogin();
                 } else {
                     goMain(userInfo);
                 }
             } else {
-                SPUtil.clearSP();
+                SPHelper.clearSP();
                 //软件运行过sp中记录
-                SPUtil.setIsFirst(false);
+                SPHelper.setIsFirst(false);
                 goIntroduction();
             }
         }
@@ -66,8 +66,8 @@ public class SplashPresenter extends Presenter {
      * 功能描述: 跳转到主页面
      */
     private void goMain(UserInfo userInfo) {
-        UserInfo.setUserInfo((AppApplication) mContext.getApplicationContext(), SPUtil.getUserAccount(), userInfo);
-        mActivity.startActivity(MainGridActivity.getIntent(mContext));
+        UserInfo.setUserInfo((AppApplication) mContext.getApplicationContext(), SPHelper.getUserAccount(), userInfo);
+        mActivity.startActivity(MainGridActivity.getIntent(mContext, false));
         mActivity.finish();
     }
 

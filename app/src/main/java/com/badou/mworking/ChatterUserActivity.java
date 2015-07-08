@@ -1,5 +1,6 @@
 package com.badou.mworking;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -22,6 +23,7 @@ import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.LVUtil;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.NoScrollListView;
+import com.badou.mworking.widget.NoneResultView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 
@@ -30,6 +32,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.internal.ListenerClass;
 
 /**
  * 功能描述: 我的圈页面
@@ -51,6 +55,7 @@ public class ChatterUserActivity extends BaseNoTitleActivity {
     private TextView mTitleTextView;
     private PullToRefreshScrollView mScrollView;
     private ChatterListAdapter mChatterAdapter;
+    private NoneResultView mNoneResultView;
 
     private int mCurrentPage;
     private int mClickPosition;
@@ -72,6 +77,7 @@ public class ChatterUserActivity extends BaseNoTitleActivity {
         mBackImageView = (ImageView) findViewById(R.id.iv_chatter_user_top_back);
         mTitleTextView = (TextView) findViewById(R.id.tv_chatter_user_top_title);
         mScrollView = (PullToRefreshScrollView) findViewById(R.id.ptrsv_chatter_user_content);
+        mNoneResultView = (NoneResultView) findViewById(R.id.nrv_chatter_user_none_result);
     }
 
     private void initListener() {
@@ -112,19 +118,14 @@ public class ChatterUserActivity extends BaseNoTitleActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (mClickPosition >= 0 && mClickPosition < mChatterAdapter.getCount()) {
-            if (resultCode == RESULT_OK) {
+        if (resultCode == Activity.RESULT_OK && mClickPosition >= 0 && mClickPosition < mChatterAdapter.getCount()) {
+            if (data.getBooleanExtra(ChatterDetailActivity.RESULT_KEY_DELETE, false)) {
+                mChatterAdapter.remove(mClickPosition);
+            } else {
                 Chatter chatter = (Chatter) mChatterAdapter.getItem(mClickPosition);
-                if (data == null) {
-                    chatter.replyNumber = -1;
-                } else {
-                    chatter.replyNumber = (data.getIntExtra(ChatterDetailActivity.RESULT_KEY_COUNT, -1));
-                }
-                if (chatter.replyNumber < 0) {
-                    mChatterAdapter.remove(mClickPosition);
-                } else {
-                    mChatterAdapter.setItem(mClickPosition, chatter);
-                }
+                chatter.replyNumber = data.getIntExtra(ChatterDetailActivity.RESULT_KEY_COUNT, chatter.replyNumber);
+                chatter.isStore = data.getBooleanExtra(ChatterDetailActivity.RESULT_KEY_STORE, chatter.isStore);
+                mChatterAdapter.setItem(mClickPosition, chatter);
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -183,9 +184,11 @@ public class ChatterUserActivity extends BaseNoTitleActivity {
                                 ToastUtil.showUpdateToast(mContext);
                             } else {
                                 mChatterAdapter.setList(null);
+                                mNoneResultView.setVisibility(View.VISIBLE);
                             }
                             return;
                         }
+                        mNoneResultView.setVisibility(View.GONE);
                         mCurrentPage++;
                         // 新加载的内容添加到list
                         List<Object> chatters = new ArrayList<>();

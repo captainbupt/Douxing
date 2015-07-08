@@ -9,13 +9,14 @@ import android.widget.ImageView.ScaleType;
 
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
-import com.badou.mworking.entity.MainBanner;
+import com.badou.mworking.entity.main.MainBanner;
+import com.badou.mworking.entity.main.MainIcon;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
 
 /**
  * 功能描述: 显示banner 的适配器
  */
-public class BannerAdapter extends MyBaseAdapter {
+public class BannerAdapter extends MyBaseAdapter<MainBanner> {
 
     public BannerAdapter(Context context) {
         super(context);
@@ -26,34 +27,30 @@ public class BannerAdapter extends MyBaseAdapter {
         return Integer.MAX_VALUE;
     }
 
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder = null;
-        if (convertView == null) {
-            viewHolder = new ViewHolder(mContext);
-            convertView = viewHolder.imageView;
-            convertView.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHolder) convertView.getTag();
+    @Override
+    public MainBanner getItem(int i) {
+        if(mItemList == null || mItemList.size() == 0){
+            return null;
+        }else {
+            return mItemList.get(i % mItemList.size());
         }
-        if (mItemList.size() <= 0) {
-            viewHolder.imageView.setImageResource(R.drawable.banner_default);
-            return convertView;
-        }
-
-        String url = ((MainBanner) mItemList.get(position % mItemList.size())).getBannerImgURL();
-        ImageViewLoader.setImageViewResource(viewHolder.imageView, R.drawable.banner_default, url);
-        return convertView;
     }
 
-    private static class ViewHolder {
-        ImageView imageView;
-
-        public ViewHolder(Context context) {
-            imageView = new ImageView(context);
+    public View getView(int position, View convertView, ViewGroup parent) {
+        if (convertView == null) {
+            ImageView imageView = new ImageView(mContext);
             imageView.setAdjustViewBounds(true);//不清楚有什么效果
             imageView.setLayoutParams(new LayoutParams(
                     LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
             imageView.setScaleType(ScaleType.FIT_XY);
+            convertView = imageView;
         }
+        MainBanner mainBanner = getItem(position);
+        if (mainBanner == null) {
+            ((ImageView) convertView).setImageResource(R.drawable.banner_default);
+        }else {
+            ImageViewLoader.setImageViewResource((ImageView) convertView, R.drawable.banner_default, mainBanner.getImg());
+        }
+        return convertView;
     }
 }

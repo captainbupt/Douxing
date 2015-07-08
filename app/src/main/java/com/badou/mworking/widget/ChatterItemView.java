@@ -5,11 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.text.TextUtils;
-import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,14 +18,13 @@ import com.badou.mworking.R;
 import com.badou.mworking.database.ChatterResManager;
 import com.badou.mworking.entity.Chatter;
 import com.badou.mworking.entity.user.UserChatterInfo;
-import com.badou.mworking.listener.CopyClickListener;
 import com.badou.mworking.listener.TopicClickableSpan;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.LVUtil;
 import com.badou.mworking.util.NetUtils;
-import com.badou.mworking.util.SPUtil;
+import com.badou.mworking.util.SPHelper;
 import com.badou.mworking.util.TimeTransfer;
 
 import org.json.JSONObject;
@@ -98,7 +95,7 @@ public class ChatterItemView extends LinearLayout {
 
         // 评论中添加的图片
         // 没有的话，判断是否是wifi网络
-        if (NetUtils.isWifiConnected(mContext) || !SPUtil.getSaveInternetOption()) {
+        if (NetUtils.isWifiConnected(mContext) || !SPHelper.getSaveInternetOption()) {
             saveInternetTextView.setVisibility(View.GONE);
             if (!TextUtils.isEmpty(chatter.videoUrl)) {
                 videoImageView.setVisibility(View.VISIBLE);

@@ -28,16 +28,15 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.badou.mworking.entity.category.Train;
+import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.util.DensityUtil;
 import com.badou.mworking.util.FileUtils;
 import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.FullScreenVideoView;
-import com.lidroid.xutils.HttpUtils;
-import com.lidroid.xutils.exception.HttpException;
-import com.lidroid.xutils.http.HttpHandler;
-import com.lidroid.xutils.http.ResponseInfo;
-import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.loopj.android.http.RangeFileAsyncHttpResponseHandler;
+
+import org.apache.http.Header;
 
 import java.io.File;
 import java.net.HttpURLConnection;
@@ -75,7 +74,6 @@ public class TrainVideoActivity extends TrainBaseActivity {
     private String mSaveFilePath = ""; // 文件路径
 
     private ProgressHandler mProgressHandler;
-    private HttpHandler mDownloadingHandler; // 下载
     private boolean isChanging = false;// 互斥变量，防止定时器与SeekBar拖动时进度冲突
 
     public static Intent getIntent(Context context, Train train) {
@@ -270,38 +268,31 @@ public class TrainVideoActivity extends TrainBaseActivity {
     private void startDownload() {
         mDownloadImageView.setVisibility(View.GONE);
         mDownloadingProgressBar.setVisibility(View.VISIBLE);
-        if (mDownloadingHandler == null) {
-            HttpUtils http = new HttpUtils();
-            mDownloadingHandler = http.download(mTrain.url,
-                    mSaveFilePath + ".tmp",
-                    true, // 如果目标文件存在，接着未完成的部分继续下载。服务器不支持RANGE时将从新下载。
-                    true, // 如果从请求返回信息中获取到文件名，下载完成后自动重命名。
-                    new RequestCallBack<File>() {
+        ServiceProvider.doDownloadTrainingFile(mTrain.url, mSaveFilePath, new RangeFileAsyncHttpResponseHandler(new File(mSaveFilePath)) {
 
-                        @Override
-                        public void onLoading(long total, long current, boolean isUploading) {
-                            System.out.println("total: " + total + ", current: " + current);
-                            if (mProgressSeekBar.getMax() != total)
-                                mProgressSeekBar.setMax((int) total);
-                            mProgressSeekBar.setProgress((int) current);
-                            if (total > 0 && current > 0)
-                                mTotalTimeTextView.setText(100 * current / total + "%");
-                        }
+            @Override
+            public void onProgress(long bytesWritten, long totalSize) {
+                super.onProgress(bytesWritten, totalSize);
+                if (mProgressSeekBar.getMax() != (int) totalSize)
+                    mProgressSeekBar.setMax((int) totalSize);
+                mProgressSeekBar.setProgress((int) bytesWritten);
+                if (totalSize > 0 && bytesWritten > 0) {
+                    mTotalTimeTextView.setText(100 * bytesWritten / totalSize + "%");
+                }
+            }
 
-                        @Override
-                        public void onSuccess(ResponseInfo<File> responseInfo) {
-                            FileUtils.renameFile(FileUtils.getTrainCacheDir(mContext), mTrain.rid + ENDWITH_MP4 + ".tmp", mTrain.rid + ENDWITH_MP4);
-                            statusDownloadFinish();
-                            initVideo();
-                        }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
+                ToastUtil.showNetExc(mContext);
+                statusNotDownLoad();
+            }
 
-
-                        @Override
-                        public void onFailure(HttpException error, String msg) {
-                            new File(mSaveFilePath + ".tmp").delete();
-                        }
-                    });
-        }
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, File file) {
+                statusDownloadFinish();
+                initVideo();
+            }
+        });
     }
 
     /**
@@ -537,8 +528,7 @@ public class TrainVideoActivity extends TrainBaseActivity {
             }
             mVideoPlayer = null;
         }
-        if (mDownloadingHandler != null)
-            mDownloadingHandler.cancel();
+        ServiceProvider.cancelRequest();
         super.onDestroy();
     }
 

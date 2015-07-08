@@ -5,12 +5,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.badou.mworking.base.AppApplication;
@@ -21,10 +17,14 @@ import com.badou.mworking.net.ResponseParameters;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.AlarmUtil;
-import com.badou.mworking.util.SPUtil;
+import com.badou.mworking.util.SPHelper;
 import com.badou.mworking.util.ToastUtil;
+import com.loopj.android.http.RangeFileAsyncHttpResponseHandler;
 
+import org.apache.http.Header;
 import org.json.JSONObject;
+
+import java.io.File;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -55,8 +55,8 @@ public class AboutUsActivity extends BaseBackActionBarActivity {
     }
 
     private void initData() {
-        cbSave.setChecked(SPUtil.getSaveInternetOption());
-        cbPush.setChecked(SPUtil.getClosePushOption());
+        cbSave.setChecked(SPHelper.getSaveInternetOption());
+        cbPush.setChecked(SPHelper.getClosePushOption());
         tvInfo.setText(mContext.getResources().getString(
                 R.string.app_name)
                 + AppApplication.appVersion);
@@ -97,9 +97,32 @@ public class AboutUsActivity extends BaseBackActionBarActivity {
                                                 public void onClick(
                                                         DialogInterface dialog,
                                                         int which) {
-                                                    ServiceProvider
-                                                            .doUpdateMTraning(
-                                                                    mActivity, url);
+                                                    mProgressDialog.setTitle(R.string.action_update_download_ing);
+                                                    mProgressDialog.show();
+                                                    ServiceProvider.doUpdateMTraning(mActivity, url, new RangeFileAsyncHttpResponseHandler(new File("update.apk")) { // 仅仅是借用该接口
+                                                        @Override
+                                                        public void onProgress(long bytesWritten, long totalSize) {
+                                                            if (mProgressDialog.getMax() != (int) totalSize)
+                                                                mProgressDialog.setMax((int) totalSize);
+                                                            mProgressDialog.setProgress((int) bytesWritten);
+                                                        }
+
+                                                        @Override
+                                                        public void onSuccess(int statusCode, Header[] headers, File file) {
+                                                            mProgressDialog.dismiss();
+                                                            Intent intent = new Intent();
+                                                            intent.setAction(Intent.ACTION_VIEW);
+                                                            intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
+                                                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                            startActivity(intent);
+                                                        }
+
+                                                        @Override
+                                                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
+                                                            ToastUtil.showNetExc(mContext);
+                                                            mProgressDialog.dismiss();
+                                                        }
+                                                    });
                                                 }
                                             }).setNegativeButton(R.string.text_cancel, null)
                                     .create().show();
@@ -151,9 +174,9 @@ public class AboutUsActivity extends BaseBackActionBarActivity {
     @OnCheckedChanged(R.id.cb_save)
     void saveInternetOption(CompoundButton buttonView, boolean isChecked) {
         if (isChecked) {
-            SPUtil.setSaveInternetOption( true);
+            SPHelper.setSaveInternetOption(true);
         } else {
-            SPUtil.setSaveInternetOption( false);
+            SPHelper.setSaveInternetOption(false);
         }
     }
 
@@ -161,12 +184,12 @@ public class AboutUsActivity extends BaseBackActionBarActivity {
     @OnCheckedChanged(R.id.cb_push)
     void closePushOption(CompoundButton buttonView, boolean isChecked) {
         if (isChecked) {
-            SPUtil.setClosePushOption( true);
+            SPHelper.setClosePushOption(true);
             JPushInterface.stopPush(getApplicationContext());   //推送关闭
             AlarmUtil alarmUtil = new AlarmUtil();
             alarmUtil.cancel(mContext);
         } else {
-            SPUtil.setClosePushOption( false);
+            SPHelper.setClosePushOption(false);
             JPushInterface.resumePush(getApplicationContext());    //推送打开
             AlarmUtil alarmUtil = new AlarmUtil();
             alarmUtil.OpenTimer(mContext);

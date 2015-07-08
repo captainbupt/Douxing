@@ -379,12 +379,7 @@ public class UserCenterActivity extends BaseNoTitleActivity {
             chatNumTextView.setVisibility(View.GONE);
         }
         int storeNumber = mUserDetail.store;
-        if (storeNumber > 0) {
-            storeNumTextView.setVisibility(View.VISIBLE);
-            storeNumTextView.setText(storeNumber + "");
-        } else {
-            storeNumTextView.setVisibility(View.GONE);
-        }
+        storeNumTextView.setText(storeNumber + getResources().getString(R.string.chatter_num));
 
     }
 

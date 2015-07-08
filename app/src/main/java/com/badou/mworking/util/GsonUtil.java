@@ -12,8 +12,12 @@ import java.lang.reflect.Type;
 public class GsonUtil {
     private static Gson gson;
 
-    public static void initialize(){
+    public static void initialize() {
         gson = new Gson();
+    }
+
+    public static Object fromJson(String jsonString, Type type) {
+        return gson.fromJson(jsonString, type);
     }
 
     public static <T> T fromJson(String jsonString, Class<T> className) {

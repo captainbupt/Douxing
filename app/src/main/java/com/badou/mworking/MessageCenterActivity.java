@@ -48,7 +48,6 @@ public class MessageCenterActivity extends BaseBackActionBarActivity {
                 toDetailPage(mContext, i, (MessageCenter) mContentAdapter.getItem(i));
             }
         });
-        mNoneResultView.setContent(R.drawable.background_none_result_notice, R.string.none_result_message_center);
         if (mContentAdapter.getCount() <= 0) {
             mNoneResultView.setVisibility(View.VISIBLE);
         } else {

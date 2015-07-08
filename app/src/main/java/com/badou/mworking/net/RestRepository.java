@@ -2,8 +2,10 @@ package com.badou.mworking.net;
 
 
 import com.badou.mworking.base.AppApplication;
+import com.badou.mworking.domain.CheckUpdateUseCase;
 import com.badou.mworking.domain.LoginUseCase;
 import com.badou.mworking.domain.UseCase;
+import com.badou.mworking.entity.main.MainData;
 import com.badou.mworking.entity.user.UserInfo;
 
 import org.json.JSONException;
@@ -41,6 +43,10 @@ public class RestRepository {
 
     public Observable<BaseNetEntity<UserInfo>> login(LoginUseCase.Login login) {
         return restApi.login(AppApplication.SYSPARAM, AppApplication.appVersion, login);
+    }
+
+    public Observable<BaseNetEntity<MainData>> checkUpdate(String uid, String screen, CheckUpdateUseCase.UpdateInfo updateInfo) {
+        return restApi.checkUpdate(AppApplication.SYSPARAM, AppApplication.appVersion, uid, screen, updateInfo);
     }
 
 }

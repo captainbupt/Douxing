@@ -62,11 +62,22 @@ public class WaitProgressDialog extends ProgressDialog {
     public void show() {
         if (!((Activity) mContext).isFinishing())
             super.show();
+        else {
+            destroy();
+        }
     }
 
     @Override
     public void dismiss() {
         if (!((Activity) mContext).isFinishing())
             super.dismiss();
+        else {
+            destroy();
+        }
+    }
+
+    // 释放Context引用，防止activity异常退出的时候内存溢出
+    public void destroy() {
+        mContext = null;
     }
 }
