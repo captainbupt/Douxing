@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingTop="13dp" >
+    android:paddingTop="13dp">
 
     <TextView
         android:id="@+id/timestamp"
@@ -15,7 +15,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_chat_activity" >
+        android:layout_marginTop="@dimen/margin_chat_activity">
 
         <ImageView
             android:id="@+id/iv_userhead"
@@ -25,15 +25,25 @@
             android:layout_alignParentTop="true"
             android:layout_marginLeft="@dimen/margin_chat_activity"
             android:background="@drawable/mini_avatar_shadow"
-            android:scaleType="fitXY" />
+            android:scaleType="fitCenter" />
+
+        <TextView
+            android:id="@+id/tv_userid"
+            style="@style/chat_text_name_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="@dimen/offset_small"
+            android:layout_toRightOf="@id/iv_userhead" />
 
         <ImageView
             android:id="@+id/iv_voice"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="@dimen/size_avatar"
+            android:layout_below="@id/tv_userid"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/iv_userhead"
-            android:background="@drawable/chatfrom_bg"
+            android:background="@drawable/chatfrom_bg_normal"
             android:clickable="true"
             android:src="@drawable/chatfrom_voice_playing" />
 
@@ -42,6 +52,7 @@
             style="@style/chat_text_name_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/tv_userid"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/iv_voice"
             android:gravity="center"
@@ -57,21 +68,12 @@
 
         <ProgressBar
             android:id="@+id/pb_sending"
-            android:layout_toRightOf="@id/iv_unread_voice"
             style="?android:attr/progressBarStyleSmall"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginTop="5dp"
+            android:layout_toRightOf="@id/iv_unread_voice"
             android:visibility="invisible" />
-
-        <TextView
-            android:id="@+id/tv_userid"
-            style="@style/chat_text_name_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@id/iv_userhead"
-            android:layout_toLeftOf="@id/iv_voice" />
     </RelativeLayout>
 
 </LinearLayout>

@@ -30,7 +30,10 @@ import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.Handler;
 import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,6 +52,7 @@ import android.widget.Toast;
 import com.badou.mworking.base.AppApplication;
 import com.easemob.EMCallBack;
 import com.easemob.EMError;
+import com.easemob.chat.EMChat;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMMessage;
@@ -106,6 +110,8 @@ public class MessageAdapter extends BaseAdapter {
     private static final int MESSAGE_TYPE_RECV_VOICE_CALL = 13;
     private static final int MESSAGE_TYPE_SENT_VIDEO_CALL = 14;
     private static final int MESSAGE_TYPE_RECV_VIDEO_CALL = 15;
+
+    public static final String KEY_HELLO_MESSAGE = "hellomessage";
 
     public static final String IMAGE_DIR = "chat/image/";
     public static final String VOICE_DIR = "chat/audio/";
@@ -395,6 +401,17 @@ public class MessageAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
+        if (message.getType() == EMMessage.Type.TXT) {
+            if (holder.pb != null)
+                holder.pb.setVisibility(View.VISIBLE);
+            if (holder.staus_iv != null)
+                holder.staus_iv.setVisibility(View.VISIBLE);
+            holder.iv_avatar.setVisibility(View.VISIBLE);
+            holder.tv.setVisibility(View.VISIBLE);
+            if (holder.tv_usernick != null)
+                holder.tv_usernick.setVisibility(View.VISIBLE);
+        }
+
         // 群聊时，显示接收的消息的发送人的名称
         if ((chatType == ChatType.GroupChat || chatType == chatType.ChatRoom) && message.direct == EMMessage.Direct.RECEIVE) {
             //demo里使用username代码nick
@@ -526,9 +543,20 @@ public class MessageAdapter extends BaseAdapter {
         }
 
         TextView timestamp = (TextView) convertView.findViewById(R.id.timestamp);
-
-        if (position == 0) {
-            timestamp.setText(DateUtils.getTimestampString(new Date(message.getMsgTime())));
+        if (message.getStringAttribute(KEY_HELLO_MESSAGE, "0").equals("1") && message.getType() == Type.TXT) {
+            timestamp.setText(((TextMessageBody) message.getBody()).getMessage());
+            timestamp.setVisibility(View.VISIBLE);
+            if (holder.pb != null)
+                holder.pb.setVisibility(View.GONE);
+            if (holder.staus_iv != null)
+                holder.staus_iv.setVisibility(View.GONE);
+            holder.iv_avatar.setVisibility(View.GONE);
+            holder.tv.setVisibility(View.GONE);
+            if (holder.tv_usernick != null)
+                holder.tv_usernick.setVisibility(View.GONE);
+        } else if (position == 0) {
+            timestamp.setText(" " + DateUtils.getTimestampString(new Date(message.getMsgTime())));
+            timestamp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.time, 0, 0, 0);
             timestamp.setVisibility(View.VISIBLE);
         } else {
             // 两条消息时间离得如果稍长，显示时间
@@ -536,7 +564,8 @@ public class MessageAdapter extends BaseAdapter {
             if (prevMessage != null && DateUtils.isCloseEnough(message.getMsgTime(), prevMessage.getMsgTime())) {
                 timestamp.setVisibility(View.GONE);
             } else {
-                timestamp.setText(DateUtils.getTimestampString(new Date(message.getMsgTime())));
+                timestamp.setText(" " + DateUtils.getTimestampString(new Date(message.getMsgTime())));
+                timestamp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.time, 0, 0, 0);
                 timestamp.setVisibility(View.VISIBLE);
             }
         }
@@ -546,6 +575,7 @@ public class MessageAdapter extends BaseAdapter {
 
     /**
      * 显示用户头像
+     *
      * @param message
      * @param imageView
      */
@@ -716,7 +746,7 @@ public class MessageAdapter extends BaseAdapter {
                                     // message.setProgress(0);
                                     holder.staus_iv.setVisibility(View.VISIBLE);
                                     Toast.makeText(activity,
-                                            activity.getString(R.string.send_fail) + activity.getString(R.string.connect_failuer_toast), 0)
+                                            activity.getString(R.string.send_fail) + activity.getString(R.string.connect_failuer_toast), Toast.LENGTH_SHORT)
                                             .show();
                                     timer.cancel();
                                 }
@@ -842,7 +872,7 @@ public class MessageAdapter extends BaseAdapter {
                                     // message.setProgress(0);
                                     holder.staus_iv.setVisibility(View.VISIBLE);
                                     Toast.makeText(activity,
-                                            activity.getString(R.string.send_fail) + activity.getString(R.string.connect_failuer_toast), 0)
+                                            activity.getString(R.string.send_fail) + activity.getString(R.string.connect_failuer_toast), Toast.LENGTH_SHORT)
                                             .show();
                                     timer.cancel();
                                 }
@@ -1058,7 +1088,7 @@ public class MessageAdapter extends BaseAdapter {
                                     holder.tv.setVisibility(View.INVISIBLE);
                                     holder.staus_iv.setVisibility(View.VISIBLE);
                                     Toast.makeText(activity,
-                                            activity.getString(R.string.send_fail) + activity.getString(R.string.connect_failuer_toast), 0)
+                                            activity.getString(R.string.send_fail) + activity.getString(R.string.connect_failuer_toast), Toast.LENGTH_SHORT)
                                             .show();
                                     timer.cancel();
                                 }
@@ -1248,7 +1278,7 @@ public class MessageAdapter extends BaseAdapter {
                             // message.setSendingStatus(Message.SENDING_STATUS_FAIL);
                             holder.staus_iv.setVisibility(View.VISIBLE);
                             Toast.makeText(activity,
-                                    activity.getString(R.string.send_fail) + activity.getString(R.string.connect_failuer_toast), 0).show();
+                                    activity.getString(R.string.send_fail) + activity.getString(R.string.connect_failuer_toast), Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -1383,11 +1413,9 @@ public class MessageAdapter extends BaseAdapter {
     /**
      * 展示视频缩略图
      *
-     * @param localThumb
-     *            本地缩略图路径
+     * @param localThumb   本地缩略图路径
      * @param iv
-     * @param thumbnailUrl
-     *            远程缩略图路径
+     * @param thumbnailUrl 远程缩略图路径
      * @param message
      */
     private void showVideoThumbView(String localThumb, ImageView iv, String thumbnailUrl, final EMMessage message) {

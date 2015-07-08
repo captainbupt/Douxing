@@ -52,6 +52,7 @@ import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.database.EMChatResManager;
 import com.badou.mworking.model.emchat.Department;
 import com.badou.mworking.model.emchat.Role;
+import com.badou.mworking.model.user.UserInfo;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
@@ -64,9 +65,13 @@ import com.easemob.chat.EMGroupManager;
 import com.badou.mworking.R;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.TextMessageBody;
+import com.easemob.chatuidemo.DemoHXSDKHelper;
+import com.easemob.chatuidemo.DemoHXSDKModel;
 import com.easemob.chatuidemo.adapter.ContactAdapter;
+import com.easemob.chatuidemo.adapter.MessageAdapter;
 import com.easemob.chatuidemo.adapter.PickContactsAdapter;
 import com.easemob.chatuidemo.adapter.PickContactsAutoCompleteAdapter;
+import com.easemob.chatuidemo.db.DemoDBManager;
 import com.easemob.chatuidemo.domain.User;
 import com.easemob.chatuidemo.widget.Sidebar;
 import com.easemob.exceptions.EaseMobException;
@@ -277,7 +282,8 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
             @Override
             public void run() {
                 // 调用sdk创建群组方法
-                String groupName = ((AppApplication) mContext.getApplicationContext()).getUserInfo().name + "创建的群组聊天";
+                String account = ((AppApplication) mContext.getApplicationContext()).getUserInfo().account;
+                String groupName = account + "创建的群组聊天";
                 String desc = "";
                 try {
                     EMGroup emGroup = EMGroupManager.getInstance().createPrivateGroup(groupName, desc, members, true, 200);
@@ -287,8 +293,15 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
                     EMMessage message = EMMessage.createSendMessage(EMMessage.Type.TXT);
                     //如果是群聊，设置chattype,默认是单聊
                     message.setChatType(EMMessage.ChatType.GroupChat);
+                    message.setAttribute(MessageAdapter.KEY_HELLO_MESSAGE, "1");
                     //设置消息body
-                    TextMessageBody txtBody = new TextMessageBody(groupName);
+                    StringBuilder body = new StringBuilder(account);
+                    body.append("邀请了");
+                    for (int ii = 0; ii < members.length; ii++) {
+                        body.append(AppApplication.getInstance().getContactList().get(members[ii]).getNick() + "、");
+                    }
+                    body.deleteCharAt(body.length() - 1);
+                    TextMessageBody txtBody = new TextMessageBody(body.toString());
                     message.addBody(txtBody);
                     //设置接收人
                     message.setReceipt(emGroup.getGroupId());

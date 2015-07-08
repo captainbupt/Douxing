@@ -355,7 +355,6 @@
             android:name="com.easemob.chatuidemo.activity.ChatActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/horizontal_slide"
             android:windowSoftInputMode="adjustResize" >
         </activity>
         <!-- 添加好友 -->
