@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingTop="13dp" >
+    android:paddingTop="13dp">
 
     <TextView
         android:id="@+id/timestamp"
@@ -15,7 +15,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_chat_activity" >
+        android:layout_marginTop="@dimen/margin_chat_activity">
 
         <ImageView
             android:id="@+id/iv_userhead"
@@ -32,22 +32,23 @@
             style="@style/chat_text_name_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@id/iv_userhead"
-            android:layout_toLeftOf="@+id/ll_click_area" />
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="@dimen/offset_small"
+            android:layout_toRightOf="@id/iv_userhead" />
 
         <LinearLayout
             android:id="@+id/ll_click_area"
             android:layout_width="130dp"
             android:layout_height="145dp"
+            android:layout_below="@id/tv_userid"
             android:layout_marginLeft="@dimen/margin_chat_activity"
-            android:layout_toRightOf="@id/iv_userhead" >
+            android:layout_toRightOf="@id/iv_userhead">
 
             <FrameLayout
                 android:id="@+id/chatting_click_area"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:background="@drawable/chatfrom_bg" >
+                android:background="@drawable/chatfrom_bg_normal">
 
                 <ImageView
                     android:id="@+id/chatting_content_iv"
@@ -61,7 +62,7 @@
                     android:layout_height="fill_parent"
                     android:background="@drawable/chat_video_mask_to"
                     android:gravity="bottom"
-                    android:orientation="horizontal" >
+                    android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/chatting_size_iv"
@@ -69,7 +70,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1.0"
                         android:textColor="@android:color/white"
-                        android:textSize="12sp"
+                        android:textSize="@dimen/text_size_small"
                         android:visibility="visible" />
 
                     <TextView
@@ -78,14 +79,14 @@
                         android:layout_height="wrap_content"
                         android:gravity="right"
                         android:textColor="@android:color/white"
-                        android:textSize="12sp" />
+                        android:textSize="@dimen/text_size_small" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/container_status_btn"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:gravity="center" >
+                    android:gravity="center">
 
                     <ImageView
                         android:id="@+id/chatting_status_btn"

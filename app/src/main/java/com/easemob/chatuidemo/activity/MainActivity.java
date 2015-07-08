@@ -109,6 +109,7 @@ public class MainActivity extends BaseBackActionBarActivity implements EMEventLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setActionbarTitle(R.string.title_name_emchat);
+        setLeft(R.drawable.button_title_bar_back_grey);
         setRightImage(R.drawable.button_title_add, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -830,6 +831,8 @@ public class MainActivity extends BaseBackActionBarActivity implements EMEventLi
     @Override
     protected void onResume() {
         super.onResume();
+        // onresume时，取消notification显示
+        HXSDKHelper.getInstance().getNotifier().reset();
         if (!isConflict && !isCurrentAccountRemoved) {
             EMChatManager.getInstance().activityResumed();
         }

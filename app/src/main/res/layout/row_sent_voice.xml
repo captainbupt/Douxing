@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingTop="13dp" >
+    android:paddingTop="13dp">
 
     <TextView
         android:id="@+id/timestamp"
@@ -15,7 +15,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_chat_activity" >
+        android:layout_marginTop="@dimen/margin_chat_activity">
 
         <ImageView
             android:id="@+id/iv_userhead"
@@ -33,7 +33,7 @@
             android:layout_height="48dp"
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@id/iv_userhead"
-            android:background="@drawable/chatto_bg"
+            android:background="@drawable/chatto_bg_normal"
             android:src="@drawable/chatto_voice_playing" />
 
         <TextView
@@ -44,7 +44,7 @@
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@id/iv_voice"
             android:gravity="center" />
-        
+
         <ImageView
             android:id="@+id/msg_status"
             android:layout_width="wrap_content"
@@ -54,37 +54,36 @@
             android:clickable="true"
             android:src="@drawable/msg_state_failed_resend"
             android:visibility="gone" />
-        
+
         <TextView
             android:id="@+id/tv_ack"
             style="@style/chat_text_name_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="@string/text_ack_msg"
-            android:textSize="12sp"
             android:layout_toLeftOf="@id/tv_length"
-            android:visibility="invisible"
-            />
+            android:text="@string/text_ack_msg"
+            android:textSize="@dimen/text_size_small"
+            android:visibility="invisible" />
+
         <TextView
             android:id="@+id/tv_delivered"
             style="@style/chat_text_name_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="@string/text_delivered_msg"
-            android:textSize="12sp"
             android:layout_toLeftOf="@id/tv_length"
-            android:visibility="invisible"
-            />
-          <ProgressBar 
-            android:visibility="visible"
+            android:text="@string/text_delivered_msg"
+            android:textSize="@dimen/text_size_small"
+            android:visibility="invisible" />
+
+        <ProgressBar
             android:id="@+id/pb_sending"
             android:layout_width="25dp"
             android:layout_height="25dp"
-              android:layout_centerVertical="true"
+            android:layout_centerVertical="true"
             android:layout_toLeftOf="@id/tv_length"
-            />
+            android:visibility="visible" />
     </RelativeLayout>
 
 </LinearLayout>

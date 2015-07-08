@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -80,13 +81,7 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
 			holder.time = (TextView) convertView.findViewById(R.id.time);
 			holder.avatar = (ImageView) convertView.findViewById(R.id.avatar);
 			holder.msgState = convertView.findViewById(R.id.msg_state);
-			holder.list_item_layout = (RelativeLayout) convertView.findViewById(R.id.list_item_layout);
 			convertView.setTag(holder);
-		}
-		if (position % 2 == 1) {
-			holder.list_item_layout.setBackgroundResource(R.drawable.mm_listitem);
-		} else {
-			holder.list_item_layout.setBackgroundResource(R.drawable.mm_listitem_grey);
 		}
 
 		// 获取与此用户/群组的会话
@@ -98,19 +93,6 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
 			holder.avatar.setImageResource(R.drawable.icon_emchat_group);
 			EMGroup group = EMGroupManager.getInstance().getGroup(username);
 			holder.name.setText(group != null ? group.getGroupName() : username);
-		} else if(conversation.getType() == EMConversationType.ChatRoom){
-		    holder.avatar.setImageResource(R.drawable.icon_emchat_group);
-            EMChatRoom room = EMChatManager.getInstance().getChatRoom(username);
-            holder.name.setText(room != null && !TextUtils.isEmpty(room.getName()) ? room.getName() : username);
-		}else {
-		    UserUtils.setUserAvatar(getContext(), username, holder.avatar);
-			if (username.equals(Constant.GROUP_USERNAME)) {
-				holder.name.setText("群聊");
-
-			} else if (username.equals(Constant.NEW_FRIENDS_USERNAME)) {
-				holder.name.setText("申请与通知");
-			}
-			holder.name.setText(username);
 		}
 
 		if (conversation.getUnreadMsgCount() > 0) {
