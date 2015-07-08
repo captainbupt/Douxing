@@ -367,8 +367,7 @@
         <!-- 群组详情 -->
         <activity
             android:name="com.easemob.chatuidemo.activity.GroupDetailsActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/horizontal_slide" >
+            android:screenOrientation="portrait" >
         </activity>
         <!-- 群组列表 -->
         <activity
