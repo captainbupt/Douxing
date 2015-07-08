@@ -6,12 +6,10 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
 import com.badou.mworking.R;
 import com.badou.mworking.net.volley.MyVolley;
 import com.badou.mworking.util.NetUtils;
-import com.badou.mworking.util.SPUtil;
+import com.badou.mworking.util.SPHelper;
 
 /**
  * Created by Administrator on 2015/6/8.
@@ -44,7 +42,7 @@ public class ImageViewLoader {
         imageView.setVisibility(View.VISIBLE);
         //评论中添加的图片
         boolean isWifi = NetUtils.isWifiConnected(context);
-        boolean isSaveInternet = SPUtil.getSaveInternetOption();
+        boolean isSaveInternet = SPHelper.getSaveInternetOption();
         Bitmap contentBmp = BitmapLruCache.getBitmapLruCache().get(url);
         if (contentBmp != null && contentBmp.isRecycled()) {
             imageView.setImageBitmap(contentBmp);

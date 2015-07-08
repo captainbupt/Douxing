@@ -1,11 +1,9 @@
 package com.badou.mworking.entity.user;
 
-import android.content.Context;
-
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.database.MTrainingDBHelper;
 import com.badou.mworking.entity.main.Shuffle;
-import com.badou.mworking.util.SPUtil;
+import com.badou.mworking.util.SPHelper;
 import com.google.gson.annotations.Expose;
 
 import java.util.HashSet;
@@ -43,6 +41,8 @@ public class UserInfo {
     private Integer access;
     @Expose
     private String lang;
+    @Expose
+    private String hxpwd;
 
     public static void setUserInfo(AppApplication appApplication, String account, UserInfo userInfo) {
         UserInfo.userInfo = userInfo;
@@ -56,13 +56,17 @@ public class UserInfo {
         MTrainingDBHelper.getMTrainingDBHelper().createUserTable(userInfo.getAccount());
         // en为英文版，取值zh为中文版。
         AppApplication.changeAppLanguage(appApplication.getResources(), userInfo.getLang());
-        SPUtil.setUserInfo(userInfo);
-        SPUtil.setUserAccount(account);
+        SPHelper.setUserInfo(userInfo);
+        SPHelper.setUserAccount(account);
     }
 
     public static void clearUserInfo(AppApplication appApplication) {
         JPushInterface.stopPush(appApplication);
-        SPUtil.setUserInfo(null);
+        SPHelper.setUserInfo(null);
+    }
+
+    public String getHxpwd() {
+        return hxpwd;
     }
 
     public String getAccount() {

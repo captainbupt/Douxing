@@ -1,24 +1,14 @@
 package com.badou.mworking.adapter;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
-import com.badou.mworking.database.ChatterResManager;
-import com.badou.mworking.listener.TopicClickableSpan;
 import com.badou.mworking.entity.Chatter;
-import com.badou.mworking.entity.user.UserChatterInfo;
-import com.badou.mworking.net.ServiceProvider;
-import com.badou.mworking.net.bitmap.ImageViewLoader;
-import com.badou.mworking.util.LVUtil;
-import com.badou.mworking.util.NetUtils;
-import com.badou.mworking.util.SPUtil;
-import com.badou.mworking.util.TimeTransfer;
 import com.badou.mworking.widget.ChatterItemView;
+import com.swipe.delete.SwipeLayout;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -48,13 +38,15 @@ public class ChatterListAdapter extends MyBaseAdapter {
         }
         final Chatter chatter = (Chatter) mItemList.get(position);
 
-        holder.chatterItemView.setData(chatter,isHeadClickable);
+        holder.chatterItemView.setData(chatter, isHeadClickable);
         return convertView;
     }
 
     static class ViewHolder {
         @InjectView(R.id.chatter_item_view)
         ChatterItemView chatterItemView;
+        @InjectView(R.id.swipe_layout)
+        SwipeLayout swipeLayout;
 
         ViewHolder(View view) {
             ButterKnife.inject(this, view);

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import com.badou.mworking.MainGridActivity;
 import com.badou.mworking.database.MessageCenterResManager;
 import com.badou.mworking.entity.MessageCenter;
+import com.badou.mworking.presenter.MainPresenter;
 
 import org.json.JSONException;
 
@@ -107,14 +108,13 @@ public class JPushReceiver extends BroadcastReceiver {
         }
         if (messageCenter != null) {
             MessageCenterResManager.insertItem(context, messageCenter);
-            Intent intent = new Intent(MainGridActivity.ACTION_RECEIVER_MESSAGE);
+            Intent intent = new Intent(MainPresenter.ACTION_RECEIVER_MESSAGE);
             context.sendBroadcast(intent);
         }
     }
 
     private void toMessageCenter(Context context, Bundle bundle) {
-        Intent intent = new Intent(context, MainGridActivity.class);
-        intent.putExtra("messagecenter", true);
+        Intent intent = MainGridActivity.getIntent(context, true);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(intent);
     }

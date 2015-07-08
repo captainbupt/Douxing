@@ -23,7 +23,7 @@ import android.widget.TextView;
 import com.badou.mworking.R;
 import com.badou.mworking.base.BaseFragment;
 import com.badou.mworking.util.NetUtils;
-import com.badou.mworking.util.SPUtil;
+import com.badou.mworking.util.SPHelper;
 
 import java.io.File;
 
@@ -140,7 +140,7 @@ public class WebViewFragment extends BaseFragment {
     // 必须在reset之前做操作，否则会空指针
     @Override
     public void onDestroyView() {
-        SPUtil.setWebViewPosition(mUrl.trim(), mWebView.getScrollY());
+        SPHelper.setWebViewPosition(mUrl.trim(), mWebView.getScrollY());
         mWebView.destroy();
         super.onDestroyView();
         ButterKnife.reset(this);

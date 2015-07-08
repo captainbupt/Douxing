@@ -15,8 +15,8 @@ android {
         applicationId "com.badou.mworking"
         minSdkVersion 9
         targetSdkVersion 19
-        versionCode 19
-        versionName '1.6.0'
+        versionCode 20
+        versionName '1.6.2'
     }
     buildTypes {
         release {
@@ -38,13 +38,13 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:19.0.+' // 不要使用更新的v7，会导致actionbar显示不全
+    compile 'com.android.support:appcompat-v7:19.0.+'
+    // 不要使用更新的v7，会导致actionbar显示不全
     compile 'com.android.support:support-v4:19.0.+'
     compile files('libs/nineoldandroids-2.4.0.jar')
     compile files('libs/baidumapapi_v3_3_0.jar')
     compile files('libs/jpush-sdk-release1.6.1.jar')
     compile files('libs/locSDK_3.1.jar')
-    compile files('libs/xUtils-2.6.14.jar')
     compile project(':Pulltorefresh')
     compile files('libs/android-support-v4.jar')
     compile project(':SwipeBackLayout')
@@ -55,4 +55,9 @@ dependencies {
     compile files('libs/volley.jar')
     compile 'io.reactivex:rxjava:1.0.12'
     compile 'io.reactivex:rxandroid:0.25.0'
+    compile files('libs/easemobchat_2.2.0.jar')
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile files('libs/pinyin4j-2.5.0.jar')
+    compile 'se.emilsjolander:stickylistheaders:2.7.0'
+    compile 'com.loopj.android:android-async-http:1.4.7'
 }

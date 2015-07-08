@@ -21,18 +21,6 @@ public class BaseFragment extends Fragment {
         mActivity = activity;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        MobclickAgent.onPageStart(getClass().getName()); //统计页面
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        MobclickAgent.onPageEnd(getClass().getName());
-    }
-
     public void showToast(int resId) {
         ToastUtil.showToast(mContext, resId);
     }
@@ -40,4 +28,5 @@ public class BaseFragment extends Fragment {
     public void showToast(String message) {
         ToastUtil.showToast(mContext, message);
     }
+
 }

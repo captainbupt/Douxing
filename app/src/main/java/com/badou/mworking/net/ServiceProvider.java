@@ -24,16 +24,19 @@ import com.badou.mworking.util.BitmapUtil;
 import com.badou.mworking.util.DensityUtil;
 import com.badou.mworking.util.EncryptionByMD5;
 import com.badou.mworking.util.FileUtils;
+import com.badou.mworking.util.TimeTransfer;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.WaitProgressDialog;
-import com.lidroid.xutils.HttpUtils;
-import com.lidroid.xutils.exception.HttpException;
-import com.lidroid.xutils.http.RequestParams;
-import com.lidroid.xutils.http.ResponseInfo;
-import com.lidroid.xutils.http.callback.RequestCallBack;
-import com.lidroid.xutils.http.client.HttpRequest;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RangeFileAsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+import com.loopj.android.http.ResponseHandlerInterface;
 
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpException;
+import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.ParseException;
@@ -48,6 +51,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Calendar;
@@ -56,6 +60,8 @@ import java.util.Calendar;
  * 功能描述: 网络获取
  */
 public class ServiceProvider {
+
+    private static AsyncHttpClient client = new AsyncHttpClient();
 
     /**
      * 功能描述:1 .登录
@@ -314,39 +320,60 @@ public class ServiceProvider {
         }
     }
 
-    public static void doUpdateMTraning(final Context context, final String url) {
-        final ProgressDialog mProgressDialog = new WaitProgressDialog(context,
-                R.string.action_update_download_ing);
-        mProgressDialog.setTitle(R.string.action_update_download_ing);
-        if (!((Activity) context).isFinishing()) {
-            mProgressDialog.show();
+    public static void doUpdateMTraning(final Context context, final String url, final RangeFileAsyncHttpResponseHandler httpResponseHandler) {
+        File file;
+        try {
+            file = File.createTempFile("update.apk", "tmp");
+        } catch (IOException e) {
+            final String path = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + "update.apk.tmp";
+            file = new File(path);
+            e.printStackTrace();
         }
-        final String path = context.getExternalFilesDir(
-                Environment.DIRECTORY_DOWNLOADS).getAbsolutePath()
-                + File.separator
-                + context.getResources().getString(R.string.app_name)
-                + Calendar.getInstance().getTimeInMillis() + ".apk";
-        HttpUtils httpUtils = new HttpUtils();
-        httpUtils.download(url, path, true, true, new RequestCallBack<File>() {
-
+        file.deleteOnExit(); // 仅当次登录有效
+        client.get(url, new RangeFileAsyncHttpResponseHandler(file) {
             @Override
-            public void onSuccess(ResponseInfo<File> responseInfo) {
-                if (!((Activity) context).isFinishing()) {
-                    mProgressDialog.dismiss();
-                }
-                Intent intent = new Intent();
-                intent.setAction(Intent.ACTION_VIEW);
-                intent.setDataAndType(Uri.parse("file://" + path),
-                        "application/vnd.android.package-archive");
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
+            public void onProgress(long bytesWritten, long totalSize) {
+                super.onProgress(bytesWritten, totalSize);
+                httpResponseHandler.onProgress(bytesWritten, totalSize);
             }
 
             @Override
-            public void onFailure(HttpException e, String s) {
-                ToastUtil.showNetExc(context);
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
+                httpResponseHandler.onFailure(statusCode, headers, throwable, file);
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, File response) {
+                FileUtils.renameFile(response.getParent(), "update.apk.tmp", "update.apk");
+                httpResponseHandler.onSuccess(statusCode, headers, response);
             }
         });
+    }
+
+    public static void doDownloadTrainingFile(final String url, String fullPath, final RangeFileAsyncHttpResponseHandler httpResponseHandler) {
+        File file = new File(fullPath + ".tmp");
+        client.get(url, new RangeFileAsyncHttpResponseHandler(file) {
+            @Override
+            public void onProgress(long bytesWritten, long totalSize) {
+                super.onProgress(bytesWritten, totalSize);
+                httpResponseHandler.onProgress(bytesWritten, totalSize);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
+                httpResponseHandler.onFailure(statusCode, headers, throwable, file);
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, File response) {
+                FileUtils.renameFile(response.getParent(), response.getName(), response.getName().replace(".tmp", ""));
+                httpResponseHandler.onSuccess(statusCode, headers, response);
+            }
+        });
+    }
+
+    public static void cancelRequest() {
+        client.cancelAllRequests(true);
     }
 
     public static void doSubmitError(Context context, String log, String appversion,
@@ -402,25 +429,28 @@ public class ServiceProvider {
     public static void doUploadVideo(final Context context, String qid, String filePath, final VolleyListener volleyListener) {
         String uid = UserInfo.getUserInfo().getUid();
         final String url = Net.getRunHost(context) + Net.PUBVIDEO(uid, qid);
-        RequestParams params = new RequestParams();
         FileEntity entity = new FileEntity(new File(filePath),
                 "binary/octet-stream");
-        params.setBodyEntity(entity);
-        new HttpUtils().send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<Object>() {
+        client.post(context, url, entity, "video/mp4", new AsyncHttpResponseHandler() {
             @Override
-            public void onSuccess(ResponseInfo<Object> responseInfo) {
-                System.out.println(responseInfo.result);
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                JSONObject jsonObject = new JSONObject();
                 try {
-                    volleyListener.onResponse(new JSONObject((String) responseInfo.result));
+                    jsonObject.put("errcode", -1);
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    volleyListener.onResponse(new JSONObject());
+                }
+                try {
+                    volleyListener.onResponse(new JSONObject(new String(responseBody)));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    volleyListener.onResponse(jsonObject);
                 }
             }
 
             @Override
-            public void onFailure(HttpException e, String s) {
-                volleyListener.onErrorResponse(new ParseError(new NetworkResponse(s.getBytes())));
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                volleyListener.onErrorResponse(new ParseError(error));
             }
         });
     }
@@ -433,13 +463,10 @@ public class ServiceProvider {
         final String url = Net.getRunHost(context) + Net.PUBIMAGE(uid, qid, index);
         final String tempFilePath = FileUtils.getChatterDir(context) + "temp.jpg";
         FileUtils.writeBitmap2SDcard(bitmap, tempFilePath);
-        RequestParams params = new RequestParams();
-        FileEntity entity = new FileEntity(new File(tempFilePath),
-                "binary/octet-stream");
-        params.setBodyEntity(entity);
-        new HttpUtils().send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<Object>() {
+        FileEntity entity = new FileEntity(new File(tempFilePath), "binary/octet-stream");
+        client.post(context, url, entity, "image/jpg", new AsyncHttpResponseHandler() {
             @Override
-            public void onSuccess(ResponseInfo<Object> responseInfo) {
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 JSONObject jsonObject = new JSONObject();
                 try {
                     jsonObject.put("errcode", -1);
@@ -447,7 +474,7 @@ public class ServiceProvider {
                     e.printStackTrace();
                 }
                 try {
-                    volleyListener.onResponse(new JSONObject((String) responseInfo.result));
+                    volleyListener.onResponse(new JSONObject(new String(responseBody)));
                 } catch (JSONException e) {
                     e.printStackTrace();
                     volleyListener.onResponse(jsonObject);
@@ -455,8 +482,8 @@ public class ServiceProvider {
             }
 
             @Override
-            public void onFailure(HttpException e, String s) {
-                volleyListener.onErrorResponse(new ParseError(new NetworkResponse(s.getBytes())));
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                volleyListener.onErrorResponse(new ParseError(error));
             }
         });
     }
@@ -1239,6 +1266,19 @@ public class ServiceProvider {
         MyVolley.getRequestQueue().add(
                 new JsonObjectRequest(Request.Method.GET, Net.getRunHost(context) + Net.getStore(uid, pageNum, itemNum),
                         null, volleyListener, volleyListener));
+        MyVolley.getRequestQueue().start();
+    }
+
+    public static void getContacts(Context context, VolleyListener volleyListener) {
+        String uid = UserInfo.getUserInfo().getUid();
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(RequestParameters.USER_ID, uid);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        MyVolley.getRequestQueue().add(new JsonObjectRequest(Request.Method.POST, Net.getRunHost(context) + Net.getContactList(),
+                jsonObject, volleyListener, volleyListener));
         MyVolley.getRequestQueue().start();
     }
 

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.badou.mworking.AccountManageActivity;
-import com.badou.mworking.IntroductionActivity;
+import com.badou.mworking.LoginActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.database.MTrainingDBHelper;
 import com.badou.mworking.entity.user.UserInfo;
@@ -13,7 +13,7 @@ import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.net.RestRepository;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
-import com.badou.mworking.util.SPUtil;
+import com.badou.mworking.util.SPHelper;
 import com.badou.mworking.view.BaseView;
 
 import org.json.JSONObject;
@@ -98,14 +98,14 @@ public class AccountManagerPresenter extends Presenter {
      */
     private void changePasswordSuccess(JSONObject data) {
         userInfo.setUid(data.optString(RequestParameters.USER_ID));
-        SPUtil.setUserInfo(userInfo);
+        SPHelper.setUserInfo(userInfo);
         MTrainingDBHelper.getMTrainingDBHelper().createUserTable(userInfo.getUid());
         accountManageActivity.showToast(R.string.change_result_change_password_success);
         accountManageActivity.finish();
     }
 
     public void logout() {
-        accountManageActivity.startActivity(IntroductionActivity.getIntent(mContext));
+        accountManageActivity.startActivity(LoginActivity.getIntent(mContext));
         accountManageActivity.finish();
     }
 

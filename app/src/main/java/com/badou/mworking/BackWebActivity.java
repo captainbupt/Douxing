@@ -1,42 +1,16 @@
 package com.badou.mworking;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v4.app.FragmentTransaction;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.webkit.ValueCallback;
-import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseBackActionBarActivity;
-import com.badou.mworking.entity.user.UserInfo;
-import com.badou.mworking.net.Net;
-import com.badou.mworking.net.bitmap.BitmapLruCache;
 import com.badou.mworking.fragment.WebViewFragment;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
-import com.badou.mworking.util.NetUtils;
-import com.badou.mworking.util.SPUtil;
-import com.badou.mworking.widget.BottomRatingAndCommentView;
-
-import java.io.File;
-
-import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 /**
  * 功能描述:  actionbar为返回的网页展示页面

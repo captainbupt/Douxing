@@ -53,7 +53,7 @@ public class Shuffle {
         Collections.sort(mainIconList, new Comparator<Object>() {
             @Override
             public int compare(Object t1, Object t2) {
-                return Integer.valueOf(((MainIcon) t1).getPriority()).compareTo(Integer.valueOf(((MainIcon) t2).getPriority()));
+                return -Integer.valueOf(((MainIcon) t1).getPriority()).compareTo(Integer.valueOf(((MainIcon) t2).getPriority()));
             }
         });
         return mainIconList;

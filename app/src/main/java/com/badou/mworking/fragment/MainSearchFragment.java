@@ -36,7 +36,6 @@ import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.CategoryClickHandler;
-import com.badou.mworking.util.FastBlur;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.WaitProgressDialog;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -48,9 +47,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Administrator on 2015/5/27.
- */
 public class MainSearchFragment extends BaseFragment {
 
     private static final int COUNT_CATEGORY = 5;
@@ -70,21 +66,24 @@ public class MainSearchFragment extends BaseFragment {
     private WaitProgressDialog progressDialog;
     private static Handler mBackgroundHandler;
 
+    OnHideListener mOnHideListener;
+
+    public void setOnHideListener(OnHideListener onHideListener) {
+        this.mOnHideListener = onHideListener;
+    }
+
+    public interface OnHideListener {
+        void onHide();
+    }
+
     @Override
     public View onCreateView(android.view.LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mContainerView = (LinearLayout) inflater.inflate(R.layout.fragment_main_search, null);
+        mContainerView = (LinearLayout) inflater.inflate(R.layout.fragment_main_search, container, false);
         initView(mContainerView);
         initListener();
         initData();
         if (mBackgroundHandler == null)
             mBackgroundHandler = new Handler();
-/*        mBackgroundHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                while (mContainerView.getHeight() == 0) ;
-                blur(((MainGridActivity) mContext).myShot(), mContainerView);
-            }
-        });*/
         return mContainerView;
     }
 
@@ -168,12 +167,11 @@ public class MainSearchFragment extends BaseFragment {
 
     public void backPressed() {
         if (TextUtils.isEmpty(mTitleEditView.getText().toString())) {
-            FragmentTransaction transaction = getFragmentManager().beginTransaction();
-            transaction.hide(MainSearchFragment.this);
-            transaction.commit();
-            ((MainGridActivity) mActivity).isSearching = false;
             InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(mTitleEditView.getWindowToken(), 0);
+            if (mOnHideListener != null) {
+                mOnHideListener.onHide();
+            }
         } else {
             clearResult();
         }
@@ -287,21 +285,6 @@ public class MainSearchFragment extends BaseFragment {
         mNoneResultImageView.setImageResource(R.drawable.icon_main_search_tip);
         mNoneResultLayout.setVisibility(View.VISIBLE);
         mResultListView.setVisibility(View.GONE);
-    }
-
-    private void blur(Bitmap bkg, View view) {
-        float radius = 2;
-        float scaleFactor = 32;
-
-        Bitmap overlay = Bitmap.createBitmap((int) (view.getMeasuredWidth() / scaleFactor), (int) (view.getMeasuredHeight() / scaleFactor), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(overlay);
-        canvas.translate(-view.getLeft() / scaleFactor, -view.getTop() / scaleFactor);
-        canvas.scale(1 / scaleFactor, 1 / scaleFactor);
-        Paint paint = new Paint();
-        paint.setFlags(Paint.FILTER_BITMAP_FLAG);
-        canvas.drawBitmap(bkg, 0, 0, paint);
-        overlay = FastBlur.doBlur(overlay, (int) radius, true);
-        view.setBackgroundDrawable(new BitmapDrawable(getResources(), overlay));
     }
 }
 

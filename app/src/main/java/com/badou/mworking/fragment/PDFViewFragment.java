@@ -8,16 +8,15 @@ import android.view.ViewGroup;
 
 import com.badou.mworking.R;
 import com.badou.mworking.base.BaseFragment;
+import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.util.FileUtils;
-import com.badou.mworking.util.SPUtil;
+import com.badou.mworking.util.SPHelper;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.HorizontalProgressDialog;
 import com.joanzapata.pdfview.PDFView;
-import com.lidroid.xutils.HttpUtils;
-import com.lidroid.xutils.exception.HttpException;
-import com.lidroid.xutils.http.HttpHandler;
-import com.lidroid.xutils.http.ResponseInfo;
-import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.loopj.android.http.RangeFileAsyncHttpResponseHandler;
+
+import org.apache.http.Header;
 
 import java.io.File;
 
@@ -34,7 +33,6 @@ public class PDFViewFragment extends BaseFragment {
 
     private String mRid;
     private String mFilePath;
-    private HttpHandler<File> mHttpHandler;
     private HorizontalProgressDialog progressDialog;
 
     public static Bundle getArgument(String rid, String url) {
@@ -118,42 +116,34 @@ public class PDFViewFragment extends BaseFragment {
         }
         progressDialog = new HorizontalProgressDialog(mContext);
         progressDialog.show();
-        HttpUtils http = new HttpUtils();
-        mHttpHandler = http.download(url, mFilePath + ".tmp",
-                true, // 如果目标文件存在，接着未完成的部分继续下载。服务器不支持RANGE时将从新下载。
-                true, // 如果从请求返回信息中获取到文件名，下载完成后自动重命名。
-                new RequestCallBack<File>() {
+        ServiceProvider.doDownloadTrainingFile(url, mFilePath, new RangeFileAsyncHttpResponseHandler(new File(mFilePath)) {
 
-                    @Override
-                    public void onLoading(long total, long current, boolean isUploading) {
-                        if (progressDialog.getProgressMax() != total)
-                            progressDialog.setProgressMax((int) total);
-                        progressDialog.setProgress((int) current);
-                    }
+            @Override
+            public void onProgress(long bytesWritten, long totalSize) {
+                if (progressDialog.getProgressMax() != (int) totalSize)
+                    progressDialog.setProgressMax((int) totalSize);
+                progressDialog.setProgress((int) bytesWritten);
+            }
 
-                    @Override
-                    public void onSuccess(ResponseInfo<File> responseInfo) {
-                        progressDialog.dismiss();
-                        FileUtils.renameFile(FileUtils.getTrainCacheDir(mContext), mRid + ".pdf.tmp", mRid + ".pdf");
-                        showPdf();
-                    }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
+                ToastUtil.showToast(mContext, R.string.train_result_download_fail);
+                progressDialog.dismiss();
+            }
 
-
-                    @Override
-                    public void onFailure(HttpException error, String msg) {
-                        new File(mFilePath).delete();
-                        ToastUtil.showToast(mContext, R.string.train_result_download_fail);
-                        progressDialog.dismiss();
-                    }
-                });
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, File file) {
+                progressDialog.dismiss();
+                showPdf();
+            }
+        });
     }
 
     @Override
     public void onDestroyView() {
-        SPUtil.setPdfPage(mRid, mPdfView.getCurrentPage() + 1);
-        if (mHttpHandler != null) {
-            mHttpHandler.cancel();
-        }
+        SPHelper.setPdfPage(mRid, mPdfView.getCurrentPage() + 1);
+        ServiceProvider.cancelRequest();
+        progressDialog.dismiss();
         super.onDestroyView();
         ButterKnife.reset(this);
     }

@@ -10,7 +10,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.badou.mworking.adapter.CommentAdapter;
-import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.listener.DeleteClickListener;
@@ -25,7 +24,7 @@ import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.NetUtils;
-import com.badou.mworking.util.SPUtil;
+import com.badou.mworking.util.SPHelper;
 import com.badou.mworking.util.TimeTransfer;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.BottomSendMessageView;
@@ -204,7 +203,7 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
         // 评论中添加的图片
         // 判断是否在2G/3G下显示图片
         // 没有的话，判断是否是wifi网络
-        if (NetUtils.isWifiConnected(mContext) || !SPUtil.getSaveInternetOption()) {
+        if (NetUtils.isWifiConnected(mContext) || !SPHelper.getSaveInternetOption()) {
             mSaveInternetTextView.setVisibility(View.GONE);
             if (!TextUtils.isEmpty(mChatter.videoUrl)) {
                 mImageGridView.setVisibility(View.GONE);
@@ -238,7 +237,7 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
             @Override
             public void onResponseSuccess(JSONObject response) {
                 resultIntent.putExtra(RESULT_KEY_DELETE, true);
-                ChatterDetailActivity.super.finish();
+                finish();
             }
 
             @Override
@@ -291,7 +290,7 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
                         } else {
                             mReplyAdapter.addList(replys, ttlcnt);
                         }
-                        mReceivedIntent.putExtra(RESULT_KEY_COUNT, mChatter.replyNumber);
+                        resultIntent.putExtra(RESULT_KEY_COUNT, mChatter.replyNumber);
                         mCurrentIndex++;
                     }
 
@@ -361,8 +360,8 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
 
     @Override
     public void finish() {
-        mReceivedIntent.putExtra(RESULT_KEY_STORE, mChatter.isStore);
-        setResult(RESULT_OK, mReceivedIntent);
+        resultIntent.putExtra(RESULT_KEY_STORE, mChatter.isStore);
+        setResult(RESULT_OK, resultIntent);
         super.finish();
     }
 }

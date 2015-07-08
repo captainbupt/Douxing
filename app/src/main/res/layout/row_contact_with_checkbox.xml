@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/mm_listitem"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingBottom="@dimen/offset_small"
+    android:paddingLeft="@dimen/offset_medium"
+    android:paddingRight="@dimen/offset_medium"
+    android:paddingTop="@dimen/offset_small">
+
+    <CheckBox
+        android:id="@+id/checkbox"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/checkbox_bg_selector"
+        android:button="@null"
+        android:focusable="false" />
+
+    <ImageView
+        android:id="@+id/avatar"
+        android:layout_width="@dimen/icon_size_small"
+        android:layout_height="@dimen/icon_size_small"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/offset_less"
+        android:layout_marginRight="@dimen/offset_less"
+        android:scaleType="fitCenter"
+        android:src="@drawable/icon_emchat_single" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textColor="@color/color_text_black"
+            android:textSize="@dimen/text_size_medium" />
+
+        <TextView
+            android:id="@+id/department"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textColor="@color/color_text_grey"
+            android:textSize="@dimen/text_size_less" />
+    </LinearLayout>
+
+</LinearLayout>
