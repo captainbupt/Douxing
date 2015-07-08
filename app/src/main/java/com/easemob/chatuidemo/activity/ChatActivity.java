@@ -730,9 +730,9 @@ public class ChatActivity extends BaseBackActionBarActivity implements OnClickLi
             // 点击摄像图标
             Intent intent = new Intent(ChatActivity.this, ImageGridActivity.class);
             startActivityForResult(intent, REQUEST_CODE_SELECT_VIDEO);
-        } else if (id == R.id.btn_file) { // 点击文件图标
+        } /*else if (id == R.id.btn_file) { // 点击文件图标
             selectFileFromLocal();
-        } else if (id == R.id.btn_voice_call) { // 点击语音电话图标
+        } */ else if (id == R.id.btn_voice_call) { // 点击语音电话图标
             if (!EMChatManager.getInstance().isConnected())
                 Toast.makeText(this, st1, Toast.LENGTH_SHORT).show();
             else {
@@ -1214,13 +1214,8 @@ public class ChatActivity extends BaseBackActionBarActivity implements OnClickLi
             Toast.makeText(getApplicationContext(), R.string.gorup_not_found, Toast.LENGTH_SHORT).show();
             return;
         }
-        if (chatType == CHATTYPE_GROUP) {
-            startActivityForResult((new Intent(this, GroupDetailsActivity.class).putExtra("groupId", toChatUsername)),
-                    REQUEST_CODE_GROUP_DETAIL);
-        } else {
-            startActivityForResult((new Intent(this, ChatRoomDetailsActivity.class).putExtra("roomId", toChatUsername)),
-                    REQUEST_CODE_GROUP_DETAIL);
-        }
+        startActivityForResult((new Intent(this, GroupDetailsActivity.class).putExtra("groupId", toChatUsername)),
+                REQUEST_CODE_GROUP_DETAIL);
     }
 
     /**
