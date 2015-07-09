@@ -13,7 +13,9 @@
  */
 package com.easemob.chatuidemo.activity;
 
+import java.sql.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -21,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -120,11 +123,29 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
         setRightText(R.string.emchat_contact_title_right, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                List<String> members = contactAdapter.getToBeAddMembers();
+                final List<String> members = contactAdapter.getToBeAddMembers();
                 if (exitingMembers.size() > 0) {
-                    save(members.toArray(new String[members.size()]));
+                    if (members.size() + exitingMembers.size() > 199) {
+                        new android.app.AlertDialog.Builder(mContext).setTitle("人数达到上限").setMessage("将自动选取前200人创建群聊").setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                createGroup(members.subList(0, 199 - exitingMembers.size()).toArray(new String[members.size()]));
+                            }
+                        }).setNegativeButton("取消", null).show();
+                    } else {
+                        save(members.toArray(new String[members.size()]));
+                    }
                 } else if (members.size() > 0) {
-                    createGroup(members.toArray(new String[members.size()]));
+                    if (members.size() > 199) {
+                        new android.app.AlertDialog.Builder(mContext).setTitle("人数达到上限").setMessage("将自动选取前200人创建群聊").setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                createGroup(members.subList(0, 199).toArray(new String[members.size()]));
+                            }
+                        }).setNegativeButton("取消", null).show();
+                    } else {
+                        createGroup(members.toArray(new String[members.size()]));
+                    }
                 } else {
                     ToastUtil.showToast(mContext, R.string.group_member_empty);
                 }
