@@ -20,6 +20,7 @@ import com.easemob.chatuidemo.domain.User;
 import com.easemob.chatuidemo.utils.UserUtils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

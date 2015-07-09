@@ -43,6 +43,7 @@ public class MTrainingDBHelper extends SQLiteOpenHelper {
 
     public static final String EMCHAT_USER_NAME = "username";
     public static final String EMCHAT_NICK_NAME = "nickname";
+    public static final String EMCHAT_SPELL = "spell";
     public static final String EMCHAT_DEPARTMENT = "department";
     public static final String EMCHAT_ROLE = "role";
     public static final String EMCHAT_IMG_URL = "imgurl";

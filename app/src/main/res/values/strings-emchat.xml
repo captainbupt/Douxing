@@ -100,7 +100,7 @@
     <string name="Open_group_chat">公开的群聊</string>
     <string name="blacklist">黑名单列表</string>
     <string name="Empty_the_chat_record">删除该群</string>
-    <string name="Shielding_of_the_message">屏蔽群消息</string>
+    <string name="Shielding_of_the_message">消息免打扰</string>
     <string name="dismiss_group">解散群聊</string>
     <string name="Select_the_contact">选择联系人</string>
     <string name="Group_chat_information">群聊资料</string>
