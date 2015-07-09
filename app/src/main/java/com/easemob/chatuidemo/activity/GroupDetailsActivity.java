@@ -39,11 +39,15 @@ import android.widget.Toast;
 
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseActionBarActivity;
+import com.badou.mworking.base.BaseBackActionBarActivity;
+import com.badou.mworking.database.EMChatResManager;
 import com.easemob.applib.controller.HXSDKHelper;
+import com.easemob.applib.model.DefaultHXSDKModel;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupManager;
 import com.badou.mworking.R;
+import com.easemob.chatuidemo.DemoHXSDKHelper;
 import com.easemob.chatuidemo.domain.User;
 import com.easemob.chatuidemo.utils.UserUtils;
 import com.easemob.chatuidemo.widget.ExpandGridView;
@@ -51,7 +55,7 @@ import com.easemob.exceptions.EaseMobException;
 import com.easemob.util.EMLog;
 import com.easemob.util.NetUtils;
 
-public class GroupDetailsActivity extends BaseActionBarActivity implements OnClickListener {
+public class GroupDetailsActivity extends BaseBackActionBarActivity implements OnClickListener {
     private static final String TAG = "GroupDetailsActivity";
     private static final int REQUEST_CODE_ADD_USER = 0;
     private static final int REQUEST_CODE_EXIT = 1;
@@ -446,7 +450,11 @@ public class GroupDetailsActivity extends BaseActionBarActivity implements OnCli
                     new Thread(new Runnable() {
                         public void run() {
                             try {
-                                EMGroupManager.getInstance().unblockGroupMessage(groupId);
+                                List<String> current = ((DefaultHXSDKModel) DemoHXSDKHelper.getInstance().getModel()).getDisabledGroups();
+                                if (current == null)
+                                    current = new ArrayList<>();
+                                current.remove(groupId);
+                                ((DefaultHXSDKModel) DemoHXSDKHelper.getInstance().getModel()).setDisabledGroups(current);
                                 runOnUiThread(new Runnable() {
                                     public void run() {
                                         iv_switch_block_groupmsg.setVisibility(View.INVISIBLE);
@@ -476,7 +484,11 @@ public class GroupDetailsActivity extends BaseActionBarActivity implements OnCli
                     new Thread(new Runnable() {
                         public void run() {
                             try {
-                                EMGroupManager.getInstance().blockGroupMessage(groupId);
+                                List<String> current = ((DefaultHXSDKModel) DemoHXSDKHelper.getInstance().getModel()).getDisabledGroups();
+                                if (current == null)
+                                    current = new ArrayList<>();
+                                current.add(groupId);
+                                ((DefaultHXSDKModel) DemoHXSDKHelper.getInstance().getModel()).setDisabledGroups(current);
                                 runOnUiThread(new Runnable() {
                                     public void run() {
                                         iv_switch_block_groupmsg.setVisibility(View.VISIBLE);
@@ -563,35 +575,29 @@ public class GroupDetailsActivity extends BaseActionBarActivity implements OnCli
             }
             final LinearLayout button = (LinearLayout) convertView.findViewById(R.id.button_avatar);
             // 最后一个item，减人按钮
-            if (position == getCount() - 1) {
+            if (position == super.getCount() + 1) {
                 holder.textView.setText("");
                 // 设置成删除按钮
                 holder.imageView.setImageResource(R.drawable.smiley_minus_btn);
 //				button.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.smiley_minus_btn, 0, 0);
-                // 如果不是创建者或者没有相应权限，不提供加减人按钮
-                if (!group.getOwner().equals(EMChatManager.getInstance().getCurrentUser())) {
-                    // if current user is not group admin, hide add/remove btn
+                if (isInDeleteMode) {
+                    // 正处于删除模式下，隐藏删除按钮
                     convertView.setVisibility(View.INVISIBLE);
-                } else { // 显示删除按钮
-                    if (isInDeleteMode) {
-                        // 正处于删除模式下，隐藏删除按钮
-                        convertView.setVisibility(View.INVISIBLE);
-                    } else {
-                        // 正常模式
-                        convertView.setVisibility(View.VISIBLE);
-                        convertView.findViewById(R.id.badge_delete).setVisibility(View.INVISIBLE);
-                    }
-                    final String st10 = getResources().getString(R.string.The_delete_button_is_clicked);
-                    button.setOnClickListener(new OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            EMLog.d(TAG, st10);
-                            isInDeleteMode = true;
-                            notifyDataSetChanged();
-                        }
-                    });
+                } else {
+                    // 正常模式
+                    convertView.setVisibility(View.VISIBLE);
+                    convertView.findViewById(R.id.badge_delete).setVisibility(View.INVISIBLE);
                 }
-            } else if (position == getCount() - 2) { // 添加群组成员按钮
+                final String st10 = getResources().getString(R.string.The_delete_button_is_clicked);
+                button.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        EMLog.d(TAG, st10);
+                        isInDeleteMode = true;
+                        notifyDataSetChanged();
+                    }
+                });
+            } else if (position == super.getCount()) { // 添加群组成员按钮
                 holder.textView.setText("");
                 holder.imageView.setImageResource(R.drawable.smiley_add_btn);
 //				button.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.smiley_add_btn, 0, 0);
@@ -732,7 +738,12 @@ public class GroupDetailsActivity extends BaseActionBarActivity implements OnCli
 
         @Override
         public int getCount() {
-            return super.getCount() + 2;
+            // 如果不是创建者或者没有相应权限，不提供加减人按钮
+            if (!group.getOwner().equals(EMChatManager.getInstance().getCurrentUser())) {
+                return super.getCount() + 1;
+            } else {
+                return super.getCount() + 2;
+            }
         }
     }
 
@@ -760,7 +771,11 @@ public class GroupDetailsActivity extends BaseActionBarActivity implements OnCli
 
                             // update block
                             EMLog.d(TAG, "group msg is blocked:" + group.getMsgBlocked());
-                            if (group.isMsgBlocked()) {
+                            List<String> current = ((DefaultHXSDKModel) DemoHXSDKHelper.getInstance().getModel()).getDisabledGroups();
+                            System.out.println("current size: " + ((current == null) ? 0 : current.size()));
+                            if (current == null)
+                                current = new ArrayList<>();
+                            if (current.contains(groupId)) {
                                 iv_switch_block_groupmsg.setVisibility(View.VISIBLE);
                                 iv_switch_unblock_groupmsg.setVisibility(View.INVISIBLE);
                             } else {
@@ -779,8 +794,13 @@ public class GroupDetailsActivity extends BaseActionBarActivity implements OnCli
 
     @Override
     public void onBackPressed() {
-        setResult(RESULT_OK);
-        super.onBackPressed();
+        if (adapter.isInDeleteMode) {
+            adapter.isInDeleteMode = false;
+            adapter.notifyDataSetChanged();
+        } else {
+            setResult(RESULT_OK);
+            super.onBackPressed();
+        }
     }
 
     @Override

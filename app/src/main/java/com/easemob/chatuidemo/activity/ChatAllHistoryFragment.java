@@ -77,6 +77,17 @@ public class ChatAllHistoryFragment extends Fragment {
 
         conversationList.addAll(loadConversationsWithRecentChat());
         listView = (ListView) getView().findViewById(R.id.list);
+        headView = LayoutInflater.from(getActivity()).inflate(R.layout.row_chat_history, listView, false);
+        ((TextView) headView.findViewById(R.id.name)).setText(R.string.title_name_message_center);
+        ((TextView) headView.findViewById(R.id.unread_msg_number)).setVisibility(View.GONE);
+        headView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), MessageCenterActivity.class));
+            }
+        });
+        updateHeadView();
+        listView.addHeaderView(headView);
         adapter = new ChatAllHistoryAdapter(getActivity(), 1, conversationList);
         // 设置adapter
         listView.setAdapter(adapter);
@@ -97,17 +108,6 @@ public class ChatAllHistoryFragment extends Fragment {
             }
         });
 
-        headView = LayoutInflater.from(getActivity()).inflate(R.layout.row_chat_history, listView, false);
-        ((TextView) headView.findViewById(R.id.name)).setText(R.string.title_name_message_center);
-        ((TextView) headView.findViewById(R.id.unread_msg_number)).setVisibility(View.GONE);
-        headView.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getActivity(), MessageCenterActivity.class));
-            }
-        });
-        updateHeadView();
-        listView.addHeaderView(headView);
     }
 
     private void updateHeadView() {

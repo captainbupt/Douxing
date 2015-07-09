@@ -1,10 +1,10 @@
 /**
  * Copyright (C) 2013-2014 EaseMob Technologies. All rights reserved.
- *
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.badou.mworking.util.SPUtil;
 import com.easemob.applib.utils.HXPreferenceUtils;
 import com.easemob.chatuidemo.db.UserDao;
 
@@ -30,21 +31,21 @@ import android.preference.PreferenceManager;
 
 /**
  * HuanXin default SDK Model implementation
- * @author easemob
  *
+ * @author easemob
  */
-public class DefaultHXSDKModel extends HXSDKModel{
+public class DefaultHXSDKModel extends HXSDKModel {
     private static final String PREF_USERNAME = "username";
     private static final String PREF_PWD = "pwd";
     UserDao dao = null;
     protected Context context = null;
-    protected Map<Key,Object> valueCache = new HashMap<Key,Object>();
-    
-    public DefaultHXSDKModel(Context ctx){
+    protected Map<Key, Object> valueCache = new HashMap<Key, Object>();
+
+    public DefaultHXSDKModel(Context ctx) {
         context = ctx;
         HXPreferenceUtils.init(context);
     }
-    
+
     @Override
     public void setSettingMsgNotification(boolean paramBoolean) {
         HXPreferenceUtils.getInstance().setSettingMsgNotification(paramBoolean);
@@ -55,12 +56,12 @@ public class DefaultHXSDKModel extends HXSDKModel{
     public boolean getSettingMsgNotification() {
         Object val = valueCache.get(Key.VibrateAndPlayToneOn);
 
-        if(val == null){
+        if (val == null) {
             val = HXPreferenceUtils.getInstance().getSettingMsgNotification();
             valueCache.put(Key.VibrateAndPlayToneOn, val);
         }
-       
-        return (Boolean) (val != null?val:true);
+
+        return (Boolean) (val != null ? val : true);
     }
 
     @Override
@@ -73,12 +74,12 @@ public class DefaultHXSDKModel extends HXSDKModel{
     public boolean getSettingMsgSound() {
         Object val = valueCache.get(Key.PlayToneOn);
 
-        if(val == null){
+        if (val == null) {
             val = HXPreferenceUtils.getInstance().getSettingMsgSound();
             valueCache.put(Key.PlayToneOn, val);
         }
-       
-        return (Boolean) (val != null?val:true);
+
+        return (Boolean) (val != null ? val : true);
     }
 
     @Override
@@ -91,12 +92,12 @@ public class DefaultHXSDKModel extends HXSDKModel{
     public boolean getSettingMsgVibrate() {
         Object val = valueCache.get(Key.VibrateOn);
 
-        if(val == null){
+        if (val == null) {
             val = HXPreferenceUtils.getInstance().getSettingMsgVibrate();
             valueCache.put(Key.VibrateOn, val);
         }
-       
-        return (Boolean) (val != null?val:true);
+
+        return (Boolean) (val != null ? val : true);
     }
 
     @Override
@@ -106,15 +107,15 @@ public class DefaultHXSDKModel extends HXSDKModel{
     }
 
     @Override
-    public boolean getSettingMsgSpeaker() {        
+    public boolean getSettingMsgSpeaker() {
         Object val = valueCache.get(Key.SpakerOn);
 
-        if(val == null){
+        if (val == null) {
             val = HXPreferenceUtils.getInstance().getSettingMsgSpeaker();
             valueCache.put(Key.SpakerOn, val);
         }
-       
-        return (Boolean) (val != null?val:true);
+
+        return (Boolean) (val != null ? val : true);
     }
 
     @Override
@@ -137,7 +138,7 @@ public class DefaultHXSDKModel extends HXSDKModel{
     @Override
     public boolean savePassword(String pwd) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return preferences.edit().putString(PREF_PWD, pwd).commit();    
+        return preferences.edit().putString(PREF_PWD, pwd).commit();
     }
 
     @Override
@@ -150,88 +151,89 @@ public class DefaultHXSDKModel extends HXSDKModel{
     public String getAppProcessName() {
         return null;
     }
-    
-    public void setDisabledGroups(List<String> groups){
-        if(dao == null){
+
+    public void setDisabledGroups(List<String> groups) {
+        /*if(dao == null){
             dao = new UserDao(context);
         }
         
         dao.setDisabledGroups(groups);
-        valueCache.put(Key.DisabledGroups, groups);
+        //valueCache.put(Key.DisabledGroups, groups);*/
+        SPUtil.setDisabledGroup(context, groups);
     }
-    
-    public List<String> getDisabledGroups(){
-        Object val = valueCache.get(Key.DisabledGroups);
 
-        if(dao == null){
+    public List<String> getDisabledGroups() {
+        //Object val = valueCache.get(Key.DisabledGroups);
+       /* Object val = null;
+
+        if (dao == null) {
             dao = new UserDao(context);
         }
-        
-        if(val == null){
+
+        if (val == null) {
             val = dao.getDisabledGroups();
-            valueCache.put(Key.DisabledGroups, val);
-        }
-       
-        return (List<String>) val;
+            //valueCache.put(Key.DisabledGroups, val);
+        }*/
+        return SPUtil.getDisabledGroup(context);
     }
-    
-    public void setDisabledIds(List<String> ids){
-        if(dao == null){
+
+    public void setDisabledIds(List<String> ids) {
+        if (dao == null) {
             dao = new UserDao(context);
         }
-        
+
         dao.setDisabledIds(ids);
         valueCache.put(Key.DisabledIds, ids);
     }
-    
-    public List<String> getDisabledIds(){
+
+    public List<String> getDisabledIds() {
         Object val = valueCache.get(Key.DisabledIds);
-        
-        if(dao == null){
+
+        if (dao == null) {
             dao = new UserDao(context);
         }
 
-        if(val == null){
+        if (val == null) {
             val = dao.getDisabledIds();
             valueCache.put(Key.DisabledIds, val);
         }
-       
+
         return (List<String>) val;
     }
-   
-    public void allowChatroomOwnerLeave(boolean value){
+
+    public void allowChatroomOwnerLeave(boolean value) {
         HXPreferenceUtils.getInstance().setSettingAllowChatroomOwnerLeave(value);
     }
-    
-    public boolean isChatroomOwnerLeaveAllowed(){
+
+    public boolean isChatroomOwnerLeaveAllowed() {
         return HXPreferenceUtils.getInstance().getSettingAllowChatroomOwnerLeave();
     }
-    
-    public void setGroupsSynced(boolean synced){
+
+    public void setGroupsSynced(boolean synced) {
         HXPreferenceUtils.getInstance().setGroupsSynced(synced);
     }
-    
-    public boolean isGroupsSynced(){
+
+    public boolean isGroupsSynced() {
         return HXPreferenceUtils.getInstance().isGroupsSynced();
     }
-    
-    public void setContactSynced(boolean synced){
+
+    public void setContactSynced(boolean synced) {
         HXPreferenceUtils.getInstance().setContactSynced(synced);
     }
-    
-    public boolean isContactSynced(){
+
+    public boolean isContactSynced() {
         return HXPreferenceUtils.getInstance().isContactSynced();
     }
-    
-    public void setBlacklistSynced(boolean synced){
+
+    public void setBlacklistSynced(boolean synced) {
         HXPreferenceUtils.getInstance().setBlacklistSynced(synced);
     }
-    
-    public boolean isBacklistSynced(){
+
+    public boolean isBacklistSynced() {
         return HXPreferenceUtils.getInstance().isBacklistSynced();
     }
-    
-    enum Key{
+
+    enum Key {
         VibrateAndPlayToneOn,
         VibrateOn,
         PlayToneOn,

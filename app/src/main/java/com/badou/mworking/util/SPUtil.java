@@ -1,8 +1,12 @@
 package com.badou.mworking.util;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.badou.mworking.base.AppApplication;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 功能描述:  SharedPerences保存数据和读取数据封装之后的工具类
@@ -59,6 +63,36 @@ public class SPUtil {
     public static final long getContactLastUpdateTime(Context context) {
         String uid = ((AppApplication) context.getApplicationContext()).getUserInfo().userId;
         return SP.getLongSP(context, SP.DEFAULTCACHE, CONTACT_LIST_LAST_UPDATE_TIME + uid, 1);
+    }
+
+    public static final String EMCHAT_DISABLED_GROUP = "disablegroup";
+
+    public static void setDisabledGroup(Context context, List<String> groups) {
+        String uid = ((AppApplication) context.getApplicationContext()).getUserInfo().userId;
+        StringBuilder content = new StringBuilder();
+        for (String id : groups) {
+            content.append(id);
+            content.append(",");
+        }
+        if (content.length() > 0) {
+            content.deleteCharAt(content.length() - 1);
+        }
+        SP.putStringSP(context, SP.DEFAULTCACHE, EMCHAT_DISABLED_GROUP + uid, content.toString());
+    }
+
+    public static List<String> getDisabledGroup(Context context) {
+        String uid = ((AppApplication) context.getApplicationContext()).getUserInfo().userId;
+        List<String> groups = new ArrayList<>();
+        String content = SP.getStringSP(context, SP.DEFAULTCACHE, EMCHAT_DISABLED_GROUP + uid, null);
+        if (TextUtils.isEmpty(content)) {
+            return groups;
+        } else {
+            String[] ids = content.split(",");
+            for (int ii = 0; ii < ids.length; ii++) {
+                groups.add(ids[ii]);
+            }
+            return groups;
+        }
     }
 
 }

@@ -14,6 +14,7 @@
 package com.easemob.chatuidemo.activity;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -140,6 +141,7 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
                 }
             }
         });
+
         departments = EMChatResManager.getDepartments(mContext);
         roles = EMChatResManager.getRoles(mContext);
         contacts = EMChatResManager.getContacts(mContext);

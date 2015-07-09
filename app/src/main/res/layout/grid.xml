@@ -1,39 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content" >
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-
-    <LinearLayout 
+    <LinearLayout
         android:id="@+id/button_avatar"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="5dp"
         android:gravity="center_horizontal"
-        >
-        <ImageView 
+        android:orientation="vertical">
+
+        <ImageView
             android:id="@+id/iv_avatar"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
-            android:src="@drawable/smiley_add_btn"
+            android:layout_width="@dimen/icon_size_medium"
+            android:layout_height="@dimen/icon_size_medium"
             android:scaleType="fitXY"
-            />
-        <TextView 
+            android:src="@drawable/smiley_add_btn" />
+
+        <TextView
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:singleLine="true"
+            android:layout_marginTop="@dimen/offset_micro"
             android:ellipsize="end"
-            android:textSize="13sp"
-            android:layout_margin="3dp"
-            />
+            android:singleLine="true"
+            android:textSize="@dimen/text_size_less" />
     </LinearLayout>
 
     <ImageView
         android:id="@+id/badge_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/appitem_del_btn"
+        android:layout_alignLeft="@id/button_avatar"
+        android:layout_alignTop="@id/button_avatar"
+        android:layout_marginLeft="-5dp"
+        android:layout_marginTop="-5dp"
+        android:src="@drawable/icon_multi_image_edit_delete"
         android:visibility="invisible" />
 
 </RelativeLayout>

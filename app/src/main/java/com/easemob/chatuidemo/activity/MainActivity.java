@@ -27,18 +27,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.VolleyError;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.database.EMChatResManager;
@@ -79,7 +75,6 @@ import com.easemob.chatuidemo.utils.CommonUtils;
 import com.easemob.util.EMLog;
 import com.easemob.util.HanziToPinyin;
 import com.easemob.util.NetUtils;
-import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -151,49 +146,64 @@ public class MainActivity extends BaseBackActionBarActivity implements EMEventLi
         init();
         long currentTime = Calendar.getInstance().getTimeInMillis();
         long lastTime = SPUtil.getContactLastUpdateTime(mContext);
-        lastTime = 0;
         if (currentTime - lastTime > 1000l * 60l * 60l * 24l) {
-            initContacts();
+            initContactsFromServer();
+        }else{
+            AppApplication.getInstance().getContactList();// 确保初始化一次
         }
     }
 
-    private void initContacts() {
+    private void initContactsFromServer() {
         mProgressDialog.show();
         ServiceProvider.getContacts(mContext, new VolleyListener(mContext) {
             @Override
-            public void onResponseSuccess(JSONObject response) {
-                JSONObject data = response.optJSONObject(Net.DATA);
-                JSONObject roleJsonObject = data.optJSONObject("rolecfg");
-                JSONArray userArray = data.optJSONArray("usrlst");
-                List<Department> departments = new ArrayList<Department>();
-                List<Role> roles = new ArrayList<Role>();
-                List<User> contacts = new ArrayList<User>();
-                getDepartmentInfo(departments, data.optJSONArray("dptcfg"), -1l);
-                Iterator<String> iterator = roleJsonObject.keys();
-                while (iterator.hasNext()) {
-                    String name = iterator.next();
-                    int id = Integer.parseInt(roleJsonObject.optString(name));
-                    roles.add(new Role(id, name));
-                }
-                for (int ii = 0; ii < userArray.length(); ii++) {
-                    JSONObject userObject = userArray.optJSONObject(ii);
-                    User user = new User();
-                    user.setUsername(userObject.optString("employee_id"));
-                    user.setNick(userObject.optString("name"));
-                    user.setDepartment(Long.parseLong(userObject.optString("department")));
-                    user.setRole(Integer.parseInt(userObject.optString("role")));
-                    user.setAvatar(userObject.optString("imgurl"));
-                    contacts.add(user);
-                }
-                EMChatResManager.insertContacts(mContext, contacts);
-                EMChatResManager.insertDepartments(mContext, departments);
-                EMChatResManager.insertRoles(mContext, roles);
-                AppApplication.getInstance().setContactList(null);
-                SPUtil.setContactLastUpdateTime(mContext, Calendar.getInstance().getTimeInMillis());
+            public void onResponseSuccess(final JSONObject response) {
+                new Thread() {
+
+                    @Override
+                    public void run() {
+                        JSONObject data = response.optJSONObject(Net.DATA);
+                        JSONObject roleJsonObject = data.optJSONObject("rolecfg");
+                        JSONArray userArray = data.optJSONArray("usrlst");
+                        List<Department> departments = new ArrayList<Department>();
+                        List<Role> roles = new ArrayList<Role>();
+                        List<User> contacts = new ArrayList<User>();
+                        getDepartmentInfo(departments, data.optJSONArray("dptcfg"), -1l);
+                        Iterator<String> iterator = roleJsonObject.keys();
+                        while (iterator.hasNext()) {
+                            String name = iterator.next();
+                            int id = Integer.parseInt(roleJsonObject.optString(name));
+                            roles.add(new Role(id, name));
+                        }
+                        for (int ii = 0; ii < userArray.length(); ii++) {
+                            JSONObject userObject = userArray.optJSONObject(ii);
+                            User user = new User();
+                            user.setUsername(userObject.optString("employee_id"));
+                            user.setNick(userObject.optString("name"));
+                            user.setDepartment(Long.parseLong(userObject.optString("department")));
+                            user.setRole(Integer.parseInt(userObject.optString("role")));
+                            user.setAvatar(userObject.optString("imgurl"));
+                            contacts.add(user);
+                        }
+                        EMChatResManager.insertContacts(mContext, contacts);
+                        EMChatResManager.insertDepartments(mContext, departments);
+                        EMChatResManager.insertRoles(mContext, roles);
+                        AppApplication.getInstance().setContactList(null);
+                        AppApplication.getInstance().getContactList();
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                SPUtil.setContactLastUpdateTime(mContext, Calendar.getInstance().getTimeInMillis());
+                                mProgressDialog.dismiss();
+                            }
+                        });
+                    }
+                }.start();
             }
 
             @Override
-            public void onCompleted() {
+            public void onErrorResponse(VolleyError error) {
+                super.onErrorResponse(error);
                 mProgressDialog.dismiss();
             }
         });
@@ -380,10 +390,10 @@ public class MainActivity extends BaseBackActionBarActivity implements EMEventLi
         switch (event.getEvent()) {
             case EventNewMessage: // 普通消息
             {
-                EMMessage message = (EMMessage) event.getData();
+                /*EMMessage message = (EMMessage) event.getData();
 
                 // 提示新消息
-                HXSDKHelper.getInstance().getNotifier().onNewMsg(message);
+                HXSDKHelper.getInstance().getNotifier().onNewMsg(message);*/
 
                 refreshUI();
                 break;
