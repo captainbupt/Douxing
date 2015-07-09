@@ -148,7 +148,7 @@ public class MainActivity extends BaseBackActionBarActivity implements EMEventLi
         long lastTime = SPUtil.getContactLastUpdateTime(mContext);
         if (currentTime - lastTime > 1000l * 60l * 60l * 24l) {
             initContactsFromServer();
-        }else{
+        } else {
             AppApplication.getInstance().getContactList();// 确保初始化一次
         }
     }
@@ -177,12 +177,12 @@ public class MainActivity extends BaseBackActionBarActivity implements EMEventLi
                         }
                         for (int ii = 0; ii < userArray.length(); ii++) {
                             JSONObject userObject = userArray.optJSONObject(ii);
-                            User user = new User();
-                            user.setUsername(userObject.optString("employee_id"));
-                            user.setNick(userObject.optString("name"));
-                            user.setDepartment(Long.parseLong(userObject.optString("department")));
-                            user.setRole(Integer.parseInt(userObject.optString("role")));
-                            user.setAvatar(userObject.optString("imgurl"));
+                            String username = userObject.optString("employee_id");
+                            String nick = userObject.optString("name");
+                            long department = Long.parseLong(userObject.optString("department"));
+                            int role = Integer.parseInt(userObject.optString("role"));
+                            String avatar = userObject.optString("imgurl");
+                            User user = new User(username, nick, avatar, department, role);
                             contacts.add(user);
                         }
                         EMChatResManager.insertContacts(mContext, contacts);
@@ -804,8 +804,6 @@ public class MainActivity extends BaseBackActionBarActivity implements EMEventLi
         inviteMessgeDao.saveMessage(msg);
         // 未读数加1
         User user = AppApplication.getInstance().getContactList().get(Constant.NEW_FRIENDS_USERNAME);
-        if (user.getUnreadMsgCount() == 0)
-            user.setUnreadMsgCount(user.getUnreadMsgCount() + 1);
     }
 
     /**

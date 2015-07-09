@@ -85,7 +85,8 @@ public class PickContactsAutoCompleteAdapter extends ArrayAdapter<Object> {
                     }
                 }
                 for (User user : mUserList) {
-                    if (user.getNick().contains(charSequence) || user.getUsername().contains(charSequence)) {
+                    //if (user.getNick().contains(charSequence) || user.getUsername().contains(charSequence)) {
+                    if (user.getTag().contains(charSequence)) {
                         mResultList.add(user);
                     }
                 }

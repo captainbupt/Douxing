@@ -44,8 +44,7 @@ public class NewFriendsMsgActivity extends BaseActivity {
 		//设置adapter
 		NewFriendsMsgAdapter adapter = new NewFriendsMsgAdapter(this, 1, msgs); 
 		listView.setAdapter(adapter);
-		AppApplication.getInstance().getContactList().get(Constant.NEW_FRIENDS_USERNAME).setUnreadMsgCount(0);
-		
+
 	}
 
 	public void back(View view) {

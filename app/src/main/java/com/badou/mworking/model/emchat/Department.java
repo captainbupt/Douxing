@@ -74,4 +74,23 @@ public class Department {
         return builder.toString();
     }
 
+    @Override
+    public int hashCode() {
+        return (int) getId();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) {
+            return false;
+        }
+        if (o instanceof Department) {
+            return getId() == ((Department) o).getId();
+        }
+        if (o instanceof Long) {
+            return getId() == (long) o;
+        }
+        return false;
+    }
+
 }
