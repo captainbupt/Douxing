@@ -14,13 +14,9 @@
 package com.easemob.chatuidemo.activity;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import android.content.Context;
 import android.content.Intent;
@@ -28,23 +24,19 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.SpannableString;
 import android.text.Spanned;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,12 +45,7 @@ import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.database.EMChatResManager;
 import com.badou.mworking.model.emchat.Department;
 import com.badou.mworking.model.emchat.Role;
-import com.badou.mworking.model.user.UserInfo;
-import com.badou.mworking.net.Net;
-import com.badou.mworking.net.ServiceProvider;
-import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.ToastUtil;
-import com.easemob.EMCallBack;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMGroup;
@@ -66,19 +53,12 @@ import com.easemob.chat.EMGroupManager;
 import com.badou.mworking.R;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.TextMessageBody;
-import com.easemob.chatuidemo.DemoHXSDKHelper;
-import com.easemob.chatuidemo.DemoHXSDKModel;
-import com.easemob.chatuidemo.adapter.ContactAdapter;
 import com.easemob.chatuidemo.adapter.MessageAdapter;
 import com.easemob.chatuidemo.adapter.PickContactsAdapter;
 import com.easemob.chatuidemo.adapter.PickContactsAutoCompleteAdapter;
-import com.easemob.chatuidemo.db.DemoDBManager;
 import com.easemob.chatuidemo.domain.User;
 import com.easemob.chatuidemo.widget.Sidebar;
 import com.easemob.exceptions.EaseMobException;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
@@ -94,7 +74,11 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
      * group中一开始就有的成员
      */
     private List<String> exitingMembers;
+    private CheckBox selectedFilterCheckBox;
     private TextView selectedNumberTextView;
+    private ImageView selectedAllImageView;
+    private TextView selectedAllTextView;
+    private boolean isAllSelected = false;
 
     ImageButton clearSearch;
     AutoCompleteTextView query;
@@ -155,14 +139,58 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
     }
 
     private void initHeader() {
-        ((CheckBox) findViewById(R.id.filter_selected)).setOnCheckedChangeListener(new OnCheckedChangeListener() {
+        selectedFilterCheckBox = (CheckBox) findViewById(R.id.filter_selected);
+        selectedFilterCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 contactAdapter.setSelected(b);
+                if (b && contactAdapter.getCount() > 0) {
+                    setAllSelectedStatus(1);
+                } else {
+                    setAllSelectedStatus(contactAdapter.getAllSelectedStatus());
+                }
             }
         });
         selectedNumberTextView = (TextView) findViewById(R.id.selected_number);
+        selectedNumberTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectedFilterCheckBox.toggle();
+            }
+        });
+        selectedAllImageView = (ImageView) findViewById(R.id.select_all);
+        selectedAllTextView = (TextView) findViewById(R.id.select_text);
+        View.OnClickListener onClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isAllSelected = !isAllSelected;
+                contactAdapter.selectAll(isAllSelected);
+                setAllSelectedStatus(isAllSelected ? 1 : -1);
+            }
+        };
+        selectedAllImageView.setOnClickListener(onClickListener);
+        selectedAllTextView.setOnClickListener(onClickListener);
         setSelectedNumber(0);
+    }
+
+    private void setAllSelectedStatus(int status) {
+        switch (status) {
+            case -1:
+                isAllSelected = false;
+                selectedAllImageView.setImageResource(R.drawable.dx_checkbox_off);
+                selectedAllTextView.setText(R.string.select_all);
+                break;
+            case 0:
+                isAllSelected = false;
+                selectedAllImageView.setImageResource(R.drawable.dx_checkbox_half);
+                selectedAllTextView.setText(R.string.select_all);
+                break;
+            case 1:
+                isAllSelected = true;
+                selectedAllImageView.setImageResource(R.drawable.dx_checkbox_on);
+                selectedAllTextView.setText(R.string.unselect_all);
+                break;
+        }
     }
 
     private void setSelectedNumber(int number) {
@@ -205,15 +233,15 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
                 Object object = adapterView.getAdapter().getItem(i);
                 if (object instanceof Role) {
                     Role role = (Role) object;
-                    contactAdapter.setRole(role);
+                    contactAdapter.setFilter(role, PickContactsAdapter.TYPE_ROLE);
                     query.setText(role.getName());
                 } else if (object instanceof Department) {
                     Department department = (Department) object;
-                    contactAdapter.setDepartment(department);
+                    contactAdapter.setFilter(department, PickContactsAdapter.TYPE_DEPARTMENT);
                     query.setText(department.getName());
                 } else if (object instanceof User) {
                     User user = (User) object;
-                    contactAdapter.setUser(user);
+                    contactAdapter.setFilter(user, PickContactsAdapter.TYPE_USER);
                     query.setText(user.getNick());
                 }
             }
@@ -232,7 +260,7 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 if (editable.length() == 0) {
-                    contactAdapter.showAll();
+                    contactAdapter.setFilter(null, PickContactsAdapter.TYPE_ALL);
                 } else {
                     clearSearch.setVisibility(View.VISIBLE);
                 }
@@ -263,6 +291,7 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
             @Override
             public void onSelectedCountChange(int count) {
                 setSelectedNumber(count);
+                setAllSelectedStatus(contactAdapter.getAllSelectedStatus());
             }
         });
     }

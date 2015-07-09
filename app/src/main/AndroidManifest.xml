@@ -340,7 +340,7 @@
             android:value="developer-default" />
         <meta-data
             android:name="JPUSH_APPKEY"
-            android:value="c43c58514e4fbabafcc6d930" />
+            android:value="5a522c4f94e212a0c60ca78d" />
         <!-- </>值来自开发者平台取得的AppKey -->
 
 
@@ -382,12 +382,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide"
             android:windowSoftInputMode="adjustPan" >
-        </activity>
-        <!-- 聊天室详情 -->
-        <activity
-            android:name="com.easemob.chatuidemo.activity.ChatRoomDetailsActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/horizontal_slide" >
         </activity>
 
         <!-- 新建群组 -->

@@ -20,17 +20,46 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/divider"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingBottom="@dimen/offset_small"
         android:paddingLeft="@dimen/offset_medium"
         android:paddingRight="@dimen/offset_large"
         android:paddingTop="@dimen/offset_small">
 
+        <ImageView
+            android:id="@+id/select_all"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:src="@drawable/dx_checkbox_off" />
+
+        <TextView
+            android:id="@+id/select_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/offset_less"
+            android:paddingRight="@dimen/offset_medium"
+            android:text="@string/select_all"
+            android:textColor="@color/color_text_black"
+            android:textSize="@dimen/text_size_less" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/offset_small"
+            android:layout_marginTop="@dimen/offset_small"
+            android:background="@color/color_border_grey" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
         <TextView
             android:id="@+id/selected_number"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:paddingRight="@dimen/offset_less"
             android:textColor="@color/color_text_black"
             android:textSize="@dimen/text_size_less" />
 
@@ -50,7 +79,7 @@
         android:cacheColorHint="#00000000"
         android:descendantFocusability="afterDescendants"
         android:divider="@color/color_border_grey"
-        android:dividerHeight="1px"
+        android:dividerHeight="1dp"
         android:fastScrollEnabled="true" />
 
     <com.easemob.chatuidemo.widget.Sidebar

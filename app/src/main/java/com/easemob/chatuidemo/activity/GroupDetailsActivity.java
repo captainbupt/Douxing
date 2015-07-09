@@ -573,7 +573,6 @@ public class GroupDetailsActivity extends BaseBackActionBarActivity implements O
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
-            final LinearLayout button = (LinearLayout) convertView.findViewById(R.id.button_avatar);
             // 最后一个item，减人按钮
             if (position == super.getCount() + 1) {
                 holder.textView.setText("");
@@ -589,7 +588,7 @@ public class GroupDetailsActivity extends BaseBackActionBarActivity implements O
                     convertView.findViewById(R.id.badge_delete).setVisibility(View.INVISIBLE);
                 }
                 final String st10 = getResources().getString(R.string.The_delete_button_is_clicked);
-                button.setOnClickListener(new OnClickListener() {
+                holder.imageView.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         EMLog.d(TAG, st10);
@@ -614,7 +613,7 @@ public class GroupDetailsActivity extends BaseBackActionBarActivity implements O
                         convertView.findViewById(R.id.badge_delete).setVisibility(View.INVISIBLE);
                     }
                     final String st11 = getResources().getString(R.string.Add_a_button_was_clicked);
-                    button.setOnClickListener(new OnClickListener() {
+                    holder.imageView.setOnClickListener(new OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             EMLog.d(TAG, st11);
@@ -628,7 +627,7 @@ public class GroupDetailsActivity extends BaseBackActionBarActivity implements O
             } else { // 普通item，显示群组成员
                 final String username = getItem(position);
                 convertView.setVisibility(View.VISIBLE);
-                button.setVisibility(View.VISIBLE);
+                holder.imageView.setVisibility(View.VISIBLE);
 //				Drawable avatar = getResources().getDrawable(R.drawable.default_avatar);
 //				avatar.setBounds(0, 0, referenceWidth, referenceHeight);
 //				button.setCompoundDrawables(null, avatar, null, null);
@@ -650,7 +649,7 @@ public class GroupDetailsActivity extends BaseBackActionBarActivity implements O
                 final String st13 = getResources().getString(R.string.Are_removed);
                 final String st14 = getResources().getString(R.string.Delete_failed);
                 final String st15 = getResources().getString(R.string.confirm_the_members);
-                button.setOnClickListener(new OnClickListener() {
+                holder.imageView.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (isInDeleteMode) {
