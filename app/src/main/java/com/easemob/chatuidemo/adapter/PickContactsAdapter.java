@@ -20,7 +20,6 @@ import com.easemob.chatuidemo.domain.User;
 import com.easemob.chatuidemo.utils.UserUtils;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +33,7 @@ public class PickContactsAdapter extends MyBaseAdapter<User> implements SectionI
     public static final int TYPE_ROLE = 1;
     public static final int TYPE_DEPARTMENT = 2;
     public static final int TYPE_USER = 3;
+    public static final int TYPE_TAG = 4;
 
     private int mCurrentType = TYPE_ALL;
     private Object mFilter = null;
@@ -54,6 +54,16 @@ public class PickContactsAdapter extends MyBaseAdapter<User> implements SectionI
         void onSelectedCountChange(int count);
     }
 
+    private OnDataSetChangedListener mOnDataSetChangedListener;
+
+    public void setOnDataSetChangedListener(OnDataSetChangedListener onDataSetChangedListener) {
+        this.mOnDataSetChangedListener = onDataSetChangedListener;
+    }
+
+    public interface OnDataSetChangedListener {
+        void onDataSetChanged();
+    }
+
     public PickContactsAdapter(Context context, List<User> objects, List<String> exitingMembers) {
         super(context, objects);
         mOriginUserList = objects;
@@ -69,10 +79,18 @@ public class PickContactsAdapter extends MyBaseAdapter<User> implements SectionI
     }
 
     @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
+        if (mOnDataSetChangedListener != null) {
+            mOnDataSetChangedListener.onDataSetChanged();
+        }
+    }
+
+    @Override
     public View getHeaderView(int i, View view, ViewGroup viewGroup) {
         if (view == null) {
             view = new TextView(mContext);
-            view.setBackgroundColor(mContext.getResources().getColor(R.color.color_grey));
+            view.setBackgroundColor(mContext.getResources().getColor(R.color.color_layout_bg));
             int medium = mContext.getResources().getDimensionPixelOffset(R.dimen.offset_medium);
             int micro = mContext.getResources().getDimensionPixelOffset(R.dimen.offset_micro);
             view.setPadding(medium, micro, medium, micro);
@@ -214,6 +232,9 @@ public class PickContactsAdapter extends MyBaseAdapter<User> implements SectionI
             case TYPE_USER:
                 mItemList.add((User) filter);
                 break;
+            case TYPE_TAG:
+                mItemList.addAll(filterByTag((String) mFilter));
+                break;
             default:
                 this.mCurrentType = TYPE_ALL;
                 mItemList.addAll(mOriginUserList);
@@ -226,6 +247,16 @@ public class PickContactsAdapter extends MyBaseAdapter<User> implements SectionI
             }
         }
         notifyDataSetChanged();
+    }
+
+    public List<User> filterByTag(String key) {
+        List<User> users = new ArrayList<>();
+        for (User user : mOriginUserList) {
+            if (user.getTag().contains(key)) {
+                users.add(user);
+            }
+        }
+        return users;
     }
 
     public List<User> filterByRole(Role role) {

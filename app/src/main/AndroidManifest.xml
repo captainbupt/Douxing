@@ -138,9 +138,6 @@
             android:name=".AskDetailActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".EMChatActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".AskAnswerSubmitActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -340,7 +337,7 @@
             android:value="developer-default" />
         <meta-data
             android:name="JPUSH_APPKEY"
-            android:value="5a522c4f94e212a0c60ca78d" />
+            android:value="c43c58514e4fbabafcc6d930" />
         <!-- </>值来自开发者平台取得的AppKey -->
 
 

@@ -65,9 +65,9 @@ public class DemoDBManager {
                 String nick = cursor.getString(cursor.getColumnIndex(UserDao.COLUMN_NAME_NICK));
                 String avatar = cursor.getString(cursor.getColumnIndex(UserDao.COLUMN_NAME_AVATAR));
                 User user = new User();
-                user.setUsername(username);
+/*                user.setUsername(username);
                 user.setNick(nick);
-                user.setAvatar(avatar);
+                user.setAvatar(avatar);*/
                 String headerName = null;
                 if (!TextUtils.isEmpty(user.getNick())) {
                     headerName = user.getNick();

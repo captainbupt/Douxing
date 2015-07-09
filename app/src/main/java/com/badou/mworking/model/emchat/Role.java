@@ -16,4 +16,23 @@ public class Role {
     public String getName() {
         return name;
     }
+
+    @Override
+    public int hashCode() {
+        return getId();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) {
+            return false;
+        }
+        if (o instanceof Role) {
+            return getId() == ((Role) o).getId();
+        }
+        if (o instanceof Long) {
+            return getId() == (long) o;
+        }
+        return false;
+    }
 }

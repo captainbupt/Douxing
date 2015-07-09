@@ -14,11 +14,17 @@
 package com.easemob.chatuidemo.domain;
 
 import android.content.Context;
+import android.content.Intent;
 
 import com.badou.mworking.database.EMChatResManager;
 import com.badou.mworking.model.emchat.Department;
+import com.badou.mworking.model.emchat.Role;
 import com.badou.mworking.util.Cn2Spell;
+import com.easemob.applib.model.DefaultHXSDKModel;
 import com.easemob.chat.EMContact;
+
+import java.util.List;
+import java.util.Map;
 
 public class User extends EMContact {
     private int unreadMsgCount;
@@ -27,12 +33,38 @@ public class User extends EMContact {
     private long department;
     private int role;
     private String spell;
+    private String tag;
 
     public User() {
     }
 
-    public User(String username) {
+    public User(String username, String nick, String avatar, long department, int role) {
         this.username = username;
+        this.nick = nick;
+        this.avatar = avatar;
+        this.department = department;
+        this.role = role;
+        setSpell(username);
+    }
+
+    public void setTag(Map<Long, Department> departmentMap, Map<Integer, Role> roleMap) {
+        StringBuilder builder = new StringBuilder();
+        builder.append(username);
+        builder.append(nick);
+        for (long base = 1; base < getDepartment(); base *= 100l) {
+            long id = getDepartment() / base * base;
+            if (departmentMap.containsKey(id)) {
+                builder.append(departmentMap.get(id).getName());
+            }
+        }
+        if (roleMap.containsKey(getRole())) {
+            builder.append(roleMap.get(getRole()).getName());
+        }
+        tag = builder.toString();
+    }
+
+    public String getTag() {
+        return tag;
     }
 
     public String getHeader() {
@@ -55,27 +87,12 @@ public class User extends EMContact {
         return unreadMsgCount;
     }
 
-    public void setUnreadMsgCount(int unreadMsgCount) {
-        this.unreadMsgCount = unreadMsgCount;
-    }
-
-    @Override
-    public void setUsername(String s) {
-        super.setUsername(s);
-    }
-
     public Department getDepartment(Context context) {
         return EMChatResManager.getDepartment(context, department);
     }
 
     public String getSpell() {
         return spell;
-    }
-
-    @Override
-    public void setNick(String s) {
-        super.setNick(s);
-        setSpell(s);
     }
 
     public long getDepartment() {
@@ -86,20 +103,8 @@ public class User extends EMContact {
         return role;
     }
 
-    public void setDepartment(long department) {
-        this.department = department;
-    }
-
-    public void setRole(int role) {
-        this.role = role;
-    }
-
     public String getAvatar() {
         return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
     }
 
     @Override

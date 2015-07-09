@@ -16,16 +16,20 @@ package com.easemob.chatuidemo.activity;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -81,6 +85,7 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
     private boolean isAllSelected = false;
 
     ImageButton clearSearch;
+    boolean isTargeted = false;
     AutoCompleteTextView query;
 
     List<Department> departments;
@@ -129,10 +134,21 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
         departments = EMChatResManager.getDepartments(mContext);
         roles = EMChatResManager.getRoles(mContext);
         contacts = EMChatResManager.getContacts(mContext);
+        Map<Long, Department> departmentMap = new HashMap<>(departments.size());
+        for (Department department : departments) {
+            departmentMap.put(department.getId(), department);
+        }
+        Map<Integer, Role> roleMap = new HashMap<>(roles.size());
+        for (Role role : roles) {
+            roleMap.put(role.getId(), role);
+        }
+
         for (int ii = 0; ii < contacts.size(); ii++) {
             if (contacts.get(ii).getUsername().equals(EMChatManager.getInstance().getCurrentUser())) {
                 contacts.remove(ii);
-                break;
+                ii--;
+            } else {
+                contacts.get(ii).setTag(departmentMap, roleMap);
             }
         }
         initContactList(contacts);
@@ -225,11 +241,12 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
         }
     }
 
-    private void initContactList(List<User> contacts) {
+    private void initContactList(final List<User> contacts) {
         query.setAdapter(new PickContactsAutoCompleteAdapter(mContext, contacts, departments, roles, new ArrayList<>()));
         query.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                isTargeted = true;
                 Object object = adapterView.getAdapter().getItem(i);
                 if (object instanceof Role) {
                     Role role = (Role) object;
@@ -259,10 +276,15 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (editable.length() == 0) {
-                    contactAdapter.setFilter(null, PickContactsAdapter.TYPE_ALL);
-                } else {
-                    clearSearch.setVisibility(View.VISIBLE);
+                handler.removeCallbacks(searchRunnable);
+                if (!isTargeted) {
+                    if (editable.length() == 0) {
+                        contactAdapter.setFilter(null, PickContactsAdapter.TYPE_ALL);
+                    } else {
+                        clearSearch.setVisibility(View.VISIBLE);
+                        handler.postDelayed(searchRunnable, 1000);
+                    }
+                    isTargeted = false;
                 }
             }
         });
@@ -281,12 +303,19 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
             @Override
             public int compare(User lhs, User rhs) {
                 return (lhs.getSpell().compareTo(rhs.getSpell()));
-
             }
         });
 
         contactAdapter = new PickContactsAdapter(this, contacts, exitingMembers);
         listView.setAdapter(contactAdapter);
+        listView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(query.getWindowToken(), 0);
+                return false;
+            }
+        });
         contactAdapter.setOnSelectedCountChangeListener(new PickContactsAdapter.OnSelectedCountChangeListener() {
             @Override
             public void onSelectedCountChange(int count) {
@@ -294,7 +323,30 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
                 setAllSelectedStatus(contactAdapter.getAllSelectedStatus());
             }
         });
+        contactAdapter.setOnDataSetChangedListener(new PickContactsAdapter.OnDataSetChangedListener() {
+            @Override
+            public void onDataSetChanged() {
+                findViewById(R.id.none_result_view).setVisibility(contactAdapter.getCount() > 0 ? View.GONE : View.VISIBLE);
+            }
+        });
+
+        // 隐藏软键盘
+        InputMethodManager inputMethodManager = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (mActivity.getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN) {
+            if (mActivity.getCurrentFocus() != null)
+                inputMethodManager.hideSoftInputFromWindow(mActivity.getCurrentFocus().getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
+
+    Handler handler = new Handler();
+
+    Runnable searchRunnable = new Runnable() {
+        @Override
+        public void run() {
+            contactAdapter.setFilter(query.getText().toString(), PickContactsAdapter.TYPE_TAG);
+        }
+    };
 
     public void save(final String[] members) {
         setResult(RESULT_OK, new Intent().putExtra("newmembers", members));
@@ -314,7 +366,7 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
             public void run() {
                 // 调用sdk创建群组方法
                 String account = ((AppApplication) mContext.getApplicationContext()).getUserInfo().account;
-                String groupName = account + "创建的群组聊天";
+                String groupName = account + "发起的聊天";
                 String desc = "";
                 try {
                     EMGroup emGroup = EMGroupManager.getInstance().createPrivateGroup(groupName, desc, members, true, 200);
