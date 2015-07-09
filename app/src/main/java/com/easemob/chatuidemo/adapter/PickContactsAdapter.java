@@ -30,10 +30,10 @@ import butterknife.InjectView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 public class PickContactsAdapter extends MyBaseAdapter<User> implements SectionIndexer, StickyListHeadersAdapter {
-    private final int TYPE_ALL = 0;
-    private final int TYPE_ROLE = 1;
-    private final int TYPE_DEPARTMENT = 2;
-    private final int TYPE_USER = 3;
+    public static final int TYPE_ALL = 0;
+    public static final int TYPE_ROLE = 1;
+    public static final int TYPE_DEPARTMENT = 2;
+    public static final int TYPE_USER = 3;
 
     private int mCurrentType = TYPE_ALL;
     private Object mFilter = null;
@@ -105,7 +105,6 @@ public class PickContactsAdapter extends MyBaseAdapter<User> implements SectionI
         User user = getItem(position);
         //设置nick，demo里不涉及到完整user，用username代替nick显示
         final String username = user.getUsername();
-        String header = user.getHeader();
         //显示申请与通知item
         holder.name.setText(user.getNick());
         Department department = user.getDepartment(mContext);
@@ -130,6 +129,28 @@ public class PickContactsAdapter extends MyBaseAdapter<User> implements SectionI
         });
         holder.checkbox.setChecked(mIsCheckedMap.get(username));
         return convertView;
+    }
+
+    public int getAllSelectedStatus() {
+        if (getCount() == 0) {
+            return -1;
+        }
+        boolean first = mIsCheckedMap.get(getItem(0).getUsername());
+        for (int ii = 1; ii < getCount(); ii++) {
+            if (!first && mIsCheckedMap.get(getItem(ii).getUsername())) {
+                return 0;
+            } else if (first && !mIsCheckedMap.get(getItem(ii).getUsername())) {
+                return 0;
+            }
+        }
+        return first ? 1 : -1;
+    }
+
+    public void selectAll(boolean isSelect) {
+        for (int ii = 0; ii < getCount(); ii++) {
+            mIsCheckedMap.put(getItem(ii).getUsername(), isSelect);
+        }
+        notifyDataSetChanged();
     }
 
     public int getPositionForSection(int section) {
@@ -163,84 +184,69 @@ public class PickContactsAdapter extends MyBaseAdapter<User> implements SectionI
     }
 
     public void setSelected(boolean isSelected) {
-        this.isSelected = isSelected;
-        switch (mCurrentType) {
-            case TYPE_ALL:
-                showAll();
-                break;
-            case TYPE_ROLE:
-                setRole((Role) mFilter);
-                break;
-            case TYPE_DEPARTMENT:
-                setDepartment((Department) mFilter);
-                break;
-            case TYPE_USER:
-                setUser((User) mFilter);
-                break;
-            default:
-                showAll();
-        }
-    }
-
-    public void setRole(Role role) {
-        if (role == null) {
-            showAll();
-        } else {
-            mCurrentType = TYPE_ROLE;
-            mFilter = role;
-            mItemList.clear();
-            for (User user : mOriginUserList) {
-                if (user.getRole() == role.getId()) {
-                    if (!isSelected || mIsCheckedMap.get(user.getUsername()))
-                        mItemList.add(user);
-                }
-            }
-            notifyDataSetChanged();
-        }
-    }
-
-    public void setUser(User user) {
-        if (user == null) {
-            showAll();
-        } else {
-            mCurrentType = TYPE_USER;
-            mFilter = user;
-            mItemList.clear();
-            if (!isSelected || mIsCheckedMap.get(user.getUsername()))
-                mItemList.add(user);
-            notifyDataSetChanged();
-        }
-    }
-
-    public void setDepartment(Department department) {
-        if (department == null) {
-            showAll();
-        } else {
-            mCurrentType = TYPE_DEPARTMENT;
-            mFilter = department;
-            long top = department.getTopId();
-            mItemList.clear();
-            for (User user : mOriginUserList) {
-                if (user.getDepartment() >= department.getId() && user.getDepartment() < top) {
-                    if (!isSelected || mIsCheckedMap.get(user.getUsername()))
-                        mItemList.add(user);
-                }
-            }
-            notifyDataSetChanged();
-        }
-    }
-
-    public void showAll() {
-        mItemList.clear();
         if (isSelected) {
+            mItemList.clear();
             for (User user : mOriginUserList) {
                 if (mIsCheckedMap.get(user.getUsername()))
                     mItemList.add(user);
             }
+            notifyDataSetChanged();
         } else {
-            mItemList.addAll(mOriginUserList);
+            setFilter(mFilter, mCurrentType);
+        }
+    }
+
+    public void setFilter(Object filter, int type) {
+        this.isSelected = false;
+        this.mCurrentType = type;
+        this.mFilter = filter;
+        mItemList.clear();
+        switch (mCurrentType) {
+            case TYPE_ALL:
+                mItemList.addAll(mOriginUserList);
+                break;
+            case TYPE_ROLE:
+                mItemList.addAll(filterByRole((Role) mFilter));
+                break;
+            case TYPE_DEPARTMENT:
+                mItemList.addAll(filterByDepartment((Department) mFilter));
+                break;
+            case TYPE_USER:
+                mItemList.add((User) filter);
+                break;
+            default:
+                this.mCurrentType = TYPE_ALL;
+                mItemList.addAll(mOriginUserList);
+        }
+        if (isSelected) {
+            for (int ii = mItemList.size() - 1; ii >= 0; ii--) {
+                if (!mIsCheckedMap.get(mItemList.get(ii).getUsername())) {
+                    mItemList.remove(ii);
+                }
+            }
         }
         notifyDataSetChanged();
+    }
+
+    public List<User> filterByRole(Role role) {
+        List<User> users = new ArrayList<>();
+        for (User user : mOriginUserList) {
+            if (user.getRole() == role.getId()) {
+                users.add(user);
+            }
+        }
+        return users;
+    }
+
+    public List<User> filterByDepartment(Department department) {
+        List<User> users = new ArrayList<>();
+        long top = department.getTopId();
+        for (User user : mOriginUserList) {
+            if (user.getDepartment() >= department.getId() && user.getDepartment() < top) {
+                users.add(user);
+            }
+        }
+        return users;
     }
 
     /**
