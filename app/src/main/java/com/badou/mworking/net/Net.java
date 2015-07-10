@@ -614,4 +614,8 @@ public class Net {
         return "/gethxtxl?sys=android" + AppApplication.SYSVERSION + "&ver=" + AppApplication.appVersion;
     }
 
+    public static String createGroup() {
+        return "/genhxgrp?sys=android" + AppApplication.SYSVERSION + "&ver=" + AppApplication.appVersion;
+    }
+
 }
