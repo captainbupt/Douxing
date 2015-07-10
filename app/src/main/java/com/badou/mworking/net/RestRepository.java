@@ -2,19 +2,18 @@ package com.badou.mworking.net;
 
 
 import com.badou.mworking.base.AppApplication;
+import com.badou.mworking.domain.CategoryUseCase;
 import com.badou.mworking.domain.CheckUpdateUseCase;
 import com.badou.mworking.domain.LoginUseCase;
-import com.badou.mworking.domain.UseCase;
+import com.badou.mworking.entity.category.Category;
+import com.badou.mworking.entity.category.CategoryOverall;
+import com.badou.mworking.entity.category.Classification;
+import com.badou.mworking.entity.category.Notice;
 import com.badou.mworking.entity.main.MainData;
 import com.badou.mworking.entity.user.UserInfo;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import retrofit.RestAdapter;
 import rx.Observable;
-import rx.Subscriber;
-import rx.functions.Func1;
 
 public class RestRepository {
 
@@ -47,6 +46,18 @@ public class RestRepository {
 
     public Observable<BaseNetEntity<MainData>> checkUpdate(String uid, String screen, CheckUpdateUseCase.UpdateInfo updateInfo) {
         return restApi.checkUpdate(AppApplication.SYSPARAM, AppApplication.appVersion, uid, screen, updateInfo);
+    }
+
+    public Observable<BaseNetListEntity<Classification>> getClassification(String uid, String type) {
+        return restApi.getClassification(AppApplication.SYSPARAM, AppApplication.appVersion, uid, type, "nest");
+    }
+
+    public <T> Observable<BaseNetEntity<CategoryOverall<T>>> getCategory(String uid, String type, int tag, int begin, int pageNum, int done, T data) {
+        if (done == CategoryUseCase.TYPE_ALL) {
+            return restApi.getCategoryNotice(AppApplication.SYSPARAM, AppApplication.appVersion, uid, type, tag, begin, pageNum, data);
+        } else {
+            return restApi.getCategoryNotice(AppApplication.SYSPARAM, AppApplication.appVersion, uid, type, tag, begin, pageNum, done == CategoryUseCase.TYPE_READ ? 1 : 0, data);
+        }
     }
 
 }

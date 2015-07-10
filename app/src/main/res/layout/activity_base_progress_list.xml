@@ -6,7 +6,7 @@
     android:background="@color/color_bg_grey">
 
     <com.handmark.pulltorefresh.library.PullToRefreshListView
-        android:id="@+id/ptrlv_user_progress_content"
+        android:id="@+id/content_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
@@ -15,7 +15,7 @@
         android:visibility="visible" />
 
     <com.badou.mworking.widget.NoneResultView
-        android:id="@+id/nrv_activity_base_progress_list_none_result"
+        android:id="@+id/none_result_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -23,20 +23,20 @@
         android:visibility="gone" />
 
     <FrameLayout
-        android:id="@+id/fl_activity_base_progress_classification_container"
+        android:id="@+id/classification_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/color_bg_transparent_black"
         android:visibility="gone">
 
         <LinearLayout
-            android:id="@+id/ll_activity_base_progress_classification"
+            android:id="@+id/classification_container"
             android:layout_width="match_parent"
             android:layout_height="400dp"
             android:orientation="horizontal">
 
             <ListView
-                android:id="@+id/lv_classification_list_main"
+                android:id="@+id/classification_main_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="20"
@@ -47,7 +47,7 @@
                 android:scrollbars="none" />
 
             <ListView
-                android:id="@+id/lv_classification_list_more"
+                android:id="@+id/classification_more_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="17"

@@ -14,9 +14,9 @@ import org.json.JSONObject;
  */
 public class Train extends Category {
 
-    public final int CATEGORY_TYPE;
-    public final String CATEGORY_KEY_NAME;
-    public final String CATEGORY_KEY_UNREAD_NUM;//训练 的 未读数量
+    public int CATEGORY_TYPE;
+    public String CATEGORY_KEY_NAME;
+    public String CATEGORY_KEY_UNREAD_NUM;//训练 的 未读数量
 
     public String imgUrl;//图片下载地址
     public int rating; //课件打分
@@ -67,6 +67,10 @@ public class Train extends Category {
         }
         CATEGORY_KEY_NAME = CATEGORY_KEY_NAMES[CATEGORY_TYPE];
         CATEGORY_KEY_UNREAD_NUM = CATEGORY_KEY_UNREADS[CATEGORY_TYPE];
+    }
+
+    public Train() {
+
     }
 
     @Override

@@ -112,6 +112,10 @@ public class BaseNoTitleActivity extends ActionBarActivity implements SwipeBackA
         mProgressDialog.show();
     }
 
+    public void showProgressDialog() {
+        mProgressDialog.show();
+    }
+
     public void hideProgressDialog() {
         mProgressDialog.dismiss();
     }

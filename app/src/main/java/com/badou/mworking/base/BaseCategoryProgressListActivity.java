@@ -1,7 +1,6 @@
 package com.badou.mworking.base;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.TypedValue;
@@ -16,23 +15,22 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.badou.mworking.R;
 import com.badou.mworking.adapter.ClassificationAdapter;
-import com.badou.mworking.entity.Classification;
-import com.badou.mworking.entity.category.Category;
-import com.badou.mworking.entity.category.CategoryDetail;
+import com.badou.mworking.entity.category.Classification;
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ResponseParameters;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
-import com.badou.mworking.util.CategoryClickHandler;
+import com.badou.mworking.presenter.CategoryPresenter;
 import com.badou.mworking.util.Constant;
-import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.SP;
 import com.badou.mworking.util.ToastUtil;
+import com.badou.mworking.view.CategoryListView;
 import com.badou.mworking.widget.NoneResultView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -44,9 +42,25 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class BaseCategoryProgressListActivity extends BaseBackActionBarActivity {
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
-    protected final int REQUEST_DETAIL = 1;
+public abstract class BaseCategoryProgressListActivity extends BaseBackActionBarActivity implements CategoryListView {
+
+    @InjectView(R.id.content_list_view)
+    PullToRefreshListView mContentListView;
+    @InjectView(R.id.none_result_view)
+    NoneResultView mNoneResultView;
+    @InjectView(R.id.classification_main_list)
+    ListView mClassificationMainList;
+    @InjectView(R.id.classification_more_list)
+    ListView mClassificationMoreList;
+    @InjectView(R.id.classification_container)
+    LinearLayout mClassificationContainer;
+    @InjectView(R.id.classification_background)
+    FrameLayout mClassificationBackground;
+    @InjectView(R.id.rl_activity_base_progress_container)
+    RelativeLayout mRlActivityBaseProgressContainer;
 
     private ImageView mTitleTriangleImageView;
     private View mTitleLayout;
@@ -55,13 +69,6 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
 
     protected String CATEGORY_NAME = "";
     protected String CATEGORY_UNREAD_NUM = "";
-
-    public int tag = 0;           //tag == 0 表示全部
-    private boolean hasErjiClassification = false;
-    private int mMainIndex = 0;
-
-    private static final String SP_KEY_CATEGORY_MAIN = "main";
-    private static final String SP_KEY_CATEGORY_MORE = "more";
 
     private ClassificationAdapter mMainClassificationAdapter = null;
     private ClassificationAdapter mMoreClassificationAdapter = null;
@@ -77,63 +84,16 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
 
     protected PullToRefreshListView mContentListView;
 
-    protected int mClickPosition = -1;
-    private boolean isUnread = false;
+    CategoryPresenter mCategoryPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base_progress_list);
+        ButterKnife.inject(this);
         initProgressView();
         initProgressListener();
         initProgressData();
-    }
-
-    /**
-     * 创建mCategoryAdapter实例
-     */
-    protected abstract void initAdapter();
-
-    /**
-     * 添加点击事件
-     */
-    protected void onItemClick(int position) {
-        Category category = (Category) mCategoryAdapter.getItem(position - 1);
-        // 考试没有联网
-        if (!NetUtils.isNetConnected(mContext)) {
-            ToastUtil.showNetExc(mContext);
-            return;
-        } else {
-            startActivityForResult(CategoryClickHandler.getIntent(mContext, category), REQUEST_DETAIL);
-            mClickPosition = position - 1;
-        }
-    }
-
-    /**
-     * 功能描述: 设置已读
-     */
-    protected void setRead(int position) {
-        Category category = (Category) mCategoryAdapter.getItem(position);
-        if (category.isAvailable()) {
-            String userNum = UserInfo.getUserInfo().getAccount();
-            int unreadNum = SP.getIntSP(mContext, SP.DEFAULTCACHE, userNum + CATEGORY_UNREAD_NUM, 0);
-            if (unreadNum > 0) {
-                SP.putIntSP(mContext, SP.DEFAULTCACHE, userNum + CATEGORY_UNREAD_NUM, unreadNum - 1);
-            }
-        }
-    }
-
-    /**
-     * 将JSONObject转化为实例
-     */
-    protected abstract Object parseObject(JSONObject jsonObject);
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        // 以免该值被下次重用，所以在这里还原一下
-        SP.putIntSP(mContext, CATEGORY_NAME, SP_KEY_CATEGORY_MAIN, 0);
-        SP.putIntSP(mContext, CATEGORY_NAME, SP_KEY_CATEGORY_MORE, 0);
     }
 
     /**
@@ -192,7 +152,7 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
                 BaseCategoryProgressListActivity.this.onItemClick(position);
             }
         });
-        mContentListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<android.widget.ListView>() {
+        mContentListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase refreshView) {
                 updateListView(0);
@@ -271,7 +231,7 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
      */
     public void setCategoryItemFromCache(int tag) {
         List<Object> list = new ArrayList<>();
-        String userNum =  UserInfo.getUserInfo().getAccount();
+        String userNum = UserInfo.getUserInfo().getAccount();
         String sp = SP.getStringSP(mContext, CATEGORY_NAME, userNum + tag, "");
         if (TextUtils.isEmpty(sp)) {
             mNoneResultView.setVisibility(View.VISIBLE);
@@ -387,7 +347,7 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
         if (data == null || data.equals("")) {
             return;
         }
-        final String userNum =  UserInfo.getUserInfo().getAccount();
+        final String userNum = UserInfo.getUserInfo().getAccount();
         /**
          * 保存未读数
          */

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.badou.mworking.base.AppApplication;
+import com.badou.mworking.entity.category.Category;
+import com.badou.mworking.entity.category.Classification;
 import com.badou.mworking.entity.main.MainBanner;
 import com.badou.mworking.entity.user.UserInfo;
 import com.google.gson.reflect.TypeToken;
@@ -146,4 +148,53 @@ public class SPHelper {
             }.getType());
         }
     }
+
+    private static final String LIST_CACHE = "listcache";
+
+    public static <T> void setList(String key, List<T> list) {
+        if (list == null) {
+            SP.removeSP(applicationContext, LIST_CACHE, key);
+        } else {
+            SP.putStringSP(applicationContext, LIST_CACHE, key, GsonUtil.toJson(list, new TypeToken<List<T>>() {
+            }.getType()));
+        }
+    }
+
+    public static <T> List<T> getList(String key) {
+        String content = SP.getStringSP(applicationContext, LIST_CACHE, key, "");
+        if (TextUtils.isEmpty(content)) {
+            return new ArrayList<T>();
+        } else {
+            return (List<T>) GsonUtil.fromJson(content, new TypeToken<List<T>>() {
+            }.getType());
+        }
+    }
+
+    private static final String CATEGORY_CLASSIFICATION = "classification";
+
+    public static void setClassification(String key, List<Classification> list) {
+        setList(key + CATEGORY_CLASSIFICATION, list);
+    }
+
+    public static List<Classification> getClassification(String key) {
+        return getList(key + CATEGORY_CLASSIFICATION);
+    }
+
+    public static void reduceUnreadNumberByOne(int type) {
+        int number = getUnreadNumber(type);
+        if (number > 0) {
+            setUnreadNumber(type, number - 1);
+        }
+    }
+
+    public static void setUnreadNumber(int type, int number) {
+        String uid = UserInfo.getUserInfo().getUid();
+        SP.putIntSP(applicationContext, SP.DEFAULTCACHE, uid + Category.CATEGORY_KEY_UNREADS[type], number);
+    }
+
+    public static int getUnreadNumber(int type) {
+        String uid = UserInfo.getUserInfo().getUid();
+        return SP.getIntSP(applicationContext, SP.DEFAULTCACHE, uid + Category.CATEGORY_KEY_UNREADS[type], 0);
+    }
+
 }
