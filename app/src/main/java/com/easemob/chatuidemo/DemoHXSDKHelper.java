@@ -291,7 +291,7 @@ public class DemoHXSDKHelper extends HXSDKHelper {
             public Intent getLaunchIntent(EMMessage message) {
                 //设置点击通知栏跳转事件
                 Intent intent = new Intent(appContext, MainGridActivity.class);
-                intent.putExtra("messagecenter", true);
+                intent.putExtra("emchat", true);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 ChatType chatType = message.getChatType();
                 if (chatType == ChatType.Chat) { // 单聊信息

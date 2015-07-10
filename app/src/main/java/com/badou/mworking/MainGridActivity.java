@@ -60,6 +60,7 @@ import com.easemob.chatuidemo.activity.MainActivity;
 import com.easemob.chatuidemo.db.UserDao;
 import com.easemob.chatuidemo.domain.User;
 
+import org.bitlet.weupnp.Main;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -153,6 +154,8 @@ public class MainGridActivity extends BaseNoTitleActivity {
 
         if (mReceivedIntent.getBooleanExtra("messagecenter", false)) {
             startActivity(new Intent(mContext, MessageCenterActivity.class));
+        } else if (mReceivedIntent.getBooleanExtra("emchat", false)) {
+            startActivity(new Intent(mContext, MainActivity.class));
         }
     }
 

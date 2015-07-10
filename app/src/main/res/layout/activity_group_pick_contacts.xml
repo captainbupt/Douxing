@@ -72,17 +72,23 @@
             android:button="@drawable/cb_emchat_filter" />
     </LinearLayout>
 
-    <se.emilsjolander.stickylistheaders.StickyListHeadersListView
-        android:id="@+id/list"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/chat_swipe_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/selected_panel"
-        android:background="@android:color/transparent"
-        android:cacheColorHint="#00000000"
-        android:descendantFocusability="afterDescendants"
-        android:divider="@color/color_border_grey"
-        android:dividerHeight="1dp"
-        android:fastScrollEnabled="true" />
+        android:layout_below="@id/selected_panel">
+
+        <se.emilsjolander.stickylistheaders.StickyListHeadersListView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:cacheColorHint="#00000000"
+            android:descendantFocusability="afterDescendants"
+            android:divider="@color/color_border_grey"
+            android:dividerHeight="1dp"
+            android:fastScrollEnabled="true" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <com.badou.mworking.widget.NoneResultView
         android:id="@+id/none_result_view"

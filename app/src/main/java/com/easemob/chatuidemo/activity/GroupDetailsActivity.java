@@ -44,10 +44,14 @@ import com.badou.mworking.database.EMChatResManager;
 import com.easemob.applib.controller.HXSDKHelper;
 import com.easemob.applib.model.DefaultHXSDKModel;
 import com.easemob.chat.EMChatManager;
+import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupManager;
 import com.badou.mworking.R;
+import com.easemob.chat.EMMessage;
+import com.easemob.chat.TextMessageBody;
 import com.easemob.chatuidemo.DemoHXSDKHelper;
+import com.easemob.chatuidemo.adapter.MessageAdapter;
 import com.easemob.chatuidemo.domain.User;
 import com.easemob.chatuidemo.utils.UserUtils;
 import com.easemob.chatuidemo.widget.ExpandGridView;
@@ -85,6 +89,8 @@ public class GroupDetailsActivity extends BaseBackActionBarActivity implements O
      */
     private ImageView iv_switch_unblock_groupmsg;
 
+    private TextView tv_group_member_number;
+
     public static GroupDetailsActivity instance;
 
     String st = "";
@@ -114,6 +120,7 @@ public class GroupDetailsActivity extends BaseBackActionBarActivity implements O
         userGridview = (ExpandGridView) findViewById(R.id.gridview);
         exitBtn = (Button) findViewById(R.id.btn_exit_grp);
         deleteBtn = (Button) findViewById(R.id.btn_exitdel_grp);
+        tv_group_member_number = (TextView) findViewById(R.id.tv_group_member_number);
         //blacklistLayout = (RelativeLayout) findViewById(R.id.rl_blacklist);
         changeGroupNameLayout = (RelativeLayout) findViewById(R.id.rl_change_group_name);
 
@@ -128,7 +135,7 @@ public class GroupDetailsActivity extends BaseBackActionBarActivity implements O
         referenceWidth = referenceDrawable.getIntrinsicWidth();
         referenceHeight = referenceDrawable.getIntrinsicHeight();
 
-
+        tv_group_member_number.setText(group.getMembers().size() + "/" + group.getMaxUsers());
         if (group.getOwner() == null || "".equals(group.getOwner())
                 || !group.getOwner().equals(EMChatManager.getInstance().getCurrentUser())) {
             exitBtn.setVisibility(View.GONE);
@@ -160,8 +167,8 @@ public class GroupDetailsActivity extends BaseBackActionBarActivity implements O
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         if (adapter.isInDeleteMode) {
-                            adapter.isInDeleteMode = false;
-                            adapter.notifyDataSetChanged();
+                            //adapter.isInDeleteMode = false;
+                            //adapter.notifyDataSetChanged();
                             return true;
                         }
                         break;
@@ -176,6 +183,24 @@ public class GroupDetailsActivity extends BaseBackActionBarActivity implements O
         //blacklistLayout.setOnClickListener(this);
         changeGroupNameLayout.setOnClickListener(this);
 
+    }
+
+    private void sendTipMessage(String groupId, String content) {
+        //获取到与聊天人的会话对象。参数username为聊天人的userid或者groupid，后文中的username皆是如此
+        EMConversation conversation = EMChatManager.getInstance().getConversation(groupId);
+        //创建一条文本消息
+        EMMessage message = EMMessage.createSendMessage(EMMessage.Type.TXT);
+        //如果是群聊，设置chattype,默认是单聊
+        message.setChatType(EMMessage.ChatType.GroupChat);
+        message.setAttribute(MessageAdapter.KEY_HELLO_MESSAGE, "1");
+        TextMessageBody txtBody = new TextMessageBody(content);
+        message.addBody(txtBody);
+        //设置接收人
+        message.setReceipt(groupId);
+        //把消息加入到此会话对象中
+        conversation.addMessage(message);
+        //发送消息
+        EMChatManager.getInstance().sendMessage(message, null);
     }
 
     @Override
@@ -228,6 +253,9 @@ public class GroupDetailsActivity extends BaseBackActionBarActivity implements O
                             public void run() {
                                 try {
                                     EMGroupManager.getInstance().changeGroupName(groupId, returnData);
+                                    StringBuilder body = new StringBuilder();
+                                    body.append("群主将群名称改为 " + returnData);
+                                    sendTipMessage(groupId, body.toString());
                                     runOnUiThread(new Runnable() {
                                         public void run() {
                                             group.setGroupName(returnData);
@@ -289,22 +317,20 @@ public class GroupDetailsActivity extends BaseBackActionBarActivity implements O
     }
 
     private void setGroupTitle(EMGroup group) {
-        if (group.getGroupName().length() > 10) {
-            setActionbarTitle(group.getGroupName().substring(0, 11) + "...(" + group.getAffiliationsCount()
-                    + st);
+        setActionbarTitle(group.getGroupName());
+        /*if (group.getGroupName().length() > 10) {
+            setActionbarTitle(group.getGroupName().substring(0, 11) + "...(" + group.getAffiliationsCount() + st);
         } else {
-            setActionbarTitle(group.getGroupName() + "(" + group.getAffiliationsCount()
-                    + st);
-        }
+            setActionbarTitle(group.getGroupName() + "(" + group.getAffiliationsCount() + st);
+        }*/
     }
 
     private void refreshMembers() {
         adapter.clear();
-
         List<String> members = new ArrayList<String>();
         members.addAll(group.getMembers());
         adapter.addAll(members);
-
+        tv_group_member_number.setText(group.getMembers().size() + "/" + group.getMaxUsers());
         adapter.notifyDataSetChanged();
     }
 
@@ -349,6 +375,8 @@ public class GroupDetailsActivity extends BaseBackActionBarActivity implements O
             public void run() {
                 try {
                     EMGroupManager.getInstance().exitFromGroup(groupId);
+                    String name = ((AppApplication) mContext.getApplicationContext()).getUserInfo().name;
+                    sendTipMessage(groupId, name + " 退出了该群");
                     runOnUiThread(new Runnable() {
                         public void run() {
                             mProgressDialog.dismiss();
@@ -417,6 +445,18 @@ public class GroupDetailsActivity extends BaseBackActionBarActivity implements O
                     } else {
                         // 一般成员调用invite方法
                         EMGroupManager.getInstance().inviteUser(groupId, newmembers, null);
+                    }
+                    if (newmembers != null && newmembers.length > 0) {
+                        String username = ((AppApplication) mContext.getApplicationContext()).getUserInfo().name;
+                        StringBuilder body = new StringBuilder(username);
+                        body.append("邀请了");
+                        for (int ii = 0; ii < newmembers.length; ii++) {
+                            User user = AppApplication.getInstance().getContactList().get(newmembers[ii]);
+                            body.append(user == null ? newmembers[ii] : user.getNick());
+                            body.append("、");
+                        }
+                        body.deleteCharAt(body.length() - 1);
+                        sendTipMessage(groupId, body.toString());
                     }
                     runOnUiThread(new Runnable() {
                         public void run() {
@@ -691,7 +731,10 @@ public class GroupDetailsActivity extends BaseBackActionBarActivity implements O
                                 try {
                                     // 删除被选中的成员
                                     EMGroupManager.getInstance().removeUserFromGroup(groupId, username);
-                                    isInDeleteMode = false;
+                                    // isInDeleteMode = false;
+                                    User user = AppApplication.getInstance().getContactList().get(username);
+                                    sendTipMessage(groupId, (user == null ? username : user.getNick()) + " 移出了该群");
+
                                     runOnUiThread(new Runnable() {
 
                                         @Override

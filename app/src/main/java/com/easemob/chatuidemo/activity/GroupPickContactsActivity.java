@@ -16,6 +16,7 @@ package com.easemob.chatuidemo.activity;
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -27,6 +28,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Editable;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -52,6 +54,7 @@ import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.database.EMChatResManager;
 import com.badou.mworking.model.emchat.Department;
 import com.badou.mworking.model.emchat.Role;
+import com.badou.mworking.util.SPUtil;
 import com.badou.mworking.util.ToastUtil;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
@@ -67,6 +70,7 @@ import com.easemob.chatuidemo.domain.User;
 import com.easemob.chatuidemo.widget.Sidebar;
 import com.easemob.exceptions.EaseMobException;
 
+import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 public class GroupPickContactsActivity extends BaseBackActionBarActivity {
@@ -86,6 +90,7 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
     private ImageView selectedAllImageView;
     private TextView selectedAllTextView;
     private boolean isAllSelected = false;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     ImageButton clearSearch;
     boolean isTargeted = false;
@@ -173,6 +178,29 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
             }
         }
         initContactList(contacts);
+
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.chat_swipe_layout);
+
+        swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light,
+                android.R.color.holo_orange_light, android.R.color.holo_red_light);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                MainActivity.initContactsFromServer(mContext, new MainActivity.OnUpdatingListener() {
+                    @Override
+                    public void onStart() {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        SPUtil.setContactLastUpdateTime(mContext, Calendar.getInstance().getTimeInMillis());
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                });
+            }
+        });
     }
 
     private void initHeader() {
@@ -232,7 +260,7 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
 
     private void setSelectedNumber(int number) {
         String numberStr = number + "";
-        SpannableString spannableString = new SpannableString(String.format(getString(R.string.filter_selected), number));
+        SpannableString spannableString = new SpannableString(String.format(getString(R.string.filter_selected), number + (exitingMembers == null ? 0 : exitingMembers.size())));
         spannableString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.color_blue)), 2, 2 + numberStr.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         selectedNumberTextView.setText(spannableString);
     }
@@ -305,8 +333,9 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
                         clearSearch.setVisibility(View.VISIBLE);
                         handler.postDelayed(searchRunnable, 1000);
                     }
-                    isTargeted = false;
                 }
+                isTargeted = false;
+                selectedFilterCheckBox.setChecked(false);
             }
         });
         String groupId = getIntent().getStringExtra("groupId");
@@ -347,7 +376,15 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
         contactAdapter.setOnDataSetChangedListener(new PickContactsAdapter.OnDataSetChangedListener() {
             @Override
             public void onDataSetChanged() {
-                findViewById(R.id.none_result_view).setVisibility(contactAdapter.getCount() > 0 ? View.GONE : View.VISIBLE);
+                if (contactAdapter.getCount() > 0) {
+                    findViewById(R.id.none_result_view).setVisibility(View.GONE);
+                } else {
+                    if (selectedFilterCheckBox.isChecked()) {
+
+                    } else {
+                        findViewById(R.id.none_result_view).setVisibility(View.VISIBLE);
+                    }
+                }
             }
         });
 
@@ -386,8 +423,8 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
             @Override
             public void run() {
                 // 调用sdk创建群组方法
-                String account = ((AppApplication) mContext.getApplicationContext()).getUserInfo().account;
-                String groupName = account + "发起的聊天";
+                String name = ((AppApplication) mContext.getApplicationContext()).getUserInfo().name;
+                String groupName = name + "发起的聊天";
                 String desc = "";
                 try {
                     EMGroup emGroup = EMGroupManager.getInstance().createPrivateGroup(groupName, desc, members, true, 200);
@@ -399,10 +436,12 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
                     message.setChatType(EMMessage.ChatType.GroupChat);
                     message.setAttribute(MessageAdapter.KEY_HELLO_MESSAGE, "1");
                     //设置消息body
-                    StringBuilder body = new StringBuilder(account);
+                    StringBuilder body = new StringBuilder(name);
                     body.append("邀请了");
                     for (int ii = 0; ii < members.length; ii++) {
-                        body.append(AppApplication.getInstance().getContactList().get(members[ii]).getNick() + "、");
+                        User user = AppApplication.getInstance().getContactList().get(members[ii]);
+                        body.append(user == null ? members[ii] : user.getNick());
+                        body.append("、");
                     }
                     body.deleteCharAt(body.length() - 1);
                     TextMessageBody txtBody = new TextMessageBody(body.toString());

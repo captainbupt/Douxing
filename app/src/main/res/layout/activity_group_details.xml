@@ -52,6 +52,43 @@
                 android:background="@color/color_border_grey" />
         </RelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/rl_group_member_count"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_white_grey"
+            android:paddingLeft="@dimen/offset_less"
+            android:paddingRight="@dimen/offset_less">
+
+            <TextView
+                android:id="@+id/tv_group_member"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/offset_small"
+                android:paddingBottom="@dimen/offset_medium"
+                android:paddingTop="@dimen/offset_medium"
+                android:text="@string/Group_member_count"
+                android:textColor="@color/color_text_black"
+                android:textSize="@dimen/text_size_medium"
+                android:typeface="serif" />
+
+            <TextView
+                android:id="@+id/tv_group_member_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/offset_less"
+                android:textColor="@color/color_text_black"
+                android:textSize="@dimen/text_size_medium" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dip"
+                android:layout_below="@id/tv_group_member"
+                android:background="@color/color_border_grey" />
+        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/rl_change_group_name"
@@ -93,6 +130,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/offset_small"
                 android:paddingBottom="@dimen/offset_medium"
                 android:paddingTop="@dimen/offset_medium"
                 android:text="@string/Shielding_of_the_message"
