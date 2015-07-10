@@ -5,13 +5,6 @@ import android.widget.Toast;
 
 import com.badou.mworking.R;
 
-/**
- * 类:  <code> ToastUtil </code>
- * 功能描述: Toast 工具类
- * 创建人:  葛建锋
- * 创建日期: 2014年7月15日 下午4:08:25
- * 开发环境: JDK7.0
- */
 public class ToastUtil {
 
     /**
@@ -31,17 +24,6 @@ public class ToastUtil {
     public static void showToast(Context context, int message) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
-    
-    /**
-     * 功能描述:  网络异常提醒方法
-     * @param context
-     */
-    public static void showNetExc(Context context){
-        ToastUtil.showToast(context, R.string.error_service);
-    }
-    
-    public static void showUpdateToast(Context context){
-    	showToast(context,R.string.no_more);
-    }
+
 
 }

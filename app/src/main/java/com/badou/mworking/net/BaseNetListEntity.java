@@ -45,4 +45,11 @@ public class BaseNetListEntity<T> {
         };
     }
 
+    public int getErrcode() {
+        return errcode;
+    }
+
+    public List<T> getData() {
+        return data;
+    }
 }

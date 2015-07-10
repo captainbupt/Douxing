@@ -5,19 +5,17 @@ import android.content.Context;
 import com.badou.mworking.R;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.util.ToastUtil;
-import com.badou.mworking.view.BaseView;
-
-import org.json.JSONObject;
 
 import java.lang.reflect.Field;
+import java.util.List;
 
 import rx.Subscriber;
 
-public abstract class BaseSubscriber<T> extends Subscriber<BaseNetEntity<T>> {
+public abstract class BaseListSubscriber<T> extends Subscriber<BaseNetListEntity<T>> {
 
     private Context mContext;
 
-    public BaseSubscriber(Context mContext) {
+    public BaseListSubscriber(Context mContext) {
         this.mContext = mContext;
     }
 
@@ -34,7 +32,7 @@ public abstract class BaseSubscriber<T> extends Subscriber<BaseNetEntity<T>> {
     }
 
     @Override
-    public void onNext(BaseNetEntity<T> baseNetEntity) {
+    public void onNext(BaseNetListEntity<T> baseNetEntity) {
         if (baseNetEntity.getErrcode() == Net.LOGOUT) {
             AppApplication.logoutShow(mContext);
             return;
@@ -43,10 +41,10 @@ public abstract class BaseSubscriber<T> extends Subscriber<BaseNetEntity<T>> {
             onErrorCode(baseNetEntity.getErrcode());
             return;
         }
-        onResponseSuccess(baseNetEntity.data);
+        onResponseSuccess(baseNetEntity.getData());
     }
 
-    public abstract void onResponseSuccess(T data);
+    public abstract void onResponseSuccess(List<T> data);
 
     public void onErrorCode(int code) {
         try {

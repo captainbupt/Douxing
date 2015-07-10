@@ -205,9 +205,8 @@ public class MainPresenter extends Presenter {
         }
     }
 
-    public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+    public void onItemClick(MainIcon mainIcon) {
         Intent intent = new Intent();
-        MainIcon mainIcon = (MainIcon) arg0.getAdapter().getItem(arg2);
         switch (mainIcon.getKey()) {
             case RequestParameters.CHK_UPDATA_PIC_NOTICE: // 通知公告
                 intent.setClass(mContext, NoticeActivity.class);
