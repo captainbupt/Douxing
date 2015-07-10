@@ -49,11 +49,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.VolleyError;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.database.EMChatResManager;
 import com.badou.mworking.model.emchat.Department;
 import com.badou.mworking.model.emchat.Role;
+import com.badou.mworking.net.Net;
+import com.badou.mworking.net.ServiceProvider;
+import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.SPUtil;
 import com.badou.mworking.util.ToastUtil;
 import com.easemob.chat.EMChatManager;
@@ -69,6 +73,8 @@ import com.easemob.chatuidemo.adapter.PickContactsAutoCompleteAdapter;
 import com.easemob.chatuidemo.domain.User;
 import com.easemob.chatuidemo.widget.Sidebar;
 import com.easemob.exceptions.EaseMobException;
+
+import org.json.JSONObject;
 
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
@@ -419,7 +425,28 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
         mProgressDialog.setCanceledOnTouchOutside(false);
         mProgressDialog.show();
 
-        new Thread(new Runnable() {
+        String name = ((AppApplication) mContext.getApplicationContext()).getUserInfo().name;
+        String groupName = name + "发起的聊天";
+        ServiceProvider.createGroup(mContext, groupName, "", "欢迎信息", members, new VolleyListener(mContext) {
+            @Override
+            public void onResponseSuccess(JSONObject response) {
+                String groupId = response.optJSONObject(Net.DATA).optString("groupid");
+                Intent intent = new Intent(mContext, ChatActivity.class);
+                // it is group chat
+                intent.putExtra("chatType", ChatActivity.CHATTYPE_GROUP);
+                intent.putExtra("groupId", groupId);
+                startActivity(intent);
+                finish();
+            }
+
+            @Override
+            public void onCompleted() {
+                mProgressDialog.dismiss();
+            }
+        });
+
+
+/*        new Thread(new Runnable() {
             @Override
             public void run() {
                 // 调用sdk创建群组方法
@@ -469,6 +496,6 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
                 }
 
             }
-        }).start();
+        }).start();*/
     }
 }
