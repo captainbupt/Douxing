@@ -554,6 +554,7 @@ public class MessageAdapter extends BaseAdapter {
             holder.tv.setVisibility(View.GONE);
             if (holder.tv_usernick != null)
                 holder.tv_usernick.setVisibility(View.GONE);
+            timestamp.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
         } else if (position == 0) {
             timestamp.setText(" " + DateUtils.getTimestampString(new Date(message.getMsgTime())));
             timestamp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.time, 0, 0, 0);

@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -105,12 +106,14 @@ public class MainActivity extends BaseBackActionBarActivity implements EMEventLi
         super.onCreate(savedInstanceState);
         setActionbarTitle(R.string.title_name_emchat);
         setLeft(R.drawable.button_title_bar_back_grey);
-        setRightImage(R.drawable.button_title_add, new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(mContext, GroupPickContactsActivity.class));
-            }
-        });
+        if (!"anonymous".equals(((AppApplication) getApplication()).getUserInfo().account)) {
+            setRightImage(R.drawable.button_title_add, new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(new Intent(mContext, GroupPickContactsActivity.class));
+                }
+            });
+        }
         if (savedInstanceState != null && savedInstanceState.getBoolean(Constant.ACCOUNT_REMOVED, false)) {
             // 防止被移除后，没点确定按钮然后按了home键，长期在后台又进app导致的crash
             // 三个fragment里加的判断同理
@@ -147,15 +150,32 @@ public class MainActivity extends BaseBackActionBarActivity implements EMEventLi
         long currentTime = Calendar.getInstance().getTimeInMillis();
         long lastTime = SPUtil.getContactLastUpdateTime(mContext);
         if (currentTime - lastTime > 1000l * 60l * 60l * 24l) {
-            initContactsFromServer();
+            initContactsFromServer(mContext, new OnUpdatingListener() {
+                @Override
+                public void onStart() {
+                    mProgressDialog.show();
+                }
+
+                @Override
+                public void onComplete() {
+                    SPUtil.setContactLastUpdateTime(mContext, Calendar.getInstance().getTimeInMillis());
+                    mProgressDialog.dismiss();
+                }
+            });
         } else {
             AppApplication.getInstance().getContactList();// 确保初始化一次
         }
     }
 
-    private void initContactsFromServer() {
-        mProgressDialog.show();
-        ServiceProvider.getContacts(mContext, new VolleyListener(mContext) {
+    interface OnUpdatingListener {
+        void onStart();
+
+        void onComplete();
+    }
+
+    public static void initContactsFromServer(final Context context, final OnUpdatingListener onUpdatingListener) {
+        onUpdatingListener.onStart();
+        ServiceProvider.getContacts(context, new VolleyListener(context) {
             @Override
             public void onResponseSuccess(final JSONObject response) {
                 new Thread() {
@@ -185,16 +205,16 @@ public class MainActivity extends BaseBackActionBarActivity implements EMEventLi
                             User user = new User(username, nick, avatar, department, role);
                             contacts.add(user);
                         }
-                        EMChatResManager.insertContacts(mContext, contacts);
-                        EMChatResManager.insertDepartments(mContext, departments);
-                        EMChatResManager.insertRoles(mContext, roles);
+                        EMChatResManager.insertContacts(context, contacts);
+                        EMChatResManager.insertDepartments(context, departments);
+                        EMChatResManager.insertRoles(context, roles);
                         AppApplication.getInstance().setContactList(null);
                         AppApplication.getInstance().getContactList();
-                        runOnUiThread(new Runnable() {
+                        ((Activity) context).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                SPUtil.setContactLastUpdateTime(mContext, Calendar.getInstance().getTimeInMillis());
-                                mProgressDialog.dismiss();
+                                SPUtil.setContactLastUpdateTime(context, Calendar.getInstance().getTimeInMillis());
+                                onUpdatingListener.onComplete();
                             }
                         });
                     }
@@ -204,12 +224,12 @@ public class MainActivity extends BaseBackActionBarActivity implements EMEventLi
             @Override
             public void onErrorResponse(VolleyError error) {
                 super.onErrorResponse(error);
-                mProgressDialog.dismiss();
+                onUpdatingListener.onComplete();
             }
         });
     }
 
-    private void getDepartmentInfo(List<Department> departments, JSONArray departmentArray, long parent) {
+    private static void getDepartmentInfo(List<Department> departments, JSONArray departmentArray, long parent) {
         if (departmentArray == null || departmentArray.length() == 0) {
             return;
         }
@@ -634,11 +654,13 @@ public class MainActivity extends BaseBackActionBarActivity implements EMEventLi
                         // 显示帐号在其他设备登陆dialog
                         showConflictDialog();
                     } else {
-                        chatHistoryFragment.errorItem.setVisibility(View.VISIBLE);
-                        if (NetUtils.hasNetwork(MainActivity.this))
-                            chatHistoryFragment.errorText.setText(st1);
-                        else
-                            chatHistoryFragment.errorText.setText(st2);
+                        if (!"anonymous".equals(((AppApplication) getApplication()).getUserInfo().account)) {
+                            chatHistoryFragment.errorItem.setVisibility(View.VISIBLE);
+                            if (NetUtils.hasNetwork(MainActivity.this))
+                                chatHistoryFragment.errorText.setText(st1);
+                            else
+                                chatHistoryFragment.errorText.setText(st2);
+                        }
 
                     }
                 }
