@@ -1,16 +1,21 @@
 package com.badou.mworking.entity.category;
 
+import com.badou.mworking.util.GsonUtil;
 import com.google.gson.annotations.Expose;
+import com.google.gson.internal.LinkedTreeMap;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class CategoryOverall<T> {
+public class CategoryOverall {
     @Expose
     int ttlcnt;
     @Expose
     int newcnt;
     @Expose
-    List<T> list;
+    List<LinkedTreeMap> list;
+
+    transient List<Category> categoryList;
 
     public int getTotalCount() {
         return ttlcnt;
@@ -20,7 +25,34 @@ public class CategoryOverall<T> {
         return newcnt;
     }
 
-    public List<T> getCategoryList() {
-        return list;
+    // Retrofit并不能很好的支持泛型自定义处理，所以需要手动处理一次
+    public List<Category> getCategoryList(int category) {
+        if (categoryList == null) {
+            categoryList = new ArrayList<>();
+            Class clz;
+            switch (category) {
+                case Category.CATEGORY_NOTICE:
+                    clz = Notice.class;
+                    break;
+                case Category.CATEGORY_TRAINING:
+                    clz = Train.class;
+                    break;
+                case Category.CATEGORY_EXAM:
+                    clz = Exam.class;
+                    break;
+                case Category.CATEGORY_SHELF:
+                    clz = Train.class;
+                    break;
+                case Category.CATEGORY_TASK:
+                    clz = Task.class;
+                    break;
+                default:
+                    clz = Notice.class;
+            }
+            for (LinkedTreeMap item : list) {
+                categoryList.add((Category) GsonUtil.fromJson(GsonUtil.toJson(item), clz));
+            }
+        }
+        return categoryList;
     }
 }

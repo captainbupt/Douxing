@@ -26,6 +26,7 @@ public class CategoryUseCase extends UseCase {
 
     public CategoryUseCase(int type) {
         this.type = type;
+        this.done = TYPE_ALL;
     }
 
     public void setDone(int done) {
@@ -42,19 +43,6 @@ public class CategoryUseCase extends UseCase {
 
     @Override
     protected Observable buildUseCaseObservable() {
-        switch (type) {
-            case Category.CATEGORY_NOTICE:
-                return RestRepository.getInstance().getCategory(UserInfo.getUserInfo().getUid(), Category.CATEGORY_KEY_NAMES[type], tag, begin, Constant.LIST_ITEM_NUM, done, new Notice());
-            case Category.CATEGORY_EXAM:
-                return RestRepository.getInstance().getCategory(UserInfo.getUserInfo().getUid(), Category.CATEGORY_KEY_NAMES[type], tag, begin, Constant.LIST_ITEM_NUM, done, new Exam());
-            case Category.CATEGORY_TRAINING:
-                return RestRepository.getInstance().getCategory(UserInfo.getUserInfo().getUid(), Category.CATEGORY_KEY_NAMES[type], tag, begin, Constant.LIST_ITEM_NUM, done, new Train());
-            case Category.CATEGORY_TASK:
-                return RestRepository.getInstance().getCategory(UserInfo.getUserInfo().getUid(), Category.CATEGORY_KEY_NAMES[type], tag, begin, Constant.LIST_ITEM_NUM, done, new Task());
-            case Category.CATEGORY_SHELF:
-                return RestRepository.getInstance().getCategory(UserInfo.getUserInfo().getUid(), Category.CATEGORY_KEY_NAMES[type], tag, begin, Constant.LIST_ITEM_NUM, done, new Train());
-            default:
-                return RestRepository.getInstance().getCategory(UserInfo.getUserInfo().getUid(), Category.CATEGORY_KEY_NAMES[type], tag, begin, Constant.LIST_ITEM_NUM, done, new Notice());
-        }
+        return RestRepository.getInstance().getCategory(UserInfo.getUserInfo().getUid(), Category.CATEGORY_KEY_NAMES[type], tag, begin, Constant.LIST_ITEM_NUM, done);
     }
 }

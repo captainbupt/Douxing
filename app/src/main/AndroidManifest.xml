@@ -119,6 +119,9 @@
             android:name=".MessageCenterActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".base.BaseCategoryProgressListActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ChatterSubmitActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
@@ -345,36 +348,36 @@
             android:name="com.easemob.chatuidemo.activity.MainActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
         <!-- 聊天页面 -->
         <activity
             android:name="com.easemob.chatuidemo.activity.ChatActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
         <!-- 群组详情 -->
         <activity
             android:name="com.easemob.chatuidemo.activity.GroupDetailsActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/horizontal_slide"/>
+            android:theme="@style/horizontal_slide" />
 
         <!-- 新建群组 -->
         <activity
             android:name="com.easemob.chatuidemo.activity.NewGroupActivity"
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <!-- 退出群组提示框 -->
         <activity
             android:name="com.easemob.chatuidemo.activity.ExitGroupDialog"
             android:screenOrientation="portrait"
-            android:theme="@style/MyDialogStyleBottom"/>
+            android:theme="@style/MyDialogStyleBottom" />
         <!-- 群组选人 -->
         <activity
             android:name="com.easemob.chatuidemo.activity.GroupPickContactsActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name="com.easemob.chatuidemo.activity.DepartmentListActivity"
             android:screenOrientation="portrait"></activity>
@@ -382,47 +385,47 @@
         <activity
             android:name="com.easemob.chatuidemo.activity.BaiduMapActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/horizontal_slide"/>
+            android:theme="@style/horizontal_slide" />
 
         <!-- 转发消息用户列表页面 -->
         <activity
             android:name="com.easemob.chatuidemo.activity.ForwardMessageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <!-- 自定义的contextmenu -->
         <activity
             android:name="com.easemob.chatuidemo.activity.ContextMenu"
             android:screenOrientation="portrait"
-            android:theme="@style/MyDialogStyle"/>
+            android:theme="@style/MyDialogStyle" />
         <!-- 自定义的alertdialog -->
         <activity
             android:name="com.easemob.chatuidemo.activity.AlertDialog"
             android:screenOrientation="portrait"
-            android:theme="@style/MyDialogStyle"/>
+            android:theme="@style/MyDialogStyle" />
         <!-- 显示下载大图页面 -->
         <activity
             android:name="com.easemob.chatuidemo.activity.ShowBigImage"
             android:screenOrientation="portrait"
-            android:theme="@style/horizontal_slide"/>
+            android:theme="@style/horizontal_slide" />
         <!-- 下载文件 -->
         <activity
             android:name="com.easemob.chatuidemo.activity.ShowNormalFileActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/horizontal_slide"/>
+            android:theme="@style/horizontal_slide" />
 
         <!-- 公开的群聊列表 -->
         <activity
             android:name="com.easemob.chatuidemo.activity.PublicGroupsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
 
         <activity
             android:name="com.easemob.chatuidemo.activity.PublicChatRoomsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
 
         <!-- 语音通话 -->
         <activity

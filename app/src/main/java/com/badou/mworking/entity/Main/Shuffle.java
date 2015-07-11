@@ -43,8 +43,8 @@ public class Shuffle {
         }};
     }
 
-    public List<Object> getMainIconList(Context context, int access) {
-        List<Object> mainIconList = new ArrayList<>();
+    public List<MainIcon> getMainIconList(Context context, int access) {
+        List<MainIcon> mainIconList = new ArrayList<>();
         for (int ii = 0; ii < MAP_ACCESS_KEY.length; ii++, access /= 2) {
             if (access % 2 == 1) {
                 mainIconList.add(getMainIcon(context, MAP_ACCESS_KEY[ii]));

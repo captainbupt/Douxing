@@ -38,7 +38,9 @@ public class Train extends Category {
         CATEGORY_KEY_UNREAD_NUM = CATEGORY_KEY_UNREADS[CATEGORY_TYPE];
     }
 
-
+    public void setUrl(String url) {
+        this.url = url;
+    }
     /**
      * 功能描述:  train json 串解析， 得到train实体类对象
      *
@@ -76,16 +78,6 @@ public class Train extends Category {
     @Override
     public int getCategoryType() {
         return CATEGORY_TYPE;
-    }
-
-    @Override
-    public String getCategoryKeyName() {
-        return CATEGORY_KEY_NAME;
-    }
-
-    @Override
-    public String getCategoryKeyUnread() {
-        return CATEGORY_KEY_UNREAD_NUM;
     }
 
 }

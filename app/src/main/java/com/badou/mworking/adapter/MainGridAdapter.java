@@ -27,9 +27,9 @@ import java.util.List;
 /**
  * 功能描述:  主页面adapter
  */
-public class MainGridAdapter extends MyBaseAdapter {
+public class MainGridAdapter extends MyBaseAdapter<MainIcon> {
 
-    public MainGridAdapter(Context context, List<Object> list) {
+    public MainGridAdapter(Context context, List<MainIcon> list) {
         super(context, list);
     }
 
@@ -44,7 +44,7 @@ public class MainGridAdapter extends MyBaseAdapter {
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
             int margin = mContext.getResources().getDimensionPixelOffset(R.dimen.offset_small);
-            convertView.setLayoutParams(new AbsListView.LayoutParams(DensityUtil.getWidthInPx(mContext) / 2 - margin, AbsListView.LayoutParams.WRAP_CONTENT));
+            convertView.setLayoutParams(new AbsListView.LayoutParams(DensityUtil.getInstance().getScreenWidth() / 2 - margin, AbsListView.LayoutParams.WRAP_CONTENT));
         }
         MainIcon mainIcon = (MainIcon) getItem(position);
         holder.imageView.setTag(mainIcon.getKey());

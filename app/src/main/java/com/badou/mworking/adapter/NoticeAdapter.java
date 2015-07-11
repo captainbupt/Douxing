@@ -9,16 +9,19 @@ import android.widget.TextView;
 import com.badou.mworking.R;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.MyBaseAdapter;
+import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.Notice;
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.util.Constant;
+import com.badou.mworking.util.GsonUtil;
 import com.badou.mworking.util.SP;
 import com.badou.mworking.util.TimeTransfer;
+import com.google.gson.internal.LinkedTreeMap;
 
 /**
  * 功能描述: 通知公告adapter
  */
-public class NoticeAdapter extends MyBaseAdapter {
+public class NoticeAdapter extends MyBaseAdapter<Category> {
 
     public NoticeAdapter(Context context) {
         super(context);
@@ -42,16 +45,16 @@ public class NoticeAdapter extends MyBaseAdapter {
         } else {
             convertView.setPadding(0, 0, 0, 0);
         }
-        if (!notice.isAvailable()) {
+        if (!notice.isUnread()) {
             holder.iconImageView.setImageResource(R.drawable.icon_notice_item_read);
             holder.unreadTextView.setVisibility(View.GONE);
         } else {
             holder.iconImageView.setImageResource(R.drawable.icon_notice_item_unread);
             holder.unreadTextView.setVisibility(View.VISIBLE);
         }
-        holder.subjectTextView.setText(notice.subject);
-        holder.dateTextView.setText(TimeTransfer.long2StringDetailDate(mContext, notice.time));
-        if (notice.isTop) {
+        holder.subjectTextView.setText(notice.getSubject());
+        holder.dateTextView.setText(TimeTransfer.long2StringDetailDate(mContext, notice.getTime()));
+        if (notice.isTop()) {
             holder.topImageView.setVisibility(View.VISIBLE);
         } else {
             holder.topImageView.setVisibility(View.GONE);

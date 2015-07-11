@@ -25,8 +25,10 @@ import com.badou.mworking.TaskActivity;
 import com.badou.mworking.TrainActivity;
 import com.badou.mworking.UserCenterActivity;
 import com.badou.mworking.base.BaseActionBarActivity;
+import com.badou.mworking.base.BaseCategoryProgressListActivity;
 import com.badou.mworking.database.MessageCenterResManager;
 import com.badou.mworking.domain.CheckUpdateUseCase;
+import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.main.MainBanner;
 import com.badou.mworking.entity.emchat.EMChatEntity;
 import com.badou.mworking.entity.main.MainData;
@@ -113,6 +115,7 @@ public class MainPresenter extends Presenter {
             @Override
             public void onHide() {
                 isSearching = false;
+                mMainView.hideSearchFragment();
             }
         });
     }
@@ -209,11 +212,11 @@ public class MainPresenter extends Presenter {
         Intent intent = new Intent();
         switch (mainIcon.getKey()) {
             case RequestParameters.CHK_UPDATA_PIC_NOTICE: // 通知公告
-                intent.setClass(mContext, NoticeActivity.class);
+                intent = BaseCategoryProgressListActivity.getIntent(mContext, Category.CATEGORY_NOTICE);
                 break;
             case RequestParameters.CHK_UPDATA_PIC_TRAINING: // 微培训
                 intent.setClass(mContext, TrainActivity.class);
-                intent.putExtra(TrainActivity.KEY_IS_TRAINING, true);
+                //intent.putExtra(TrainActivity.KEY_IS_TRAINING, true);
                 break;
             case RequestParameters.CHK_UPDATA_PIC_EXAM: // 在线考试
                 intent.setClass(mContext, ExamActivity.class);
@@ -235,7 +238,7 @@ public class MainPresenter extends Presenter {
                 break;
             case RequestParameters.CHK_UPDATA_PIC_SHELF: //橱窗
                 intent.setClass(mContext, TrainActivity.class);
-                intent.putExtra(TrainActivity.KEY_IS_TRAINING, false);
+                //intent.putExtra(TrainActivity.KEY_IS_TRAINING, false);
                 break;
         }
         intent.putExtra(BaseActionBarActivity.KEY_TITLE, mainIcon.getName());
@@ -295,7 +298,7 @@ public class MainPresenter extends Presenter {
      */
     private void checkUpdate() {
         CheckUpdateUseCase useCase = new CheckUpdateUseCase(mContext);
-        useCase.execute(new BaseSubscriber<MainData>(mContext, mMainView) {
+        useCase.execute(new BaseSubscriber<MainData>(mContext) {
             @Override
             public void onResponseSuccess(MainData data) {
                 if (data.getNewVersion().hasNewVersion()) {

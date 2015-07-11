@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -101,6 +103,7 @@ public class MainGridActivity extends BaseNoTitleActivity implements MainGridVie
         mMainPresenter.attachView(this);
     }
 
+
     @Override
     public void setLogoImage(String url) {
         ImageViewLoader.setImageViewResource(mLogoImageView, R.drawable.logo, url);
@@ -137,7 +140,6 @@ public class MainGridActivity extends BaseNoTitleActivity implements MainGridVie
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.show(mMainSearchFragment);
         transaction.commit();
-        mMainSearchFragment.setFocus();
     }
 
     @Override
@@ -181,7 +183,7 @@ public class MainGridActivity extends BaseNoTitleActivity implements MainGridVie
 
     @OnItemClick(R.id.content_grid_view)
     void onCategoryClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-        mMainPresenter.onItemClick(arg0, arg1, arg2, arg3);
+        mMainPresenter.onItemClick(mMainGridAdapter.getItem(arg2));
     }
 
     @OnClick(R.id.user_center_image_view)

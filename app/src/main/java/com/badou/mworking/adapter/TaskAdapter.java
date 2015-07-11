@@ -43,7 +43,7 @@ public class TaskAdapter extends MyBaseAdapter {
         // 一定要保证else if 语句的顺序，应为在这一块，优先级别  已签到>已过期>未签到   然后 因为未过期  可能已经签过到了，
         //也可能没有，  如果已经签过到了，显示已签到，如果没有，才显示已过期，所以要注意else if语句的顺序
         // 先判断read字段， 已签到
-        if (task.isRead) {
+        if (!task.isUnread()) {
             holder.unreadTextView.setVisibility(View.GONE);
             holder.iconImageView.setImageResource(R.drawable.icon_task_item_read);
         } else {
@@ -65,9 +65,9 @@ public class TaskAdapter extends MyBaseAdapter {
         } else {
             holder.addressTextView.setText(R.string.sign_in_task_address_empty);
         }
-        holder.subjectTextView.setText(task.subject + "");
-        holder.dateTextView.setText("" + TimeTransfer.long2StringDetailDate(mContext, task.time));
-        if (task.isTop) {
+        holder.subjectTextView.setText(task.getSubject() + "");
+        holder.dateTextView.setText("" + TimeTransfer.long2StringDetailDate(mContext, task.getTime()));
+        if (task.isTop()) {
             holder.topImageView.setVisibility(View.VISIBLE);
         } else {
             holder.topImageView.setVisibility(View.GONE);
