@@ -14,7 +14,7 @@ import com.badou.mworking.entity.category.Classification;
 /**
  * 查找中的更多的界面中左边listview的适配器
  */
-public class ClassificationAdapter extends MyBaseAdapter {
+public class ClassificationAdapter extends MyBaseAdapter<Classification> {
 
     private int mCurrentPosition;
     private boolean isMain; // 是否为一级目录
@@ -37,7 +37,7 @@ public class ClassificationAdapter extends MyBaseAdapter {
             convertView.setPadding(padding, padding, padding, padding);
             ((TextView) convertView).setTextSize(TypedValue.COMPLEX_UNIT_PX, mContext.getResources().getDimensionPixelSize(R.dimen.text_size_medium));
         }
-        Classification classification = (Classification) getItem(position);
+        Classification classification = getItem(position);
         TextView textView = (TextView) convertView;
         textView.setText(classification.getName());
         if (position == mCurrentPosition) {

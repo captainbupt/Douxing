@@ -69,22 +69,8 @@ public class Task extends Category {
         return CATEGORY_TYPE;
     }
 
-    @Override
-    public String getCategoryKeyName() {
-        return CATEGORY_KEY_NAME;
-    }
-
-    @Override
-    public String getCategoryKeyUnread() {
-        return CATEGORY_KEY_UNREAD_NUM;
-    }
-
     public boolean isFreeSign() {
         return latitude == 0 || longitude == 0;
     }
 
-    @Override
-    public boolean isAvailable() { // 是否可以签到（未读且未过期）
-        return !isRead && !isOffline;
-    }
 }

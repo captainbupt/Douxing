@@ -32,18 +32,18 @@ public class TrainBaseActivity extends BaseBackActionBarActivity {
         super.setContentView(R.layout.activity_base_training);
         ButterKnife.inject(this);
         mTrain = (Train) mReceivedIntent.getSerializableExtra(KEY_TRAINING);
-        mTrain.isRead = true;
-        mBottomView.setData(mTrain.rid, mTrain.ecnt, mTrain.commentNum, mTrain.eval);
+        mTrain.setRead(true);
+        mBottomView.setData(mTrain.getRid(), mTrain.ecnt, mTrain.commentNum, mTrain.eval);
         mBottomView.updateData();
         if (mTrain.isTraining) {
             setActionbarTitle(UserInfo.getUserInfo().getShuffle().getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_TRAINING).getName());
-            addStoreImageView(mTrain.isStore, Store.TYPE_STRING_TRAINING, mTrain.rid);
+            addStoreImageView(mTrain.isStore(), Store.TYPE_STRING_TRAINING, mTrain.getRid());
         } else {
             setActionbarTitle(UserInfo.getUserInfo().getShuffle().getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_SHELF).getName());
-            addStoreImageView(mTrain.isStore, Store.TYPE_STRING_SHELF, mTrain.rid);
+            addStoreImageView(mTrain.isStore(), Store.TYPE_STRING_SHELF, mTrain.getRid());
         }
         if (UserInfo.getUserInfo().isAdmin()) {
-            addStatisticalImageView(mTrain.rid);
+            addStatisticalImageView(mTrain.getRid());
         }
 
         mBottomView.setOnRatingCommentDataUpdated(new BottomRatingAndCommentView.OnRatingCommentDataUpdated() {
@@ -84,6 +84,6 @@ public class TrainBaseActivity extends BaseBackActionBarActivity {
 
     @Override
     protected void onStoreChanged(boolean isStore) {
-        mTrain.isStore = isStore;
+        mTrain.setStore(isStore);
     }
 }

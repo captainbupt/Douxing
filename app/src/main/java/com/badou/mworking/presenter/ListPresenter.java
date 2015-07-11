@@ -77,6 +77,7 @@ public abstract class ListPresenter<T> extends Presenter {
             } else {
                 mBaseListView.setData(data);
                 updateCompleted();
+                mBaseListView.enablePullUp();
             }
             SPHelper.setList(getCacheKey(), data);
         } else {
@@ -90,8 +91,8 @@ public abstract class ListPresenter<T> extends Presenter {
         }
     }
 
-    protected void onItemClick(T data, int position) {
-        // ¿¼ÊÔÃ»ÓĞÁªÍø
+    public void onItemClick(T data, int position) {
+        // è€ƒè¯•æ²¡æœ‰è”ç½‘
         if (!NetUtils.isNetConnected(mContext)) {
             ToastUtil.showToast(mContext, R.string.error_service);
             return;

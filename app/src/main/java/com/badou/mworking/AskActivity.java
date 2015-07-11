@@ -136,7 +136,7 @@ public class AskActivity extends BaseBackActionBarActivity {
                         mNoneResultView.setVisibility(View.VISIBLE);
                         mAskAdapter.setList(null);
                     } else {
-                        ToastUtil.showUpdateToast(mContext);
+                        ToastUtil.showToast(mContext, R.string.no_more);
                     }
                     return;
                 }

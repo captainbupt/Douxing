@@ -15,7 +15,7 @@ public class TrainPDFViewActivity extends TrainBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         PDFViewFragment pdfViewFragment = new PDFViewFragment();
-        pdfViewFragment.setArguments(PDFViewFragment.getArgument(mTrain.rid, mTrain.url));
+        pdfViewFragment.setArguments(PDFViewFragment.getArgument(mTrain.getRid(), mTrain.getUrl()));
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.content_container, pdfViewFragment);
         transaction.commit();

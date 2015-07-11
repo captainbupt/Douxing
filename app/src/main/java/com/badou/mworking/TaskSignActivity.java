@@ -86,9 +86,9 @@ public class TaskSignActivity extends BaseBackActionBarActivity implements BDLoc
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_sign);
         setActionbarTitle(UserInfo.getUserInfo().getShuffle().getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_TASK).getName());
-        addStoreImageView(mTask.isStore, Store.TYPE_STRING_TASK, mTask.rid);
+        addStoreImageView(mTask.isStore(), Store.TYPE_STRING_TASK, mTask.getRid());
         if (UserInfo.getUserInfo().isAdmin()) {
-            addStatisticalImageView(mTask.rid);
+            addStatisticalImageView(mTask.getRid());
         }
         initView();
         initListener();
@@ -114,7 +114,7 @@ public class TaskSignActivity extends BaseBackActionBarActivity implements BDLoc
             public void onClick(View view) {
                 //无网络状态下不允许点击
                 if (!NetUtils.isNetConnected(mContext)) {
-                    ToastUtil.showNetExc(mContext);
+                    ToastUtil.showToast(mContext, R.string.error_service);
                     return;
                 }
                 long timeNow = System.currentTimeMillis();
@@ -159,9 +159,9 @@ public class TaskSignActivity extends BaseBackActionBarActivity implements BDLoc
 
     private void initData() {
         mTask = (Task) mReceivedIntent.getSerializableExtra(KEY_TASK);
-        addStoreImageView(mTask.isStore, Store.TYPE_STRING_TASK, mTask.rid);
+        addStoreImageView(mTask.isStore(), Store.TYPE_STRING_TASK, mTask.getRid());
         if (UserInfo.getUserInfo().isAdmin())
-            addStatisticalImageView(mTask.rid);
+            addStatisticalImageView(mTask.getRid());
         String comment = mTask.comment;
         if (comment == null || comment.equals("")) {
             mDescriptionTextView.setText(mContext.getResources().getString(R.string.text_null));
@@ -178,7 +178,8 @@ public class TaskSignActivity extends BaseBackActionBarActivity implements BDLoc
 
         mProgressDialog.setContent(R.string.sign_action_sign_ing);
 
-        if (mTask.isRead) {// 已签到
+        // 临时修改，需要调整 ---------------------------------------------------------------------------------------------------------------------
+        if (!mTask.isUnread()) {// 已签到
             disableSignButton(true);
         } else {
             if (mTask.isOffline) { // 已过期
@@ -287,7 +288,7 @@ public class TaskSignActivity extends BaseBackActionBarActivity implements BDLoc
         String lon = String.valueOf(location.getLongitude());
         String uid = UserInfo.getUserInfo().getUid();
         ServiceProvider.doUpdateBitmap(mContext, mPhoto,
-                Net.getRunHost(mContext) + Net.SIGN(mTask.rid, uid, lat, lon),
+                Net.getRunHost(mContext) + Net.SIGN(mTask.getRid(), uid, lat, lon),
                 new VolleyListener(mContext) {
 
                     @Override
@@ -307,7 +308,7 @@ public class TaskSignActivity extends BaseBackActionBarActivity implements BDLoc
                         int unreadNum = SP.getIntSP(mContext, SP.DEFAULTCACHE, userNum + Category.CATEGORY_KEY_UNREADS[Category.CATEGORY_TASK], 0);
                         if (unreadNum > 0) {
                             SP.putIntSP(mContext, SP.DEFAULTCACHE, userNum + Category.CATEGORY_KEY_UNREADS[Category.CATEGORY_TASK], unreadNum - 1);
-                            mTask.isRead = true;
+                            mTask.setRead(true);
                             if (mTask.isFreeSign()) {
                                 mTask.place = locationStr;
                             }

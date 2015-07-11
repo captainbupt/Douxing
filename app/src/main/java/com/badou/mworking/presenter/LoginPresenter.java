@@ -68,7 +68,7 @@ public class LoginPresenter extends Presenter implements BDLocationListener {
      */
     public void verify(final String account, final String password, double latitude, double longitude) {
         LoginUseCase loginUseCase = new LoginUseCase(account, EncryptionByMD5.getMD5(password.getBytes()), latitude + "", longitude + "");
-        loginUseCase.execute(new BaseSubscriber<UserInfo>(mContext, mLoginView) {
+        loginUseCase.execute(new BaseSubscriber<UserInfo>(mContext) {
             @Override
             public void onCompleted() {
                 mLoginView.hideProgressDialog();

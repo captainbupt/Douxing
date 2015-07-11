@@ -68,7 +68,7 @@ public class CategoryDetail {
         if (!TextUtils.isEmpty(taskString)) {
             try {
                 task = new Task(context, new JSONObject(taskString));
-                task.isRead = isSign;
+                task.setRead(isSign);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -79,7 +79,7 @@ public class CategoryDetail {
         this.type = category.getCategoryType();
         this.rid = category.rid;
         this.subject = category.subject;
-        this.tagName = category.getClassificationName(context);
+        this.tagName = category.getClassificationName();
         if (category.getCategoryType() == Category.CATEGORY_EXAM) {
             String uid = UserInfo.getUserInfo().getUid();
             this.url = Net.getRunHost(context) + Net.EXAM_ITEM(uid, category.rid);

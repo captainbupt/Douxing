@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.badou.mworking.adapter.TaskAdapter;
+import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.base.BaseCategoryProgressListActivity;
 import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.CategoryDetail;
@@ -17,9 +18,9 @@ import org.json.JSONObject;
 /**
  * 任务签到界面
  */
-public class TaskActivity extends BaseCategoryProgressListActivity {
+public class TaskActivity extends BaseBackActionBarActivity {
 
-    private int mClickPosition = -1;
+/*    private int mClickPosition = -1;
     private final int REQUEST_TASK_SIGN = 1;
 
     @Override
@@ -52,6 +53,6 @@ public class TaskActivity extends BaseCategoryProgressListActivity {
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
-    }
+    }*/
 }
 

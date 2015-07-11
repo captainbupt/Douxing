@@ -51,10 +51,12 @@ public class AlarmReceiver extends BroadcastReceiver {
      * 功能描述:  获取缓存
      */
     private boolean getUnreadNum(Context context, String key) {
-        String userNum = UserInfo.getUserInfo().getAccount();
-        int unreadNum = SP.getIntSP(context, SP.DEFAULTCACHE, userNum + key, 0);
-        if (unreadNum <= 0) {
-            return false;
+        if(UserInfo.getUserInfo()!=null) {
+            String userNum = UserInfo.getUserInfo().getAccount();
+            int unreadNum = SP.getIntSP(context, SP.DEFAULTCACHE, userNum + key, 0);
+            if (unreadNum <= 0) {
+                return false;
+            }
         }
         return false;
     }

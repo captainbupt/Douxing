@@ -63,7 +63,7 @@ public abstract class VolleyListener<T> implements Response.ErrorListener,
     @Override
     public void onErrorResponse(VolleyError error) {
         onCompleted();
-        ToastUtil.showNetExc(mContext);
+        ToastUtil.showToast(mContext, R.string.error_service);
         onErrorCode(-1);
 /*        if (error instanceof ResponseError) {
             ToastUtil.showToast(mContext, error.getMessage());

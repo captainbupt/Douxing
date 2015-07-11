@@ -163,7 +163,7 @@ public class VideoPlayActivity extends BaseBackActionBarActivity {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
                 mProgressDialog.dismiss();
-                ToastUtil.showNetExc(mContext);
+                ToastUtil.showToast(mContext, R.string.error_service);
             }
 
             @Override

@@ -67,19 +67,4 @@ public class Exam extends Category {
         return CATEGORY_TYPE;
     }
 
-    @Override
-    public String getCategoryKeyName() {
-        return CATEGORY_KEY_NAME;
-    }
-
-    @Override
-    public String getCategoryKeyUnread() {
-        return CATEGORY_KEY_UNREAD_NUM;
-    }
-
-    @Override
-    public boolean isAvailable() { // 是否可以签到（未读且未过期）
-        return !isRead && !isOffline;
-    }
-
 }

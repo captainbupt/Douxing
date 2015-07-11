@@ -30,9 +30,9 @@ public class ExamBaseActivity extends BaseBackActionBarActivity {
         setActionbarTitle(UserInfo.getUserInfo().getShuffle().getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_EXAM).getName());
         ButterKnife.inject(this);
         mExam = (Exam) mReceivedIntent.getSerializableExtra(KEY_EXAM);
-        addStoreImageView(mExam.isStore, Store.TYPE_STRING_EXAM, mExam.rid);
+        addStoreImageView(mExam.isStore(), Store.TYPE_STRING_EXAM, mExam.getRid());
         if (UserInfo.getUserInfo().isAdmin()) {
-            addStatisticalImageView(mExam.rid);
+            addStatisticalImageView(mExam.getRid());
         }
     }
 
@@ -52,6 +52,6 @@ public class ExamBaseActivity extends BaseBackActionBarActivity {
 
     @Override
     protected void onStoreChanged(boolean isStore) {
-        mExam.isStore = isStore;
+        mExam.setStore(isStore);
     }
 }

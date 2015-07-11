@@ -14,7 +14,7 @@ public class NoticeWebViewActivity extends NoticeBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         WebViewFragment mWebViewFragment = new WebViewFragment();
-        mWebViewFragment.setArguments(WebViewFragment.getArgument(mNotice.url));
+        mWebViewFragment.setArguments(WebViewFragment.getArgument(mNotice.getUrl()));
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.content_container, mWebViewFragment);
         transaction.commit();

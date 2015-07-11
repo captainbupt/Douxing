@@ -55,7 +55,7 @@ public class DepartmentListActivity extends BaseBackActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_department_list);
         ButterKnife.inject(this);
-        int screeWidth = DensityUtil.getWidthInPx(mContext);
+        int screeWidth = DensityUtil.getInstance().getScreenWidth();
         leftWidth = (int) (screeWidth * 0.45f);
         rightWidth = screeWidth - leftWidth;
         FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(rightWidth, ViewGroup.LayoutParams.MATCH_PARENT);

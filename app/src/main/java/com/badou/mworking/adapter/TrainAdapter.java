@@ -68,9 +68,9 @@ public class TrainAdapter extends MyBaseAdapter {
         }
 
         // 显示标题
-        holder.subjectTextView.setText(train.subject);
+        holder.subjectTextView.setText(train.getSubject());
         // 显示时间和部门
-        holder.dateTextView.setText(TimeTransfer.long2StringDetailDate(mContext, train.time));
+        holder.dateTextView.setText(TimeTransfer.long2StringDetailDate(mContext, train.getTime()));
         // 显示评分人数
         holder.ratingNumberTextView.setText(" (" + train.ecnt + ")");
         // 显示评分星星
@@ -78,13 +78,13 @@ public class TrainAdapter extends MyBaseAdapter {
             holder.ratingbar.setRating((float) train.eval / train.ecnt);
         }
         // 该课件是否已读
-        if (train.isRead) {
+        if (!train.isUnread()) {
             holder.unreadTextView.setVisibility(View.GONE);
         } else {
             holder.unreadTextView.setVisibility(View.VISIBLE);
         }
         /** 显示是否置顶 **/
-        if (train.isTop) {
+        if (train.isTop()) {
             holder.topImageView.setVisibility(View.VISIBLE);
         } else {
             holder.topImageView.setVisibility(View.GONE);

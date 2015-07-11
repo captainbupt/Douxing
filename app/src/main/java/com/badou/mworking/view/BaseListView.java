@@ -20,4 +20,8 @@ public interface BaseListView<T> extends BaseView {
     void setData(List<T> data);
 
     void addData(List<T> data);
+
+    void showProgressBar();
+
+    void hideProgressBar();
 }

@@ -32,10 +32,10 @@ public interface RestApi {
     Observable<BaseNetListEntity<Classification>> getClassification(@Query((PARAMS_SYSTEM)) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("type") String type, @Query("fmt") String format);
 
     @GET("/sync_v2")
-    <T> Observable<BaseNetEntity<CategoryOverall<T>>> getCategoryNotice(@Query((PARAMS_SYSTEM)) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("type") String type, @Query("tag") int tag, @Query("begin") int begin, @Query("limit") int pageNum, T data);
+    <T> Observable<BaseNetEntity<CategoryOverall>> getCategoryNotice(@Query((PARAMS_SYSTEM)) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("type") String type, @Query("tag") int tag, @Query("begin") int begin, @Query("limit") int pageNum, @Query("key") String key);
 
     @GET("/sync_v2")
-    <T> Observable<BaseNetEntity<CategoryOverall<T>>> getCategoryNotice(@Query((PARAMS_SYSTEM)) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("type") String type, @Query("tag") int tag, @Query("begin") int begin, @Query("limit") int pageNum, @Query("done") int done, T data);
+    <T> Observable<BaseNetEntity<CategoryOverall>> getCategoryNotice(@Query((PARAMS_SYSTEM)) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("type") String type, @Query("tag") int tag, @Query("begin") int begin, @Query("limit") int pageNum, @Query("key") String key, @Query("done") int done);
 
 /*
     @GET("/sync_v2")

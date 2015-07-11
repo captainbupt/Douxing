@@ -26,7 +26,7 @@ public class CheckUpdateUseCase extends UseCase {
      * 功能描述: 获取屏幕级别
      */
     public String getScreenLevel(Context context) {
-        int screenWidthPx = DensityUtil.getWidthInPx(context);
+        int screenWidthPx = DensityUtil.getInstance().getScreenWidth();
         //适配240 320 480 屏幕
         if (screenWidthPx >= 240 && screenWidthPx < 720 - 100) {
             return "sm";

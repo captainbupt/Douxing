@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.badou.mworking.adapter.NoticeAdapter;
+import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.base.BaseCategoryProgressListActivity;
 import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.CategoryDetail;
@@ -16,8 +17,8 @@ import org.json.JSONObject;
 /**
  * 功能描述: 通知公告页面
  */
-public class NoticeActivity extends BaseCategoryProgressListActivity {
-
+public class NoticeActivity extends BaseBackActionBarActivity {
+/*
     @Override
     protected void onCreate(Bundle arg0) {
         CATEGORY_NAME = Category.CATEGORY_KEY_NAMES[Category.CATEGORY_NOTICE];
@@ -48,5 +49,5 @@ public class NoticeActivity extends BaseCategoryProgressListActivity {
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
-    }
+    }*/
 }
