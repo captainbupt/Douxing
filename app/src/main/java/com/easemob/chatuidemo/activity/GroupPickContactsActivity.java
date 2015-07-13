@@ -175,14 +175,25 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
             roleMap.put(role.getId(), role);
         }
 
+        String groupId = getIntent().getStringExtra("groupId");
+        if (groupId == null) {// 创建群组
+            isCreatingNewGroup = true;
+        } else {
+            // 获取此群组的成员列表
+            EMGroup group = EMGroupManager.getInstance().getGroup(groupId);
+            exitingMembers = group.getMembers();
+        }
+        if (exitingMembers == null)
+            exitingMembers = new ArrayList<>();
         for (int ii = 0; ii < contacts.size(); ii++) {
-            if (contacts.get(ii).getUsername().equals(EMChatManager.getInstance().getCurrentUser())) {
+            if (contacts.get(ii).getUsername().equals(EMChatManager.getInstance().getCurrentUser()) || exitingMembers.contains(contacts.get(ii).getUsername())) {
                 contacts.remove(ii);
                 ii--;
             } else {
                 contacts.get(ii).setTag(departmentMap, roleMap);
             }
         }
+
         initContactList(contacts);
 
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.chat_swipe_layout);
@@ -266,7 +277,7 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
 
     private void setSelectedNumber(int number) {
         String numberStr = number + "";
-        SpannableString spannableString = new SpannableString(String.format(getString(R.string.filter_selected), number + (exitingMembers == null ? 0 : exitingMembers.size())));
+        SpannableString spannableString = new SpannableString(String.format(getString(R.string.filter_selected), number));
         spannableString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.color_blue)), 2, 2 + numberStr.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         selectedNumberTextView.setText(spannableString);
     }
@@ -344,16 +355,7 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
                 selectedFilterCheckBox.setChecked(false);
             }
         });
-        String groupId = getIntent().getStringExtra("groupId");
-        if (groupId == null) {// 创建群组
-            isCreatingNewGroup = true;
-        } else {
-            // 获取此群组的成员列表
-            EMGroup group = EMGroupManager.getInstance().getGroup(groupId);
-            exitingMembers = group.getMembers();
-        }
-        if (exitingMembers == null)
-            exitingMembers = new ArrayList<>();
+
         // 对list进行排序
         Collections.sort(contacts, new Comparator<User>() {
             @Override
@@ -437,6 +439,12 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
                 intent.putExtra("groupId", groupId);
                 startActivity(intent);
                 finish();
+            }
+
+            @Override
+            public void onErrorCode(int code) {
+                super.onErrorCode(code);
+                System.out.println("code: " + code);
             }
 
             @Override

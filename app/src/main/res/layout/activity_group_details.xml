@@ -58,7 +58,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/background_white_grey"
             android:paddingLeft="@dimen/offset_less"
-            android:paddingRight="@dimen/offset_less">
+            android:paddingRight="@dimen/offset_less"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/tv_group_member"

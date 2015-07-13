@@ -185,7 +185,7 @@ public class GroupDetailsActivity extends BaseBackActionBarActivity implements O
 
     }
 
-    private void sendTipMessage(String groupId, String content) {
+    private void sendTipMessage(String groupId, String content, String attribute, String value) {
         //获取到与聊天人的会话对象。参数username为聊天人的userid或者groupid，后文中的username皆是如此
         EMConversation conversation = EMChatManager.getInstance().getConversation(groupId);
         //创建一条文本消息
@@ -193,6 +193,9 @@ public class GroupDetailsActivity extends BaseBackActionBarActivity implements O
         //如果是群聊，设置chattype,默认是单聊
         message.setChatType(EMMessage.ChatType.GroupChat);
         message.setAttribute(MessageAdapter.KEY_HELLO_MESSAGE, "1");
+        if (!TextUtils.isEmpty(attribute)) {
+            message.setAttribute(attribute, value);
+        }
         TextMessageBody txtBody = new TextMessageBody(content);
         message.addBody(txtBody);
         //设置接收人
@@ -201,6 +204,10 @@ public class GroupDetailsActivity extends BaseBackActionBarActivity implements O
         conversation.addMessage(message);
         //发送消息
         EMChatManager.getInstance().sendMessage(message, null);
+    }
+
+    private void sendTipMessage(String groupId, String content) {
+        sendTipMessage(groupId, content, null, null);
     }
 
     @Override
@@ -255,7 +262,7 @@ public class GroupDetailsActivity extends BaseBackActionBarActivity implements O
                                     EMGroupManager.getInstance().changeGroupName(groupId, returnData);
                                     StringBuilder body = new StringBuilder();
                                     body.append("群主将群名称改为 " + returnData);
-                                    sendTipMessage(groupId, body.toString());
+                                    sendTipMessage(groupId, body.toString(), "groupname", returnData);
                                     runOnUiThread(new Runnable() {
                                         public void run() {
                                             group.setGroupName(returnData);

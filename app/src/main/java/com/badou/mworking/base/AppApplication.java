@@ -264,6 +264,7 @@ public class AppApplication extends Application {
                         //退出登录
                         ((AppApplication) context.getApplicationContext()).clearUserInfo();
                         Intent intent = new Intent(context, LoginActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         context.startActivity(intent);
                         ((Activity) context).finish();
                     }
