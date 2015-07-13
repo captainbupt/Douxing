@@ -118,7 +118,7 @@ public class StoreActivity extends BaseBackActionBarActivity {
                 if (resultArray == null
                         || resultArray.length() == 0) {
                     if (index > 1) {
-                        ToastUtil.showUpdateToast(mContext);
+                        ToastUtil.showToast(mContext, R.string.no_more);
                     } else {
                         mNoneResultView.setVisibility(View.VISIBLE);
                         mStoreAdapter.setList(null);

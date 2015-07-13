@@ -200,7 +200,7 @@ public class ChatterSubmitActivity extends BaseBackActionBarActivity {
     public void send() {
         // 断网判断
         if (!NetUtils.isNetConnected(this)) {
-            ToastUtil.showNetExc(mContext);
+            ToastUtil.showToast(mContext, R.string.error_service);
             return;
         }
         String content = mContentEditText.getText().toString().replaceAll("\\n", "")

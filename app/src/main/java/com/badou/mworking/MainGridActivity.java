@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -20,6 +22,7 @@ import com.badou.mworking.adapter.MainGridAdapter;
 import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.entity.main.MainBanner;
+import com.badou.mworking.entity.main.MainIcon;
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.fragment.MainSearchFragment;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
@@ -94,12 +97,13 @@ public class MainGridActivity extends BaseNoTitleActivity implements MainGridVie
         disableSwipeBack();
         mBannerAdapter = new BannerAdapter(mContext);
         mBannerGallery.setAdapter(mBannerAdapter);
-        UserInfo userInfo = UserInfo.getUserInfo();
-        mMainGridAdapter = new MainGridAdapter(mContext, userInfo.getShuffle().getMainIconList(mContext, userInfo.getAccess()));
+        mMainGridAdapter = new MainGridAdapter(mContext);
         mContentGridView.setAdapter(mMainGridAdapter);
-        mMainPresenter = new MainPresenter(mContext, mReceivedIntent);
+        mMainPresenter = new MainPresenter(mContext);
         mMainPresenter.attachView(this);
+        mMainPresenter.attachIncomingIntent(mReceivedIntent);
     }
+
 
     @Override
     public void setLogoImage(String url) {
@@ -137,7 +141,6 @@ public class MainGridActivity extends BaseNoTitleActivity implements MainGridVie
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.show(mMainSearchFragment);
         transaction.commit();
-        mMainSearchFragment.setFocus();
     }
 
     @Override
@@ -148,8 +151,8 @@ public class MainGridActivity extends BaseNoTitleActivity implements MainGridVie
     }
 
     @Override
-    public void updateUnreadNumber() {
-        mMainGridAdapter.notifyDataSetChanged();
+    public void setMainIconData(List<MainIcon> mainIconList) {
+        mMainGridAdapter.setList(mainIconList);
     }
 
     @Override
@@ -181,7 +184,7 @@ public class MainGridActivity extends BaseNoTitleActivity implements MainGridVie
 
     @OnItemClick(R.id.content_grid_view)
     void onCategoryClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-        mMainPresenter.onItemClick(arg0, arg1, arg2, arg3);
+        mMainPresenter.onItemClick(mMainGridAdapter.getItem(arg2));
     }
 
     @OnClick(R.id.user_center_image_view)

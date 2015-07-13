@@ -126,7 +126,7 @@ public class ChattingActivity extends BaseBackActionBarActivity {
                             return;
                         }
                         if (Net.SUCCESS != code) {
-                            ToastUtil.showNetExc(mContext);
+                            ToastUtil.showToast(mContext, R.string.error_service);
                             return;
                         }
                         JSONArray arrJson = responseJson

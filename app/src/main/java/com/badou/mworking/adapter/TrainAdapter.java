@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.badou.mworking.R;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.MyBaseAdapter;
+import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.Train;
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.bitmap.BitmapLruCache;
@@ -24,7 +25,7 @@ import com.badou.mworking.util.TimeTransfer;
 /**
  * 功能描述: 微培训adapter
  */
-public class TrainAdapter extends MyBaseAdapter {
+public class TrainAdapter extends MyBaseAdapter<Category> {
 
     /**
      * 微培训/我的学习
@@ -48,48 +49,48 @@ public class TrainAdapter extends MyBaseAdapter {
             convertView.setTag(holder);
         }
         final Train train = (Train) getItem(position);
-        if (TextUtils.isEmpty(train.imgUrl)) {
+        if (TextUtils.isEmpty(train.getImg())) {
             holder.logoImageView.setImageResource(R.drawable.icon_training_item_default);
         } else {
-            holder.logoImageView.setTag(train.imgUrl);
+            holder.logoImageView.setTag(train.getImg());
             /** 加载图片 **/
             Bitmap bm = BitmapLruCache.getBitmapLruCache().getBitmap(
-                    train.imgUrl);
+                    train.getImg());
             if (bm != null
-                    && holder.logoImageView.getTag().equals(train.imgUrl)) {
+                    && holder.logoImageView.getTag().equals(train.getImg())) {
                 holder.logoImageView.setImageBitmap(bm);
                 bm = null;
             } else {
                 /** 设置默认图在IconLoadListener 中 **/
                 MyVolley.getImageLoader().get(
-                        train.imgUrl,
-                        new NormalImageListener(holder.logoImageView, train.imgUrl, R.drawable.icon_training_item_default));
+                        train.getImg(),
+                        new NormalImageListener(holder.logoImageView, train.getImg(), R.drawable.icon_training_item_default));
             }
         }
 
         // 显示标题
-        holder.subjectTextView.setText(train.subject);
+        holder.subjectTextView.setText(train.getSubject());
         // 显示时间和部门
-        holder.dateTextView.setText(TimeTransfer.long2StringDetailDate(mContext, train.time));
+        holder.dateTextView.setText(TimeTransfer.long2StringDetailDate(mContext, train.getTime()));
         // 显示评分人数
-        holder.ratingNumberTextView.setText(" (" + train.ecnt + ")");
+        holder.ratingNumberTextView.setText(" (" + train.getRatingNumber() + ")");
         // 显示评分星星
-        if (train.ecnt != 0) {
-            holder.ratingbar.setRating((float) train.eval / train.ecnt);
+        if (train.getRatingNumber() != 0) {
+            holder.ratingbar.setRating((float) train.getRatingTotalValue() / train.getRatingNumber());
         }
         // 该课件是否已读
-        if (train.isRead) {
+        if (!train.isUnread()) {
             holder.unreadTextView.setVisibility(View.GONE);
         } else {
             holder.unreadTextView.setVisibility(View.VISIBLE);
         }
         /** 显示是否置顶 **/
-        if (train.isTop) {
+        if (train.isTop()) {
             holder.topImageView.setVisibility(View.VISIBLE);
         } else {
             holder.topImageView.setVisibility(View.GONE);
         }
-        holder.commentNumberTextView.setText(train.commentNum + "");
+        holder.commentNumberTextView.setText(train.getCommentNumber() + "");
         return convertView;
     }
 

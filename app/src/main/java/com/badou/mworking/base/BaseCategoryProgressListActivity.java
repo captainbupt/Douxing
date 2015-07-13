@@ -1,8 +1,8 @@
 package com.badou.mworking.base;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -15,37 +15,31 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.badou.mworking.R;
+import com.badou.mworking.adapter.CategoryAdapterFactory;
 import com.badou.mworking.adapter.ClassificationAdapter;
+import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.Classification;
-import com.badou.mworking.entity.user.UserInfo;
-import com.badou.mworking.net.Net;
-import com.badou.mworking.net.ResponseParameters;
-import com.badou.mworking.net.ServiceProvider;
-import com.badou.mworking.net.volley.VolleyListener;
-import com.badou.mworking.presenter.CategoryPresenter;
-import com.badou.mworking.util.Constant;
-import com.badou.mworking.util.SP;
-import com.badou.mworking.util.ToastUtil;
+import com.badou.mworking.presenter.CategoryListPresenter;
+import com.badou.mworking.presenter.TrainingListPresenter;
+import com.badou.mworking.util.DensityUtil;
 import com.badou.mworking.view.CategoryListView;
 import com.badou.mworking.widget.NoneResultView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnItemClick;
+import butterknife.OnTouch;
 
-public abstract class BaseCategoryProgressListActivity extends BaseBackActionBarActivity implements CategoryListView {
+public class BaseCategoryProgressListActivity extends BaseBackActionBarActivity implements CategoryListView {
+
+    public static final String KEY_CATEGORY = "category";
 
     @InjectView(R.id.content_list_view)
     PullToRefreshListView mContentListView;
@@ -59,55 +53,67 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
     LinearLayout mClassificationContainer;
     @InjectView(R.id.classification_background)
     FrameLayout mClassificationBackground;
-    @InjectView(R.id.rl_activity_base_progress_container)
-    RelativeLayout mRlActivityBaseProgressContainer;
 
     private ImageView mTitleTriangleImageView;
     private View mTitleLayout;
     private TextView mTitleReadTextView;
-    private boolean status_menu_show = false;
-
-    protected String CATEGORY_NAME = "";
-    protected String CATEGORY_UNREAD_NUM = "";
 
     private ClassificationAdapter mMainClassificationAdapter = null;
     private ClassificationAdapter mMoreClassificationAdapter = null;
-    protected MyBaseAdapter mCategoryAdapter = null;
+    protected MyBaseAdapter<Category> mCategoryAdapter = null;
+    private int mCategoryIndex;
 
-    private ListView mMainListView;
-    private ListView mMoreListView;
+    CategoryListPresenter mCategoryPresenter;
 
-    private LinearLayout mClassificationLinear;  // 下拉布局
-    private FrameLayout mClassificationContainer;
-
-    protected NoneResultView mNoneResultView;
-
-    protected PullToRefreshListView mContentListView;
-
-    CategoryPresenter mCategoryPresenter;
+    public static Intent getIntent(Context context, int category) {
+        Intent intent = new Intent(context, BaseCategoryProgressListActivity.class);
+        intent.putExtra(KEY_CATEGORY, category);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base_progress_list);
         ButterKnife.inject(this);
-        initProgressView();
-        initProgressListener();
-        initProgressData();
+        mCategoryIndex = mReceivedIntent.getIntExtra(KEY_CATEGORY, -1);
+        if (mCategoryIndex == -1) {
+            finish();
+            return;
+        }
+        switch (mCategoryIndex) {
+            case Category.CATEGORY_TRAINING:
+                mCategoryPresenter = new TrainingListPresenter(mContext, mCategoryIndex);
+                break;
+            default:
+                mCategoryPresenter = new CategoryListPresenter(mContext, mCategoryIndex);
+        }
+        initTitleView();
+        initClassificationView();
+        initListView();
+        mCategoryPresenter.attachView(this);
     }
 
     /**
      * 初始化action 布局
      */
-    private void initProgressView() {
+    private void initTitleView() {
         mTitleReadTextView = new TextView(mContext);
         mTitleReadTextView.setText(R.string.category_unread);
-        mTitleReadTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(R.dimen.text_size_less));
-        int paddingLess = getResources().getDimensionPixelOffset(R.dimen.offset_less);
+        mTitleReadTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, DensityUtil.getInstance().getTextSizeSmall());
+        int paddingLess = DensityUtil.getInstance().getOffsetLess();
         mTitleReadTextView.setPadding(paddingLess, 0, paddingLess, 0);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.setMargins(0, 0, paddingLess, 0);
         mTitleReadTextView.setLayoutParams(layoutParams);
+        addTitleRightView(mTitleReadTextView, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mCategoryPresenter.onUnreadClick();
+            }
+        });
+        setUnread(false);
+
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mTitleLayout = inflater.inflate(R.layout.actionbar_progress, null);
         setTitleCustomView(mTitleLayout);
@@ -115,298 +121,156 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
         mTitleTriangleImageView.setVisibility(View.VISIBLE);
         mTitleTextView = (TextView) mTitleLayout.findViewById(R.id.tv_actionbar_title);
         mTitleTextView.setText(mReceivedIntent.getStringExtra(KEY_TITLE));
-        mNoneResultView = (NoneResultView) findViewById(R.id.nrv_activity_base_progress_list_none_result);
-        mContentListView = (PullToRefreshListView) findViewById(R.id.ptrlv_user_progress_content);
-        mContentListView.setMode(PullToRefreshBase.Mode.BOTH);
-        mContentListView.setVisibility(View.VISIBLE);
-        mNoneResultView.setVisibility(View.GONE);
-        mClassificationContainer = (FrameLayout) findViewById(R.id.fl_activity_base_progress_classification_container);
-        mClassificationLinear = (LinearLayout) mClassificationContainer.findViewById(R.id.ll_activity_base_progress_classification);
-        mMainListView = (ListView) mClassificationContainer.findViewById(R.id.lv_classification_list_main);
-        mMoreListView = (ListView) mClassificationContainer.findViewById(R.id.lv_classification_list_more);
-    }
-
-    private void initProgressListener() {
-        addTitleRightView(mTitleReadTextView, new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                isUnread = !isUnread;
-                setUnread(isUnread);
-            }
-        });
         mTitleLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (status_menu_show) {
-                    hideMenu();
-                } else {
-                    showMenu();
-                }
+                mCategoryPresenter.onClassificationStatusChanged();
             }
         });
+    }
 
-        mContentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1,
-                                    int position, long arg3) {
-                BaseCategoryProgressListActivity.this.onItemClick(position);
-            }
-        });
+    private void initClassificationView() {
+        mMainClassificationAdapter = new ClassificationAdapter(mContext, true);
+        mMoreClassificationAdapter = new ClassificationAdapter(mContext, false);
+        mClassificationMoreList.setAdapter(mMoreClassificationAdapter);
+        mClassificationMainList.setAdapter(mMainClassificationAdapter);
+    }
+
+    private void initListView() {
+        mCategoryAdapter = CategoryAdapterFactory.getAdapter(mContext, mCategoryIndex);
+        mContentListView.setAdapter(mCategoryAdapter);
         mContentListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase refreshView) {
-                updateListView(0);
+                mCategoryPresenter.refresh();
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase refreshView) {
-                updateListView(mCategoryAdapter.getCount());
+                mCategoryPresenter.loadMore();
             }
         });
-        mMainListView.setOnItemClickListener(new OnMainClassificationClickListener());
-        mMoreListView.setOnItemClickListener(new OnMoreClassificationClickListener());
-
-        // 拦截底部scrollView的触摸事件
-        mClassificationContainer.setOnTouchListener(new View.OnTouchListener() {
+        mContentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                hideMenu();
-                return true;
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                position--;
+                Category category = mCategoryAdapter.getItem(position);
+                mCategoryPresenter.onItemClick(category, position);
             }
         });
     }
 
-    private void initProgressData() {
-        mMainClassificationAdapter = new ClassificationAdapter(mContext, true);
-        mMoreClassificationAdapter = new ClassificationAdapter(mContext, false);
-        mMoreListView.setAdapter(mMoreClassificationAdapter);
-        mMainListView.setAdapter(mMainClassificationAdapter);
-        getClassifications();
-        initAdapter();
-        if (mCategoryAdapter == null) {
-            return;
-        }
-        mContentListView.setAdapter(mCategoryAdapter);
-        setCategoryItemFromCache(tag);
-        setUnread(false);
+    @OnTouch(R.id.classification_background)
+    boolean onClassificationBackgroundTouched(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN)
+            mCategoryPresenter.onClassificationStatusChanged();
+        return true;
     }
 
-    private class OnMainClassificationClickListener implements AdapterView.OnItemClickListener {
-        public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-                                long arg3) {
-            mMainIndex = arg2;
-            Classification classification = (Classification) mMainClassificationAdapter.getItem(arg2);
-            mMoreClassificationAdapter.setList(classification.getClassifications());
-            mMainClassificationAdapter.setSelectedPosition(arg2);
-            if (mMoreClassificationAdapter.getCount() == 0) {
-                tag = classification.getTag();
-                String title = classification.getName();
-                setActionbarTitle(title);
-                hideMenu();
-                updateListView(0);
-                SP.putIntSP(mContext, CATEGORY_NAME, SP_KEY_CATEGORY_MAIN, mMainIndex);
-                SP.putIntSP(mContext, CATEGORY_NAME, SP_KEY_CATEGORY_MORE, 0);
-            }
-        }
-
+    @OnItemClick(R.id.classification_main_list)
+    void onMainClassificationClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+        mMainClassificationAdapter.setSelectedPosition(arg2);
+        mCategoryPresenter.onClassificationMainClicked(mMainClassificationAdapter.getItem(arg2));
     }
 
-    private class OnMoreClassificationClickListener implements AdapterView.OnItemClickListener {
-        public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-                                long arg3) {
-            SP.putIntSP(mContext, CATEGORY_NAME, SP_KEY_CATEGORY_MAIN, mMainIndex);
-            SP.putIntSP(mContext, CATEGORY_NAME, SP_KEY_CATEGORY_MORE, arg2);
-            Classification classification = (Classification) mMoreClassificationAdapter.getItem(arg2);
-            String title = classification.getName();
-            tag = classification.getTag();
-            setActionbarTitle(title);
-            mMoreClassificationAdapter.setSelectedPosition(arg2);
-            hideMenu();
-            updateListView(0);
-        }
+    @OnItemClick(R.id.classification_more_list)
+    void onMoreClassificationClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+        mMoreClassificationAdapter.setSelectedPosition(arg2);
+        mCategoryPresenter.onClassificationMoreClicked(mMoreClassificationAdapter.getItem(arg2));
     }
 
-    /**
-     * 功能描述:  获取缓存
-     */
-    public void setCategoryItemFromCache(int tag) {
-        List<Object> list = new ArrayList<>();
-        String userNum = UserInfo.getUserInfo().getAccount();
-        String sp = SP.getStringSP(mContext, CATEGORY_NAME, userNum + tag, "");
-        if (TextUtils.isEmpty(sp)) {
-            mNoneResultView.setVisibility(View.VISIBLE);
-            return;
-        } else {
-            mNoneResultView.setVisibility(View.GONE);
-        }
-        JSONArray resultArray;
-        try {
-            resultArray = new JSONArray(sp);
-            for (int i = 0; i < resultArray.length(); i++) {
-                JSONObject jsonObject = resultArray.optJSONObject(i);
-                list.add(parseObject(jsonObject));
-            }
-            mCategoryAdapter.setList(list);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * 功能描述:通过网络获取 类别 列表
-     */
-    private void getClassifications() {
-        ServiceProvider.doGetCategorys(mContext, CATEGORY_NAME, new VolleyListener(mContext) {
-
-            @Override
-            public void onErrorCode(int code) {
-                setClassificationListFromCache();
-            }
-
-            @Override
-            public void onResponseSuccess(JSONObject response) {
-                JSONArray resultArray = response.optJSONArray(Net.DATA);
-                // 缓存分类信息
-                SP.putStringSP(mContext, CATEGORY_NAME, CATEGORY_NAME, resultArray.toString());
-                setClassificationListFromJson(resultArray);
-            }
-        });
-    }
-
-    private void setClassificationListFromCache() {
-        String classificationStr = SP.getStringSP(mContext, CATEGORY_NAME, CATEGORY_NAME, "");
-        try {
-            JSONArray jsonArray = new JSONArray(classificationStr);
-            setClassificationListFromJson(jsonArray);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * @param resultArray 解析jsonArray
-     */
-    private void setClassificationListFromJson(JSONArray resultArray) {
-        // 需要分析
-        List<Object> mMainClassificationList = new ArrayList<>();
-        if (resultArray != null && resultArray.length() != 0) {
-            for (int i = 0; i < resultArray.length(); i++) {
-                JSONObject jsonObject = resultArray.optJSONObject(i);
-                Classification category = new Classification(mContext, jsonObject, CATEGORY_NAME);
-                mMainClassificationList.add(category);
-                if (category.hasErjiClassification) {
-                    this.hasErjiClassification = true;
-                }
-            }
-        }
-        mMainClassificationAdapter.setList(mMainClassificationList);
+    @Override
+    public void setMainClassification(List<Classification> data) {
         mMainClassificationAdapter.setSelectedPosition(0);
-        List<Object> moreClassifications = ((Classification) mMainClassificationList.get(0)).getClassifications();
-        mMoreClassificationAdapter.setList(moreClassifications);
-
-
-        // 如果没有二级分类的话，只显示左边的一栏
-        if (!hasErjiClassification) {
-            mMoreListView.setVisibility(View.GONE);
-        }
+        mClassificationMoreList.setVisibility(View.GONE);
+        mMainClassificationAdapter.setList(data);
     }
 
-    public void updateListView(final int beginNum) {
+    @Override
+    public void setMoreClassification(List<Classification> data) {
+        mMainClassificationAdapter.setSelectedPosition(0);
+        mClassificationMoreList.setVisibility(View.VISIBLE);
+        mMoreClassificationAdapter.setList(data);
+    }
+
+    @Override
+    public void showNoneResult() {
+        mNoneResultView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideNoneResult() {
+        mNoneResultView.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void disablePullUp() {
+        mContentListView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
+    }
+
+    @Override
+    public void enablePullUp() {
+        mContentListView.setMode(PullToRefreshBase.Mode.BOTH);
+    }
+
+    @Override
+    public void setRefreshing() {
         showProgressBar();
-        // 刷新的时候不显示缺省页面
-        mNoneResultView.setVisibility(View.GONE);
-        mContentListView.setVisibility(View.VISIBLE);
-        ServiceProvider.doUpdateLocalResource2(mContext, CATEGORY_NAME, tag, beginNum, Constant.LIST_ITEM_NUM, "", isUnread ? "0" : null,
-                new VolleyListener(mContext) {
-
-                    @Override
-                    public void onCompleted() {
-                        mContentListView.onRefreshComplete();
-                        hideProgressBar();
-                    }
-
-                    @Override
-                    public void onResponse(Object responseObject) {
-                        super.onResponse(responseObject);
-                    }
-
-                    @Override
-                    public void onResponseSuccess(JSONObject response) {
-                        updateListFromJson(response.optJSONObject(Net.DATA), beginNum);
-                        mContentListView.onRefreshComplete();
-                        hideProgressBar();
-                        updateCompleted();
-                    }
-                });
     }
 
-    protected void updateCompleted() {
+    @Override
+    public void startRefreshing() {
+        mContentListView.setRefreshing();
     }
 
-    private void updateListFromJson(JSONObject data, int beginNum) {
-        if (data == null || data.equals("")) {
-            return;
-        }
-        final String userNum = UserInfo.getUserInfo().getAccount();
-        /**
-         * 保存未读数
-         */
-        if (tag == 0) {
-            SP.putIntSP(mContext, SP.DEFAULTCACHE, userNum + CATEGORY_UNREAD_NUM, data.optInt(ResponseParameters.NEWCNT));
-        }
-        List<Object> list = new ArrayList<>();
-        JSONArray resultArray = data.optJSONArray("list");
-        if (resultArray == null
-                || resultArray.length() == 0) {
-            if (beginNum > 0) {
-                ToastUtil.showUpdateToast(mContext);
-            } else {
-                mNoneResultView.setVisibility(View.VISIBLE);
-                mCategoryAdapter.setList(null);
-            }
-            return;
-        }
-        mNoneResultView.setVisibility(View.GONE);
-        //添加缓存
-        if (beginNum == 0) {
-            //添加缓存
-            SP.putStringSP(mContext, CATEGORY_NAME, userNum + tag, resultArray.toString());
-        }
-        for (int i = 0; i < resultArray.length(); i++) {
-            JSONObject jsonObject = resultArray.optJSONObject(i);
-            list.add(parseObject(jsonObject));
-        }
-        if (beginNum == 0) {
-            mCategoryAdapter.setList(list);
-        } else {
-            mCategoryAdapter.addList(list);
-        }
+    @Override
+    public boolean isRefreshing() {
+        return mContentListView.isRefreshing();
+    }
+
+    @Override
+    public void refreshComplete() {
+        hideProgressBar();
+        mContentListView.onRefreshComplete();
+    }
+
+    @Override
+    public void setData(List<Category> data) {
+        mCategoryAdapter.setList(data);
+    }
+
+    @Override
+    public void addData(List<Category> data) {
+        mCategoryAdapter.addList(data);
+    }
+
+    @Override
+    public int getDataCount() {
+        return mCategoryAdapter.getCount();
+    }
+
+    @Override
+    public void setItem(int index, Category item) {
+        mCategoryAdapter.setItem(index, item);
+    }
+
+    @Override
+    public void removeItem(int index) {
+        mCategoryAdapter.remove(index);
     }
 
     public void showMenu() {
         mTitleTriangleImageView.setImageResource(R.drawable.icon_triangle_up);
-        if (mMainClassificationAdapter.getCount() > 0) {
-            int main = SP.getIntSP(mContext, CATEGORY_NAME, SP_KEY_CATEGORY_MAIN, 0);
-            int more = SP.getIntSP(mContext, CATEGORY_NAME, SP_KEY_CATEGORY_MORE, 0);
-            mMainClassificationAdapter.setSelectedPosition(main);
-            mMoreClassificationAdapter.setList(((Classification) mMainClassificationAdapter.getItem(main)).getClassifications());
-            if (mMoreClassificationAdapter.getCount() > 0) {
-                mMoreClassificationAdapter.setSelectedPosition(more);
-            }
-            mMoreClassificationAdapter.notifyDataSetChanged();
-        }
+        mClassificationBackground.setVisibility(View.VISIBLE);
         mClassificationContainer.setVisibility(View.VISIBLE);
-        mClassificationLinear.setVisibility(View.VISIBLE);
         Animation anim = AnimationUtils.loadAnimation(mContext, R.anim.popup_enter);
-        mClassificationLinear.startAnimation(anim);
-
-        status_menu_show = true;
+        mClassificationContainer.startAnimation(anim);
     }
 
     public void hideMenu() {
         mTitleTriangleImageView.setImageResource(R.drawable.icon_triangle_down);
         Animation anim = AnimationUtils.loadAnimation(mContext, R.anim.popup_exit);
-        mClassificationLinear.startAnimation(anim);
+        mClassificationContainer.startAnimation(anim);
         anim.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -415,8 +279,8 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                mClassificationContainer.setVisibility(View.GONE);
-                mClassificationLinear.setVisibility(View.GONE);
+                mClassificationBackground.setVisibility(View.INVISIBLE);
+                mClassificationContainer.setVisibility(View.INVISIBLE);
             }
 
             @Override
@@ -424,10 +288,9 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
 
             }
         });
-        status_menu_show = false;
     }
 
-    private void setUnread(boolean unread) {
+    public void setUnread(boolean unread) {
         if (unread) {
             mTitleReadTextView.setTextColor(getResources().getColor(R.color.color_white));
             mTitleReadTextView.setBackgroundResource(R.drawable.background_button_enable_blue_normal);
@@ -435,7 +298,6 @@ public abstract class BaseCategoryProgressListActivity extends BaseBackActionBar
             mTitleReadTextView.setTextColor(getResources().getColor(R.color.color_border_grey));
             mTitleReadTextView.setBackgroundResource(R.drawable.background_border_radius_small_grey);
         }
-        mContentListView.setRefreshing();
     }
 
 }

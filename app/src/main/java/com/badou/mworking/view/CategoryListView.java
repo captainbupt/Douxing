@@ -5,10 +5,14 @@ import com.badou.mworking.entity.category.Category;
 
 import java.util.List;
 
-public interface CategoryListView extends BaseListView<Category> {
+public interface CategoryListView extends BaseListView<Category>, BaseActionBarView {
     void showMenu();
 
     void hideMenu();
 
-    void setClassification(List<Classification> data);
+    void setMainClassification(List<Classification> data);
+
+    void setMoreClassification(List<Classification> data);
+
+    void setUnread(boolean isUnread);
 }

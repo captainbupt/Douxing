@@ -4,9 +4,11 @@ import com.badou.mworking.domain.CheckUpdateUseCase;
 import com.badou.mworking.domain.LoginUseCase;
 import com.badou.mworking.entity.category.CategoryOverall;
 import com.badou.mworking.entity.category.Classification;
-import com.badou.mworking.entity.category.Notice;
+import com.badou.mworking.entity.category.TrainingCommentInfo;
 import com.badou.mworking.entity.main.MainData;
 import com.badou.mworking.entity.user.UserInfo;
+
+import java.util.List;
 
 import retrofit.http.Body;
 import retrofit.http.POST;
@@ -32,35 +34,11 @@ public interface RestApi {
     Observable<BaseNetListEntity<Classification>> getClassification(@Query((PARAMS_SYSTEM)) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("type") String type, @Query("fmt") String format);
 
     @GET("/sync_v2")
-    <T> Observable<BaseNetEntity<CategoryOverall<T>>> getCategoryNotice(@Query((PARAMS_SYSTEM)) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("type") String type, @Query("tag") int tag, @Query("begin") int begin, @Query("limit") int pageNum, T data);
+    <T> Observable<BaseNetEntity<CategoryOverall>> getCategoryNotice(@Query((PARAMS_SYSTEM)) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("type") String type, @Query("tag") int tag, @Query("begin") int begin, @Query("limit") int pageNum, @Query("key") String key);
 
     @GET("/sync_v2")
-    <T> Observable<BaseNetEntity<CategoryOverall<T>>> getCategoryNotice(@Query((PARAMS_SYSTEM)) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("type") String type, @Query("tag") int tag, @Query("begin") int begin, @Query("limit") int pageNum, @Query("done") int done, T data);
+    <T> Observable<BaseNetEntity<CategoryOverall>> getCategoryNotice(@Query((PARAMS_SYSTEM)) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("type") String type, @Query("tag") int tag, @Query("begin") int begin, @Query("limit") int pageNum, @Query("key") String key, @Query("done") int done);
 
-/*
-    @GET("/sync_v2")
-    Observable<BaseNetEntity<CategoryOverall<Notice>>> getCategoryTraining(@Query((PARAMS_SYSTEM)) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("type") String type, @Query("tag") int tag, @Query("begin") int begin, @Query("limit") int pageNum);
-
-    @GET("/sync_v2")
-    Observable<BaseNetEntity<CategoryOverall<Notice>>> getCategoryTraining(@Query((PARAMS_SYSTEM)) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("type") String type, @Query("tag") int tag, @Query("begin") int begin, @Query("limit") int pageNum, @Query("done") int done);
-
-    @GET("/sync_v2")
-    Observable<BaseNetEntity<CategoryOverall<Notice>>> getCategoryExam(@Query((PARAMS_SYSTEM)) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("type") String type, @Query("tag") int tag, @Query("begin") int begin, @Query("limit") int pageNum);
-
-    @GET("/sync_v2")
-    Observable<BaseNetEntity<CategoryOverall<Notice>>> getCategoryExam(@Query((PARAMS_SYSTEM)) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("type") String type, @Query("tag") int tag, @Query("begin") int begin, @Query("limit") int pageNum, @Query("done") int done);
-
-    @GET("/sync_v2")
-    Observable<BaseNetEntity<CategoryOverall<Notice>>> getCategoryTask(@Query((PARAMS_SYSTEM)) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("type") String type, @Query("tag") int tag, @Query("begin") int begin, @Query("limit") int pageNum);
-
-    @GET("/sync_v2")
-    Observable<BaseNetEntity<CategoryOverall<Notice>>> getCategoryTask(@Query((PARAMS_SYSTEM)) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("type") String type, @Query("tag") int tag, @Query("begin") int begin, @Query("limit") int pageNum, @Query("done") int done);
-
-    @GET("/sync_v2")
-    Observable<BaseNetEntity<CategoryOverall<Notice>>> getCategoryShelf(@Query((PARAMS_SYSTEM)) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("type") String type, @Query("tag") int tag, @Query("begin") int begin, @Query("limit") int pageNum);
-
-    @GET("/sync_v2")
-    Observable<BaseNetEntity<CategoryOverall<Notice>>> getCategoryShelf(@Query((PARAMS_SYSTEM)) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("type") String type, @Query("tag") int tag, @Query("begin") int begin, @Query("limit") int pageNum, @Query("done") int done);
-*/
-
+    @POST("/getmc2")
+    Observable<BaseNetListEntity<TrainingCommentInfo>> getTrainCommentInfo(@Query((PARAMS_SYSTEM)) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Body List<String> rids);
 }

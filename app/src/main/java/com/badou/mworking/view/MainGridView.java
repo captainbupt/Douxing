@@ -1,6 +1,7 @@
 package com.badou.mworking.view;
 
 import com.badou.mworking.entity.main.MainBanner;
+import com.badou.mworking.entity.main.MainIcon;
 import com.badou.mworking.fragment.MainSearchFragment;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public interface MainGridView extends BaseView {
 
     void setBannerData(List<MainBanner> bannerList);
 
-    void updateUnreadNumber();
+    void setMainIconData(List<MainIcon> mainIconList);
 
     void setIndicator(int index);
 

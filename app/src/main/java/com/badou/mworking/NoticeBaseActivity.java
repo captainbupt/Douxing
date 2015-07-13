@@ -34,19 +34,19 @@ public class NoticeBaseActivity extends BaseBackActionBarActivity {
         setActionbarTitle(UserInfo.getUserInfo().getShuffle().getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_NOTICE).getName());
         ButterKnife.inject(this);
         mNotice = (Notice) mReceivedIntent.getSerializableExtra(KEY_NOTICE);
-        mNotice.isRead = true;
-        mBottomView.setData(mNotice.rid, 0, mNotice.commentNumber, 0);
+        mNotice.setRead(true);
+        mBottomView.setData(mNotice.getRid(), 0, mNotice.getCommentNumber(), 0);
 
         mBottomView.setOnRatingCommentDataUpdated(new BottomRatingAndCommentView.OnRatingCommentDataUpdated() {
             @Override
             public void onDataChanged(int ratingNumber, int commentNumber, int currentRating) {
-                mNotice.commentNumber = commentNumber;
+                mNotice.setCommentNumber(commentNumber);
             }
         });
 
-        addStoreImageView(mNotice.isStore, Store.TYPE_STRING_NOTICE, mNotice.rid);
+        addStoreImageView(mNotice.isStore(), Store.TYPE_STRING_NOTICE, mNotice.getRid());
         if (UserInfo.getUserInfo().isAdmin()) {
-            addStatisticalImageView(mNotice.rid);
+            addStatisticalImageView(mNotice.getRid());
         }
     }
 
@@ -62,7 +62,7 @@ public class NoticeBaseActivity extends BaseBackActionBarActivity {
             int allCount = data.getIntExtra(CommentActivity.RESPONSE_COUNT, -1);
             if (allCount >= 0) {
                 mBottomView.setCommentData(allCount);
-                mNotice.commentNumber = allCount;
+                mNotice.setCommentNumber(allCount);
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -78,6 +78,6 @@ public class NoticeBaseActivity extends BaseBackActionBarActivity {
 
     @Override
     protected void onStoreChanged(boolean isStore) {
-        mNotice.isStore = isStore;
+        mNotice.setStore(isStore);
     }
 }

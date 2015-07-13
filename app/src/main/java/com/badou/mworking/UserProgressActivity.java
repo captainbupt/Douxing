@@ -233,7 +233,7 @@ public class UserProgressActivity extends BaseNoTitleActivity {
                         if (resultArray == null
                                 || resultArray.length() == 0) {
                             if (beginIndex > 0) {
-                                ToastUtil.showUpdateToast(UserProgressActivity.this);
+                                ToastUtil.showToast(mContext, R.string.no_more);
                             }
                             return;
                         }
@@ -242,7 +242,7 @@ public class UserProgressActivity extends BaseNoTitleActivity {
                             if (mType == Category.CATEGORY_EXAM) {
                                 list.add(new Exam(mContext, jsonObject));
                             } else {
-                                list.add(new Train(mContext, jsonObject, true));
+                                //list.add(new Train(mContext, jsonObject, true));
                             }
                             beginIndex++;
                         }

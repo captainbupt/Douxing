@@ -13,6 +13,8 @@ public interface BaseListView<T> extends BaseView {
 
     void setRefreshing();
 
+    void startRefreshing();
+
     boolean isRefreshing();
 
     void refreshComplete();
@@ -20,4 +22,14 @@ public interface BaseListView<T> extends BaseView {
     void setData(List<T> data);
 
     void addData(List<T> data);
+
+    int getDataCount();
+
+    void setItem(int index, T item);
+
+    void removeItem(int index);
+
+    void showProgressBar();
+
+    void hideProgressBar();
 }

@@ -87,7 +87,7 @@ public class TrainMusicActivity extends TrainBaseActivity {
                     statusDownloading();
                     startDownload();
                 } else {
-                    ToastUtil.showNetExc(mContext);
+                    ToastUtil.showToast(mContext, R.string.error_service);
                 }
             }
         });
@@ -124,9 +124,9 @@ public class TrainMusicActivity extends TrainBaseActivity {
     }
 
     private void initData() {
-        mMusicTitleTextView.setText(mTrain.subject);
+        mMusicTitleTextView.setText(mTrain.getSubject());
         mMusicPlayer = new MediaPlayer();
-        mSaveFilePath = FileUtils.getTrainCacheDir(mContext) + mTrain.rid + ENDWITH_MP3;
+        mSaveFilePath = FileUtils.getTrainCacheDir(mContext) + mTrain.getRid() + ENDWITH_MP3;
 
         mProgressHandler = new ProgressHandler();
         File file = new File(mSaveFilePath);
@@ -141,7 +141,7 @@ public class TrainMusicActivity extends TrainBaseActivity {
                 @Override
                 public void run() {
                     try {
-                        URL DownRul = new URL(mTrain.url);
+                        URL DownRul = new URL(mTrain.getUrl());
                         HttpURLConnection urlcon = (HttpURLConnection) DownRul.openConnection();
                         float fileSize = ((float) urlcon.getContentLength()) / 1024 / 1024;
                         mProgressHandler.obtainMessage(FILE_SIZE, fileSize).sendToTarget();
@@ -292,7 +292,7 @@ public class TrainMusicActivity extends TrainBaseActivity {
     private void startDownload() {
         mDownloadImageView.setVisibility(View.GONE);
         mDownloadingProgressBar.setVisibility(View.VISIBLE);
-        ServiceProvider.doDownloadTrainingFile(mTrain.url, mSaveFilePath, new RangeFileAsyncHttpResponseHandler(new File(mSaveFilePath)) {
+        ServiceProvider.doDownloadTrainingFile(mTrain.getUrl(), mSaveFilePath, new RangeFileAsyncHttpResponseHandler(new File(mSaveFilePath)) {
 
             @Override
             public void onProgress(long bytesWritten, long totalSize) {
@@ -307,7 +307,7 @@ public class TrainMusicActivity extends TrainBaseActivity {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
-                ToastUtil.showNetExc(mContext);
+                ToastUtil.showToast(mContext,R.string.error_service);
                 statusNotDownLoad();
             }
 
