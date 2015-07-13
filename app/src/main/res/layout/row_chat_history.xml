@@ -1,83 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.swipe.delete.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sl_adapter_message_center"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/background_white_grey">
+    android:layout_height="wrap_content">
 
-    <RelativeLayout
-        android:id="@+id/avatar_container"
-        android:layout_width="@dimen/icon_size_larger"
-        android:layout_height="@dimen/icon_size_larger"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="@dimen/offset_small">
+    <!-- SwipeLayout 强制要求ViewGroup -->
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/avatar"
-            android:layout_width="@dimen/icon_size_medium"
-            android:layout_height="@dimen/icon_size_medium"
-            android:layout_centerInParent="true"
-            android:scaleType="fitCenter" />
-
-        <TextView
-            android:id="@+id/unread_msg_number"
+            android:id="@+id/iv_delete"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/unread_count_bg"
-            android:gravity="center"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/text_size_small" />
-    </RelativeLayout>
+            android:layout_height="match_parent"
+            android:background="@color/color_red"
+            android:paddingBottom="@dimen/offset_medium"
+            android:paddingLeft="@dimen/offset_large"
+            android:paddingRight="@dimen/offset_large"
+            android:paddingTop="@dimen/offset_medium"
+            android:src="@drawable/icon_adapter_swipe_delete" />
+    </FrameLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toRightOf="@id/avatar_container"
-        android:paddingBottom="@dimen/offset_medium"
-        android:paddingRight="@dimen/offset_medium"
-        android:paddingTop="@dimen/offset_medium">
+        android:background="@drawable/background_white_grey">
 
-        <TextView
-            android:id="@+id/name"
+        <RelativeLayout
+            android:id="@+id/avatar_container"
+            android:layout_width="@dimen/icon_size_larger"
+            android:layout_height="@dimen/icon_size_larger"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/offset_small">
+
+            <ImageView
+                android:id="@+id/avatar"
+                android:layout_width="@dimen/icon_size_medium"
+                android:layout_height="@dimen/icon_size_medium"
+                android:layout_centerInParent="true"
+                android:scaleType="fitCenter" />
+
+            <TextView
+                android:id="@+id/unread_msg_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/unread_count_bg"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_small" />
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/time"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:textColor="@color/color_text_black"
-            android:textSize="@dimen/text_size_medium" />
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/avatar_container"
+            android:paddingBottom="@dimen/offset_medium"
+            android:paddingRight="@dimen/offset_medium"
+            android:paddingTop="@dimen/offset_medium">
 
-        <TextView
-            android:id="@+id/time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:textColor="@color/color_text_grey_light"
-            android:textSize="@dimen/text_size_small" />
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/time"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textColor="@color/color_text_black"
+                android:textSize="@dimen/text_size_medium" />
 
-        <ImageView
-            android:id="@+id/msg_state"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignParentRight="true"
-            android:layout_below="@id/name"
-            android:src="@drawable/msg_state_fail_resend"
-            android:visibility="gone" />
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/color_text_grey_light"
+                android:textSize="@dimen/text_size_small" />
 
-        <TextView
-            android:id="@+id/message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignWithParentIfMissing="true"
-            android:layout_below="@id/name"
-            android:layout_toLeftOf="@id/time"
-            android:layout_toRightOf="@id/msg_state"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:textColor="@color/color_text_grey_light"
-            android:textSize="@dimen/text_size_less" />
+            <ImageView
+                android:id="@+id/msg_state"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/name"
+                android:src="@drawable/msg_state_fail_resend"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignWithParentIfMissing="true"
+                android:layout_below="@id/name"
+                android:layout_toLeftOf="@id/time"
+                android:layout_toRightOf="@id/msg_state"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textColor="@color/color_text_grey_light"
+                android:textSize="@dimen/text_size_less" />
+        </RelativeLayout>
     </RelativeLayout>
-</RelativeLayout>
+</com.swipe.delete.SwipeLayout>

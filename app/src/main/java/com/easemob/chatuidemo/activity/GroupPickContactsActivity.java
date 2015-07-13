@@ -431,14 +431,29 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
         String groupName = name + "发起的聊天";
         ServiceProvider.createGroup(mContext, groupName, "", "欢迎信息", members, new VolleyListener(mContext) {
             @Override
-            public void onResponseSuccess(JSONObject response) {
-                String groupId = response.optJSONObject(Net.DATA).optString("groupid");
-                Intent intent = new Intent(mContext, ChatActivity.class);
-                // it is group chat
-                intent.putExtra("chatType", ChatActivity.CHATTYPE_GROUP);
-                intent.putExtra("groupId", groupId);
-                startActivity(intent);
-                finish();
+            public void onResponseSuccess(final JSONObject response) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            EMGroupManager.getInstance().getGroupsFromServer();//需异步处理
+                        } catch (EaseMobException e) {
+                            e.printStackTrace();
+                        }
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                String groupId = response.optJSONObject(Net.DATA).optString("groupid");
+                                Intent intent = new Intent(mContext, ChatActivity.class);
+                                // it is group chat
+                                intent.putExtra("chatType", ChatActivity.CHATTYPE_GROUP);
+                                intent.putExtra("groupId", groupId);
+                                startActivity(intent);
+                                finish();
+                            }
+                        });
+                    }
+                }).start();
             }
 
             @Override
