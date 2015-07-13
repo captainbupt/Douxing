@@ -47,6 +47,7 @@ import com.easemob.chatuidemo.Constant;
 import com.badou.mworking.R;
 import com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter;
 import com.easemob.chatuidemo.db.InviteMessgeDao;
+import com.swipe.delete.SwipeLayout;
 
 /**
  * 显示所有会话记录，比较简单的实现，更好的可能是把陌生人存入本地，这样取到的聊天记录是可控的
@@ -86,9 +87,10 @@ public class ChatAllHistoryFragment extends Fragment {
                 startActivity(new Intent(getActivity(), MessageCenterActivity.class));
             }
         });
+        ((SwipeLayout)headView.findViewById(R.id.sl_adapter_message_center)).setSwipeEnabled(false);
         updateHeadView();
         listView.addHeaderView(headView);
-        adapter = new ChatAllHistoryAdapter(getActivity(), 1, conversationList);
+        adapter = new ChatAllHistoryAdapter(getActivity(), 1, conversationList, ChatAllHistoryFragment.this);
         // 设置adapter
         listView.setAdapter(adapter);
 
@@ -97,6 +99,8 @@ public class ChatAllHistoryFragment extends Fragment {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if(position == 0)
+                    return;
                 EMConversation conversation = adapter.getItem(position - 1);
                 String username = conversation.getUserName();
                 // 进入聊天页面
@@ -149,6 +153,16 @@ public class ChatAllHistoryFragment extends Fragment {
          * 保证Conversation在Sort过程中最后一条消息的时间不变
          * 避免并发问题
          */
+        List<String> illegalKey = new ArrayList<>();
+        for (String key : conversations.keySet()) {
+            EMConversation conversation = conversations.get(key);
+            if (!conversation.isGroup() || EMChatManager.getInstance().getGroup(conversation.getUserName()) == null) {
+                illegalKey.add(key);
+            }
+        }
+        for (String key : illegalKey) {
+            conversations.remove(key);
+        }
         List<Pair<Long, EMConversation>> sortList = new ArrayList<Pair<Long, EMConversation>>();
         synchronized (conversations) {
             for (EMConversation conversation : conversations.values()) {

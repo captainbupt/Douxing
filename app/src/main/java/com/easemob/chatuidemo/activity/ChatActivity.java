@@ -66,6 +66,7 @@ import android.widget.Toast;
 
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseBackActionBarActivity;
+import com.badou.mworking.util.ToastUtil;
 import com.easemob.EMChatRoomChangeListener;
 import com.easemob.EMError;
 import com.easemob.EMEventListener;
@@ -383,21 +384,12 @@ public class ChatActivity extends BaseBackActionBarActivity implements OnClickLi
         // 判断单聊还是群聊
         chatType = getIntent().getIntExtra("chatType", CHATTYPE_SINGLE);
 
-        if (chatType == CHATTYPE_SINGLE) { // 单聊
-            toChatUsername = getIntent().getStringExtra("userId");
-            ((TextView) findViewById(R.id.name)).setText(toChatUsername);
-        } else {
-            // 群聊
-            findViewById(R.id.container_voice_call).setVisibility(View.GONE);
-            findViewById(R.id.container_video_call).setVisibility(View.GONE);
-            toChatUsername = getIntent().getStringExtra("groupId");
+        // 群聊
+        findViewById(R.id.container_voice_call).setVisibility(View.GONE);
+        findViewById(R.id.container_video_call).setVisibility(View.GONE);
+        toChatUsername = getIntent().getStringExtra("groupId");
 
-            if (chatType == CHATTYPE_GROUP) {
-                onGroupViewCreation();
-            } else {
-                onChatRoomViewCreation();
-            }
-        }
+        onGroupViewCreation();
 
         // for chatroom type, we only init conversation and create view adapter on success
         if (chatType != CHATTYPE_CHATROOM) {
@@ -507,7 +499,9 @@ public class ChatActivity extends BaseBackActionBarActivity implements OnClickLi
         if (group != null) {
             setActionbarTitle(group.getGroupName());
         } else {
-            setActionbarTitle(toChatUsername);
+            ToastUtil.showToast(mContext, R.string.the_current_group);
+            EMChatManager.getInstance().clearConversation(toChatUsername);
+            finish();
         }
 
         // 监听当前会话的群聊解散被T事件
@@ -523,7 +517,6 @@ public class ChatActivity extends BaseBackActionBarActivity implements OnClickLi
 
             @Override
             public void onSuccess(EMChatRoom value) {
-                // TODO Auto-generated method stub
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

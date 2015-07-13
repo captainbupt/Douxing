@@ -32,6 +32,7 @@ public class CircleImageListener implements ImageListener {
     public void onResponse(ImageContainer arg0, boolean arg1) {
         Bitmap bmp = arg0.getBitmap();
         if (bmp != null) {
+            BitmapLruCache.getBitmapLruCache().putBitmap(mImgUrl, bmp);
             Bitmap headBmp = BitmapUtil.getCirlBitmp(bmp, mWidth, mHeight);
             BitmapLruCache.getBitmapLruCache().putCircleBitmap(mImgUrl, headBmp);
             mImageView.setImageBitmap(headBmp);

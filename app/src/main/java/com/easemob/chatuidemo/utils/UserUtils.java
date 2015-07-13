@@ -1,11 +1,18 @@
 package com.easemob.chatuidemo.utils;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.widget.ImageView;
 
+import com.android.volley.toolbox.ImageLoader;
 import com.badou.mworking.R;
 import com.badou.mworking.base.AppApplication;
+import com.badou.mworking.model.user.UserInfo;
+import com.badou.mworking.net.bitmap.BitmapLruCache;
+import com.badou.mworking.net.bitmap.ImageViewLoader;
+import com.badou.mworking.net.volley.MyVolley;
+import com.easemob.chat.EMChatManager;
 import com.easemob.chatuidemo.domain.User;
 import com.squareup.picasso.Picasso;
 
@@ -32,9 +39,10 @@ public class UserUtils {
     public static void setUserAvatar(Context context, String username, ImageView imageView) {
         User user = getUserInfo(username);
         if (user != null && !TextUtils.isEmpty(user.getAvatar())) {
-            Picasso.with(context).load(user.getAvatar()).placeholder(R.drawable.icon_emchat_single).into(imageView);
+            String imgUrl = user.getAvatar();
+            ImageViewLoader.setSquareImageViewResource(imageView, R.drawable.icon_emchat_single, imgUrl, context.getResources().getDimensionPixelSize(R.dimen.icon_size_medium));
         } else {
-            Picasso.with(context).load(R.drawable.icon_emchat_single).into(imageView);
+            imageView.setImageResource(R.drawable.icon_emchat_single);
         }
     }
 
