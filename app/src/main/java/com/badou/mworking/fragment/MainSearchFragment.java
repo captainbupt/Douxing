@@ -77,6 +77,17 @@ public class MainSearchFragment extends BaseFragment {
     }
 
     @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (mTitleEditView != null)
+            if (hidden) {
+                hideFocus();
+            } else {
+                setFocus();
+            }
+    }
+
+    @Override
     public View onCreateView(android.view.LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mContainerView = (LinearLayout) inflater.inflate(R.layout.fragment_main_search, container, false);
         initView(mContainerView);
@@ -96,7 +107,7 @@ public class MainSearchFragment extends BaseFragment {
         mTitleEditView = (EditText) view.findViewById(R.id.et_main_search_title);
         progressDialog = new WaitProgressDialog(mContext);
         progressDialog.setCancelable(false);
-        setFocus();
+        hideFocus();
         clearResult();
     }
 
@@ -178,18 +189,19 @@ public class MainSearchFragment extends BaseFragment {
     }
 
     public void setFocus() {
-        if (mTitleEditView != null) {
-            mTitleEditView.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mTitleEditView.setFocusable(true);
-                    mTitleEditView.setFocusableInTouchMode(true);
-                    mTitleEditView.requestFocus();
-                    InputMethodManager inputManager = (InputMethodManager) mTitleEditView.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    inputManager.showSoftInput(mTitleEditView, 0);
-                }
-            }, 300);
-        }
+        mTitleEditView.setFocusable(true);
+        mTitleEditView.setFocusableInTouchMode(true);
+        mTitleEditView.requestFocus();
+        InputMethodManager inputManager = (InputMethodManager) mTitleEditView.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.showSoftInput(mTitleEditView, 0);
+    }
+
+    public void hideFocus() {
+        mTitleEditView.setFocusable(false);
+        mTitleEditView.setFocusableInTouchMode(false);
+        InputMethodManager inputManager = (InputMethodManager) mTitleEditView.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(mTitleEditView.getWindowToken(), 0);
+
     }
 
     private Runnable mUpdateRunnable = new Runnable() {

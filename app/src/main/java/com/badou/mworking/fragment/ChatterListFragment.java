@@ -139,7 +139,7 @@ public class ChatterListFragment extends BaseFragment {
                         JSONObject contentObject = response
                                 .optJSONObject(Net.DATA);
                         if (contentObject == null) {
-                            ToastUtil.showNetExc(mContext);
+                            ToastUtil.showToast(mContext, R.string.error_service);
                             return;
                         }
                         // 加载到最后时 提示无更新
@@ -147,7 +147,7 @@ public class ChatterListFragment extends BaseFragment {
                                 .optJSONArray("result");
                         if (resultArray == null || resultArray.length() == 0) {
                             if (beginNum > 1) {
-                                ToastUtil.showUpdateToast(mContext);
+                                ToastUtil.showToast(mContext, R.string.no_more);
                                 mNoneResultView.setVisibility(View.GONE);
                             } else {
                                 mNoneResultView.setVisibility(View.VISIBLE);

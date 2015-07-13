@@ -14,7 +14,7 @@ public class NoticePDFViewActivity extends NoticeBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         PDFViewFragment pdfViewFragment = new PDFViewFragment();
-        pdfViewFragment.setArguments(PDFViewFragment.getArgument(mNotice.rid, mNotice.url));
+        pdfViewFragment.setArguments(PDFViewFragment.getArgument(mNotice.getRid(), mNotice.getUrl()));
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.content_container, pdfViewFragment);
         transaction.commit();

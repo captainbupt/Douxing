@@ -3,6 +3,7 @@ package com.badou.mworking.presenter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 
 import com.badou.mworking.view.BaseView;
 
@@ -38,6 +39,10 @@ public abstract class Presenter {
      * (Activity or Fragment) onDestroy() method.
      */
     public void destroy() {
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+
     }
 
     public abstract void attachView(BaseView v);

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.badou.mworking.adapter.ExamAdapter;
+import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.base.BaseCategoryProgressListActivity;
 import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.Exam;
@@ -18,9 +19,9 @@ import cn.jpush.android.api.JPushInterface;
 /**
  * ExamActivity 考试页面
  */
-public class ExamActivity extends BaseCategoryProgressListActivity {
+public class ExamActivity extends BaseBackActionBarActivity {
 
-    @Override
+/*    @Override
     protected void onCreate(Bundle savedInstanceState) {
         CATEGORY_NAME = Category.CATEGORY_KEY_NAMES[Category.CATEGORY_EXAM];
         CATEGORY_UNREAD_NUM = Category.CATEGORY_KEY_UNREADS[Category.CATEGORY_EXAM];
@@ -83,6 +84,6 @@ public class ExamActivity extends BaseCategoryProgressListActivity {
                         }
                     }
                 });
-    }
+    }*/
 }
 

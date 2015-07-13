@@ -304,7 +304,7 @@ public class ServiceProvider {
      * 功能描述: 获取屏幕级别
      */
     public static String getScreenLevel(Context context) {
-        int screenWidthPx = DensityUtil.getWidthInPx(context);
+        int screenWidthPx = DensityUtil.getInstance().getScreenWidth();
         //适配240 320 480 屏幕
         if (screenWidthPx >= 240 && screenWidthPx < 720 - 100) {
             return "sm";
@@ -961,6 +961,8 @@ public class ServiceProvider {
                 new JsonObjectRequest(Request.Method.GET, Net.getRunHost(context)
                         + Net.UPDATE_RESOURCES_2(uid, type, tag, begin, limit, searchStr, done),
                         null, volleyListener, volleyListener));
+        System.out.println(Net.getRunHost(context)
+                + Net.UPDATE_RESOURCES_2(uid, type, tag, begin, limit, searchStr, done));
         MyVolley.getRequestQueue().start();
     }
 

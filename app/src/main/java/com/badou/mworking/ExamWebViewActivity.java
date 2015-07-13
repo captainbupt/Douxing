@@ -14,7 +14,7 @@ public class ExamWebViewActivity extends ExamBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         WebViewFragment mWebViewFragment = new WebViewFragment();
-        mWebViewFragment.setArguments(WebViewFragment.getArgument(mExam.url));
+        mWebViewFragment.setArguments(WebViewFragment.getArgument(mExam.getUrl()));
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.content_container, mWebViewFragment);
         transaction.commit();

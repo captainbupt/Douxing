@@ -125,7 +125,7 @@ public class TrainVideoActivity extends TrainBaseActivity {
                     statusDownloading();
                     startDownload();
                 } else {
-                    ToastUtil.showNetExc(mContext);
+                    ToastUtil.showToast(mContext, R.string.error_service);
                 }
             }
         });
@@ -189,8 +189,8 @@ public class TrainVideoActivity extends TrainBaseActivity {
      * 功能描述: 数据初始化
      */
     protected void initData() {
-        mSaveFilePath = FileUtils.getTrainCacheDir(mContext) + mTrain.rid + ENDWITH_MP4;
-        mVideoTitleTextView.setText(mTrain.subject);
+        mSaveFilePath = FileUtils.getTrainCacheDir(mContext) + mTrain.getRid() + ENDWITH_MP4;
+        mVideoTitleTextView.setText(mTrain.getSubject());
         mProgressHandler = new ProgressHandler();
 
         File file = new File(mSaveFilePath);
@@ -204,7 +204,7 @@ public class TrainVideoActivity extends TrainBaseActivity {
                 @Override
                 public void run() {
                     try {
-                        URL DownRul = new URL(mTrain.url);
+                        URL DownRul = new URL(mTrain.getUrl());
                         HttpURLConnection urlcon = (HttpURLConnection) DownRul.openConnection();
                         float fileSize = ((float) urlcon.getContentLength()) / 1024f / 1024f;
                         mProgressHandler.obtainMessage(FILE_SIZE, fileSize).sendToTarget();
@@ -268,7 +268,7 @@ public class TrainVideoActivity extends TrainBaseActivity {
     private void startDownload() {
         mDownloadImageView.setVisibility(View.GONE);
         mDownloadingProgressBar.setVisibility(View.VISIBLE);
-        ServiceProvider.doDownloadTrainingFile(mTrain.url, mSaveFilePath, new RangeFileAsyncHttpResponseHandler(new File(mSaveFilePath)) {
+        ServiceProvider.doDownloadTrainingFile(mTrain.getUrl(), mSaveFilePath, new RangeFileAsyncHttpResponseHandler(new File(mSaveFilePath)) {
 
             @Override
             public void onProgress(long bytesWritten, long totalSize) {
@@ -283,7 +283,7 @@ public class TrainVideoActivity extends TrainBaseActivity {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
-                ToastUtil.showNetExc(mContext);
+                ToastUtil.showToast(mContext, R.string.error_service);
                 statusNotDownLoad();
             }
 
@@ -328,8 +328,8 @@ public class TrainVideoActivity extends TrainBaseActivity {
         mBottomView.setVisibility(View.GONE);
         mTopContainerLayout.setVisibility(View.GONE);
         getSupportActionBar().hide();
-        int screenHeight = DensityUtil.getHeightInPx(mContext);
-        int screenWidth = DensityUtil.getWidthInPx(mContext);
+        int screenHeight = DensityUtil.getInstance().getScreenHeight();
+        int screenWidth = DensityUtil.getInstance().getScreenWidth();
         mContainerLayout.setPadding(0, 0, 0, 0);
 
         mPlayerContainerLayout.setLayoutParams(new RelativeLayout.LayoutParams(

@@ -5,12 +5,13 @@ import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.domain.CategoryUseCase;
 import com.badou.mworking.domain.CheckUpdateUseCase;
 import com.badou.mworking.domain.LoginUseCase;
-import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.CategoryOverall;
 import com.badou.mworking.entity.category.Classification;
-import com.badou.mworking.entity.category.Notice;
+import com.badou.mworking.entity.category.TrainingCommentInfo;
 import com.badou.mworking.entity.main.MainData;
 import com.badou.mworking.entity.user.UserInfo;
+
+import java.util.List;
 
 import retrofit.RestAdapter;
 import rx.Observable;
@@ -52,12 +53,16 @@ public class RestRepository {
         return restApi.getClassification(AppApplication.SYSPARAM, AppApplication.appVersion, uid, type, "nest");
     }
 
-    public <T> Observable<BaseNetEntity<CategoryOverall<T>>> getCategory(String uid, String type, int tag, int begin, int pageNum, int done, T data) {
+    public <T> Observable<BaseNetEntity<CategoryOverall>> getCategory(String uid, String type, int tag, int begin, int pageNum, int done) {
         if (done == CategoryUseCase.TYPE_ALL) {
-            return restApi.getCategoryNotice(AppApplication.SYSPARAM, AppApplication.appVersion, uid, type, tag, begin, pageNum, data);
+            return restApi.getCategoryNotice(AppApplication.SYSPARAM, AppApplication.appVersion, uid, type, tag, begin, pageNum, "");
         } else {
-            return restApi.getCategoryNotice(AppApplication.SYSPARAM, AppApplication.appVersion, uid, type, tag, begin, pageNum, done == CategoryUseCase.TYPE_READ ? 1 : 0, data);
+            return restApi.getCategoryNotice(AppApplication.SYSPARAM, AppApplication.appVersion, uid, type, tag, begin, pageNum, "", done == CategoryUseCase.TYPE_READ ? 1 : 0);
         }
+    }
+
+    public Observable<BaseNetListEntity<TrainingCommentInfo>> getTrainCommentInfo(String uid, List<String> rids) {
+        return restApi.getTrainCommentInfo(AppApplication.SYSPARAM, AppApplication.appVersion, uid, rids);
     }
 
 }

@@ -16,17 +16,15 @@ import android.widget.Toast;
 import com.badou.mworking.AskActivity;
 import com.badou.mworking.BackWebActivity;
 import com.badou.mworking.ChatterActivity;
-import com.badou.mworking.ExamActivity;
 import com.badou.mworking.MainGridActivity;
 import com.badou.mworking.MessageCenterActivity;
-import com.badou.mworking.NoticeActivity;
 import com.badou.mworking.R;
-import com.badou.mworking.TaskActivity;
-import com.badou.mworking.TrainActivity;
 import com.badou.mworking.UserCenterActivity;
 import com.badou.mworking.base.BaseActionBarActivity;
+import com.badou.mworking.base.BaseCategoryProgressListActivity;
 import com.badou.mworking.database.MessageCenterResManager;
 import com.badou.mworking.domain.CheckUpdateUseCase;
+import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.main.MainBanner;
 import com.badou.mworking.entity.emchat.EMChatEntity;
 import com.badou.mworking.entity.main.MainData;
@@ -37,9 +35,7 @@ import com.badou.mworking.fragment.MainSearchFragment;
 import com.badou.mworking.net.BaseSubscriber;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.RequestParameters;
-import com.badou.mworking.net.ResponseParameters;
 import com.badou.mworking.net.ServiceProvider;
-import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.AlarmUtil;
 import com.badou.mworking.util.AppManager;
 import com.badou.mworking.util.SPHelper;
@@ -57,12 +53,8 @@ import com.easemob.chatuidemo.activity.MainActivity;
 import com.loopj.android.http.RangeFileAsyncHttpResponseHandler;
 
 import org.apache.http.Header;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import cn.jpush.android.api.JPushInterface;
@@ -76,10 +68,10 @@ public class MainPresenter extends Presenter {
     private long mExitTime = 0;
     private String mLogoUrl;
     MainGridView mMainView;
+    List<MainIcon> mMainIconList;
 
-    public MainPresenter(Context context, Intent intent) {
+    public MainPresenter(Context context) {
         super(context);
-        mReceivedIntent = intent;
     }
 
     @Override
@@ -88,13 +80,21 @@ public class MainPresenter extends Presenter {
         initialize();
     }
 
+    @Override
+    public void attachIncomingIntent(Intent intent) {
+        mReceivedIntent = intent;
+        if (mReceivedIntent.getBooleanExtra(MainGridActivity.KEY_MESSAGE_CENTER, false)) {
+            mActivity.startActivity(new Intent(mContext, MessageCenterActivity.class));
+        }
+    }
+
     private void initialize() {
         if (UserInfo.ANONYMOUS_ACCOUNT.equals(UserInfo.getUserInfo().getAccount())) {
             mMainView.showExperienceDialog();
         }
         mLogoUrl = SPHelper.getLogoUrl();
         mMainView.setLogoImage(mLogoUrl);
-
+        updateMainIcon();
         AlarmUtil alarmUtil = new AlarmUtil();
         alarmUtil.OpenTimer(mContext.getApplicationContext());
 
@@ -104,17 +104,42 @@ public class MainPresenter extends Presenter {
             JPushInterface.stopPush(mContext.getApplicationContext());
         }
 
-        if (mReceivedIntent.getBooleanExtra(MainGridActivity.KEY_MESSAGE_CENTER, false)) {
-            mActivity.startActivity(new Intent(mContext, MessageCenterActivity.class));
-        }
         initData();
         registerListener();
         mMainView.getSearchFragment().setOnHideListener(new MainSearchFragment.OnHideListener() {
             @Override
             public void onHide() {
                 isSearching = false;
+                mMainView.hideSearchFragment();
             }
         });
+    }
+
+    private void updateMainIcon() {
+        if (mMainIconList == null) {
+            UserInfo userInfo = UserInfo.getUserInfo();
+            mMainIconList = userInfo.getShuffle().getMainIconList(mContext, userInfo.getAccess());
+        }
+        for (MainIcon mainIcon : mMainIconList) {
+            switch (mainIcon.getKey()) {
+                case RequestParameters.CHK_UPDATA_PIC_NOTICE: // 通知公告
+                    mainIcon.setUnreadNumber(SPHelper.getUnreadNumber(Category.CATEGORY_NOTICE));
+                    break;
+                case RequestParameters.CHK_UPDATA_PIC_TRAINING: // 微培训
+                    mainIcon.setUnreadNumber(SPHelper.getUnreadNumber(Category.CATEGORY_TRAINING));
+                    break;
+                case RequestParameters.CHK_UPDATA_PIC_EXAM: // 在线考试
+                    mainIcon.setUnreadNumber(SPHelper.getUnreadNumber(Category.CATEGORY_EXAM));
+                    break;
+                case RequestParameters.CHK_UPDATA_PIC_TASK: // 任务签到
+                    mainIcon.setUnreadNumber(SPHelper.getUnreadNumber(Category.CATEGORY_TASK));
+                    break;
+                case RequestParameters.CHK_UPDATA_PIC_SHELF: //橱窗
+                    mainIcon.setUnreadNumber(SPHelper.getUnreadNumber(Category.CATEGORY_SHELF));
+                    break;
+            }
+        }
+        mMainView.setMainIconData(mMainIconList);
     }
 
     private void registerListener() {
@@ -209,14 +234,13 @@ public class MainPresenter extends Presenter {
         Intent intent = new Intent();
         switch (mainIcon.getKey()) {
             case RequestParameters.CHK_UPDATA_PIC_NOTICE: // 通知公告
-                intent.setClass(mContext, NoticeActivity.class);
+                intent = BaseCategoryProgressListActivity.getIntent(mContext, Category.CATEGORY_NOTICE);
                 break;
             case RequestParameters.CHK_UPDATA_PIC_TRAINING: // 微培训
-                intent.setClass(mContext, TrainActivity.class);
-                intent.putExtra(TrainActivity.KEY_IS_TRAINING, true);
+                intent = BaseCategoryProgressListActivity.getIntent(mContext, Category.CATEGORY_TRAINING);
                 break;
             case RequestParameters.CHK_UPDATA_PIC_EXAM: // 在线考试
-                intent.setClass(mContext, ExamActivity.class);
+                intent = BaseCategoryProgressListActivity.getIntent(mContext, Category.CATEGORY_EXAM);
                 break;
             case RequestParameters.CHK_UPDATA_PIC_SURVEY: // 培训调研
                 String uid = UserInfo.getUserInfo().getUid();
@@ -225,7 +249,7 @@ public class MainPresenter extends Presenter {
                 intent.putExtra(BackWebActivity.KEY_URL, url);
                 break;
             case RequestParameters.CHK_UPDATA_PIC_TASK: // 任务签到
-                intent.setClass(mContext, TaskActivity.class);
+                intent = BaseCategoryProgressListActivity.getIntent(mContext, Category.CATEGORY_TASK);
                 break;
             case RequestParameters.CHK_UPDATA_PIC_CHATTER: // 同事圈
                 intent.setClass(mContext, ChatterActivity.class);
@@ -234,8 +258,7 @@ public class MainPresenter extends Presenter {
                 intent.setClass(mContext, AskActivity.class);
                 break;
             case RequestParameters.CHK_UPDATA_PIC_SHELF: //橱窗
-                intent.setClass(mContext, TrainActivity.class);
-                intent.putExtra(TrainActivity.KEY_IS_TRAINING, false);
+                intent = BaseCategoryProgressListActivity.getIntent(mContext, Category.CATEGORY_SHELF);
                 break;
         }
         intent.putExtra(BaseActionBarActivity.KEY_TITLE, mainIcon.getName());
@@ -295,7 +318,7 @@ public class MainPresenter extends Presenter {
      */
     private void checkUpdate() {
         CheckUpdateUseCase useCase = new CheckUpdateUseCase(mContext);
-        useCase.execute(new BaseSubscriber<MainData>(mContext, mMainView) {
+        useCase.execute(new BaseSubscriber<MainData>(mContext) {
             @Override
             public void onResponseSuccess(MainData data) {
                 if (data.getNewVersion().hasNewVersion()) {
@@ -386,7 +409,7 @@ public class MainPresenter extends Presenter {
     public void resume() {
         super.resume();
         updateMessageCenter();
-        mMainView.updateUnreadNumber();
+        updateMainIcon();
     }
 
     @Override

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.badou.mworking.adapter.TrainAdapter;
+import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.base.BaseCategoryProgressListActivity;
 import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.CategoryDetail;
@@ -19,8 +20,8 @@ import org.json.JSONObject;
 /**
  * 微培训页面
  */
-public class TrainActivity extends BaseCategoryProgressListActivity {
-
+public class TrainActivity extends BaseBackActionBarActivity {
+/*
     public static final String KEY_IS_TRAINING = "training";
     private boolean isTraining;
 
@@ -109,5 +110,5 @@ public class TrainActivity extends BaseCategoryProgressListActivity {
             }
 
         });
-    }
+    }*/
 }

@@ -14,6 +14,7 @@ public class MainIcon {
 
     private int resId;//图片的url
     private String key;
+    private int unreadNumber = 0;
 
     // 空的构造函数，给GSON使用
     public MainIcon() {
@@ -46,5 +47,13 @@ public class MainIcon {
 
     public String getKey() {
         return key;
+    }
+
+    public void setUnreadNumber(int unreadNumber) {
+        this.unreadNumber = unreadNumber;
+    }
+
+    public int getUnreadNumber() {
+        return unreadNumber;
     }
 }

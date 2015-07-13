@@ -168,7 +168,7 @@ public class ChatterUserActivity extends BaseNoTitleActivity {
                         JSONObject contentObject = response
                                 .optJSONObject(Net.DATA);
                         if (contentObject == null) {
-                            ToastUtil.showNetExc(mContext);
+                            ToastUtil.showToast(mContext, R.string.error_service);
                             return;
                         }
                         String name = contentObject.optString("name");
@@ -181,7 +181,7 @@ public class ChatterUserActivity extends BaseNoTitleActivity {
                                 .optJSONObject("list").optJSONArray("result");
                         if (resultArray == null || resultArray.length() == 0) {
                             if (beginNum > 1) {
-                                ToastUtil.showUpdateToast(mContext);
+                                ToastUtil.showToast(mContext, R.string.no_more);
                             } else {
                                 mChatterAdapter.setList(null);
                                 mNoneResultView.setVisibility(View.VISIBLE);

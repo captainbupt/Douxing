@@ -31,7 +31,7 @@ import java.io.File;
 public class CategoryClickHandler {
 
     public static Intent getIntent(Context context, Category category) {
-        ServiceProvider.doMarkRead(context, category.rid);
+        ServiceProvider.doMarkRead(context, category.getRid());
         if (category.getCategoryType() == Category.CATEGORY_NOTICE) {
             return goNoticeActivity(context, (Notice) category);
         } else if (category.getCategoryType() == Category.CATEGORY_TRAINING || category.getCategoryType() == Category.CATEGORY_SHELF) {
@@ -47,18 +47,18 @@ public class CategoryClickHandler {
     }
 
     private static Intent goNoticeActivity(Context context, Notice notice) {
-        if (notice.subtype == Constant.MWKG_FORAMT_TYPE_PDF) {
+        if (notice.getSubtype() == Constant.MWKG_FORAMT_TYPE_PDF) {
             // 判断api,太小用web
             if (android.os.Build.VERSION.SDK_INT >= 11) {// pdf
                 // pdf文件已存在 调用
                 return NoticePDFViewActivity.getIntent(context, notice);
             } else {// web
                 String company = SP.getStringSP(context, SP.DEFAULTCACHE, Constant.COMPANY, "badou");
-                final String webPdfUrl = Constant.TRAIN_IMG_SHOW + company + File.separator + notice.rid + Constant.TRAIN_IMG_FORMAT;
-                notice.url = webPdfUrl;
+                final String webPdfUrl = Constant.TRAIN_IMG_SHOW + company + File.separator + notice.getRid() + Constant.TRAIN_IMG_FORMAT;
+                notice.setUrl(webPdfUrl);
                 return NoticeWebViewActivity.getIntent(context, notice);
             }
-        } else if (notice.subtype == Constant.MWKG_FORAMT_TYPE_HTML) {
+        } else if (notice.getSubtype() == Constant.MWKG_FORAMT_TYPE_HTML) {
             return NoticeWebViewActivity.getIntent(context, notice);
         } else {
             ToastUtil.showToast(context, R.string.category_unsupport_type);
@@ -67,22 +67,22 @@ public class CategoryClickHandler {
     }
 
     private static Intent goTrainingAndShelfActivity(Context context, Train train) {
-        if (Constant.MWKG_FORAMT_TYPE_PDF == train.subtype) { //返回PDF格式
+        if (Constant.MWKG_FORAMT_TYPE_PDF == train.getSubtype()) { //返回PDF格式
             // 判断api,太小用web
             if (android.os.Build.VERSION.SDK_INT >= 11) {// pdf
                 // pdf文件已存在 调用
                 return TrainPDFViewActivity.getIntent(context, train);
             } else {// web
                 String company = SP.getStringSP(context, SP.DEFAULTCACHE, Constant.COMPANY, "badou");
-                final String webPdfUrl = Constant.TRAIN_IMG_SHOW + company + File.separator + train.rid + Constant.TRAIN_IMG_FORMAT;
-                train.url = webPdfUrl;
+                final String webPdfUrl = Constant.TRAIN_IMG_SHOW + company + File.separator + train.getRid() + Constant.TRAIN_IMG_FORMAT;
+                train.setUrl(webPdfUrl);
                 return TrainWebViewActivity.getIntent(context, train);
             }
-        } else if (Constant.MWKG_FORAMT_TYPE_MPEG == train.subtype) { // 返回MP4格式
+        } else if (Constant.MWKG_FORAMT_TYPE_MPEG == train.getSubtype()) { // 返回MP4格式
             return TrainVideoActivity.getIntent(context, train);
-        } else if (Constant.MWKG_FORAMT_TYPE_HTML == train.subtype) { // 返回html格式
+        } else if (Constant.MWKG_FORAMT_TYPE_HTML == train.getSubtype()) { // 返回html格式
             return TrainWebViewActivity.getIntent(context, train);
-        } else if (Constant.MWKG_FORAMT_TYPE_MP3 == train.subtype) { // 返回MP3格式
+        } else if (Constant.MWKG_FORAMT_TYPE_MP3 == train.getSubtype()) { // 返回MP3格式
             return TrainMusicActivity.getIntent(context, train);
         } else {
             ToastUtil.showToast(context, R.string.category_unsupport_type);

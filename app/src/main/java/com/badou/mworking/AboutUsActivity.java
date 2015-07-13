@@ -119,7 +119,7 @@ public class AboutUsActivity extends BaseBackActionBarActivity {
 
                                                         @Override
                                                         public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
-                                                            ToastUtil.showNetExc(mContext);
+                                                            ToastUtil.showToast(mContext, R.string.error_service);
                                                             mProgressDialog.dismiss();
                                                         }
                                                     });

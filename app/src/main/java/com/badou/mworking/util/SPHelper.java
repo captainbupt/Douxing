@@ -3,6 +3,8 @@ package com.badou.mworking.util;
 import android.content.Context;
 import android.text.TextUtils;
 
+import java.lang.reflect.Type;
+
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.Classification;
@@ -151,33 +153,33 @@ public class SPHelper {
 
     private static final String LIST_CACHE = "listcache";
 
-    public static <T> void setList(String key, List<T> list) {
+    public static <T> void setList(String key, List<T> list, Type type) {
         if (list == null) {
             SP.removeSP(applicationContext, LIST_CACHE, key);
         } else {
-            SP.putStringSP(applicationContext, LIST_CACHE, key, GsonUtil.toJson(list, new TypeToken<List<T>>() {
-            }.getType()));
+            SP.putStringSP(applicationContext, LIST_CACHE, key, GsonUtil.toJson(list, type));
         }
     }
 
-    public static <T> List<T> getList(String key) {
+    public static <T> List<T> getList(String key, Type type) {
         String content = SP.getStringSP(applicationContext, LIST_CACHE, key, "");
         if (TextUtils.isEmpty(content)) {
             return new ArrayList<T>();
         } else {
-            return (List<T>) GsonUtil.fromJson(content, new TypeToken<List<T>>() {
-            }.getType());
+            return (List<T>) GsonUtil.fromJson(content, type);
         }
     }
 
     private static final String CATEGORY_CLASSIFICATION = "classification";
 
     public static void setClassification(String key, List<Classification> list) {
-        setList(key + CATEGORY_CLASSIFICATION, list);
+        setList(key + CATEGORY_CLASSIFICATION, list, new TypeToken<List<Classification>>() {
+        }.getType());
     }
 
     public static List<Classification> getClassification(String key) {
-        return getList(key + CATEGORY_CLASSIFICATION);
+        return getList(key + CATEGORY_CLASSIFICATION, new TypeToken<List<Classification>>() {
+        }.getType());
     }
 
     public static void reduceUnreadNumberByOne(int type) {

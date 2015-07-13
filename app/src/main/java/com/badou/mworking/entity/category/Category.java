@@ -10,10 +10,13 @@ import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.net.ResponseParameters;
 import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.SP;
+import com.badou.mworking.util.SPHelper;
+import com.google.gson.annotations.Expose;
 
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 功能描述:  通知公告，在线考试，微培训，任务签到分类信息
@@ -30,50 +33,114 @@ public abstract class Category implements Serializable {
     public static final String[] CATEGORY_KEY_UNREADS = new String[]{"noticeUnreadNum", "trainUnreadNum", "examUnreadNum", "taskUnreadNum", "shelfUnreadNum"};
     public static final String[] CATEGORY_KEY_ICONS = new String[]{RequestParameters.CHK_UPDATA_PIC_NOTICE, RequestParameters.CHK_UPDATA_PIC_TRAINING, RequestParameters.CHK_UPDATA_PIC_EXAM, RequestParameters.CHK_UPDATA_PIC_TASK, RequestParameters.CHK_UPDATA_PIC_SHELF};
 
-    public int tag; // 类别id
-    public String subject; // 标题
-    public String rid; // 资源唯一标识 主键id ，资源id
-    public String department;// 部门
-    public boolean isTop; // 是否置顶 top 默认为0，1表示置顶
-    public long time; // 发布时间
-    public String url; // 资源url 对应不同类型
-    public int subtype; // 资源类型
-    public boolean isRead; // 是否完成
-    public boolean isStore;
+    @Expose
+    int offline; // 过期
+    @Expose
+    String link_to;
+    @Expose
+    String ts; // 发布时间
+    @Expose
+    int read;  // 是否完成
+    @Expose
+    String content; //
+    @Expose
+    String rid; // 资源唯一标识 主键id ，资源id
+    @Expose
+    String tag; // 类别id
+    @Expose
+    String top; // 是否置顶 top 默认为0，1表示置顶
+    @Expose
+    String type; // 通知考试培训签到橱窗
+    @Expose
+    String department; // 部门
+    @Expose
+    String subject; // 标题
+    @Expose
+    String url; // 资源url 对应不同类型
+    @Expose
+    int subtype; // 资源类型
+    @Expose
+    String img;  // 图片地址
+    @Expose
+    boolean store;  // 是否收藏
 
     public Category() {
     }
 
     public Category(Context context, JSONObject jsonObject) {
-        this.rid = jsonObject.optString(ResponseParameters.CATEGORY_RID);
-        this.subject = jsonObject.optString(ResponseParameters.CATEGORY_SUBJECT);
-        this.department = jsonObject.optString(ResponseParameters.CATEGORY_DEPARTMENT);
-        this.time = jsonObject.optLong(ResponseParameters.CATEGORY_TIME) * 1000;
-        this.isTop = jsonObject.optInt(ResponseParameters.CATEGORY_TOP) == Constant.TOP_YES;
-        this.tag = jsonObject.optInt(ResponseParameters.CATEGORY_TAG);
-        this.url = jsonObject.optString(ResponseParameters.CATEGORY_URL) + "&uid=" + UserInfo.getUserInfo().getUid();
-        this.subtype = jsonObject.optInt(ResponseParameters.CATEGORY_SUBTYPE);
-        // 为空的时候为已完成
-        this.isRead = jsonObject.optInt(ResponseParameters.CATEGORY_UNREAD, 1) == Constant.FINISH_YES;
-        this.isStore = jsonObject.optBoolean("store");
+
     }
 
     public abstract int getCategoryType();
 
-    public abstract String getCategoryKeyName();
-
-    public abstract String getCategoryKeyUnread();
-
-    public boolean isAvailable() {
-        return !isRead;
+    public boolean isUnread() {
+        return read == 0 && offline == 0;
     }
 
-    public String getClassificationName(Context context) {
-        return getClassificationName(context, getCategoryType(), tag);
+    public boolean isTop() {
+        return Integer.parseInt(top) == 1;
     }
 
-    public static String getClassificationName(Context context, int type, int tag) {
-        return SP.getStringSP(context, CATEGORY_KEY_NAMES[type], tag + "", "");
+    // 服务器的时间以秒为单位，需要换成毫秒
+    public long getTime() {
+        return Long.parseLong(ts) * 1000;
+    }
+
+    public String getRid() {
+        return rid;
+    }
+
+    public String getTop() {
+        return top;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public int getSubtype() {
+        return subtype;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public boolean isStore() {
+        return store;
+    }
+
+    public void setStore(boolean store) {
+        this.store = store;
+    }
+
+    public void setRead(boolean isRead) {
+        this.read = isRead ? 1 : 0;
+    }
+
+    public String getClassificationName() {
+        return getClassificationName(getCategoryType(), Integer.parseInt(tag));
+    }
+
+    public static String getClassificationName(int type, int tag) {
+        List<Classification> classifications = SPHelper.getClassification(CATEGORY_KEY_NAMES[type]);
+        for (Classification classification : classifications) {
+            if (classification.getTag() == tag) {
+                return classification.getName();
+            }
+            if (classification.getSon() != null && classification.getSon().size() > 0) {
+                for (Classification son : classification.getSon()) {
+                    if (son.getTag() == tag) {
+                        return son.getName();
+                    }
+                }
+            }
+        }
+        return "";
     }
 
     public String getCategoryName(Context context) {
@@ -94,7 +161,7 @@ public abstract class Category implements Serializable {
     }
 
     public static Category getCategoryFromDetail(CategoryDetail categoryDetail) {
-        if (categoryDetail.type == CATEGORY_NOTICE) {
+/*        if (categoryDetail.type == CATEGORY_NOTICE) {
             Notice notice = new Notice();
             notice.subject = categoryDetail.subject;
             notice.rid = categoryDetail.rid;
@@ -135,6 +202,7 @@ public abstract class Category implements Serializable {
             return task;
         } else {
             return null;
-        }
+        }*/
+        return null;
     }
 }
