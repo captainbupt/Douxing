@@ -23,6 +23,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -39,6 +40,7 @@ import com.easemob.applib.model.HXSDKModel;
 import com.easemob.chat.CmdMessageBody;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMChatOptions;
+import com.easemob.chat.EMGroupManager;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.EMMessage.ChatType;
 import com.easemob.chat.EMMessage.Type;
@@ -123,6 +125,11 @@ public class DemoHXSDKHelper extends HXSDKHelper {
                 if (event.getData() instanceof EMMessage) {
                     message = (EMMessage) event.getData();
                     EMLog.d(TAG, "receive the event : " + event.getEvent() + ",id : " + message.getMsgId());
+                    // 实时更新群名称
+                    if (!TextUtils.isEmpty(message.getStringAttribute("groupname", null))) {
+                        String groupId = message.getTo();
+                        EMGroupManager.getInstance().getGroup(groupId).setGroupName(message.getStringAttribute("groupname", ""));
+                    }
                 }
                 switch (event.getEvent()) {
                     case EventNewMessage:

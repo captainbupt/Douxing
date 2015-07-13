@@ -36,6 +36,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
+import com.badou.mworking.LoginActivity;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.database.EMChatResManager;
@@ -149,7 +150,7 @@ public class MainActivity extends BaseBackActionBarActivity implements EMEventLi
         init();
         long currentTime = Calendar.getInstance().getTimeInMillis();
         long lastTime = SPUtil.getContactLastUpdateTime(mContext);
-        if (currentTime - lastTime > 1000l * 60l * 60l * 24l) {
+        if (currentTime - lastTime > 1000l * 60l * 60l * 24l || EMChatResManager.getContacts(mContext).size() == 0) {
             initContactsFromServer(mContext, new OnUpdatingListener() {
                 @Override
                 public void onStart() {
@@ -919,6 +920,10 @@ public class MainActivity extends BaseBackActionBarActivity implements EMEventLi
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                         conflictBuilder = null;
+                        ((AppApplication) getApplicationContext()).clearUserInfo();
+                        Intent intent = new Intent(mContext, LoginActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
                         finish();
                     }
                 });
