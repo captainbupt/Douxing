@@ -391,7 +391,7 @@ public class UserCenterActivity extends BaseNoTitleActivity {
             mProgressDialog.setTitle(R.string.user_detail_icon_upload_ing);
             mProgressDialog.show();
             ServiceProvider.doUpdateBitmap(mContext, bitmap,
-                    Net.getRunHost(mContext) + Net.UPDATE_HEAD_ICON(mUid),
+                    Net.getRunHost() + Net.UPDATE_HEAD_ICON(mUid),
                     new VolleyListener(mContext) {
 
                         @Override

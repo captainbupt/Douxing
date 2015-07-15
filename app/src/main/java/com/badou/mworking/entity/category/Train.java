@@ -2,10 +2,12 @@ package com.badou.mworking.entity.category;
 
 import com.google.gson.annotations.Expose;
 
+import java.io.Serializable;
+
 /**
  * 功能描述: 培训实体类
  */
-public class Train extends Category {
+public class Train extends Category{
 
     transient boolean isTraining = true;
 
@@ -69,5 +71,51 @@ public class Train extends Category {
         this.rating = rating;
         commentInfo.setEcnt(commentInfo.getEcnt() + 1);
         commentInfo.setEval(commentInfo.getEval() + rating);
+    }
+
+
+    public static class TrainingCommentInfo implements Serializable{
+        @Expose
+        String rid;
+        @Expose
+        int mcnt;
+        @Expose
+        int ccnt;
+        @Expose
+        int ecnt;
+        @Expose
+        int eval;
+
+        public String getRid() {
+            return rid;
+        }
+
+        public int getMcnt() {
+            return mcnt;
+        }
+
+        public int getCcnt() {
+            return ccnt;
+        }
+
+        public int getEcnt() {
+            return ecnt;
+        }
+
+        public int getEval() {
+            return eval;
+        }
+
+        public void setEcnt(int ecnt) {
+            this.ecnt = ecnt;
+        }
+
+        public void setEval(int eval) {
+            this.eval = eval;
+        }
+
+        public void setCcnt(int ccnt) {
+            this.ccnt = ccnt;
+        }
     }
 }

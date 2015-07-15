@@ -40,7 +40,7 @@ public class CategoryDetail {
         this.subject = subject;
         if (type == Category.CATEGORY_EXAM) {
             String uid = UserInfo.getUserInfo().getUid();
-            this.url = Net.getRunHost(context) + Net.EXAM_ITEM(uid, rid);
+            this.url = Net.getRunHost() + Net.EXAM_ITEM(uid, rid);
         }
         this.categoryName = categoryName;
     }
@@ -82,7 +82,7 @@ public class CategoryDetail {
         this.tagName = category.getClassificationName();
         if (category.getCategoryType() == Category.CATEGORY_EXAM) {
             String uid = UserInfo.getUserInfo().getUid();
-            this.url = Net.getRunHost(context) + Net.EXAM_ITEM(uid, category.rid);
+            this.url = Net.getRunHost() + Net.EXAM_ITEM(uid, category.rid);
         } else {
             this.url = category.url + "&uid=" + UserInfo.getUserInfo().getUid();
         }

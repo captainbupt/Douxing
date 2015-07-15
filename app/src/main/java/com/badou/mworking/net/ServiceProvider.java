@@ -84,7 +84,7 @@ public class ServiceProvider {
         }
         MyVolley.getRequestQueue()
                 .add(new JsonObjectRequest(Request.Method.POST, Net
-                        .getRunHost(context) + Net.LOGIN, jsonObject, volleyListener,
+                        .getRunHost() + Net.LOGIN, jsonObject, volleyListener,
                         volleyListener));
         MyVolley.getRequestQueue().start();
     }
@@ -101,7 +101,7 @@ public class ServiceProvider {
         }
         MyVolley.getRequestQueue()
                 .add(new JsonObjectRequest(Request.Method.POST, Net
-                        .getRunHost(context) + Net.VERIFICATION_CODE(), jsonObject, volleyListener,
+                        .getRunHost() + Net.VERIFICATION_CODE(), jsonObject, volleyListener,
                         volleyListener));
         MyVolley.getRequestQueue().start();
     }
@@ -125,7 +125,7 @@ public class ServiceProvider {
             e.printStackTrace();
         }
         MyVolley.getRequestQueue().add(
-                new JsonObjectRequest(Request.Method.POST, Net.getRunHost(context)
+                new JsonObjectRequest(Request.Method.POST, Net.getRunHost()
                         + Net.FORGET_PASS(), jsonObject, volleyListener,
                         volleyListener));
         MyVolley.getRequestQueue().start();
@@ -153,7 +153,7 @@ public class ServiceProvider {
         }
         MyVolley.getRequestQueue()
                 .add(new JsonObjectRequest(Request.Method.POST, Net
-                        .getRunHost(context) + Net.EXPERIENCE(), jsonObject, volleyListener,
+                        .getRunHost() + Net.EXPERIENCE(), jsonObject, volleyListener,
                         volleyListener));
         MyVolley.getRequestQueue().start();
     }
@@ -179,7 +179,7 @@ public class ServiceProvider {
             e.printStackTrace();
         }
         MyVolley.getRequestQueue().add(
-                new JsonObjectRequest(Request.Method.POST, Net.getRunHost(context)
+                new JsonObjectRequest(Request.Method.POST, Net.getRunHost()
                         + Net.CHANGE_PASSWORD(), jsonObject, volleyListener,
                         volleyListener));
         MyVolley.getRequestQueue().start();
@@ -193,7 +193,7 @@ public class ServiceProvider {
             return;
         long tsInSecond = Long.parseLong(ts) / 1000;
         MyVolley.getRequestQueue().add(
-                new JsonObjectRequest(Request.Method.GET, Net.getRunHost(context)
+                new JsonObjectRequest(Request.Method.GET, Net.getRunHost()
                         + Net.UPDATE_RESOURCES(uid, type, tsInSecond + "", 0),
                         null, volleyListener, volleyListener));
         MyVolley.getRequestQueue().start();
@@ -203,7 +203,7 @@ public class ServiceProvider {
                                          VolleyListener volleyListener) {
         String uid = UserInfo.getUserInfo().getUid();
         MyVolley.getRequestQueue().add(
-                new JsonObjectRequest(Request.Method.GET, Net.getRunHost(context)
+                new JsonObjectRequest(Request.Method.GET, Net.getRunHost()
                         + Net.SUMIT_TRAIN_MARK(uid, rid, mark), null,
                         volleyListener, volleyListener));
         MyVolley.getRequestQueue().start();
@@ -224,7 +224,7 @@ public class ServiceProvider {
         }
         String uid = UserInfo.getUserInfo().getUid();
         MyVolley.getRequestQueue().add(
-                new MyJsonRequest(Request.Method.POST, Net.getRunHost(context)
+                new MyJsonRequest(Request.Method.POST, Net.getRunHost()
                         + Net.GET_MAC_POST(uid), array.toString(),
                         volleyListener, volleyListener));
         MyVolley.getRequestQueue().start();
@@ -243,7 +243,7 @@ public class ServiceProvider {
             e.printStackTrace();
         }
         MyVolley.getRequestQueue().add(
-                new JsonObjectRequest(Request.Method.POST, Net.getRunHost(context)
+                new JsonObjectRequest(Request.Method.POST, Net.getRunHost()
                         + Net.UPDATE_COMMENT, jsonObject, volleyListener,
                         volleyListener));
         MyVolley.getRequestQueue().start();
@@ -253,7 +253,7 @@ public class ServiceProvider {
                                        String content, VolleyListener volleyListener) {
         String uid = UserInfo.getUserInfo().getUid();
         MyVolley.getRequestQueue().add(
-                new MyJsonRequest(Request.Method.POST, Net.getRunHost(context)
+                new MyJsonRequest(Request.Method.POST, Net.getRunHost()
                         + Net.SUBMIT_COMMENT(uid, rid), content,
                         volleyListener, volleyListener));
         MyVolley.getRequestQueue().start();
@@ -273,7 +273,7 @@ public class ServiceProvider {
                                       String content, VolleyListener volleyListener) {
         String uid = UserInfo.getUserInfo().getUid();
         MyVolley.getRequestQueue().add(
-                new MyJsonRequest(Request.Method.POST, Net.getRunHost(context)
+                new MyJsonRequest(Request.Method.POST, Net.getRunHost()
                         + Net.SUBMIT_PERSON_COMMENT(uid, rid, whom), content,
                         volleyListener, volleyListener));
         MyVolley.getRequestQueue().start();
@@ -293,7 +293,7 @@ public class ServiceProvider {
             e.printStackTrace();
         }
         MyVolley.getRequestQueue().add(
-                new JsonObjectRequest(Request.Method.POST, Net.getRunHost(context)
+                new JsonObjectRequest(Request.Method.POST, Net.getRunHost()
                         + Net.CHECK_UPDATE(uid, getScreenLevel(context)), jsonObject, volleyListener,
                         volleyListener));
 
@@ -379,7 +379,7 @@ public class ServiceProvider {
     public static void doSubmitError(Context context, String log, String appversion,
                                      VolleyListener volleyListener) {
         MyVolley.getRequestQueue().add(
-                new MyJsonRequest(Request.Method.POST, Net.getRunHost(context)
+                new MyJsonRequest(Request.Method.POST, Net.getRunHost()
                         + Net.SUBMIT_ERROR(appversion), log, volleyListener,
                         volleyListener));
         MyVolley.getRequestQueue().start();
@@ -391,7 +391,7 @@ public class ServiceProvider {
     public static void doOptainUserDetail(Context context, String uid,
                                           VolleyListener volleyListener) {
         MyVolley.getRequestQueue().add(
-                new JsonObjectRequest(Request.Method.GET, Net.getRunHost(context)
+                new JsonObjectRequest(Request.Method.GET, Net.getRunHost()
                         + Net.USER_DETAIL(uid), null, volleyListener,
                         volleyListener));
         MyVolley.getRequestQueue().start();
@@ -420,7 +420,7 @@ public class ServiceProvider {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        MyVolley.getRequestQueue().add(new JsonObjectRequest(Request.Method.POST, Net.getRunHost(context) + Net.CHATTER_PUBLISH, jsonObject, volleyListener, volleyListener));
+        MyVolley.getRequestQueue().add(new JsonObjectRequest(Request.Method.POST, Net.getRunHost() + Net.CHATTER_PUBLISH, jsonObject, volleyListener, volleyListener));
     }
 
     /**
@@ -428,7 +428,7 @@ public class ServiceProvider {
      */
     public static void doUploadVideo(final Context context, String qid, String filePath, final VolleyListener volleyListener) {
         String uid = UserInfo.getUserInfo().getUid();
-        final String url = Net.getRunHost(context) + Net.PUBVIDEO(uid, qid);
+        final String url = Net.getRunHost() + Net.PUBVIDEO(uid, qid);
         FileEntity entity = new FileEntity(new File(filePath),
                 "binary/octet-stream");
         client.post(context, url, entity, "video/mp4", new AsyncHttpResponseHandler() {
@@ -460,7 +460,7 @@ public class ServiceProvider {
      */
     public static void doUploadImage(final Context context, String qid, int index, Bitmap bitmap, final VolleyListener volleyListener) {
         String uid = UserInfo.getUserInfo().getUid();
-        final String url = Net.getRunHost(context) + Net.PUBIMAGE(uid, qid, index);
+        final String url = Net.getRunHost() + Net.PUBIMAGE(uid, qid, index);
         final String tempFilePath = FileUtils.getChatterDir(context) + "temp.jpg";
         FileUtils.writeBitmap2SDcard(bitmap, tempFilePath);
         FileEntity entity = new FileEntity(new File(tempFilePath), "binary/octet-stream");
@@ -490,7 +490,7 @@ public class ServiceProvider {
 
     public static void doGetTopicList(Context context, VolleyListener volleyListener) {
         String uid = UserInfo.getUserInfo().getUid();
-        final String url = Net.getRunHost(context) + Net.TOPICLIST(uid);
+        final String url = Net.getRunHost() + Net.TOPICLIST(uid);
         MyVolley.getRequestQueue().add(new JsonObjectRequest(Request.Method.GET, url, null, volleyListener, volleyListener));
     }
 
@@ -509,7 +509,7 @@ public class ServiceProvider {
 
         new Thread() {
             public void run() {
-                final String url = Net.getRunHost(context) + Net.pubAsk();
+                final String url = Net.getRunHost() + Net.pubAsk();
                 JSONObject jsonObject = new JSONObject();
                 String uid = UserInfo.getUserInfo().getUid();
                 try {
@@ -573,7 +573,7 @@ public class ServiceProvider {
 
         new Thread() {
             public void run() {
-                final String url = Net.getRunHost(context) + Net.pubAsnswer();
+                final String url = Net.getRunHost() + Net.pubAsnswer();
                 JSONObject jsonObject = new JSONObject();
                 String uid = UserInfo.getUserInfo().getUid();
                 try {
@@ -624,7 +624,7 @@ public class ServiceProvider {
 
     public static void doGetChatterById(Context context, String qid, VolleyListener volleyListener) {
         String uid = UserInfo.getUserInfo().getUid();
-        String url = Net.getRunHost(context) + Net.CHATTER_GET_BY_ID(uid, qid);
+        String url = Net.getRunHost() + Net.CHATTER_GET_BY_ID(uid, qid);
         MyVolley.getRequestQueue().add(
                 new JsonObjectRequest(Request.Method.GET, url, null, volleyListener, volleyListener));
     }
@@ -638,7 +638,7 @@ public class ServiceProvider {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        String url = Net.getRunHost(context) + Net.ASK_GET_BY_ID;
+        String url = Net.getRunHost() + Net.ASK_GET_BY_ID;
         MyVolley.getRequestQueue().add(
                 new JsonObjectRequest(Request.Method.POST, url, jsonObject, volleyListener, volleyListener));
     }
@@ -658,7 +658,7 @@ public class ServiceProvider {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        String url = Net.getRunHost(context) + Net.CHATTER_REPLY;
+        String url = Net.getRunHost() + Net.CHATTER_REPLY;
         MyVolley.getRequestQueue().add(
                 new JsonObjectRequest(Request.Method.POST, url, jsonObject,
                         volleyListener, volleyListener));
@@ -683,7 +683,7 @@ public class ServiceProvider {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            String url = Net.getRunHost(context) + Net.QUESTION_GET;
+            String url = Net.getRunHost() + Net.QUESTION_GET;
             MyVolley.getRequestQueue().add(
                     new JsonObjectRequest(Request.Method.POST, url, jsonObject,
                             volleyListener, volleyListener));
@@ -693,7 +693,7 @@ public class ServiceProvider {
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
-            String url = Net.getRunHost(context) + Net.CHATTER_GET_TOPIC(uid, topic, page_no, item_per_page);
+            String url = Net.getRunHost() + Net.CHATTER_GET_TOPIC(uid, topic, page_no, item_per_page);
             MyVolley.getRequestQueue().add(new JsonObjectRequest(Request.Method.GET, url, null, volleyListener, volleyListener));
         }
     }
@@ -703,7 +703,7 @@ public class ServiceProvider {
      */
     public static void doGetChatterHot(Context context, int page_no, int item_per_page, VolleyListener volleyListener) {
         String uid = UserInfo.getUserInfo().getUid();
-        String url = Net.getRunHost(context) + Net.CHATTER_GET_HOT(uid, page_no, item_per_page);
+        String url = Net.getRunHost() + Net.CHATTER_GET_HOT(uid, page_no, item_per_page);
         MyVolley.getRequestQueue().add(
                 new JsonObjectRequest(Request.Method.POST, url, null,
                         volleyListener, volleyListener));
@@ -727,7 +727,7 @@ public class ServiceProvider {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        String url = Net.getRunHost(context) + Net.CHATTER_GET_USER;
+        String url = Net.getRunHost() + Net.CHATTER_GET_USER;
         MyVolley.getRequestQueue().add(
                 new JsonObjectRequest(Request.Method.POST, url, jsonObject,
                         volleyListener, volleyListener));
@@ -750,7 +750,7 @@ public class ServiceProvider {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        String url = Net.getRunHost(context) + Net.CHATTER_REPLY_GET;
+        String url = Net.getRunHost() + Net.CHATTER_REPLY_GET;
         MyVolley.getRequestQueue().add(
                 new JsonObjectRequest(Request.Method.POST, url, jsonObject,
                         volleyListener, volleyListener));
@@ -772,7 +772,7 @@ public class ServiceProvider {
         };
         String uid = UserInfo.getUserInfo().getUid();
         MyVolley.getRequestQueue().add(
-                new JsonObjectRequest(Request.Method.GET, Net.getRunHost(context)
+                new JsonObjectRequest(Request.Method.GET, Net.getRunHost()
                         + Net.MARK_READ(rid, uid), null, volleyListener,
                         volleyListener));
         MyVolley.getRequestQueue().start();
@@ -788,7 +788,7 @@ public class ServiceProvider {
                                       VolleyListener volleyListener) {
         String uid = UserInfo.getUserInfo().getUid();
         MyVolley.getRequestQueue().add(
-                new JsonObjectRequest(Request.Method.GET, Net.getRunHost(context)
+                new JsonObjectRequest(Request.Method.GET, Net.getRunHost()
                         + Net.GET_TAG(uid, type), null, volleyListener,
                         volleyListener));
         MyVolley.getRequestQueue().start();
@@ -850,7 +850,7 @@ public class ServiceProvider {
                                     VolleyListener volleyListener) {
         String uid = UserInfo.getUserInfo().getUid();
         MyVolley.getRequestQueue().add(
-                new JsonObjectRequest(Request.Method.GET, Net.getRunHost(context)
+                new JsonObjectRequest(Request.Method.GET, Net.getRunHost()
                         + Net.KNOWLEDGE_LIBIRARY(uid), null, volleyListener,
                         volleyListener));
         MyVolley.getRequestQueue().start();
@@ -868,7 +868,7 @@ public class ServiceProvider {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        String url = Net.getRunHost(context) + Net.MYGROUP_DEL(uid, qid);
+        String url = Net.getRunHost() + Net.MYGROUP_DEL(uid, qid);
         MyVolley.getRequestQueue().add(
                 new JsonObjectRequest(Request.Method.POST, url, jsonObject,
                         volleyListener, volleyListener));
@@ -884,7 +884,7 @@ public class ServiceProvider {
      */
     public static void doSetCredit(Context context, String qid, VolleyListener volleyListener) {
         String uid = UserInfo.getUserInfo().getUid();
-        String url = Net.getRunHost(context) + Net.SET_CREDIT(uid, qid);
+        String url = Net.getRunHost() + Net.SET_CREDIT(uid, qid);
         MyVolley.getRequestQueue().add(
                 new JsonObjectRequest(Request.Method.GET, url, null,
                         volleyListener, volleyListener));
@@ -900,7 +900,7 @@ public class ServiceProvider {
      */
     public static void dogetChatList(Context context, VolleyListener volleyListener) {
         String uid = UserInfo.getUserInfo().getUid();
-        String url = Net.getRunHost(context) + Net.GET_CHAT_LIST(uid, "");
+        String url = Net.getRunHost() + Net.GET_CHAT_LIST(uid, "");
         MyVolley.getRequestQueue().add(
                 new JsonObjectRequest(Request.Method.GET, url, null,
                         volleyListener, volleyListener));
@@ -916,7 +916,7 @@ public class ServiceProvider {
      */
     public static void dogetChatInfo(Context context, String whom, VolleyListener volleyListener) {
         String uid = UserInfo.getUserInfo().getUid();
-        String url = Net.getRunHost(context) + Net.GET_CHAT_Info(uid, whom);
+        String url = Net.getRunHost() + Net.GET_CHAT_Info(uid, whom);
         MyVolley.getRequestQueue().add(
                 new JsonObjectRequest(Request.Method.GET, url, null,
                         volleyListener, volleyListener));
@@ -928,7 +928,7 @@ public class ServiceProvider {
      */
     public static void doSendChat(Context context, String content, String whom, VolleyListener volleyListener) {
         String uid = UserInfo.getUserInfo().getUid();
-        String url = Net.getRunHost(context) + Net.SEND_MSG();
+        String url = Net.getRunHost() + Net.SEND_MSG();
         JSONObject json = new JSONObject();
         try {
             json.put("uid", uid);
@@ -958,10 +958,10 @@ public class ServiceProvider {
             }
         }
         MyVolley.getRequestQueue().add(
-                new JsonObjectRequest(Request.Method.GET, Net.getRunHost(context)
+                new JsonObjectRequest(Request.Method.GET, Net.getRunHost()
                         + Net.UPDATE_RESOURCES_2(uid, type, tag, begin, limit, searchStr, done),
                         null, volleyListener, volleyListener));
-        System.out.println(Net.getRunHost(context)
+        System.out.println(Net.getRunHost()
                 + Net.UPDATE_RESOURCES_2(uid, type, tag, begin, limit, searchStr, done));
         MyVolley.getRequestQueue().start();
     }
@@ -981,7 +981,7 @@ public class ServiceProvider {
             }
         }
         MyVolley.getRequestQueue().add(
-                new JsonObjectRequest(Request.Method.GET, Net.getRunHost(context)
+                new JsonObjectRequest(Request.Method.GET, Net.getRunHost()
                         + Net.SEARCH(uid, key), null, volleyListener, volleyListener));
         MyVolley.getRequestQueue().start();
     }
@@ -992,7 +992,7 @@ public class ServiceProvider {
     public static void coursewareScoring(Context context, String rid, String credit, VolleyListener volleyListener) {
         String uid = UserInfo.getUserInfo().getUid();
         MyVolley.getRequestQueue().add(
-                new JsonObjectRequest(Request.Method.GET, Net.getRunHost(context) + Net.COURSEWARE_SCORING(uid, rid, credit),
+                new JsonObjectRequest(Request.Method.GET, Net.getRunHost() + Net.COURSEWARE_SCORING(uid, rid, credit),
                         null, volleyListener, volleyListener));
         MyVolley.getRequestQueue().start();
     }
@@ -1019,11 +1019,11 @@ public class ServiceProvider {
             e.printStackTrace();
         }
         MyVolley.getRequestQueue().add(
-                new JsonObjectRequest(Request.Method.POST, Net.getRunHost(context)
+                new JsonObjectRequest(Request.Method.POST, Net.getRunHost()
                         + Net.ReplyComment(), json,
                         volleyListener, volleyListener));
 
-        System.out.println(Net.getRunHost(context)
+        System.out.println(Net.getRunHost()
                 + Net.ReplyComment());
 
         MyVolley.getRequestQueue().start();
@@ -1042,11 +1042,11 @@ public class ServiceProvider {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println(Net.getRunHost(context)
+        System.out.println(Net.getRunHost()
                 + Net.DeleteReplyComment());
 
         MyVolley.getRequestQueue().add(
-                new JsonObjectRequest(Request.Method.POST, Net.getRunHost(context)
+                new JsonObjectRequest(Request.Method.POST, Net.getRunHost()
                         + Net.DeleteReplyComment(), json,
                         volleyListener, volleyListener));
 
@@ -1082,7 +1082,7 @@ public class ServiceProvider {
             e.printStackTrace();
         }
         MyVolley.getRequestQueue().add(
-                new JsonObjectRequest(Request.Method.POST, Net.getRunHost(context) + Net.getask(),
+                new JsonObjectRequest(Request.Method.POST, Net.getRunHost() + Net.getask(),
                         json, volleyListener, volleyListener));
         MyVolley.getRequestQueue().start();
     }
@@ -1102,7 +1102,7 @@ public class ServiceProvider {
             e.printStackTrace();
         }
         MyVolley.getRequestQueue().add(
-                new JsonObjectRequest(Request.Method.POST, Net.getRunHost(context) + Net.getAnswer(),
+                new JsonObjectRequest(Request.Method.POST, Net.getRunHost() + Net.getAnswer(),
                         json, volleyListener, volleyListener));
         MyVolley.getRequestQueue().start();
     }
@@ -1121,7 +1121,7 @@ public class ServiceProvider {
             e.printStackTrace();
         }
         MyVolley.getRequestQueue().add(
-                new JsonObjectRequest(Request.Method.POST, Net.getRunHost(context) + Net.delAsk(),
+                new JsonObjectRequest(Request.Method.POST, Net.getRunHost() + Net.delAsk(),
                         json, volleyListener, volleyListener));
         MyVolley.getRequestQueue().start();
     }
@@ -1145,7 +1145,7 @@ public class ServiceProvider {
             e.printStackTrace();
         }
         MyVolley.getRequestQueue().add(
-                new JsonObjectRequest(Request.Method.POST, Net.getRunHost(context) + Net.pollAnswer(),
+                new JsonObjectRequest(Request.Method.POST, Net.getRunHost() + Net.pollAnswer(),
                         json, volleyListener, volleyListener));
         MyVolley.getRequestQueue().start();
     }
@@ -1167,7 +1167,7 @@ public class ServiceProvider {
             e.printStackTrace();
         }
         MyVolley.getRequestQueue().add(
-                new JsonObjectRequest(Request.Method.POST, Net.getRunHost(context) + Net.getViewrank(),
+                new JsonObjectRequest(Request.Method.POST, Net.getRunHost() + Net.getViewrank(),
                         json, volleyListener, volleyListener));
         MyVolley.getRequestQueue().start();
     }
@@ -1185,7 +1185,7 @@ public class ServiceProvider {
             e.printStackTrace();
         }
         MyVolley.getRequestQueue().add(
-                new JsonObjectRequest(Request.Method.POST, Net.getRunHost(context) + Net.getPastrank(),
+                new JsonObjectRequest(Request.Method.POST, Net.getRunHost() + Net.getPastrank(),
                         json, volleyListener, volleyListener));
         MyVolley.getRequestQueue().start();
     }
@@ -1208,7 +1208,7 @@ public class ServiceProvider {
             e.printStackTrace();
         }
         MyVolley.getRequestQueue().add(
-                new JsonObjectRequest(Request.Method.POST, Net.getRunHost(context) + Net.delchat(),
+                new JsonObjectRequest(Request.Method.POST, Net.getRunHost() + Net.delchat(),
                         json, volleyListener, volleyListener));
         MyVolley.getRequestQueue().start();
     }
@@ -1226,7 +1226,7 @@ public class ServiceProvider {
             e.printStackTrace();
         }
         MyVolley.getRequestQueue().add(
-                new JsonObjectRequest(Request.Method.POST, Net.getRunHost(context) + Net.viewResourceDetail(),
+                new JsonObjectRequest(Request.Method.POST, Net.getRunHost() + Net.viewResourceDetail(),
                         json, volleyListener, volleyListener));
         MyVolley.getRequestQueue().start();
     }
@@ -1242,7 +1242,7 @@ public class ServiceProvider {
             e.printStackTrace();
         }
         MyVolley.getRequestQueue().add(
-                new JsonObjectRequest(Request.Method.POST, Net.getRunHost(context) + Net.addStore(),
+                new JsonObjectRequest(Request.Method.POST, Net.getRunHost() + Net.addStore(),
                         json, volleyListener, volleyListener));
         MyVolley.getRequestQueue().start();
     }
@@ -1258,7 +1258,7 @@ public class ServiceProvider {
             e.printStackTrace();
         }
         MyVolley.getRequestQueue().add(
-                new JsonObjectRequest(Request.Method.POST, Net.getRunHost(context) + Net.deleteStore(),
+                new JsonObjectRequest(Request.Method.POST, Net.getRunHost() + Net.deleteStore(),
                         json, volleyListener, volleyListener));
         MyVolley.getRequestQueue().start();
     }
@@ -1266,7 +1266,7 @@ public class ServiceProvider {
     public static void getStore(Context context, int pageNum, int itemNum, VolleyListener volleyListener) {
         String uid = UserInfo.getUserInfo().getUid();
         MyVolley.getRequestQueue().add(
-                new JsonObjectRequest(Request.Method.GET, Net.getRunHost(context) + Net.getStore(uid, pageNum, itemNum),
+                new JsonObjectRequest(Request.Method.GET, Net.getRunHost() + Net.getStore(uid, pageNum, itemNum),
                         null, volleyListener, volleyListener));
         MyVolley.getRequestQueue().start();
     }
@@ -1279,7 +1279,7 @@ public class ServiceProvider {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        MyVolley.getRequestQueue().add(new JsonObjectRequest(Request.Method.POST, Net.getRunHost(context) + Net.getContactList(),
+        MyVolley.getRequestQueue().add(new JsonObjectRequest(Request.Method.POST, Net.getRunHost() + Net.getContactList(),
                 jsonObject, volleyListener, volleyListener));
         MyVolley.getRequestQueue().start();
     }

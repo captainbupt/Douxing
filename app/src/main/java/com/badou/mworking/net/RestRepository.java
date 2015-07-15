@@ -7,7 +7,7 @@ import com.badou.mworking.domain.CheckUpdateUseCase;
 import com.badou.mworking.domain.LoginUseCase;
 import com.badou.mworking.entity.category.CategoryOverall;
 import com.badou.mworking.entity.category.Classification;
-import com.badou.mworking.entity.category.TrainingCommentInfo;
+import com.badou.mworking.entity.category.Train;
 import com.badou.mworking.entity.main.MainData;
 import com.badou.mworking.entity.user.UserInfo;
 
@@ -61,7 +61,7 @@ public class RestRepository {
         }
     }
 
-    public Observable<BaseNetListEntity<TrainingCommentInfo>> getTrainCommentInfo(String uid, List<String> rids) {
+    public Observable<BaseNetListEntity<Train.TrainingCommentInfo>> getTrainCommentInfo(String uid, List<String> rids) {
         return restApi.getTrainCommentInfo(AppApplication.SYSPARAM, AppApplication.appVersion, uid, rids);
     }
 

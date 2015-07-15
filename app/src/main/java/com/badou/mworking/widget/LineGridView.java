@@ -28,9 +28,10 @@ public class LineGridView extends GridView {
             @Override
             public void onGlobalLayout() {
                 getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                int height = (getHeight() + 1) * getCount() / 2; // 显示全部view所需高度
+                int height = getHeight() * (getCount() + 1) / 2; // 显示全部view所需高度
                 final ScrollView parentView = (ScrollView) getParent().getParent(); // 满屏高度
                 int parentHeight = parentView.getHeight();
+
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Math.max(height, parentHeight));
                 int margin = context.getResources().getDimensionPixelOffset(R.dimen.offset_small);
                 lp.setMargins(margin, 0, margin, 0);

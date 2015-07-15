@@ -3,14 +3,13 @@ package com.badou.mworking.widget;
 import android.content.Context;
 import android.os.Handler;
 import android.util.AttributeSet;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ScrollView;
 
 import com.nineoldandroids.view.ViewHelper;
 
-/**
- * Created by Administrator on 2015/5/26.
- */
 public class TopFadeScrollView extends ScrollView {
 
     private int originHeight = -1;
@@ -35,15 +34,19 @@ public class TopFadeScrollView extends ScrollView {
 
         @Override
         public void run() {
-            if (lastY == getScrollY()) {
+            if (lastY == getScrollY() && originHeight > getScrollY()) {
                 //停止了
-                int animTime = 100;
+                int animSpeed = 20;
                 int height = originHeight - getScrollY();
                 if (height < originHeight / 2) {
-                    post(new AutoScrollRunnable(animTime, height, originHeight));
+                    post(new AutoScrollRunnable(animSpeed, getScrollY(), originHeight));
                 } else {
-                    post(new AutoScrollRunnable(animTime, height, 0));
+                    post(new AutoScrollRunnable(animSpeed, getScrollY(), 0));
                 }
+            } else {
+                handler.removeCallbacks(runnable);
+                runnable.lastY = getScrollY();
+                handler.postDelayed(runnable, 100);
             }
         }
     }
@@ -51,24 +54,29 @@ public class TopFadeScrollView extends ScrollView {
     class AutoScrollRunnable implements Runnable {
         private final int TIME_OFFSET = 10;
         private int end;
-        private int totalTime;
         private int offset;
+        private int start;
 
-        public AutoScrollRunnable(int totalTime, int start, int end) {
-            this.totalTime = totalTime;
+        public AutoScrollRunnable(int offset, int start, int end) {
             this.end = end;
-            this.offset = (end - start) / (totalTime / TIME_OFFSET);
+            this.start = start;
+            if (end < start)
+                this.offset = -offset;
+            else
+                this.offset = offset;
         }
 
         @Override
         public void run() {
-            totalTime -= TIME_OFFSET;
-            if (totalTime > 0) {
-                TopFadeScrollView.this.scrollBy(0, offset);
-                TopFadeScrollView.this.postDelayed(this, TIME_OFFSET);
-            } else {
-                TopFadeScrollView.this.scrollTo(0, end);
+            if (offset > 0 && start + offset > end) {
+                offset = end - start;
+            } else if (offset < 0 && start + offset < end) {
+                offset = end - start;
             }
+            start += offset;
+            TopFadeScrollView.this.scrollBy(0, offset);
+            if (start != end)
+                TopFadeScrollView.this.postDelayed(this, TIME_OFFSET);
         }
     }
 
@@ -92,9 +100,18 @@ public class TopFadeScrollView extends ScrollView {
             ViewHelper.setY(mTopView, t / 2);
             ViewHelper.setAlpha(mTopView, newRatio);
         }
-        handler.removeCallbacks(runnable);
-        runnable.lastY = t;
-        handler.postDelayed(runnable, 100);
         super.onScrollChanged(l, t, oldl, oldt);
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            handler.removeCallbacks(runnable);
+        } else if (ev.getAction() == MotionEvent.ACTION_UP) {
+            handler.removeCallbacks(runnable);
+            runnable.lastY = getScrollY();
+            handler.postDelayed(runnable, 100);
+        }
+        return super.dispatchTouchEvent(ev);
     }
 }

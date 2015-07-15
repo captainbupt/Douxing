@@ -49,7 +49,7 @@ public class TaskAdapter extends MyBaseAdapter<Category> {
             holder.iconImageView.setImageResource(R.drawable.icon_task_item_read);
         } else {
             holder.unreadTextView.setVisibility(View.VISIBLE);
-            if (task.isOffline) { //判断 offline字段， 已过期
+            if (task.isOffline()) { //判断 offline字段， 已过期
                 holder.iconImageView.setImageResource(R.drawable.icon_task_item_read);
                 holder.unreadTextView.setTextColor(mContext.getResources().getColor(R.color.color_text_grey));
                 holder.unreadTextView.setBackgroundColor(mContext.getResources().getColor(R.color.transparent));
@@ -61,8 +61,8 @@ public class TaskAdapter extends MyBaseAdapter<Category> {
                 holder.unreadTextView.setText(R.string.category_unsign);
             }
         }
-        if (!TextUtils.isEmpty(task.place) && !" ".equals(task.place)) {
-            holder.addressTextView.setText(task.place + "");
+        if (!TextUtils.isEmpty(task.getPlace()) && !" ".equals(task.getPlace())) {
+            holder.addressTextView.setText(task.getPlace() + "");
         } else {
             holder.addressTextView.setText(R.string.sign_in_task_address_empty);
         }

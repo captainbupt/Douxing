@@ -6,16 +6,10 @@ import com.badou.mworking.domain.TrainingCommentInfoUseCase;
 import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.CategoryOverall;
 import com.badou.mworking.entity.category.Train;
-import com.badou.mworking.entity.category.TrainingCommentInfo;
 import com.badou.mworking.net.BaseListSubscriber;
-import com.badou.mworking.net.BaseNetListEntity;
-import com.badou.mworking.net.BaseSubscriber;
-import com.badou.mworking.net.ServiceProvider;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import rx.Observable;
 
 public class TrainingListPresenter extends CategoryListPresenter {
 
@@ -39,10 +33,10 @@ public class TrainingListPresenter extends CategoryListPresenter {
             rids.add(category.getRid());
         }
         commentInfoUseCase.setRids(rids);
-        commentInfoUseCase.execute(new BaseListSubscriber<TrainingCommentInfo>(mContext) {
+        commentInfoUseCase.execute(new BaseListSubscriber<Train.TrainingCommentInfo>(mContext) {
             @Override
-            public void onResponseSuccess(List<TrainingCommentInfo> data) {
-                for (TrainingCommentInfo commentInfo : data) {
+            public void onResponseSuccess(List<Train.TrainingCommentInfo> data) {
+                for (Train.TrainingCommentInfo commentInfo : data) {
                     for (Category category : trainingList) {
                         if (category.getRid().equals(commentInfo.getRid())) {
                             ((Train) category).setCommentInfo(commentInfo);

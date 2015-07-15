@@ -21,9 +21,6 @@ import com.badou.mworking.net.volley.VolleyListener;
 
 import org.json.JSONObject;
 
-/**
- * Created by Administrator on 2015/6/2.
- */
 public class BottomRatingAndCommentView extends LinearLayout {
 
     public static final int REQUEST_COMMENT = 145;
@@ -128,13 +125,10 @@ public class BottomRatingAndCommentView extends LinearLayout {
     public void updateData() {
         if (TextUtils.isEmpty(mRid))
             return;
-        final WaitProgressDialog progressDialog = new WaitProgressDialog(mContext);
-        progressDialog.show();
         ServiceProvider.getResourceDetail(mContext, mRid, new VolleyListener(mContext) {
 
             @Override
             public void onResponseSuccess(JSONObject jsonObject) {
-                progressDialog.dismiss();
                 CategoryDetail categoryDetail = new CategoryDetail(mContext, jsonObject.optJSONObject(Net.DATA));
                 setData(categoryDetail.ratingNum, categoryDetail.commentNum, categoryDetail.rating);
                 if (onRatingCommentDataUpdated != null) {

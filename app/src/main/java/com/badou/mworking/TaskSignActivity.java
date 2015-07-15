@@ -85,6 +85,7 @@ public class TaskSignActivity extends BaseBackActionBarActivity implements BDLoc
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_sign);
+        mTask = (Task) mReceivedIntent.getSerializableExtra(KEY_TASK);
         setActionbarTitle(UserInfo.getUserInfo().getShuffle().getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_TASK).getName());
         addStoreImageView(mTask.isStore(), Store.TYPE_STRING_TASK, mTask.getRid());
         if (UserInfo.getUserInfo().isAdmin()) {
@@ -118,11 +119,11 @@ public class TaskSignActivity extends BaseBackActionBarActivity implements BDLoc
                     return;
                 }
                 long timeNow = System.currentTimeMillis();
-                if (mTask.startline > timeNow) {
+                if (mTask.getStartline() > timeNow) {
                     ToastUtil.showToast(mContext, R.string.task_notStart);
                     return;
                 }
-                if (mTask.isPhoto) {
+                if (mTask.isPhoto()) {
                     mImageChooser.takeImage(null);
                 } else {
                     mProgressDialog.show();
@@ -162,14 +163,14 @@ public class TaskSignActivity extends BaseBackActionBarActivity implements BDLoc
         addStoreImageView(mTask.isStore(), Store.TYPE_STRING_TASK, mTask.getRid());
         if (UserInfo.getUserInfo().isAdmin())
             addStatisticalImageView(mTask.getRid());
-        String comment = mTask.comment;
+        String comment = mTask.getComment();
         if (comment == null || comment.equals("")) {
             mDescriptionTextView.setText(mContext.getResources().getString(R.string.text_null));
         } else {
             mDescriptionTextView.setText(comment);
         }
-        long beginTime = mTask.startline;      //任务开始时间
-        long endTime = mTask.deadline;      //任务结束时间
+        long beginTime = mTask.getStartline();      //任务开始时间
+        long endTime = mTask.getDeadline();      //任务结束时间
 
         mBeginDateTextView.setText(TimeTransfer.long2StringDateUnit(beginTime));
         mBeginTimeTextView.setText(TimeTransfer.long2StringTimeHour(beginTime) + "至");
@@ -182,15 +183,15 @@ public class TaskSignActivity extends BaseBackActionBarActivity implements BDLoc
         if (!mTask.isUnread()) {// 已签到
             disableSignButton(true);
         } else {
-            if (mTask.isOffline) { // 已过期
+            if (mTask.isOffline()) { // 已过期
                 disableSignButton(false);
             } else { // 未签到
                 enableSignButton();
             }
         }
 
-        String place = mTask.place;
-        if (!TextUtils.isEmpty(mTask.place) && !" ".equals(mTask.place)) {
+        String place = mTask.getPlace();
+        if (!TextUtils.isEmpty(mTask.getPlace()) && !" ".equals(mTask.getPlace())) {
             mLocationTextView.setText(place);
         } else {
             mLocationTextView.setText(R.string.sign_in_task_address_empty);
@@ -213,7 +214,7 @@ public class TaskSignActivity extends BaseBackActionBarActivity implements BDLoc
     private void initMap() {
         startLocation(false);
         if (!mTask.isFreeSign()) {
-            LatLng location = new LatLng(mTask.latitude, mTask.longitude);
+            LatLng location = new LatLng(mTask.getLatitude(), mTask.getLongitude());
             MapStatusUpdate u1 = MapStatusUpdateFactory.newLatLng(location);
             MapStatusUpdate u2 = MapStatusUpdateFactory.zoomTo(16);
             SupportMapFragment map = (SupportMapFragment) (getSupportFragmentManager()
@@ -288,7 +289,7 @@ public class TaskSignActivity extends BaseBackActionBarActivity implements BDLoc
         String lon = String.valueOf(location.getLongitude());
         String uid = UserInfo.getUserInfo().getUid();
         ServiceProvider.doUpdateBitmap(mContext, mPhoto,
-                Net.getRunHost(mContext) + Net.SIGN(mTask.getRid(), uid, lat, lon),
+                Net.getRunHost() + Net.SIGN(mTask.getRid(), uid, lat, lon),
                 new VolleyListener(mContext) {
 
                     @Override
@@ -310,7 +311,7 @@ public class TaskSignActivity extends BaseBackActionBarActivity implements BDLoc
                             SP.putIntSP(mContext, SP.DEFAULTCACHE, userNum + Category.CATEGORY_KEY_UNREADS[Category.CATEGORY_TASK], unreadNum - 1);
                             mTask.setRead(true);
                             if (mTask.isFreeSign()) {
-                                mTask.place = locationStr;
+                                mTask.setPlace(locationStr);
                             }
                             disableSignButton(true);
                         }
