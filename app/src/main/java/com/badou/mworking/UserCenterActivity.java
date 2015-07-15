@@ -313,9 +313,11 @@ public class UserCenterActivity extends BaseNoTitleActivity {
             ivUserHeadIcon.setImageBitmap(headBmp);
             return;
         }
-        headBmp = BitmapUtil.getCirlBitmp(getUserIconFromFile(finalImgPath),
-                headWidth, headHeight);
+        Bitmap tmpBitmap = getUserIconFromFile(finalImgPath);
+        headBmp = BitmapUtil.getCirlBitmp(tmpBitmap, headWidth, headHeight);
         if (headBmp != null) {
+            System.out.println("imgUrl: " + imgCacheUrl);
+            BitmapLruCache.getBitmapLruCache().putBitmap(imgCacheUrl, tmpBitmap);
             ivUserHeadIcon.setImageBitmap(headBmp);
             BitmapLruCache.getBitmapLruCache().putCircleBitmap(imgCacheUrl, headBmp);
             return;

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 
-import com.badou.mworking.ForgetPassWordActivity;
+import com.badou.mworking.ForgetPasswordActivity;
 import com.badou.mworking.MainGridActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.base.AppApplication;
@@ -126,7 +126,7 @@ public class LoginPresenter extends Presenter implements BDLocationListener {
             mLoginView.showToast(R.string.error_service);
             return;
         }
-        mActivity.startActivity(ForgetPassWordActivity.getIntent(mContext));
+        mActivity.startActivity(ForgetPasswordActivity.getIntent(mContext));
     }
 
     public void experience() {

@@ -56,13 +56,11 @@ public static final int *;
 -keep class **$$ViewInjector { *; }
 -keepnames class * { @butterknife.InjectView *;}
 
-<<<<<<< HEAD
 # retrofit
 -dontwarn retrofit.**
 -keep class retrofit.** { *; }
 -keepattributes Signature
 -keepattributes Exceptions
-=======
 # easemob
 -keep class com.easemob.** {*;}
 -keep class org.jivesoftware.** {*;}
@@ -83,4 +81,3 @@ public static final int *;
 -keep class org.bitlet.** {*;}
 -keep class org.slf4j.** {*;}
 -keep class ch.imvs.** {*;}
->>>>>>> new

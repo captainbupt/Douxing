@@ -1,10 +1,18 @@
 /**
  * Copyright (C) 2013-2014 EaseMob Technologies. All rights reserved.
+ * <<<<<<< HEAD
  * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  * http://www.apache.org/licenses/LICENSE-2.0
+ * =======
+ * <p/>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * >>>>>>> new
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -170,7 +178,11 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
 
     /**
      * 本地SurfaceHolder callback
+     <<<<<<< HEAD
      *
+     =======
+     *
+     >>>>>>> new
      */
     class localCallback implements SurfaceHolder.Callback {
 
@@ -209,7 +221,7 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
                         // 通知cameraHelper可以写入数据
                         cameraHelper.setStartFlag(true);
                     } catch (EMServiceNotReadyException e) {
-                        Toast.makeText(VideoCallActivity.this, R.string.Is_not_yet_connected_to_the_server, 1).show();
+                        Toast.makeText(VideoCallActivity.this, R.string.Is_not_yet_connected_to_the_server, Toast.LENGTH_LONG).show();
                     }
                 }
 
@@ -233,7 +245,6 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
             public void onCallStateChanged(CallState callState, CallError error) {
                 // Message msg = handler.obtainMessage();
                 switch (callState) {
-
                     case CONNECTING: // 正在连接对方
                         runOnUiThread(new Runnable() {
 

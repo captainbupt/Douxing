@@ -20,7 +20,7 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config
         }
@@ -48,9 +48,9 @@ dependencies {
     compile project(':Pulltorefresh')
     compile files('libs/android-support-v4.jar')
     compile project(':SwipeBackLayout')
-    compile 'com.jakewharton:butterknife:6.1.0'
+    compile 'com.jakewharton:butterknife:7.0.1'
     compile files('libs/umeng-analytics-v5.5.3.jar')
-    compile 'com.google.code.gson:gson:2.2.4'
+    compile 'com.google.code.gson:gson:2.3'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile files('libs/volley.jar')
     compile 'io.reactivex:rxjava:1.0.12'

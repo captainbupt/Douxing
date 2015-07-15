@@ -15,33 +15,52 @@ package com.easemob.chatuidemo.activity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View;
+import android.widget.Toast;
 
+import com.android.volley.VolleyError;
+import com.badou.mworking.LoginActivity;
+import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.database.EMChatResManager;
 import com.badou.mworking.entity.emchat.Department;
 import com.badou.mworking.entity.emchat.EMChatEntity;
 import com.badou.mworking.entity.emchat.Role;
+import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.SPHelper;
+import com.easemob.EMCallBack;
 import com.easemob.EMConnectionListener;
 import com.easemob.EMError;
 import com.easemob.EMEventListener;
 import com.easemob.EMGroupChangeListener;
 import com.easemob.EMNotifierEvent;
+import com.easemob.EMValueCallBack;
 import com.easemob.applib.controller.HXSDKHelper;
 import com.easemob.chat.EMChatManager;
+import com.easemob.chat.EMContactListener;
+import com.easemob.chat.EMContactManager;
+import com.easemob.chat.EMConversation;
+import com.easemob.chat.EMConversation.EMConversationType;
 import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupManager;
 import com.easemob.chat.EMMessage;
@@ -56,7 +75,9 @@ import com.easemob.chatuidemo.db.UserDao;
 import com.easemob.chatuidemo.domain.InviteMessage;
 import com.easemob.chatuidemo.domain.InviteMessage.InviteMesageStatus;
 import com.easemob.chatuidemo.domain.User;
+import com.easemob.chatuidemo.utils.CommonUtils;
 import com.easemob.util.EMLog;
+import com.easemob.util.HanziToPinyin;
 import com.easemob.util.NetUtils;
 
 import org.json.JSONArray;
@@ -87,12 +108,15 @@ public class MainActivity extends BaseBackActionBarActivity implements EMEventLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setActionbarTitle(R.string.title_name_emchat);
-        setRightImage(R.drawable.button_title_add, new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(mContext, GroupPickContactsActivity.class));
-            }
-        });
+        setLeft(R.drawable.button_title_bar_back_grey);
+        if (!"anonymous".equals(UserInfo.getUserInfo().getAccount())) {
+            setRightImage(R.drawable.button_title_add, new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(new Intent(mContext, GroupPickContactsActivity.class));
+                }
+            });
+        }
         if (savedInstanceState != null && savedInstanceState.getBoolean(Constant.ACCOUNT_REMOVED, false)) {
             // 防止被移除后，没点确定按钮然后按了home键，长期在后台又进app导致的crash
             // 三个fragment里加的判断同理
@@ -111,12 +135,7 @@ public class MainActivity extends BaseBackActionBarActivity implements EMEventLi
 
         if (getIntent().getBooleanExtra("conflict", false) && !isConflictDialogShow) {
             showConflictDialog();
-        } else if (getIntent().getBooleanExtra(Constant.ACCOUNT_REMOVED, false) && !isAccountRemovedDialogShow) {
-            showAccountRemovedDialog();
         }
-
-        inviteMessgeDao = new InviteMessgeDao(this);
-        userDao = new UserDao(this);
         // 这个fragment只显示好友和群组的聊天记录
         // chatHistoryFragment = new ChatHistoryFragment();
         // 显示所有人消息记录的fragment
@@ -127,56 +146,88 @@ public class MainActivity extends BaseBackActionBarActivity implements EMEventLi
 
         init();
         long currentTime = Calendar.getInstance().getTimeInMillis();
-        long lastTime = SPHelper.getContactLastUpdateTime();
-        lastTime = 0;
-        if (currentTime - lastTime > 1000l * 60l * 60l * 24l) {
-            initContacts();
+        long lastTime = SPHelper.getContactLastUpdateTime(mContext);
+        if (currentTime - lastTime > 1000l * 60l * 60l * 24l || EMChatResManager.getContacts().size() == 0) {
+            initContactsFromServer(mContext, new OnUpdatingListener() {
+                @Override
+                public void onStart() {
+                    mProgressDialog.show();
+                }
+
+                @Override
+                public void onComplete() {
+                    SPHelper.setContactLastUpdateTime(mContext, Calendar.getInstance().getTimeInMillis());
+                    mProgressDialog.dismiss();
+                }
+            });
+        } else {
+            EMChatEntity.getInstance().getContactList();// 确保初始化一次
         }
     }
 
-    private void initContacts() {
-        mProgressDialog.show();
-        ServiceProvider.getContacts(mContext, new VolleyListener(mContext) {
+    interface OnUpdatingListener {
+        void onStart();
+
+        void onComplete();
+    }
+
+    public static void initContactsFromServer(final Context context, final OnUpdatingListener onUpdatingListener) {
+        onUpdatingListener.onStart();
+        ServiceProvider.getContacts(context, new VolleyListener(context) {
             @Override
-            public void onResponseSuccess(JSONObject response) {
-                JSONObject data = response.optJSONObject(Net.DATA);
-                JSONObject roleJsonObject = data.optJSONObject("rolecfg");
-                JSONArray userArray = data.optJSONArray("usrlst");
-                List<Department> departments = new ArrayList<Department>();
-                List<Role> roles = new ArrayList<Role>();
-                List<User> contacts = new ArrayList<User>();
-                getDepartmentInfo(departments, data.optJSONArray("dptcfg"), -1l);
-                Iterator<String> iterator = roleJsonObject.keys();
-                while (iterator.hasNext()) {
-                    String name = iterator.next();
-                    int id = Integer.parseInt(roleJsonObject.optString(name));
-                    roles.add(new Role(id, name));
-                }
-                for (int ii = 0; ii < userArray.length(); ii++) {
-                    JSONObject userObject = userArray.optJSONObject(ii);
-                    User user = new User();
-                    user.setUsername(userObject.optString("employee_id"));
-                    user.setNick(userObject.optString("name"));
-                    user.setDepartment(Long.parseLong(userObject.optString("department")));
-                    user.setRole(Integer.parseInt(userObject.optString("role")));
-                    user.setAvatar(userObject.optString("imgurl"));
-                    contacts.add(user);
-                }
-                EMChatResManager.insertContacts(contacts);
-                EMChatResManager.insertDepartments(departments);
-                EMChatResManager.insertRoles(roles);
-                EMChatEntity.getInstance().setContactList(null);
-                SPHelper.setContactLastUpdateTime(Calendar.getInstance().getTimeInMillis());
+            public void onResponseSuccess(final JSONObject response) {
+                new Thread() {
+
+                    @Override
+                    public void run() {
+                        JSONObject data = response.optJSONObject(Net.DATA);
+                        JSONObject roleJsonObject = data.optJSONObject("rolecfg");
+                        JSONArray userArray = data.optJSONArray("usrlst");
+                        List<Department> departments = new ArrayList<Department>();
+                        List<Role> roles = new ArrayList<Role>();
+                        List<User> contacts = new ArrayList<User>();
+                        getDepartmentInfo(departments, data.optJSONArray("dptcfg"), -1l);
+                        Iterator<String> iterator = roleJsonObject.keys();
+                        while (iterator.hasNext()) {
+                            String name = iterator.next();
+                            int id = Integer.parseInt(roleJsonObject.optString(name));
+                            roles.add(new Role(id, name));
+                        }
+                        for (int ii = 0; ii < userArray.length(); ii++) {
+                            JSONObject userObject = userArray.optJSONObject(ii);
+                            String username = userObject.optString("employee_id");
+                            String nick = userObject.optString("name");
+                            long department = Long.parseLong(userObject.optString("department"));
+                            int role = Integer.parseInt(userObject.optString("role"));
+                            String avatar = userObject.optString("imgurl");
+                            User user = new User(username, nick, avatar, department, role);
+                            contacts.add(user);
+                        }
+                        EMChatResManager.insertContacts(contacts);
+                        EMChatResManager.insertDepartments(departments);
+                        EMChatResManager.insertRoles(roles);
+                        EMChatEntity.getInstance().setContactList(null);
+                        EMChatEntity.getInstance().getContactList();
+                        ((Activity) context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                SPHelper.setContactLastUpdateTime(context, Calendar.getInstance().getTimeInMillis());
+                                onUpdatingListener.onComplete();
+                            }
+                        });
+                    }
+                }.start();
             }
 
             @Override
-            public void onCompleted() {
-                mProgressDialog.dismiss();
+            public void onErrorResponse(VolleyError error) {
+                super.onErrorResponse(error);
+                onUpdatingListener.onComplete();
             }
         });
     }
 
-    private void getDepartmentInfo(List<Department> departments, JSONArray departmentArray, long parent) {
+    private static void getDepartmentInfo(List<Department> departments, JSONArray departmentArray, long parent) {
         if (departmentArray == null || departmentArray.length() == 0) {
             return;
         }
@@ -210,6 +261,59 @@ public class MainActivity extends BaseBackActionBarActivity implements EMEventLi
         EMGroupManager.getInstance().addGroupChangeListener(groupChangeListener);
     }
 
+
+    static void asyncFetchGroupsFromServer() {
+        HXSDKHelper.getInstance().asyncFetchGroupsFromServer(new EMCallBack() {
+
+            @Override
+            public void onSuccess() {
+                HXSDKHelper.getInstance().noitifyGroupSyncListeners(true);
+
+                if (HXSDKHelper.getInstance().isContactsSyncedWithServer()) {
+                    HXSDKHelper.getInstance().notifyForRecevingEvents();
+                }
+            }
+
+            @Override
+            public void onError(int code, String message) {
+                HXSDKHelper.getInstance().noitifyGroupSyncListeners(false);
+            }
+
+            @Override
+            public void onProgress(int progress, String status) {
+
+            }
+
+        });
+    }
+
+    /**
+     * 设置hearder属性，方便通讯中对联系人按header分类显示，以及通过右侧ABCD...字母栏快速定位联系人
+     *
+     * @param username
+     * @param user
+     */
+    private static void setUserHearder(String username, User user) {
+        String headerName = null;
+        if (!TextUtils.isEmpty(user.getNick())) {
+            headerName = user.getNick();
+        } else {
+            headerName = user.getUsername();
+        }
+        if (username.equals(Constant.NEW_FRIENDS_USERNAME)) {
+            user.setHeader("");
+        } else if (Character.isDigit(headerName.charAt(0))) {
+            user.setHeader("#");
+        } else {
+            user.setHeader(HanziToPinyin.getInstance().get(headerName.substring(0, 1)).get(0).target.substring(0, 1)
+                    .toUpperCase());
+            char header = user.getHeader().toLowerCase().charAt(0);
+            if (header < 'a' || header > 'z') {
+                user.setHeader("#");
+            }
+        }
+    }
+
     /**
      * 监听事件
      */
@@ -218,10 +322,9 @@ public class MainActivity extends BaseBackActionBarActivity implements EMEventLi
         switch (event.getEvent()) {
             case EventNewMessage: // 普通消息
             {
-                EMMessage message = (EMMessage) event.getData();
-
+                /*EMMessage message = (EMMessage) event.getData();
                 // 提示新消息
-                HXSDKHelper.getInstance().getNotifier().onNewMsg(message);
+                HXSDKHelper.getInstance().getNotifier().onNewMsg(message);*/
 
                 refreshUI();
                 break;
@@ -276,9 +379,6 @@ public class MainActivity extends BaseBackActionBarActivity implements EMEventLi
         }
     }
 
-    private InviteMessgeDao inviteMessgeDao;
-    private UserDao userDao;
-
     /**
      * 连接监听listener
      */
@@ -286,12 +386,22 @@ public class MainActivity extends BaseBackActionBarActivity implements EMEventLi
 
         @Override
         public void onConnected() {
-            new Thread() {
-                @Override
-                public void run() {
-                    HXSDKHelper.getInstance().notifyForRecevingEvents();
+            boolean groupSynced = HXSDKHelper.getInstance().isGroupsSyncedWithServer();
+            boolean contactSynced = HXSDKHelper.getInstance().isContactsSyncedWithServer();
+
+            // in case group and contact were already synced, we supposed to notify sdk we are ready to receive the events
+            if (groupSynced && contactSynced) {
+                new Thread() {
+                    @Override
+                    public void run() {
+                        HXSDKHelper.getInstance().notifyForRecevingEvents();
+                    }
+                }.start();
+            } else {
+                if (!groupSynced) {
+                    asyncFetchGroupsFromServer();
                 }
-            }.start();
+            }
 
             runOnUiThread(new Runnable() {
 
@@ -313,16 +423,17 @@ public class MainActivity extends BaseBackActionBarActivity implements EMEventLi
                 public void run() {
                     if (error == EMError.USER_REMOVED) {
                         // 显示帐号已经被移除
-                        showAccountRemovedDialog();
                     } else if (error == EMError.CONNECTION_CONFLICT) {
                         // 显示帐号在其他设备登陆dialog
                         showConflictDialog();
                     } else {
-                        chatHistoryFragment.errorItem.setVisibility(View.VISIBLE);
-                        if (NetUtils.hasNetwork(MainActivity.this))
-                            chatHistoryFragment.errorText.setText(st1);
-                        else
-                            chatHistoryFragment.errorText.setText(st2);
+                        if (!"anonymous".equals((UserInfo.getUserInfo().getAccount()))) {
+                            chatHistoryFragment.errorItem.setVisibility(View.VISIBLE);
+                            if (NetUtils.hasNetwork(MainActivity.this))
+                                chatHistoryFragment.errorText.setText(st1);
+                            else
+                                chatHistoryFragment.errorText.setText(st2);
+                        }
 
                     }
                 }
@@ -423,7 +534,6 @@ public class MainActivity extends BaseBackActionBarActivity implements EMEventLi
             msg.setReason(reason);
             Log.d(TAG, applyer + " 申请加入群聊：" + groupName);
             msg.setStatus(InviteMesageStatus.BEAPPLYED);
-            notifyNewIviteMessage(msg);
         }
 
         @Override
@@ -455,34 +565,11 @@ public class MainActivity extends BaseBackActionBarActivity implements EMEventLi
         }
     }
 
-    /**
-     * 保存提示新消息
-     *
-     * @param msg
-     */
-    private void notifyNewIviteMessage(InviteMessage msg) {
-        saveInviteMsg(msg);
-        // 提示有新消息
-        HXSDKHelper.getInstance().getNotifier().viberateAndPlayTone(null);
-    }
-
-    /**
-     * 保存邀请等msg
-     *
-     * @param msg
-     */
-    private void saveInviteMsg(InviteMessage msg) {
-        // 保存msg
-        inviteMessgeDao.saveMessage(msg);
-        // 未读数加1
-        User user = EMChatEntity.getInstance().getContactList().get(Constant.NEW_FRIENDS_USERNAME);
-        if (user.getUnreadMsgCount() == 0)
-            user.setUnreadMsgCount(user.getUnreadMsgCount() + 1);
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
+        // onresume时，取消notification显示
+        HXSDKHelper.getInstance().getNotifier().reset();
         if (!isConflict && !isCurrentAccountRemoved) {
             EMChatManager.getInstance().activityResumed();
         }
@@ -539,6 +626,10 @@ public class MainActivity extends BaseBackActionBarActivity implements EMEventLi
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                         conflictBuilder = null;
+                        UserInfo.clearUserInfo((AppApplication) mContext.getApplicationContext());
+                        Intent intent = new Intent(mContext, LoginActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
                         finish();
                     }
                 });
@@ -553,48 +644,11 @@ public class MainActivity extends BaseBackActionBarActivity implements EMEventLi
 
     }
 
-    /**
-     * 帐号被移除的dialog
-     */
-    private void showAccountRemovedDialog() {
-        isAccountRemovedDialogShow = true;
-        EMChatEntity.getInstance().logout(null);
-        String st5 = getResources().getString(R.string.Remove_the_notification);
-        if (!MainActivity.this.isFinishing()) {
-            // clear up global variables
-            try {
-                if (accountRemovedBuilder == null)
-                    accountRemovedBuilder = new android.app.AlertDialog.Builder(MainActivity.this);
-                accountRemovedBuilder.setTitle(st5);
-                accountRemovedBuilder.setMessage(R.string.em_user_remove);
-                accountRemovedBuilder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        accountRemovedBuilder = null;
-                        finish();
-                        //startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                    }
-                });
-                accountRemovedBuilder.setCancelable(false);
-                accountRemovedBuilder.create().show();
-                isCurrentAccountRemoved = true;
-            } catch (Exception e) {
-                EMLog.e(TAG, "---------color userRemovedBuilder error" + e.getMessage());
-            }
-
-        }
-
-    }
-
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         if (getIntent().getBooleanExtra("conflict", false) && !isConflictDialogShow) {
             showConflictDialog();
-        } else if (getIntent().getBooleanExtra(Constant.ACCOUNT_REMOVED, false) && !isAccountRemovedDialogShow) {
-            showAccountRemovedDialog();
         }
     }
 }

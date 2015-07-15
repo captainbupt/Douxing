@@ -1,5 +1,6 @@
 package com.easemob.chatuidemo.activity;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -33,7 +34,7 @@ import com.easemob.util.EMLog;
  * @author lyuzhao
  * 
  */
-public class DiagnoseActivity extends BaseActivity implements OnClickListener {
+public class DiagnoseActivity extends Activity implements OnClickListener {
 	private TextView currentVersion;
 	private Button uploadLog;
 

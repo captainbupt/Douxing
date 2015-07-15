@@ -55,7 +55,7 @@ public class BaseNoTitleActivity extends ActionBarActivity implements SwipeBackA
 
     @Override
     protected void onDestroy() {
-        mProgressDialog.destroy();
+        mProgressDialog.dismiss();
         super.onDestroy();
     }
 

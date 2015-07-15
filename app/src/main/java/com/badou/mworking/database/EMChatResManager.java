@@ -145,12 +145,12 @@ public class EMChatResManager {
         Cursor cursor = dbReader.query(MTrainingDBHelper.TBL_NAME_EMCHAT_USER + userNum.replace("@", ""),
                 null, null, null, null, null, null);
         while (cursor.moveToNext()) {
-            User user = new User();
-            user.setUsername(cursor.getString(cursor.getColumnIndex(MTrainingDBHelper.EMCHAT_USER_NAME)));
-            user.setNick(cursor.getString(cursor.getColumnIndex(MTrainingDBHelper.EMCHAT_NICK_NAME)));
-            user.setDepartment(cursor.getLong(cursor.getColumnIndex(MTrainingDBHelper.EMCHAT_DEPARTMENT)));
-            user.setRole(cursor.getInt(cursor.getColumnIndex(MTrainingDBHelper.EMCHAT_ROLE)));
-            user.setAvatar(cursor.getString(cursor.getColumnIndex(MTrainingDBHelper.EMCHAT_IMG_URL)));
+            String username = cursor.getString(cursor.getColumnIndex(MTrainingDBHelper.EMCHAT_USER_NAME));
+            String nickName = cursor.getString(cursor.getColumnIndex(MTrainingDBHelper.EMCHAT_NICK_NAME));
+            long department = cursor.getLong(cursor.getColumnIndex(MTrainingDBHelper.EMCHAT_DEPARTMENT));
+            int role = cursor.getInt(cursor.getColumnIndex(MTrainingDBHelper.EMCHAT_ROLE));
+            String avatar = cursor.getString(cursor.getColumnIndex(MTrainingDBHelper.EMCHAT_IMG_URL));
+            User user = new User(username, nickName, avatar, department, role);
             users.add(user);
         }
         cursor.close();

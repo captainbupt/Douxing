@@ -30,16 +30,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.Bind;
 
 /**
  * Created by Administrator on 2015/6/25 0025.
  */
 public class StoreActivity extends BaseBackActionBarActivity {
 
-    @InjectView(R.id.content_list_view)
+    @Bind(R.id.content_list_view)
     PullToRefreshListView mContentListView;
-    @InjectView(R.id.none_result_view)
+    @Bind(R.id.none_result_view)
     NoneResultView mNoneResultView;
 
     private int mCurrentIndex = 1;
@@ -50,7 +50,7 @@ public class StoreActivity extends BaseBackActionBarActivity {
         super.onCreate(savedInstanceState);
         setActionbarTitle(R.string.user_center_my_store);
         setContentView(R.layout.activity_store);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         initListener();
         setItemFromCache();
         mContentListView.setRefreshing();

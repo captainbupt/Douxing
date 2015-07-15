@@ -34,7 +34,7 @@ public class UserDao {
 	public UserDao(Context context) {
 	    DemoDBManager.getInstance().onInit(context);
 	}
-	
+
 	public void setDisabledGroups(List<String> groups){
 	    DemoDBManager.getInstance().setDisabledGroups(groups);
     }

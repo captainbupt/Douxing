@@ -3,6 +3,7 @@ package com.easemob.chatuidemo.activity;
 import com.easemob.chat.EMChatManager;
 import com.badou.mworking.R;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -15,7 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class OfflinePushNickActivity extends BaseActivity {
+public class OfflinePushNickActivity extends Activity {
 
 	private EditText inputNickName;
 	private Button saveNickName;

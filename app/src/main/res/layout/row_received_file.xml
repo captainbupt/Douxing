@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingTop="13dp" >
+    android:paddingTop="13dp">
 
     <TextView
         android:id="@+id/timestamp"
@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_chat_activity"
-        android:paddingRight="20dp" >
+        android:paddingRight="20dp">
 
         <ImageView
             android:id="@+id/iv_userhead"
@@ -26,25 +26,26 @@
             android:layout_alignParentTop="true"
             android:layout_marginLeft="@dimen/margin_chat_activity"
             android:background="@drawable/default_avatar"
-            android:scaleType="fitXY" />
+            android:scaleType="fitCenter" />
 
         <TextView
             android:id="@+id/tv_userid"
             style="@style/chat_text_name_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@id/iv_userhead"
-            android:layout_toLeftOf="@+id/ll_file_container" />
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="@dimen/offset_small"
+            android:layout_toRightOf="@id/iv_userhead" />
 
         <LinearLayout
             android:id="@+id/ll_file_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/tv_userid"
             android:layout_marginLeft="@dimen/margin_chat_activity"
             android:layout_toLeftOf="@+id/pb_sending"
             android:layout_toRightOf="@id/iv_userhead"
-            android:background="@drawable/chatfrom_bg" >
+            android:background="@drawable/chatfrom_bg_normal">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -58,7 +59,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="7dp"
                 android:gravity="center_vertical"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tv_file_name"
@@ -66,21 +67,21 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:text=""
-                    android:textColor="#000"
-                    android:textSize="15sp" />
+                    android:textColor="@color/color_text_black"
+                    android:textSize="@dimen/text_size_less" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp" >
+                    android:layout_marginTop="3dp">
 
                     <TextView
                         android:id="@+id/tv_file_size"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:textColor="#818181"
-                        android:textSize="14sp" />
+                        android:textColor="@color/color_text_grey"
+                        android:textSize="@dimen/text_size_small" />
 
                     <TextView
                         android:id="@+id/tv_file_state"
@@ -89,8 +90,8 @@
                         android:layout_alignParentRight="true"
                         android:layout_gravity="center_vertical"
                         android:text="@string/not_download"
-                        android:textColor="#818181"
-                        android:textSize="14sp" />
+                        android:textColor="@color/color_text_black"
+                        android:textSize="@dimen/text_size_small" />
                 </RelativeLayout>
             </LinearLayout>
         </LinearLayout>

@@ -19,6 +19,7 @@ import java.util.Collections;
 import java.util.List;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -57,7 +58,7 @@ import com.easemob.chatuidemo.video.util.Utils;
 import com.easemob.util.EMLog;
 import com.easemob.util.PathUtil;
 
-public class RecorderVideoActivity extends BaseActivity implements
+public class RecorderVideoActivity extends Activity implements
 		OnClickListener, SurfaceHolder.Callback, OnErrorListener,
 		OnInfoListener {
 	private static final String TAG = "RecorderVideoActivity";

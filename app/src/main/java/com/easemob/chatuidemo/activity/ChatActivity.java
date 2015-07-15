@@ -66,6 +66,8 @@ import android.widget.Toast;
 
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.entity.emchat.EMChatEntity;
+import com.badou.mworking.base.BaseBackActionBarActivity;
+import com.badou.mworking.util.ToastUtil;
 import com.easemob.EMChatRoomChangeListener;
 import com.easemob.EMError;
 import com.easemob.EMEventListener;
@@ -103,11 +105,12 @@ import com.easemob.exceptions.EaseMobException;
 import com.easemob.util.EMLog;
 import com.easemob.util.PathUtil;
 import com.easemob.util.VoiceRecorder;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * 聊天页面
  */
-public class ChatActivity extends BaseActivity implements OnClickListener, EMEventListener {
+public class ChatActivity extends BaseBackActionBarActivity implements OnClickListener, EMEventListener {
     private static final String TAG = "ChatActivity";
     private static final int REQUEST_CODE_EMPTY_HISTORY = 2;
     public static final int REQUEST_CODE_CONTEXT_MENU = 3;
@@ -135,7 +138,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 
     public static final int RESULT_CODE_COPY = 1;
     public static final int RESULT_CODE_DELETE = 2;
-    public static final int RESULT_CODE_FORWARD = 3;
     public static final int RESULT_CODE_OPEN = 4;
     public static final int RESULT_CODE_DWONLOAD = 5;
     public static final int RESULT_CODE_TO_CLOUD = 6;
@@ -211,6 +213,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
      * initView
      */
     protected void initView() {
+        setLeft(R.drawable.button_title_bar_back_grey);
         recordingContainer = findViewById(R.id.recording_container);
         micImage = (ImageView) findViewById(R.id.mic_image);
         recordingHint = (TextView) findViewById(R.id.recording_hint);
@@ -233,8 +236,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         iv_emoticons_checked.setVisibility(View.INVISIBLE);
         more = findViewById(R.id.more);
         edittext_layout.setBackgroundResource(R.drawable.input_bar_bg_normal);
-        voiceCallBtn = (ImageView) findViewById(R.id.btn_voice_call);
-        videoCallBtn = (ImageView) findViewById(R.id.btn_video_call);
 
         // 动画资源文件,用于录制语音时
         micImages = new Drawable[]{getResources().getDrawable(R.drawable.record_animate_01),
@@ -358,6 +359,13 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                 }, 1000);
             }
         });
+
+        setRightImage(R.drawable.button_title_bar_group, new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                toGroupDetails(view);
+            }
+        });
     }
 
     private void setUpView() {
@@ -377,8 +385,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
             ((TextView) findViewById(R.id.name)).setText(toChatUsername);
         } else {
             // 群聊
-            findViewById(R.id.container_to_group).setVisibility(View.VISIBLE);
-            findViewById(R.id.container_remove).setVisibility(View.GONE);
             findViewById(R.id.container_voice_call).setVisibility(View.GONE);
             findViewById(R.id.container_video_call).setVisibility(View.GONE);
             toChatUsername = getIntent().getStringExtra("groupId");
@@ -393,12 +399,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 
         onListViewCreation();
 
-        // show forward message if the message is not null
-        String forward_msg_id = getIntent().getStringExtra("forward_msg_id");
-        if (forward_msg_id != null) {
-            // 显示发送要转发的消息
-            forwardMessage(forward_msg_id);
-        }
     }
 
     protected void onConversationInit() {
@@ -465,7 +465,9 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         adapter = new MessageAdapter(ChatActivity.this, toChatUsername, chatType);
         // 显示消息
         listView.setAdapter(adapter);
-
+        View footer = new View(mContext);
+        footer.setPadding(0, 0, 0, getResources().getDimensionPixelOffset(R.dimen.offset_medium));
+        listView.addFooterView(footer);
         listView.setOnScrollListener(new ListScrollListener());
         adapter.refreshSelectLast();
 
@@ -489,8 +491,11 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 
         if (group != null) {
             ((TextView) findViewById(R.id.name)).setText(group.getGroupName());
+            setActionbarTitle(group.getGroupName());
         } else {
-            ((TextView) findViewById(R.id.name)).setText(toChatUsername);
+            ToastUtil.showToast(mContext, R.string.the_current_group);
+            EMChatManager.getInstance().clearConversation(toChatUsername);
+            finish();
         }
 
         // 监听当前会话的群聊解散被T事件
@@ -520,14 +525,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                     EMMessage deleteMsg = (EMMessage) adapter.getItem(data.getIntExtra("position", -1));
                     conversation.removeMessage(deleteMsg.getMsgId());
                     adapter.refreshSeekTo(data.getIntExtra("position", adapter.getCount()) - 1);
-                    break;
-
-                case RESULT_CODE_FORWARD: // 转发消息
-                    EMMessage forwardMsg = (EMMessage) adapter.getItem(data.getIntExtra("position", 0));
-                    Intent intent = new Intent(this, ForwardMessageActivity.class);
-                    intent.putExtra("forward_msg_id", forwardMsg.getMsgId());
-                    startActivity(intent);
-
                     break;
 
                 default:
@@ -670,9 +667,9 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
             // 点击摄像图标
             Intent intent = new Intent(ChatActivity.this, ImageGridActivity.class);
             startActivityForResult(intent, REQUEST_CODE_SELECT_VIDEO);
-        } else if (id == R.id.btn_file) { // 点击文件图标
+        } /*else if (id == R.id.btn_file) { // 点击文件图标
             selectFileFromLocal();
-        } else if (id == R.id.btn_voice_call) { // 点击语音电话图标
+        } */ else if (id == R.id.btn_voice_call) { // 点击语音电话图标
             if (!EMChatManager.getInstance().isConnected())
                 Toast.makeText(this, st1, Toast.LENGTH_SHORT).show();
             else {
@@ -900,6 +897,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         if (chatType == CHATTYPE_GROUP) {
             message.setChatType(ChatType.GroupChat);
         }
+
         message.setReceipt(to);
         ImageMessageBody body = new ImageMessageBody(new File(filePath));
         // 默认超过100k的图片会压缩后发给对方，可以设置成发送原图
@@ -909,6 +907,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 
         listView.setAdapter(adapter);
         adapter.refreshSelectLast();
+
         setResult(RESULT_OK);
         // more(more);
     }
@@ -1050,6 +1049,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         conversation.addMessage(message);
         listView.setAdapter(adapter);
         adapter.refreshSelectLast();
+
         setResult(RESULT_OK);
     }
 
@@ -1357,6 +1357,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        EMChatManager.getInstance().unregisterEventListener(this);
         activityInstance = null;
         if (groupListener != null) {
             EMGroupManager.getInstance().removeGroupChangeListener(groupListener);
@@ -1366,9 +1367,9 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
     @Override
     protected void onResume() {
         super.onResume();
+        HXSDKHelper.getInstance().getNotifier().reset();
         if (group != null)
-            ((TextView) findViewById(R.id.name)).setText(group.getGroupName());
-        voiceCallBtn.setEnabled(true);
+            setActionbarTitle(group.getGroupName());
         videoCallBtn.setEnabled(true);
 
         if (adapter != null) {
@@ -1459,16 +1460,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
                 }
             }
         }).start();
-    }
-
-    /**
-     * 返回
-     *
-     * @param view
-     */
-    public void back(View view) {
-        EMChatManager.getInstance().unregisterEventListener(this);
-        finish();
     }
 
     /**

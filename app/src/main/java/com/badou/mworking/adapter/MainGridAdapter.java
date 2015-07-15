@@ -13,7 +13,7 @@ import com.badou.mworking.entity.main.MainIcon;
 import com.badou.mworking.util.DensityUtil;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.Bind;
 
 /**
  * 功能描述:  主页面adapter
@@ -55,15 +55,15 @@ public class MainGridAdapter extends MyBaseAdapter<MainIcon> {
     }
 
     static class ViewHolder {
-        @InjectView(R.id.icon_image_view)
+        @Bind(R.id.icon_image_view)
         ImageView iconImageView;
-        @InjectView(R.id.name_text_view)
+        @Bind(R.id.name_text_view)
         TextView nameTextView;
-        @InjectView(R.id.unread_text_view)
+        @Bind(R.id.unread_text_view)
         TextView unreadTextView;
 
         ViewHolder(View view) {
-            ButterKnife.inject(this, view);
+            ButterKnife.bind(this, view);
         }
     }
 }

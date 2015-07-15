@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.ProgressBar;
@@ -15,7 +16,7 @@ import com.easemob.chat.FileMessageBody;
 import com.badou.mworking.R;
 import com.easemob.util.FileUtils;
 
-public class ShowNormalFileActivity extends BaseActivity {
+public class ShowNormalFileActivity extends Activity {
 	private ProgressBar progressBar;
 	private File file;
 

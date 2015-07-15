@@ -15,9 +15,6 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Field;
 
-/**
- * Created by yee on 3/7/14.
- */
 public abstract class VolleyListener<T> implements Response.ErrorListener,
         Response.Listener {
 
@@ -64,6 +61,7 @@ public abstract class VolleyListener<T> implements Response.ErrorListener,
     public void onErrorResponse(VolleyError error) {
         onCompleted();
         ToastUtil.showToast(mContext, R.string.error_service);
+        error.printStackTrace();
         onErrorCode(-1);
 /*        if (error instanceof ResponseError) {
             ToastUtil.showToast(mContext, error.getMessage());
