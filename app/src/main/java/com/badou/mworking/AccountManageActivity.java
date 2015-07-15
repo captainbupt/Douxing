@@ -27,8 +27,8 @@ import org.json.JSONObject;
 
 import java.util.regex.Pattern;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import butterknife.OnClick;
 
 /**
@@ -36,17 +36,17 @@ import butterknife.OnClick;
  */
 public class AccountManageActivity extends BaseBackActionBarActivity {
 
-    @InjectView(R.id.tv_username)
+    @Bind(R.id.tv_username)
     TextView tvUsername;
-    @InjectView(R.id.et_original)
+    @Bind(R.id.et_original)
     EditText etOriginal;
-    @InjectView(R.id.et_new)
+    @Bind(R.id.et_new)
     EditText etNew;
-    @InjectView(R.id.et_confirm)
+    @Bind(R.id.et_confirm)
     EditText etConfirm;
-    @InjectView(R.id.btn_change_password)
+    @Bind(R.id.btn_change_password)
     Button btnChangePassword;
-    @InjectView(R.id.btn_logout)
+    @Bind(R.id.btn_logout)
     Button btnLogout;
 
     @Override
@@ -54,7 +54,7 @@ public class AccountManageActivity extends BaseBackActionBarActivity {
         super.onCreate(savedInstanceState);
         setActionbarTitle(mContext.getResources().getString(R.string.title_name_Myzhanghao));
         setContentView(R.layout.activity_account_manager);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         initData();
     }
 

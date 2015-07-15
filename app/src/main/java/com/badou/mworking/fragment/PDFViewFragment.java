@@ -22,14 +22,14 @@ import com.lidroid.xutils.http.callback.RequestCallBack;
 import java.io.File;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.Bind;
 
 public class PDFViewFragment extends BaseFragment {
 
     public static final String KEY_RID = "rid";
     public static final String KEY_URL = "url";
 
-    @InjectView(R.id.pdf_view)
+    @Bind(R.id.pdf_view)
     PDFView mPdfView;
 
     private String mRid;
@@ -47,7 +47,7 @@ public class PDFViewFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_pdf_view, container, false);
-        ButterKnife.inject(this, view);
+        ButterKnife.bind(this, view);
         initData();
         return view;
     }
@@ -155,6 +155,6 @@ public class PDFViewFragment extends BaseFragment {
             mHttpHandler.cancel();
         }
         super.onDestroyView();
-        ButterKnife.reset(this);
+        ButterKnife.unbind(this);
     }
 }

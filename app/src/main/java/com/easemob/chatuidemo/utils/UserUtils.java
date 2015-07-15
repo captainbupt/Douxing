@@ -37,11 +37,15 @@ public class UserUtils {
      * @param username
      */
     public static void setUserAvatar(Context context, String username, ImageView imageView) {
-        User user = getUserInfo(username);
-        if (user != null && !TextUtils.isEmpty(user.getAvatar())) {
-            String imgUrl = user.getAvatar();
-            ImageViewLoader.setSquareImageViewResource(imageView, R.drawable.icon_emchat_single, imgUrl, context.getResources().getDimensionPixelSize(R.dimen.icon_size_medium));
-        } else {
+        try {
+            User user = getUserInfo(username);
+            if (user != null && !TextUtils.isEmpty(user.getAvatar())) {
+                String imgUrl = user.getAvatar();
+                ImageViewLoader.setSquareImageViewResource(imageView, R.drawable.icon_emchat_single, imgUrl, context.getResources().getDimensionPixelSize(R.dimen.icon_size_medium));
+            } else {
+                imageView.setImageResource(R.drawable.icon_emchat_single);
+            }
+        }catch (Exception e){
             imageView.setImageResource(R.drawable.icon_emchat_single);
         }
     }

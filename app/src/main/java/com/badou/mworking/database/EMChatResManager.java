@@ -139,7 +139,8 @@ public class EMChatResManager {
     public static List<User> getContacts(Context context) {
         MTrainingDBHelper mTrainingDBHelper = MTrainingDBHelper.getMTrainingDBHelper();
         SQLiteDatabase dbReader = mTrainingDBHelper.getDatabase();
-        String userNum = ((AppApplication) context.getApplicationContext()).getUserInfo().account;
+        String userNum;
+        userNum = ((AppApplication) context.getApplicationContext()).getUserInfo().account;
         List<User> users = new ArrayList<>();
         Cursor cursor = dbReader.query(MTrainingDBHelper.TBL_NAME_EMCHAT_USER + userNum.replace("@", ""),
                 null, null, null, null, null, null);

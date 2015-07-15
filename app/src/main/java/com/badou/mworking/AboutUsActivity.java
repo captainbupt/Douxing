@@ -26,8 +26,8 @@ import com.badou.mworking.util.ToastUtil;
 
 import org.json.JSONObject;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import cn.jpush.android.api.JPushInterface;
@@ -37,11 +37,11 @@ import cn.jpush.android.api.JPushInterface;
  */
 public class AboutUsActivity extends BaseBackActionBarActivity {
 
-    @InjectView(R.id.tv_info)
+    @Bind(R.id.tv_info)
     TextView tvInfo;
-    @InjectView(R.id.cb_push)
+    @Bind(R.id.cb_push)
     CheckBox cbPush;
-    @InjectView(R.id.cb_save)
+    @Bind(R.id.cb_save)
     CheckBox cbSave;
 
     @Override
@@ -50,7 +50,7 @@ public class AboutUsActivity extends BaseBackActionBarActivity {
         setActionbarTitle(mContext.getResources().getString(
                 R.string.title_name_about));
         setContentView(R.layout.activity_about_us);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         initData();
     }
 
