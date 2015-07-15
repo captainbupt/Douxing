@@ -618,4 +618,8 @@ public class Net {
         return "/genhxgrp?sys=android" + AppApplication.SYSVERSION + "&ver=" + AppApplication.appVersion;
     }
 
+    public static String registerAccount() {
+        return "/reghxusr?sys=android" + AppApplication.SYSVERSION + "&ver=" + AppApplication.appVersion;
+    }
+
 }

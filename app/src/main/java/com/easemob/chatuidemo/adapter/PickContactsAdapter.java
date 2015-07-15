@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.Bind;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 public class PickContactsAdapter extends MyBaseAdapter<User> implements SectionIndexer, StickyListHeadersAdapter {
@@ -299,17 +299,17 @@ public class PickContactsAdapter extends MyBaseAdapter<User> implements SectionI
     }
 
     static class ViewHolder {
-        @InjectView(R.id.checkbox)
+        @Bind(R.id.checkbox)
         CheckBox checkbox;
-        @InjectView(R.id.avatar)
+        @Bind(R.id.avatar)
         ImageView avatar;
-        @InjectView(R.id.name)
+        @Bind(R.id.name)
         TextView name;
-        @InjectView(R.id.department)
+        @Bind(R.id.department)
         TextView department;
 
         ViewHolder(View view) {
-            ButterKnife.inject(this, view);
+            ButterKnife.bind(this, view);
         }
     }
 }

@@ -14,16 +14,16 @@ import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.widget.BottomRatingAndCommentView;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.Bind;
 
 public class NoticeBaseActivity extends BaseBackActionBarActivity {
 
     public static final String KEY_NOTICE = "training";
     public static final String RESPONSE_NOTICE = "training";
     protected Notice mNotice;
-    @InjectView(R.id.content_container)
+    @Bind(R.id.content_container)
     FrameLayout mContentContainer;
-    @InjectView(R.id.bottom_view)
+    @Bind(R.id.bottom_view)
     BottomRatingAndCommentView mBottomView;
 
     @Override
@@ -31,7 +31,7 @@ public class NoticeBaseActivity extends BaseBackActionBarActivity {
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.activity_base_notice);
         setActionbarTitle(MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_NOTICE).name);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         mNotice = (Notice) mReceivedIntent.getSerializableExtra(KEY_NOTICE);
         mNotice.isRead = true;
         mBottomView.setData(mNotice.rid, 0, mNotice.commentNumber, 0);

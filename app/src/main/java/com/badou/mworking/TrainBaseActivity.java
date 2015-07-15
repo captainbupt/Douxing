@@ -14,23 +14,23 @@ import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.widget.BottomRatingAndCommentView;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.Bind;
 
 public class TrainBaseActivity extends BaseBackActionBarActivity {
 
     public static final String KEY_TRAINING = "training";
     public static final String RESPONSE_TRAINING = "training";
     protected Train mTrain;
-    @InjectView(R.id.content_container)
+    @Bind(R.id.content_container)
     FrameLayout mContentContainer;
-    @InjectView(R.id.bottom_view)
+    @Bind(R.id.bottom_view)
     BottomRatingAndCommentView mBottomView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.activity_base_training);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         mTrain = (Train) mReceivedIntent.getSerializableExtra(KEY_TRAINING);
         mTrain.isRead = true;
         mBottomView.setData(mTrain.rid, mTrain.ecnt, mTrain.commentNum, mTrain.eval);

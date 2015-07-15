@@ -28,20 +28,20 @@ import com.badou.mworking.util.SPUtil;
 import java.io.File;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.Bind;
 import butterknife.OnClick;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class WebViewFragment extends BaseFragment {
 
     public static final String KEY_URL = "url";
-    @InjectView(R.id.web_view)
+    @Bind(R.id.web_view)
     WebView mWebView;
-    @InjectView(R.id.net_exception_image_view)
+    @Bind(R.id.net_exception_image_view)
     ImageView mNetExceptionImageView;
-    @InjectView(R.id.net_exception_repeat_text_view)
+    @Bind(R.id.net_exception_repeat_text_view)
     TextView mNetExceptionRepeatTextView;
-    @InjectView(R.id.net_exception_linear_layout)
+    @Bind(R.id.net_exception_linear_layout)
     LinearLayout mNetExceptionLinearLayout;
 
     private String mUrl;
@@ -58,7 +58,7 @@ public class WebViewFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_web_view, container, false);
-        ButterKnife.inject(this, view);
+        ButterKnife.bind(this, view);
         mUrl = ((Bundle) getArguments()).getString(KEY_URL);
         initWebView();
         return view;
@@ -143,7 +143,7 @@ public class WebViewFragment extends BaseFragment {
         SPUtil.setWebViewPosition(mContext, mUrl.trim(), mWebView.getScrollY());
         mWebView.destroy();
         super.onDestroyView();
-        ButterKnife.reset(this);
+        ButterKnife.unbind(this);
     }
 
     @OnClick(R.id.net_exception_repeat_text_view)

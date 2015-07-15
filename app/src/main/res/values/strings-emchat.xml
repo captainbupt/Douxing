@@ -17,11 +17,19 @@
     <string name="attach_file">文件</string>
     <string name="attach_voice_call">语音电话</string>
     <string name="attach_video_call">视频通话</string>
+    <string name="text_fahuo">你们多久可以发货?</string>
+    <string name="text_weight">这个我应该穿什么号的？我身高165，体重46kg</string>
+    <string name="text_color">还有其他颜色的吗?</string>
+    <string name="text_kuaidi">你们发的是什么快递?</string>
     <string name="user_card">名片</string>
     <string name="move_up_to_cancel">手指上滑，取消发送</string>
+    <string name="not_find_image">找不到图片</string>
+    <string name="is_clear_mes">是否清空所有聊天记录</string>
     <string name="release_to_cancel">松开手指，取消发送</string>
     <string name="send_fail">发送消息失败,</string>
     <string name="delete_message">删除消息</string>
+    <string name="not_get_location">无法获取到您的位置信息！</string>
+    <string name="sd_not_find">SD卡不存在，不能拍照</string>
     <string name="delete_conversation_messages">删除会话和消息</string>
     <string name="delete_conversation">删除会话</string>
     <string name="copy_message">复制消息</string>
@@ -275,9 +283,9 @@
     <string name="update_black_list_failed">更新黑名单失败</string>
     <string name="update_groups_failed">更新群聊失败</string>
 
-    <string name= "no_more_messages">没有更多的消息了</string>
+    <string name="no_more_messages">没有更多的消息了</string>
     <string name="gorup_not_found">找不到这个群组</string>
-    <string name= "chatroom_allow_owner_leave"> 允许聊天室群主离开</string>
+    <string name="chatroom_allow_owner_leave"> 允许聊天室群主离开</string>
     <string name="group_id">群ID</string>
     <string name="move_out_backlist">移出黑名单</string>
     <string name="input_new_nick_hint">输入新昵称</string>

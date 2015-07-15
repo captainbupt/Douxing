@@ -11,7 +11,7 @@ import com.badou.mworking.widget.ChatterItemView;
 import com.swipe.delete.SwipeLayout;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.Bind;
 
 /**
  * 功能描述:同事圈adapter
@@ -42,13 +42,13 @@ public class ChatterListAdapter extends MyBaseAdapter {
     }
 
     static class ViewHolder {
-        @InjectView(R.id.chatter_item_view)
+        @Bind(R.id.chatter_item_view)
         ChatterItemView chatterItemView;
-        @InjectView(R.id.swipe_layout)
+        @Bind(R.id.swipe_layout)
         SwipeLayout swipeLayout;
 
         ViewHolder(View view) {
-            ButterKnife.inject(this, view);
+            ButterKnife.bind(this, view);
         }
     }
 }

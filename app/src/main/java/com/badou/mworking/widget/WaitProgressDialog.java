@@ -1,5 +1,7 @@
 package com.badou.mworking.widget;
 
+import java.lang.ref.WeakReference;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -11,18 +13,18 @@ import com.badou.mworking.R;
 
 public class WaitProgressDialog extends ProgressDialog {
 
-    private Context mContext;
+    private WeakReference<Context> mContext;
 
     public WaitProgressDialog(Context context, String msg) {
         super(context);
-        this.mContext = context;
+        this.mContext = new WeakReference<Context>(context);
         init(msg);
 
     }
 
     public WaitProgressDialog(Context context, int resId) {
         super(context);
-        this.mContext = context;
+        this.mContext = new WeakReference<Context>(context);
         try {
             init(context.getResources().getString(resId));
         } catch (NotFoundException e) {
@@ -36,37 +38,43 @@ public class WaitProgressDialog extends ProgressDialog {
     }
 
     private void init(String msg) {
-        setContent(msg);
-        setTitle(mContext.getString(R.string.message_tips));
-        setCanceledOnTouchOutside(false);
+        if (mContext.get() != null) {
+            setContent(msg);
+            setTitle(mContext.get().getString(R.string.message_tips));
+            setCanceledOnTouchOutside(false);
+        }
     }
 
     public void setContent(String msg) {
-        if (TextUtils.isEmpty(msg)) {
-            setMessage(mContext.getString(R.string.message_wait));
-        } else {
-            setMessage(msg);
+        if (mContext.get() != null) {
+            if (TextUtils.isEmpty(msg)) {
+                setMessage(mContext.get().getString(R.string.message_wait));
+            } else {
+                setMessage(msg);
+            }
         }
     }
 
     public void setContent(int msgId) {
-        try {
-            setContent(mContext.getResources().getString(msgId));
-        } catch (NotFoundException e) {
-            setContent(mContext.getResources().getString(R.string.message_wait));
-            e.printStackTrace();
+        if (mContext.get() != null) {
+            try {
+                setContent(mContext.get().getResources().getString(msgId));
+            } catch (NotFoundException e) {
+                setContent(mContext.get().getResources().getString(R.string.message_wait));
+                e.printStackTrace();
+            }
         }
     }
 
     @Override
     public void show() {
-        if (!((Activity) mContext).isFinishing())
+        if (!((Activity) mContext.get()).isFinishing())
             super.show();
     }
 
     @Override
     public void dismiss() {
-        if (!((Activity) mContext).isFinishing())
+        if (!((Activity) mContext.get()).isFinishing())
             super.dismiss();
     }
 }

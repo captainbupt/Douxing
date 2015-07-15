@@ -308,7 +308,7 @@ public class LoginActivity extends BaseNoTitleActivity implements
                     ToastUtil.showNetExc(mContext);
                     return;
                 }
-                startActivity(new Intent(mContext, ForgetPassWordActivity.class));
+                startActivity(new Intent(mContext, ForgetPasswordActivity.class));
                 break;
             case R.id.btn_login_experience:
                 if (!NetUtils.isNetConnected(mContext)) {

@@ -33,7 +33,6 @@ import com.badou.mworking.widget.BottomRatingAndCommentView;
 import java.io.File;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 /**
  * 功能描述:  actionbar为返回的网页展示页面

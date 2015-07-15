@@ -28,15 +28,15 @@ import com.nineoldandroids.view.ViewHelper;
 import java.util.List;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.Bind;
 import butterknife.OnItemClick;
 
 public class DepartmentListActivity extends BaseBackActionBarActivity {
-    @InjectView(R.id.bottom_list_view)
+    @Bind(R.id.bottom_list_view)
     ListView mBottomListView;
-    @InjectView(R.id.left_list_view)
+    @Bind(R.id.left_list_view)
     ListView mLeftListView;
-    @InjectView(R.id.right_list_view)
+    @Bind(R.id.right_list_view)
     ListView mRightListView;
 
     DepartmentAdapter mBottomAdapter;
@@ -54,7 +54,7 @@ public class DepartmentListActivity extends BaseBackActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_department_list);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         int screeWidth = DensityUtil.getWidthInPx(mContext);
         leftWidth = (int) (screeWidth * 0.45f);
         rightWidth = screeWidth - leftWidth;
@@ -181,15 +181,15 @@ public class DepartmentListActivity extends BaseBackActionBarActivity {
         }
 
         static class ViewHolder {
-            @InjectView(R.id.checkbox)
+            @Bind(R.id.checkbox)
             CheckBox mCheckbox;
-            @InjectView(R.id.subject)
+            @Bind(R.id.subject)
             TextView mSubject;
-            @InjectView(R.id.more)
+            @Bind(R.id.more)
             ImageView mMore;
 
             ViewHolder(View view) {
-                ButterKnife.inject(this, view);
+                ButterKnife.bind(this, view);
             }
         }
     }

@@ -280,8 +280,14 @@ public class MainGridActivity extends BaseNoTitleActivity {
         mMainGridView.setAdapter(mMainGridAdapter);
         updateMessageCenter();
         //mScrollView.scrollTo(0, 0);
-        UserInfo userInfo = ((AppApplication) getApplication()).getUserInfo();
-        loginEMChat(userInfo.account, userInfo.emchatPassword);
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                UserInfo userInfo = ((AppApplication) getApplication()).getUserInfo();
+                loginEMChat(userInfo.account, userInfo.emchatPassword);
+            }
+        }.start();
     }
 
 
@@ -293,58 +299,59 @@ public class MainGridActivity extends BaseNoTitleActivity {
             ToastUtil.showToast(mContext, R.string.Login_failed);
             return;
         }
-        if (!DemoHXSDKHelper.getInstance().isLogined()) {
-            // 调用sdk登陆方法登陆聊天服务器
-            EMChatManager.getInstance().login(currentUsername, currentPassword, new EMCallBack() {
-
-                @Override
-                public void onSuccess() {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            // 登陆成功，保存用户名密码
-                            AppApplication.getInstance().setUserName(currentUsername);
-                            AppApplication.getInstance().setPassword(currentPassword);
-
-                            try {
-                                // ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
-                                // ** manually load all local groups and
-                                EMGroupManager.getInstance().loadAllGroups();
-                                EMChatManager.getInstance().loadAllConversations();
-                                // 处理好友和群组
-                                initializeContacts(mContext);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                // 取好友或者群聊失败，不让进入主页面
-                                AppApplication.getInstance().logout(null);
-                                Toast.makeText(mContext, R.string.login_failure_failed, Toast.LENGTH_SHORT).show();
-                                return;
-                            }
-                            // 更新当前用户的nickname 此方法的作用是在ios离线推送时能够显示用户nick
-                            boolean updatenick = EMChatManager.getInstance().updateCurrentUserNick(
-                                    AppApplication.currentUserNick.trim());
-                            if (!updatenick) {
-                                Log.e("LoginActivity", "update current user nick fail");
-                            }
-                        }
-                    });
-                }
-
-                @Override
-                public void onProgress(int progress, String status) {
-                }
-
-                @Override
-                public void onError(final int code, final String message) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            ToastUtil.showToast(mContext, R.string.Login_failed);
-                        }
-                    });
-                }
-            });
+        if (DemoHXSDKHelper.getInstance().isLogined()) {
+            EMChatManager.getInstance().logout();
         }
+        // 调用sdk登陆方法登陆聊天服务器
+        EMChatManager.getInstance().login(currentUsername, currentPassword, new EMCallBack() {
+
+            @Override
+            public void onSuccess() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // 登陆成功，保存用户名密码
+                        AppApplication.getInstance().setUserName(currentUsername);
+                        AppApplication.getInstance().setPassword(currentPassword);
+
+                        try {
+                            // ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
+                            // ** manually load all local groups and
+                            EMGroupManager.getInstance().loadAllGroups();
+                            EMChatManager.getInstance().loadAllConversations();
+                            // 处理好友和群组
+                            initializeContacts(mContext);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            // 取好友或者群聊失败，不让进入主页面
+                            AppApplication.getInstance().logout(null);
+                            Toast.makeText(mContext, R.string.login_failure_failed, Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        // 更新当前用户的nickname 此方法的作用是在ios离线推送时能够显示用户nick
+                        boolean updatenick = EMChatManager.getInstance().updateCurrentUserNick(
+                                AppApplication.currentUserNick.trim());
+                        if (!updatenick) {
+                            Log.e("LoginActivity", "update current user nick fail");
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onProgress(int progress, String status) {
+            }
+
+            @Override
+            public void onError(final int code, final String message) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ToastUtil.showToast(mContext, R.string.Login_failed);
+                    }
+                });
+            }
+        });
     }
 
     private static void initializeContacts(Context context) {

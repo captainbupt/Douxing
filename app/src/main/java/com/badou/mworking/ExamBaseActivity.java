@@ -15,14 +15,14 @@ import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.widget.BottomRatingAndCommentView;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.Bind;
 
 public class ExamBaseActivity extends BaseBackActionBarActivity {
 
     public static final String KEY_EXAM = "exam";
     public static final String RESPONSE_EXAM = "exam";
     protected Exam mExam;
-    @InjectView(R.id.content_container)
+    @Bind(R.id.content_container)
     FrameLayout mContentContainer;
 
     @Override
@@ -30,7 +30,7 @@ public class ExamBaseActivity extends BaseBackActionBarActivity {
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.activity_base_exam);
         setActionbarTitle(MainIcon.getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_EXAM).name);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         mExam = (Exam) mReceivedIntent.getSerializableExtra(KEY_EXAM);
         addStoreImageView(mExam.isStore, Store.TYPE_STRING_EXAM, mExam.rid);
         if (((AppApplication) getApplication()).getUserInfo().isAdmin) {

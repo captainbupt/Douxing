@@ -134,13 +134,14 @@ public class DemoHXSDKHelper extends HXSDKHelper {
                 switch (event.getEvent()) {
                     case EventNewMessage:
                         //应用在后台，不需要刷新UI,通知栏提示新消息
+                        EMLog.d(TAG, "receive new message: " + activityList.size());
                         if (activityList.size() <= 0) {
                             HXSDKHelper.getInstance().getNotifier().onNewMsg(message);
                         }
                         break;
                     case EventOfflineMessage:
+                        EMLog.d(TAG, "received offline messages: " + activityList.size());
                         if (activityList.size() <= 0) {
-                            EMLog.d(TAG, "received offline messages");
                             List<EMMessage> messages = (List<EMMessage>) event.getData();
                             HXSDKHelper.getInstance().getNotifier().onNewMesg(messages);
                         }
