@@ -9,10 +9,12 @@ import com.google.gson.annotations.Expose;
 
 import org.json.JSONObject;
 
+import java.io.Serializable;
+
 /**
  * 功能描述: 通知实体类
  */
-public class Notice extends Category {
+public class Notice extends Category{
     @Expose
     int commentNumber = 0;
 

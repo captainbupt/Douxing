@@ -4,7 +4,7 @@ import com.badou.mworking.domain.CheckUpdateUseCase;
 import com.badou.mworking.domain.LoginUseCase;
 import com.badou.mworking.entity.category.CategoryOverall;
 import com.badou.mworking.entity.category.Classification;
-import com.badou.mworking.entity.category.TrainingCommentInfo;
+import com.badou.mworking.entity.category.Train;
 import com.badou.mworking.entity.main.MainData;
 import com.badou.mworking.entity.user.UserInfo;
 
@@ -40,5 +40,5 @@ public interface RestApi {
     <T> Observable<BaseNetEntity<CategoryOverall>> getCategoryNotice(@Query((PARAMS_SYSTEM)) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("type") String type, @Query("tag") int tag, @Query("begin") int begin, @Query("limit") int pageNum, @Query("key") String key, @Query("done") int done);
 
     @POST("/getmc2")
-    Observable<BaseNetListEntity<TrainingCommentInfo>> getTrainCommentInfo(@Query((PARAMS_SYSTEM)) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Body List<String> rids);
+    Observable<BaseNetListEntity<Train.TrainingCommentInfo>> getTrainCommentInfo(@Query((PARAMS_SYSTEM)) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Body List<String> rids);
 }

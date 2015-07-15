@@ -10,7 +10,6 @@ import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.Exam;
-import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.TimeTransfer;
 
 /**
@@ -45,10 +44,10 @@ public class ExamAdapter extends MyBaseAdapter<Category> {
         int iconResId = R.drawable.icon_exam_item_read;
         // 判断read字段， 已考完
         if (!exam.isUnread()) {
-            if (exam.isGraded) { //显示:已考完(判断是不是是不是个人中心进入的)
+            if (exam.isGraded()) { //显示:已考完(判断是不是是不是个人中心进入的)
                 holder.unreadTextView.setTextColor(mContext.getResources().getColor(R.color.color_red));
                 holder.unreadTextView.setBackgroundColor(mContext.getResources().getColor(R.color.transparent));
-                holder.unreadTextView.setText(exam.score + mContext.getResources().getString(R.string.text_score));
+                holder.unreadTextView.setText(exam.getScore() + mContext.getResources().getString(R.string.text_score));
             } else { //显示:待批阅
                 holder.unreadTextView.setTextColor(mContext.getResources().getColor(R.color.color_white));
                 holder.unreadTextView.setBackgroundResource(R.drawable.flag_category_unread);
@@ -56,7 +55,7 @@ public class ExamAdapter extends MyBaseAdapter<Category> {
             }
             // 未考试
         } else {
-            if (exam.isOffline) { //显示:已过期
+            if (exam.isOffline()) { //显示:已过期
                 holder.unreadTextView.setTextColor(mContext.getResources().getColor(R.color.color_text_grey));
                 holder.unreadTextView.setBackgroundColor(mContext.getResources().getColor(R.color.transparent));
                 holder.unreadTextView.setText(R.string.category_expired);

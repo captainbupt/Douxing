@@ -175,7 +175,7 @@ public class BaseActionBarActivity extends BaseNoTitleActivity {
             public void onClick(View view) {
                 String titleStr = getResources().getString(R.string.statistical_data);
                 String uid = UserInfo.getUserInfo().getUid();
-                String url = Net.getRunHost(mContext) + Net.getTongji(uid, sid);
+                String url = Net.getRunHost() + Net.getTongji(uid, sid);
                 Intent intent = new Intent(mContext, BackWebActivity.class);
                 intent.putExtra(BackWebActivity.KEY_URL, url);
                 intent.putExtra(BackWebActivity.KEY_TITLE, titleStr);

@@ -80,7 +80,8 @@ public class SPHelper {
         return SP.getStringSP(applicationContext, SP.DEFAULTCACHE, USER_ACCOUNT, "");
     }
 
-    private static final String USER_INFO = "userinfo";
+    // 更新1.6.2，舍弃之前保存的信息
+    private static final String USER_INFO = "userinfo162";
 
     public static void setUserInfo(UserInfo userInfo) {
         if (userInfo != null) {
@@ -91,8 +92,8 @@ public class SPHelper {
     }
 
     public static UserInfo getUserInfo() {
+        SP.removeSP(applicationContext, SP.DEFAULTCACHE, "userinfo");
         String content = SP.getStringSP(applicationContext, SP.DEFAULTCACHE, USER_INFO, "");
-        System.out.println(content);
         if (TextUtils.isEmpty(content)) {
             return null;
         } else {

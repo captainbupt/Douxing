@@ -23,15 +23,16 @@ public class Shuffle {
     public static final String BUTTON_TASK = "button_task";//任务签到
     public static final String BUTTON_CHATTER = "button_chatter";//同事圈
     public static final String BUTTON_ASK = "button_ask";// 问答
-    public static final String BUTTON_CENTER = "button_center";// 问答
-    public static final String BUTTON_CHAT = "button_chat";// 问答
+    public static final String BUTTON_CENTER = "button_center";// 个人中心
+    public static final String BUTTON_CHAT = "button_chat";// 聊天
+    public static final String BUTTON_ENTRY = "button_entry";// 报名
 
     // 所有的MainIcon都应该是通过Key来进行访问的，所以通过给Key来定义顺序，实现主界面的排序效果
-    private static final String[] MAP_ACCESS_KEY = new String[]{BUTTON_NOTICE, BUTTON_TRAINING, BUTTON_EXAM, BUTTON_TASK, BUTTON_SURVEY, BUTTON_CHATTER, BUTTON_SHELF, BUTTON_ASK};
+    private static final String[] MAP_ACCESS_KEY = new String[]{BUTTON_NOTICE, BUTTON_TRAINING, BUTTON_EXAM, BUTTON_TASK, BUTTON_SURVEY, BUTTON_CHATTER, BUTTON_SHELF, BUTTON_ASK, BUTTON_ENTRY};
     private final Map<String, MainIcon> MAP_ACCESS;
 
     public Shuffle() {
-        MAP_ACCESS = new HashMap<String, MainIcon>(8) {{
+        MAP_ACCESS = new HashMap<String, MainIcon>(9) {{
             put(BUTTON_NOTICE, buttonNotice);
             put(BUTTON_TRAINING, buttonTraining);
             put(BUTTON_EXAM, buttonExam);
@@ -40,6 +41,7 @@ public class Shuffle {
             put(BUTTON_CHATTER, buttonChatter);
             put(BUTTON_SHELF, buttonShelf);
             put(BUTTON_ASK, buttonAsk);
+            put(BUTTON_ENTRY, buttonEntry);
         }};
     }
 
@@ -120,6 +122,12 @@ public class Shuffle {
             buttonSurvey.setResId(R.drawable.button_survey);
             buttonSurvey.setKey(BUTTON_SURVEY);
             return buttonSurvey;
+        } else if(BUTTON_ENTRY.equals(key)){
+            if (buttonEntry == null)
+                buttonEntry = new MainIcon("1", context.getString(R.string.module_default_title_entry));
+            buttonEntry.setResId(R.drawable.button_survey);
+            buttonEntry.setKey(BUTTON_ENTRY);
+            return buttonEntry;
         }
         return null;
     }
@@ -154,6 +162,9 @@ public class Shuffle {
     @SerializedName(BUTTON_SURVEY)
     @Expose
     private MainIcon buttonSurvey;
+    @SerializedName(BUTTON_ENTRY)
+    @Expose
+    private MainIcon buttonEntry;
 
 }
 

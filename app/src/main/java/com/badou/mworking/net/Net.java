@@ -33,14 +33,8 @@ public class Net {
 
     public static final String Http_Host_ip = "http://115.28.138.79";
 
-    public static String getRunHost(Context context) {
-        String ip = SP.getStringSP(context, SP.DEFAULTCACHE, Net.HTTP_IP, "");
-        if ("".equals(ip)) {
-            return Http_Host_ip + "/badou";
-        } else {
-            return ip + "/badou";
-        }
-
+    public static String getRunHost() {
+        return Http_Host_ip + "/badou";
     }
 
     /**

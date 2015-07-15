@@ -39,7 +39,7 @@ public class UserProgressAdapter extends MyBaseAdapter {
         holder.subjectTextView.setText(category.getSubject() + "");
         holder.timeTextView.setText(TimeTransfer.long2StringDetailDate(mContext, category.getTime()));
         if (mType == Category.CATEGORY_EXAM) {
-            holder.scoreTextView.setText(((Exam) category).score + mContext.getResources().getString(R.string.text_score));
+            holder.scoreTextView.setText(((Exam) category).getScore() + mContext.getResources().getString(R.string.text_score));
         }
         return convertView;
     }

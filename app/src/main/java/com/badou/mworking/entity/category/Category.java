@@ -42,8 +42,6 @@ public abstract class Category implements Serializable {
     @Expose
     int read;  // 是否完成
     @Expose
-    String content; //
-    @Expose
     String rid; // 资源唯一标识 主键id ，资源id
     @Expose
     String tag; // 类别id
@@ -74,7 +72,11 @@ public abstract class Category implements Serializable {
     public abstract int getCategoryType();
 
     public boolean isUnread() {
-        return read == 0 && offline == 0;
+        return read == 0;
+    }
+
+    public boolean isOffline() {
+        return offline == 1 ;
     }
 
     public boolean isTop() {
