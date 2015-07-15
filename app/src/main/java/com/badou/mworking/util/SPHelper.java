@@ -111,18 +111,6 @@ public class SPHelper {
         return SP.getBooleanSP(applicationContext, SP.DEFAULTCACHE, KEY_IS_FIRST, true);
     }
 
-    private static final String CONTACT_LIST_LAST_UPDATE_TIME = "contactlistlastupdate";
-
-    public static void setContactLastUpdateTime(long time) {
-        String uid = UserInfo.getUserInfo().getUid();
-        SP.putLongSP(applicationContext, SP.DEFAULTCACHE, CONTACT_LIST_LAST_UPDATE_TIME + uid, time);
-    }
-
-    public static long getContactLastUpdateTime() {
-        String uid = UserInfo.getUserInfo().getUid();
-        return SP.getLongSP(applicationContext, SP.DEFAULTCACHE, CONTACT_LIST_LAST_UPDATE_TIME + uid, 1);
-    }
-
     private static final String LOGO_URL = "logoUrl";
 
     public static void setLogoUrl(String logoUrl) {
@@ -198,6 +186,48 @@ public class SPHelper {
     public static int getUnreadNumber(int type) {
         String uid = UserInfo.getUserInfo().getUid();
         return SP.getIntSP(applicationContext, SP.DEFAULTCACHE, uid + Category.CATEGORY_KEY_UNREADS[type], 0);
+    }
+
+    public static final String CONTACT_LIST_LAST_UPDATE_TIME = "contactlistlastupdate";
+
+    public static void setContactLastUpdateTime(Context context, long time) {
+        String uid = UserInfo.getUserInfo().getUid();
+        SP.putLongSP(context, SP.DEFAULTCACHE, CONTACT_LIST_LAST_UPDATE_TIME + uid, time);
+    }
+
+    public static final long getContactLastUpdateTime(Context context) {
+        String uid = UserInfo.getUserInfo().getUid();
+        return SP.getLongSP(context, SP.DEFAULTCACHE, CONTACT_LIST_LAST_UPDATE_TIME + uid, 1);
+    }
+
+    public static final String EMCHAT_DISABLED_GROUP = "disablegroup";
+
+    public static void setDisabledGroup(Context context, List<String> groups) {
+        String uid = UserInfo.getUserInfo().getUid();
+        StringBuilder content = new StringBuilder();
+        for (String id : groups) {
+            content.append(id);
+            content.append(",");
+        }
+        if (content.length() > 0) {
+            content.deleteCharAt(content.length() - 1);
+        }
+        SP.putStringSP(context, SP.DEFAULTCACHE, EMCHAT_DISABLED_GROUP + uid, content.toString());
+    }
+
+    public static List<String> getDisabledGroup(Context context) {
+        String uid = UserInfo.getUserInfo().getUid();
+        List<String> groups = new ArrayList<>();
+        String content = SP.getStringSP(context, SP.DEFAULTCACHE, EMCHAT_DISABLED_GROUP + uid, null);
+        if (TextUtils.isEmpty(content)) {
+            return groups;
+        } else {
+            String[] ids = content.split(",");
+            for (int ii = 0; ii < ids.length; ii++) {
+                groups.add(ids[ii]);
+            }
+            return groups;
+        }
     }
 
 }

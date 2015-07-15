@@ -21,8 +21,8 @@ import com.badou.mworking.widget.InputMethodRelativeLayout;
 import com.badou.mworking.widget.InputMethodRelativeLayout.OnSizeChangedListenner;
 import com.badou.mworking.widget.LoginErrorDialog;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
 
@@ -31,19 +31,19 @@ import butterknife.OnTextChanged;
  */
 public class LoginActivity extends BaseNoTitleActivity implements LoginView, OnSizeChangedListenner {
 
-    @InjectView(R.id.normal_content_container)
+    @Bind(R.id.normal_content_container)
     LinearLayout mNormalContentContainer;
-    @InjectView(R.id.small_content_container)
+    @Bind(R.id.small_content_container)
     LinearLayout mSmallContentContainer;
-    @InjectView(R.id.username_edit_text)
+    @Bind(R.id.username_edit_text)
     EditText mUsernameEditText;
-    @InjectView(R.id.password_edit_text)
+    @Bind(R.id.password_edit_text)
     EditText mPasswordEditText;
-    @InjectView(R.id.login_button)
+    @Bind(R.id.login_button)
     Button mLoginButton;
-    @InjectView(R.id.bottom_container)
+    @Bind(R.id.bottom_container)
     RelativeLayout mBottomContainer;
-    @InjectView(R.id.base_container)
+    @Bind(R.id.base_container)
     InputMethodRelativeLayout mBaseContainer;
 
     LoginPresenter mLoginPresenter;
@@ -52,7 +52,7 @@ public class LoginActivity extends BaseNoTitleActivity implements LoginView, OnS
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         initView();
     }
 

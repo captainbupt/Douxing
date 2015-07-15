@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -43,7 +44,7 @@ import com.easemob.util.PathUtil;
  * 下载显示大图
  * 
  */
-public class ShowBigImage extends BaseActivity {
+public class ShowBigImage extends Activity {
 	private static final String TAG = "ShowBigImage"; 
 	private ProgressDialog pd;
 	private PhotoView image;

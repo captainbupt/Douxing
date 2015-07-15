@@ -22,7 +22,7 @@ import android.view.View;
 import com.easemob.chat.EMMessage;
 import com.badou.mworking.R;
 
-public class ContextMenu extends BaseActivity {
+public class ContextMenu extends Activity {
 
 	private int position;
 	
@@ -42,32 +42,6 @@ public class ContextMenu extends BaseActivity {
 		} else if (type == EMMessage.Type.VIDEO.ordinal()) {
 			setContentView(R.layout.context_menu_for_video);
 		}
-		    
-		/*    
-		switch (getIntent().getIntExtra("type", -1)) {
-		case txtValue:
-			setContentView(R.layout.context_menu_for_text);
-			break;
-		case EMMessage.Type.LOCATION.ordinal():
-			setContentView(R.layout.context_menu_for_location);
-			break;
-		case EMMessage.Type.IMAGE.ordinal():
-			setContentView(R.layout.context_menu_for_image);
-			break;
-		case EMMessage.Type.VOICE.ordinal():
-			setContentView(R.layout.context_menu_for_voice);
-			break;
-			//need to support netdisk and send netsdk?
-		case Message.TYPE_NETDISK:
-		    setContentView(R.layout.context_menu_for_netdisk);
-		    break;
-		case Message.TYPE_SENT_NETDISK:
-		    setContentView(R.layout.context_menu_for_sent_netdisk);
-		    break;
-		default:
-			break;
-		}
-		*/
 		position = getIntent().getIntExtra("position", -1);
 	}
 
@@ -85,11 +59,7 @@ public class ContextMenu extends BaseActivity {
 		setResult(ChatActivity.RESULT_CODE_DELETE, new Intent().putExtra("position", position));
 		finish();
 	}
-	public void forward(View view){
-		setResult(ChatActivity.RESULT_CODE_FORWARD, new Intent().putExtra("position", position));
-		finish();
-	}
-	
+
 	public void open(View v){
 	    setResult(ChatActivity.RESULT_CODE_OPEN, new Intent().putExtra("position", position));
         finish();

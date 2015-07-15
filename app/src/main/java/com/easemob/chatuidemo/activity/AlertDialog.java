@@ -15,6 +15,7 @@ package com.easemob.chatuidemo.activity;
 
 import java.io.File;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -26,11 +27,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.badou.mworking.R;
+import com.badou.mworking.base.BaseNoTitleActivity;
 import com.easemob.chatuidemo.task.DownloadImageTask;
 import com.easemob.chatuidemo.utils.ImageCache;
 import com.easemob.util.ImageUtils;
 
-public class AlertDialog extends BaseActivity {
+public class AlertDialog extends Activity {
 	private TextView mTextView;
 	private Button mButton;
 	private int position;

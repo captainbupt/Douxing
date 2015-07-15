@@ -23,6 +23,7 @@ import com.badou.mworking.database.EMChatResManager;
 import com.easemob.applib.model.DefaultHXSDKModel;
 import com.easemob.chatuidemo.db.DbOpenHelper;
 import com.easemob.chatuidemo.db.DemoDBManager;
+import com.easemob.chatuidemo.db.UserDao;
 import com.easemob.chatuidemo.domain.User;
 
 public class DemoHXSDKModel extends DefaultHXSDKModel {

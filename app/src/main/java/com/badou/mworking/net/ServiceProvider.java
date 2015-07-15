@@ -1284,4 +1284,37 @@ public class ServiceProvider {
         MyVolley.getRequestQueue().start();
     }
 
+    public static void createGroup(Context context, String name, String description, String hello, String[] members, VolleyListener volleyListener) {
+        String uid = UserInfo.getUserInfo().getUid();
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(RequestParameters.USER_ID, uid);
+            jsonObject.put("name", name);
+            jsonObject.put("desc", description);
+            jsonObject.put("msg", hello);
+            JSONArray jsonArray = new JSONArray();
+            for (int ii = 0; ii < members.length; ii++) {
+                jsonArray.put(members[ii]);
+            }
+            jsonObject.put("members", jsonArray);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        MyVolley.getRequestQueue().add(new JsonObjectRequest(Request.Method.POST, Net.getRunHost() + Net.createGroup(),
+                jsonObject, volleyListener, volleyListener));
+        MyVolley.getRequestQueue().start();
+    }
+
+    public static void registerAccount(Context context, String username, VolleyListener volleyListener) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("hxusr", username);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        MyVolley.getRequestQueue().add(new JsonObjectRequest(Request.Method.POST, Net.getRunHost() + Net.registerAccount(),
+                jsonObject, volleyListener, volleyListener));
+        MyVolley.getRequestQueue().start();
+    }
+
 }

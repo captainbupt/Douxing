@@ -33,7 +33,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import java.util.List;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.Bind;
 import butterknife.OnItemClick;
 import butterknife.OnTouch;
 
@@ -41,17 +41,17 @@ public class BaseCategoryProgressListActivity extends BaseBackActionBarActivity 
 
     public static final String KEY_CATEGORY = "category";
 
-    @InjectView(R.id.content_list_view)
+    @Bind(R.id.content_list_view)
     PullToRefreshListView mContentListView;
-    @InjectView(R.id.none_result_view)
+    @Bind(R.id.none_result_view)
     NoneResultView mNoneResultView;
-    @InjectView(R.id.classification_main_list)
+    @Bind(R.id.classification_main_list)
     ListView mClassificationMainList;
-    @InjectView(R.id.classification_more_list)
+    @Bind(R.id.classification_more_list)
     ListView mClassificationMoreList;
-    @InjectView(R.id.classification_container)
+    @Bind(R.id.classification_container)
     LinearLayout mClassificationContainer;
-    @InjectView(R.id.classification_background)
+    @Bind(R.id.classification_background)
     FrameLayout mClassificationBackground;
 
     private ImageView mTitleTriangleImageView;
@@ -75,7 +75,7 @@ public class BaseCategoryProgressListActivity extends BaseBackActionBarActivity 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base_progress_list);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         mCategoryIndex = mReceivedIntent.getIntExtra(KEY_CATEGORY, -1);
         if (mCategoryIndex == -1) {
             finish();

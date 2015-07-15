@@ -13,6 +13,7 @@
  */
 package com.easemob.chatuidemo.activity;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -48,7 +49,7 @@ import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.CoordinateConverter;
 import com.badou.mworking.R;
 
-public class BaiduMapActivity extends BaseActivity {
+public class BaiduMapActivity extends Activity {
 
 	private final static String TAG = "map";
 	static MapView mMapView = null;

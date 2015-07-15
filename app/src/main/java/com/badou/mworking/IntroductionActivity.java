@@ -13,7 +13,7 @@ import com.badou.mworking.presenter.IntroductionPresenter;
 import com.badou.mworking.view.IntroductionView;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.Bind;
 import butterknife.OnClick;
 import butterknife.OnPageChange;
 
@@ -22,9 +22,9 @@ import butterknife.OnPageChange;
  */
 public class IntroductionActivity extends BaseNoTitleActivity implements IntroductionView {
 
-    @InjectView(R.id.introduction_view_pager)
+    @Bind(R.id.introduction_view_pager)
     ViewPager mIntroductionViewPager;
-    @InjectView(R.id.introduction_button)
+    @Bind(R.id.introduction_button)
     Button mIntroductionButton;
 
     IntroductionPresenter introductionPresenter;
@@ -37,7 +37,7 @@ public class IntroductionActivity extends BaseNoTitleActivity implements Introdu
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_introductions);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         initView();
     }
 

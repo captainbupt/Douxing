@@ -20,18 +20,18 @@ import com.swipe.delete.SwipeLayout;
 import org.json.JSONObject;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.Bind;
 
 
 public class StoreAdapter extends MyBaseAdapter {
 
     private final int TYPE_NORMAL = 1;
     private final int TYPE_CHATTER = 2;
-    @InjectView(R.id.delete_text_view)
+    @Bind(R.id.delete_text_view)
     TextView mDeleteTextView;
-    @InjectView(R.id.chatter_item_view)
+    @Bind(R.id.chatter_item_view)
     ChatterItemView mChatterItemView;
-    @InjectView(R.id.swipe_layout)
+    @Bind(R.id.swipe_layout)
     SwipeLayout mSwipeLayout;
 
 
@@ -79,16 +79,16 @@ public class StoreAdapter extends MyBaseAdapter {
     }
 
     class NormalViewHolder extends BaseSwipeViewHolder {
-        @InjectView(R.id.type_image_view)
+        @Bind(R.id.type_image_view)
         ImageView typeImageView;
-        @InjectView(R.id.subject_text_view)
+        @Bind(R.id.subject_text_view)
         TextView subjectTextView;
-        @InjectView(R.id.time_text_view)
+        @Bind(R.id.time_text_view)
         TextView timeTextView;
 
         NormalViewHolder(View view) {
             super(view);
-            ButterKnife.inject(this, view);
+            ButterKnife.bind(this, view);
         }
 
     }
@@ -111,25 +111,25 @@ public class StoreAdapter extends MyBaseAdapter {
     }
 
     class ChatterViewHolder extends BaseSwipeViewHolder {
-        @InjectView(R.id.chatter_item_view)
+        @Bind(R.id.chatter_item_view)
         ChatterItemView chatterItemView;
 
         ChatterViewHolder(View view) {
             super(view);
-            ButterKnife.inject(this, view);
+            ButterKnife.bind(this, view);
         }
     }
 
     class BaseSwipeViewHolder {
-        @InjectView(R.id.delete_text_view)
+        @Bind(R.id.delete_text_view)
         TextView deleteTextView;
-        @InjectView(R.id.swipe_layout)
+        @Bind(R.id.swipe_layout)
         SwipeLayout swipeLayout;
         Store store;
         AdapterItemClickListener itemClickListener;
 
         BaseSwipeViewHolder(View view) {
-            ButterKnife.inject(this, view);
+            ButterKnife.bind(this, view);
             itemClickListener = new AdapterItemClickListener(mContext) {
                 @Override
                 public void onClick(View view) {

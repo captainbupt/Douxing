@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -30,7 +31,7 @@ import com.easemob.util.PathUtil;
  * @author Administrator
  * 
  */
-public class ShowVideoActivity extends BaseActivity{
+public class ShowVideoActivity extends Activity{
 	private static final String TAG = "ShowVideoActivity";
 	
 	private RelativeLayout loadingLayout;

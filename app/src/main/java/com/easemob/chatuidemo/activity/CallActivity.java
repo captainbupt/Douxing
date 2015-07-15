@@ -7,13 +7,14 @@ import com.easemob.chat.TextMessageBody;
 import com.easemob.chatuidemo.Constant;
 import com.badou.mworking.R;
 
+import android.app.Activity;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.Ringtone;
 import android.media.SoundPool;
 import android.os.Bundle;
 
-public class CallActivity extends BaseActivity {
+public class CallActivity extends Activity {
 
     protected boolean isInComingCall;
     protected String username;

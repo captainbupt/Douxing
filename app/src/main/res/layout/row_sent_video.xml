@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingTop="13dp" >
+    android:paddingTop="13dp">
 
     <TextView
         android:id="@+id/timestamp"
@@ -15,7 +15,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_chat_activity" >
+        android:layout_marginTop="@dimen/margin_chat_activity">
 
         <ImageView
             android:id="@+id/iv_userhead"
@@ -32,13 +32,13 @@
             android:layout_width="130dp"
             android:layout_height="145dp"
             android:layout_marginRight="@dimen/margin_chat_activity"
-            android:layout_toLeftOf="@id/iv_userhead" >
+            android:layout_toLeftOf="@id/iv_userhead">
 
             <FrameLayout
                 android:id="@+id/chatting_click_area"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:background="@drawable/chatto_bg" >
+                android:background="@drawable/chatto_bg_normal">
 
                 <ImageView
                     android:id="@+id/chatting_content_iv"
@@ -51,9 +51,9 @@
                     android:id="@+id/chatting_video_data_area"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:gravity="bottom"
                     android:background="@drawable/chat_video_mask_to"
-                    android:orientation="horizontal" >
+                    android:gravity="bottom"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/chatting_size_iv"
@@ -61,7 +61,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1.0"
                         android:textColor="@android:color/white"
-                        android:textSize="12.0sp"
+                        android:textSize="@dimen/text_size_small"
                         android:visibility="visible" />
 
                     <TextView
@@ -70,22 +70,23 @@
                         android:layout_height="wrap_content"
                         android:gravity="right"
                         android:textColor="@android:color/white"
-                        android:textSize="12.0sp" />
+                        android:textSize="@dimen/text_size_small" />
 
-                    
+
                 </LinearLayout>
-                <LinearLayout
-                        android:id="@+id/container_status_btn"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:gravity="center" >
 
-                        <ImageView
-                            android:id="@+id/chatting_status_btn"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@null" />
-                    </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/container_status_btn"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/chatting_status_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@null" />
+                </LinearLayout>
             </FrameLayout>
         </LinearLayout>
 
@@ -96,7 +97,7 @@
             android:layout_centerInParent="true"
             android:layout_toLeftOf="@id/ll_click_area"
             android:gravity="center"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <ProgressBar
                 android:id="@+id/progressBar"
@@ -132,19 +133,19 @@
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@id/ll_click_area"
             android:text="@string/text_ack_msg"
-            android:textSize="12sp"
+            android:textSize="@dimen/text_size_small"
             android:visibility="invisible" />
+
         <TextView
             android:id="@+id/tv_delivered"
             style="@style/chat_text_name_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="@string/text_delivered_msg"
-            android:textSize="12sp"
             android:layout_toLeftOf="@id/tv_chatcontent"
-            android:visibility="invisible"
-            />
+            android:text="@string/text_delivered_msg"
+            android:textSize="@dimen/text_size_small"
+            android:visibility="invisible" />
     </RelativeLayout>
 
 </LinearLayout>

@@ -38,11 +38,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.badou.mworking.base.AppApplication;
+import com.badou.mworking.base.BaseActionBarActivity;
+import com.badou.mworking.base.BaseBackActionBarActivity;
+import com.badou.mworking.database.EMChatResManager;
 import com.badou.mworking.entity.emchat.EMChatEntity;
+import com.badou.mworking.entity.user.UserInfo;
+import com.easemob.applib.controller.HXSDKHelper;
+import com.easemob.applib.model.DefaultHXSDKModel;
 import com.easemob.chat.EMChatManager;
+import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupManager;
 import com.badou.mworking.R;
+import com.easemob.chat.EMMessage;
+import com.easemob.chat.TextMessageBody;
+import com.easemob.chatuidemo.DemoHXSDKHelper;
+import com.easemob.chatuidemo.adapter.MessageAdapter;
 import com.easemob.chatuidemo.domain.User;
 import com.easemob.chatuidemo.utils.UserUtils;
 import com.easemob.chatuidemo.widget.ExpandGridView;
@@ -50,7 +61,7 @@ import com.easemob.exceptions.EaseMobException;
 import com.easemob.util.EMLog;
 import com.easemob.util.NetUtils;
 
-public class GroupDetailsActivity extends BaseActivity implements OnClickListener {
+public class GroupDetailsActivity extends BaseBackActionBarActivity implements OnClickListener {
     private static final String TAG = "GroupDetailsActivity";
     private static final int REQUEST_CODE_ADD_USER = 0;
     private static final int REQUEST_CODE_EXIT = 1;
@@ -63,14 +74,12 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 
     private ExpandGridView userGridview;
     private String groupId;
-    private ProgressBar loadingPB;
     private Button exitBtn;
     private Button deleteBtn;
     private EMGroup group;
     private GridAdapter adapter;
     private int referenceWidth;
     private int referenceHeight;
-    private ProgressDialog progressDialog;
 
     private RelativeLayout rl_switch_block_groupmsg;
     /**
@@ -82,6 +91,8 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
      */
     private ImageView iv_switch_unblock_groupmsg;
 
+    private TextView tv_group_member_number;
+
     public static GroupDetailsActivity instance;
 
     String st = "";
@@ -89,13 +100,11 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
     private RelativeLayout clearAllHistory;
     //private RelativeLayout blacklistLayout;
     private RelativeLayout changeGroupNameLayout;
-    private RelativeLayout idLayout;
-    private TextView idText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setLeft(R.drawable.button_title_bar_back_grey);
         // 获取传过来的groupid
         groupId = getIntent().getStringExtra("groupId");
         group = EMGroupManager.getInstance().getGroup(groupId);
@@ -111,14 +120,11 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
         st = getResources().getString(R.string.people);
         clearAllHistory = (RelativeLayout) findViewById(R.id.clear_all_history);
         userGridview = (ExpandGridView) findViewById(R.id.gridview);
-        loadingPB = (ProgressBar) findViewById(R.id.progressBar);
         exitBtn = (Button) findViewById(R.id.btn_exit_grp);
         deleteBtn = (Button) findViewById(R.id.btn_exitdel_grp);
+        tv_group_member_number = (TextView) findViewById(R.id.tv_group_member_number);
         //blacklistLayout = (RelativeLayout) findViewById(R.id.rl_blacklist);
         changeGroupNameLayout = (RelativeLayout) findViewById(R.id.rl_change_group_name);
-        idLayout = (RelativeLayout) findViewById(R.id.rl_group_id);
-        idLayout.setVisibility(View.VISIBLE);
-        idText = (TextView) findViewById(R.id.tv_group_id_value);
 
         rl_switch_block_groupmsg = (RelativeLayout) findViewById(R.id.rl_switch_block_groupmsg);
 
@@ -131,8 +137,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
         referenceWidth = referenceDrawable.getIntrinsicWidth();
         referenceHeight = referenceDrawable.getIntrinsicHeight();
 
-
-        idText.setText(groupId);
+        tv_group_member_number.setText(group.getMembers().size() + "/" + group.getMaxUsers());
         if (group.getOwner() == null || "".equals(group.getOwner())
                 || !group.getOwner().equals(EMChatManager.getInstance().getCurrentUser())) {
             exitBtn.setVisibility(View.GONE);
@@ -164,8 +169,8 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         if (adapter.isInDeleteMode) {
-                            adapter.isInDeleteMode = false;
-                            adapter.notifyDataSetChanged();
+                            //adapter.isInDeleteMode = false;
+                            //adapter.notifyDataSetChanged();
                             return true;
                         }
                         break;
@@ -180,6 +185,31 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
         //blacklistLayout.setOnClickListener(this);
         changeGroupNameLayout.setOnClickListener(this);
 
+    }
+
+    private void sendTipMessage(String groupId, String content, String attribute, String value) {
+        //获取到与聊天人的会话对象。参数username为聊天人的userid或者groupid，后文中的username皆是如此
+        EMConversation conversation = EMChatManager.getInstance().getConversation(groupId);
+        //创建一条文本消息
+        EMMessage message = EMMessage.createSendMessage(EMMessage.Type.TXT);
+        //如果是群聊，设置chattype,默认是单聊
+        message.setChatType(EMMessage.ChatType.GroupChat);
+        message.setAttribute(MessageAdapter.KEY_HELLO_MESSAGE, "1");
+        if (!TextUtils.isEmpty(attribute)) {
+            message.setAttribute(attribute, value);
+        }
+        TextMessageBody txtBody = new TextMessageBody(content);
+        message.addBody(txtBody);
+        //设置接收人
+        message.setReceipt(groupId);
+        //把消息加入到此会话对象中
+        conversation.addMessage(message);
+        //发送消息
+        EMChatManager.getInstance().sendMessage(message, null);
+    }
+
+    private void sendTipMessage(String groupId, String content) {
+        sendTipMessage(groupId, content, null, null);
     }
 
     @Override
@@ -197,50 +227,49 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 
         final String stsuccess = getResources().getString(R.string.Move_into_blacklist_success);
         if (resultCode == RESULT_OK) {
-            if (progressDialog == null) {
-                progressDialog = new ProgressDialog(GroupDetailsActivity.this);
-                progressDialog.setMessage(st1);
-                progressDialog.setCanceledOnTouchOutside(false);
-            }
+            mProgressDialog.setMessage(st1);
             switch (requestCode) {
                 case REQUEST_CODE_ADD_USER:// 添加群成员
                     final String[] newmembers = data.getStringArrayExtra("newmembers");
-                    progressDialog.setMessage(st1);
-                    progressDialog.show();
+                    mProgressDialog.setMessage(st1);
+                    mProgressDialog.show();
                     addMembersToGroup(newmembers);
                     break;
                 case REQUEST_CODE_EXIT: // 退出群
-                    progressDialog.setMessage(st2);
-                    progressDialog.show();
+                    mProgressDialog.setMessage(st2);
+                    mProgressDialog.show();
                     exitGrop();
                     break;
                 case REQUEST_CODE_EXIT_DELETE: // 解散群
-                    progressDialog.setMessage(st3);
-                    progressDialog.show();
+                    mProgressDialog.setMessage(st3);
+                    mProgressDialog.show();
                     deleteGrop();
                     break;
                 case REQUEST_CODE_CLEAR_ALL_HISTORY:
                     // 清空此群聊的聊天记录
-                    progressDialog.setMessage(st4);
-                    progressDialog.show();
+                    mProgressDialog.setMessage(st4);
+                    mProgressDialog.show();
                     clearGroupHistory();
                     break;
 
                 case REQUEST_CODE_EDIT_GROUPNAME: //修改群名称
                     final String returnData = data.getStringExtra("data");
                     if (!TextUtils.isEmpty(returnData)) {
-                        progressDialog.setMessage(st5);
-                        progressDialog.show();
+                        mProgressDialog.setMessage(st5);
+                        mProgressDialog.show();
 
                         new Thread(new Runnable() {
                             public void run() {
                                 try {
                                     EMGroupManager.getInstance().changeGroupName(groupId, returnData);
+                                    StringBuilder body = new StringBuilder();
+                                    body.append("群主将群名称改为 " + returnData);
+                                    sendTipMessage(groupId, body.toString(), "groupname", returnData);
                                     runOnUiThread(new Runnable() {
                                         public void run() {
                                             group.setGroupName(returnData);
                                             setGroupTitle(group);
-                                            progressDialog.dismiss();
+                                            mProgressDialog.dismiss();
                                             Toast.makeText(getApplicationContext(), st6, Toast.LENGTH_SHORT).show();
                                         }
                                     });
@@ -249,7 +278,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
                                     e.printStackTrace();
                                     runOnUiThread(new Runnable() {
                                         public void run() {
-                                            progressDialog.dismiss();
+                                            mProgressDialog.dismiss();
                                             Toast.makeText(getApplicationContext(), st7, Toast.LENGTH_SHORT).show();
                                         }
                                     });
@@ -259,8 +288,8 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
                     }
                     break;
                 case REQUEST_CODE_ADD_TO_BALCKLIST:
-                    progressDialog.setMessage(st8);
-                    progressDialog.show();
+                    mProgressDialog.setMessage(st8);
+                    mProgressDialog.show();
                     new Thread(new Runnable() {
                         public void run() {
                             try {
@@ -268,14 +297,14 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
                                 runOnUiThread(new Runnable() {
                                     public void run() {
                                         refreshMembers();
-                                        progressDialog.dismiss();
+                                        mProgressDialog.dismiss();
                                         Toast.makeText(getApplicationContext(), stsuccess, Toast.LENGTH_SHORT).show();
                                     }
                                 });
                             } catch (EaseMobException e) {
                                 runOnUiThread(new Runnable() {
                                     public void run() {
-                                        progressDialog.dismiss();
+                                        mProgressDialog.dismiss();
                                         Toast.makeText(getApplicationContext(), st9, Toast.LENGTH_SHORT).show();
                                     }
                                 });
@@ -290,23 +319,27 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        HXSDKHelper.getInstance().getNotifier().reset();
+    }
+
     private void setGroupTitle(EMGroup group) {
-        if (group.getGroupName().length() > 10) {
-            ((TextView) findViewById(R.id.group_name)).setText(group.getGroupName().substring(0, 11) + "...(" + group.getAffiliationsCount()
-                    + st);
+        setActionbarTitle(group.getGroupName());
+        /*if (group.getGroupName().length() > 10) {
+            setActionbarTitle(group.getGroupName().substring(0, 11) + "...(" + group.getAffiliationsCount() + st);
         } else {
-            ((TextView) findViewById(R.id.group_name)).setText(group.getGroupName() + "(" + group.getAffiliationsCount()
-                    + st);
-        }
+            setActionbarTitle(group.getGroupName() + "(" + group.getAffiliationsCount() + st);
+        }*/
     }
 
     private void refreshMembers() {
         adapter.clear();
-
         List<String> members = new ArrayList<String>();
         members.addAll(group.getMembers());
         adapter.addAll(members);
-
+        tv_group_member_number.setText(group.getMembers().size() + "/" + group.getMaxUsers());
         adapter.notifyDataSetChanged();
     }
 
@@ -337,7 +370,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
     public void clearGroupHistory() {
 
         EMChatManager.getInstance().clearConversation(group.getGroupId());
-        progressDialog.dismiss();
+        mProgressDialog.dismiss();
         // adapter.refresh(EMChatManager.getInstance().getConversation(toChatUsername));
 
     }
@@ -351,9 +384,11 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
             public void run() {
                 try {
                     EMGroupManager.getInstance().exitFromGroup(groupId);
+                    String name = UserInfo.getUserInfo().getName();
+                    sendTipMessage(groupId, name + " 退出了该群");
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            progressDialog.dismiss();
+                            mProgressDialog.dismiss();
                             setResult(RESULT_OK);
                             finish();
                             if (ChatActivity.activityInstance != null)
@@ -363,7 +398,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
                 } catch (final Exception e) {
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            progressDialog.dismiss();
+                            mProgressDialog.dismiss();
                             Toast.makeText(getApplicationContext(), getResources().getString(R.string.Exit_the_group_chat_failure) + " " + e.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     });
@@ -383,7 +418,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
                     EMGroupManager.getInstance().exitAndDeleteGroup(groupId);
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            progressDialog.dismiss();
+                            mProgressDialog.dismiss();
                             setResult(RESULT_OK);
                             finish();
                             if (ChatActivity.activityInstance != null)
@@ -393,7 +428,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
                 } catch (final Exception e) {
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            progressDialog.dismiss();
+                            mProgressDialog.dismiss();
                             Toast.makeText(getApplicationContext(), st5 + e.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     });
@@ -420,17 +455,29 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
                         // 一般成员调用invite方法
                         EMGroupManager.getInstance().inviteUser(groupId, newmembers, null);
                     }
+                    if (newmembers != null && newmembers.length > 0) {
+                        String username = UserInfo.getUserInfo().getName();
+                        StringBuilder body = new StringBuilder(username);
+                        body.append("邀请了");
+                        for (int ii = 0; ii < newmembers.length; ii++) {
+                            User user = EMChatEntity.getInstance().getContactList().get(newmembers[ii]);
+                            body.append(user == null ? newmembers[ii] : user.getNick());
+                            body.append("、");
+                        }
+                        body.deleteCharAt(body.length() - 1);
+                        sendTipMessage(groupId, body.toString());
+                    }
                     runOnUiThread(new Runnable() {
                         public void run() {
                             refreshMembers();
                             setGroupTitle(group);
-                            progressDialog.dismiss();
+                            mProgressDialog.dismiss();
                         }
                     });
                 } catch (final Exception e) {
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            progressDialog.dismiss();
+                            mProgressDialog.dismiss();
                             Toast.makeText(getApplicationContext(), st6 + e.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     });
@@ -447,28 +494,28 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
             case R.id.rl_switch_block_groupmsg: // 屏蔽群组
                 if (iv_switch_block_groupmsg.getVisibility() == View.VISIBLE) {
                     EMLog.d(TAG, "change to unblock group msg");
-                    if (progressDialog == null) {
-                        progressDialog = new ProgressDialog(GroupDetailsActivity.this);
-                        progressDialog.setCanceledOnTouchOutside(false);
-                    }
-                    progressDialog.setMessage(st6);
-                    progressDialog.show();
+                    mProgressDialog.setMessage(st6);
+                    mProgressDialog.show();
                     new Thread(new Runnable() {
                         public void run() {
                             try {
-                                EMGroupManager.getInstance().unblockGroupMessage(groupId);
+                                List<String> current = ((DefaultHXSDKModel) DemoHXSDKHelper.getInstance().getModel()).getDisabledGroups();
+                                if (current == null)
+                                    current = new ArrayList<>();
+                                current.remove(groupId);
+                                ((DefaultHXSDKModel) DemoHXSDKHelper.getInstance().getModel()).setDisabledGroups(current);
                                 runOnUiThread(new Runnable() {
                                     public void run() {
                                         iv_switch_block_groupmsg.setVisibility(View.INVISIBLE);
                                         iv_switch_unblock_groupmsg.setVisibility(View.VISIBLE);
-                                        progressDialog.dismiss();
+                                        mProgressDialog.dismiss();
                                     }
                                 });
                             } catch (Exception e) {
                                 e.printStackTrace();
                                 runOnUiThread(new Runnable() {
                                     public void run() {
-                                        progressDialog.dismiss();
+                                        mProgressDialog.dismiss();
                                         Toast.makeText(getApplicationContext(), st7, Toast.LENGTH_LONG).show();
                                     }
                                 });
@@ -481,28 +528,28 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
                     String st8 = getResources().getString(R.string.group_is_blocked);
                     final String st9 = getResources().getString(R.string.group_of_shielding);
                     EMLog.d(TAG, "change to block group msg");
-                    if (progressDialog == null) {
-                        progressDialog = new ProgressDialog(GroupDetailsActivity.this);
-                        progressDialog.setCanceledOnTouchOutside(false);
-                    }
-                    progressDialog.setMessage(st8);
-                    progressDialog.show();
+                    mProgressDialog.setMessage(st8);
+                    mProgressDialog.show();
                     new Thread(new Runnable() {
                         public void run() {
                             try {
-                                EMGroupManager.getInstance().blockGroupMessage(groupId);
+                                List<String> current = ((DefaultHXSDKModel) DemoHXSDKHelper.getInstance().getModel()).getDisabledGroups();
+                                if (current == null)
+                                    current = new ArrayList<>();
+                                current.add(groupId);
+                                ((DefaultHXSDKModel) DemoHXSDKHelper.getInstance().getModel()).setDisabledGroups(current);
                                 runOnUiThread(new Runnable() {
                                     public void run() {
                                         iv_switch_block_groupmsg.setVisibility(View.VISIBLE);
                                         iv_switch_unblock_groupmsg.setVisibility(View.INVISIBLE);
-                                        progressDialog.dismiss();
+                                        mProgressDialog.dismiss();
                                     }
                                 });
                             } catch (Exception e) {
                                 e.printStackTrace();
                                 runOnUiThread(new Runnable() {
                                     public void run() {
-                                        progressDialog.dismiss();
+                                        mProgressDialog.dismiss();
                                         if (group.getOwner().equals(EMChatEntity.getInstance().getUserName())) {
                                             Toast.makeText(getApplicationContext(), getString(R.string.group_of_shielding_owner), Toast.LENGTH_LONG).show();
                                         } else {
@@ -575,37 +622,30 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
-            final LinearLayout button = (LinearLayout) convertView.findViewById(R.id.button_avatar);
             // 最后一个item，减人按钮
-            if (position == getCount() - 1) {
+            if (position == super.getCount() + 1) {
                 holder.textView.setText("");
                 // 设置成删除按钮
                 holder.imageView.setImageResource(R.drawable.smiley_minus_btn);
 //				button.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.smiley_minus_btn, 0, 0);
-                // 如果不是创建者或者没有相应权限，不提供加减人按钮
-                if (!group.getOwner().equals(EMChatManager.getInstance().getCurrentUser())) {
-                    // if current user is not group admin, hide add/remove btn
+                if (isInDeleteMode) {
+                    // 正处于删除模式下，隐藏删除按钮
                     convertView.setVisibility(View.INVISIBLE);
-                } else { // 显示删除按钮
-                    if (isInDeleteMode) {
-                        // 正处于删除模式下，隐藏删除按钮
-                        convertView.setVisibility(View.INVISIBLE);
-                    } else {
-                        // 正常模式
-                        convertView.setVisibility(View.VISIBLE);
-                        convertView.findViewById(R.id.badge_delete).setVisibility(View.INVISIBLE);
-                    }
-                    final String st10 = getResources().getString(R.string.The_delete_button_is_clicked);
-                    button.setOnClickListener(new OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            EMLog.d(TAG, st10);
-                            isInDeleteMode = true;
-                            notifyDataSetChanged();
-                        }
-                    });
+                } else {
+                    // 正常模式
+                    convertView.setVisibility(View.VISIBLE);
+                    convertView.findViewById(R.id.badge_delete).setVisibility(View.INVISIBLE);
                 }
-            } else if (position == getCount() - 2) { // 添加群组成员按钮
+                final String st10 = getResources().getString(R.string.The_delete_button_is_clicked);
+                holder.imageView.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        EMLog.d(TAG, st10);
+                        isInDeleteMode = true;
+                        notifyDataSetChanged();
+                    }
+                });
+            } else if (position == super.getCount()) { // 添加群组成员按钮
                 holder.textView.setText("");
                 holder.imageView.setImageResource(R.drawable.smiley_add_btn);
 //				button.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.smiley_add_btn, 0, 0);
@@ -622,7 +662,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
                         convertView.findViewById(R.id.badge_delete).setVisibility(View.INVISIBLE);
                     }
                     final String st11 = getResources().getString(R.string.Add_a_button_was_clicked);
-                    button.setOnClickListener(new OnClickListener() {
+                    holder.imageView.setOnClickListener(new OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             EMLog.d(TAG, st11);
@@ -636,7 +676,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
             } else { // 普通item，显示群组成员
                 final String username = getItem(position);
                 convertView.setVisibility(View.VISIBLE);
-                button.setVisibility(View.VISIBLE);
+                holder.imageView.setVisibility(View.VISIBLE);
 //				Drawable avatar = getResources().getDrawable(R.drawable.default_avatar);
 //				avatar.setBounds(0, 0, referenceWidth, referenceHeight);
 //				button.setCompoundDrawables(null, avatar, null, null);
@@ -658,7 +698,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
                 final String st13 = getResources().getString(R.string.Are_removed);
                 final String st14 = getResources().getString(R.string.Delete_failed);
                 final String st15 = getResources().getString(R.string.confirm_the_members);
-                button.setOnClickListener(new OnClickListener() {
+                holder.imageView.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (isInDeleteMode) {
@@ -700,7 +740,10 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
                                 try {
                                     // 删除被选中的成员
                                     EMGroupManager.getInstance().removeUserFromGroup(groupId, username);
-                                    isInDeleteMode = false;
+                                    // isInDeleteMode = false;
+                                    User user = EMChatEntity.getInstance().getContactList().get(username);
+                                    sendTipMessage(groupId, (user == null ? username : user.getNick()) + " 移出了该群");
+
                                     runOnUiThread(new Runnable() {
 
                                         @Override
@@ -725,7 +768,6 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
                 });
 
 /*                button.setOnLongClickListener(new OnLongClickListener() {
-
                     @Override
                     public boolean onLongClick(View v) {
                         if (EMChatManager.getInstance().getCurrentUser().equals(username))
@@ -746,7 +788,12 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 
         @Override
         public int getCount() {
-            return super.getCount() + 2;
+            // 如果不是创建者或者没有相应权限，不提供加减人按钮
+            if (!group.getOwner().equals(EMChatManager.getInstance().getCurrentUser())) {
+                return super.getCount() + 1;
+            } else {
+                return super.getCount() + 2;
+            }
         }
     }
 
@@ -761,7 +808,6 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
                     runOnUiThread(new Runnable() {
                         public void run() {
                             setGroupTitle(group);
-                            loadingPB.setVisibility(View.INVISIBLE);
                             refreshMembers();
                             if (EMChatManager.getInstance().getCurrentUser().equals(group.getOwner())) {
                                 // 显示解散按钮
@@ -775,7 +821,11 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 
                             // update block
                             EMLog.d(TAG, "group msg is blocked:" + group.getMsgBlocked());
-                            if (group.isMsgBlocked()) {
+                            List<String> current = ((DefaultHXSDKModel) DemoHXSDKHelper.getInstance().getModel()).getDisabledGroups();
+                            System.out.println("current size: " + ((current == null) ? 0 : current.size()));
+                            if (current == null)
+                                current = new ArrayList<>();
+                            if (current.contains(groupId)) {
                                 iv_switch_block_groupmsg.setVisibility(View.VISIBLE);
                                 iv_switch_unblock_groupmsg.setVisibility(View.INVISIBLE);
                             } else {
@@ -786,25 +836,21 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
                     });
 
                 } catch (Exception e) {
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            loadingPB.setVisibility(View.INVISIBLE);
-                        }
-                    });
+
                 }
             }
         }).start();
     }
 
-    public void back(View view) {
-        setResult(RESULT_OK);
-        finish();
-    }
-
     @Override
     public void onBackPressed() {
-        setResult(RESULT_OK);
-        finish();
+        if (adapter.isInDeleteMode) {
+            adapter.isInDeleteMode = false;
+            adapter.notifyDataSetChanged();
+        } else {
+            setResult(RESULT_OK);
+            super.onBackPressed();
+        }
     }
 
     @Override

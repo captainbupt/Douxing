@@ -13,19 +13,28 @@
  */
 package com.easemob.chatuidemo.activity;
 
+import java.sql.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Editable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -36,15 +45,21 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.VolleyError;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.database.EMChatResManager;
 import com.badou.mworking.entity.emchat.Department;
-import com.badou.mworking.entity.emchat.EMChatEntity;
 import com.badou.mworking.entity.emchat.Role;
+import com.badou.mworking.entity.user.UserInfo;
+import com.badou.mworking.net.Net;
+import com.badou.mworking.net.ServiceProvider;
+import com.badou.mworking.net.volley.VolleyListener;
+import com.badou.mworking.util.SPHelper;
 import com.badou.mworking.util.ToastUtil;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
@@ -53,12 +68,16 @@ import com.easemob.chat.EMGroupManager;
 import com.badou.mworking.R;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.TextMessageBody;
+import com.easemob.chatuidemo.adapter.MessageAdapter;
 import com.easemob.chatuidemo.adapter.PickContactsAdapter;
 import com.easemob.chatuidemo.adapter.PickContactsAutoCompleteAdapter;
 import com.easemob.chatuidemo.domain.User;
 import com.easemob.chatuidemo.widget.Sidebar;
 import com.easemob.exceptions.EaseMobException;
 
+import org.json.JSONObject;
+
+import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 public class GroupPickContactsActivity extends BaseBackActionBarActivity {
@@ -73,9 +92,15 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
      * group中一开始就有的成员
      */
     private List<String> exitingMembers;
+    private CheckBox selectedFilterCheckBox;
     private TextView selectedNumberTextView;
+    private ImageView selectedAllImageView;
+    private TextView selectedAllTextView;
+    private boolean isAllSelected = false;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     ImageButton clearSearch;
+    boolean isTargeted = false;
     AutoCompleteTextView query;
 
     List<Department> departments;
@@ -110,37 +135,145 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
         setRightText(R.string.emchat_contact_title_right, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                List<String> members = contactAdapter.getToBeAddMembers();
+                final List<String> members = contactAdapter.getToBeAddMembers();
                 if (exitingMembers.size() > 0) {
-                    save(members.toArray(new String[members.size()]));
+                    if (members.size() + exitingMembers.size() > 199) {
+                        new android.app.AlertDialog.Builder(mContext).setTitle("人数达到上限").setMessage("将自动选取前200人创建群聊").setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                createGroup(members.subList(0, 199 - exitingMembers.size()).toArray(new String[members.size()]));
+                            }
+                        }).setNegativeButton("取消", null).show();
+                    } else {
+                        save(members.toArray(new String[members.size()]));
+                    }
                 } else if (members.size() > 0) {
-                    createGroup(members.toArray(new String[members.size()]));
+                    if (members.size() > 199) {
+                        new android.app.AlertDialog.Builder(mContext).setTitle("人数达到上限").setMessage("将自动选取前200人创建群聊").setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                createGroup(members.subList(0, 199).toArray(new String[members.size()]));
+                            }
+                        }).setNegativeButton("取消", null).show();
+                    } else {
+                        createGroup(members.toArray(new String[members.size()]));
+                    }
                 } else {
                     ToastUtil.showToast(mContext, R.string.group_member_empty);
                 }
             }
         });
+
         departments = EMChatResManager.getDepartments();
         roles = EMChatResManager.getRoles();
         contacts = EMChatResManager.getContacts();
+        Map<Long, Department> departmentMap = new HashMap<>(departments.size());
+        for (Department department : departments) {
+            departmentMap.put(department.getId(), department);
+        }
+        Map<Integer, Role> roleMap = new HashMap<>(roles.size());
+        for (Role role : roles) {
+            roleMap.put(role.getId(), role);
+        }
+
+        String groupId = getIntent().getStringExtra("groupId");
+        if (groupId == null) {// 创建群组
+            isCreatingNewGroup = true;
+        } else {
+            // 获取此群组的成员列表
+            EMGroup group = EMGroupManager.getInstance().getGroup(groupId);
+            exitingMembers = group.getMembers();
+        }
+        if (exitingMembers == null)
+            exitingMembers = new ArrayList<>();
         for (int ii = 0; ii < contacts.size(); ii++) {
-            if (contacts.get(ii).getUsername().equals(EMChatManager.getInstance().getCurrentUser())) {
+            if (contacts.get(ii).getUsername().equals(EMChatManager.getInstance().getCurrentUser()) || exitingMembers.contains(contacts.get(ii).getUsername())) {
                 contacts.remove(ii);
-                break;
+                ii--;
+            } else {
+                contacts.get(ii).setTag(departmentMap, roleMap);
             }
         }
+
         initContactList(contacts);
+
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.chat_swipe_layout);
+
+        swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light,
+                android.R.color.holo_orange_light, android.R.color.holo_red_light);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                MainActivity.initContactsFromServer(mContext, new MainActivity.OnUpdatingListener() {
+                    @Override
+                    public void onStart() {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        SPHelper.setContactLastUpdateTime(mContext, Calendar.getInstance().getTimeInMillis());
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                });
+            }
+        });
     }
 
     private void initHeader() {
-        ((CheckBox) findViewById(R.id.filter_selected)).setOnCheckedChangeListener(new OnCheckedChangeListener() {
+        selectedFilterCheckBox = (CheckBox) findViewById(R.id.filter_selected);
+        selectedFilterCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 contactAdapter.setSelected(b);
+                if (b && contactAdapter.getCount() > 0) {
+                    setAllSelectedStatus(1);
+                } else {
+                    setAllSelectedStatus(contactAdapter.getAllSelectedStatus());
+                }
             }
         });
         selectedNumberTextView = (TextView) findViewById(R.id.selected_number);
+        selectedNumberTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectedFilterCheckBox.toggle();
+            }
+        });
+        selectedAllImageView = (ImageView) findViewById(R.id.select_all);
+        selectedAllTextView = (TextView) findViewById(R.id.select_text);
+        View.OnClickListener onClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isAllSelected = !isAllSelected;
+                contactAdapter.selectAll(isAllSelected);
+                setAllSelectedStatus(isAllSelected ? 1 : -1);
+            }
+        };
+        selectedAllImageView.setOnClickListener(onClickListener);
+        selectedAllTextView.setOnClickListener(onClickListener);
         setSelectedNumber(0);
+    }
+
+    private void setAllSelectedStatus(int status) {
+        switch (status) {
+            case -1:
+                isAllSelected = false;
+                selectedAllImageView.setImageResource(R.drawable.dx_checkbox_off);
+                selectedAllTextView.setText(R.string.select_all);
+                break;
+            case 0:
+                isAllSelected = false;
+                selectedAllImageView.setImageResource(R.drawable.dx_checkbox_half);
+                selectedAllTextView.setText(R.string.select_all);
+                break;
+            case 1:
+                isAllSelected = true;
+                selectedAllImageView.setImageResource(R.drawable.dx_checkbox_on);
+                selectedAllTextView.setText(R.string.unselect_all);
+                break;
+        }
     }
 
     private void setSelectedNumber(int number) {
@@ -175,23 +308,24 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
         }
     }
 
-    private void initContactList(List<User> contacts) {
+    private void initContactList(final List<User> contacts) {
         query.setAdapter(new PickContactsAutoCompleteAdapter(mContext, contacts, departments, roles, new ArrayList<>()));
         query.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                isTargeted = true;
                 Object object = adapterView.getAdapter().getItem(i);
                 if (object instanceof Role) {
                     Role role = (Role) object;
-                    contactAdapter.setRole(role);
+                    contactAdapter.setFilter(role, PickContactsAdapter.TYPE_ROLE);
                     query.setText(role.getName());
                 } else if (object instanceof Department) {
                     Department department = (Department) object;
-                    contactAdapter.setDepartment(department);
+                    contactAdapter.setFilter(department, PickContactsAdapter.TYPE_DEPARTMENT);
                     query.setText(department.getName());
                 } else if (object instanceof User) {
                     User user = (User) object;
-                    contactAdapter.setUser(user);
+                    contactAdapter.setFilter(user, PickContactsAdapter.TYPE_USER);
                     query.setText(user.getNick());
                 }
             }
@@ -209,41 +343,77 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (editable.length() == 0) {
-                    contactAdapter.showAll();
-                } else {
-                    clearSearch.setVisibility(View.VISIBLE);
+                handler.removeCallbacks(searchRunnable);
+                if (!isTargeted) {
+                    if (editable.length() == 0) {
+                        contactAdapter.setFilter(null, PickContactsAdapter.TYPE_ALL);
+                    } else {
+                        clearSearch.setVisibility(View.VISIBLE);
+                        handler.postDelayed(searchRunnable, 1000);
+                    }
                 }
+                isTargeted = false;
+                selectedFilterCheckBox.setChecked(false);
             }
         });
-        String groupId = getIntent().getStringExtra("groupId");
-        if (groupId == null) {// 创建群组
-            isCreatingNewGroup = true;
-        } else {
-            // 获取此群组的成员列表
-            EMGroup group = EMGroupManager.getInstance().getGroup(groupId);
-            exitingMembers = group.getMembers();
-        }
-        if (exitingMembers == null)
-            exitingMembers = new ArrayList<>();
+
         // 对list进行排序
         Collections.sort(contacts, new Comparator<User>() {
             @Override
             public int compare(User lhs, User rhs) {
                 return (lhs.getSpell().compareTo(rhs.getSpell()));
-
             }
         });
 
         contactAdapter = new PickContactsAdapter(this, contacts, exitingMembers);
         listView.setAdapter(contactAdapter);
+        listView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(query.getWindowToken(), 0);
+                return false;
+            }
+        });
         contactAdapter.setOnSelectedCountChangeListener(new PickContactsAdapter.OnSelectedCountChangeListener() {
             @Override
             public void onSelectedCountChange(int count) {
                 setSelectedNumber(count);
+                setAllSelectedStatus(contactAdapter.getAllSelectedStatus());
             }
         });
+        contactAdapter.setOnDataSetChangedListener(new PickContactsAdapter.OnDataSetChangedListener() {
+            @Override
+            public void onDataSetChanged() {
+                if (contactAdapter.getCount() > 0) {
+                    findViewById(R.id.none_result_view).setVisibility(View.GONE);
+                } else {
+                    if (selectedFilterCheckBox.isChecked()) {
+
+                    } else {
+                        findViewById(R.id.none_result_view).setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        });
+
+        // 隐藏软键盘
+        InputMethodManager inputMethodManager = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (mActivity.getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN) {
+            if (mActivity.getCurrentFocus() != null)
+                inputMethodManager.hideSoftInputFromWindow(mActivity.getCurrentFocus().getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
+
+    Handler handler = new Handler();
+
+    Runnable searchRunnable = new Runnable() {
+        @Override
+        public void run() {
+            contactAdapter.setFilter(query.getText().toString(), PickContactsAdapter.TYPE_TAG);
+        }
+    };
 
     public void save(final String[] members) {
         setResult(RESULT_OK, new Intent().putExtra("newmembers", members));
@@ -258,11 +428,54 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
         mProgressDialog.setCanceledOnTouchOutside(false);
         mProgressDialog.show();
 
-        new Thread(new Runnable() {
+        String name = UserInfo.getUserInfo().getName();
+        String groupName = name + "发起的聊天";
+        ServiceProvider.createGroup(mContext, groupName, "", "欢迎信息", members, new VolleyListener(mContext) {
+            @Override
+            public void onResponseSuccess(final JSONObject response) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            EMGroupManager.getInstance().getGroupsFromServer();//需异步处理
+                        } catch (EaseMobException e) {
+                            e.printStackTrace();
+                        }
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                String groupId = response.optJSONObject(Net.DATA).optString("groupid");
+                                Intent intent = new Intent(mContext, ChatActivity.class);
+                                // it is group chat
+                                intent.putExtra("chatType", ChatActivity.CHATTYPE_GROUP);
+                                intent.putExtra("groupId", groupId);
+                                startActivity(intent);
+                                finish();
+                            }
+                        });
+                    }
+                }).start();
+            }
+
+            @Override
+            public void onErrorCode(int code) {
+                super.onErrorCode(code);
+                System.out.println("code: " + code);
+            }
+
+            @Override
+            public void onCompleted() {
+                mProgressDialog.dismiss();
+            }
+        });
+
+
+/*        new Thread(new Runnable() {
             @Override
             public void run() {
                 // 调用sdk创建群组方法
-                String groupName = EMChatEntity.getInstance().getContactList().get(EMChatManager.getInstance().getCurrentUser()).getNick() + "创建的群组聊天";
+                String name = ((AppApplication) mContext.getApplicationContext()).getUserInfo().name;
+                String groupName = name + "发起的聊天";
                 String desc = "";
                 try {
                     EMGroup emGroup = EMGroupManager.getInstance().createPrivateGroup(groupName, desc, members, true, 200);
@@ -272,8 +485,17 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
                     EMMessage message = EMMessage.createSendMessage(EMMessage.Type.TXT);
                     //如果是群聊，设置chattype,默认是单聊
                     message.setChatType(EMMessage.ChatType.GroupChat);
+                    message.setAttribute(MessageAdapter.KEY_HELLO_MESSAGE, "1");
                     //设置消息body
-                    TextMessageBody txtBody = new TextMessageBody(groupName);
+                    StringBuilder body = new StringBuilder(name);
+                    body.append("邀请了");
+                    for (int ii = 0; ii < members.length; ii++) {
+                        User user = AppApplication.getInstance().getContactList().get(members[ii]);
+                        body.append(user == null ? members[ii] : user.getNick());
+                        body.append("、");
+                    }
+                    body.deleteCharAt(body.length() - 1);
+                    TextMessageBody txtBody = new TextMessageBody(body.toString());
                     message.addBody(txtBody);
                     //设置接收人
                     message.setReceipt(emGroup.getGroupId());
@@ -296,8 +518,7 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
                         }
                     });
                 }
-
             }
-        }).start();
+        }).start();*/
     }
 }

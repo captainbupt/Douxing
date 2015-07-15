@@ -84,33 +84,32 @@
     </style>
 
 
-
-
     <style name="chat_content_date_style">
-        <item name="android:minHeight">50dp</item>
+        <item name="android:minHeight">@dimen/size_avatar</item>
         <item name="android:gravity">center</item>
-        <item name="android:textColor">#000000</item>
-        <item name="android:textSize">15sp</item>
-        <item name="android:lineSpacingExtra">2dp</item>
+        <item name="android:textColor">@color/color_text_black</item>
+        <item name="android:textSize">@dimen/text_size_less</item>
+        <item name="android:lineSpacingExtra">1dp</item>
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
-        <item name="android:background">#bfbfbf</item>
     </style>
 
     <style name="chat_text_name_style">
-        <item name="android:textColor">#818181</item>
-        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/color_text_grey_light</item>
+        <item name="android:textSize">@dimen/text_size_small</item>
         <item name="android:gravity">center</item>
     </style>
 
     <style name="chat_text_date_style">
-        <item name="android:padding">2dp</item>
         <item name="android:paddingTop">2dip</item>
         <item name="android:paddingBottom">2dip</item>
-        <item name="android:paddingLeft">12dip</item>
-        <item name="android:paddingRight">12dip</item>
+        <item name="android:paddingLeft">@dimen/offset_less</item>
+        <item name="android:paddingRight">@dimen/offset_less</item>
+        <item name="android:layout_marginLeft">@dimen/offset_medium</item>
+        <item name="android:layout_marginRight">@dimen/offset_medium</item>
         <item name="android:textColor">@color/btn_gray_normal</item>
-        <item name="android:textSize">12sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/text_size_micro</item>
         <item name="android:background">@drawable/timestampe_bg</item>
     </style>
 
@@ -166,8 +165,6 @@
         <item name="android:windowAnimationStyle">@style/AnimFade2</item>
     </style>
     -->
-
-
 
     <style name="MyDialogStyle">
         <item name="android:windowBackground">@android:color/transparent</item>

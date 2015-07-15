@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 import com.badou.mworking.R;
 
-public class ExitGroupDialog extends BaseActivity{
+public class ExitGroupDialog extends Activity{
     private TextView text;
     private Button exitBtn;
 

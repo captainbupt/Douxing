@@ -204,7 +204,7 @@
             android:name=".ChatterUserActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.badou.mworking.ForgetPassWordActivity"
+            android:name=".ForgetPassWordPhoneActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".VideoPlayActivity"
@@ -354,20 +354,20 @@
             android:name="com.easemob.chatuidemo.activity.ChatActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/horizontal_slide"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ForgetPasswordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.easemob.chatuidemo.activity.ChatServiceActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <!-- 群组详情 -->
         <activity
             android:name="com.easemob.chatuidemo.activity.GroupDetailsActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/horizontal_slide" />
+            android:screenOrientation="portrait" />
 
-        <!-- 新建群组 -->
-        <activity
-            android:name="com.easemob.chatuidemo.activity.NewGroupActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/horizontal_slide"
-            android:windowSoftInputMode="adjustPan" />
         <!-- 退出群组提示框 -->
         <activity
             android:name="com.easemob.chatuidemo.activity.ExitGroupDialog"
@@ -378,26 +378,17 @@
             android:name="com.easemob.chatuidemo.activity.GroupPickContactsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-        <activity
-            android:name="com.easemob.chatuidemo.activity.DepartmentListActivity"
-            android:screenOrientation="portrait"></activity>
         <!-- 地图 -->
         <activity
             android:name="com.easemob.chatuidemo.activity.BaiduMapActivity"
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide" />
-
-        <!-- 转发消息用户列表页面 -->
-        <activity
-            android:name="com.easemob.chatuidemo.activity.ForwardMessageActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/horizontal_slide"
-            android:windowSoftInputMode="adjustPan" />
         <!-- 自定义的contextmenu -->
         <activity
             android:name="com.easemob.chatuidemo.activity.ContextMenu"
             android:screenOrientation="portrait"
             android:theme="@style/MyDialogStyle" />
+        android:theme="@style/MyDialogStyle"/>
         <!-- 自定义的alertdialog -->
         <activity
             android:name="com.easemob.chatuidemo.activity.AlertDialog"
@@ -414,19 +405,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide" />
 
-        <!-- 公开的群聊列表 -->
-        <activity
-            android:name="com.easemob.chatuidemo.activity.PublicGroupsActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/horizontal_slide"
-            android:windowSoftInputMode="adjustPan" />
-
-        <activity
-            android:name="com.easemob.chatuidemo.activity.PublicChatRoomsActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/horizontal_slide"
-            android:windowSoftInputMode="adjustPan" />
-
         <!-- 语音通话 -->
         <activity
             android:name="com.easemob.chatuidemo.activity.VoiceCallActivity"
@@ -437,55 +415,41 @@
             android:name="com.easemob.chatuidemo.activity.VideoCallActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
-            android:theme="@style/horizontal_slide"></activity>
-        <!-- 群聊简单信息 -->
-        <activity
-            android:name="com.easemob.chatuidemo.activity.GroupSimpleDetailActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/horizontal_slide"></activity>
-        <!-- 群组黑名单用户列表 -->
-        <activity
-            android:name="com.easemob.chatuidemo.activity.GroupBlacklistActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/horizontal_slide"></activity>
-        <activity
-            android:name="com.easemob.chatuidemo.activity.PublicGroupsSeachActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/horizontal_slide"></activity>
+            android:theme="@style/horizontal_slide" />
         <activity
             android:name="com.easemob.chatuidemo.activity.EditActivity"
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide"
-            android:windowSoftInputMode="stateVisible"></activity>
+            android:windowSoftInputMode="stateVisible" />
         <activity
             android:name="com.easemob.chatuidemo.activity.ShowVideoActivity"
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide"
-            android:windowSoftInputMode="stateAlwaysHidden"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <!-- choose video -->
         <activity
             android:name="com.easemob.chatuidemo.activity.ImageGridActivity"
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide"
-            android:windowSoftInputMode="stateAlwaysHidden"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name="com.easemob.chatuidemo.activity.RecorderVideoActivity"
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide"
-            android:windowSoftInputMode="stateAlwaysHidden"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <!-- upload error log -->
         <activity
             android:name="com.easemob.chatuidemo.activity.DiagnoseActivity"
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide"
-            android:windowSoftInputMode="stateAlwaysHidden"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden" />
 
         <!-- iOS offline push nick -->
         <activity
             android:name="com.easemob.chatuidemo.activity.OfflinePushNickActivity"
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide"
-            android:windowSoftInputMode="stateAlwaysHidden"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden" />
 
         <!-- 开机自启动服务 -->
         <receiver android:name="com.easemob.chat.StartServiceReceiver">

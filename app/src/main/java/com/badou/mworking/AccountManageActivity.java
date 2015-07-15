@@ -11,10 +11,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.badou.mworking.base.BaseBackActionBarActivity;
+import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.presenter.AccountManagerPresenter;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import butterknife.OnClick;
 
 /**
@@ -22,17 +23,17 @@ import butterknife.OnClick;
  */
 public class AccountManageActivity extends BaseBackActionBarActivity {
 
-    @InjectView(R.id.tv_username)
+    @Bind(R.id.tv_username)
     TextView tvUsername;
-    @InjectView(R.id.et_original)
+    @Bind(R.id.et_original)
     EditText etOriginal;
-    @InjectView(R.id.et_new)
+    @Bind(R.id.et_new)
     EditText etNew;
-    @InjectView(R.id.et_confirm)
+    @Bind(R.id.et_confirm)
     EditText etConfirm;
-    @InjectView(R.id.btn_change_password)
+    @Bind(R.id.btn_change_password)
     Button btnChangePassword;
-    @InjectView(R.id.btn_logout)
+    @Bind(R.id.btn_logout)
     Button btnLogout;
 
     AccountManagerPresenter presenter;
@@ -41,12 +42,23 @@ public class AccountManageActivity extends BaseBackActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_manager);
-        ButterKnife.inject(this);
-        initialize();
+        ButterKnife.bind(this);
+        initData();
     }
 
-    private void initialize(){
+    private void initData() {
         presenter = new AccountManagerPresenter(this);
+        String account = UserInfo.getUserInfo().getAccount();
+        tvUsername.setText(account);
+        if ("anonymous".equals(account)) {
+            anonymousMode();
+        } else {
+            disableButton();
+            PasswordTextWatcher passwordTextWatcher = new PasswordTextWatcher();
+            etOriginal.addTextChangedListener(passwordTextWatcher);
+            etNew.addTextChangedListener(passwordTextWatcher);
+            etConfirm.addTextChangedListener(passwordTextWatcher);
+        }
     }
 
     public void disableButton() {

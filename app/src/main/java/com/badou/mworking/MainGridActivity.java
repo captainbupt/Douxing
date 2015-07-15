@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -16,6 +17,8 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.badou.mworking.adapter.BannerAdapter;
 import com.badou.mworking.adapter.MainGridAdapter;
@@ -25,6 +28,10 @@ import com.badou.mworking.entity.main.MainBanner;
 import com.badou.mworking.entity.main.MainIcon;
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.fragment.MainSearchFragment;
+import com.badou.mworking.net.Net;
+import com.badou.mworking.net.RequestParameters;
+import com.badou.mworking.net.ResponseParameters;
+import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.presenter.MainPresenter;
 import com.badou.mworking.util.AppManager;
@@ -36,10 +43,34 @@ import com.badou.mworking.widget.TopFadeScrollView;
 import com.easemob.chatuidemo.activity.MainActivity;
 
 import java.util.ArrayList;
+
+import com.easemob.EMCallBack;
+import com.easemob.EMEventListener;
+import com.easemob.EMNotifierEvent;
+import com.easemob.chat.EMChatManager;
+import com.easemob.chat.EMConversation;
+import com.easemob.chat.EMGroupManager;
+import com.easemob.chat.EMMessage;
+import com.easemob.chatuidemo.Constant;
+import com.easemob.chatuidemo.DemoHXSDKHelper;
+import com.easemob.chatuidemo.activity.MainActivity;
+import com.easemob.chatuidemo.db.UserDao;
+import com.easemob.chatuidemo.domain.User;
+
+import org.bitlet.weupnp.Main;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.Bind;
 import butterknife.OnClick;
 import butterknife.OnItemClick;
 import butterknife.OnItemSelected;
@@ -51,21 +82,21 @@ public class MainGridActivity extends BaseNoTitleActivity implements MainGridVie
 
     public static final String KEY_MESSAGE_CENTER = "messagecenter";
 
-    @InjectView(R.id.user_center_image_view)
+    @Bind(R.id.user_center_image_view)
     ImageView mUserCenterImageView;
-    @InjectView(R.id.logo_image_view)
+    @Bind(R.id.logo_image_view)
     ImageView mLogoImageView;
-    @InjectView(R.id.message_center_image_view)
+    @Bind(R.id.message_center_image_view)
     ImageView mMessageCenterImageView;
-    @InjectView(R.id.search_image_view)
+    @Bind(R.id.search_image_view)
     ImageView mSearchImageView;
-    @InjectView(R.id.banner_gallery)
+    @Bind(R.id.banner_gallery)
     BannerGallery mBannerGallery;
-    @InjectView(R.id.banner_indicator)
+    @Bind(R.id.banner_indicator)
     RadioGroup mBannerIndicator;
-    @InjectView(R.id.content_grid_view)
+    @Bind(R.id.content_grid_view)
     LineGridView mContentGridView;
-    @InjectView(R.id.top_fade_scroll_view)
+    @Bind(R.id.top_fade_scroll_view)
     TopFadeScrollView mTopFadeScrollView;
 
     private MainGridAdapter mMainGridAdapter;
@@ -88,7 +119,7 @@ public class MainGridActivity extends BaseNoTitleActivity implements MainGridVie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_grid);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         initialize();
     }
 
@@ -260,4 +291,5 @@ public class MainGridActivity extends BaseNoTitleActivity implements MainGridVie
         super.onDestroy();
         mMainPresenter.destroy();
     }
+
 }
