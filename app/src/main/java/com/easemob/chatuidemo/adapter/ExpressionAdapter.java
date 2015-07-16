@@ -13,8 +13,6 @@
  */
 package com.easemob.chatuidemo.adapter;
 
-import java.util.List;
-
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +21,10 @@ import android.widget.ImageView;
 
 import com.badou.mworking.R;
 
-public class ExpressionAdapter extends ArrayAdapter<String>{
+import java.util.List;
+
+
+public class ExpressionAdapter extends ArrayAdapter<String> {
 
 	public ExpressionAdapter(Context context, int textViewResourceId, List<String> objects) {
 		super(context, textViewResourceId, objects);

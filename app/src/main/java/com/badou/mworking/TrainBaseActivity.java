@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.entity.Store;
 import com.badou.mworking.entity.category.Train;
@@ -13,8 +12,8 @@ import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.widget.BottomRatingAndCommentView;
 
-import butterknife.ButterKnife;
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class TrainBaseActivity extends BaseBackActionBarActivity {
 

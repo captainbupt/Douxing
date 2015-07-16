@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.badou.mworking.entity.category.Train;
 import com.badou.mworking.fragment.PDFViewFragment;
-import com.badou.mworking.fragment.WebViewFragment;
 
 public class TrainPDFViewActivity extends TrainBaseActivity {
 

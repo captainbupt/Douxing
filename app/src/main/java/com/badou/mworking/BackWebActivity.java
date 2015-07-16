@@ -11,12 +11,6 @@ import android.widget.ImageView;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.fragment.WebViewFragment;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
-import com.badou.mworking.util.NetUtils;
-import com.badou.mworking.widget.BottomRatingAndCommentView;
-
-import java.io.File;
-
-import butterknife.ButterKnife;
 
 /**
  * 功能描述:  actionbar为返回的网页展示页面

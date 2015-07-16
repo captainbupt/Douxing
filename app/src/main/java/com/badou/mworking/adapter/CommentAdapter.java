@@ -11,8 +11,7 @@ import android.widget.TextView;
 
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
-import com.badou.mworking.listener.DeleteClickListener;
-import com.badou.mworking.entity.Comment;
+import com.badou.mworking.entity.comment.Comment;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.net.volley.VolleyListener;
@@ -27,7 +26,7 @@ import java.util.List;
 /**
  * 功能描述:评论adapter
  */
-public class CommentAdapter extends MyBaseAdapter {
+public class CommentAdapter extends MyBaseAdapter<Comment> {
 
     private int mAllCount = 0;
     private String mQid;
@@ -37,27 +36,29 @@ public class CommentAdapter extends MyBaseAdapter {
 
     public CommentAdapter(Context context) {
         super(context);
-        mType = Comment.TYPE_COMMENT;
     }
 
     public CommentAdapter(Context context, String qid, boolean deletable, WaitProgressDialog progressDialog) {
         super(context);
         mQid = qid;
-        mType = Comment.TYPE_CHATTER;
         mProgressDialog = progressDialog;
         mDeletable = deletable;
     }
 
-    public void setList(List<Object> list, int AllCount) {
+    public void setList(List<Comment> list, int AllCount) {
         super.setList(list);
         this.mAllCount = AllCount;
         notifyDataSetChanged();
     }
 
-    public void addList(List<Object> list, int AllCount) {
+    public void addList(List<Comment> list, int AllCount) {
         super.addList(list);
         this.mAllCount = AllCount;
         notifyDataSetChanged();
+    }
+
+    public void setAllCount(int allCount) {
+        this.mAllCount = allCount;
     }
 
     public int getAllCount() {
@@ -78,22 +79,21 @@ public class CommentAdapter extends MyBaseAdapter {
         }
         Comment comment = (Comment) mItemList.get(position);
         /*获取员工号*/
-        String name = comment.name;
+        String name = comment.getName();
         if (!TextUtils.isEmpty(name)) {
             holder.mNameTextView.setText(name);
         }
         /*获取评论内容*/
-        String content = comment.content;
+        String content = comment.getContent();
         if (!TextUtils.isEmpty(content)) {
             holder.mContentTextView.setText(content);
         }
         /*获取评论时间*/
-        String pubTime = TimeTransfer.long2StringDetailDate(mContext, comment
-                .time);
+        String pubTime = TimeTransfer.long2StringDetailDate(mContext, comment.getTime());
         holder.mDateTextView.setText(pubTime);
 
         /**设置头像**/
-        ImageViewLoader.setCircleImageViewResource(holder.mHeadImageView, comment.imgUrl,mContext.getResources().getDimensionPixelSize(R.dimen.icon_head_size_middle));
+        ImageViewLoader.setCircleImageViewResource(holder.mHeadImageView, comment.getImgUrl(),mContext.getResources().getDimensionPixelSize(R.dimen.icon_head_size_middle));
 
 		/*设置楼数*/
         int floorNum = mAllCount - position;
@@ -103,7 +103,7 @@ public class CommentAdapter extends MyBaseAdapter {
         } else {
             holder.mDividerView.setVisibility(View.VISIBLE);
         }
-        if (mType == Comment.TYPE_CHATTER && (mDeletable || comment.name.equals("我"))) {
+        if ((mDeletable || comment.getName().equals("我"))) {
             holder.mDeleteTextView.setVisibility(View.VISIBLE);
             holder.mDeleteConfirmListener.floor = floorNum;
         } else {
@@ -135,13 +135,13 @@ public class CommentAdapter extends MyBaseAdapter {
             mDividerView = view.findViewById(R.id.view_adapter_comment_divider);
             mDeleteTextView = (TextView) view.findViewById(R.id.tv_adapter_comment_delete);
             mDeleteConfirmListener = new DeleteConfirmListener();
-            if (mType == Comment.TYPE_CHATTER) {
+            /*if (mType == Comment.TYPE_CHATTER) {
                 mDeleteTextView.setOnClickListener(new DeleteClickListener(mContext, mDeleteConfirmListener));
                 view.setBackgroundColor(0x00000000);
                 mDeleteTextView.setVisibility(View.VISIBLE);
             } else {
                 mDeleteTextView.setVisibility(View.GONE);
-            }
+            }*/
         }
     }
 

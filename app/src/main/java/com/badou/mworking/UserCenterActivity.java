@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.user.UserChatterInfo;

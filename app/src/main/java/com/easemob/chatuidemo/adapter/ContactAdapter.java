@@ -13,9 +13,6 @@
  */
 package com.easemob.chatuidemo.adapter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
@@ -30,12 +27,15 @@ import android.widget.ImageView;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
+import com.badou.mworking.R;
 import com.badou.mworking.entity.emchat.Department;
 import com.easemob.chatuidemo.Constant;
-import com.badou.mworking.R;
 import com.easemob.chatuidemo.domain.User;
 import com.easemob.chatuidemo.utils.UserUtils;
 import com.easemob.util.EMLog;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 

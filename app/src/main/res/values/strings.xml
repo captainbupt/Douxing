@@ -83,6 +83,10 @@
     <string name="category_unexam">未考试</string>
     <string name="category_ungraded">待批阅</string>
     <string name="category_signed">已签到</string>
+    <string name="category_not_sign_up">未报名</string>
+    <string name="category_check">审核中</string>
+    <string name="category_sign_up">报名成功</string>
+    <string name="category_check_fail">未通过</string>
     <string name="task_my_location">我的位置</string>
     <string name="floor_num">楼</string>
     <string name="chatter_num">条</string>

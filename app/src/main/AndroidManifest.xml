@@ -119,7 +119,7 @@
             android:name=".MessageCenterActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".base.BaseCategoryProgressListActivity"
+            android:name=".CategoryListActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ChatterSubmitActivity"

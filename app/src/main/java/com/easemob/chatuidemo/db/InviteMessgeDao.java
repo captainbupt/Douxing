@@ -13,12 +13,13 @@
  */
 package com.easemob.chatuidemo.db;
 
-import java.util.List;
-
 import android.content.ContentValues;
 import android.content.Context;
 
 import com.easemob.chatuidemo.domain.InviteMessage;
+
+import java.util.List;
+
 
 public class InviteMessgeDao {
 	public static final String TABLE_NAME = "new_friends_msgs";

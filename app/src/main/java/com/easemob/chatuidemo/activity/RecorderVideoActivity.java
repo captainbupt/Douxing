@@ -20,21 +20,14 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.PixelFormat;
 import android.hardware.Camera;
-import android.hardware.Camera.CameraInfo;
-import android.hardware.Camera.Parameters;
-import android.hardware.Camera.Size;
 import android.media.MediaRecorder;
-import android.media.MediaRecorder.OnErrorListener;
-import android.media.MediaRecorder.OnInfoListener;
 import android.media.MediaScannerConnection;
-import android.media.MediaScannerConnection.MediaScannerConnectionClient;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -43,7 +36,6 @@ import android.os.SystemClock;
 import android.text.TextUtils;
 import android.view.SurfaceHolder;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -51,6 +43,7 @@ import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.VideoView;
+import android.app.AlertDialog;
 
 import com.badou.mworking.R;
 import com.easemob.chatuidemo.utils.CommonUtils;
@@ -59,8 +52,8 @@ import com.easemob.util.EMLog;
 import com.easemob.util.PathUtil;
 
 public class RecorderVideoActivity extends Activity implements
-		OnClickListener, SurfaceHolder.Callback, OnErrorListener,
-		OnInfoListener {
+		View.OnClickListener, SurfaceHolder.Callback, MediaRecorder.OnErrorListener,
+		MediaRecorder.OnInfoListener {
 	private static final String TAG = "RecorderVideoActivity";
 	private final static String CLASS_LABEL = "RecordActivity";
 	private PowerManager.WakeLock mWakeLock;
@@ -76,7 +69,7 @@ public class RecorderVideoActivity extends Activity implements
 	private Chronometer chronometer;
 	private int frontCamera = 0;// 0是后置摄像头，1是前置摄像头
 	private Button btn_switch;
-	Parameters cameraParameters = null;
+	android.hardware.Camera.Parameters cameraParameters = null;
 	private SurfaceHolder mSurfaceHolder;
 	int defaultVideoFrameRate = -1;
 
@@ -136,9 +129,9 @@ public class RecorderVideoActivity extends Activity implements
 	private boolean initCamera() {
 		try {
 			if (frontCamera == 0) {
-				mCamera = Camera.open(CameraInfo.CAMERA_FACING_BACK);
+				mCamera = Camera.open(android.hardware.Camera.CameraInfo.CAMERA_FACING_BACK);
 			} else {
-				mCamera = Camera.open(CameraInfo.CAMERA_FACING_FRONT);
+				mCamera = Camera.open(android.hardware.Camera.CameraInfo.CAMERA_FACING_FRONT);
 			}
 			Camera.Parameters camParams = mCamera.getParameters();
 			mCamera.lock();
@@ -188,7 +181,7 @@ public class RecorderVideoActivity extends Activity implements
 			boolean hasSize = false;
 			// 如果摄像头支持640*480，那么强制设为640*480
 			for (int i = 0; i < resolutionList.size(); i++) {
-				Size size = resolutionList.get(i);
+				Camera.Size size = resolutionList.get(i);
 				if (size != null && size.width == 640 && size.height == 480) {
 					previewSize = size;
 					previewWidth = previewSize.width;
@@ -439,11 +432,11 @@ public class RecorderVideoActivity extends Activity implements
 
 			switch (frontCamera) {
 			case 0:
-				mCamera = Camera.open(CameraInfo.CAMERA_FACING_FRONT);
+				mCamera = Camera.open(Camera.CameraInfo.CAMERA_FACING_FRONT);
 				frontCamera = 1;
 				break;
 			case 1:
-				mCamera = Camera.open(CameraInfo.CAMERA_FACING_BACK);
+				mCamera = Camera.open(Camera.CameraInfo.CAMERA_FACING_BACK);
 				frontCamera = 0;
 				break;
 			}
@@ -472,7 +465,7 @@ public class RecorderVideoActivity extends Activity implements
 		}
 		if(msc == null)
     		msc = new MediaScannerConnection(this,
-    				new MediaScannerConnectionClient() {
+    				new MediaScannerConnection.MediaScannerConnectionClient() {
     
     					@Override
     					public void onScanCompleted(String path, Uri uri) {

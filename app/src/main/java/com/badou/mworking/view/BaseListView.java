@@ -11,8 +11,6 @@ public interface BaseListView<T> extends BaseView {
 
     void enablePullUp();
 
-    void setRefreshing();
-
     void startRefreshing();
 
     boolean isRefreshing();

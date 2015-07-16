@@ -1,10 +1,5 @@
 package com.easemob.chatuidemo.db;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -14,8 +9,12 @@ import android.text.TextUtils;
 import com.easemob.chatuidemo.Constant;
 import com.easemob.chatuidemo.domain.InviteMessage;
 import com.easemob.chatuidemo.domain.User;
-import com.easemob.chatuidemo.domain.InviteMessage.InviteMesageStatus;
 import com.easemob.util.HanziToPinyin;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class DemoDBManager {
     static private DemoDBManager dbMgr = new DemoDBManager();
@@ -249,18 +248,18 @@ public class DemoDBManager {
                 msg.setGroupName(groupname);
                 msg.setReason(reason);
                 msg.setTime(time);
-                if(status == InviteMesageStatus.BEINVITEED.ordinal())
-                    msg.setStatus(InviteMesageStatus.BEINVITEED);
-                else if(status == InviteMesageStatus.BEAGREED.ordinal())
-                    msg.setStatus(InviteMesageStatus.BEAGREED);
-                else if(status == InviteMesageStatus.BEREFUSED.ordinal())
-                    msg.setStatus(InviteMesageStatus.BEREFUSED);
-                else if(status == InviteMesageStatus.AGREED.ordinal())
-                    msg.setStatus(InviteMesageStatus.AGREED);
-                else if(status == InviteMesageStatus.REFUSED.ordinal())
-                    msg.setStatus(InviteMesageStatus.REFUSED);
-                else if(status == InviteMesageStatus.BEAPPLYED.ordinal()){
-                    msg.setStatus(InviteMesageStatus.BEAPPLYED);
+                if(status == InviteMessage.InviteMesageStatus.BEINVITEED.ordinal())
+                    msg.setStatus(InviteMessage.InviteMesageStatus.BEINVITEED);
+                else if(status == InviteMessage.InviteMesageStatus.BEAGREED.ordinal())
+                    msg.setStatus(InviteMessage.InviteMesageStatus.BEAGREED);
+                else if(status == InviteMessage.InviteMesageStatus.BEREFUSED.ordinal())
+                    msg.setStatus(InviteMessage.InviteMesageStatus.BEREFUSED);
+                else if(status == InviteMessage.InviteMesageStatus.AGREED.ordinal())
+                    msg.setStatus(InviteMessage.InviteMesageStatus.AGREED);
+                else if(status == InviteMessage.InviteMesageStatus.REFUSED.ordinal())
+                    msg.setStatus(InviteMessage.InviteMesageStatus.REFUSED);
+                else if(status == InviteMessage.InviteMesageStatus.BEAPPLYED.ordinal()){
+                    msg.setStatus(InviteMessage.InviteMesageStatus.BEAPPLYED);
                 }
                 msgs.add(msg);
             }

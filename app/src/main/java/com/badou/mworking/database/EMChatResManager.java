@@ -1,11 +1,9 @@
 package com.badou.mworking.database;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.entity.emchat.Department;
 import com.badou.mworking.entity.emchat.Role;
 import com.badou.mworking.entity.user.UserInfo;

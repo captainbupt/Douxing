@@ -7,16 +7,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.badou.mworking.R;
-import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.Notice;
-import com.badou.mworking.entity.user.UserInfo;
-import com.badou.mworking.util.Constant;
-import com.badou.mworking.util.GsonUtil;
-import com.badou.mworking.util.SP;
+import com.badou.mworking.util.DensityUtil;
 import com.badou.mworking.util.TimeTransfer;
-import com.google.gson.internal.LinkedTreeMap;
 
 /**
  * 功能描述: 通知公告adapter
@@ -37,11 +32,8 @@ public class NoticeAdapter extends MyBaseAdapter<Category> {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        Object item = getItem(position);
-        System.out.println("linkedtree: " + (item instanceof LinkedTreeMap));
-        System.out.println("category: " + (item instanceof Category));
         final Notice notice = (Notice) getItem(position);
-        int size = mContext.getResources().getDimensionPixelSize(R.dimen.offset_lless);
+        int size = DensityUtil.getInstance().getOffsetLess();
         // 使得第一条上端有一段空白
         if (position == 0) {
             convertView.setPadding(0, size, 0, 0);

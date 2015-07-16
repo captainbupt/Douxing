@@ -1,22 +1,15 @@
 package com.badou.mworking.net;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 
-import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.badou.mworking.R;
-import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.volley.MyVolley;
 import com.badou.mworking.net.volley.VolleyListener;
@@ -24,19 +17,12 @@ import com.badou.mworking.util.BitmapUtil;
 import com.badou.mworking.util.DensityUtil;
 import com.badou.mworking.util.EncryptionByMD5;
 import com.badou.mworking.util.FileUtils;
-import com.badou.mworking.util.TimeTransfer;
-import com.badou.mworking.util.ToastUtil;
-import com.badou.mworking.widget.WaitProgressDialog;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RangeFileAsyncHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
-import com.loopj.android.http.ResponseHandlerInterface;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
-import org.apache.http.HttpException;
-import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.ParseException;
@@ -54,7 +40,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.Calendar;
 
 /**
  * 功能描述: 网络获取

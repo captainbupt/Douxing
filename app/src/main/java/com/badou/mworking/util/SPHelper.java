@@ -3,8 +3,6 @@ package com.badou.mworking.util;
 import android.content.Context;
 import android.text.TextUtils;
 
-import java.lang.reflect.Type;
-
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.Classification;
@@ -12,6 +10,7 @@ import com.badou.mworking.entity.main.MainBanner;
 import com.badou.mworking.entity.user.UserInfo;
 import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 

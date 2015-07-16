@@ -822,7 +822,6 @@ public class GroupDetailsActivity extends BaseBackActionBarActivity implements O
                             // update block
                             EMLog.d(TAG, "group msg is blocked:" + group.getMsgBlocked());
                             List<String> current = ((DefaultHXSDKModel) DemoHXSDKHelper.getInstance().getModel()).getDisabledGroups();
-                            System.out.println("current size: " + ((current == null) ? 0 : current.size()));
                             if (current == null)
                                 current = new ArrayList<>();
                             if (current.contains(groupId)) {

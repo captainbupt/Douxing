@@ -488,7 +488,27 @@ public class ChatActivity extends BaseBackActionBarActivity implements OnClickLi
 
     protected void onGroupViewCreation() {
         group = EMGroupManager.getInstance().getGroup(toChatUsername);
-
+        new Thread() {
+            @Override
+            public void run() {
+                final EMGroup returnGroup;
+                try {
+                    returnGroup = EMGroupManager.getInstance().getGroupFromServer(toChatUsername);
+                    if (returnGroup == null)
+                        throw new EaseMobException();
+                } catch (EaseMobException e) {
+                    e.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ToastUtil.showToast(mContext, R.string.the_current_group);
+                            EMChatManager.getInstance().clearConversation(toChatUsername);
+                            finish();
+                        }
+                    });
+                }
+            }
+        }.start();
         if (group != null) {
             ((TextView) findViewById(R.id.name)).setText(group.getGroupName());
             setActionbarTitle(group.getGroupName());

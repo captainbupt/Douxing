@@ -1,7 +1,5 @@
 package com.badou.mworking.widget;
 
-import java.lang.ref.WeakReference;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -9,6 +7,8 @@ import android.content.res.Resources.NotFoundException;
 import android.text.TextUtils;
 
 import com.badou.mworking.R;
+
+import java.lang.ref.WeakReference;
 
 
 public class WaitProgressDialog extends ProgressDialog {

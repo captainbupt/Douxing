@@ -13,10 +13,6 @@
  */
 package com.easemob.chatuidemo.activity;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -27,18 +23,21 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.ProgressBar;
 
+import com.badou.mworking.R;
 import com.easemob.EMCallBack;
 import com.easemob.chat.EMChatManager;
-import com.badou.mworking.R;
 import com.easemob.chatuidemo.task.LoadLocalBigImgTask;
 import com.easemob.chatuidemo.utils.ImageCache;
 import com.easemob.chatuidemo.widget.photoview.PhotoView;
 import com.easemob.util.EMLog;
 import com.easemob.util.ImageUtils;
 import com.easemob.util.PathUtil;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 下载显示大图
@@ -98,7 +97,7 @@ public class ShowBigImage extends Activity {
 			image.setImageResource(default_res);
 		}
 
-		image.setOnClickListener(new OnClickListener() {
+		image.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				finish();

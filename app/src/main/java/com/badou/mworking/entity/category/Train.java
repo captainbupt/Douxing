@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * 功能描述: 培训实体类
  */
-public class Train extends Category{
+public class Train extends Category {
 
     transient boolean isTraining = true;
 
@@ -18,6 +18,15 @@ public class Train extends Category{
 
     public Train() {
         commentInfo = new TrainingCommentInfo();
+    }
+
+    public void updateData(CategoryDetail categoryDetail) {
+        rating = categoryDetail.getContent().e;
+        this.store = categoryDetail.store;
+        commentInfo.eval = categoryDetail.eval;
+        commentInfo.mcnt = categoryDetail.mcnt;
+        commentInfo.ccnt = categoryDetail.ccnt;
+        commentInfo.ecnt = categoryDetail.ecnt;
     }
 
     public void setUrl(String url) {
@@ -42,19 +51,19 @@ public class Train extends Category{
     }
 
     public int getCommentNumber() {
-        return commentInfo.getCcnt();
+        return commentInfo.ccnt;
     }
 
     public void setCommentNumber(int number) {
-        commentInfo.setCcnt(number);
+        commentInfo.ccnt = number;
     }
 
     public int getRatingNumber() {
-        return commentInfo.getEcnt();
+        return commentInfo.ecnt;
     }
 
     public int getRatingTotalValue() {
-        return commentInfo.getEval();
+        return commentInfo.eval;
     }
 
     public int getRating() {
@@ -63,18 +72,18 @@ public class Train extends Category{
 
     public void setRatingValue(int rating, int number) {
         this.rating = rating;
-        commentInfo.setEcnt(number);
-        commentInfo.setEval(commentInfo.getEval() + rating);
+        commentInfo.ecnt = number;
+        commentInfo.eval += rating;
     }
 
     public void setRatingValue(int rating) {
         this.rating = rating;
-        commentInfo.setEcnt(commentInfo.getEcnt() + 1);
-        commentInfo.setEval(commentInfo.getEval() + rating);
+        commentInfo.ecnt += 1;
+        commentInfo.eval += rating;
     }
 
 
-    public static class TrainingCommentInfo implements Serializable{
+    public static class TrainingCommentInfo implements Serializable {
         @Expose
         String rid;
         @Expose
@@ -88,34 +97,6 @@ public class Train extends Category{
 
         public String getRid() {
             return rid;
-        }
-
-        public int getMcnt() {
-            return mcnt;
-        }
-
-        public int getCcnt() {
-            return ccnt;
-        }
-
-        public int getEcnt() {
-            return ecnt;
-        }
-
-        public int getEval() {
-            return eval;
-        }
-
-        public void setEcnt(int ecnt) {
-            this.ecnt = ecnt;
-        }
-
-        public void setEval(int eval) {
-            this.eval = eval;
-        }
-
-        public void setCcnt(int ccnt) {
-            this.ccnt = ccnt;
         }
     }
 }

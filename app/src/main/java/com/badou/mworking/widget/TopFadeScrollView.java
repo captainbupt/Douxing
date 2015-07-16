@@ -3,7 +3,6 @@ package com.badou.mworking.widget;
 import android.content.Context;
 import android.os.Handler;
 import android.util.AttributeSet;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ScrollView;

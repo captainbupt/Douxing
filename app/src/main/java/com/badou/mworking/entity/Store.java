@@ -2,20 +2,12 @@ package com.badou.mworking.entity;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.SparseArray;
-import android.util.SparseIntArray;
 
 import com.badou.mworking.R;
 import com.badou.mworking.entity.category.Category;
 
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
-
-/**
- * Created by Administrator on 2015/6/25 0025.
- */
 public class Store {
 
     public static final int TYPE_ASK = 5;
@@ -25,6 +17,7 @@ public class Store {
     public static final int TYPE_TASK = 4;
     public static final int TYPE_SHELF = 9;
     public static final int TYPE_CHATTER = 7;
+    public static final int TYPE_ENTRY = 8;
 
     public static final String TYPE_STRING_ASK = "ask";
     public static final String TYPE_STRING_NOTICE = "notice";
@@ -33,6 +26,7 @@ public class Store {
     public static final String TYPE_STRING_TASK = "task";
     public static final String TYPE_STRING_SHELF = "shelf";
     public static final String TYPE_STRING_CHATTER = "qas";
+    public static final String TYPE_STRING_ENTRY = "entry";
 
     public String id;
     public String sid;
@@ -57,7 +51,7 @@ public class Store {
             chatter = new Chatter(chatterJsonObject);
     }
 
-    public int getIconRes() {
+    public static int getIconRes(int type) {
         switch (type) {
             case TYPE_ASK:
                 return R.drawable.button_ask;
@@ -78,7 +72,7 @@ public class Store {
         }
     }
 
-    public String getTypeString() {
+    public static String getTypeString(int type) {
         switch (type) {
             case TYPE_ASK:
                 return TYPE_STRING_ASK;
@@ -99,7 +93,30 @@ public class Store {
         }
     }
 
-    public int getCategoryType() {
+    public static String getStoreStringFromCategory(int category){
+        return getTypeString(getStoreTypeFromCategory(category));
+    }
+
+    public static int getStoreTypeFromCategory(int category) {
+        switch (category) {
+            case Category.CATEGORY_NOTICE:
+                return TYPE_NOTICE;
+            case Category.CATEGORY_TRAINING:
+                return TYPE_TRAINING;
+            case Category.CATEGORY_EXAM:
+                return TYPE_EXAM;
+            case Category.CATEGORY_TASK:
+                return TYPE_TASK;
+            case Category.CATEGORY_SHELF:
+                return TYPE_SHELF;
+            case Category.CATEGORY_ENTRY:
+                return TYPE_ENTRY;
+            default:
+                return Category.CATEGORY_NOTICE;
+        }
+    }
+
+    public static int getCategoryTypeFromStore(int type) {
         switch (type) {
             case TYPE_EXAM:
                 return Category.CATEGORY_EXAM;

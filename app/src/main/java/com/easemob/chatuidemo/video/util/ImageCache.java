@@ -16,22 +16,13 @@
 
 package com.easemob.chatuidemo.video.util;
 
-import java.io.File;
-import java.lang.ref.SoftReference;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
 
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.os.Build.VERSION_CODES;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
@@ -41,6 +32,14 @@ import android.util.Log;
 
 import com.badou.mworking.BuildConfig;
 
+import java.io.File;
+import java.lang.ref.SoftReference;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  * This class memory caching of bitmaps in conjunction with the
@@ -376,14 +375,14 @@ public class ImageCache {
 	 *            The bitmap configuration.
 	 * @return The byte usage per pixel.
 	 */
-	private static int getBytesPerPixel(Config config) {
-		if (config == Config.ARGB_8888) {
+	private static int getBytesPerPixel(Bitmap.Config config) {
+		if (config == Bitmap.Config.ARGB_8888) {
 			return 4;
-		} else if (config == Config.RGB_565) {
+		} else if (config == Bitmap.Config.RGB_565) {
 			return 2;
-		} else if (config == Config.ARGB_4444) {
+		} else if (config == Bitmap.Config.ARGB_4444) {
 			return 2;
-		} else if (config == Config.ALPHA_8) {
+		} else if (config == Bitmap.Config.ALPHA_8) {
 			return 1;
 		}
 		return 1;
@@ -473,7 +472,7 @@ public class ImageCache {
 	 * @return True if external storage is removable (like an SD card), false
 	 *         otherwise.
 	 */
-	@TargetApi(VERSION_CODES.GINGERBREAD)
+	@TargetApi(Build.VERSION_CODES.GINGERBREAD)
 	public static boolean isExternalStorageRemovable() {
 		if (Utils.hasGingerbread()) {
 			return Environment.isExternalStorageRemovable();
@@ -488,7 +487,7 @@ public class ImageCache {
 	 *            The context to use
 	 * @return The external cache dir
 	 */
-	@TargetApi(VERSION_CODES.FROYO)
+	@TargetApi(Build.VERSION_CODES.FROYO)
 	public static File getExternalCacheDir(Context context) {
 		if (Utils.hasFroyo()) {
 			return context.getExternalCacheDir();

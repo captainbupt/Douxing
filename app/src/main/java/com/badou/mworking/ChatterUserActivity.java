@@ -4,13 +4,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.badou.mworking.adapter.ChatterListAdapter;
-import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.entity.Chatter;
 import com.badou.mworking.entity.user.UserChatterInfo;
@@ -32,8 +30,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.internal.ListenerClass;
 
 /**
  * 功能描述: 我的圈页面

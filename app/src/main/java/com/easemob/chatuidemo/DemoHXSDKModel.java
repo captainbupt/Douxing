@@ -13,18 +13,16 @@
  */
 package com.easemob.chatuidemo;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import android.content.Context;
 
 import com.badou.mworking.database.EMChatResManager;
 import com.easemob.applib.model.DefaultHXSDKModel;
-import com.easemob.chatuidemo.db.DbOpenHelper;
 import com.easemob.chatuidemo.db.DemoDBManager;
-import com.easemob.chatuidemo.db.UserDao;
 import com.easemob.chatuidemo.domain.User;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class DemoHXSDKModel extends DefaultHXSDKModel {
 

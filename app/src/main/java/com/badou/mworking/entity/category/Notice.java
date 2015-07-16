@@ -14,9 +14,9 @@ import java.io.Serializable;
 /**
  * 功能描述: 通知实体类
  */
-public class Notice extends Category{
-    @Expose
-    int commentNumber = 0;
+public class Notice extends Category {
+
+    transient int commentNumber = 0;
 
     public void setUrl(String url) {
         this.url = url;
@@ -33,5 +33,13 @@ public class Notice extends Category{
     @Override
     public int getCategoryType() {
         return Category.CATEGORY_NOTICE;
+    }
+
+    public Notice() {
+    }
+
+    @Override
+    public void updateData(CategoryDetail categoryDetail) {
+        this.store = categoryDetail.store;
     }
 }

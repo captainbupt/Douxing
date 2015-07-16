@@ -12,8 +12,8 @@ import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.entity.main.MainIcon;
 import com.badou.mworking.util.DensityUtil;
 
-import butterknife.ButterKnife;
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * 功能描述:  主页面adapter

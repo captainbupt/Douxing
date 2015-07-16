@@ -28,24 +28,21 @@
  *******************************************************************************/
 package com.easemob.chatuidemo.widget.photoview;
 
-import java.lang.ref.WeakReference;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Matrix;
-import android.graphics.Matrix.ScaleToFit;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
-import android.os.Build.VERSION;
-import android.os.Build.VERSION_CODES;
+import android.os.Build;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnLongClickListener;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
-import android.widget.ImageView.ScaleType;
+
+import java.lang.ref.WeakReference;
+
 
 public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, VersionedGestureDetector.OnGestureListener,
 		GestureDetector.OnDoubleTapListener, ViewTreeObserver.OnGlobalLayoutListener {
@@ -100,7 +97,7 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, Vers
 	/**
 	 * @return true if the ScaleType is supported.
 	 */
-	private static boolean isSupportedScaleType(final ScaleType scaleType) {
+	private static boolean isSupportedScaleType(final ImageView.ScaleType scaleType) {
 		if (null == scaleType) {
 			return false;
 		}
@@ -126,7 +123,7 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, Vers
 				 * need to do anything here
 				 */
 			} else {
-				imageView.setScaleType(ScaleType.MATRIX);
+				imageView.setScaleType(ImageView.ScaleType.MATRIX);
 			}
 		}
 	}
@@ -149,14 +146,14 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, Vers
 	private OnMatrixChangedListener mMatrixChangeListener;
 	private OnPhotoTapListener mPhotoTapListener;
 	private OnViewTapListener mViewTapListener;
-	private OnLongClickListener mLongClickListener;
+	private View.OnLongClickListener mLongClickListener;
 
 	private int mIvTop, mIvRight, mIvBottom, mIvLeft;
 	private FlingRunnable mCurrentFlingRunnable;
 	private int mScrollEdge = EDGE_BOTH;
 
 	private boolean mZoomEnabled;
-	private ScaleType mScaleType = ScaleType.FIT_CENTER;
+	private ImageView.ScaleType mScaleType = ImageView.ScaleType.FIT_CENTER;
 
 	public PhotoViewAttacher(ImageView imageView) {
 		mImageView = new WeakReference<ImageView>(imageView);
@@ -207,7 +204,7 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, Vers
 	@SuppressLint("NewApi")
 	@SuppressWarnings("deprecation")
 	public final void cleanup() {
-		if (VERSION.SDK_INT >= VERSION_CODES.JELLY_BEAN) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 			if (null != mImageView) {
 				mImageView.get().getViewTreeObserver().removeOnGlobalLayoutListener(this);
 			}
@@ -289,7 +286,7 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, Vers
 	}
 
 	@Override
-	public final ScaleType getScaleType() {
+	public final ImageView.ScaleType getScaleType() {
 		return mScaleType;
 	}
 
@@ -501,7 +498,7 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, Vers
 	}
 
 	@Override
-	public final void setOnLongClickListener(OnLongClickListener listener) {
+	public final void setOnLongClickListener(View.OnLongClickListener listener) {
 		mLongClickListener = listener;
 	}
 
@@ -521,7 +518,7 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, Vers
 	}
 
 	@Override
-	public final void setScaleType(ScaleType scaleType) {
+	public final void setScaleType(ImageView.ScaleType scaleType) {
 		if (isSupportedScaleType(scaleType) && scaleType != mScaleType) {
 			mScaleType = scaleType;
 
@@ -591,7 +588,7 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, Vers
 		 * only call if we're not attached to a PhotoView.
 		 */
 		if (null != imageView && !(imageView instanceof PhotoView)) {
-			if (imageView.getScaleType() != ScaleType.MATRIX) {
+			if (imageView.getScaleType() != ImageView.ScaleType.MATRIX) {
 				throw new IllegalStateException(
 						"The ImageView's ScaleType has been changed since attaching a PhotoViewAttacher");
 			}
@@ -742,16 +739,16 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, Vers
 		final float widthScale = viewWidth / drawableWidth;
 		final float heightScale = viewHeight / drawableHeight;
 
-		if (mScaleType == ScaleType.CENTER) {
+		if (mScaleType == ImageView.ScaleType.CENTER) {
 			mBaseMatrix.postTranslate((viewWidth - drawableWidth) / 2F, (viewHeight - drawableHeight) / 2F);
 
-		} else if (mScaleType == ScaleType.CENTER_CROP) {
+		} else if (mScaleType == ImageView.ScaleType.CENTER_CROP) {
 			float scale = Math.max(widthScale, heightScale);
 			mBaseMatrix.postScale(scale, scale);
 			mBaseMatrix.postTranslate((viewWidth - drawableWidth * scale) / 2F,
 					(viewHeight - drawableHeight * scale) / 2F);
 
-		} else if (mScaleType == ScaleType.CENTER_INSIDE) {
+		} else if (mScaleType == ImageView.ScaleType.CENTER_INSIDE) {
 			float scale = Math.min(1.0f, Math.min(widthScale, heightScale));
 			mBaseMatrix.postScale(scale, scale);
 			mBaseMatrix.postTranslate((viewWidth - drawableWidth * scale) / 2F,
@@ -763,19 +760,19 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, Vers
 
 			switch (mScaleType) {
 			case FIT_CENTER:
-				mBaseMatrix.setRectToRect(mTempSrc, mTempDst, ScaleToFit.CENTER);
+				mBaseMatrix.setRectToRect(mTempSrc, mTempDst, Matrix.ScaleToFit.CENTER);
 				break;
 
 			case FIT_START:
-				mBaseMatrix.setRectToRect(mTempSrc, mTempDst, ScaleToFit.START);
+				mBaseMatrix.setRectToRect(mTempSrc, mTempDst, Matrix.ScaleToFit.START);
 				break;
 
 			case FIT_END:
-				mBaseMatrix.setRectToRect(mTempSrc, mTempDst, ScaleToFit.END);
+				mBaseMatrix.setRectToRect(mTempSrc, mTempDst, Matrix.ScaleToFit.END);
 				break;
 
 			case FIT_XY:
-				mBaseMatrix.setRectToRect(mTempSrc, mTempDst, ScaleToFit.FILL);
+				mBaseMatrix.setRectToRect(mTempSrc, mTempDst, Matrix.ScaleToFit.FILL);
 				break;
 
 			default:

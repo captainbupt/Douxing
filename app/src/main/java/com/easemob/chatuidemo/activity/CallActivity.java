@@ -1,11 +1,5 @@
 package com.easemob.chatuidemo.activity;
 
-import com.easemob.chat.EMCallStateChangeListener;
-import com.easemob.chat.EMChatManager;
-import com.easemob.chat.EMMessage;
-import com.easemob.chat.TextMessageBody;
-import com.easemob.chatuidemo.Constant;
-import com.badou.mworking.R;
 
 import android.app.Activity;
 import android.content.Context;
@@ -13,6 +7,13 @@ import android.media.AudioManager;
 import android.media.Ringtone;
 import android.media.SoundPool;
 import android.os.Bundle;
+
+import com.badou.mworking.R;
+import com.easemob.chat.EMCallStateChangeListener;
+import com.easemob.chat.EMChatManager;
+import com.easemob.chat.EMMessage;
+import com.easemob.chat.TextMessageBody;
+import com.easemob.chatuidemo.Constant;
 
 public class CallActivity extends Activity {
 
@@ -50,9 +51,6 @@ public class CallActivity extends Activity {
     
     /**
      * 播放拨号响铃
-     * 
-     * @param sound
-     * @param number
      */
     protected int playMakeCallSounds() {
         try {

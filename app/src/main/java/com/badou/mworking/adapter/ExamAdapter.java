@@ -27,7 +27,7 @@ public class ExamAdapter extends MyBaseAdapter<Category> {
         ViewHolder holder;
         Exam exam = (Exam) getItem(position);
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.adapter_exam_item, parent, false);
+            convertView = mInflater.inflate(R.layout.adapter_notice_item, parent, false);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         } else {
@@ -85,11 +85,11 @@ public class ExamAdapter extends MyBaseAdapter<Category> {
         ImageView topImageView;
 
         public ViewHolder(View view) {
-            topImageView = (ImageView) view.findViewById(R.id.iv_adapter_exam_top);
-            subjectTextView = (android.widget.TextView) view.findViewById(R.id.tv_adapter_exam_subject);
-            dateTextView = (android.widget.TextView) view.findViewById(R.id.tv_adapter_exam_date);
-            iconImageView = (ImageView) view.findViewById(R.id.iv_adapter_exam_icon);
-            unreadTextView = (android.widget.TextView) view.findViewById(R.id.tv_adapter_exam_unread);
+            topImageView = (ImageView) view.findViewById(R.id.iv_adapter_notice_top);
+            subjectTextView = (android.widget.TextView) view.findViewById(R.id.tv_adapter_notice_subject);
+            dateTextView = (android.widget.TextView) view.findViewById(R.id.tv_adapter_notice_date);
+            iconImageView = (ImageView) view.findViewById(R.id.iv_adapter_notice_icon);
+            unreadTextView = (android.widget.TextView) view.findViewById(R.id.tv_adapter_notice_unread);
         }
     }
 }

@@ -9,8 +9,8 @@ import android.widget.TextView;
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.database.MessageCenterResManager;
-import com.badou.mworking.listener.AdapterItemClickListener;
 import com.badou.mworking.entity.MessageCenter;
+import com.badou.mworking.listener.AdapterItemClickListener;
 import com.swipe.delete.SwipeLayout;
 
 import java.text.SimpleDateFormat;

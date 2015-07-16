@@ -1,10 +1,5 @@
 package com.swipe.delete;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -24,6 +19,11 @@ import android.widget.FrameLayout;
 import android.widget.ListAdapter;
 
 import com.badou.mworking.R;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @SuppressLint("WrongCall") 
 public class SwipeLayout extends FrameLayout {

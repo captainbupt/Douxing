@@ -1,19 +1,11 @@
 package com.badou.mworking;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 
-import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.presenter.SplashPresenter;
-import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.DensityUtil;
-import com.badou.mworking.util.SP;
 import com.badou.mworking.view.SplashView;
-import com.badou.mworking.widget.OptimizedImageView;
-import com.umeng.analytics.MobclickAgent;
 
 import cn.jpush.android.api.JPushInterface;
 

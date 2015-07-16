@@ -34,7 +34,6 @@ import android.widget.TextView;
 
 import com.badou.mworking.R.color;
 import com.badou.mworking.base.BaseBackActionBarActivity;
-import com.badou.mworking.entity.main.MainIcon;
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.net.ServiceProvider;

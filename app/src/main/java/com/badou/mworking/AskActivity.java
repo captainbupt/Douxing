@@ -8,7 +8,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.badou.mworking.adapter.AskAdapter;
-import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.entity.Ask;
 import com.badou.mworking.entity.user.UserInfo;

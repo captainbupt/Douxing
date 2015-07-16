@@ -10,8 +10,8 @@ import com.badou.mworking.entity.Chatter;
 import com.badou.mworking.widget.ChatterItemView;
 import com.swipe.delete.SwipeLayout;
 
-import butterknife.ButterKnife;
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * 功能描述:同事圈adapter

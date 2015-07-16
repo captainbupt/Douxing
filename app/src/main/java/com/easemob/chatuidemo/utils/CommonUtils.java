@@ -13,19 +13,18 @@
  */
 package com.easemob.chatuidemo.utils;
 
-import java.util.List;
-
 import android.app.ActivityManager;
-import android.app.ActivityManager.RunningTaskInfo;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import com.badou.mworking.R;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.TextMessageBody;
 import com.easemob.chatuidemo.Constant;
-import com.badou.mworking.R;
 import com.easemob.util.EMLog;
+
+import java.util.List;
 
 public class CommonUtils {
 	private static final String TAG = "CommonUtils";
@@ -118,7 +117,7 @@ public class CommonUtils {
 	
 	public static String getTopActivity(Context context) {
 		ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-		List<RunningTaskInfo> runningTaskInfos = manager.getRunningTasks(1);
+		List<ActivityManager.RunningTaskInfo> runningTaskInfos = manager.getRunningTasks(1);
 
 		if (runningTaskInfos != null)
 			return runningTaskInfos.get(0).topActivity.getClassName();

@@ -10,14 +10,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.android.volley.VolleyError;
-import com.badou.mworking.AskDetailActivity;
 import com.badou.mworking.ChatterActivity;
 import com.badou.mworking.ChatterDetailActivity;
 import com.badou.mworking.ChatterTopicActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.adapter.ChatterListAdapter;
-import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.base.BaseFragment;
 import com.badou.mworking.entity.Chatter;

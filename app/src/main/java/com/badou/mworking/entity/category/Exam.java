@@ -30,21 +30,24 @@ public class Exam extends Category {
 
     transient Content content;
 
-    public Exam(Context context, JSONObject jsonObject) {
-        super(context, jsonObject);
-    }
+    public Exam(){};
 
     public boolean isGraded() {
-        return getContent().isDone();
+        return getContent().d == 1;
     }
 
     public int getScore() {
-        return getContent().getScore();
+        return getContent().s;
     }
 
     @Override
     public String getUrl() {
         return Net.getRunHost() + Net.EXAM_ITEM(UserInfo.getUserInfo().getUid(), rid);
+    }
+
+    @Override
+    public void updateData(CategoryDetail categoryDetail) {
+        this.store = categoryDetail.store;
     }
 
     private Content getContent() {
@@ -81,13 +84,6 @@ public class Exam extends Category {
             this.d = d;
         }
 
-        public boolean isDone() {
-            return d == 1;
-        }
-
-        public int getScore() {
-            return s;
-        }
     }
 
 }

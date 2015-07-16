@@ -1,5 +1,6 @@
 package com.badou.mworking.presenter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
@@ -14,8 +15,8 @@ import com.badou.mworking.net.BaseSubscriber;
 import com.badou.mworking.util.EncryptionByMD5;
 import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.SPHelper;
-import com.badou.mworking.view.LoginView;
 import com.badou.mworking.view.BaseView;
+import com.badou.mworking.view.LoginView;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
@@ -92,8 +93,8 @@ public class LoginPresenter extends Presenter implements BDLocationListener {
         Intent intent = MainGridActivity.getIntent(mContext, false);
         /*** 保存没MD5的用户账户 **/
         UserInfo.setUserInfo((AppApplication) mContext.getApplicationContext(), account, userInfo);
-        mActivity.startActivity(intent);
-        mActivity.finish();
+        mContext.startActivity(intent);
+        ((Activity) mContext).finish();
     }
 
     public void onKeyboardStateChanged(boolean isShow) {
@@ -126,7 +127,7 @@ public class LoginPresenter extends Presenter implements BDLocationListener {
             mLoginView.showToast(R.string.error_service);
             return;
         }
-        mActivity.startActivity(ForgetPasswordActivity.getIntent(mContext));
+        mContext.startActivity(ForgetPasswordActivity.getIntent(mContext));
     }
 
     public void experience() {

@@ -1,4 +1,4 @@
-package com.badou.mworking.base;
+package com.badou.mworking;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,9 +17,10 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.badou.mworking.R;
 import com.badou.mworking.adapter.CategoryAdapterFactory;
 import com.badou.mworking.adapter.ClassificationAdapter;
+import com.badou.mworking.base.BaseBackActionBarActivity;
+import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.Classification;
 import com.badou.mworking.presenter.CategoryListPresenter;
@@ -32,12 +33,12 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 import java.util.List;
 
-import butterknife.ButterKnife;
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnItemClick;
 import butterknife.OnTouch;
 
-public class BaseCategoryProgressListActivity extends BaseBackActionBarActivity implements CategoryListView {
+public class CategoryListActivity extends BaseBackActionBarActivity implements CategoryListView {
 
     public static final String KEY_CATEGORY = "category";
 
@@ -66,7 +67,7 @@ public class BaseCategoryProgressListActivity extends BaseBackActionBarActivity 
     CategoryListPresenter mCategoryPresenter;
 
     public static Intent getIntent(Context context, int category) {
-        Intent intent = new Intent(context, BaseCategoryProgressListActivity.class);
+        Intent intent = new Intent(context, CategoryListActivity.class);
         intent.putExtra(KEY_CATEGORY, category);
         return intent;
     }
@@ -211,11 +212,6 @@ public class BaseCategoryProgressListActivity extends BaseBackActionBarActivity 
     @Override
     public void enablePullUp() {
         mContentListView.setMode(PullToRefreshBase.Mode.BOTH);
-    }
-
-    @Override
-    public void setRefreshing() {
-        showProgressBar();
     }
 
     @Override

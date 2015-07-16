@@ -13,18 +13,16 @@
  */
 package com.easemob.chatuidemo.utils;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import android.content.Context;
 import android.text.Spannable;
-import android.text.Spannable.Factory;
 import android.text.style.ImageSpan;
 
 import com.badou.mworking.R;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SmileUtils {
 	public static final String ee_1 = "[):]";
@@ -63,7 +61,7 @@ public class SmileUtils {
 	public static final String ee_34 = "[(W)]";
 	public static final String ee_35 = "[(D)]";
 	
-	private static final Factory spannableFactory = Spannable.Factory
+	private static final Spannable.Factory spannableFactory = Spannable.Factory
 	        .getInstance();
 	
 	private static final Map<Pattern, Integer> emoticons = new HashMap<Pattern, Integer>();
@@ -120,7 +118,7 @@ public class SmileUtils {
 	 */
 	public static boolean addSmiles(Context context, Spannable spannable) {
 	    boolean hasChanges = false;
-	    for (Entry<Pattern, Integer> entry : emoticons.entrySet()) {
+	    for (Map.Entry<Pattern, Integer> entry : emoticons.entrySet()) {
 	        Matcher matcher = entry.getKey().matcher(spannable);
 	        while (matcher.find()) {
 	            boolean set = true;
@@ -152,7 +150,7 @@ public class SmileUtils {
 	
 	public static boolean containsKey(String key){
 		boolean b = false;
-		for (Entry<Pattern, Integer> entry : emoticons.entrySet()) {
+		for (Map.Entry<Pattern, Integer> entry : emoticons.entrySet()) {
 	        Matcher matcher = entry.getKey().matcher(key);
 	        if (matcher.find()) {
 	        	b = true;

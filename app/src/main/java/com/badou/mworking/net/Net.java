@@ -1,10 +1,8 @@
 package com.badou.mworking.net;
 
-import android.content.Context;
 import android.text.TextUtils;
 
 import com.badou.mworking.base.AppApplication;
-import com.badou.mworking.util.SP;
 
 /**
  * 功能描述:  接口工具类

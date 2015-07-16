@@ -1,7 +1,5 @@
 package com.easemob.chatuidemo.video.util;
 
-import java.io.FileDescriptor;
-
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Resources;
@@ -9,10 +7,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
 import android.os.Build;
-import android.provider.MediaStore.Video.Thumbnails;
+import android.provider.MediaStore;
 import android.util.Log;
 
 import com.badou.mworking.BuildConfig;
+
+import java.io.FileDescriptor;
 
 
 public class ImageResizer extends ImageWorker {
@@ -85,7 +85,7 @@ public class ImageResizer extends ImageWorker {
 	protected Bitmap processBitmap(Object data) {
 		
 		String filePath=String.valueOf(data);
-		return ThumbnailUtils.createVideoThumbnail(filePath, Thumbnails.MICRO_KIND);
+		return ThumbnailUtils.createVideoThumbnail(filePath, MediaStore.Images.Thumbnails.MICRO_KIND);
 	}
 
 	/**

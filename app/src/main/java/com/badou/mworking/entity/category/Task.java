@@ -23,6 +23,8 @@ public class Task extends Category {
     @Expose
     int photo;// 是否上传照片
     @Expose
+    int qrint; // 是否支持二维码
+    @Expose
     long startline;// 开始时间
     @Expose
     long deadline;// 结束时间
@@ -38,10 +40,16 @@ public class Task extends Category {
     @Expose
     String contentStr;
 
-    Content content;
+    transient Content content;
 
     public Task(Context context, JSONObject jsonObject) {
         super(context, jsonObject);
+    }
+
+    @Override
+    public void updateData(CategoryDetail categoryDetail) {
+        this.store = categoryDetail.store;
+        this.read = categoryDetail.getContent().c;
     }
 
     @Override
@@ -110,7 +118,7 @@ public class Task extends Category {
         return content;
     }
 
-    static class Content{
+    static class Content {
         @Expose
         String p;
 

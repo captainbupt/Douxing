@@ -34,6 +34,11 @@ public abstract class MyBaseAdapter<T> extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+    public void clear() {
+        mItemList.clear();
+        notifyDataSetChanged();
+    }
+
     public void setItem(int position, T item) {
         if (position < 0 || position >= getCount()) {
             return;
