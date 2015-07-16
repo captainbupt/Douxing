@@ -89,6 +89,7 @@ public class RequestParameters {
     public static final String CHK_UPDATA_PIC_TASK = "button_task";//任务签到
     public static final String CHK_UPDATA_PIC_CHATTER = "button_chatter";//同事圈
     public static final String CHK_UPDATA_PIC_ASK = "button_ask";// 问答
+    public static final String CHK_UPDATA_PIC_ENTRY = "button_entry";// 报名
     public static final String CHK_UPDATA_PIC_COMPANY_LOGO = "button_vlogo";//主页logo
     public static final String CHK_UPDATA_PIC_NEWVER = "newver";//是否有更新
     public static final String CHK_UPDATA_BANNER = "banner";//首页轮播图信息

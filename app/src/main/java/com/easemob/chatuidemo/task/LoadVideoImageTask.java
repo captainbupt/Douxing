@@ -1,7 +1,5 @@
 package com.easemob.chatuidemo.task;
 
-import java.io.File;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -17,6 +15,9 @@ import com.easemob.chatuidemo.activity.ShowVideoActivity;
 import com.easemob.chatuidemo.utils.CommonUtils;
 import com.easemob.chatuidemo.utils.ImageCache;
 import com.easemob.util.ImageUtils;
+
+import java.io.File;
+
 
 public class LoadVideoImageTask extends AsyncTask<Object, Void, Bitmap> {
 

@@ -2,7 +2,6 @@ package com.badou.mworking.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,5 +66,10 @@ public class NoneResultView extends LinearLayout {
     public void setContent(int imgResId, int resultResId) {
         setImageResource(imgResId);
         setTextResource(resultResId);
+    }
+
+    public void setContent(int imgResId, String result) {
+        setImageResource(imgResId);
+        mTextView.setText(result);
     }
 }

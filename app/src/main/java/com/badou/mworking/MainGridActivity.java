@@ -6,71 +6,30 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.badou.mworking.adapter.BannerAdapter;
 import com.badou.mworking.adapter.MainGridAdapter;
-import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.entity.main.MainBanner;
 import com.badou.mworking.entity.main.MainIcon;
-import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.fragment.MainSearchFragment;
-import com.badou.mworking.net.Net;
-import com.badou.mworking.net.RequestParameters;
-import com.badou.mworking.net.ResponseParameters;
-import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.presenter.MainPresenter;
-import com.badou.mworking.util.AppManager;
-import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.view.MainGridView;
 import com.badou.mworking.widget.BannerGallery;
 import com.badou.mworking.widget.LineGridView;
 import com.badou.mworking.widget.TopFadeScrollView;
-import com.easemob.chatuidemo.activity.MainActivity;
 
 import java.util.ArrayList;
-
-import com.easemob.EMCallBack;
-import com.easemob.EMEventListener;
-import com.easemob.EMNotifierEvent;
-import com.easemob.chat.EMChatManager;
-import com.easemob.chat.EMConversation;
-import com.easemob.chat.EMGroupManager;
-import com.easemob.chat.EMMessage;
-import com.easemob.chatuidemo.Constant;
-import com.easemob.chatuidemo.DemoHXSDKHelper;
-import com.easemob.chatuidemo.activity.MainActivity;
-import com.easemob.chatuidemo.db.UserDao;
-import com.easemob.chatuidemo.domain.User;
-
-import org.bitlet.weupnp.Main;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import butterknife.ButterKnife;
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnItemClick;
 import butterknife.OnItemSelected;
@@ -170,14 +129,14 @@ public class MainGridActivity extends BaseNoTitleActivity implements MainGridVie
     @Override
     public void showSearchFragment() {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.show(mMainSearchFragment);
+        transaction.show(getSearchFragment());
         transaction.commit();
     }
 
     @Override
     public void hideSearchFragment() {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.hide(mMainSearchFragment);
+        transaction.hide(getSearchFragment());
         transaction.commit();
     }
 
@@ -283,7 +242,8 @@ public class MainGridActivity extends BaseNoTitleActivity implements MainGridVie
      */
     @Override
     public void onBackPressed() {
-        mMainPresenter.onBackPressed();
+        if (!mMainSearchFragment.getPresenter().onBackPressed())
+            mMainPresenter.onBackPressed();
     }
 
     @Override

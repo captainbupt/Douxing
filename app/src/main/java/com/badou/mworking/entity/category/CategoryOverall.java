@@ -28,27 +28,7 @@ public class CategoryOverall {
     // Retrofit并不能很好的支持泛型自定义处理，所以需要手动处理一下
     public List<Category> getCategoryList(int category) {
         if (categoryList == null) {
-            Class clz;
-            switch (category) {
-                case Category.CATEGORY_NOTICE:
-                    clz = Notice.class;
-                    break;
-                case Category.CATEGORY_TRAINING:
-                    clz = Train.class;
-                    break;
-                case Category.CATEGORY_EXAM:
-                    clz = Exam.class;
-                    break;
-                case Category.CATEGORY_SHELF:
-                    clz = Train.class;
-                    break;
-                case Category.CATEGORY_TASK:
-                    clz = Task.class;
-                    break;
-                default:
-                    clz = Notice.class;
-            }
-            categoryList = GsonUtil.fromLinedTreeMap(list, clz);
+            categoryList = GsonUtil.fromLinedTreeMap(list, Category.CATEGORY_KEY_CLASSES[category]);
         }
         return categoryList;
     }

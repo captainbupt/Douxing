@@ -12,11 +12,13 @@ import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.SP;
 import com.badou.mworking.util.SPHelper;
 import com.google.gson.annotations.Expose;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.List;
+import java.lang.reflect.Type;
 
 /**
  * 功能描述:  通知公告，在线考试，微培训，任务签到分类信息
@@ -28,10 +30,19 @@ public abstract class Category implements Serializable {
     public static final int CATEGORY_EXAM = 2;        //在线考试
     public static final int CATEGORY_TASK = 3;        //任务签到
     public static final int CATEGORY_SHELF = 4;   //橱窗
+    public static final int CATEGORY_ENTRY = 5;   //橱窗
 
-    public static final String[] CATEGORY_KEY_NAMES = new String[]{"notice", "training", "exam", "task", "shelf"};
-    public static final String[] CATEGORY_KEY_UNREADS = new String[]{"noticeUnreadNum", "trainUnreadNum", "examUnreadNum", "taskUnreadNum", "shelfUnreadNum"};
-    public static final String[] CATEGORY_KEY_ICONS = new String[]{RequestParameters.CHK_UPDATA_PIC_NOTICE, RequestParameters.CHK_UPDATA_PIC_TRAINING, RequestParameters.CHK_UPDATA_PIC_EXAM, RequestParameters.CHK_UPDATA_PIC_TASK, RequestParameters.CHK_UPDATA_PIC_SHELF};
+    public static final String[] CATEGORY_KEY_NAMES = new String[]{"notice", "training", "exam", "task", "shelf", "entry"};
+    public static final String[] CATEGORY_KEY_UNREADS = new String[]{"noticeUnreadNum", "trainUnreadNum", "examUnreadNum", "taskUnreadNum", "shelfUnreadNum", "entryUnreadNum"};
+    public static final String[] CATEGORY_KEY_ICONS = new String[]{RequestParameters.CHK_UPDATA_PIC_NOTICE, RequestParameters.CHK_UPDATA_PIC_TRAINING, RequestParameters.CHK_UPDATA_PIC_EXAM, RequestParameters.CHK_UPDATA_PIC_TASK, RequestParameters.CHK_UPDATA_PIC_SHELF, RequestParameters.CHK_UPDATA_PIC_ENTRY};
+    public static final Class[] CATEGORY_KEY_CLASSES = new Class[]{Notice.class, Train.class, Exam.class, Task.class, Train.class, Entry.class};
+    public static final Type[] CATEGORY_KEY_TYPES = new Type[]{new TypeToken<List<Notice>>() {
+    }.getType(), new TypeToken<List<Train>>() {
+    }.getType(), new TypeToken<List<Exam>>() {
+    }.getType(), new TypeToken<List<Task>>() {
+    }.getType(), new TypeToken<List<Train>>() {
+    }.getType(), new TypeToken<List<Entry>>() {
+    }.getType()};
 
     @Expose
     int offline; // 过期
@@ -76,7 +87,7 @@ public abstract class Category implements Serializable {
     }
 
     public boolean isOffline() {
-        return offline == 1 ;
+        return offline == 1;
     }
 
     public boolean isTop() {
@@ -145,66 +156,13 @@ public abstract class Category implements Serializable {
         return "";
     }
 
-    public String getCategoryName(Context context) {
+    public static String getCategoryName(Context context, int type) {
         Shuffle shuffle = UserInfo.getUserInfo().getShuffle();
-        int type = getCategoryType();
-        if (type == CATEGORY_NOTICE) {
-            return shuffle.getMainIcon(context, RequestParameters.CHK_UPDATA_PIC_NOTICE).getName();
-        } else if (type == CATEGORY_EXAM) {
-            return shuffle.getMainIcon(context, RequestParameters.CHK_UPDATA_PIC_EXAM).getName();
-        } else if (type == CATEGORY_TASK) {
-            return shuffle.getMainIcon(context, RequestParameters.CHK_UPDATA_PIC_TASK).getName();
-        } else if (type == CATEGORY_TRAINING) {
-            return shuffle.getMainIcon(context, RequestParameters.CHK_UPDATA_PIC_TRAINING).getName();
-        } else if (type == CATEGORY_SHELF) {
-            return shuffle.getMainIcon(context, RequestParameters.CHK_UPDATA_PIC_SHELF).getName();
+        if (type >= 0 && type < CATEGORY_KEY_ICONS.length) {
+            return shuffle.getMainIcon(context, CATEGORY_KEY_ICONS[type]).getName();
         }
-        return null;
+        return "";
     }
 
-    public static Category getCategoryFromDetail(CategoryDetail categoryDetail) {
-/*        if (categoryDetail.type == CATEGORY_NOTICE) {
-            Notice notice = new Notice();
-            notice.subject = categoryDetail.subject;
-            notice.rid = categoryDetail.rid;
-            notice.commentNumber = categoryDetail.commentNum;
-            notice.url = categoryDetail.url;
-            notice.subtype = categoryDetail.format;
-            notice.isRead = categoryDetail.isSign;
-            notice.isStore = categoryDetail.isStore;
-            return notice;
-        } else if (categoryDetail.type == CATEGORY_TRAINING || categoryDetail.type == CATEGORY_SHELF) {
-            Train train;
-            if (categoryDetail.type == CATEGORY_TRAINING) {
-                train = new Train(true);
-            } else {
-                train = new Train(false);
-            }
-            train.subject = categoryDetail.subject;
-            train.rid = categoryDetail.rid;
-            train.commentNum = categoryDetail.commentNum;
-            train.ecnt = categoryDetail.ratingNum;
-            train.eval = categoryDetail.ratingTotal;
-            train.rating = categoryDetail.rating;
-            train.url = categoryDetail.url;
-            train.subtype = categoryDetail.format;
-            train.isRead = categoryDetail.isSign;
-            train.isStore = categoryDetail.isStore;
-            return train;
-        } else if (categoryDetail.type == CATEGORY_EXAM) {
-            Exam exam = new Exam();
-            exam.subject = categoryDetail.subject;
-            exam.rid = categoryDetail.rid;
-            exam.isRead = categoryDetail.isSign;
-            exam.isStore = categoryDetail.isStore;
-            exam.subtype = categoryDetail.format;
-            return exam;
-        } else if (categoryDetail.type == CATEGORY_TASK) {
-            Task task = categoryDetail.task;
-            return task;
-        } else {
-            return null;
-        }*/
-        return null;
-    }
+    public abstract void updateData(CategoryDetail categoryDetail);
 }

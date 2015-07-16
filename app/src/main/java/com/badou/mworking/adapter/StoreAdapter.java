@@ -8,8 +8,8 @@ import android.widget.TextView;
 
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
-import com.badou.mworking.listener.AdapterItemClickListener;
 import com.badou.mworking.entity.Store;
+import com.badou.mworking.listener.AdapterItemClickListener;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.TimeTransfer;
@@ -19,8 +19,8 @@ import com.swipe.delete.SwipeLayout;
 
 import org.json.JSONObject;
 
-import butterknife.ButterKnife;
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 
 public class StoreAdapter extends MyBaseAdapter {

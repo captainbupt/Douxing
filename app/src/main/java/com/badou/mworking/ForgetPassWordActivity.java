@@ -1,16 +1,13 @@
 package com.badou.mworking;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Toast;
 
-import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.entity.emchat.EMChatEntity;
 import com.badou.mworking.net.Net;
@@ -25,7 +22,6 @@ import com.easemob.chatuidemo.activity.ChatServiceActivity;
 
 import org.json.JSONObject;
 
-import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 

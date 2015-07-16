@@ -5,17 +5,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.entity.Store;
 import com.badou.mworking.entity.category.Exam;
-import com.badou.mworking.entity.main.MainIcon;
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.RequestParameters;
-import com.easemob.chatuidemo.domain.User;
 
-import butterknife.ButterKnife;
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class ExamBaseActivity extends BaseBackActionBarActivity {
 

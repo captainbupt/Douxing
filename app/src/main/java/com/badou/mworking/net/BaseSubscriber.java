@@ -5,9 +5,6 @@ import android.content.Context;
 import com.badou.mworking.R;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.util.ToastUtil;
-import com.badou.mworking.view.BaseView;
-
-import org.json.JSONObject;
 
 import java.lang.reflect.Field;
 

@@ -14,8 +14,6 @@
 
 package com.easemob.chatuidemo.activity;
 
-import java.util.UUID;
-
 import android.media.AudioManager;
 import android.media.RingtoneManager;
 import android.media.SoundPool;
@@ -24,7 +22,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -35,16 +32,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.badou.mworking.R;
 import com.easemob.chat.EMCallStateChangeListener;
 import com.easemob.chat.EMChatManager;
-import com.badou.mworking.R;
 import com.easemob.exceptions.EMServiceNotReadyException;
+
+import java.util.UUID;
 
 /**
  * 语音通话页面
  * 
  */
-public class VoiceCallActivity extends CallActivity implements OnClickListener {
+public class VoiceCallActivity extends CallActivity implements View.OnClickListener {
 	private LinearLayout comingBtnContainer;
 	private Button hangupBtn;
 	private Button refuseBtn;
@@ -127,7 +126,7 @@ public class VoiceCallActivity extends CallActivity implements OnClickListener {
 				final String st2 = getResources().getString(R.string.Is_not_yet_connected_to_the_server);
 				runOnUiThread(new Runnable() {
 					public void run() {
-						Toast.makeText(VoiceCallActivity.this, st2, 0).show();
+						Toast.makeText(VoiceCallActivity.this, st2, Toast.LENGTH_SHORT).show();
 					}
 				});
 			}
@@ -148,7 +147,7 @@ public class VoiceCallActivity extends CallActivity implements OnClickListener {
 	    callStateListener = new EMCallStateChangeListener() {
             
             @Override
-            public void onCallStateChanged(CallState callState, CallError error) {
+            public void onCallStateChanged(CallState callState, EMCallStateChangeListener.CallError error) {
                 // Message msg = handler.obtainMessage();
                 switch (callState) {
                 

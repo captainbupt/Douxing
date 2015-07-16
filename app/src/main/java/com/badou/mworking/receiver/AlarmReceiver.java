@@ -6,10 +6,7 @@ import android.content.Intent;
 
 import com.badou.mworking.ExamActivity;
 import com.badou.mworking.TrainActivity;
-import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.entity.category.Category;
-import com.badou.mworking.entity.category.Exam;
-import com.badou.mworking.entity.category.Train;
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.util.NotificationUtil;
 import com.badou.mworking.util.SP;

@@ -1,5 +1,6 @@
 package com.badou.mworking.presenter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 
@@ -9,8 +10,8 @@ import com.badou.mworking.MainGridActivity;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.util.SPHelper;
-import com.badou.mworking.view.SplashView;
 import com.badou.mworking.view.BaseView;
+import com.badou.mworking.view.SplashView;
 
 public class SplashPresenter extends Presenter {
 
@@ -58,8 +59,8 @@ public class SplashPresenter extends Presenter {
      * 功能描述:跳转到登录页面
      */
     private void goLogin() {
-        mActivity.startActivity(LoginActivity.getIntent(mContext));
-        mActivity.finish();
+        mContext.startActivity(LoginActivity.getIntent(mContext));
+        ((Activity)mContext).finish();
     }
 
     /**
@@ -67,16 +68,16 @@ public class SplashPresenter extends Presenter {
      */
     private void goMain(UserInfo userInfo) {
         UserInfo.setUserInfo((AppApplication) mContext.getApplicationContext(), SPHelper.getUserAccount(), userInfo);
-        mActivity.startActivity(MainGridActivity.getIntent(mContext, false));
-        mActivity.finish();
+        mContext.startActivity(MainGridActivity.getIntent(mContext, false));
+        ((Activity)mContext).finish();
     }
 
     /**
      * 功能描述: 跳转到引导页面
      */
     private void goIntroduction() {
-        mActivity.startActivity(IntroductionActivity.getIntent(mContext));
-        mActivity.finish();
+        mContext.startActivity(IntroductionActivity.getIntent(mContext));
+        ((Activity)mContext).finish();
     }
 
 }

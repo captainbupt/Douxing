@@ -1,38 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:myattrs="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_layout_bg"
     android:orientation="vertical">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
-
-        <com.handmark.pulltorefresh.library.PullToRefreshListView
-            android:id="@+id/ptrlv_activity_comments"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:divider="@null" />
-
-
-        <com.badou.mworking.widget.NoneResultView
-            android:id="@+id/nrv_activity_comment_none"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
-    </FrameLayout>
-
-    <com.badou.mworking.widget.BottomSendMessageView
-        android:id="@+id/bsmv_activity_comment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0"
-        myattrs:contentHint="@string/comment_hint"
-        myattrs:maxText="200"
-        myattrs:minText="5"
-        myattrs:submitText="@string/feekback_submit" />
-
-</LinearLayout>
+</FrameLayout>

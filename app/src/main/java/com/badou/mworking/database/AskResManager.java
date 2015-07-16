@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.entity.user.UserInfo;
 
 public class AskResManager {

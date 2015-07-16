@@ -13,7 +13,6 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
-import android.util.Log;
 
 import com.badou.mworking.LoginActivity;
 import com.badou.mworking.R;
@@ -31,21 +30,6 @@ import com.easemob.chat.EMChat;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-
-import com.easemob.EMCallBack;
-import com.easemob.chat.EMChat;
-import com.easemob.chat.EMChatManager;
-import com.easemob.chat.EMGroupManager;
-import com.easemob.chatuidemo.DemoHXSDKHelper;
-import com.easemob.chatuidemo.domain.User;
-import com.umeng.analytics.MobclickAgent;
-
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
 
 import cn.jpush.android.api.JPushInterface;
 

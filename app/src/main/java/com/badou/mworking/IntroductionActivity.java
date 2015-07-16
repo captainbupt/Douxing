@@ -12,8 +12,8 @@ import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.presenter.IntroductionPresenter;
 import com.badou.mworking.view.IntroductionView;
 
-import butterknife.ButterKnife;
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnPageChange;
 

@@ -1,6 +1,5 @@
 package com.badou.mworking;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,11 +13,9 @@ import android.widget.ImageView;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.badou.mworking.base.BaseNoTitleActivity;
-import com.badou.mworking.net.bitmap.BitmapLruCache;
 import com.badou.mworking.net.volley.MyVolley;
 import com.badou.mworking.util.FileUtils;
 import com.badou.mworking.util.ToastUtil;
-import com.umeng.analytics.MobclickAgent;
 
 import java.io.File;
 

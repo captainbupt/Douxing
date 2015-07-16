@@ -129,7 +129,7 @@ public class Shuffle {
             buttonEntry.setKey(BUTTON_ENTRY);
             return buttonEntry;
         }
-        return null;
+        return new MainIcon();
     }
 
     @SerializedName(BUTTON_SHELF)

@@ -1,29 +1,24 @@
 package com.badou.mworking.util;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
-import com.badou.mworking.BackWebActivity;
 import com.badou.mworking.ExamWebViewActivity;
 import com.badou.mworking.NoticePDFViewActivity;
 import com.badou.mworking.NoticeWebViewActivity;
 import com.badou.mworking.R;
-import com.badou.mworking.TaskActivity;
 import com.badou.mworking.TaskSignActivity;
 import com.badou.mworking.TrainMusicActivity;
 import com.badou.mworking.TrainPDFViewActivity;
 import com.badou.mworking.TrainVideoActivity;
 import com.badou.mworking.TrainWebViewActivity;
-import com.badou.mworking.base.BaseActionBarActivity;
+import com.badou.mworking.domain.MarkReadUseCase;
+import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.Exam;
 import com.badou.mworking.entity.category.Notice;
-import com.badou.mworking.entity.category.Train;
-import com.badou.mworking.entity.main.MainIcon;
-import com.badou.mworking.entity.category.Category;
-import com.badou.mworking.entity.category.CategoryDetail;
 import com.badou.mworking.entity.category.Task;
-import com.badou.mworking.entity.user.UserInfo;
+import com.badou.mworking.entity.category.Train;
+import com.badou.mworking.net.BaseSubscriber;
 import com.badou.mworking.net.ServiceProvider;
 
 import java.io.File;
@@ -31,7 +26,13 @@ import java.io.File;
 public class CategoryClickHandler {
 
     public static Intent getIntent(Context context, Category category) {
-        ServiceProvider.doMarkRead(context, category.getRid());
+        new MarkReadUseCase(category.getRid()).execute(new BaseSubscriber(context) {
+            @Override
+            public void onResponseSuccess(Object data) {
+
+            }
+
+        });
         if (category.getCategoryType() == Category.CATEGORY_NOTICE) {
             return goNoticeActivity(context, (Notice) category);
         } else if (category.getCategoryType() == Category.CATEGORY_TRAINING || category.getCategoryType() == Category.CATEGORY_SHELF) {
@@ -56,10 +57,10 @@ public class CategoryClickHandler {
                 String company = SP.getStringSP(context, SP.DEFAULTCACHE, Constant.COMPANY, "badou");
                 final String webPdfUrl = Constant.TRAIN_IMG_SHOW + company + File.separator + notice.getRid() + Constant.TRAIN_IMG_FORMAT;
                 notice.setUrl(webPdfUrl);
-                return NoticeWebViewActivity.getIntent(context, notice);
+                return NoticeWebViewActivity.getIntent(context, notice.getRid());
             }
         } else if (notice.getSubtype() == Constant.MWKG_FORAMT_TYPE_HTML) {
-            return NoticeWebViewActivity.getIntent(context, notice);
+            return NoticeWebViewActivity.getIntent(context, notice.getRid());
         } else {
             ToastUtil.showToast(context, R.string.category_unsupport_type);
             return null;

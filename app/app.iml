@@ -108,5 +108,6 @@
     <orderEntry type="library" exported="" name="appcompat-v7-19.0.1" level="project" />
     <orderEntry type="module" module-name="Pulltorefresh" exported="" />
     <orderEntry type="module" module-name="SwipeBackLayout" exported="" />
+    <orderEntry type="module" module-name="PseudoMaterialHeader" exported="" />
   </component>
 </module>

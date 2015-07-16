@@ -7,8 +7,8 @@ import com.badou.mworking.entity.category.Category;
 
 public class CategoryAdapterFactory {
 
-    public static MyBaseAdapter<Category> getAdapter(Context context, int category){
-        switch (category){
+    public static MyBaseAdapter<Category> getAdapter(Context context, int category) {
+        switch (category) {
             case Category.CATEGORY_NOTICE:
                 return new NoticeAdapter(context);
             case Category.CATEGORY_EXAM:
@@ -19,6 +19,8 @@ public class CategoryAdapterFactory {
                 return new TaskAdapter(context);
             case Category.CATEGORY_SHELF:
                 return new TrainAdapter(context);
+            case Category.CATEGORY_ENTRY:
+                return new EntryAdapter(context);
             default:
                 return new NoticeAdapter(context);
         }

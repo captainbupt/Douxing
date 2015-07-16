@@ -3,8 +3,6 @@ package com.badou.mworking.util;
 import android.content.Context;
 import android.widget.Toast;
 
-import com.badou.mworking.R;
-
 public class ToastUtil {
 
     /**

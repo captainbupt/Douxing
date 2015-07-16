@@ -8,88 +8,207 @@ import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ResponseParameters;
 import com.badou.mworking.util.Constant;
+import com.badou.mworking.util.GsonUtil;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- * Created by Administrator on 2015/6/2.
- */
 public class CategoryDetail {
 
-    public int type;
-    public String subject;
-    public String rid;
-    public String tagName;
-    public int commentNum;
-    public int ratingNum;
-    public int ratingTotal;
-    public String url;
-    public int format;
-    public int rating;
-    public boolean isSign;
-    public boolean isStore;
-    public String categoryName;
+    int mcnt;
+    int ccnt;
+    int ecnt;
+    int eval;
+    @SerializedName("content")
+    String contentStr;
+    String url;
+    int fmt;
+    String tag;
+    boolean store;
+    String subject;
+    String img;
+    String link_to;
+    Entry entry;
+    Task task;
 
-    public Task task;
+    transient Content content;
 
-    public CategoryDetail(Context context, JSONObject jsonObject, int type, String rid, String subject, String categoryName) {
-        this(context, jsonObject);
-        this.type = type;
-        this.rid = rid;
-        this.subject = subject;
-        if (type == Category.CATEGORY_EXAM) {
-            String uid = UserInfo.getUserInfo().getUid();
-            this.url = Net.getRunHost() + Net.EXAM_ITEM(uid, rid);
+    static class Content{
+        int e = -1;
+        int c;
+
+        public int getE() {
+            return e;
         }
-        this.categoryName = categoryName;
-    }
 
-    public CategoryDetail(Context context, JSONObject jsonObject) {
-        System.out.println(jsonObject);
-        this.tagName = jsonObject.optString(ResponseParameters.RESOURCE_TAG_NAME);
-        this.commentNum = jsonObject.optInt(ResponseParameters.RESOURCE_COMMENT_NUMBER);
-        this.ratingNum = jsonObject.optInt(ResponseParameters.RESOURCE_RATING_NUMBER);
-        this.ratingTotal = jsonObject.optInt(ResponseParameters.RESOURCE_RATING_TOTAL);
-        this.url = jsonObject.optString(ResponseParameters.RESOURCE_URL);
-        this.format = jsonObject.optInt(ResponseParameters.RESOURCE_FORMAT);
-        this.isStore = jsonObject.optBoolean("store");
-        String contentString = jsonObject.optString(ResponseParameters.RESOURCE_CONTENT);
-        if (!TextUtils.isEmpty(contentString)) {
-            try {
-                JSONObject contentObject = new JSONObject(contentString);
-                rating = contentObject.optInt(ResponseParameters.RESOURCE_CONTENT_RATING);
-                isSign = contentObject.optInt(ResponseParameters.RESOURCE_CONTENT_SIGNING) == Constant.READ_YES;
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        String taskString = jsonObject.optString(ResponseParameters.RESOURCE_TASK);
-        if (!TextUtils.isEmpty(taskString)) {
-            try {
-                task = new Task(context, new JSONObject(taskString));
-                task.setRead(isSign);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+        public int getC() {
+            return c;
         }
     }
 
-    public CategoryDetail(Context context, Category category) {
-        this.type = category.getCategoryType();
-        this.rid = category.rid;
-        this.subject = category.subject;
-        this.tagName = category.getClassificationName();
-        if (category.getCategoryType() == Category.CATEGORY_EXAM) {
-            String uid = UserInfo.getUserInfo().getUid();
-            this.url = Net.getRunHost() + Net.EXAM_ITEM(uid, category.rid);
-        } else {
-            this.url = category.url + "&uid=" + UserInfo.getUserInfo().getUid();
+    static class Entry{
+        int offline;
+        int maxusr;
+        long deadline;
+        long startline;
+        long deadline_c;
+        long startline_c;
+        int enroll;
+        int in;
+        EntryContent content;
+
+        public int getOffline() {
+            return offline;
         }
-        this.format = category.subtype;
-        if (category.getCategoryType() == Category.CATEGORY_TASK) {
-            task = (Task) category;
+
+        public int getMaxusr() {
+            return maxusr;
         }
-        this.categoryName = category.getCategoryName(context);
+
+        public long getDeadline() {
+            return deadline;
+        }
+
+        public long getStartline() {
+            return startline;
+        }
+
+        public long getDeadline_c() {
+            return deadline_c;
+        }
+
+        public long getStartline_c() {
+            return startline_c;
+        }
+
+        public int getEnroll() {
+            return enroll;
+        }
+
+        public int getIn() {
+            return in;
+        }
+
+        public EntryContent getContent() {
+            return content;
+        }
+    }
+
+    static class EntryContent{
+        @SerializedName("0")
+        String description;
+
+        public String getDescription() {
+            return description;
+        }
+    }
+
+    static class Task{
+        int offline;
+        String place;
+        float latitude;
+        float longitude;
+        String comment;
+        long deadline;
+        long startline;
+        int photo;
+        int qrint;
+
+        public int getOffline() {
+            return offline;
+        }
+
+        public String getPlace() {
+            return place;
+        }
+
+        public float getLatitude() {
+            return latitude;
+        }
+
+        public float getLongitude() {
+            return longitude;
+        }
+
+        public String getComment() {
+            return comment;
+        }
+
+        public long getDeadline() {
+            return deadline;
+        }
+
+        public long getStartline() {
+            return startline;
+        }
+
+        public int getPhoto() {
+            return photo;
+        }
+
+        public int getQrint() {
+            return qrint;
+        }
+    }
+
+    public void setStore(boolean store) {
+        this.store = store;
+    }
+
+    public int getMcnt() {
+        return mcnt;
+    }
+
+    public int getCcnt() {
+        return ccnt;
+    }
+
+    public int getEcnt() {
+        return ecnt;
+    }
+
+    public int getEval() {
+        return eval;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public int getFmt() {
+        return fmt;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public boolean isStore() {
+        return store;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public String getLink_to() {
+        return link_to;
+    }
+
+    public Content getContent() {
+        if (content == null) {
+            if (TextUtils.isEmpty(contentStr)) {
+                content = new Content();
+            } else {
+                content = GsonUtil.fromJson(contentStr, Content.class);
+            }
+        }
+        return content;
     }
 }

@@ -27,8 +27,8 @@ import com.badou.mworking.util.SPHelper;
 
 import java.io.File;
 
-import butterknife.ButterKnife;
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 @SuppressLint("SetJavaScriptEnabled")

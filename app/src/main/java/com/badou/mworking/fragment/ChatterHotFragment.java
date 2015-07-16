@@ -13,7 +13,6 @@ import com.badou.mworking.ChatterActivity;
 import com.badou.mworking.ChatterUserActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.adapter.ChatterHotAdapter;
-import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseFragment;
 import com.badou.mworking.entity.ChatterHot;
 import com.badou.mworking.entity.user.UserInfo;

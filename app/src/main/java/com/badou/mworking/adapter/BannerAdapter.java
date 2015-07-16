@@ -10,7 +10,6 @@ import android.widget.ImageView.ScaleType;
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.entity.main.MainBanner;
-import com.badou.mworking.entity.main.MainIcon;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
 
 /**

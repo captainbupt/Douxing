@@ -13,8 +13,6 @@
  */
 package com.easemob.chatuidemo.adapter;
 
-import java.io.File;
-
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
@@ -26,14 +24,16 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.badou.mworking.R;
 import com.easemob.applib.controller.HXSDKHelper;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMMessage;
-import com.easemob.chat.EMMessage.ChatType;
 import com.easemob.chat.VoiceMessageBody;
-import com.badou.mworking.R;
 import com.easemob.chatuidemo.activity.ChatActivity;
 import com.easemob.util.EMLog;
+
+import java.io.File;
+
 
 public class VoicePlayClickListener implements View.OnClickListener {
 	private static final String TAG = "VoicePlayClickListener";
@@ -45,7 +45,7 @@ public class VoicePlayClickListener implements View.OnClickListener {
 	MediaPlayer mediaPlayer = null;
 	ImageView iv_read_status;
 	Activity activity;
-	private ChatType chatType;
+	private EMMessage.ChatType chatType;
 	private BaseAdapter adapter;
 
 	public static boolean isPlaying = false;
@@ -56,10 +56,7 @@ public class VoicePlayClickListener implements View.OnClickListener {
 	 * @param message
 	 * @param v
 	 * @param iv_read_status
-	 * @param context
 	 * @param activity
-	 * @param user
-	 * @param chatType
 	 */
 	public VoicePlayClickListener(EMMessage message, ImageView v, ImageView iv_read_status, BaseAdapter adapter, Activity activity,
 			String username) {
@@ -132,7 +129,7 @@ public class VoicePlayClickListener implements View.OnClickListener {
 					if (!message.isAcked) {
 						message.isAcked = true;
 						// 告知对方已读这条消息
-						if (chatType != ChatType.GroupChat)
+						if (chatType != EMMessage.ChatType.GroupChat)
 							EMChatManager.getInstance().ackMessageRead(message.getFrom(), message.getMsgId());
 					}
 				} catch (Exception e) {

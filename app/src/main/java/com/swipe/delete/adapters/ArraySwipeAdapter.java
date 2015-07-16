@@ -1,7 +1,5 @@
 package com.swipe.delete.adapters;
 
-import java.util.List;
-
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +9,8 @@ import com.swipe.delete.SwipeLayout;
 import com.swipe.delete.implments.SwipeItemMangerImpl;
 import com.swipe.delete.interfaces.SwipeAdapterInterface;
 import com.swipe.delete.interfaces.SwipeItemMangerInterface;
+
+import java.util.List;
 
 public abstract class ArraySwipeAdapter<T> extends ArrayAdapter implements SwipeItemMangerInterface,SwipeAdapterInterface {
 

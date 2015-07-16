@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
 
-import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.entity.MessageCenter;
 import com.badou.mworking.entity.user.UserInfo;
 

@@ -20,9 +20,9 @@ public class NoticeWebViewActivity extends NoticeBaseActivity {
         transaction.commit();
     }
 
-    public static Intent getIntent(Context context, Notice notice) {
+    public static Intent getIntent(Context context, String rid) {
         Intent intent = new Intent(context, NoticeWebViewActivity.class);
-        intent.putExtra(KEY_NOTICE, notice);
+        intent.putExtra(KEY_NOTICE, rid);
         return intent;
     }
 }

@@ -13,11 +13,11 @@ import android.widget.TextView;
 
 import com.badou.mworking.adapter.AskAnswerAdapter;
 import com.badou.mworking.base.BaseBackActionBarActivity;
+import com.badou.mworking.entity.Ask;
+import com.badou.mworking.entity.Store;
 import com.badou.mworking.listener.DeleteClickListener;
 import com.badou.mworking.listener.FullImageListener;
 import com.badou.mworking.listener.MessageClickListener;
-import com.badou.mworking.entity.Ask;
-import com.badou.mworking.entity.Store;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.bitmap.ImageViewLoader;

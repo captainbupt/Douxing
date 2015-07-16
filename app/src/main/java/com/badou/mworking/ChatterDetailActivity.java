@@ -11,13 +11,14 @@ import android.widget.TextView;
 
 import com.badou.mworking.adapter.CommentAdapter;
 import com.badou.mworking.base.BaseBackActionBarActivity;
+import com.badou.mworking.entity.Chatter;
+import com.badou.mworking.entity.Store;
+import com.badou.mworking.entity.comment.ChatterComment;
+import com.badou.mworking.entity.comment.Comment;
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.listener.DeleteClickListener;
 import com.badou.mworking.listener.MessageClickListener;
 import com.badou.mworking.listener.TopicClickableSpan;
-import com.badou.mworking.entity.Chatter;
-import com.badou.mworking.entity.Comment;
-import com.badou.mworking.entity.Store;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
@@ -138,12 +139,12 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
             @Override
             public void onItemClick(View v, int position, long id) {
                 Comment comment = (Comment) mReplyAdapter.getItem(position);
-                if (comment.name.equals("我")) {
+                if (comment.getName().equals("我")) {
                     return;
                 }
                 isReply = true;
-                mReplyWhom = comment.whom;
-                mSendMessageView.setContent(getResources().getString(R.string.button_reply) + ": " + comment.name, getResources().getString(R.string.button_reply));
+                mReplyWhom = comment.getWhom();
+                mSendMessageView.setContent(getResources().getString(R.string.button_reply) + ": " + comment.getName(), getResources().getString(R.string.button_reply));
             }
         });
         mPullToRefreshScrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ScrollView>() {
@@ -265,7 +266,7 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
                         if (resultArray == null || resultArray.length() == 0) {
                             return;
                         }
-                        List<Object> replys = new ArrayList<>();
+                        List<Comment> replys = new ArrayList<>();
                         int length = resultArray.length();
                         if (length == 0) {
                             if (beginNum == 1) {
@@ -283,7 +284,7 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
                         mNoneResultView.setVisibility(View.GONE);
                         for (int i = 0; i < length; i++) {
                             JSONObject jsonObject = resultArray.optJSONObject(i);
-                            replys.add(new Comment(jsonObject, Comment.TYPE_CHATTER));
+                            replys.add(new ChatterComment());
                         }
                         if (beginNum == 1) {
                             mReplyAdapter.setList(replys, ttlcnt);

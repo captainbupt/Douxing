@@ -2,13 +2,13 @@ package com.badou.mworking.domain;
 
 import com.badou.mworking.executor.JobExecutor;
 
+import rx.Observable;
 import rx.Scheduler;
 import rx.Subscriber;
-import rx.Observable;
 import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.Subscriptions;
-import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * Abstract class for a Use Case (Interactor in terms of Clean Architecture).

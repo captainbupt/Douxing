@@ -1,5 +1,6 @@
 package com.badou.mworking.presenter;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -21,12 +22,12 @@ import com.badou.mworking.MessageCenterActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.UserCenterActivity;
 import com.badou.mworking.base.BaseActionBarActivity;
-import com.badou.mworking.base.BaseCategoryProgressListActivity;
+import com.badou.mworking.CategoryListActivity;
 import com.badou.mworking.database.MessageCenterResManager;
 import com.badou.mworking.domain.CheckUpdateUseCase;
 import com.badou.mworking.entity.category.Category;
-import com.badou.mworking.entity.main.MainBanner;
 import com.badou.mworking.entity.emchat.EMChatEntity;
+import com.badou.mworking.entity.main.MainBanner;
 import com.badou.mworking.entity.main.MainData;
 import com.badou.mworking.entity.main.MainIcon;
 import com.badou.mworking.entity.main.NewVersion;
@@ -84,7 +85,7 @@ public class MainPresenter extends Presenter {
     public void attachIncomingIntent(Intent intent) {
         mReceivedIntent = intent;
         if (mReceivedIntent.getBooleanExtra(MainGridActivity.KEY_MESSAGE_CENTER, false)) {
-            mActivity.startActivity(new Intent(mContext, MessageCenterActivity.class));
+            mContext.startActivity(new Intent(mContext, MessageCenterActivity.class));
         }
     }
 
@@ -106,13 +107,6 @@ public class MainPresenter extends Presenter {
 
         initData();
         registerListener();
-        mMainView.getSearchFragment().setOnHideListener(new MainSearchFragment.OnHideListener() {
-            @Override
-            public void onHide() {
-                isSearching = false;
-                mMainView.hideSearchFragment();
-            }
-        });
     }
 
     private void updateMainIcon() {
@@ -137,6 +131,9 @@ public class MainPresenter extends Presenter {
                 case RequestParameters.CHK_UPDATA_PIC_SHELF: //橱窗
                     mainIcon.setUnreadNumber(SPHelper.getUnreadNumber(Category.CATEGORY_SHELF));
                     break;
+                case RequestParameters.CHK_UPDATA_PIC_ENTRY: //报名
+                    mainIcon.setUnreadNumber(SPHelper.getUnreadNumber(Category.CATEGORY_ENTRY));
+                    break;
             }
         }
         mMainView.setMainIconData(mMainIconList);
@@ -145,13 +142,13 @@ public class MainPresenter extends Presenter {
     private void registerListener() {
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_RECEIVER_MESSAGE);
-        mActivity.registerReceiver(mMessageReceiver, filter);
+        mContext.registerReceiver(mMessageReceiver, filter);
         //有选择性的接收某些类型event事件
         EMChatManager.getInstance().registerEventListener(mEMEventListener, new EMNotifierEvent.Event[]{EMNotifierEvent.Event.EventNewMessage});
     }
 
     private void unregisterListener() {
-        mActivity.unregisterReceiver(mMessageReceiver);
+        mContext.unregisterReceiver(mMessageReceiver);
         EMChatManager.getInstance().unregisterEventListener(mEMEventListener);
     }
 
@@ -183,7 +180,7 @@ public class MainPresenter extends Presenter {
 
                 @Override
                 public void onSuccess() {
-                    mActivity.runOnUiThread(new Runnable() {
+                    ((Activity) mContext).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             // 登陆成功，保存用户名密码
@@ -219,7 +216,7 @@ public class MainPresenter extends Presenter {
 
                 @Override
                 public void onError(final int code, final String message) {
-                    mActivity.runOnUiThread(new Runnable() {
+                    ((Activity) mContext).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             ToastUtil.showToast(mContext, R.string.Login_failed);
@@ -234,13 +231,13 @@ public class MainPresenter extends Presenter {
         Intent intent = new Intent();
         switch (mainIcon.getKey()) {
             case RequestParameters.CHK_UPDATA_PIC_NOTICE: // 通知公告
-                intent = BaseCategoryProgressListActivity.getIntent(mContext, Category.CATEGORY_NOTICE);
+                intent = CategoryListActivity.getIntent(mContext, Category.CATEGORY_NOTICE);
                 break;
             case RequestParameters.CHK_UPDATA_PIC_TRAINING: // 微培训
-                intent = BaseCategoryProgressListActivity.getIntent(mContext, Category.CATEGORY_TRAINING);
+                intent = CategoryListActivity.getIntent(mContext, Category.CATEGORY_TRAINING);
                 break;
             case RequestParameters.CHK_UPDATA_PIC_EXAM: // 在线考试
-                intent = BaseCategoryProgressListActivity.getIntent(mContext, Category.CATEGORY_EXAM);
+                intent = CategoryListActivity.getIntent(mContext, Category.CATEGORY_EXAM);
                 break;
             case RequestParameters.CHK_UPDATA_PIC_SURVEY: // 培训调研
                 String uid = UserInfo.getUserInfo().getUid();
@@ -249,7 +246,7 @@ public class MainPresenter extends Presenter {
                 intent.putExtra(BackWebActivity.KEY_URL, url);
                 break;
             case RequestParameters.CHK_UPDATA_PIC_TASK: // 任务签到
-                intent = BaseCategoryProgressListActivity.getIntent(mContext, Category.CATEGORY_TASK);
+                intent = CategoryListActivity.getIntent(mContext, Category.CATEGORY_TASK);
                 break;
             case RequestParameters.CHK_UPDATA_PIC_CHATTER: // 同事圈
                 intent.setClass(mContext, ChatterActivity.class);
@@ -258,11 +255,14 @@ public class MainPresenter extends Presenter {
                 intent.setClass(mContext, AskActivity.class);
                 break;
             case RequestParameters.CHK_UPDATA_PIC_SHELF: //橱窗
-                intent = BaseCategoryProgressListActivity.getIntent(mContext, Category.CATEGORY_SHELF);
+                intent = CategoryListActivity.getIntent(mContext, Category.CATEGORY_SHELF);
+                break;
+            case RequestParameters.CHK_UPDATA_PIC_ENTRY: //报名
+                intent = CategoryListActivity.getIntent(mContext, Category.CATEGORY_ENTRY);
                 break;
         }
         intent.putExtra(BaseActionBarActivity.KEY_TITLE, mainIcon.getName());
-        mActivity.startActivity(intent);
+        mContext.startActivity(intent);
     }
 
     public void onBannerClick(AdapterView<?> parent, View view, int position, long id) {
@@ -275,7 +275,7 @@ public class MainPresenter extends Presenter {
             } else {
                 intent.putExtra(BackWebActivity.KEY_LOGO_URL, mLogoUrl);
             }
-            mActivity.startActivity(intent);
+            mContext.startActivity(intent);
         }
     }
 
@@ -285,8 +285,8 @@ public class MainPresenter extends Presenter {
 
     public void onUserCenterClick() {
         Intent intent = new Intent(mContext, UserCenterActivity.class);
-        mActivity.startActivity(intent);
-        mActivity.overridePendingTransition(R.anim.slide_in_from_bottom, R.anim.slide_out_to_bottom);
+        mContext.startActivity(intent);
+        ((Activity) mContext).overridePendingTransition(R.anim.slide_in_from_bottom, R.anim.slide_out_to_bottom);
     }
 
     public void onSearchClick() {
@@ -295,12 +295,14 @@ public class MainPresenter extends Presenter {
     }
 
     public void onMessageCenterClick() {
-        mActivity.startActivity(new Intent(mContext, MainActivity.class));
+        mContext.startActivity(new Intent(mContext, MainActivity.class));
     }
 
-    public void onBackPressed() {
+    public boolean onBackPressed() {
         if (isSearching) {
-            mMainView.getSearchFragment().backPressed();
+            mMainView.hideSearchFragment();
+            isSearching = false;
+            return true;
         } else {
             // 应为系统当前的系统毫秒数一定小于2000
             if ((System.currentTimeMillis() - mExitTime) > 2000) {
@@ -310,6 +312,7 @@ public class MainPresenter extends Presenter {
                 AppManager.getAppManager().AppExit(mContext.getApplicationContext(), false);
             }
         }
+        return false;
     }
 
     /**
@@ -354,7 +357,7 @@ public class MainPresenter extends Presenter {
                                 public void onClick(DialogInterface dialog,
                                                     int which) {
                                     mMainView.showProgressDialog(R.string.action_update_download_ing);
-                                    ServiceProvider.doUpdateMTraning(mActivity, newVersion.getUrl(), new RangeFileAsyncHttpResponseHandler(new File("update.apk")) { // 仅仅是借用该接口
+                                    ServiceProvider.doUpdateMTraning(mContext, newVersion.getUrl(), new RangeFileAsyncHttpResponseHandler(new File("update.apk")) { // 仅仅是借用该接口
 
                                         @Override
                                         public void onSuccess(int statusCode, Header[] headers, File file) {
@@ -363,7 +366,7 @@ public class MainPresenter extends Presenter {
                                             intent.setAction(Intent.ACTION_VIEW);
                                             intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
                                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                            mActivity.startActivity(intent);
+                                            mContext.startActivity(intent);
                                         }
 
                                         @Override

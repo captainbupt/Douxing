@@ -1,9 +1,8 @@
 package com.badou.mworking.presenter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
+import android.os.Bundle;
 
 import com.badou.mworking.view.BaseView;
 
@@ -13,11 +12,9 @@ import com.badou.mworking.view.BaseView;
 public abstract class Presenter {
 
     Context mContext;
-    Activity mActivity;
 
     public Presenter(Context context) {
         this.mContext = context;
-        this.mActivity = (Activity) context;
     }
 
     /**
@@ -41,7 +38,11 @@ public abstract class Presenter {
     public void destroy() {
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data){
+    public boolean onBackPressed() {
+        return false;
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
     }
 
@@ -50,4 +51,6 @@ public abstract class Presenter {
     public void attachIncomingIntent(Intent intent) {
     }
 
+    public void attachIncomingArgument(Bundle bundle) {
+    }
 }

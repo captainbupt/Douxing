@@ -1,45 +1,30 @@
 package com.badou.mworking.fragment;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.view.MotionEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.badou.mworking.MainGridActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.adapter.MainSearchAdapter;
 import com.badou.mworking.base.BaseFragment;
-import com.badou.mworking.entity.main.MainIcon;
 import com.badou.mworking.entity.category.Category;
-import com.badou.mworking.entity.category.CategoryBasic;
-import com.badou.mworking.entity.category.CategoryDetail;
-import com.badou.mworking.entity.user.UserInfo;
+import com.badou.mworking.entity.category.CategorySearch;
 import com.badou.mworking.net.Net;
-import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
-import com.badou.mworking.util.CategoryClickHandler;
-import com.badou.mworking.util.ToastUtil;
-import com.badou.mworking.widget.WaitProgressDialog;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.badou.mworking.presenter.SearchPresenter;
+import com.badou.mworking.view.MainSearchView;
+import com.badou.mworking.widget.NoneResultView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -47,39 +32,41 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainSearchFragment extends BaseFragment {
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.OnItemClick;
+import butterknife.OnTextChanged;
+import butterknife.OnTouch;
+import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
-    private static final int COUNT_CATEGORY = 5;
-    private static final String[] KEY_LIST = new String[]{"notice", "training", "exam", "task", "shelf"};
-    private static final String[] KEY_CATEGORY_NAME = new String[]{RequestParameters.CHK_UPDATA_PIC_NOTICE, RequestParameters.CHK_UPDATA_PIC_TRAINING,
-            RequestParameters.CHK_UPDATA_PIC_EXAM, RequestParameters.CHK_UPDATA_PIC_TASK, RequestParameters.CHK_UPDATA_PIC_SHELF};
+public class MainSearchFragment extends BaseFragment implements MainSearchView {
 
-    private LinearLayout mContainerView;
-    private TextView mCancelTextView;
-    private EditText mTitleEditView;
-    private LinearLayout mNoneResultLayout;
-    private TextView mNoneResultTextView;
-    private ImageView mNoneResultImageView;
-    private PullToRefreshListView mResultListView;
-    private MainSearchAdapter mResultAdpater;
-    private String[] mCategoryNames;
-    private WaitProgressDialog progressDialog;
-    private static Handler mBackgroundHandler;
 
-    OnHideListener mOnHideListener;
+    @Bind(R.id.title_edit_text)
+    EditText mTitleEditText;
+    @Bind(R.id.cancel_text_view)
+    TextView mCancelTextView;
+    @Bind(R.id.none_result_view)
+    NoneResultView mNoneResultView;
+    @Bind(R.id.content_list_view)
+    StickyListHeadersListView mContentListView;
+    @Bind(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
-    public void setOnHideListener(OnHideListener onHideListener) {
-        this.mOnHideListener = onHideListener;
-    }
+    SearchPresenter mPresenter;
+    MainSearchAdapter mResultAdapter;
 
-    public interface OnHideListener {
-        void onHide();
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
     }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if (mTitleEditView != null)
+        if (mTitleEditText != null)
             if (hidden) {
                 hideFocus();
             } else {
@@ -88,215 +75,153 @@ public class MainSearchFragment extends BaseFragment {
     }
 
     @Override
-    public View onCreateView(android.view.LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mContainerView = (LinearLayout) inflater.inflate(R.layout.fragment_main_search, container, false);
-        initView(mContainerView);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_main_search, container, false);
+        ButterKnife.bind(this, view);
+        mResultAdapter = new MainSearchAdapter(mContext);
+        mContentListView.setAdapter(mResultAdapter);
+        mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light,
+                android.R.color.holo_orange_light, android.R.color.holo_red_light);
         initListener();
-        initData();
-        if (mBackgroundHandler == null)
-            mBackgroundHandler = new Handler();
-        return mContainerView;
-    }
-
-    private void initView(View view) {
-        mCancelTextView = (TextView) view.findViewById(R.id.tv_main_search_cancel);
-        mNoneResultImageView = (ImageView) view.findViewById(R.id.iv_main_search_none);
-        mNoneResultLayout = (LinearLayout) view.findViewById(R.id.ll_main_search_none);
-        mNoneResultTextView = (TextView) view.findViewById(R.id.tv_main_search_none);
-        mResultListView = (PullToRefreshListView) view.findViewById(R.id.ptrlv_main_search_results);
-        mTitleEditView = (EditText) view.findViewById(R.id.et_main_search_title);
-        progressDialog = new WaitProgressDialog(mContext);
-        progressDialog.setCancelable(false);
-        hideFocus();
-        clearResult();
+        mPresenter = new SearchPresenter(mContext);
+        mPresenter.attachView(this);
+        return view;
     }
 
     private void initListener() {
-        mCancelTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                backPressed();
-            }
-        });
-        mTitleEditView.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if (TextUtils.isEmpty(editable.toString())) {
-                    clearResultWithoutEditText();
-                    mBackgroundHandler.removeCallbacks(mUpdateRunnable);
-                } else {
-                    showResult();
-                    // 避免过快刷新
-                    mBackgroundHandler.removeCallbacks(mUpdateRunnable);
-                    mBackgroundHandler.postDelayed(mUpdateRunnable, 1000);
-                }
-            }
-        });
-        mResultListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mContentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Object item = mResultAdpater.getItem(i - 1);
-                if (item.getClass().equals(String.class))
-                    return;
-                final CategoryBasic basic = (CategoryBasic) item;
-                progressDialog.show();
-                ServiceProvider.getResourceDetail(mContext, basic.rid, new VolleyListener(mContext) {
-                    @Override
-                    public void onResponseSuccess(JSONObject jsonObject) {
-                        if (!mActivity.isFinishing()) {
-                            progressDialog.dismiss();
-                        }
-                        Category c = Category.getCategoryFromDetail(new CategoryDetail(mContext, jsonObject.optJSONObject(Net.DATA), basic.type, basic.rid, basic.subject, null));
-                        startActivity(CategoryClickHandler.getIntent(mContext, c));
-                    }
-
-                    @Override
-                    public void onErrorCode(int code) {
-                        ToastUtil.showToast(mContext, R.string.tip_message_center_resource_gone);
-                    }
-                });
+                mPresenter.onItemClick((CategorySearch) adapterView.getAdapter().getItem(i), i);
             }
         });
-        mContainerView.setOnTouchListener(new View.OnTouchListener() {
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                // 屏蔽点击事件，防止主页面相应点击
-                return true;
+            public void onRefresh() {
+                mPresenter.refresh();
             }
         });
     }
 
-    public void backPressed() {
-        if (TextUtils.isEmpty(mTitleEditView.getText().toString())) {
-            InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(mTitleEditView.getWindowToken(), 0);
-            if (mOnHideListener != null) {
-                mOnHideListener.onHide();
-            }
-        } else {
-            clearResult();
+    @OnClick(R.id.cancel_text_view)
+    void onCancelClicked() {
+        if (!mPresenter.onBackPressed()) {
+            ((MainGridActivity) getActivity()).onBackPressed();
         }
+    }
+
+    @OnTextChanged(R.id.title_edit_text)
+    void onTextChanged(Editable editable) {
+        mPresenter.onTextChange(editable.toString());
+    }
+
+    @OnTouch(R.id.content_list_view)
+    boolean onListTouch() {
+        hideFocus();
+        return false;
     }
 
     public void setFocus() {
-        mTitleEditView.setFocusable(true);
-        mTitleEditView.setFocusableInTouchMode(true);
-        mTitleEditView.requestFocus();
-        InputMethodManager inputManager = (InputMethodManager) mTitleEditView.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputManager.showSoftInput(mTitleEditView, 0);
+        if (mTitleEditText == null)
+            return;
+        mTitleEditText.setFocusable(true);
+        mTitleEditText.setFocusableInTouchMode(true);
+        mTitleEditText.requestFocus();
+        InputMethodManager inputManager = (InputMethodManager) mTitleEditText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.showSoftInput(mTitleEditText, 0);
     }
 
     public void hideFocus() {
-        mTitleEditView.setFocusable(false);
-        mTitleEditView.setFocusableInTouchMode(false);
-        InputMethodManager inputManager = (InputMethodManager) mTitleEditView.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputManager.hideSoftInputFromWindow(mTitleEditView.getWindowToken(), 0);
-
-    }
-
-    private Runnable mUpdateRunnable = new Runnable() {
-
-        @Override
-        public void run() {
-            updateResource(mTitleEditView.getText().toString());
-        }
-    };
-
-    private void initData() {
-        this.mCategoryNames = new String[COUNT_CATEGORY];
-        for (int ii = 0; ii < COUNT_CATEGORY; ii++) {
-            mCategoryNames[ii] = UserInfo.getUserInfo().getShuffle().getMainIcon(mContext, KEY_CATEGORY_NAME[ii]).getName();
-        }
-        mResultAdpater = new MainSearchAdapter(mContext, mCategoryNames);
-        mResultListView.setAdapter(mResultAdpater);
-        mResultListView.setMode(PullToRefreshBase.Mode.MANUAL_REFRESH_ONLY);
-    }
-
-    private void updateResource(final String key) {
-        mResultListView.setRefreshing();
-        mResultAdpater.clear();
-        ServiceProvider.doSearch(mContext, key, new VolleyListener(mContext) {
-
-            @Override
-            public void onErrorCode(int code) {
-                updateListFromJson(null, key);
-            }
-
-            @Override
-            public void onResponseSuccess(JSONObject response) {
-                updateListFromJson(response
-                        .optJSONObject(Net.DATA), key);
-            }
-        });
-    }
-
-    private void updateListFromJson(JSONObject resultObject, String key) {
-        if (!mTitleEditView.getText().toString().equals(key)) {
-            // 结果不同步，舍弃返回值
+        if (mTitleEditText == null)
             return;
-        }
-        InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(mTitleEditView.getWindowToken(), 0);
-        if (resultObject == null) {
-            mResultAdpater.clear();
-        } else {
-            List[] lists = new List[COUNT_CATEGORY];
-            for (int ii = 0; ii < COUNT_CATEGORY; ii++) {
-                JSONArray objectList = resultObject.optJSONArray(KEY_LIST[ii]);
-                if (objectList == null || objectList.length() == 0)
-                    continue;
-                List<CategoryBasic> categoryBasicList = new ArrayList<>();
-                for (int jj = 0; jj < objectList.length(); jj++) {
-                    categoryBasicList.add(new CategoryBasic(Category.CATEGORY_NOTICE + ii, objectList.optJSONObject(jj)));
-                }
-                lists[ii] = categoryBasicList;
-            }
-            mResultAdpater.setList(lists);
-        }
-        mResultListView.onRefreshComplete();
-        if (mResultAdpater.getCount() == 0) {
-            showNoneResult(key);
-        }
+        mTitleEditText.setFocusable(false);
+        mTitleEditText.setFocusableInTouchMode(false);
+        InputMethodManager inputManager = (InputMethodManager) mTitleEditText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(mTitleEditText.getWindowToken(), 0);
     }
 
-    private void showResult() {
-        mNoneResultLayout.setVisibility(View.GONE);
-        mResultListView.setVisibility(View.VISIBLE);
+    @Override
+    public void hideProgressBar() {
+
     }
 
-    private void showNoneResult(String key) {
+    @Override
+    public void showProgressBar() {
+
+    }
+
+    @Override
+    public void removeItem(int index) {
+        mResultAdapter.remove(index);
+    }
+
+    @Override
+    public void setItem(int index, CategorySearch item) {
+        mResultAdapter.setItem(index, item);
+    }
+
+    @Override
+    public int getDataCount() {
+        return mResultAdapter.getCount();
+    }
+
+    @Override
+    public void addData(List<CategorySearch> data) {
+        mResultAdapter.addList(data);
+    }
+
+    @Override
+    public void setData(List<CategorySearch> data) {
+        mResultAdapter.setList(data);
+    }
+
+    @Override
+    public void refreshComplete() {
+        mSwipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public boolean isRefreshing() {
+        return mSwipeRefreshLayout.isRefreshing();
+    }
+
+    @Override
+    public void startRefreshing() {
+        mSwipeRefreshLayout.setRefreshing(true);
+    }
+
+    @Override
+    public void enablePullUp() {
+    }
+
+    @Override
+    public void disablePullUp() {
+    }
+
+    @Override
+    public void hideNoneResult() {
+        mNoneResultView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showNoneResult() {
+        String key = mTitleEditText.getText().toString();
         String tip = getResources().getString(R.string.main_search_result_none);
-        mNoneResultTextView.setText(
-                tip.replace("***", key));
-        mNoneResultImageView.setImageResource(R.drawable.icon_main_search_tip);
-        mNoneResultLayout.setVisibility(View.VISIBLE);
-        mResultListView.setVisibility(View.GONE);
+        mNoneResultView.setContent(R.drawable.icon_main_search_tip, tip.replace("***", key));
+        mNoneResultView.setVisibility(View.VISIBLE);
     }
 
-    private void clearResult() {
-        mTitleEditView.setText("");
-        mNoneResultTextView.setText(R.string.main_search_result_tip);
-        mNoneResultImageView.setImageResource(R.drawable.icon_main_search_tip);
-        mNoneResultLayout.setVisibility(View.VISIBLE);
-        mResultListView.setVisibility(View.GONE);
+    @Override
+    public void clear() {
+        if (!TextUtils.isEmpty(mTitleEditText.getText().toString()))
+            mTitleEditText.setText("");
+        mResultAdapter.clear();
+        mNoneResultView.setContent(R.drawable.icon_main_search_tip, R.string.main_search_result_tip);
+        mNoneResultView.setVisibility(View.VISIBLE);
     }
 
-    // 避免重复调用
-    private void clearResultWithoutEditText() {
-        mNoneResultTextView.setText(R.string.main_search_result_tip);
-        mNoneResultImageView.setImageResource(R.drawable.icon_main_search_tip);
-        mNoneResultLayout.setVisibility(View.VISIBLE);
-        mResultListView.setVisibility(View.GONE);
+    public SearchPresenter getPresenter() {
+        return mPresenter;
     }
 }
 

@@ -1,5 +1,8 @@
 package com.easemob.chatuidemo.utils;
 
+import com.easemob.applib.controller.HXSDKHelper;
+import com.easemob.util.TimeInfo;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -7,9 +10,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
-
-import com.easemob.applib.controller.HXSDKHelper;
-import com.easemob.util.TimeInfo;
 
 public class DateUtils {
 
@@ -69,7 +69,7 @@ public class DateUtils {
         if(isChinese){
             return new SimpleDateFormat(format, Locale.CHINA).format(messageDate);
         }else{
-            return new SimpleDateFormat(format, Locale.US).format(messageDate); 
+            return new SimpleDateFormat(format, Locale.US).format(messageDate);
         }
     }
 

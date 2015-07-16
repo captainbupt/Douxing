@@ -12,9 +12,9 @@ import android.widget.TextView;
 import com.badou.mworking.AskDetailActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
+import com.badou.mworking.entity.Ask;
 import com.badou.mworking.listener.AdapterItemClickListener;
 import com.badou.mworking.listener.CopyClickListener;
-import com.badou.mworking.entity.Ask;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.util.TimeTransfer;
 

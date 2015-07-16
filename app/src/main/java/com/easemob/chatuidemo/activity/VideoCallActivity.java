@@ -21,8 +21,6 @@
  */
 package com.easemob.chatuidemo.activity;
 
-import java.util.UUID;
-
 import android.media.AudioManager;
 import android.media.RingtoneManager;
 import android.media.SoundPool;
@@ -33,7 +31,6 @@ import android.os.SystemClock;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -45,14 +42,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.badou.mworking.R;
 import com.easemob.chat.EMCallStateChangeListener;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMVideoCallHelper;
-import com.badou.mworking.R;
 import com.easemob.chatuidemo.utils.CameraHelper;
 import com.easemob.exceptions.EMServiceNotReadyException;
 
-public class VideoCallActivity extends CallActivity implements OnClickListener {
+import java.util.UUID;
+
+
+public class VideoCallActivity extends CallActivity implements View.OnClickListener {
 
     private SurfaceView localSurface;
     private SurfaceHolder localSurfaceHolder;
@@ -242,7 +242,7 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
         callStateListener = new EMCallStateChangeListener() {
 
             @Override
-            public void onCallStateChanged(CallState callState, CallError error) {
+            public void onCallStateChanged(CallState callState, EMCallStateChangeListener.CallError error) {
                 // Message msg = handler.obtainMessage();
                 switch (callState) {
                     case CONNECTING: // 正在连接对方

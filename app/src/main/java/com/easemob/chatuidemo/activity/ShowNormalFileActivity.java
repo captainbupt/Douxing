@@ -1,20 +1,20 @@
 package com.easemob.chatuidemo.activity;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.badou.mworking.R;
 import com.easemob.EMCallBack;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.FileMessageBody;
-import com.badou.mworking.R;
 import com.easemob.util.FileUtils;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ShowNormalFileActivity extends Activity {
 	private ProgressBar progressBar;
@@ -64,7 +64,7 @@ public class ShowNormalFileActivity extends Activity {
                                 if(file != null && file.exists()&&file.isFile())
                                     file.delete();
                                 String str4 = getResources().getString(R.string.Failed_to_download_file);
-                                Toast.makeText(ShowNormalFileActivity.this, str4+msg, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ShowNormalFileActivity.this, str4 + msg, Toast.LENGTH_SHORT).show();
                                 finish();
                             }
                         });

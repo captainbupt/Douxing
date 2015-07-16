@@ -7,7 +7,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.badou.mworking.adapter.StoreAdapter;
-import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.entity.Store;
 import com.badou.mworking.entity.user.UserInfo;
@@ -29,8 +28,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.ButterKnife;
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * Created by Administrator on 2015/6/25 0025.

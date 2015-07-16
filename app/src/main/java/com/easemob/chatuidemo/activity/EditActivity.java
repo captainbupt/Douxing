@@ -1,7 +1,5 @@
 package com.easemob.chatuidemo.activity;
 
-import com.badou.mworking.R;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +7,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class EditActivity extends Activity{
+import com.badou.mworking.R;
+
+public class EditActivity extends Activity {
 	private EditText editText;
 
 

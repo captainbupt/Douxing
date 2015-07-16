@@ -20,8 +20,8 @@ import org.apache.http.Header;
 
 import java.io.File;
 
-import butterknife.ButterKnife;
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class PDFViewFragment extends BaseFragment {
 

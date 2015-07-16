@@ -1,9 +1,9 @@
 package com.swipe.delete.interfaces;
 
-import java.util.List;
-
 import com.swipe.delete.SwipeLayout;
 import com.swipe.delete.implments.SwipeItemMangerImpl;
+
+import java.util.List;
 
 public interface SwipeItemMangerInterface {
 

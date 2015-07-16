@@ -28,9 +28,9 @@ public class ResourceClickHandler {
         ServiceProvider.getResourceDetail(context, rid, new VolleyListener(context) {
             @Override
             public void onResponseSuccess(JSONObject jsonObject) {
-                onCompleteListener.onComplete(true);
+/*                onCompleteListener.onComplete(true);
                 CategoryDetail detail = new CategoryDetail(context, jsonObject.optJSONObject(Net.DATA), type, rid, subject, null);
-                context.startActivity(CategoryClickHandler.getIntent(context, Category.getCategoryFromDetail(detail)));
+                context.startActivity(CategoryClickHandler.getIntent(context, Category.getCategoryFromDetail(detail)));*/
             }
 
             @Override

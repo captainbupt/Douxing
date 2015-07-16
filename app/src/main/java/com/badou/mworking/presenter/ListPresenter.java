@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
+import android.text.TextUtils;
 
 import com.badou.mworking.R;
 import com.badou.mworking.domain.UseCase;
@@ -14,12 +15,11 @@ import com.badou.mworking.util.SPHelper;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.view.BaseListView;
 import com.badou.mworking.view.BaseView;
-import com.google.gson.reflect.TypeToken;
 
 import java.io.Serializable;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-import java.lang.reflect.Type;
 
 public abstract class ListPresenter<T> extends Presenter {
 
@@ -44,9 +44,11 @@ public abstract class ListPresenter<T> extends Presenter {
         initialize();
     }
 
-    private void initialize() {
-        List<T> cache = SPHelper.getList(getCacheKey(), getType());
-        ListPresenter.this.setList(cache, 1);
+    protected void initialize() {
+        if (!TextUtils.isEmpty(getCacheKey())) {
+            List<T> cache = SPHelper.getList(getCacheKey(), getType());
+            ListPresenter.this.setList(cache, 1);
+        }
         handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -60,14 +62,12 @@ public abstract class ListPresenter<T> extends Presenter {
 
     protected abstract String getCacheKey();
 
-    protected abstract UseCase getLoadMoreUseCase();
-
-    protected abstract UseCase getRefreshUseCase();
+    protected abstract UseCase getRefreshUseCase(int pageIndex);
 
     public void refresh() {
         mBaseListView.hideNoneResult();
-        mBaseListView.setRefreshing();
-        getRefreshUseCase().execute(new BaseSubscriber(mContext) {
+        mBaseListView.showProgressBar();
+        getRefreshUseCase(1).execute(new BaseSubscriber(mContext) {
             @Override
             public void onResponseSuccess(Object data) {
                 if (setData(data, 1)) {
@@ -84,8 +84,8 @@ public abstract class ListPresenter<T> extends Presenter {
     }
 
     public void loadMore() {
-        mBaseListView.setRefreshing();
-        getLoadMoreUseCase().execute(new BaseSubscriber(mContext) {
+        mBaseListView.showProgressBar();
+        getRefreshUseCase(mCurrentIndex + 1).execute(new BaseSubscriber(mContext) {
             @Override
             public void onResponseSuccess(Object data) {
                 if (setData(data, mCurrentIndex + 1)) {
@@ -119,7 +119,9 @@ public abstract class ListPresenter<T> extends Presenter {
                 mBaseListView.setData(data);
                 mBaseListView.enablePullUp();
             }
-            SPHelper.setList(getCacheKey(), data, getType());
+            if (!TextUtils.isEmpty(getCacheKey())) {
+                SPHelper.setList(getCacheKey(), data, getType());
+            }
             return true;
         } else {
             if (data == null || data.size() == 0) {
@@ -156,11 +158,12 @@ public abstract class ListPresenter<T> extends Presenter {
         toDetailPage(data);
     }
 
-    abstract protected void toDetailPage(T data);
+    abstract public void toDetailPage(T data);
 
     @Override
     public void destroy() {
-        handler.removeCallbacksAndMessages(null);
+        if (handler != null)
+            handler.removeCallbacksAndMessages(null);
     }
 
     @Override

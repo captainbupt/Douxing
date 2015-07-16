@@ -9,13 +9,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.presenter.LoginPresenter;
-import com.badou.mworking.util.AppManager;
 import com.badou.mworking.view.LoginView;
 import com.badou.mworking.widget.InputMethodRelativeLayout;
 import com.badou.mworking.widget.InputMethodRelativeLayout.OnSizeChangedListenner;

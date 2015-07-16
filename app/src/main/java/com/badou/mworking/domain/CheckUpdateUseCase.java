@@ -19,7 +19,7 @@ public class CheckUpdateUseCase extends UseCase {
 
     @Override
     protected Observable buildUseCaseObservable() {
-        return RestRepository.getInstance().checkUpdate(UserInfo.getUserInfo().getUid(), getScreenLevel(mContext), new UpdateInfo());
+        return RestRepository.getInstance().checkUpdate(UserInfo.getUserInfo().getUid(), getScreenLevel(mContext), new Body());
     }
 
     /**
@@ -42,7 +42,7 @@ public class CheckUpdateUseCase extends UseCase {
         }
     }
 
-    public static class UpdateInfo {
+    public static class Body {
         @Expose
         String button_vlogo = "";
         @Expose

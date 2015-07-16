@@ -1,7 +1,5 @@
 package com.easemob.chatuidemo.activity;
 
-import com.easemob.chat.EMChatManager;
-import com.badou.mworking.R;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -10,11 +8,13 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.badou.mworking.R;
+import com.easemob.chat.EMChatManager;
 
 public class OfflinePushNickActivity extends Activity {
 
@@ -33,7 +33,7 @@ public class OfflinePushNickActivity extends Activity {
 		saveNickName = (Button) findViewById(R.id.btn_save);
 		nicknameDescription = (TextView) findViewById(R.id.tv_nickname_description);
 
-		saveNickName.setOnClickListener(new OnClickListener() {
+		saveNickName.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {

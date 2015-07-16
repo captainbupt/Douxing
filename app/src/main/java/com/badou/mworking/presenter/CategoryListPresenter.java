@@ -1,23 +1,19 @@
 package com.badou.mworking.presenter;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.badou.mworking.domain.CategoryUseCase;
 import com.badou.mworking.domain.ClassificationUseCase;
 import com.badou.mworking.domain.UseCase;
+import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.CategoryOverall;
 import com.badou.mworking.entity.category.Classification;
-import com.badou.mworking.entity.category.Category;
-import com.badou.mworking.entity.category.Exam;
-import com.badou.mworking.entity.category.Notice;
-import com.badou.mworking.entity.category.Task;
-import com.badou.mworking.entity.category.Train;
 import com.badou.mworking.net.BaseListSubscriber;
 import com.badou.mworking.util.CategoryClickHandler;
 import com.badou.mworking.util.SPHelper;
 import com.badou.mworking.view.BaseView;
 import com.badou.mworking.view.CategoryListView;
-import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.Collections;
@@ -37,6 +33,7 @@ public class CategoryListPresenter extends ListPresenter<Category> {
     public CategoryListPresenter(Context context, int category) {
         super(context);
         this.mCategoryIndex = category;
+        mCategoryUseCase = new CategoryUseCase(mCategoryIndex);
     }
 
     @Override
@@ -48,41 +45,15 @@ public class CategoryListPresenter extends ListPresenter<Category> {
 
     @Override
     protected Type getType() {
-        switch (mCategoryIndex) {
-            case Category.CATEGORY_NOTICE:
-                return new TypeToken<List<Notice>>() {
-                }.getType();
-            case Category.CATEGORY_TRAINING:
-                return new TypeToken<List<Train>>() {
-                }.getType();
-            case Category.CATEGORY_EXAM:
-                return new TypeToken<List<Exam>>() {
-                }.getType();
-            case Category.CATEGORY_TASK:
-                return new TypeToken<List<Task>>() {
-                }.getType();
-            case Category.CATEGORY_SHELF:
-                return new TypeToken<List<Train>>() {
-                }.getType();
+        if (mCategoryIndex >= 0 && mCategoryIndex < Category.CATEGORY_KEY_TYPES.length) {
+            return Category.CATEGORY_KEY_TYPES[mCategoryIndex];
         }
-        return new TypeToken<List<Notice>>() {
-        }.getType();
+        return null;
     }
 
     @Override
-    protected UseCase getLoadMoreUseCase() {
-        if (mCategoryUseCase == null)
-            mCategoryUseCase = new CategoryUseCase(mCategoryIndex);
-        mCategoryUseCase.setPageNum(mCurrentIndex + 1);
-        return mCategoryUseCase;
-    }
-
-    @Override
-
-    protected UseCase getRefreshUseCase() {
-        if (mCategoryUseCase == null)
-            mCategoryUseCase = new CategoryUseCase(mCategoryIndex);
-        mCategoryUseCase.setPageNum(1);
+    protected UseCase getRefreshUseCase(int pageNum) {
+        mCategoryUseCase.setPageNum(pageNum);
         return mCategoryUseCase;
     }
 
@@ -99,8 +70,8 @@ public class CategoryListPresenter extends ListPresenter<Category> {
     }
 
     @Override
-    protected void toDetailPage(Category category) {
-        mActivity.startActivityForResult(CategoryClickHandler.getIntent(mContext, category), REQUEST_DETAIL);
+    public void toDetailPage(Category category) {
+        ((Activity) mContext).startActivityForResult(CategoryClickHandler.getIntent(mContext, category), REQUEST_DETAIL);
         setRead(category);
     }
 
@@ -147,7 +118,7 @@ public class CategoryListPresenter extends ListPresenter<Category> {
             status_menu_show = false;
             mCategoryUseCase.setTag(classification.getTag());
             mCategoryListView.refreshComplete();
-            mCategoryListView.setRefreshing();
+            mCategoryListView.showProgressBar();
             mCategoryListView.setActionbarTitle(classification.getName());
         }
     }

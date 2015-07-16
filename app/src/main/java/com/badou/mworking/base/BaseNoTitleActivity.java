@@ -5,13 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.badou.mworking.R;
+import com.badou.mworking.presenter.Presenter;
 import com.badou.mworking.util.AppManager;
 import com.badou.mworking.util.ToastUtil;
+import com.badou.mworking.view.BaseView;
 import com.badou.mworking.widget.WaitProgressDialog;
 import com.easemob.applib.controller.HXSDKHelper;
 import com.nineoldandroids.view.ViewHelper;
@@ -31,6 +32,7 @@ public class BaseNoTitleActivity extends ActionBarActivity implements SwipeBackA
     protected SwipeBackActivityHelper mHelper;
     protected SwipeBackLayout mSwipeBackLayout;
     protected WaitProgressDialog mProgressDialog;
+    protected Presenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,15 @@ public class BaseNoTitleActivity extends ActionBarActivity implements SwipeBackA
         mHelper.onActivityCreate();
         mSwipeBackLayout = getSwipeBackLayout();
         mSwipeBackLayout.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
+    }
+
+    public Presenter getPresenter(){
+        return new Presenter(mContext) {
+            @Override
+            public void attachView(BaseView v) {
+
+            }
+        };
     }
 
     // 常驻Activity的theme必须把windowIsTranslucent设置为false

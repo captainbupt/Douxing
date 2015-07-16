@@ -1,11 +1,12 @@
 package com.badou.mworking.presenter;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.badou.mworking.LoginActivity;
 import com.badou.mworking.adapter.IntroductionPagerAdapter;
-import com.badou.mworking.view.IntroductionView;
 import com.badou.mworking.view.BaseView;
+import com.badou.mworking.view.IntroductionView;
 
 public class IntroductionPresenter extends Presenter {
 
@@ -30,7 +31,7 @@ public class IntroductionPresenter extends Presenter {
 
     public void onIntroductionClick() {
         // 引导页面之后必然是登陆页面
-        mActivity.startActivity(LoginActivity.getIntent(mContext));
-        mActivity.finish();
+        mContext.startActivity(LoginActivity.getIntent(mContext));
+        ((Activity)mContext).finish();
     }
 }
