@@ -376,8 +376,7 @@ public class MainPresenter extends Presenter {
                                         }
                                     });
                                 }
-                            }).setNegativeButton(R.string.text_cancel, null)
-                    .create().show();
+                            }).setNegativeButton(R.string.text_cancel, null).show();
         }
     }
 

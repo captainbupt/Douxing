@@ -25,10 +25,6 @@ import org.json.JSONObject;
 
 public class BottomRatingAndCommentView extends LinearLayout {
 
-    public static final int REQUEST_COMMENT = 145;
-
-    private Context mContext;
-    private int mCurrentScore;
     private LinearLayout mRatingLayout;
     private LinearLayout mCommentLayout;
     private TextView mRatingNumberTextView;
@@ -37,7 +33,6 @@ public class BottomRatingAndCommentView extends LinearLayout {
 
     public BottomRatingAndCommentView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.mContext = context;
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.view_bottom_comment_and_rating, this);
         initView();
@@ -78,46 +73,20 @@ public class BottomRatingAndCommentView extends LinearLayout {
         mDividerView = findViewById(R.id.view_bottom_center_divider);
     }
 
-    public void setRatingClickListener(OnClickListener listener){
+    public void setRatingClickListener(OnClickListener listener) {
         mRatingLayout.setOnClickListener(listener);
     }
 
-    public void setCommentClickListener(OnClickListener listener){
+    public void setCommentClickListener(OnClickListener listener) {
         mCommentLayout.setOnClickListener(listener);
     }
 
-/*    private void initListener() {
-        mRatingLayout.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new RatingDilog(mContext, mRid, mCurrentScore, new RatingDilog.OnRatingCompletedListener() {
-
-                    @Override
-                    public void onRatingCompleted(int score) {
-                        mCurrentScore = score;
-                        updateData();
-                    }
-                }).show();
-            }
-        });
-        mCommentLayout.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(mContext, CommentActivity.class);
-                intent.putExtra(CommentPresenter.KEY_RID, mRid);
-                intent.putExtra(BaseActionBarActivity.KEY_TITLE, mContext.getResources().getString(R.string.title_name_comment));
-                ((Activity) mContext).startActivityForResult(intent, REQUEST_COMMENT);
-            }
-        });
-    }*/
-
-    public void setData(int ratingNumber, int commentNumber, int currentRating) {
-        setRatingData(ratingNumber, currentRating);
+    public void setData(int ratingNumber, int commentNumber) {
+        setRatingData(ratingNumber);
         setCommentData(commentNumber);
     }
 
-    public void setRatingData(int ratingNumber, int currentRating) {
-        this.mCurrentScore = currentRating;
+    public void setRatingData(int ratingNumber) {
         mRatingNumberTextView.setText(String.format("(%d)", ratingNumber));
     }
 

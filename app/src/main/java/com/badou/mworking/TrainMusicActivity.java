@@ -5,257 +5,109 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.badou.mworking.entity.category.Train;
-import com.badou.mworking.net.ServiceProvider;
-import com.badou.mworking.util.FileUtils;
-import com.badou.mworking.util.NetUtils;
+import com.badou.mworking.entity.category.CategoryDetail;
+import com.badou.mworking.presenter.CategoryBasePresenter;
+import com.badou.mworking.presenter.TrainingMediaPresenter;
+import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.ToastUtil;
-import com.loopj.android.http.RangeFileAsyncHttpResponseHandler;
-
-import org.apache.http.Header;
+import com.badou.mworking.view.TrainMediaView;
 
 import java.io.File;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 
-public class TrainMusicActivity extends TrainBaseActivity {
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-    public static final int STATU_START_PLAY = 5; // 播放计时器
-    private static final int FILE_SIZE = 6;
-    public static final String ENDWITH_MP3 = ".mp3"; // MP3后缀名
+public class TrainMusicActivity extends TrainBaseActivity implements TrainMediaView {
 
-    private TextView mMusicTitleTextView; // 标题
-    private ImageView mPlayerControlImageView; //开始/暂停 播放
-    private TextView mFileSizeTextView; // 音乐文件大小
-    private TextView mTotalTimeTextView;
-    private TextView mCurrentTimeTextView;
-    private ImageView mDownloadImageView;
-    private ProgressBar mDownloadingProgressBar;
-    private SeekBar mProgressSeekBar;
+    @Bind(R.id.music_title_text_view)
+    TextView mMusicTitleTextView;
+    @Bind(R.id.file_size_text_view)
+    TextView mFileSizeTextView;
+    @Bind(R.id.download_image_view)
+    ImageView mDownloadImageView;
+    @Bind(R.id.downloading_progress_bar)
+    ProgressBar mDownloadingProgressBar;
+    @Bind(R.id.player_control_image_view)
+    ImageView mPlayerControlImageView;
+    @Bind(R.id.current_time_text_view)
+    TextView mCurrentTimeTextView;
+    @Bind(R.id.progress_seek_bar)
+    SeekBar mProgressSeekBar;
+    @Bind(R.id.total_time_text_view)
+    TextView mTotalTimeTextView;
 
     private MediaPlayer mMusicPlayer = null;
 
-    private boolean isChanging = false;// 互斥变量，防止定时器与SeekBar拖动时进度冲突
-    private ProgressHandler mProgressHandler; // 刷新进度条
+    TrainingMediaPresenter mPresenter;
 
-    private String mSaveFilePath; // 保存文件的路径,无文件名
-
-    public static Intent getIntent(Context context, Train train) {
-        Intent intent = new Intent(context, TrainMusicActivity.class);
-        intent.putExtra(KEY_TRAINING, train);
-        return intent;
+    public static Intent getIntent(Context context, String rid, boolean isTraining) {
+        return TrainBaseActivity.getIntent(context, TrainMusicActivity.class, rid, isTraining);
     }
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_music_player);
-        initView();// 各组件
+        ButterKnife.bind(this);
         initListener();
-        initData();
     }
 
     /**
-     * 功能描述:初始化控件和路径
+     * 功能描述: 监听初始化
      */
-    protected void initView() {
-        mPlayerControlImageView = (ImageView) findViewById(R.id.iv_activity_music_player_control);
-        mMusicTitleTextView = (TextView) findViewById(R.id.tv_activity_music_player_title);
-        mTotalTimeTextView = (TextView) findViewById(R.id.tv_activity_music_player_total_time);
-        mCurrentTimeTextView = (TextView) findViewById(R.id.tv_activity_music_player_current_time);
-        mDownloadImageView = (ImageView) findViewById(R.id.iv_activity_music_player_download);
-        mFileSizeTextView = (TextView) findViewById(R.id.tv_activity_music_player_size);
-        mDownloadingProgressBar = (ProgressBar) findViewById(R.id.pb_activity_music_player_downloading);
-        mProgressSeekBar = (SeekBar) findViewById(R.id.sb_activity_music_player);
-    }
-
     private void initListener() {
-        mDownloadImageView.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (NetUtils.isNetConnected(mContext)) {
-                    /** 开始下载 **/
-                    statusDownloading();
-                    startDownload();
-                } else {
-                    ToastUtil.showToast(mContext, R.string.error_service);
-                }
-            }
-        });
 
         mProgressSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                mPresenter.onProgressChanged(progress, fromUser);
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                isChanging = true;
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                mMusicPlayer.seekTo(mProgressSeekBar.getProgress());
-                isChanging = false;
-            }
-        });
-        mPlayerControlImageView.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // 判断有没有要播放的文件
-                if (new File(mSaveFilePath).exists() && mMusicPlayer != null) {
-                    if (!mMusicPlayer.isPlaying()) {
-                        startPlay();
-                    } else {
-                        pausePlay();
-                    }
-                }
             }
         });
     }
 
-    private void initData() {
-        mMusicTitleTextView.setText(mTrain.getSubject());
-        mMusicPlayer = new MediaPlayer();
-        mSaveFilePath = FileUtils.getTrainCacheDir(mContext) + mTrain.getRid() + ENDWITH_MP3;
-
-        mProgressHandler = new ProgressHandler();
-        File file = new File(mSaveFilePath);
-
-        // 如果文件已经存在则直接获取文件大写，如果文件不存在则进行网络请求
-        if (file.exists()) {
-            float fileSize = ((float) file.length()) / 1024f / 1024f;
-            mFileSizeTextView.setText(String.format("音频文件（%.1fM）", fileSize));
-        } else {
-            new Thread(new Runnable() {
-
-                @Override
-                public void run() {
-                    try {
-                        URL DownRul = new URL(mTrain.getUrl());
-                        HttpURLConnection urlcon = (HttpURLConnection) DownRul.openConnection();
-                        float fileSize = ((float) urlcon.getContentLength()) / 1024 / 1024;
-                        mProgressHandler.obtainMessage(FILE_SIZE, fileSize).sendToTarget();
-                    } catch (Exception e) {
-                        mProgressHandler.obtainMessage(FILE_SIZE, -1f).sendToTarget();
-                        e.printStackTrace();
-                    }
-                }
-            }).start();
-        }
-        // 文件存在，下载完成
-        if (file.exists()) {
-            statuDownloadFinish();
-            initMedia();
-        } else {
-            statusNotDownLoad();
-        }
+    @Override
+    public CategoryBasePresenter getPresenter(Context context, int type) {
+        mPresenter = new TrainingMediaPresenter(context, type, Constant.MWKG_FORAMT_TYPE_MP3);
+        mPresenter.attachView(this);
+        return mPresenter;
     }
 
-    /**
-     * 功能描述:初始化播放器
-     */
-    private void initMedia() {
-        if (mMusicPlayer == null) {
-            return;
-        }
-        try {
-            mMusicPlayer.reset();
-            mMusicPlayer.setDataSource(mSaveFilePath);
-            mMusicPlayer.prepare();// 就是把存储卡中的内容全部加载或者网络中的部分媒体内容加载到内存中，有可能会失败抛出异常的
-        } catch (Exception e) {
-            e.printStackTrace();
-            ToastUtil.showToast(mContext, R.string.tips_audio_error);
-            new File(mSaveFilePath).delete();
-            statusNotDownLoad();
-            return;
-        }
-        mProgressSeekBar.setMax(mMusicPlayer.getDuration());// 设置进度条
-        mProgressSeekBar.setProgress(0);
-        mTotalTimeTextView.setText(new SimpleDateFormat("mm:ss").format(mMusicPlayer.getDuration()));
-        mCurrentTimeTextView.setText("00:00");
+    @OnClick(R.id.download_image_view)
+    void onDownloadImageClicked() {
+        mPresenter.startDownload();
     }
 
-    /**
-     * 功能描述: 开始播放
-     */
-    private void startPlay() {
-        mPlayerControlImageView.setImageResource(R.drawable.button_media_stop);
-        mMusicPlayer.start();// 开始
-        mProgressHandler.sendEmptyMessageDelayed(STATU_START_PLAY, 1000);
-    }
-
-    private void pausePlay() {
-        mPlayerControlImageView.setImageResource(R.drawable.button_media_start);
-        mMusicPlayer.pause();
+    @OnClick(R.id.player_control_image_view)
+    void onControlClicked() {
+        mPresenter.statusChange(mMusicPlayer.isPlaying());
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        if (mMusicPlayer != null && mMusicPlayer.isPlaying()) {
-            pausePlay();
-        }
-    }
-
-    // 来电处理
-    @Override
-    protected void onDestroy() {
-        if (mMusicPlayer != null) {
-            if (mMusicPlayer.isPlaying()) {
-                mMusicPlayer.stop();
-            }
-            mMusicPlayer.release();
-            mMusicPlayer = null;
-        }
-        ServiceProvider.cancelRequest();
-        super.onDestroy();
-    }
-
-    class ProgressHandler extends Handler {
-
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case STATU_START_PLAY:
-                    if (!mActivity.isFinishing() && mMusicPlayer != null && mMusicPlayer.isPlaying()) {
-                        if (!isChanging) {
-                            String currentTime = new SimpleDateFormat("mm:ss").format(mMusicPlayer
-                                    .getCurrentPosition());
-                            mCurrentTimeTextView.setText(currentTime);
-                            mProgressSeekBar.setProgress(mMusicPlayer.getCurrentPosition());
-                        }
-                        mProgressHandler.sendEmptyMessageDelayed(STATU_START_PLAY, 1000);
-                    }
-                    break;
-                case FILE_SIZE:
-                    float fileSize = (float) msg.obj;
-                    if (fileSize > 0) {
-                        mFileSizeTextView.setText(String.format("音频文件（%.1fM）", fileSize));
-                    } else {
-                        ToastUtil.showToast(mContext, R.string.tips_audio_get_size_fail);
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
+    public void setData(String rid, CategoryDetail categoryDetail) {
+        super.setData(rid, categoryDetail);
+        mMusicTitleTextView.setText(categoryDetail.getSubject());
     }
 
     /**
      * 没下载的状态 *
      */
-    private void statusNotDownLoad() {
+    @Override
+    public void statusNotDownLoad() {
         mTotalTimeTextView.setText("0%");
         mDownloadImageView.setVisibility(View.VISIBLE);
         mPlayerControlImageView.setVisibility(View.GONE);
@@ -268,19 +120,24 @@ public class TrainMusicActivity extends TrainBaseActivity {
     /**
      * 下载完成,可以播放的状态 *
      */
-    private void statuDownloadFinish() {
+    @Override
+    public void statusDownloadFinish(File file) {
         mDownloadImageView.setVisibility(View.GONE);
         mPlayerControlImageView.setVisibility(View.VISIBLE);
         mCurrentTimeTextView.setVisibility(View.VISIBLE);
         mDownloadingProgressBar.setVisibility(View.GONE);
         mProgressSeekBar.setEnabled(true);
         mProgressSeekBar.setThumb(getResources().getDrawable(R.drawable.seekbar_));
+        float fileSize = ((float) file.length()) / 1024f / 1024f;
+        setFileSize(fileSize);
+        initMedia(file);
     }
 
     /**
      * 下载中 *
      */
-    private void statusDownloading() {
+    @Override
+    public void statusDownloading() {
         mDownloadImageView.setVisibility(View.GONE);
         mPlayerControlImageView.setVisibility(View.GONE);
         mCurrentTimeTextView.setVisibility(View.GONE);
@@ -289,34 +146,108 @@ public class TrainMusicActivity extends TrainBaseActivity {
         mProgressSeekBar.setThumb(new ColorDrawable(android.R.color.transparent));
     }
 
-    private void startDownload() {
-        mDownloadImageView.setVisibility(View.GONE);
-        mDownloadingProgressBar.setVisibility(View.VISIBLE);
-        ServiceProvider.doDownloadTrainingFile(mTrain.getUrl(), mSaveFilePath, new RangeFileAsyncHttpResponseHandler(new File(mSaveFilePath)) {
+    /**
+     * 功能描述:初始化播放器
+     */
+    private void initMedia(File file) {
+        if (mMusicPlayer == null) {
+            mMusicPlayer = new MediaPlayer();
+        }
+        try {
+            mMusicPlayer.reset();
+            mMusicPlayer.setDataSource(file.getAbsolutePath());
+            mMusicPlayer.prepare();// 就是把存储卡中的内容全部加载或者网络中的部分媒体内容加载到内存中，有可能会失败抛出异常的
+        } catch (Exception e) {
+            e.printStackTrace();
+            mPresenter.fileCrashed();
+            return;
+        }
+        mProgressSeekBar.setMax(mMusicPlayer.getDuration());// 设置进度条
+        mProgressSeekBar.setProgress(0);
+        mTotalTimeTextView.setText(new SimpleDateFormat("mm:ss").format(mMusicPlayer.getDuration()));
+        mCurrentTimeTextView.setText("00:00");
+    }
 
-            @Override
-            public void onProgress(long bytesWritten, long totalSize) {
-                super.onProgress(bytesWritten, totalSize);
-                if (mProgressSeekBar.getMax() != (int) totalSize)
-                    mProgressSeekBar.setMax((int) totalSize);
-                mProgressSeekBar.setProgress((int) bytesWritten);
-                if (totalSize > 0 && bytesWritten > 0) {
-                    mTotalTimeTextView.setText(100 * bytesWritten / totalSize + "%");
-                }
-            }
+    @Override
+    public void setProgress(long bytesWritten, long totalSize) {
+        if (mProgressSeekBar.getMax() != (int) totalSize)
+            mProgressSeekBar.setMax((int) totalSize);
+        mProgressSeekBar.setProgress((int) bytesWritten);
+        if (totalSize > 0 && bytesWritten > 0) {
+            mTotalTimeTextView.setText(100 * bytesWritten / totalSize + "%");
+        }
+    }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
-                ToastUtil.showToast(mContext,R.string.error_service);
-                statusNotDownLoad();
-            }
+    @Override
+    public void showVerticalView() {
 
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, File file) {
-                statuDownloadFinish();
-                initMedia();
-                startPlay();
-            }
-        });
+    }
+
+    @Override
+    public void showHorizontalView() {
+
+    }
+
+    @Override
+    public void setPlayTime(int time, boolean isVideo) {
+        if (isVideo)
+            mMusicPlayer.seekTo(time);
+        mProgressSeekBar.setProgress(time);
+        mCurrentTimeTextView.setText(new SimpleDateFormat("mm:ss").format(time));
+    }
+
+    @Override
+    public void setFileSize(float fileSize) {
+        mFileSizeTextView.setText(String.format("视频文件（%.1fM）", fileSize));
+    }
+
+    @Override
+    public void setProgressBar(boolean visible) {
+    }
+
+    @Override
+    public void startPlay() {
+        mPlayerControlImageView.setImageResource(R.drawable.button_media_stop);
+        mMusicPlayer.start();// 开始
+    }
+
+    @Override
+    public void stopPlay() {
+        mPlayerControlImageView.setImageResource(R.drawable.button_media_start);
+        mMusicPlayer.pause();
+    }
+
+    @Override
+    public int getCurrentTime() {
+        try {
+            return mMusicPlayer.getCurrentPosition();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    @Override
+    public boolean isPlaying() {
+        return mMusicPlayer.isPlaying();
+    }
+
+    @Override
+    public boolean isVertical() {
+        return true;
+    }
+
+    @Override
+    protected void onPause() {
+        mPresenter.pause();
+        super.onPause();
+    }
+
+    // 来电处理
+    @Override
+    protected void onDestroy() {
+        mPresenter.destroy();
+        mMusicPlayer.release();
+        super.onDestroy();
     }
 }

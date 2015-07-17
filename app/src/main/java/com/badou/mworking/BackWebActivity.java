@@ -38,8 +38,7 @@ public class BackWebActivity extends BaseBackActionBarActivity {
 
     private void initData() {
         String url = mReceivedIntent.getStringExtra(KEY_URL);
-        mWebFragment = new WebViewFragment();
-        mWebFragment.setArguments(WebViewFragment.getArgument(url));
+        mWebFragment = (WebViewFragment) WebViewFragment.getFragment(url);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.content_container, mWebFragment);
         transaction.commit();

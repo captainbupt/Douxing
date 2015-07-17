@@ -71,7 +71,7 @@ public class StoreAdapter extends MyBaseAdapter {
         holder.itemClickListener.position = i;
         Store store = (Store) getItem(i);
         holder.store = store;
-        holder.typeImageView.setImageResource(store.getIconRes());
+        holder.typeImageView.setImageResource(Store.getIconRes(store.type));
         holder.subjectTextView.setText(store.subject);
         holder.timeTextView.setText(TimeTransfer.long2StringDetailDate(mContext, store.ts));
         ((ViewGroup) view).setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
@@ -135,7 +135,7 @@ public class StoreAdapter extends MyBaseAdapter {
                 public void onClick(View view) {
                     final WaitProgressDialog progressDialog = new WaitProgressDialog(mContext, R.string.progress_tips_delete_ing);
                     progressDialog.show();
-                    ServiceProvider.deleteStore(mContext, store.sid, store.getTypeString(), new VolleyListener(mContext) {
+                    ServiceProvider.deleteStore(mContext, store.sid, Store.getTypeString(store.type), new VolleyListener(mContext) {
                         @Override
                         public void onResponseSuccess(JSONObject response) {
                             swipeLayout.close();

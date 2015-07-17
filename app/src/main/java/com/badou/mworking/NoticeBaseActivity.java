@@ -10,7 +10,6 @@ import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.CategoryDetail;
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.presenter.CategoryBasePresenter;
-import com.badou.mworking.presenter.NoticePresenter;
 import com.badou.mworking.widget.BottomRatingAndCommentView;
 
 import butterknife.Bind;
@@ -23,7 +22,7 @@ public class NoticeBaseActivity extends CategoryBaseActivity {
     @Bind(R.id.bottom_view)
     BottomRatingAndCommentView mBottomView;
 
-    NoticePresenter mPresenter;
+    CategoryBasePresenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +34,10 @@ public class NoticeBaseActivity extends CategoryBaseActivity {
     }
 
     @Override
-    protected CategoryBasePresenter getPresenter() {
-        return null;
+    public CategoryBasePresenter getPresenter() {
+        mPresenter = new CategoryBasePresenter(mContext, Category.CATEGORY_NOTICE);
+        mPresenter.attachView(this);
+        return mPresenter;
     }
 
     private void initListener() {
@@ -60,22 +61,12 @@ public class NoticeBaseActivity extends CategoryBaseActivity {
     }
 
     @Override
-    public void setData(CategoryDetail categoryDetail) {
-        super.setData(categoryDetail);
-    }
-
-    @Override
     public void setCommentNumber(int number) {
         mBottomView.setCommentData(number);
     }
 
     @Override
     public void setRatingNumber(int number) {
-
-    }
-
-    @Override
-    public void setStore(boolean isStore) {
 
     }
 }

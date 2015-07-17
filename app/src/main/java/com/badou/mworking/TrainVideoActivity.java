@@ -8,17 +8,13 @@ import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaPlayer.OnPreparedListener;
+import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -27,208 +23,139 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.badou.mworking.entity.category.Train;
-import com.badou.mworking.net.ServiceProvider;
+import com.badou.mworking.entity.category.CategoryDetail;
+import com.badou.mworking.presenter.CategoryBasePresenter;
+import com.badou.mworking.presenter.TrainingMediaPresenter;
+import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.DensityUtil;
-import com.badou.mworking.util.FileUtils;
-import com.badou.mworking.util.NetUtils;
-import com.badou.mworking.util.ToastUtil;
+import com.badou.mworking.view.TrainMediaView;
 import com.badou.mworking.widget.FullScreenVideoView;
-import com.loopj.android.http.RangeFileAsyncHttpResponseHandler;
-
-import org.apache.http.Header;
 
 import java.io.File;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 
-public class TrainVideoActivity extends TrainBaseActivity {
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-    public static final String ENDWITH_MP4 = ".mp4"; // MP4后缀
-    public static final int STATU_START_PLAY = 5; // 播放计时器
-    private static final int FILE_SIZE = 9;
+public class TrainVideoActivity extends TrainBaseActivity implements TrainMediaView {
 
-    // 自动隐藏顶部和底部View的时间
-    private static final int HIDE_TIME = 5000;
+    @Bind(R.id.video_title_text_view)
+    TextView mVideoTitleTextView;
+    @Bind(R.id.file_size_text_view)
+    TextView mFileSizeTextView;
+    @Bind(R.id.top_container_layout)
+    LinearLayout mTopContainerLayout;
+    @Bind(R.id.video_player)
+    FullScreenVideoView mVideoPlayer;
+    @Bind(R.id.download_image_view)
+    ImageView mDownloadImageView;
+    @Bind(R.id.downloading_progress_bar)
+    ProgressBar mDownloadingProgressBar;
+    @Bind(R.id.player_container_layout)
+    FrameLayout mPlayerContainerLayout;
+    @Bind(R.id.player_control_image_view)
+    ImageView mPlayerControlImageView;
+    @Bind(R.id.current_time_text_view)
+    TextView mCurrentTimeTextView;
+    @Bind(R.id.progress_seek_bar)
+    SeekBar mProgressSeekBar;
+    @Bind(R.id.total_time_text_view)
+    TextView mTotalTimeTextView;
+    @Bind(R.id.rotation_check_box)
+    CheckBox mRotationCheckBox;
+    @Bind(R.id.progress_container_layout)
+    LinearLayout mProgressContainerLayout;
+    @Bind(R.id.container_layout)
+    RelativeLayout mContainerLayout;
 
-    // 自定义VideoView
-    private FullScreenVideoView mVideoPlayer;
-    private TextView mVideoTitleTextView; // 标题
-    private ImageView mPlayerControlImageView; //开始/暂停 播放
-    private TextView mFileSizeTextView; // 音乐文件大小
-    private TextView mTotalTimeTextView;
-    private TextView mCurrentTimeTextView;
-    private ImageView mDownloadImageView;
-    private ProgressBar mDownloadingProgressBar;
-    private SeekBar mProgressSeekBar;
-    private RelativeLayout mContainerLayout;
-    private FrameLayout mPlayerContainerLayout;
-    private LinearLayout mProgressContainerLayout;
-    private LinearLayout mTopContainerLayout;
+    private TrainingMediaPresenter mPresenter;
+    private int lastTime = 0;
 
-    private CheckBox mRotationCheckBox; // 屏幕旋转
-
-    // 视频播放时间
-    private int playTime;
-    private String mSaveFilePath = ""; // 文件路径
-
-    private ProgressHandler mProgressHandler;
-    private boolean isChanging = false;// 互斥变量，防止定时器与SeekBar拖动时进度冲突
-
-    public static Intent getIntent(Context context, Train train) {
-        Intent intent = new Intent(context, TrainVideoActivity.class);
-        intent.putExtra(KEY_TRAINING, train);
-        return intent;
+    public static Intent getIntent(Context context, String rid, boolean isTraining) {
+        return TrainBaseActivity.getIntent(context, TrainVideoActivity.class, rid, isTraining);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_player);
-        initView();
+        ButterKnife.bind(this);
+        mRotationCheckBox.setChecked(isVertical());
         initListener();
-        initData();
+        if (isVertical()) {
+            showVerticalView();
+        } else {
+            showHorizontalView();
+        }
     }
 
-    /**
-     * 功能描述: 布局初始化
-     */
-    protected void initView() {
-        mPlayerControlImageView = (ImageView) findViewById(R.id.iv_activity_video_player_control);
-        mVideoTitleTextView = (TextView) findViewById(R.id.tv_activity_video_player_title);
-        mTotalTimeTextView = (TextView) findViewById(R.id.tv_activity_video_player_total_time);
-        mCurrentTimeTextView = (TextView) findViewById(R.id.tv_activity_video_player_current_time);
-        mDownloadImageView = (ImageView) findViewById(R.id.iv_activity_video_player_download);
-        mFileSizeTextView = (TextView) findViewById(R.id.tv_activity_video_player_size);
-        mDownloadingProgressBar = (ProgressBar) findViewById(R.id.pb_activity_video_player_downloading);
-        mProgressSeekBar = (SeekBar) findViewById(R.id.sb_activity_video_player);
-        mRotationCheckBox = (CheckBox) findViewById(R.id.cb_activity_video_player_zoom);
-        mContainerLayout = (RelativeLayout) findViewById(R.id.rl_activity_video_player_container);
-        mPlayerContainerLayout = (FrameLayout) findViewById(R.id.fl_activity_video_player_player_layout);
-        mProgressContainerLayout = (LinearLayout) findViewById(R.id.ll_activity_video_player_progress_layout);
-        mTopContainerLayout = (LinearLayout) findViewById(R.id.ll_activity_video_player_top);
-
-        mVideoPlayer = (FullScreenVideoView) findViewById(R.id.fsvv_activity_video_player);
-        mRotationCheckBox.setChecked(true);
+    @Override
+    public CategoryBasePresenter getPresenter(Context context, int type) {
+        mPresenter = new TrainingMediaPresenter(context, type, Constant.MWKG_FORAMT_TYPE_MPEG);
+        mPresenter.attachView(this);
+        return mPresenter;
     }
 
     /**
      * 功能描述: 监听初始化
      */
     private void initListener() {
-        mDownloadImageView.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (NetUtils.isNetConnected(mContext)) {
-                    /** 开始下载 **/
-                    statusDownloading();
-                    startDownload();
-                } else {
-                    ToastUtil.showToast(mContext, R.string.error_service);
-                }
-            }
-        });
-
-        mPlayerControlImageView.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mVideoPlayer.isPlaying()) {
-                    pausePlayer();
-                } else {
-                    startPlay();
-                }
-            }
-        });
 
         mProgressSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                mPresenter.onProgressChanged(progress, fromUser);
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                isChanging = true;
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                mVideoPlayer.seekTo(mProgressSeekBar.getProgress());
-                isChanging = false;
-            }
-        });
-
-        mRotationCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-            @Override
-            public void onCheckedChanged(CompoundButton arg0, boolean isChecked) {
-                if (isChecked) {
-                    /** 竖屏 **/
-                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-                    // 显示控件
-                    showVerticalView();
-                } else {
-                    /** 横屏 **/
-                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-                    // 隐藏控件
-                    showHorizontalView();
-                }
-            }
-        });
-
-        // 在videoplayer上加点击事件无效，必须加在父控件上
-        mPlayerContainerLayout.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showOrHide();
             }
         });
     }
 
-    /**
-     * 功能描述: 数据初始化
-     */
-    protected void initData() {
-        mSaveFilePath = FileUtils.getTrainCacheDir(mContext) + mTrain.getRid() + ENDWITH_MP4;
-        mVideoTitleTextView.setText(mTrain.getSubject());
-        mProgressHandler = new ProgressHandler();
+    @OnClick(R.id.download_image_view)
+    void onDownloadClicked() {
+        mPresenter.startDownload();
+    }
 
-        File file = new File(mSaveFilePath);
-        // 如果文件已经存在则直接获取文件大写，如果文件不存在则进行网络请求
-        if (file.exists()) {
-            float fileSize = ((float) file.length()) / 1024f / 1024f;
-            mFileSizeTextView.setText(String.format("视频文件（%.1fM）", fileSize));
-        } else {
-            new Thread(new Runnable() {
+    @OnClick(R.id.player_control_image_view)
+    void onControlClicked() {
+        mPresenter.statusChange(mVideoPlayer.isPlaying());
+    }
 
-                @Override
-                public void run() {
-                    try {
-                        URL DownRul = new URL(mTrain.getUrl());
-                        HttpURLConnection urlcon = (HttpURLConnection) DownRul.openConnection();
-                        float fileSize = ((float) urlcon.getContentLength()) / 1024f / 1024f;
-                        mProgressHandler.obtainMessage(FILE_SIZE, fileSize).sendToTarget();
-                    } catch (Exception e) {
-                        mProgressHandler.obtainMessage(FILE_SIZE, -1f).sendToTarget();
-                        e.printStackTrace();
-                    }
-                }
-            }).start();
-        }
-        // 文件存在，下载完成
-        if (file.exists()) {
-            statusDownloadFinish();
-            initVideo();
+    @OnClick(R.id.rotation_check_box)
+    void onRotationClicked() {
+        if (!isVertical()) {
+            mRotationCheckBox.setChecked(true);
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            mPresenter.onRotationChanged(false);
         } else {
-            statusNotDownLoad();
-            mTotalTimeTextView.setText("0%");
+            mRotationCheckBox.setChecked(false);
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            mPresenter.onRotationChanged(true);
         }
+    }
+
+    @OnClick(R.id.player_container_layout)
+    void onPlayerLayoutClicked() {
+        setProgressBar(mProgressContainerLayout.getVisibility() == View.GONE);
+    }
+
+    @Override
+    public void setData(String rid, CategoryDetail categoryDetail) {
+        super.setData(rid, categoryDetail);
+        mVideoTitleTextView.setText(categoryDetail.getSubject());
     }
 
     /**
      * 没下载的状态 *
      */
-    private void statusNotDownLoad() {
+    public void statusNotDownLoad() {
         mTotalTimeTextView.setText("0%");
         mDownloadImageView.setVisibility(View.VISIBLE);
         mPlayerControlImageView.setVisibility(View.GONE);
@@ -242,7 +169,8 @@ public class TrainVideoActivity extends TrainBaseActivity {
     /**
      * 下载完成,可以播放的状态 *
      */
-    private void statusDownloadFinish() {
+    @Override
+    public void statusDownloadFinish(File file) {
         mDownloadImageView.setVisibility(View.GONE);
         mPlayerControlImageView.setVisibility(View.VISIBLE);
         mCurrentTimeTextView.setVisibility(View.VISIBLE);
@@ -250,12 +178,16 @@ public class TrainVideoActivity extends TrainBaseActivity {
         mRotationCheckBox.setVisibility(View.VISIBLE);
         mProgressSeekBar.setEnabled(true);
         mProgressSeekBar.setThumb(getResources().getDrawable(R.drawable.seekbar_));
+        float fileSize = ((float) file.length()) / 1024f / 1024f;
+        setFileSize(fileSize);
+        initVideo(file);
     }
 
     /**
      * 下载中 *
      */
-    private void statusDownloading() {
+    @Override
+    public void statusDownloading() {
         mDownloadImageView.setVisibility(View.GONE);
         mPlayerControlImageView.setVisibility(View.GONE);
         mCurrentTimeTextView.setVisibility(View.GONE);
@@ -265,40 +197,20 @@ public class TrainVideoActivity extends TrainBaseActivity {
         mProgressSeekBar.setThumb(new ColorDrawable(android.R.color.transparent));
     }
 
-    private void startDownload() {
-        mDownloadImageView.setVisibility(View.GONE);
-        mDownloadingProgressBar.setVisibility(View.VISIBLE);
-        ServiceProvider.doDownloadTrainingFile(mTrain.getUrl(), mSaveFilePath, new RangeFileAsyncHttpResponseHandler(new File(mSaveFilePath)) {
-
-            @Override
-            public void onProgress(long bytesWritten, long totalSize) {
-                super.onProgress(bytesWritten, totalSize);
-                if (mProgressSeekBar.getMax() != (int) totalSize)
-                    mProgressSeekBar.setMax((int) totalSize);
-                mProgressSeekBar.setProgress((int) bytesWritten);
-                if (totalSize > 0 && bytesWritten > 0) {
-                    mTotalTimeTextView.setText(100 * bytesWritten / totalSize + "%");
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
-                ToastUtil.showToast(mContext, R.string.error_service);
-                statusNotDownLoad();
-            }
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, File file) {
-                statusDownloadFinish();
-                initVideo();
-            }
-        });
+    @Override
+    public void setProgress(long bytesWritten, long totalSize) {
+        if (mProgressSeekBar.getMax() != (int) totalSize)
+            mProgressSeekBar.setMax((int) totalSize);
+        mProgressSeekBar.setProgress((int) bytesWritten);
+        if (totalSize > 0 && bytesWritten > 0) {
+            mTotalTimeTextView.setText(100 * bytesWritten / totalSize + "%");
+        }
     }
 
     /**
      * 功能描述: 竖屏显示布局
      */
-    private void showVerticalView() {
+    public void showVerticalView() {
         mBottomView.setVisibility(View.VISIBLE);
         mTopContainerLayout.setVisibility(View.VISIBLE);
         getSupportActionBar().show();
@@ -313,7 +225,7 @@ public class TrainVideoActivity extends TrainBaseActivity {
         RelativeLayout.LayoutParams progressLayout = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
-        progressLayout.addRule(RelativeLayout.BELOW, R.id.fl_activity_video_player_player_layout);
+        progressLayout.addRule(RelativeLayout.BELOW, R.id.player_container_layout);
         mProgressContainerLayout.setLayoutParams(progressLayout);
 
         mVideoPlayer.setVideoWidth(screenWidth - 2 * marginLR);
@@ -324,7 +236,7 @@ public class TrainVideoActivity extends TrainBaseActivity {
     /**
      * 功能描述: 横屏隐藏布局
      */
-    private void showHorizontalView() {
+    public void showHorizontalView() {
         mBottomView.setVisibility(View.GONE);
         mTopContainerLayout.setVisibility(View.GONE);
         getSupportActionBar().hide();
@@ -338,7 +250,7 @@ public class TrainVideoActivity extends TrainBaseActivity {
         RelativeLayout.LayoutParams progressLayout = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
-        progressLayout.addRule(RelativeLayout.ALIGN_BOTTOM, R.id.fl_activity_video_player_player_layout);
+        progressLayout.addRule(RelativeLayout.ALIGN_BOTTOM, R.id.player_container_layout);
         mProgressContainerLayout.setLayoutParams(progressLayout);
 
         mVideoPlayer.setVideoWidth(screenWidth);
@@ -347,119 +259,21 @@ public class TrainVideoActivity extends TrainBaseActivity {
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        // 屏幕大小改变监听
-        if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            showHorizontalView(); // 竖屏
-        } else if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            showVerticalView(); // 横屏
-        }
-        super.onConfigurationChanged(newConfig);
+    public void setPlayTime(int time, boolean isVideo) {
+        if (isVideo)
+            mVideoPlayer.seekTo(time);
+        mProgressSeekBar.setProgress(time);
+        mCurrentTimeTextView.setText(new SimpleDateFormat("mm:ss").format(time));
     }
 
-    class ProgressHandler extends Handler {
-
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case STATU_START_PLAY:
-                    if (!mActivity.isFinishing() && mVideoPlayer != null && mVideoPlayer.isPlaying()) {
-                        if (!isChanging) {
-                            String currentTime = new SimpleDateFormat("mm:ss").format(mVideoPlayer
-                                    .getCurrentPosition());
-                            mCurrentTimeTextView.setText(currentTime);
-                            mProgressSeekBar.setProgress(mVideoPlayer.getCurrentPosition());
-                        }
-
-                        mProgressHandler.sendEmptyMessageDelayed(STATU_START_PLAY, 1000);
-                    }
-                    break;
-                case FILE_SIZE:
-                    float fileSize = (float) msg.obj;
-                    if (fileSize > 0) {
-                        mFileSizeTextView.setText(String.format("视频文件（%.1fM）", fileSize));
-                    } else {
-                        ToastUtil.showToast(mContext, R.string.tips_audio_get_size_fail);
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
+    @Override
+    public void setFileSize(float fileSize) {
+        mFileSizeTextView.setText(String.format("视频文件（%.1fM）", fileSize));
     }
 
-    /**
-     * 功能描述:初始化播放器
-     */
-    private void initVideo() {
-
-        mCurrentTimeTextView.setText("00:00");
-        mProgressSeekBar.setProgress(0);
-        mVideoPlayer.setVideoPath(mSaveFilePath);
-        mVideoPlayer.requestFocus();
-        mVideoPlayer.setOnPreparedListener(new OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                // 设置大小
-                mVideoPlayer.setVideoWidth(mp.getVideoWidth());
-                mVideoPlayer.setVideoHeight(mp.getVideoHeight());
-                mProgressSeekBar.setMax(mVideoPlayer.getDuration());
-                mTotalTimeTextView.setText(new SimpleDateFormat("mm:ss").format(mVideoPlayer.getDuration()));
-                if (playTime != 0) {
-                    mCurrentTimeTextView.setText(new SimpleDateFormat("mm:ss").format(playTime));
-                    mProgressSeekBar.setProgress(playTime);
-                    mVideoPlayer.seekTo(playTime);
-                }
-            }
-        });
-
-        mVideoPlayer.setOnCompletionListener(new OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                mPlayerControlImageView.setImageResource(R.drawable.button_media_start);
-                mCurrentTimeTextView.setText("00:00");
-                mProgressSeekBar.setProgress(0);
-            }
-        });
-    }
-
-    private Runnable hideRunnable = new Runnable() {
-
-        @Override
-        public void run() {
-            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                showOrHide();
-            }
-
-        }
-    };
-
-    /**
-     * 功能描述: 视屏开始播放
-     */
-    private void startPlay() {
-        if (!mVideoPlayer.isPlaying()) {
-            mVideoPlayer.start();
-            mVideoPlayer.setBackgroundColor(0x00000000);
-            mProgressHandler.sendEmptyMessageDelayed(STATU_START_PLAY, 1000);
-            mPlayerControlImageView.setImageResource(R.drawable.button_media_stop);
-
-            // 一段时间后隐藏底端布局
-            mProgressHandler.removeCallbacks(hideRunnable);
-            mProgressHandler.postDelayed(hideRunnable, HIDE_TIME);
-        }
-    }
-
-    private void pausePlayer() {
-        if (mVideoPlayer.isPlaying()) {
-            mVideoPlayer.pause();
-            mPlayerControlImageView.setImageResource(R.drawable.button_media_start);
-        }
-    }
-
-    private void showOrHide() {
-        if (mProgressContainerLayout.getVisibility() == View.VISIBLE) {
+    @Override
+    public void setProgressBar(boolean visible) {
+        if (!visible && mProgressContainerLayout.getVisibility() == View.VISIBLE) {
             Animation animation = AnimationUtils.loadAnimation(this,
                     R.anim.option_leave_from_top);
             animation.setAnimationListener(new AnimationImp() {
@@ -480,8 +294,7 @@ public class TrainVideoActivity extends TrainBaseActivity {
                 }
             });
             mProgressContainerLayout.startAnimation(animation1);
-            mProgressHandler.removeCallbacks(hideRunnable);
-        } else {
+        } else if (visible && mProgressContainerLayout.getVisibility() == View.GONE) {
             Animation animation = AnimationUtils.loadAnimation(this,
                     R.anim.option_entry_from_top);
             mProgressContainerLayout.setVisibility(View.VISIBLE);
@@ -489,9 +302,83 @@ public class TrainVideoActivity extends TrainBaseActivity {
             Animation animation1 = AnimationUtils.loadAnimation(this,
                     R.anim.option_entry_from_bottom);
             mProgressContainerLayout.startAnimation(animation1);
-            mProgressHandler.removeCallbacks(hideRunnable);
-            mProgressHandler.postDelayed(hideRunnable, HIDE_TIME);
         }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        mPresenter.onRotationChanged(isVertical()); // 竖屏
+        super.onConfigurationChanged(newConfig);
+    }
+
+    /**
+     * 功能描述:初始化播放器
+     */
+    private void initVideo(File file) {
+        mCurrentTimeTextView.setText("00:00");
+        mProgressSeekBar.setProgress(0);
+        try {
+            mVideoPlayer.setVideoURI(Uri.fromFile(file));
+        } catch (Exception e) {
+            e.printStackTrace();
+            mPresenter.fileCrashed();
+            return;
+        }
+        mVideoPlayer.requestFocus();
+        mVideoPlayer.setOnPreparedListener(new OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                // 设置大小
+                mVideoPlayer.setVideoWidth(mp.getVideoWidth());
+                mVideoPlayer.setVideoHeight(mp.getVideoHeight());
+                mProgressSeekBar.setMax(mVideoPlayer.getDuration());
+                mTotalTimeTextView.setText(new SimpleDateFormat("mm:ss").format(mVideoPlayer.getDuration()));
+                setPlayTime(lastTime, true);
+            }
+        });
+
+        mVideoPlayer.setOnCompletionListener(new OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                mPlayerControlImageView.setImageResource(R.drawable.button_media_start);
+                mCurrentTimeTextView.setText("00:00");
+                mProgressSeekBar.setProgress(0);
+            }
+        });
+    }
+
+    /**
+     * 功能描述: 视屏开始播放
+     */
+    public void startPlay() {
+        if (mVideoPlayer != null && !mVideoPlayer.isPlaying()) {
+            mVideoPlayer.start();
+            mVideoPlayer.setBackgroundColor(0x00000000);
+            mPlayerControlImageView.setImageResource(R.drawable.button_media_stop);
+        }
+    }
+
+    @Override
+    public void stopPlay() {
+        if (mVideoPlayer != null && mVideoPlayer.isPlaying()) {
+            mVideoPlayer.pause();
+            mPlayerControlImageView.setImageResource(R.drawable.button_media_start);
+        }
+    }
+
+    @Override
+    public int getCurrentTime() {
+        return mVideoPlayer.getCurrentPosition();
+    }
+
+    @Override
+    public boolean isPlaying() {
+        return mVideoPlayer.isPlaying();
+    }
+
+    @Override
+    public boolean isVertical() {
+        return getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
     }
 
     private class AnimationImp implements AnimationListener {
@@ -513,34 +400,28 @@ public class TrainVideoActivity extends TrainBaseActivity {
 
     @Override
     protected void onPause() {
+        mPresenter.pause();
         super.onPause();
-        if (mVideoPlayer != null && mVideoPlayer.isPlaying()) {
-            pausePlayer();
-        }
     }
 
     // 来电处理
     @Override
     protected void onDestroy() {
-        if (mVideoPlayer != null) {
-            if (mVideoPlayer.isPlaying()) {
-                mVideoPlayer.pause();
-            }
-            mVideoPlayer = null;
-        }
-        ServiceProvider.cancelRequest();
+        mPresenter.destroy();
         super.onDestroy();
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle state) {
         super.onRestoreInstanceState(state);
-        playTime = state.getInt("position");
+        if (state.containsKey("position")) {
+            lastTime = state.getInt("position");
+        }
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt("position", mVideoPlayer.getCurrentPosition());
+        outState.putInt("position", getCurrentTime());
     }
 }

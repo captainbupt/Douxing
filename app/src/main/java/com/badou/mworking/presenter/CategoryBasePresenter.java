@@ -19,6 +19,7 @@ import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.view.BaseView;
 import com.badou.mworking.view.CategoryBaseView;
+import com.badou.mworking.widget.RatingDilog;
 
 import org.json.JSONObject;
 
@@ -29,11 +30,13 @@ public class CategoryBasePresenter extends Presenter {
 
     CategoryBaseView mCategoryBaseView;
     String mRid;
+    int mCategoryType;
     CategoryDetail mCategoryDetail;
     StoreUseCase mStoreUseCase;
 
-    public CategoryBasePresenter(Context context) {
+    public CategoryBasePresenter(Context context, int type) {
         super(context);
+        this.mCategoryType = type;
     }
 
     @Override
@@ -44,11 +47,17 @@ public class CategoryBasePresenter extends Presenter {
     @Override
     public void attachIncomingIntent(Intent intent) {
         mRid = intent.getStringExtra(KEY_RID);
+        mCategoryBaseView.showProgressDialog();
         new CategoryDetailUseCase(mRid).execute(new BaseSubscriber<CategoryDetail>(mContext) {
             @Override
             public void onResponseSuccess(CategoryDetail data) {
-                mCategoryBaseView.setData(data);
-                mCategoryDetail = data;
+                mCategoryBaseView.setData(mRid, data);
+                setData(data);
+            }
+
+            @Override
+            public void onCompleted() {
+                mCategoryBaseView.hideProgressDialog();
             }
 
             @Override
@@ -65,6 +74,10 @@ public class CategoryBasePresenter extends Presenter {
             int commentNumber = data.getIntExtra(CommentActivity.RESPONSE_COUNT, 0);
             mCategoryBaseView.setCommentNumber(commentNumber);
         }
+    }
+
+    public void setData(CategoryDetail categoryDetail) {
+        mCategoryDetail = categoryDetail;
     }
 
     public void onStatisticalClicked() {
@@ -84,7 +97,7 @@ public class CategoryBasePresenter extends Presenter {
             mCategoryBaseView.showProgressDialog(R.string.progress_tips_store_ing);
         }
         if (mStoreUseCase == null)
-            mStoreUseCase = new StoreUseCase(mRid, Store.getStoreStringFromCategory(mCategoryDetail.getFmt()));
+            mStoreUseCase = new StoreUseCase(mRid, Store.getStoreStringFromCategory(mCategoryType));
         mStoreUseCase.setIsAdd(!mCategoryDetail.isStore());
         mStoreUseCase.execute(new BaseSubscriber<BaseNetEntity>(mContext) {
             @Override
@@ -104,5 +117,16 @@ public class CategoryBasePresenter extends Presenter {
 
     public void onCommentClicked() {
         ((Activity) mContext).startActivityForResult(CommentActivity.getIntent(mContext, mRid), REQUEST_COMMENT);
+    }
+
+    public void onRatingClicked() {
+        new RatingDilog(mContext, mRid, mCategoryDetail.getRating(), new RatingDilog.OnRatingCompletedListener() {
+
+            @Override
+            public void onRatingCompleted(int score) {
+                mCategoryDetail.setRating(score);
+                mCategoryBaseView.setRatingNumber(mCategoryDetail.getEcnt() + 1);
+            }
+        }).show();
     }
 }

@@ -30,9 +30,8 @@ public class NotificationUtil {
 	// BASE Notification ID
 	private int Notification_ID_BASE = 110;
 
-	public void showNotification(Context context,Class<?> clazz,String content) {
+	public void showNotification(Context context,Intent intent,String content) {
 		NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-		Intent intent = new Intent(context, clazz);
 		PendingIntent pd = PendingIntent.getActivity(context, 0, intent, 0);
 		Notification baseNF = new Notification();  // 新建状态栏通知
 		// 设置通知在状态栏显示的图标

@@ -6,13 +6,13 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/ll_activity_video_player_top"
+        android:id="@+id/top_container_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tv_activity_video_player_title"
+            android:id="@+id/video_title_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/offset_lless"
@@ -20,7 +20,7 @@
             android:textSize="@dimen/text_size_xlarge" />
 
         <TextView
-            android:id="@+id/tv_activity_video_player_size"
+            android:id="@+id/file_size_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/offset_lless"
@@ -47,7 +47,7 @@
     </LinearLayout>
 
     <RelativeLayout
-        android:id="@+id/rl_activity_video_player_container"
+        android:id="@+id/container_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -56,27 +56,27 @@
         android:paddingRight="@dimen/offset_lless">
 
         <FrameLayout
-            android:id="@+id/fl_activity_video_player_player_layout"
+            android:id="@+id/player_container_layout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/media_play_height"
             android:background="@color/color_black">
 
             <com.badou.mworking.widget.FullScreenVideoView
-                android:id="@+id/fsvv_activity_video_player"
+                android:id="@+id/video_player"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:background="@color/color_black" />
 
             <ImageView
-                android:id="@+id/iv_activity_video_player_download"
+                android:id="@+id/download_image_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:src="@drawable/button_media_download" />
 
             <ProgressBar
-                android:id="@+id/pb_activity_video_player_downloading"
+                android:id="@+id/downloading_progress_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -84,24 +84,24 @@
         </FrameLayout>
 
         <LinearLayout
-            android:id="@+id/ll_activity_video_player_progress_layout"
+            android:id="@+id/progress_container_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/fl_activity_video_player_player_layout"
+            android:layout_below="@id/player_container_layout"
             android:background="@color/bg_layout_media_ctrl"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:padding="@dimen/offset_less">
 
             <ImageView
-                android:id="@+id/iv_activity_video_player_control"
+                android:id="@+id/player_control_image_view"
                 android:layout_width="@dimen/icon_size_tiny"
                 android:layout_height="@dimen/icon_size_small"
                 android:src="@drawable/button_media_start"
                 android:visibility="gone" />
 
             <TextView
-                android:id="@+id/tv_activity_video_player_current_time"
+                android:id="@+id/current_time_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/offset_small"
@@ -110,7 +110,7 @@
                 android:visibility="gone" />
 
             <SeekBar
-                android:id="@+id/sb_activity_video_player"
+                android:id="@+id/progress_seek_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/offset_small"
@@ -121,7 +121,7 @@
                 android:thumb="@null" />
 
             <TextView
-                android:id="@+id/tv_activity_video_player_total_time"
+                android:id="@+id/total_time_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/offset_small"
@@ -129,7 +129,7 @@
                 android:textSize="@dimen/text_size_less" />
 
             <CheckBox
-                android:id="@+id/cb_activity_video_player_zoom"
+                android:id="@+id/rotation_check_box"
                 android:layout_width="@dimen/icon_size_tiny"
                 android:layout_height="@dimen/icon_size_tiny"
                 android:layout_margin="@dimen/offset_small"
