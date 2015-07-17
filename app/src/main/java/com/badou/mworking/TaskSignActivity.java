@@ -16,6 +16,7 @@ import com.badou.mworking.entity.category.CategoryDetail;
 import com.badou.mworking.entity.category.Task;
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.RequestParameters;
+import com.badou.mworking.presenter.ListPresenter;
 import com.badou.mworking.presenter.Presenter;
 import com.badou.mworking.presenter.TaskSignPresenter;
 import com.badou.mworking.util.ImageChooser;
@@ -180,12 +181,6 @@ public class TaskSignActivity extends CategoryBaseActivity implements TaskSignVi
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         mImageChooser.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
-    public void finish() {
-        mPresenter.finish();
-        super.finish();
     }
 
     @Override

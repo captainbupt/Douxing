@@ -13,6 +13,7 @@ import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.presenter.CategoryBasePresenter;
+import com.badou.mworking.presenter.ListPresenter;
 import com.badou.mworking.view.CategoryBaseView;
 
 import org.json.JSONObject;
@@ -60,5 +61,18 @@ public abstract class CategoryBaseActivity extends BaseBackActionBarActivity imp
     @Override
     public void setStore(boolean isStore) {
         mStoreImageView.setImageResource(isStore ? R.drawable.button_title_store_checked : R.drawable.button_title_store_unchecked);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mPresenter.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void finish() {
+        CategoryDetail categoryDetail = mPresenter.getData();
+        setResult(RESULT_OK, ListPresenter.getResultIntent(categoryDetail));
+        super.finish();
     }
 }

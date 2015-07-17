@@ -168,4 +168,5 @@ public class TaskSignPresenter extends CategoryBasePresenter implements BDLocati
     @Override
     public void onReceivePoi(BDLocation arg0) {
     }
+
 }

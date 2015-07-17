@@ -48,6 +48,7 @@ public class Task extends Category {
 
     @Override
     public void updateData(CategoryDetail categoryDetail) {
+        System.out.println("update: " + (categoryDetail.getContent().getC() == 1));
         this.store = categoryDetail.store;
         this.read = categoryDetail.getContent().c;
     }

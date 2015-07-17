@@ -42,13 +42,5 @@ public abstract class Presenter {
         return false;
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-    }
-
     public abstract void attachView(BaseView v);
-
-    public void finish() {
-
-    }
 }

@@ -95,7 +95,7 @@ public class RestRepository {
         return restApi.getSearchResult(AppApplication.SYSPARAM, AppApplication.appVersion, uid, key == null ? "" : key.replace(" ", ""));
     }
 
-    public Observable markRead(String uid, String rid) {
+    public Observable<BaseNetEntity> markRead(String uid, String rid) {
         return restApi.markRead(AppApplication.SYSPARAM, AppApplication.appVersion, uid, rid);
     }
 

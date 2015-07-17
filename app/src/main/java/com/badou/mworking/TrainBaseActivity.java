@@ -7,7 +7,9 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.badou.mworking.entity.category.Category;
+import com.badou.mworking.entity.category.CategoryDetail;
 import com.badou.mworking.presenter.CategoryBasePresenter;
+import com.badou.mworking.presenter.ListPresenter;
 import com.badou.mworking.widget.BottomRatingAndCommentView;
 
 import butterknife.Bind;
@@ -67,12 +69,6 @@ public class TrainBaseActivity extends CategoryBaseActivity {
     }
 
     @Override
-    public void finish() {
-        mPresenter.finish();
-        super.finish();
-    }
-
-    @Override
     public void setCommentNumber(int number) {
         mBottomView.setCommentData(number);
     }
@@ -81,4 +77,5 @@ public class TrainBaseActivity extends CategoryBaseActivity {
     public void setRatingNumber(int number) {
         mBottomView.setRatingData(number);
     }
+
 }
