@@ -68,7 +68,7 @@ public interface RestApi {
     Observable<BaseNetEntity<CategorySearchOverall>> getSearchResult(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query("uid") String uid, @Query("key") String key);
 
     @GET("/markread")
-    Observable markRead(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("rid") String rid);
+    Observable<BaseNetEntity> markRead(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("rid") String rid);
 
     @POST("/delstore")
     Observable<BaseNetEntity> deleteStore(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Body StoreUseCase.Body body);

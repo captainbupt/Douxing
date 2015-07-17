@@ -36,7 +36,10 @@ public class CategoryDetail implements Serializable {
     Entry entry;
     Task task;
 
-    transient Content content;
+    // 为了保证在传递categoryDetail的过程中，对content的修改不丢失，所以给他添加一个字段。
+    // 主要是由于contentStr的格式错误才会有现在这个麻烦
+    @SerializedName("contentclass")
+    Content content;
 
     public static class Content implements Serializable {
         int e = -1;
@@ -166,6 +169,14 @@ public class CategoryDetail implements Serializable {
         public int getQrint() {
             return qrint;
         }
+    }
+
+    public void setCcnt(int ccnt) {
+        this.ccnt = ccnt;
+    }
+
+    public void setEcnt(int ecnt) {
+        this.ecnt = ecnt;
     }
 
     public Task getTask() {

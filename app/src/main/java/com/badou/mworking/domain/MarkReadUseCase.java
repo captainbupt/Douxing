@@ -15,7 +15,6 @@ public class MarkReadUseCase extends UseCase {
 
     @Override
     protected Observable buildUseCaseObservable() {
-        System.out.println("rid: " + mRid);
         return RestRepository.getInstance().markRead(UserInfo.getUserInfo().getUid(), mRid);
     }
 }

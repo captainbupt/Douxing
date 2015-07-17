@@ -91,17 +91,10 @@ public class BaseNoTitleActivity extends ActionBarActivity implements SwipeBackA
 
     @Override
     public void finish() {
-        mPresenter.finish();
         //将当前Activity移除掉
         AppManager.getAppManager().removeActivity(this);
         super.finish();
         overridePendingTransition(R.anim.in_from_left, R.anim.out_to_right);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        mPresenter.onActivityResult(requestCode, resultCode, data);
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
     // Press the back button in mobile phone

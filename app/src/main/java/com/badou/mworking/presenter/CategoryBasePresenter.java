@@ -38,6 +38,7 @@ public class CategoryBasePresenter extends Presenter {
         super(context);
         this.mCategoryType = type;
         this.mRid = rid;
+        //mCategoryDetail = new CategoryDetail();
     }
 
     @Override
@@ -64,16 +65,17 @@ public class CategoryBasePresenter extends Presenter {
         });
     }
 
-    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_COMMENT && resultCode == Activity.RESULT_OK && data != null) {
             int commentNumber = data.getIntExtra(CommentActivity.RESPONSE_COUNT, 0);
             mCategoryBaseView.setCommentNumber(commentNumber);
+            mCategoryDetail.setCcnt(commentNumber);
         }
     }
 
     public void setData(CategoryDetail categoryDetail) {
-        mCategoryDetail = categoryDetail;
+        // mCategoryDetail.setData(categoryDetail);
+        this.mCategoryDetail = categoryDetail;
     }
 
     public void onStatisticalClicked() {
@@ -121,12 +123,15 @@ public class CategoryBasePresenter extends Presenter {
             @Override
             public void onRatingCompleted(int score) {
                 mCategoryDetail.setRating(score);
-                mCategoryBaseView.setRatingNumber(mCategoryDetail.getEcnt() + 1);
+                mCategoryDetail.setEcnt(mCategoryDetail.getEcnt() + 1);
+                mCategoryBaseView.setRatingNumber(mCategoryDetail.getEcnt());
             }
         }).show();
     }
 
-    public void finish() {
-        ((Activity) mContext).setResult(Activity.RESULT_OK, ListPresenter.getResultIntent(mCategoryDetail));
+    public CategoryDetail getData() {
+        System.out.println("present: " + (mCategoryDetail.getEcnt()));
+        return mCategoryDetail;
     }
+
 }

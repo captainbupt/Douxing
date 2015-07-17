@@ -104,6 +104,12 @@ public class CategoryListActivity extends BaseBackActionBarActivity implements C
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mPresenter.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
     /**
      * 初始化action 布局
      */

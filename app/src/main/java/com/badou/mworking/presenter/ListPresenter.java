@@ -166,16 +166,18 @@ public abstract class ListPresenter<T> extends Presenter {
             handler.removeCallbacksAndMessages(null);
     }
 
-    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        System.out.println("presenter result!!!!!!!!!!!! , " + (requestCode == REQUEST_DETAIL) + ", " + (resultCode == Activity.RESULT_OK));
         if (requestCode == REQUEST_DETAIL && resultCode == Activity.RESULT_OK && mClickPosition >= 0 && mClickPosition < mBaseListView.getDataCount()) {
             if (data.getBooleanExtra(RESULT_DELETED, false)) {
+                System.out.println("delete");
                 mBaseListView.removeItem(mClickPosition);
             } else {
                 Serializable item = data.getSerializableExtra(RESULT_DATA);
+                System.out.println("get item");
                 if (item != null) {
                     onResponseItem(mClickPosition, item);
+                } else {
+                    System.out.println("item is null");
                 }
             }
         }
@@ -190,6 +192,7 @@ public abstract class ListPresenter<T> extends Presenter {
     }
 
     public static Intent getResultIntent(Serializable data, boolean isDeleted) {
+        System.out.println(data == null);
         Intent intent = new Intent();
         intent.putExtra(RESULT_DATA, data);
         intent.putExtra(RESULT_DELETED, isDeleted);
