@@ -25,6 +25,8 @@ public interface BaseListView<T> extends BaseView {
 
     void setItem(int index, T item);
 
+    T getItem(int index);
+
     void removeItem(int index);
 
     void showProgressBar();

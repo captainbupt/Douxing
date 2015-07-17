@@ -15,7 +15,10 @@ import com.google.gson.annotations.SerializedName;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class CategoryDetail {
+import java.io.Serializable;
+import java.util.Calendar;
+
+public class CategoryDetail implements Serializable {
 
     int mcnt;
     int ccnt;
@@ -35,7 +38,7 @@ public class CategoryDetail {
 
     transient Content content;
 
-    public static class Content {
+    public static class Content implements Serializable {
         int e = -1;
         int c;
 
@@ -47,10 +50,12 @@ public class CategoryDetail {
             return c;
         }
 
-
+        public void setC(int c) {
+            this.c = c;
+        }
     }
 
-    public static class Entry {
+    public static class Entry implements Serializable {
         int offline;
         int maxusr;
         long deadline;
@@ -61,8 +66,8 @@ public class CategoryDetail {
         int in;
         EntryContent content;
 
-        public int getOffline() {
-            return offline;
+        public boolean isOffline() {
+            return offline == 1 || getDeadline() < Calendar.getInstance().getTimeInMillis();
         }
 
         public int getMaxusr() {
@@ -70,19 +75,19 @@ public class CategoryDetail {
         }
 
         public long getDeadline() {
-            return deadline;
+            return deadline * 1000l;
         }
 
         public long getStartline() {
-            return startline;
+            return startline * 1000l;
         }
 
         public long getDeadline_c() {
-            return deadline_c;
+            return deadline_c * 1000l;
         }
 
         public long getStartline_c() {
-            return startline_c;
+            return startline_c * 1000l;
         }
 
         public int getEnroll() {
@@ -98,7 +103,7 @@ public class CategoryDetail {
         }
     }
 
-    public static class EntryContent {
+    public static class EntryContent implements Serializable {
         @SerializedName("0")
         String description;
 
@@ -107,7 +112,7 @@ public class CategoryDetail {
         }
     }
 
-    public static class Task {
+    public static class Task implements Serializable {
         int offline;
         String place;
         float latitude;
@@ -118,8 +123,16 @@ public class CategoryDetail {
         int photo;
         int qrint;
 
-        public int getOffline() {
-            return offline;
+        public boolean isFreeSign() {
+            return latitude == 0 || longitude == 0;
+        }
+
+        public boolean isOffline() {
+            return offline == 1 || getDeadline() < Calendar.getInstance().getTimeInMillis();
+        }
+
+        public boolean isPhoto() {
+            return photo == 1;
         }
 
         public String getPlace() {
@@ -139,11 +152,11 @@ public class CategoryDetail {
         }
 
         public long getDeadline() {
-            return deadline;
+            return deadline * 1000l;
         }
 
         public long getStartline() {
-            return startline;
+            return startline * 1000l;
         }
 
         public int getPhoto() {
@@ -153,6 +166,14 @@ public class CategoryDetail {
         public int getQrint() {
             return qrint;
         }
+    }
+
+    public Task getTask() {
+        return task;
+    }
+
+    public Entry getEntry() {
+        return entry;
     }
 
     public int getRating() {

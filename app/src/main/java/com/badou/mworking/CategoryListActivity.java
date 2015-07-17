@@ -24,6 +24,8 @@ import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.Classification;
 import com.badou.mworking.presenter.CategoryListPresenter;
+import com.badou.mworking.presenter.ExamListPresenter;
+import com.badou.mworking.presenter.Presenter;
 import com.badou.mworking.presenter.TrainingListPresenter;
 import com.badou.mworking.util.DensityUtil;
 import com.badou.mworking.view.CategoryListView;
@@ -41,6 +43,7 @@ import butterknife.OnTouch;
 public class CategoryListActivity extends BaseBackActionBarActivity implements CategoryListView {
 
     public static final String KEY_CATEGORY = "category";
+    public static final String KEY_IS_DONE = "done";
 
     @Bind(R.id.content_list_view)
     PullToRefreshListView mContentListView;
@@ -64,11 +67,12 @@ public class CategoryListActivity extends BaseBackActionBarActivity implements C
     protected MyBaseAdapter<Category> mCategoryAdapter = null;
     private int mCategoryIndex;
 
-    CategoryListPresenter mCategoryPresenter;
+    CategoryListPresenter mPresenter;
 
-    public static Intent getIntent(Context context, int category) {
+    public static Intent getIntent(Context context, int category, boolean isDone) {
         Intent intent = new Intent(context, CategoryListActivity.class);
         intent.putExtra(KEY_CATEGORY, category);
+        intent.putExtra(KEY_IS_DONE, isDone);
         return intent;
     }
 
@@ -77,43 +81,50 @@ public class CategoryListActivity extends BaseBackActionBarActivity implements C
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base_progress_list);
         ButterKnife.bind(this);
-        mCategoryIndex = mReceivedIntent.getIntExtra(KEY_CATEGORY, -1);
-        if (mCategoryIndex == -1) {
-            finish();
-            return;
-        }
-        switch (mCategoryIndex) {
-            case Category.CATEGORY_TRAINING:
-                mCategoryPresenter = new TrainingListPresenter(mContext, mCategoryIndex);
-                break;
-            default:
-                mCategoryPresenter = new CategoryListPresenter(mContext, mCategoryIndex);
-        }
         initTitleView();
         initClassificationView();
         initListView();
-        mCategoryPresenter.attachView(this);
+        mPresenter = (CategoryListPresenter) super.mPresenter;
+        mPresenter.attachView(this);
+    }
+
+    @Override
+    public Presenter getPresenter() {
+        mCategoryIndex = mReceivedIntent.getIntExtra(KEY_CATEGORY, -1);
+        if (mCategoryIndex == -1) {
+            finish();
+        }
+        switch (mCategoryIndex) {
+            case Category.CATEGORY_TRAINING:
+                return new TrainingListPresenter(mContext, mCategoryIndex);
+            case Category.CATEGORY_EXAM:
+                return new ExamListPresenter(mContext, mCategoryIndex);
+            default:
+                return new CategoryListPresenter(mContext, mCategoryIndex);
+        }
     }
 
     /**
      * 初始化action 布局
      */
     private void initTitleView() {
-        mTitleReadTextView = new TextView(mContext);
-        mTitleReadTextView.setText(R.string.category_unread);
-        mTitleReadTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, DensityUtil.getInstance().getTextSizeSmall());
-        int paddingLess = DensityUtil.getInstance().getOffsetLess();
-        mTitleReadTextView.setPadding(paddingLess, 0, paddingLess, 0);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        layoutParams.setMargins(0, 0, paddingLess, 0);
-        mTitleReadTextView.setLayoutParams(layoutParams);
-        addTitleRightView(mTitleReadTextView, new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mCategoryPresenter.onUnreadClick();
-            }
-        });
-        setUnread(false);
+        if (!mReceivedIntent.getBooleanExtra(KEY_IS_DONE, true)) {
+            mTitleReadTextView = new TextView(mContext);
+            mTitleReadTextView.setText(R.string.category_unread);
+            mTitleReadTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, DensityUtil.getInstance().getTextSizeSmall());
+            int paddingLess = DensityUtil.getInstance().getOffsetLess();
+            mTitleReadTextView.setPadding(paddingLess, 0, paddingLess, 0);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            layoutParams.setMargins(0, 0, paddingLess, 0);
+            mTitleReadTextView.setLayoutParams(layoutParams);
+            addTitleRightView(mTitleReadTextView, new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mPresenter.onUnreadClick();
+                }
+            });
+            setUnread(false);
+        }
 
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mTitleLayout = inflater.inflate(R.layout.actionbar_progress, null);
@@ -121,11 +132,11 @@ public class CategoryListActivity extends BaseBackActionBarActivity implements C
         mTitleTriangleImageView = (ImageView) mTitleLayout.findViewById(R.id.iv_actionbar_triangle);
         mTitleTriangleImageView.setVisibility(View.VISIBLE);
         mTitleTextView = (TextView) mTitleLayout.findViewById(R.id.tv_actionbar_title);
-        mTitleTextView.setText(mReceivedIntent.getStringExtra(KEY_TITLE));
+        mTitleTextView.setText(Category.getCategoryName(mContext, mCategoryIndex));
         mTitleLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mCategoryPresenter.onClassificationStatusChanged();
+                mPresenter.onClassificationStatusChanged();
             }
         });
     }
@@ -143,12 +154,12 @@ public class CategoryListActivity extends BaseBackActionBarActivity implements C
         mContentListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase refreshView) {
-                mCategoryPresenter.refresh();
+                mPresenter.refresh();
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase refreshView) {
-                mCategoryPresenter.loadMore();
+                mPresenter.loadMore();
             }
         });
         mContentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -156,7 +167,7 @@ public class CategoryListActivity extends BaseBackActionBarActivity implements C
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 position--;
                 Category category = mCategoryAdapter.getItem(position);
-                mCategoryPresenter.onItemClick(category, position);
+                mPresenter.onItemClick(category, position);
             }
         });
     }
@@ -164,20 +175,20 @@ public class CategoryListActivity extends BaseBackActionBarActivity implements C
     @OnTouch(R.id.classification_background)
     boolean onClassificationBackgroundTouched(MotionEvent ev) {
         if (ev.getAction() == MotionEvent.ACTION_DOWN)
-            mCategoryPresenter.onClassificationStatusChanged();
+            mPresenter.onClassificationStatusChanged();
         return true;
     }
 
     @OnItemClick(R.id.classification_main_list)
     void onMainClassificationClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
         mMainClassificationAdapter.setSelectedPosition(arg2);
-        mCategoryPresenter.onClassificationMainClicked(mMainClassificationAdapter.getItem(arg2));
+        mPresenter.onClassificationMainClicked(mMainClassificationAdapter.getItem(arg2));
     }
 
     @OnItemClick(R.id.classification_more_list)
     void onMoreClassificationClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
         mMoreClassificationAdapter.setSelectedPosition(arg2);
-        mCategoryPresenter.onClassificationMoreClicked(mMoreClassificationAdapter.getItem(arg2));
+        mPresenter.onClassificationMoreClicked(mMoreClassificationAdapter.getItem(arg2));
     }
 
     @Override
@@ -248,6 +259,11 @@ public class CategoryListActivity extends BaseBackActionBarActivity implements C
     @Override
     public void setItem(int index, Category item) {
         mCategoryAdapter.setItem(index, item);
+    }
+
+    @Override
+    public Category getItem(int index) {
+        return mCategoryAdapter.getItem(index);
     }
 
     @Override

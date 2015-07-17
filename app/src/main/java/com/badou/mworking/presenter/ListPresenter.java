@@ -168,16 +168,21 @@ public abstract class ListPresenter<T> extends Presenter {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        System.out.println("presenter result!!!!!!!!!!!! , " + (requestCode == REQUEST_DETAIL) + ", " + (resultCode == Activity.RESULT_OK));
         if (requestCode == REQUEST_DETAIL && resultCode == Activity.RESULT_OK && mClickPosition >= 0 && mClickPosition < mBaseListView.getDataCount()) {
             if (data.getBooleanExtra(RESULT_DELETED, false)) {
                 mBaseListView.removeItem(mClickPosition);
             } else {
                 Serializable item = data.getSerializableExtra(RESULT_DATA);
                 if (item != null) {
-                    mBaseListView.setItem(mClickPosition, (T) item);
+                    onResponseItem(mClickPosition, item);
                 }
             }
         }
+    }
+
+    public void onResponseItem(int position, Serializable item) {
+        mBaseListView.setItem(position, (T) item);
     }
 
     public static Intent getResultIntent(Serializable data) {

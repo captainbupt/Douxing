@@ -64,7 +64,6 @@ public class MainPresenter extends Presenter {
 
     public static final String ACTION_RECEIVER_MESSAGE = "message";
 
-    private Intent mReceivedIntent;
     private boolean isSearching = false;
     private long mExitTime = 0;
     private String mLogoUrl;
@@ -79,14 +78,6 @@ public class MainPresenter extends Presenter {
     public void attachView(BaseView v) {
         mMainView = (MainGridView) v;
         initialize();
-    }
-
-    @Override
-    public void attachIncomingIntent(Intent intent) {
-        mReceivedIntent = intent;
-        if (mReceivedIntent.getBooleanExtra(MainGridActivity.KEY_MESSAGE_CENTER, false)) {
-            mContext.startActivity(new Intent(mContext, MessageCenterActivity.class));
-        }
     }
 
     private void initialize() {
@@ -231,13 +222,13 @@ public class MainPresenter extends Presenter {
         Intent intent = new Intent();
         switch (mainIcon.getKey()) {
             case RequestParameters.CHK_UPDATA_PIC_NOTICE: // 通知公告
-                intent = CategoryListActivity.getIntent(mContext, Category.CATEGORY_NOTICE);
+                intent = CategoryListActivity.getIntent(mContext, Category.CATEGORY_NOTICE, false);
                 break;
             case RequestParameters.CHK_UPDATA_PIC_TRAINING: // 微培训
-                intent = CategoryListActivity.getIntent(mContext, Category.CATEGORY_TRAINING);
+                intent = CategoryListActivity.getIntent(mContext, Category.CATEGORY_TRAINING, false);
                 break;
             case RequestParameters.CHK_UPDATA_PIC_EXAM: // 在线考试
-                intent = CategoryListActivity.getIntent(mContext, Category.CATEGORY_EXAM);
+                intent = CategoryListActivity.getIntent(mContext, Category.CATEGORY_EXAM, false);
                 break;
             case RequestParameters.CHK_UPDATA_PIC_SURVEY: // 培训调研
                 String uid = UserInfo.getUserInfo().getUid();
@@ -246,7 +237,7 @@ public class MainPresenter extends Presenter {
                 intent.putExtra(BackWebActivity.KEY_URL, url);
                 break;
             case RequestParameters.CHK_UPDATA_PIC_TASK: // 任务签到
-                intent = CategoryListActivity.getIntent(mContext, Category.CATEGORY_TASK);
+                intent = CategoryListActivity.getIntent(mContext, Category.CATEGORY_TASK, false);
                 break;
             case RequestParameters.CHK_UPDATA_PIC_CHATTER: // 同事圈
                 intent.setClass(mContext, ChatterActivity.class);
@@ -255,10 +246,10 @@ public class MainPresenter extends Presenter {
                 intent.setClass(mContext, AskActivity.class);
                 break;
             case RequestParameters.CHK_UPDATA_PIC_SHELF: //橱窗
-                intent = CategoryListActivity.getIntent(mContext, Category.CATEGORY_SHELF);
+                intent = CategoryListActivity.getIntent(mContext, Category.CATEGORY_SHELF, false);
                 break;
             case RequestParameters.CHK_UPDATA_PIC_ENTRY: //报名
-                intent = CategoryListActivity.getIntent(mContext, Category.CATEGORY_ENTRY);
+                intent = CategoryListActivity.getIntent(mContext, Category.CATEGORY_ENTRY, false);
                 break;
         }
         intent.putExtra(BaseActionBarActivity.KEY_TITLE, mainIcon.getName());

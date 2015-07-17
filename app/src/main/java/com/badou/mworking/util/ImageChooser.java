@@ -57,7 +57,7 @@ public class ImageChooser {
     private OnImageChosenListener mOnImageChosenListener;
 
     public interface OnImageChosenListener {
-        void onImageChose(Bitmap bitmap, int type);
+        void onImageChosen(Bitmap bitmap, int type);
     }
 
     public void setOnOperationClickListener(OnOperationClickListener onOperationClickListener) {
@@ -200,7 +200,7 @@ public class ImageChooser {
                             String path = getPath(mContext, originalUri);
                             Bitmap bitmap = BitmapUtil.decodeSampledBitmapFromFile(path, MAX_WIDTH, MAX_HEIGHT);
                             if (mOnImageChosenListener != null)
-                                mOnImageChosenListener.onImageChose(bitmap, TYPE_IMAGE);
+                                mOnImageChosenListener.onImageChosen(bitmap, TYPE_IMAGE);
                         }
                     }
                     break;
@@ -224,7 +224,7 @@ public class ImageChooser {
                             startPhotoZoom(Uri.fromFile(file));
                         } else {
                             if (mOnImageChosenListener != null) {
-                                mOnImageChosenListener.onImageChose(bitmap2, TYPE_IMAGE);
+                                mOnImageChosenListener.onImageChosen(bitmap2, TYPE_IMAGE);
                             }
                         }
                     } else {
@@ -245,7 +245,7 @@ public class ImageChooser {
                         Bitmap videoBitmap = VideoImageThumbnail.getVideoThumbnail(FileUtils.getChatterVideoDir(mContext), size, size,
                                 MediaStore.Images.Thumbnails.MICRO_KIND);
                         if (mOnImageChosenListener != null) {
-                            mOnImageChosenListener.onImageChose(videoBitmap, TYPE_VIDEO);
+                            mOnImageChosenListener.onImageChosen(videoBitmap, TYPE_VIDEO);
                         }
                     }
                     break;
@@ -258,7 +258,7 @@ public class ImageChooser {
         if (extras != null) {
             final Bitmap bitmap = extras.getParcelable("data");
             if (mOnImageChosenListener != null)
-                mOnImageChosenListener.onImageChose(bitmap, TYPE_IMAGE);
+                mOnImageChosenListener.onImageChosen(bitmap, TYPE_IMAGE);
         }
     }
 

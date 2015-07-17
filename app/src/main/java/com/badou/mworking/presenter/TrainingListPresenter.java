@@ -1,17 +1,24 @@
 package com.badou.mworking.presenter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 
 import com.badou.mworking.domain.TrainingCommentInfoUseCase;
 import com.badou.mworking.entity.category.Category;
+import com.badou.mworking.entity.category.CategoryDetail;
 import com.badou.mworking.entity.category.CategoryOverall;
 import com.badou.mworking.entity.category.Train;
 import com.badou.mworking.net.BaseListSubscriber;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TrainingListPresenter extends CategoryListPresenter {
+
+    public static final String RESPONSE_RATING_NUMBER = "ratingNumber";
+    public static final String RESPONSE_COMMENT_NUMBER = "commentNumber";
 
     TrainingCommentInfoUseCase commentInfoUseCase = new TrainingCommentInfoUseCase();
 

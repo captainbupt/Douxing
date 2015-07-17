@@ -134,6 +134,7 @@
     <string name="save_camera_fail">未找到存储卡，无法存储照片！</string>
     <string name="text_null">暂无</string>
     <string name="task_signFail">您的位置不在目标地点，无法签到</string>
+    <string name="task_sign_success">签到成功</string>
     <string name="text_ok">确定</string>
     <string name="task_notStart">任务未开始</string>
     <string name="task_get_gps_fail">获取位置失败</string>

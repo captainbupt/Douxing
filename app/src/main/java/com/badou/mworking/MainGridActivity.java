@@ -77,6 +77,9 @@ public class MainGridActivity extends BaseNoTitleActivity implements MainGridVie
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (mReceivedIntent.getBooleanExtra(MainGridActivity.KEY_MESSAGE_CENTER, false)) {
+            mContext.startActivity(new Intent(mContext, MessageCenterActivity.class));
+        }
         setContentView(R.layout.activity_main_grid);
         ButterKnife.bind(this);
         initialize();
@@ -91,7 +94,6 @@ public class MainGridActivity extends BaseNoTitleActivity implements MainGridVie
         mContentGridView.setAdapter(mMainGridAdapter);
         mMainPresenter = new MainPresenter(mContext);
         mMainPresenter.attachView(this);
-        mMainPresenter.attachIncomingIntent(mReceivedIntent);
     }
 
 

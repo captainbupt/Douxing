@@ -22,8 +22,6 @@ import java.util.List;
 
 public class CommentPresenter extends ListPresenter<Comment> {
 
-    public static final String KEY_RID = "rid";
-
     CommentView mCommentView;
     CategoryCommentGetUseCase mCommentGetUseCase;
     CategoryCommentSendUseCase mCommentSendUseCase;
@@ -33,13 +31,9 @@ public class CommentPresenter extends ListPresenter<Comment> {
     int mTotalCount = 0;
 
 
-    public CommentPresenter(Context context) {
+    public CommentPresenter(Context context, String rid) {
         super(context);
-    }
-
-    @Override
-    public void attachIncomingArgument(Bundle bundle) {
-        mRid = bundle.getString(KEY_RID);
+        this.mRid = rid;
     }
 
     @Override

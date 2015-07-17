@@ -65,7 +65,7 @@ public class AskAnswerSubmitActivity extends BaseBackActionBarActivity {
         mImageChooser = new ImageChooser(mContext, true, true, false);
         mImageChooser.setOnImageChosenListener(new ImageChooser.OnImageChosenListener() {
             @Override
-            public void onImageChose(Bitmap bitmap, int type) {
+            public void onImageChosen(Bitmap bitmap, int type) {
                 mImageGridView.addImage(bitmap);
             }
         });

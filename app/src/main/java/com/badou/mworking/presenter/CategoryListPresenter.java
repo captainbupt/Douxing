@@ -2,11 +2,13 @@ package com.badou.mworking.presenter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 
 import com.badou.mworking.domain.CategoryUseCase;
 import com.badou.mworking.domain.ClassificationUseCase;
 import com.badou.mworking.domain.UseCase;
 import com.badou.mworking.entity.category.Category;
+import com.badou.mworking.entity.category.CategoryDetail;
 import com.badou.mworking.entity.category.CategoryOverall;
 import com.badou.mworking.entity.category.Classification;
 import com.badou.mworking.net.BaseListSubscriber;
@@ -15,13 +17,13 @@ import com.badou.mworking.util.SPHelper;
 import com.badou.mworking.view.BaseView;
 import com.badou.mworking.view.CategoryListView;
 
+import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 public class CategoryListPresenter extends ListPresenter<Category> {
-    protected final int REQUEST_DETAIL = 1;
 
     protected CategoryListView mCategoryListView;
     protected CategoryUseCase mCategoryUseCase;
@@ -72,15 +74,14 @@ public class CategoryListPresenter extends ListPresenter<Category> {
     @Override
     public void toDetailPage(Category category) {
         ((Activity) mContext).startActivityForResult(CategoryClickHandler.getIntent(mContext, category), REQUEST_DETAIL);
-        setRead(category);
     }
 
-
-    // 功能描述: 设置已读
-    protected void setRead(Category category) {
-        if (category.isUnread()) {
-            SPHelper.reduceUnreadNumberByOne(mCategoryIndex);
-        }
+    @Override
+    public void onResponseItem(int position, Serializable item) {
+        System.out.println("on response item!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        Category category = mCategoryListView.getItem(position);
+        category.updateData((CategoryDetail) item);
+        mCategoryListView.setItem(position, category);
     }
 
     // 功能描述:通过网络获取 类别 列表

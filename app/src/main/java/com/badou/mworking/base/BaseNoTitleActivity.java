@@ -47,9 +47,10 @@ public class BaseNoTitleActivity extends ActionBarActivity implements SwipeBackA
         mHelper.onActivityCreate();
         mSwipeBackLayout = getSwipeBackLayout();
         mSwipeBackLayout.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
+        mPresenter = getPresenter();
     }
 
-    public Presenter getPresenter(){
+    public Presenter getPresenter() {
         return new Presenter(mContext) {
             @Override
             public void attachView(BaseView v) {
@@ -67,30 +68,40 @@ public class BaseNoTitleActivity extends ActionBarActivity implements SwipeBackA
     @Override
     protected void onDestroy() {
         mProgressDialog.dismiss();
+        mPresenter.destroy();
         super.onDestroy();
     }
 
     @Override
     protected void onResume() {
-        super.onResume();
+        mPresenter.resume();
         MobclickAgent.onResume(this);
 
         // onresume时，取消notification显示
         HXSDKHelper.getInstance().getNotifier().reset();
+        super.onResume();
     }
 
     @Override
     protected void onPause() {
+        mPresenter.pause();
         super.onPause();
         MobclickAgent.onPause(this);
     }
 
     @Override
     public void finish() {
+        mPresenter.finish();
         //将当前Activity移除掉
         AppManager.getAppManager().removeActivity(this);
         super.finish();
         overridePendingTransition(R.anim.in_from_left, R.anim.out_to_right);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mPresenter.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     // Press the back button in mobile phone

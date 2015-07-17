@@ -117,7 +117,7 @@ public class ChatterSubmitActivity extends BaseBackActionBarActivity {
         mImageChooser = new ImageChooser(mContext, true, true, false, true);
         mImageChooser.setOnImageChosenListener(new ImageChooser.OnImageChosenListener() {
             @Override
-            public void onImageChose(Bitmap bitmap, int type) {
+            public void onImageChosen(Bitmap bitmap, int type) {
                 if (type == ImageChooser.TYPE_VIDEO) {
                     mVideoImageView.setVisibility(View.VISIBLE);
                     mVideoImageView.setData(bitmap, null, null);

@@ -15,4 +15,5 @@ public interface CategoryListView extends BaseListView<Category>, BaseActionBarV
     void setMoreClassification(List<Classification> data);
 
     void setUnread(boolean isUnread);
+
 }

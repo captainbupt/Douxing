@@ -101,7 +101,7 @@ public class UserProgressActivity extends BaseNoTitleActivity {
 
             @Override
             public void onClick(View arg0) {
-                startActivity(CategoryListActivity.getIntent(mContext, mType));
+                startActivity(CategoryListActivity.getIntent(mContext, mType, true));
             }
         });
 
@@ -127,22 +127,6 @@ public class UserProgressActivity extends BaseNoTitleActivity {
                 updataListView(beginIndex);
             }
         });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK && requestCode == REQUEST_DETAIL) {
-            if (mCategoryAdapter != null && mClickedPosition > -1 && mClickedPosition < mCategoryAdapter.getCount()) {
-                if (mType == Category.CATEGORY_TRAINING) {
-                    //Train train = (Train) data.getSerializableExtra(TrainBaseActivity.RESPONSE_TRAINING);
-                    //mCategoryAdapter.setItem(mClickedPosition, train);
-                } else {
-                    Exam exam = (Exam) data.getSerializableExtra(ExamBaseActivity.RESPONSE_EXAM);
-                    mCategoryAdapter.setItem(mClickedPosition, exam);
-                }
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private void initData() {
