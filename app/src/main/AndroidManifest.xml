@@ -144,26 +144,16 @@
             android:name=".AskAnswerSubmitActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.badou.mworking.TrainActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name="com.badou.mworking.TrainWebViewActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.badou.mworking.TrainPDFViewActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.badou.mworking.NoticeActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name="com.badou.mworking.NoticePDFViewActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.badou.mworking.NoticeWebViewActivity"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name="com.badou.mworking.ExamActivity"
             android:screenOrientation="portrait" />
 
         <activity
@@ -191,10 +181,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".TaskSignActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.badou.mworking.TaskActivity"
-
             android:screenOrientation="portrait" />
         <activity
             android:name=".ChatterDetailActivity"
@@ -235,7 +221,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".TrainVideoActivity"
-            android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" />
 
         <!-- stateVisible| -->

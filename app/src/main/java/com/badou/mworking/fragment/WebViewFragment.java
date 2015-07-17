@@ -49,10 +49,12 @@ public class WebViewFragment extends BaseFragment {
 
     private ValueCallback<Uri> mUploadMessage;
 
-    public static Bundle getArgument(String url) {
+    public static BaseFragment getFragment(String url) {
+        WebViewFragment webViewFragment = new WebViewFragment();
         Bundle bundle = new Bundle();
         bundle.putString(KEY_URL, url);
-        return bundle;
+        webViewFragment.setArguments(bundle);
+        return webViewFragment;
     }
 
     @Override

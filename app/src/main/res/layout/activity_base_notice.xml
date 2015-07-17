@@ -16,6 +16,7 @@
         android:id="@+id/content_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/bottom_view" />
+        android:layout_above="@id/bottom_view"
+        android:background="@color/color_layout_bg" />
 
 </RelativeLayout>

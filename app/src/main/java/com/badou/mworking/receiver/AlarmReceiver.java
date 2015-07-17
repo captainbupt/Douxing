@@ -4,10 +4,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.badou.mworking.ExamActivity;
-import com.badou.mworking.TrainActivity;
+import com.badou.mworking.CategoryListActivity;
 import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.user.UserInfo;
+import com.badou.mworking.presenter.TrainingListPresenter;
 import com.badou.mworking.util.NotificationUtil;
 import com.badou.mworking.util.SP;
 
@@ -36,9 +36,9 @@ public class AlarmReceiver extends BroadcastReceiver {
     private void notificationRemind(Context context) {
         NotificationUtil notificationUtil = new NotificationUtil();
         if (getUnreadNum(context, Category.CATEGORY_KEY_UNREADS[Category.CATEGORY_EXAM])) {
-            notificationUtil.showNotification(context, ExamActivity.class, "您有未完成的考试");
+            notificationUtil.showNotification(context, CategoryListActivity.getIntent(context,Category.CATEGORY_EXAM), "您有未完成的考试");
         } else if (getUnreadNum(context, Category.CATEGORY_KEY_UNREADS[Category.CATEGORY_TRAINING])) {
-            notificationUtil.showNotification(context, TrainActivity.class, "您有未读的课件");
+            notificationUtil.showNotification(context, CategoryListActivity.getIntent(context, Category.CATEGORY_TRAINING), "您有未读的课件");
         } else {
             return;
         }

@@ -1,5 +1,6 @@
 package com.badou.mworking;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -7,51 +8,65 @@ import android.widget.FrameLayout;
 
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.entity.Store;
+import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.Train;
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.RequestParameters;
+import com.badou.mworking.presenter.CategoryBasePresenter;
 import com.badou.mworking.widget.BottomRatingAndCommentView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class TrainBaseActivity extends BaseBackActionBarActivity {
+public class TrainBaseActivity extends CategoryBaseActivity {
 
     public static final String KEY_TRAINING = "training";
-    public static final String RESPONSE_TRAINING = "training";
-    protected Train mTrain;
-    @Bind(R.id.content_container)
+
     FrameLayout mContentContainer;
-    @Bind(R.id.bottom_view)
     BottomRatingAndCommentView mBottomView;
+
+    public static Intent getIntent(Context context, Class clz, String rid, boolean isTraining) {
+        Intent intent = CategoryBaseActivity.getIntent(context, clz, rid);
+        intent.putExtra(KEY_TRAINING, isTraining);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.activity_base_training);
-        ButterKnife.bind(this);
-        mTrain = (Train) mReceivedIntent.getSerializableExtra(KEY_TRAINING);
-        mTrain.setRead(true);
-        mBottomView.setData(mTrain.getRid(), mTrain.getRatingNumber(), mTrain.getCommentNumber(), mTrain.getRating());
-        mBottomView.updateData();
-        if (mTrain.isTraining()) {
-            setActionbarTitle(UserInfo.getUserInfo().getShuffle().getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_TRAINING).getName());
-            addStoreImageView(mTrain.isStore(), Store.TYPE_STRING_TRAINING, mTrain.getRid());
+        boolean isTraining = getIntent().getBooleanExtra(KEY_TRAINING, true);
+        if (isTraining) {
+            setActionbarTitle(Category.getCategoryName(mContext, Category.CATEGORY_TRAINING));
         } else {
-            setActionbarTitle(UserInfo.getUserInfo().getShuffle().getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_SHELF).getName());
-            addStoreImageView(mTrain.isStore(), Store.TYPE_STRING_SHELF, mTrain.getRid());
+            setActionbarTitle(Category.getCategoryName(mContext, Category.CATEGORY_SHELF));
         }
-        if (UserInfo.getUserInfo().isAdmin()) {
-            addStatisticalImageView(mTrain.getRid());
-        }
-
-        mBottomView.setOnRatingCommentDataUpdated(new BottomRatingAndCommentView.OnRatingCommentDataUpdated() {
+        mContentContainer = (FrameLayout) findViewById(R.id.content_container);
+        mBottomView = (BottomRatingAndCommentView) findViewById(R.id.bottom_view);
+        mBottomView.setCommentClickListener(new View.OnClickListener() {
             @Override
-            public void onDataChanged(int ratingNumber, int commentNumber, int currentRating) {
-                mTrain.setRatingValue(currentRating, ratingNumber);
-                mTrain.setCommentNumber(commentNumber);
+            public void onClick(View view) {
+                mPresenter.onCommentClicked();
             }
         });
+        mBottomView.setRatingClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPresenter.onRatingClicked();
+            }
+        });
+    }
+
+    @Override
+    public CategoryBasePresenter getPresenter() {
+        boolean isTraining = getIntent().getBooleanExtra(KEY_TRAINING, true);
+        return getPresenter(mContext, isTraining ? Category.CATEGORY_TRAINING : Category.CATEGORY_SHELF);
+    }
+
+    public CategoryBasePresenter getPresenter(Context context, int type) {
+        CategoryBasePresenter presenter = new CategoryBasePresenter(mContext, type);
+        presenter.attachView(this);
+        return presenter;
     }
 
     @Override
@@ -61,27 +76,12 @@ public class TrainBaseActivity extends BaseBackActionBarActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK && requestCode == BottomRatingAndCommentView.REQUEST_COMMENT && data != null) {
-            int allCount = data.getIntExtra(CommentActivity.RESPONSE_COUNT, -1);
-            if (allCount >= 0) {
-                mBottomView.setCommentData(allCount);
-                mTrain.setCommentNumber(allCount);
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data);
+    public void setCommentNumber(int number) {
+        mBottomView.setCommentData(number);
     }
 
     @Override
-    public void finish() {
-        Intent intent = new Intent();
-        intent.putExtra(RESPONSE_TRAINING, mTrain);
-        setResult(RESULT_OK, intent);
-        super.finish();
-    }
-
-    @Override
-    protected void onStoreChanged(boolean isStore) {
-        mTrain.setStore(isStore);
+    public void setRatingNumber(int number) {
+        mBottomView.setRatingData(number);
     }
 }

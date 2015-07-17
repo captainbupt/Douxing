@@ -1,5 +1,7 @@
 package com.badou.mworking;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,19 +17,26 @@ import com.badou.mworking.view.CategoryBaseView;
 
 import org.json.JSONObject;
 
-public abstract class CategoryBaseActivity extends BaseBackActionBarActivity implements CategoryBaseView{
+public abstract class CategoryBaseActivity extends BaseBackActionBarActivity implements CategoryBaseView {
 
     CategoryBasePresenter mPresenter;
     ImageView mStoreImageView;
+
+    public static Intent getIntent(Context context, Class clz, String rid) {
+        Intent intent = new Intent(context, clz);
+        intent.putExtra(CategoryBasePresenter.KEY_RID, rid);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPresenter = (CategoryBasePresenter) getPresenter();
+        mPresenter.attachIncomingIntent(getIntent());
     }
 
     @Override
-    public void setData(CategoryDetail categoryDetail) {
+    public void setData(String rid, CategoryDetail categoryDetail) {
         mStoreImageView = getDefaultImageView(mContext, categoryDetail.isStore() ? R.drawable.button_title_store_checked : R.drawable.button_title_store_unchecked);
         addTitleRightView(mStoreImageView, new View.OnClickListener() {
             @Override
@@ -35,7 +44,7 @@ public abstract class CategoryBaseActivity extends BaseBackActionBarActivity imp
                 mPresenter.onStoreClicked();
             }
         });
-        if(UserInfo.getUserInfo().isAdmin()){
+        if (UserInfo.getUserInfo().isAdmin()) {
             addTitleRightView(getDefaultImageView(mContext, R.drawable.button_title_admin_statistical), new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -43,5 +52,12 @@ public abstract class CategoryBaseActivity extends BaseBackActionBarActivity imp
                 }
             });
         }
+        setCommentNumber(categoryDetail.getCcnt());
+        setRatingNumber(categoryDetail.getEcnt());
+    }
+
+    @Override
+    public void setStore(boolean isStore) {
+        mStoreImageView.setImageResource(isStore ? R.drawable.button_title_store_checked : R.drawable.button_title_store_unchecked);
     }
 }

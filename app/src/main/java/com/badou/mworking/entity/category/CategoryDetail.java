@@ -35,7 +35,7 @@ public class CategoryDetail {
 
     transient Content content;
 
-    static class Content{
+    public static class Content {
         int e = -1;
         int c;
 
@@ -46,9 +46,11 @@ public class CategoryDetail {
         public int getC() {
             return c;
         }
+
+
     }
 
-    static class Entry{
+    public static class Entry {
         int offline;
         int maxusr;
         long deadline;
@@ -96,7 +98,7 @@ public class CategoryDetail {
         }
     }
 
-    static class EntryContent{
+    public static class EntryContent {
         @SerializedName("0")
         String description;
 
@@ -105,7 +107,7 @@ public class CategoryDetail {
         }
     }
 
-    static class Task{
+    public static class Task {
         int offline;
         String place;
         float latitude;
@@ -151,6 +153,14 @@ public class CategoryDetail {
         public int getQrint() {
             return qrint;
         }
+    }
+
+    public int getRating() {
+        return getContent().e;
+    }
+
+    public void setRating(int rating) {
+        getContent().e = rating;
     }
 
     public void setStore(boolean store) {

@@ -46,7 +46,7 @@ public class Constant {
 	public static final int UPLOAD_PHOTO_YES=1;
 	public static final int FINISH_NO =0;
 	
-	public static final String TRAIN_IMG_SHOW = "http://mworking.cn/Uploads/training/";
+	public static final String TRAIN_IMG_SHOW = "http://mworking.cn/Uploads/training/badou/";
 	public static final String TRAIN_IMG_FORMAT = ".png";
 
 }

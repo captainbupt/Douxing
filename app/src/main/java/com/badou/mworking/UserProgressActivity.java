@@ -101,15 +101,7 @@ public class UserProgressActivity extends BaseNoTitleActivity {
 
             @Override
             public void onClick(View arg0) {
-                if (mType == Category.CATEGORY_TRAINING) {
-                    Intent intent = new Intent(mContext, TrainActivity.class);
-                    intent.putExtra(BaseActionBarActivity.KEY_TITLE, UserInfo.getUserInfo().getShuffle().getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_TRAINING).getName());
-                    startActivity(intent);
-                } else {
-                    Intent intent = new Intent(mContext, ExamActivity.class);
-                    intent.putExtra(BaseActionBarActivity.KEY_TITLE, UserInfo.getUserInfo().getShuffle().getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_EXAM).getName());
-                    startActivity(intent);
-                }
+                startActivity(CategoryListActivity.getIntent(mContext, mType));
             }
         });
 
@@ -142,8 +134,8 @@ public class UserProgressActivity extends BaseNoTitleActivity {
         if (resultCode == RESULT_OK && requestCode == REQUEST_DETAIL) {
             if (mCategoryAdapter != null && mClickedPosition > -1 && mClickedPosition < mCategoryAdapter.getCount()) {
                 if (mType == Category.CATEGORY_TRAINING) {
-                    Train train = (Train) data.getSerializableExtra(TrainBaseActivity.RESPONSE_TRAINING);
-                    mCategoryAdapter.setItem(mClickedPosition, train);
+                    //Train train = (Train) data.getSerializableExtra(TrainBaseActivity.RESPONSE_TRAINING);
+                    //mCategoryAdapter.setItem(mClickedPosition, train);
                 } else {
                     Exam exam = (Exam) data.getSerializableExtra(ExamBaseActivity.RESPONSE_EXAM);
                     mCategoryAdapter.setItem(mClickedPosition, exam);

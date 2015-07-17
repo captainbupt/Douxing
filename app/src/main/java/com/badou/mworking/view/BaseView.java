@@ -14,4 +14,5 @@ public interface BaseView {
     void showToast(int resId);
 
     void showToast(String msg);
+
 }

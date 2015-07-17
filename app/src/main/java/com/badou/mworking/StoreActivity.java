@@ -72,7 +72,7 @@ public class StoreActivity extends BaseBackActionBarActivity {
                     }
                 };
                 if (store.type == Store.TYPE_NOTICE || store.type == Store.TYPE_TRAINING || store.type == Store.TYPE_EXAM || store.type == Store.TYPE_TASK || store.type == Store.TYPE_SHELF) {
-                    ResourceClickHandler.toCategoryPage(mContext, store.getCategoryType(), store.sid, store.subject, onCompleteListener);
+                    ResourceClickHandler.toCategoryPage(mContext, Store.getCategoryTypeFromStore(store.type), store.sid, store.subject, onCompleteListener);
                 } else if (store.type == Store.TYPE_CHATTER) {
                     ResourceClickHandler.toChatterPage(mContext, store.sid, onCompleteListener);
                 } else if (store.type == Store.TYPE_ASK) {
