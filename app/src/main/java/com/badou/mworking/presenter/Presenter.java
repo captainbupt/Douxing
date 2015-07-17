@@ -48,9 +48,7 @@ public abstract class Presenter {
 
     public abstract void attachView(BaseView v);
 
-    public void attachIncomingIntent(Intent intent) {
-    }
+    public void finish() {
 
-    public void attachIncomingArgument(Bundle bundle) {
     }
 }

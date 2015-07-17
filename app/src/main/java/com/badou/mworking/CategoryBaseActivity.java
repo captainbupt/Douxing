@@ -19,12 +19,14 @@ import org.json.JSONObject;
 
 public abstract class CategoryBaseActivity extends BaseBackActionBarActivity implements CategoryBaseView {
 
+    public static final String KEY_RID = "rid";
+
     CategoryBasePresenter mPresenter;
     ImageView mStoreImageView;
 
     public static Intent getIntent(Context context, Class clz, String rid) {
         Intent intent = new Intent(context, clz);
-        intent.putExtra(CategoryBasePresenter.KEY_RID, rid);
+        intent.putExtra(KEY_RID, rid);
         return intent;
     }
 
@@ -32,7 +34,6 @@ public abstract class CategoryBaseActivity extends BaseBackActionBarActivity imp
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPresenter = (CategoryBasePresenter) getPresenter();
-        mPresenter.attachIncomingIntent(getIntent());
     }
 
     @Override

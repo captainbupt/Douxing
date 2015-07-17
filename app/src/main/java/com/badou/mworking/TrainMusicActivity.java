@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.CategoryDetail;
 import com.badou.mworking.presenter.CategoryBasePresenter;
 import com.badou.mworking.presenter.TrainingMediaPresenter;
@@ -56,6 +57,8 @@ public class TrainMusicActivity extends TrainBaseActivity implements TrainMediaV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_music_player);
         ButterKnife.bind(this);
+        mPresenter = (TrainingMediaPresenter) super.mPresenter;
+        mPresenter.attachView(this);
         initListener();
     }
 
@@ -81,10 +84,9 @@ public class TrainMusicActivity extends TrainBaseActivity implements TrainMediaV
     }
 
     @Override
-    public CategoryBasePresenter getPresenter(Context context, int type) {
-        mPresenter = new TrainingMediaPresenter(context, type, Constant.MWKG_FORAMT_TYPE_MP3);
-        mPresenter.attachView(this);
-        return mPresenter;
+    public CategoryBasePresenter getPresenter() {
+        boolean isTraining = mReceivedIntent.getBooleanExtra(KEY_TRAINING, true);
+        return new TrainingMediaPresenter(mContext, isTraining ? Category.CATEGORY_TRAINING : Category.CATEGORY_SHELF, mReceivedIntent.getStringExtra(KEY_RID), Constant.MWKG_FORAMT_TYPE_MP3);
     }
 
     @OnClick(R.id.download_image_view)

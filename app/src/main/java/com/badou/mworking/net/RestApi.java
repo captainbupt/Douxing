@@ -1,5 +1,7 @@
 package com.badou.mworking.net;
 
+import android.graphics.Bitmap;
+
 import com.badou.mworking.domain.CategoryCommentGetUseCase;
 import com.badou.mworking.domain.CategoryDetailUseCase;
 import com.badou.mworking.domain.CheckUpdateUseCase;
@@ -15,6 +17,7 @@ import com.badou.mworking.entity.comment.CommentOverall;
 import com.badou.mworking.entity.main.MainData;
 import com.badou.mworking.entity.user.UserInfo;
 
+import java.io.File;
 import java.util.List;
 
 import retrofit.http.Body;
@@ -72,4 +75,10 @@ public interface RestApi {
 
     @POST("/addstore")
     Observable<BaseNetEntity> addStore(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Body StoreUseCase.Body body);
+
+    @POST("/checkin_v2")
+    Observable<BaseNetEntity> taskSign(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("rid") String rid, @Query("lat") double latitude, @Query("lon") double longitude, @Body File file);
+
+    @POST("/checkin_v2")
+    Observable<BaseNetEntity> taskSign(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("rid") String rid, @Query("lat") double latitude, @Query("lon") double longitude);
 }

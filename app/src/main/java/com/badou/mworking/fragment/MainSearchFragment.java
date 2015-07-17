@@ -161,6 +161,11 @@ public class MainSearchFragment extends BaseFragment implements MainSearchView {
     }
 
     @Override
+    public CategorySearch getItem(int index) {
+        return mResultAdapter.getItem(index);
+    }
+
+    @Override
     public int getDataCount() {
         return mResultAdapter.getCount();
     }

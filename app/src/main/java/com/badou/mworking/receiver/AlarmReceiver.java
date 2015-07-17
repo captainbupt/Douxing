@@ -36,9 +36,9 @@ public class AlarmReceiver extends BroadcastReceiver {
     private void notificationRemind(Context context) {
         NotificationUtil notificationUtil = new NotificationUtil();
         if (getUnreadNum(context, Category.CATEGORY_KEY_UNREADS[Category.CATEGORY_EXAM])) {
-            notificationUtil.showNotification(context, CategoryListActivity.getIntent(context,Category.CATEGORY_EXAM), "您有未完成的考试");
+            notificationUtil.showNotification(context, CategoryListActivity.getIntent(context, Category.CATEGORY_EXAM, false), "您有未完成的考试");
         } else if (getUnreadNum(context, Category.CATEGORY_KEY_UNREADS[Category.CATEGORY_TRAINING])) {
-            notificationUtil.showNotification(context, CategoryListActivity.getIntent(context, Category.CATEGORY_TRAINING), "您有未读的课件");
+            notificationUtil.showNotification(context, CategoryListActivity.getIntent(context, Category.CATEGORY_TRAINING, false), "您有未读的课件");
         } else {
             return;
         }
@@ -48,7 +48,7 @@ public class AlarmReceiver extends BroadcastReceiver {
      * 功能描述:  获取缓存
      */
     private boolean getUnreadNum(Context context, String key) {
-        if(UserInfo.getUserInfo()!=null) {
+        if (UserInfo.getUserInfo() != null) {
             String userNum = UserInfo.getUserInfo().getAccount();
             int unreadNum = SP.getIntSP(context, SP.DEFAULTCACHE, userNum + key, 0);
             if (unreadNum <= 0) {

@@ -32,8 +32,8 @@ public class TrainingMediaPresenter extends CategoryBasePresenter {
     // 自动隐藏顶部和底部View的时间
     private static final int HIDE_TIME = 5000;
 
-    public TrainingMediaPresenter(Context context, int type, int format) {
-        super(context, type);
+    public TrainingMediaPresenter(Context context, int type, String rid, int format) {
+        super(context, type, rid);
         if (format == Constant.MWKG_FORAMT_TYPE_MP3) {
             suffix = ".mp3";
         } else {
@@ -45,11 +45,6 @@ public class TrainingMediaPresenter extends CategoryBasePresenter {
     public void attachView(BaseView v) {
         super.attachView(v);
         mTrainMediaView = (TrainMediaView) v;
-    }
-
-    @Override
-    public void attachIncomingIntent(Intent intent) {
-        super.attachIncomingIntent(intent);
     }
 
     public void startDownload() {

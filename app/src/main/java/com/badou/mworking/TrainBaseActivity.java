@@ -6,12 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.badou.mworking.base.BaseBackActionBarActivity;
-import com.badou.mworking.entity.Store;
 import com.badou.mworking.entity.category.Category;
-import com.badou.mworking.entity.category.Train;
-import com.badou.mworking.entity.user.UserInfo;
-import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.presenter.CategoryBasePresenter;
 import com.badou.mworking.widget.BottomRatingAndCommentView;
 
@@ -22,8 +17,10 @@ public class TrainBaseActivity extends CategoryBaseActivity {
 
     public static final String KEY_TRAINING = "training";
 
-    FrameLayout mContentContainer;
+    @Bind(R.id.bottom_view)
     BottomRatingAndCommentView mBottomView;
+    @Bind(R.id.content_container)
+    FrameLayout mContentContainer;
 
     public static Intent getIntent(Context context, Class clz, String rid, boolean isTraining) {
         Intent intent = CategoryBaseActivity.getIntent(context, clz, rid);
@@ -35,14 +32,14 @@ public class TrainBaseActivity extends CategoryBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.activity_base_training);
+        ButterKnife.bind(this);
+        mPresenter.attachView(this);
         boolean isTraining = getIntent().getBooleanExtra(KEY_TRAINING, true);
         if (isTraining) {
             setActionbarTitle(Category.getCategoryName(mContext, Category.CATEGORY_TRAINING));
         } else {
             setActionbarTitle(Category.getCategoryName(mContext, Category.CATEGORY_SHELF));
         }
-        mContentContainer = (FrameLayout) findViewById(R.id.content_container);
-        mBottomView = (BottomRatingAndCommentView) findViewById(R.id.bottom_view);
         mBottomView.setCommentClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -59,20 +56,20 @@ public class TrainBaseActivity extends CategoryBaseActivity {
 
     @Override
     public CategoryBasePresenter getPresenter() {
-        boolean isTraining = getIntent().getBooleanExtra(KEY_TRAINING, true);
-        return getPresenter(mContext, isTraining ? Category.CATEGORY_TRAINING : Category.CATEGORY_SHELF);
-    }
-
-    public CategoryBasePresenter getPresenter(Context context, int type) {
-        CategoryBasePresenter presenter = new CategoryBasePresenter(mContext, type);
-        presenter.attachView(this);
-        return presenter;
+        boolean isTraining = mReceivedIntent.getBooleanExtra(KEY_TRAINING, true);
+        return new CategoryBasePresenter(mContext, isTraining ? Category.CATEGORY_TRAINING : Category.CATEGORY_SHELF, mReceivedIntent.getStringExtra(KEY_RID));
     }
 
     @Override
     public void setContentView(int layoutResID) {
         View view = getLayoutInflater().inflate(layoutResID, mContentContainer, false);
         mContentContainer.addView(view);
+    }
+
+    @Override
+    public void finish() {
+        mPresenter.finish();
+        super.finish();
     }
 
     @Override

@@ -23,6 +23,7 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.CategoryDetail;
 import com.badou.mworking.presenter.CategoryBasePresenter;
 import com.badou.mworking.presenter.TrainingMediaPresenter;
@@ -81,8 +82,11 @@ public class TrainVideoActivity extends TrainBaseActivity implements TrainMediaV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_player);
         ButterKnife.bind(this);
+        mPresenter = (TrainingMediaPresenter) super.mPresenter;
+        mPresenter.attachView(this);
         mRotationCheckBox.setChecked(isVertical());
         initListener();
+        // 每一次改变方向都会重新调用onCreate，因此需要判断
         if (isVertical()) {
             showVerticalView();
         } else {
@@ -91,10 +95,9 @@ public class TrainVideoActivity extends TrainBaseActivity implements TrainMediaV
     }
 
     @Override
-    public CategoryBasePresenter getPresenter(Context context, int type) {
-        mPresenter = new TrainingMediaPresenter(context, type, Constant.MWKG_FORAMT_TYPE_MPEG);
-        mPresenter.attachView(this);
-        return mPresenter;
+    public CategoryBasePresenter getPresenter() {
+        boolean isTraining = mReceivedIntent.getBooleanExtra(KEY_TRAINING, true);
+        return new TrainingMediaPresenter(mContext, isTraining ? Category.CATEGORY_TRAINING : Category.CATEGORY_SHELF, mReceivedIntent.getStringExtra(KEY_RID), Constant.MWKG_FORAMT_TYPE_MPEG);
     }
 
     /**

@@ -31,13 +31,12 @@ public class NoticeBaseActivity extends CategoryBaseActivity {
         ButterKnife.bind(this);
         setActionbarTitle(Category.getCategoryName(mContext, Category.CATEGORY_NOTICE));
         initListener();
+        mPresenter.attachView(this);
     }
 
     @Override
     public CategoryBasePresenter getPresenter() {
-        mPresenter = new CategoryBasePresenter(mContext, Category.CATEGORY_NOTICE);
-        mPresenter.attachView(this);
-        return mPresenter;
+        return new CategoryBasePresenter(mContext, Category.CATEGORY_NOTICE, mReceivedIntent.getStringExtra(KEY_RID));
     }
 
     private void initListener() {

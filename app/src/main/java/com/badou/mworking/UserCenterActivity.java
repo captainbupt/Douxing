@@ -88,7 +88,7 @@ public class UserCenterActivity extends BaseNoTitleActivity {
         mImageChooser = new ImageChooser(mContext, true, true, true);
         mImageChooser.setOnImageChosenListener(new ImageChooser.OnImageChosenListener() {
             @Override
-            public void onImageChose(Bitmap bitmap, int type) {
+            public void onImageChosen(Bitmap bitmap, int type) {
                 getImageToView(bitmap);
             }
         });

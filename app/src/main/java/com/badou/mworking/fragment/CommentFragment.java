@@ -25,10 +25,12 @@ import butterknife.ButterKnife;
 
 public class CommentFragment extends BaseFragment implements CommentView {
 
+    public static final String KEY_RID = "rid";
+
     public static CommentFragment getFragment(String rid) {
         CommentFragment fragment = new CommentFragment();
         Bundle argument = new Bundle();
-        argument.putString(CommentPresenter.KEY_RID, rid);
+        argument.putString(KEY_RID, rid);
         fragment.setArguments(argument);
         return fragment;
     }
@@ -47,8 +49,8 @@ public class CommentFragment extends BaseFragment implements CommentView {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_comment, container, false);
         ButterKnife.bind(this, view);
-        mPresenter = new CommentPresenter(mContext);
-        mPresenter.attachIncomingArgument(getArguments());
+        Bundle bundle = getArguments();
+        mPresenter = new CommentPresenter(mContext, (String) bundle.getCharSequence(KEY_RID));
         mPresenter.attachView(this);
         mCommentAdapter = new CommentAdapter(mContext);
         mContentListView.setAdapter(mCommentAdapter);
@@ -151,6 +153,11 @@ public class CommentFragment extends BaseFragment implements CommentView {
     @Override
     public void setItem(int index, Comment item) {
         mCommentAdapter.setItem(index, item);
+    }
+
+    @Override
+    public Comment getItem(int index) {
+        return mCommentAdapter.getItem(index);
     }
 
     @Override

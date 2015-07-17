@@ -26,13 +26,16 @@ import java.io.File;
 public class CategoryClickHandler {
 
     public static Intent getIntent(Context context, Category category) {
-        new MarkReadUseCase(category.getRid()).execute(new BaseSubscriber(context) {
-            @Override
-            public void onResponseSuccess(Object data) {
-
+        if (category.getCategoryType() == Category.CATEGORY_NOTICE || category.getCategoryType() == Category.CATEGORY_TRAINING || category.getCategoryType() == Category.CATEGORY_SHELF) {
+            if (category.isUnread()) {
+                SPHelper.reduceUnreadNumberByOne(category.getCategoryType());
             }
-
-        });
+            new MarkReadUseCase(category.getRid()).execute(new BaseSubscriber(context) {
+                @Override
+                public void onResponseSuccess(Object data) {
+                }
+            });
+        }
         if (category.getCategoryType() == Category.CATEGORY_NOTICE) {
             return goNoticeActivity(context, (Notice) category);
         } else if (category.getCategoryType() == Category.CATEGORY_TRAINING || category.getCategoryType() == Category.CATEGORY_SHELF) {
@@ -86,10 +89,10 @@ public class CategoryClickHandler {
     }
 
     private static Intent goExamActivity(Context context, Exam exam) {
-        return ExamWebViewActivity.getIntent(context, exam);
+        return ExamWebViewActivity.getIntent(context, exam.getRid());
     }
 
     private static Intent goSignActivity(Context context, Task task) {
-        return TaskSignActivity.getIntent(context, task);
+        return TaskSignActivity.getIntent(context, task.getRid());
     }
 }

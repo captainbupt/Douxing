@@ -13,11 +13,12 @@ import com.badou.mworking.presenter.CommentPresenter;
  */
 public class CommentActivity extends BaseBackActionBarActivity {
 
+    public static final String KEY_RID = "rid";
     public static final String RESPONSE_COUNT = "count";
 
     public static Intent getIntent(Context context, String rid) {
         Intent intent = new Intent(context, CommentActivity.class);
-        intent.putExtra(CommentPresenter.KEY_RID, rid);
+        intent.putExtra(KEY_RID, rid);
         return intent;
     }
 
@@ -28,7 +29,7 @@ public class CommentActivity extends BaseBackActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment);
         setActionbarTitle(R.string.title_name_comment);
-        commentFragment = CommentFragment.getFragment(mReceivedIntent.getStringExtra(CommentPresenter.KEY_RID));
+        commentFragment = CommentFragment.getFragment(mReceivedIntent.getStringExtra(KEY_RID));
         getSupportFragmentManager().beginTransaction().replace(R.id.container, commentFragment).commit();
     }
 

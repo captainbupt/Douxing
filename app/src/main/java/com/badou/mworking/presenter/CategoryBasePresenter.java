@@ -34,19 +34,15 @@ public class CategoryBasePresenter extends Presenter {
     CategoryDetail mCategoryDetail;
     StoreUseCase mStoreUseCase;
 
-    public CategoryBasePresenter(Context context, int type) {
+    public CategoryBasePresenter(Context context, int type, String rid) {
         super(context);
         this.mCategoryType = type;
+        this.mRid = rid;
     }
 
     @Override
     public void attachView(BaseView v) {
         mCategoryBaseView = (CategoryBaseView) v;
-    }
-
-    @Override
-    public void attachIncomingIntent(Intent intent) {
-        mRid = intent.getStringExtra(KEY_RID);
         mCategoryBaseView.showProgressDialog();
         new CategoryDetailUseCase(mRid).execute(new BaseSubscriber<CategoryDetail>(mContext) {
             @Override
@@ -128,5 +124,9 @@ public class CategoryBasePresenter extends Presenter {
                 mCategoryBaseView.setRatingNumber(mCategoryDetail.getEcnt() + 1);
             }
         }).show();
+    }
+
+    public void finish() {
+        ((Activity) mContext).setResult(Activity.RESULT_OK, ListPresenter.getResultIntent(mCategoryDetail));
     }
 }

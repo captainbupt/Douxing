@@ -7,32 +7,33 @@ import android.widget.FrameLayout;
 
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.entity.Store;
+import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.Exam;
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.RequestParameters;
+import com.badou.mworking.presenter.CategoryBasePresenter;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ExamBaseActivity extends BaseBackActionBarActivity {
+public class ExamBaseActivity extends CategoryBaseActivity {
 
-    public static final String KEY_EXAM = "exam";
-    public static final String RESPONSE_EXAM = "exam";
-    protected Exam mExam;
     @Bind(R.id.content_container)
     FrameLayout mContentContainer;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.activity_base_exam);
-        setActionbarTitle(UserInfo.getUserInfo().getShuffle().getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_EXAM).getName());
         ButterKnife.bind(this);
-        mExam = (Exam) mReceivedIntent.getSerializableExtra(KEY_EXAM);
-        addStoreImageView(mExam.isStore(), Store.TYPE_STRING_EXAM, mExam.getRid());
-        if (UserInfo.getUserInfo().isAdmin()) {
-            addStatisticalImageView(mExam.getRid());
-        }
+        setActionbarTitle(Category.getCategoryName(mContext, Category.CATEGORY_EXAM));
+        mPresenter.attachView(this);
+    }
+
+    @Override
+    public CategoryBasePresenter getPresenter() {
+        return new CategoryBasePresenter(mContext, Category.CATEGORY_EXAM, mReceivedIntent.getStringExtra(KEY_RID));
     }
 
     @Override
@@ -42,15 +43,11 @@ public class ExamBaseActivity extends BaseBackActionBarActivity {
     }
 
     @Override
-    public void finish() {
-        Intent intent = new Intent();
-        intent.putExtra(RESPONSE_EXAM, mExam);
-        setResult(RESULT_OK, intent);
-        super.finish();
+    public void setCommentNumber(int number) {
     }
 
     @Override
-    protected void onStoreChanged(boolean isStore) {
-        mExam.setStore(isStore);
+    public void setRatingNumber(int number) {
+
     }
 }

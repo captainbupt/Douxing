@@ -38,14 +38,14 @@
                     android:padding="@dimen/offset_less">
 
                     <TextView
-                        android:id="@+id/tv_activity_task_sign_date_begin"
+                        android:id="@+id/begin_date_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/color_red"
                         android:textSize="@dimen/text_size_medium" />
 
                     <TextView
-                        android:id="@+id/tv_activity_task_sign_time_begin"
+                        android:id="@+id/begin_time_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/color_text_black"
@@ -68,14 +68,14 @@
                     android:padding="@dimen/offset_less">
 
                     <TextView
-                        android:id="@+id/tv_activity_task_sign_date_end"
+                        android:id="@+id/end_date_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/color_red"
                         android:textSize="@dimen/text_size_medium" />
 
                     <TextView
-                        android:id="@+id/tv_activity_task_sign_time_end"
+                        android:id="@+id/end_time_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/color_text_black"
@@ -89,11 +89,12 @@
                 android:background="@color/color_border_grey" />
 
             <TextView
-                android:id="@+id/tv_activity_task_sign_description"
+                android:id="@+id/description_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/color_white"
                 android:gravity="center"
+                android:maxLines="10"
                 android:paddingBottom="@dimen/offset_less"
                 android:paddingLeft="@dimen/offset_medium"
                 android:paddingRight="@dimen/offset_medium"
@@ -103,7 +104,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/tv_activity_task_sign_location"
+            android:id="@+id/location_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/offset_medium"
@@ -123,7 +124,7 @@
         android:layout_gravity="bottom">
 
         <View
-            android:id="@+id/vw_activity_task_sign_bottom"
+            android:id="@+id/bottom_layout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/layout_size_activity_task_sign_bottom"
             android:layout_alignParentBottom="true"
@@ -131,7 +132,7 @@
             android:background="@color/color_white" />
 
         <TextView
-            android:id="@+id/tv_activity_task_sign_bottom"
+            android:id="@+id/sign_text_view"
             android:layout_width="@dimen/button_size_activity_task_sign_bottom"
             android:layout_height="@dimen/button_size_activity_task_sign_bottom"
             android:layout_alignParentBottom="true"
@@ -142,10 +143,10 @@
             android:textSize="@dimen/text_size_large" />
 
         <LinearLayout
-            android:id="@+id/ll_activity_task_sign_my_position"
+            android:id="@+id/self_position_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@id/vw_activity_task_sign_bottom"
+            android:layout_above="@id/bottom_layout"
             android:layout_marginBottom="@dimen/offset_small"
             android:layout_marginLeft="@dimen/offset_medium"
             android:background="@drawable/background_corner_radius_small_ffffffff"

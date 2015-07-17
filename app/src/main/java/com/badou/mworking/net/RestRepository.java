@@ -20,6 +20,7 @@ import com.badou.mworking.entity.comment.CommentOverall;
 import com.badou.mworking.entity.main.MainData;
 import com.badou.mworking.entity.user.UserInfo;
 
+import java.io.File;
 import java.util.List;
 
 import retrofit.RestAdapter;
@@ -106,4 +107,11 @@ public class RestRepository {
         }
     }
 
+    public Observable<BaseNetEntity> taskSign(String uid, String rid, double latitude, double longitude, File file) {
+        if (file == null) {
+            return restApi.taskSign(AppApplication.SYSPARAM, AppApplication.appVersion, uid, rid, latitude, longitude);
+        } else {
+            return restApi.taskSign(AppApplication.SYSPARAM, AppApplication.appVersion, uid, rid, latitude, longitude, file);
+        }
+    }
 }
