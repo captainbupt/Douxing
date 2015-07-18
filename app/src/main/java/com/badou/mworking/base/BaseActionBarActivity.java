@@ -136,7 +136,7 @@ public class BaseActionBarActivity extends BaseNoTitleActivity {
         mTitleProgressBar.setVisibility(View.GONE);
     }
 
-    protected static ImageView getDefaultImageView(Context context, int resId) {
+    public static ImageView getDefaultImageView(Context context, int resId) {
         ImageView imageView = new ImageView(context);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(context.getResources().getDimensionPixelSize(R.dimen.width_title_bar), context.getResources().getDimensionPixelSize(R.dimen.height_title_bar));
         imageView.setLayoutParams(lp);
