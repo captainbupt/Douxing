@@ -203,6 +203,12 @@
     <string name="chatter_open_image_fail">打开图片失败</string>
     <string name="chatter_user_title_myself">我的圈</string>
     <string name="chatter_user_title_other">TA的圈</string>
+    <string name="entry_begin_time">报名开始：</string>
+    <string name="entry_end_time">报名结束：</string>
+    <string name="activity_begin_time">活动开始：</string>
+    <string name="activity_end_time">活动结束：</string>
+    <string name="entry_number">报名人数：</string>
+    <string name="entry">报　名</string>
 
 
     <string name="ask_title_right">提问</string>

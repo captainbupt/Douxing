@@ -4,7 +4,7 @@
     <dimen name="login_margin">@dimen/offset_large</dimen>
 
     <!-- activity base -->
-    <dimen name="text_size_title_bar_title">@dimen/text_size_xxlarge</dimen>
+    <dimen name="text_size_title_bar_title">@dimen/text_size_xlarge</dimen>
     <dimen name="text_size_title_bar_right">@dimen/text_size_medium</dimen>
     <dimen name="height_title_bar">@dimen/icon_size_medium</dimen>
     <dimen name="width_title_bar">@dimen/icon_size_small</dimen>

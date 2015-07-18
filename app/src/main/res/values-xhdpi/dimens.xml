@@ -59,4 +59,6 @@
 
     <dimen name="media_play_height">190dp</dimen>
 
+    <dimen name="category_header_height">140dp</dimen>
+
 </resources>

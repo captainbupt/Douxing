@@ -62,4 +62,6 @@
 
     <dimen name="media_play_height">200dp</dimen>
 
+    <dimen name="category_header_height">160dp</dimen>
+
 </resources>
