@@ -49,7 +49,7 @@ public class TaskSignPresenter extends CategoryBasePresenter implements BDLocati
     public void setData(CategoryDetail categoryDetail) {
         super.setData(categoryDetail);
         initlocation();
-        if (mCategoryDetail.getContent().getC() == 1) {// 已签到
+        if (mCategoryDetail.getContent().isSigned()) {// 已签到
             mTaskSignView.setStatus(TaskSignView.STATUS_SIGN);
         } else {
             if (mCategoryDetail.getTask().isOffline()) { // 已过期
@@ -146,7 +146,7 @@ public class TaskSignPresenter extends CategoryBasePresenter implements BDLocati
                 }
                 mTaskSignView.setStatus(TaskSignView.STATUS_SIGN);
                 mTaskSignView.showToast(R.string.task_sign_success);
-                mCategoryDetail.getContent().setC(1);
+                mCategoryDetail.getContent().setSigned(true);
             }
 
             @Override

@@ -147,20 +147,14 @@
             android:name=".AskAnswerSubmitActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.badou.mworking.TrainWebViewActivity"
+            android:name="com.badou.mworking.TrainBaseActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.badou.mworking.TrainPDFViewActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.badou.mworking.NoticePDFViewActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.badou.mworking.NoticeWebViewActivity"
+            android:name="com.badou.mworking.NoticeBaseActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name="com.badou.mworking.ExamWebViewActivity"
+            android:name="com.badou.mworking.ExamBaseActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.badou.mworking.ClearCacheActivity"
@@ -216,14 +210,6 @@
         <activity
             android:name="com.badou.mworking.TipsWebView"
 
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name="com.badou.mworking.TrainMusicActivity"
-
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".TrainVideoActivity"
             android:screenOrientation="portrait" />
 
         <!-- stateVisible| -->

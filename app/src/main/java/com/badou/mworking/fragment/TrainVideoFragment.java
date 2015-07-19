@@ -1,18 +1,16 @@
-package com.badou.mworking;
+package com.badou.mworking.fragment;
 
-import android.content.Context;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnCompletionListener;
-import android.media.MediaPlayer.OnPreparedListener;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
@@ -23,9 +21,9 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.badou.mworking.entity.category.Category;
-import com.badou.mworking.entity.category.CategoryDetail;
-import com.badou.mworking.presenter.CategoryBasePresenter;
+import com.badou.mworking.R;
+import com.badou.mworking.TrainBaseActivity;
+import com.badou.mworking.base.BaseFragment;
 import com.badou.mworking.presenter.TrainingMediaPresenter;
 import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.DensityUtil;
@@ -39,7 +37,11 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class TrainVideoActivity extends TrainBaseActivity implements TrainMediaView {
+public class TrainVideoFragment extends BaseFragment implements TrainMediaView {
+
+    static final String KEY_RID = "rid";
+    static final String KEY_URL = "url";
+    static final String KEY_SUBJECT = "subject";
 
     @Bind(R.id.video_title_text_view)
     TextView mVideoTitleTextView;
@@ -73,17 +75,28 @@ public class TrainVideoActivity extends TrainBaseActivity implements TrainMediaV
     private TrainingMediaPresenter mPresenter;
     private int lastTime = 0;
 
-    public static Intent getIntent(Context context, String rid, boolean isTraining) {
-        return TrainBaseActivity.getIntent(context, TrainVideoActivity.class, rid, isTraining);
+    public static TrainVideoFragment getFragment(String rid, String url, String subject) {
+        TrainVideoFragment trainVideoFragment = new TrainVideoFragment();
+        Bundle argument = new Bundle();
+        argument.putString(KEY_RID, rid);
+        argument.putString(KEY_URL, url);
+        argument.putString(KEY_SUBJECT, subject);
+        trainVideoFragment.setArguments(argument);
+        return trainVideoFragment;
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_video_player);
-        ButterKnife.bind(this);
-        mPresenter = (TrainingMediaPresenter) super.mPresenter;
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_train_video_player, container, false);
+        ButterKnife.bind(this, view);
+        Bundle argument = getArguments();
+        mVideoTitleTextView.setText(argument.getString(KEY_SUBJECT));
+        mPresenter = new TrainingMediaPresenter(mContext, argument.getString(KEY_RID), argument.getString(KEY_URL), Constant.MWKG_FORAMT_TYPE_MP3);
         mPresenter.attachView(this);
+        return view;
+    }
+
+    private void initView(Bundle saveInstanceState) {
         mRotationCheckBox.setChecked(isVertical());
         initListener();
         // 每一次改变方向都会重新调用onCreate，因此需要判断
@@ -92,12 +105,9 @@ public class TrainVideoActivity extends TrainBaseActivity implements TrainMediaV
         } else {
             showHorizontalView();
         }
-    }
-
-    @Override
-    public CategoryBasePresenter getPresenter() {
-        boolean isTraining = mReceivedIntent.getBooleanExtra(KEY_TRAINING, true);
-        return new TrainingMediaPresenter(mContext, isTraining ? Category.CATEGORY_TRAINING : Category.CATEGORY_SHELF, mReceivedIntent.getStringExtra(KEY_RID), Constant.MWKG_FORAMT_TYPE_MPEG);
+        if (saveInstanceState.containsKey("position")) {
+            lastTime = saveInstanceState.getInt("position");
+        }
     }
 
     /**
@@ -135,11 +145,11 @@ public class TrainVideoActivity extends TrainBaseActivity implements TrainMediaV
     void onRotationClicked() {
         if (!isVertical()) {
             mRotationCheckBox.setChecked(true);
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             mPresenter.onRotationChanged(false);
         } else {
             mRotationCheckBox.setChecked(false);
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
             mPresenter.onRotationChanged(true);
         }
     }
@@ -147,12 +157,6 @@ public class TrainVideoActivity extends TrainBaseActivity implements TrainMediaV
     @OnClick(R.id.player_container_layout)
     void onPlayerLayoutClicked() {
         setProgressBar(mProgressContainerLayout.getVisibility() == View.GONE);
-    }
-
-    @Override
-    public void setData(String rid, CategoryDetail categoryDetail) {
-        super.setData(rid, categoryDetail);
-        mVideoTitleTextView.setText(categoryDetail.getSubject());
     }
 
     /**
@@ -214,11 +218,11 @@ public class TrainVideoActivity extends TrainBaseActivity implements TrainMediaV
      * 功能描述: 竖屏显示布局
      */
     public void showVerticalView() {
-        mBottomView.setVisibility(View.VISIBLE);
+        ((TrainBaseActivity) mActivity).setBottomViewVisible(true);
         mTopContainerLayout.setVisibility(View.VISIBLE);
-        getSupportActionBar().show();
+        ((ActionBarActivity) mActivity).getSupportActionBar().show();
         int height = getResources().getDimensionPixelSize(R.dimen.media_play_height);
-        int screenWidth = DensityUtil.getWidthInPx(this);
+        int screenWidth = DensityUtil.getWidthInPx(mActivity);
         int marginLR = getResources().getDimensionPixelOffset(R.dimen.offset_lless);
         mContainerLayout.setPadding(marginLR, 0, marginLR, 0);
 
@@ -240,9 +244,9 @@ public class TrainVideoActivity extends TrainBaseActivity implements TrainMediaV
      * 功能描述: 横屏隐藏布局
      */
     public void showHorizontalView() {
-        mBottomView.setVisibility(View.GONE);
+        ((TrainBaseActivity) mActivity).setBottomViewVisible(false);
         mTopContainerLayout.setVisibility(View.GONE);
-        getSupportActionBar().hide();
+        ((ActionBarActivity) mActivity).getSupportActionBar().hide();
         int screenHeight = DensityUtil.getInstance().getScreenHeight();
         int screenWidth = DensityUtil.getInstance().getScreenWidth();
         mContainerLayout.setPadding(0, 0, 0, 0);
@@ -277,8 +281,7 @@ public class TrainVideoActivity extends TrainBaseActivity implements TrainMediaV
     @Override
     public void setProgressBar(boolean visible) {
         if (!visible && mProgressContainerLayout.getVisibility() == View.VISIBLE) {
-            Animation animation = AnimationUtils.loadAnimation(this,
-                    R.anim.option_leave_from_top);
+            Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.option_leave_from_top);
             animation.setAnimationListener(new AnimationImp() {
                 @Override
                 public void onAnimationEnd(Animation animation) {
@@ -287,8 +290,7 @@ public class TrainVideoActivity extends TrainBaseActivity implements TrainMediaV
             });
 
             mProgressContainerLayout.clearAnimation();
-            Animation animation1 = AnimationUtils.loadAnimation(this,
-                    R.anim.option_leave_from_bottom);
+            Animation animation1 = AnimationUtils.loadAnimation(mContext, R.anim.option_leave_from_bottom);
             animation1.setAnimationListener(new AnimationImp() {
                 @Override
                 public void onAnimationEnd(Animation animation) {
@@ -298,12 +300,10 @@ public class TrainVideoActivity extends TrainBaseActivity implements TrainMediaV
             });
             mProgressContainerLayout.startAnimation(animation1);
         } else if (visible && mProgressContainerLayout.getVisibility() == View.GONE) {
-            Animation animation = AnimationUtils.loadAnimation(this,
-                    R.anim.option_entry_from_top);
+            Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.option_entry_from_top);
             mProgressContainerLayout.setVisibility(View.VISIBLE);
             mProgressContainerLayout.clearAnimation();
-            Animation animation1 = AnimationUtils.loadAnimation(this,
-                    R.anim.option_entry_from_bottom);
+            Animation animation1 = AnimationUtils.loadAnimation(mContext, R.anim.option_entry_from_bottom);
             mProgressContainerLayout.startAnimation(animation1);
         }
     }
@@ -328,7 +328,7 @@ public class TrainVideoActivity extends TrainBaseActivity implements TrainMediaV
             return;
         }
         mVideoPlayer.requestFocus();
-        mVideoPlayer.setOnPreparedListener(new OnPreparedListener() {
+        mVideoPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
                 // 设置大小
@@ -340,7 +340,7 @@ public class TrainVideoActivity extends TrainBaseActivity implements TrainMediaV
             }
         });
 
-        mVideoPlayer.setOnCompletionListener(new OnCompletionListener() {
+        mVideoPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
                 mPlayerControlImageView.setImageResource(R.drawable.button_media_start);
@@ -384,7 +384,7 @@ public class TrainVideoActivity extends TrainBaseActivity implements TrainMediaV
         return getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
     }
 
-    private class AnimationImp implements AnimationListener {
+    private class AnimationImp implements Animation.AnimationListener {
 
         @Override
         public void onAnimationEnd(Animation animation) {
@@ -402,29 +402,22 @@ public class TrainVideoActivity extends TrainBaseActivity implements TrainMediaV
     }
 
     @Override
-    protected void onPause() {
+    public void onPause() {
         mPresenter.pause();
         super.onPause();
     }
 
-    // 来电处理
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         mPresenter.destroy();
+        ButterKnife.unbind(this);
         super.onDestroy();
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle state) {
-        super.onRestoreInstanceState(state);
-        if (state.containsKey("position")) {
-            lastTime = state.getInt("position");
-        }
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("position", getCurrentTime());
     }
+
 }

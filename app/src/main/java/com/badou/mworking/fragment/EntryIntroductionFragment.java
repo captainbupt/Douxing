@@ -25,8 +25,7 @@ import butterknife.OnClick;
 
 public class EntryIntroductionFragment extends BaseFragment implements EntryIntroductionView, CategoryTabContent.ScrollableContent {
 
-
-    public static final String KEY_RID = "rid";
+    private static final String KEY_RID = "rid";
 
     public static EntryIntroductionFragment getFragment(String rid) {
         EntryIntroductionFragment fragment = new EntryIntroductionFragment();
@@ -52,16 +51,13 @@ public class EntryIntroductionFragment extends BaseFragment implements EntryIntr
 
     EntryIntroductionPresenter mPresenter;
 
-    public EntryIntroductionFragment() {
-        mPresenter = new EntryIntroductionPresenter(mContext);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mParentScrollView = (ScrollView) inflater.inflate(R.layout.fragment_entry_introduction, container, false);
         ButterKnife.bind(this, mParentScrollView);
         Bundle argument = getArguments();
-        mPresenter.setRid(argument.getString(KEY_RID));
+        mPresenter = new EntryIntroductionPresenter(mContext, argument.getString(KEY_RID));
         mPresenter.attachView(this);
         return mParentScrollView;
     }

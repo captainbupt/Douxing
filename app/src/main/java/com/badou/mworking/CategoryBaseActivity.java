@@ -20,7 +20,7 @@ import org.json.JSONObject;
 
 public abstract class CategoryBaseActivity extends BaseBackActionBarActivity implements CategoryBaseView {
 
-    public static final String KEY_RID = "rid";
+    protected static final String KEY_RID = "rid";
 
     CategoryBasePresenter mPresenter;
     ImageView mStoreImageView;

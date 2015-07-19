@@ -1,9 +1,8 @@
 package com.badou.mworking.net;
 
-import android.graphics.Bitmap;
-
 import com.badou.mworking.domain.CategoryCommentGetUseCase;
 import com.badou.mworking.domain.CategoryDetailUseCase;
+import com.badou.mworking.domain.ChangePasswordUseCase;
 import com.badou.mworking.domain.CheckUpdateUseCase;
 import com.badou.mworking.domain.EnrollUseCase;
 import com.badou.mworking.domain.LoginUseCase;
@@ -21,7 +20,6 @@ import com.badou.mworking.entity.user.UserInfo;
 import java.io.File;
 import java.util.List;
 
-import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.Query;
@@ -33,10 +31,11 @@ public interface RestApi {
     String PARAMS_VERSION = "ver";
     String PARAMS_UID = "uid";
 
-    /*    @POST("/chgpwd")
-        Observable<BaseNetEntity<>> changePassword(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Field(PARAMS_UID) String uid, @Field("oldpwd") String oldPassword, @Field("newpwd") String newPassword);*/
+    @POST("/chgpwd")
+    Observable<BaseNetEntity> changePassword(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @retrofit.http.Body ChangePasswordUseCase.Body body);
+
     @POST("/login")
-    Observable<BaseNetEntity<UserInfo>> login(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @retrofit.http.Body LoginUseCase.Login login);
+    Observable<BaseNetEntity<UserInfo>> login(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @retrofit.http.Body LoginUseCase.Body body);
 
     @POST("/chkupd")
     Observable<BaseNetEntity<MainData>> checkUpdate(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("screen") String screen, @retrofit.http.Body CheckUpdateUseCase.Body body);
@@ -57,13 +56,13 @@ public interface RestApi {
     Observable<BaseNetEntity<CommentOverall<CategoryComment>>> getCategoryComment(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @retrofit.http.Body CategoryCommentGetUseCase.Body body);
 
     @POST("/comment")
-    Observable<BaseNetEntity> sendCategoryComment(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("rid") String rid, @Body String comment);
+    Observable<BaseNetEntity> sendCategoryComment(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("rid") String rid, @retrofit.http.Body String comment);
 
     @POST("/comment")
-    Observable<BaseNetEntity> sendCategoryComment(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("rid") String rid, @Query("whom") String whom, @Body String comment);
+    Observable<BaseNetEntity> sendCategoryComment(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("rid") String rid, @Query("whom") String whom, @retrofit.http.Body String comment);
 
     @POST("/viewres")
-    Observable<BaseNetEntity<CategoryDetail>> getCategoryDetail(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Body CategoryDetailUseCase.Body body);
+    Observable<BaseNetEntity<CategoryDetail>> getCategoryDetail(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @retrofit.http.Body CategoryDetailUseCase.Body body);
 
     @GET("/search")
     Observable<BaseNetEntity<CategorySearchOverall>> getSearchResult(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query("uid") String uid, @Query("key") String key);
@@ -72,17 +71,17 @@ public interface RestApi {
     Observable<BaseNetEntity> markRead(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("rid") String rid);
 
     @POST("/delstore")
-    Observable<BaseNetEntity> deleteStore(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Body StoreUseCase.Body body);
+    Observable<BaseNetEntity> deleteStore(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @retrofit.http.Body StoreUseCase.Body body);
 
     @POST("/addstore")
-    Observable<BaseNetEntity> addStore(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Body StoreUseCase.Body body);
+    Observable<BaseNetEntity> addStore(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @retrofit.http.Body StoreUseCase.Body body);
 
     @POST("/checkin_v2")
-    Observable<BaseNetEntity> taskSign(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("rid") String rid, @Query("lat") double latitude, @Query("lon") double longitude, @Body File file);
+    Observable<BaseNetEntity> taskSign(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("rid") String rid, @Query("lat") double latitude, @Query("lon") double longitude, @retrofit.http.Body File file);
 
     @POST("/checkin_v2")
     Observable<BaseNetEntity> taskSign(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("rid") String rid, @Query("lat") double latitude, @Query("lon") double longitude);
 
     @POST("/enroll")
-    Observable<BaseNetEntity> enroll(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Body EnrollUseCase.Body body);
+    Observable<BaseNetEntity> enroll(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @retrofit.http.Body EnrollUseCase.Body body);
 }

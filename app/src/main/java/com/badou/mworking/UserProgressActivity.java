@@ -1,6 +1,5 @@
 package com.badou.mworking;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.TypedValue;
@@ -12,18 +11,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.badou.mworking.adapter.UserProgressAdapter;
-import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.entity.category.Category;
-import com.badou.mworking.entity.category.Exam;
-import com.badou.mworking.entity.category.Train;
 import com.badou.mworking.entity.user.UserDetail;
-import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.Net;
-import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
-import com.badou.mworking.util.CategoryClickHandler;
+import com.badou.mworking.util.CategoryIntentFactory;
 import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.DensityUtil;
 import com.badou.mworking.util.ToastUtil;
@@ -111,7 +105,7 @@ public class UserProgressActivity extends BaseNoTitleActivity {
                                     long arg3) {
                 mClickedPosition = position - 1;
                 Category category = (Category) mCategoryAdapter.getItem(position - 1);
-                startActivityForResult(CategoryClickHandler.getIntent(mContext, category), REQUEST_DETAIL);
+                startActivityForResult(CategoryIntentFactory.getIntent(mContext, category.getCategoryType(), category.getRid(), category.isUnread()), REQUEST_DETAIL);
             }
         });
 

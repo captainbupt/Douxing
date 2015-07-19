@@ -1,22 +1,22 @@
-package com.badou.mworking;
+package com.badou.mworking.fragment;
 
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.badou.mworking.entity.category.Category;
+import com.badou.mworking.R;
+import com.badou.mworking.base.BaseFragment;
 import com.badou.mworking.entity.category.CategoryDetail;
 import com.badou.mworking.presenter.CategoryBasePresenter;
 import com.badou.mworking.presenter.TrainingMediaPresenter;
 import com.badou.mworking.util.Constant;
-import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.view.TrainMediaView;
 
 import java.io.File;
@@ -26,7 +26,11 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class TrainMusicActivity extends TrainBaseActivity implements TrainMediaView {
+public class TrainMusicFragment extends BaseFragment implements TrainMediaView {
+
+    private static final String KEY_RID = "rid";
+    private static final String KEY_URL = "url";
+    static final String KEY_SUBJECT = "subject";
 
     @Bind(R.id.music_title_text_view)
     TextView mMusicTitleTextView;
@@ -49,17 +53,26 @@ public class TrainMusicActivity extends TrainBaseActivity implements TrainMediaV
 
     TrainingMediaPresenter mPresenter;
 
-    public static Intent getIntent(Context context, String rid, boolean isTraining) {
-        return TrainBaseActivity.getIntent(context, TrainMusicActivity.class, rid, isTraining);
+    public static TrainMusicFragment getFragment(String rid, String url, String subject) {
+        TrainMusicFragment trainMusicFragment = new TrainMusicFragment();
+        Bundle argument = new Bundle();
+        argument.putString(KEY_RID, rid);
+        argument.putString(KEY_URL, url);
+        argument.putString(KEY_SUBJECT, subject);
+        trainMusicFragment.setArguments(argument);
+        return trainMusicFragment;
     }
 
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_music_player);
-        ButterKnife.bind(this);
-        mPresenter = (TrainingMediaPresenter) super.mPresenter;
-        mPresenter.attachView(this);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_train_music_player, container, false);
+        ButterKnife.bind(this, view);
         initListener();
+        Bundle argument = getArguments();
+        mMusicTitleTextView.setText(argument.getString(KEY_SUBJECT));
+        mPresenter = new TrainingMediaPresenter(mContext, argument.getString(KEY_RID), argument.getString(KEY_URL), Constant.MWKG_FORAMT_TYPE_MP3);
+        mPresenter.attachView(this);
+        return view;
     }
 
     /**
@@ -83,12 +96,6 @@ public class TrainMusicActivity extends TrainBaseActivity implements TrainMediaV
         });
     }
 
-    @Override
-    public CategoryBasePresenter getPresenter() {
-        boolean isTraining = mReceivedIntent.getBooleanExtra(KEY_TRAINING, true);
-        return new TrainingMediaPresenter(mContext, isTraining ? Category.CATEGORY_TRAINING : Category.CATEGORY_SHELF, mReceivedIntent.getStringExtra(KEY_RID), Constant.MWKG_FORAMT_TYPE_MP3);
-    }
-
     @OnClick(R.id.download_image_view)
     void onDownloadImageClicked() {
         mPresenter.startDownload();
@@ -97,12 +104,6 @@ public class TrainMusicActivity extends TrainBaseActivity implements TrainMediaV
     @OnClick(R.id.player_control_image_view)
     void onControlClicked() {
         mPresenter.statusChange(mMusicPlayer.isPlaying());
-    }
-
-    @Override
-    public void setData(String rid, CategoryDetail categoryDetail) {
-        super.setData(rid, categoryDetail);
-        mMusicTitleTextView.setText(categoryDetail.getSubject());
     }
 
     /**
@@ -240,16 +241,19 @@ public class TrainMusicActivity extends TrainBaseActivity implements TrainMediaV
     }
 
     @Override
-    protected void onPause() {
+    public void onPause() {
         mPresenter.pause();
         super.onPause();
     }
 
     // 来电处理
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         mPresenter.destroy();
         mMusicPlayer.release();
+        ButterKnife.unbind(this);
         super.onDestroy();
     }
+
+
 }

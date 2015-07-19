@@ -10,6 +10,7 @@ import com.badou.mworking.adapter.MessageCenterAdapter;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.database.MessageCenterResManager;
 import com.badou.mworking.entity.MessageCenter;
+import com.badou.mworking.util.CategoryIntentFactory;
 import com.badou.mworking.util.ResourceClickHandler;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.NoneResultView;
@@ -69,7 +70,9 @@ public class MessageCenterActivity extends BaseBackActionBarActivity {
         if (messageCenter.type.equals(MessageCenter.TYPE_NOTICE) || messageCenter.type.equals(MessageCenter.TYPE_EXAM)
                 || messageCenter.type.equals(MessageCenter.TYPE_TRAINING) || messageCenter.type.equals(MessageCenter.TYPE_TASK)
                 || messageCenter.type.equals(MessageCenter.TYPE_SHELF)) {
-            ResourceClickHandler.toCategoryPage(context, messageCenter.getCategoryType(), messageCenter.add, messageCenter.description, onCompleteListener);
+            mProgressDialog.dismiss();
+            mContentAdapter.deleteItem(position);
+            startActivity(CategoryIntentFactory.getIntent(context, messageCenter.getCategoryType(), messageCenter.add, true));
         } else if (messageCenter.type.equals(MessageCenter.TYPE_CHATTER)) {
             ResourceClickHandler.toChatterPage(context, messageCenter.add, onCompleteListener);
         } else if (messageCenter.type.equals(MessageCenter.TYPE_ASK)) {

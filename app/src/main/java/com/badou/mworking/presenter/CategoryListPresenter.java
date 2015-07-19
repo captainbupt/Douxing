@@ -2,7 +2,6 @@ package com.badou.mworking.presenter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 
 import com.badou.mworking.domain.CategoryUseCase;
 import com.badou.mworking.domain.ClassificationUseCase;
@@ -12,7 +11,7 @@ import com.badou.mworking.entity.category.CategoryDetail;
 import com.badou.mworking.entity.category.CategoryOverall;
 import com.badou.mworking.entity.category.Classification;
 import com.badou.mworking.net.BaseListSubscriber;
-import com.badou.mworking.util.CategoryClickHandler;
+import com.badou.mworking.util.CategoryIntentFactory;
 import com.badou.mworking.util.SPHelper;
 import com.badou.mworking.view.BaseView;
 import com.badou.mworking.view.CategoryListView;
@@ -73,7 +72,7 @@ public class CategoryListPresenter extends ListPresenter<Category> {
 
     @Override
     public void toDetailPage(Category category) {
-        ((Activity) mContext).startActivityForResult(CategoryClickHandler.getIntent(mContext, category), REQUEST_DETAIL);
+        ((Activity) mContext).startActivityForResult(CategoryIntentFactory.getIntent(mContext, category.getCategoryType(), category.getRid(), category.isUnread()), REQUEST_DETAIL);
     }
 
     @Override

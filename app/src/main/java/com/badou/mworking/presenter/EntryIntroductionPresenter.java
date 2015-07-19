@@ -17,11 +17,8 @@ public class EntryIntroductionPresenter extends Presenter {
     EnrollUseCase mEnrollUseCase;
     String mRid;
 
-    public EntryIntroductionPresenter(Context context) {
+    public EntryIntroductionPresenter(Context context, String rid) {
         super(context);
-    }
-
-    public void setRid(String rid) {
         this.mRid = rid;
     }
 
@@ -41,9 +38,9 @@ public class EntryIntroductionPresenter extends Presenter {
             if (mEnrollUseCase == null)
                 mEnrollUseCase = new EnrollUseCase(mRid);
             mEnrollUseCase.setIsEnroll(true);
-            mEnrollUseCase.execute(new BaseSubscriber<BaseNetEntity>(mContext) {
+            mEnrollUseCase.execute(new BaseSubscriber(mContext) {
                 @Override
-                public void onResponseSuccess(BaseNetEntity data) {
+                public void onResponseSuccess(Object data) {
                     mEntryIntroductionView.hideProgressDialog();
                     mEntryIntroductionView.showToast(R.string.entry_tip_enroll_success);
                     mEntryIntroductionView.setStatusText(R.string.entry_action_enroll_cancel, true, R.string.entry_status_check_ing);
@@ -55,9 +52,9 @@ public class EntryIntroductionPresenter extends Presenter {
             if (mEnrollUseCase == null)
                 mEnrollUseCase = new EnrollUseCase(mRid);
             mEnrollUseCase.setIsEnroll(false);
-            mEnrollUseCase.execute(new BaseSubscriber<BaseNetEntity>(mContext) {
+            mEnrollUseCase.execute(new BaseSubscriber(mContext) {
                 @Override
-                public void onResponseSuccess(BaseNetEntity data) {
+                public void onResponseSuccess(Object data) {
                     mEntryIntroductionView.hideProgressDialog();
                     mEntryIntroductionView.showToast(R.string.entry_tip_enroll_cancel_success);
                     mEntryIntroductionView.setStatusText(R.string.entry_action_enroll, true, -1);

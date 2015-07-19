@@ -31,11 +31,8 @@ public class CommentPresenter extends ListPresenter<Comment> {
     int mTotalCount = 0;
 
 
-    public CommentPresenter(Context context) {
+    public CommentPresenter(Context context, String rid) {
         super(context);
-    }
-
-    public void setRid(String rid) {
         this.mRid = rid;
     }
 
