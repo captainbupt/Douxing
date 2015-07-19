@@ -3,6 +3,7 @@ package com.badou.mworking.util;
 import android.content.Context;
 import android.content.Intent;
 
+import com.badou.mworking.EntryActivity;
 import com.badou.mworking.ExamWebViewActivity;
 import com.badou.mworking.NoticePDFViewActivity;
 import com.badou.mworking.NoticeWebViewActivity;
@@ -44,6 +45,8 @@ public class CategoryClickHandler {
             return goExamActivity(context, (Exam) category);
         } else if (category.getCategoryType() == Category.CATEGORY_TASK) {
             return goSignActivity(context, (Task) category);
+        } else if (category.getCategoryType() == Category.CATEGORY_ENTRY) {
+            return EntryActivity.getIntent(context, category.getRid());
         } else {
             ToastUtil.showToast(context, R.string.category_unsupport_type);
             return null;

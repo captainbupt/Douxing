@@ -1,0 +1,70 @@
+package com.badou.mworking.presenter;
+
+import android.content.Context;
+
+import com.badou.mworking.R;
+import com.badou.mworking.domain.EnrollUseCase;
+import com.badou.mworking.entity.category.CategoryDetail;
+import com.badou.mworking.net.BaseNetEntity;
+import com.badou.mworking.net.BaseSubscriber;
+import com.badou.mworking.view.BaseView;
+import com.badou.mworking.view.EntryIntroductionView;
+
+public class EntryIntroductionPresenter extends Presenter {
+
+    EntryIntroductionView mEntryIntroductionView;
+    CategoryDetail mCategoryDetail;
+    EnrollUseCase mEnrollUseCase;
+    String mRid;
+
+    public EntryIntroductionPresenter(Context context) {
+        super(context);
+    }
+
+    public void setRid(String rid) {
+        this.mRid = rid;
+    }
+
+    @Override
+    public void attachView(BaseView v) {
+        mEntryIntroductionView = (EntryIntroductionView) v;
+    }
+
+    public void setData(CategoryDetail categoryDetail) {
+        mEntryIntroductionView.setData(categoryDetail);
+        this.mCategoryDetail = categoryDetail;
+    }
+
+    public void onSignClicked() {
+        if (mCategoryDetail.getEntry().isStarted() && !mCategoryDetail.getEntry().isOffline() && mCategoryDetail.getEntry().getIn() == 0) {
+            mEntryIntroductionView.showProgressDialog();
+            if (mEnrollUseCase == null)
+                mEnrollUseCase = new EnrollUseCase(mRid);
+            mEnrollUseCase.setIsEnroll(true);
+            mEnrollUseCase.execute(new BaseSubscriber<BaseNetEntity>(mContext) {
+                @Override
+                public void onResponseSuccess(BaseNetEntity data) {
+                    mEntryIntroductionView.hideProgressDialog();
+                    mEntryIntroductionView.showToast(R.string.entry_tip_enroll_success);
+                    mEntryIntroductionView.setStatusText(R.string.entry_action_enroll_cancel, true, R.string.entry_status_check_ing);
+                    mCategoryDetail.getEntry().setIn(1);
+                }
+            });
+        } else if (mCategoryDetail.getEntry().isStarted() && !mCategoryDetail.getEntry().isOffline() && mCategoryDetail.getEntry().getIn() == 1) {
+            mEntryIntroductionView.showProgressDialog();
+            if (mEnrollUseCase == null)
+                mEnrollUseCase = new EnrollUseCase(mRid);
+            mEnrollUseCase.setIsEnroll(false);
+            mEnrollUseCase.execute(new BaseSubscriber<BaseNetEntity>(mContext) {
+                @Override
+                public void onResponseSuccess(BaseNetEntity data) {
+                    mEntryIntroductionView.hideProgressDialog();
+                    mEntryIntroductionView.showToast(R.string.entry_tip_enroll_cancel_success);
+                    mEntryIntroductionView.setStatusText(R.string.entry_action_enroll, true, -1);
+                    mCategoryDetail.getEntry().setIn(0);
+                }
+            });
+        }
+    }
+
+}

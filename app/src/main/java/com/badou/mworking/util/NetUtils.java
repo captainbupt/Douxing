@@ -19,8 +19,7 @@ public class NetUtils {
 	 * @return 联网true  没联网false
 	 */
 	public static boolean isNetConnected(Context context) {
-		ConnectivityManager mConnectivity = (ConnectivityManager) context
-				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		ConnectivityManager mConnectivity = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo info = mConnectivity.getActiveNetworkInfo();
 
 		return !(info == null || !mConnectivity.getBackgroundDataSetting());

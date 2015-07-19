@@ -6,11 +6,15 @@
     myattr:content="@+id/content"
     myattr:header="@+id/header"
     myattr:minHeight="50dp">
+
     <com.badou.mworking.widget.CategoryHeader
         android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/category_header_height"/>
+        android:layout_height="@dimen/category_header_height" />
 
-
+    <com.badou.mworking.widget.CategoryTabContent
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </com.captainhwz.layout.MaterialHeaderLayout>

@@ -29,15 +29,21 @@ public class DefaultContentHandler implements ContentHandler {
      * @return
      */
     public static boolean checkContentCanBePulledDown(MaterialHeaderLayout layout, View content, View header) {
-        if (content instanceof ContentHandler) {
-            return ((ContentHandler) content).checkCanDoRefresh(layout, content, header);
-        } else {
-            return !canChildScrollUp(content);
-        }
+        return !canChildScrollUp(content);
     }
 
     @Override
     public boolean checkCanDoRefresh(MaterialHeaderLayout layout, View content, View header) {
         return checkContentCanBePulledDown(layout, content, header);
+    }
+
+    @Override
+    public void onChange(float ratio, float offsetY) {
+
+    }
+
+    @Override
+    public void onOffsetCalculated(int totalOffset) {
+
     }
 }

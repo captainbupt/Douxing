@@ -8,42 +8,36 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/offset_medium"
+        android:paddingTop="@dimen/offset_medium">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/offset_less"
-            android:paddingBottom="@dimen/offset_less"
-            android:paddingLeft="@dimen/text_size_medium"
-            android:paddingRight="@dimen/text_size_medium"
-            android:paddingTop="@dimen/offset_less">
+            android:background="@color/color_white"
+            android:padding="@dimen/offset_lless">
 
             <ImageView
                 android:id="@+id/time_image_view"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignBottom="@+id/entry_begin_text_view"
-                android:layout_alignTop="@+id/entry_begin_text_view"
-                android:scaleType="fitCenter" />
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="@dimen/offset_small"
+                android:scaleType="fitCenter"
+                android:src="@drawable/icon_entry_time" />
 
             <TextView
                 android:id="@+id/entry_begin_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
                 android:layout_toRightOf="@id/time_image_view"
                 android:text="@string/entry_begin_time"
                 android:textColor="@color/color_text_grey"
-                android:textSize="@dimen/text_size_medium" />
-
-            <TextView
-                android:id="@+id/entry_end_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="@string/entry_begin_time"
-                android:textColor="@color/color_text_grey"
-                android:textSize="@dimen/text_size_medium" />
+                android:textSize="@dimen/text_size_less" />
 
             <TextView
                 android:id="@+id/activity_begin_text_view"
@@ -51,43 +45,41 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/entry_begin_text_view"
                 android:layout_toRightOf="@id/time_image_view"
-                android:text="@string/entry_begin_time"
+                android:text="@string/activity_begin_time"
                 android:textColor="@color/color_text_grey"
-                android:textSize="@dimen/text_size_medium" />
+                android:textSize="@dimen/text_size_less" />
 
-            <TextView
-                android:id="@+id/activity_end_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_below="@id/entry_begin_text_view"
-                android:text="@string/entry_begin_time"
-                android:textColor="@color/color_text_grey"
-                android:textSize="@dimen/text_size_medium" />
 
             <View
                 android:id="@+id/divider"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_toLeftOf="@id/time_image_view"
+                android:layout_alignRight="@id/entry_begin_text_view"
+                android:layout_below="@id/activity_begin_text_view"
+                android:layout_marginBottom="@dimen/offset_less"
+                android:layout_marginTop="@dimen/offset_less"
+                android:layout_toRightOf="@id/time_image_view"
                 android:background="@color/color_border_grey" />
 
             <ImageView
                 android:id="@+id/number_image_view"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_alignBottom="@+id/entry_begin_text_view"
-                android:layout_alignTop="@+id/entry_begin_text_view"
-                android:scaleType="fitCenter" />
+                android:layout_alignBottom="@+id/number_text_view"
+                android:layout_below="@id/divider"
+                android:layout_marginRight="@dimen/offset_small"
+                android:scaleType="fitCenter"
+                android:src="@drawable/icon_entry_number" />
 
             <TextView
                 android:id="@+id/number_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/divider"
                 android:layout_toRightOf="@id/number_image_view"
                 android:text="@string/entry_number"
                 android:textColor="@color/color_text_blue"
-                android:textSize="@dimen/text_size_medium" />
+                android:textSize="@dimen/text_size_less" />
 
         </RelativeLayout>
 
@@ -95,20 +87,31 @@
             android:id="@+id/introduction_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/offset_medium"
+            android:layout_marginTop="@dimen/offset_medium"
             android:background="@color/color_white"
-            android:padding="@dimen/offset_medium"
+            android:lineSpacingMultiplier="1.1"
+            android:padding="@dimen/offset_lless"
             android:textColor="@color/color_black"
             android:textSize="@dimen/text_size_medium" />
 
         <TextView
-            android:id="@+id/entry_button"
+            android:id="@+id/status_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/offset_less"
+            android:textColor="@color/color_red"
+            android:textSize="@dimen/text_size_medium" />
+
+        <TextView
+            android:id="@+id/entry_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/offset_medium"
-            android:layout_marginLeft="@dimen/offset_xxlarge"
-            android:layout_marginRight="@dimen/offset_xxlarge"
-            android:layout_marginTop="@dimen/offset_medium"
+            android:layout_marginLeft="@dimen/offset_xlarge"
+            android:layout_marginRight="@dimen/offset_xlarge"
             android:background="@drawable/background_button_enable_blue"
+            android:gravity="center"
             android:padding="@dimen/offset_less"
             android:textColor="@color/color_button_text_blue"
             android:textSize="@dimen/text_size_medium" />

@@ -7,10 +7,7 @@ The following files were *not* copied into the new Gradle project; you
 should evaluate whether these are still needed in your project and if
 so manually move them:
 
-* build.xml
-* chatdemo-ui.apk
-* copyright.txt
-* proguard-project.txt
+* pom.xml
 
 Replaced Jars with Dependencies:
 --------------------------------
@@ -22,31 +19,16 @@ the .jar file in your project was of an older version than the
 dependency we picked, which could render the project not compileable.
 You can disable the jar replacement in the import wizard and try again:
 
-android-support-v4.jar => com.android.support:support-v4:20.+
+android-support-v4.jar => com.android.support:support-v4:18.+
 
 Moved Files:
 ------------
 Android Gradle projects use a different directory structure than ADT
 Eclipse projects. Here's how the projects were restructured:
 
-* AndroidManifest.xml => EMChat\src\main\AndroidManifest.xml
-* assets\ => EMChat\src\main\assets
-* libs\armeabi\libBaiduMapSDK_v3_2_0_15.so => EMChat\src\main\jniLibs\armeabi\libBaiduMapSDK_v3_2_0_15.so
-* libs\armeabi\libbspatch.so => EMChat\src\main\jniLibs\armeabi\libbspatch.so
-* libs\armeabi\libeasemob_jni.so => EMChat\src\main\jniLibs\armeabi\libeasemob_jni.so
-* libs\armeabi\libeasemobservice.so => EMChat\src\main\jniLibs\armeabi\libeasemobservice.so
-* libs\armeabi\liblocSDK3.so => EMChat\src\main\jniLibs\armeabi\liblocSDK3.so
-* libs\armeabi\libvi_voslib.so => EMChat\src\main\jniLibs\armeabi\libvi_voslib.so
-* libs\baidumapapi_v3_2_0.jar => EMChat\libs\baidumapapi_v3_2_0.jar
-* libs\easemobchat_2.2.0.jar => EMChat\libs\easemobchat_2.2.0.jar
-* libs\locSDK_3.3.jar => EMChat\libs\locSDK_3.3.jar
-* libs\picasso-2.4.0.jar => EMChat\libs\picasso-2.4.0.jar
-* libs\umeng-analytics-v5.2.4.jar => EMChat\libs\umeng-analytics-v5.2.4.jar
-* libs\x86\libeasemobservice.so => EMChat\src\main\jniLibs\x86\libeasemobservice.so
-* libs\x86_64\libeasemobservice.so => EMChat\src\main\jniLibs\x86_64\libeasemobservice.so
-* lint.xml => EMChat\lint.xml
-* res\ => EMChat\src\main\res\
-* src\ => EMChat\src\main\java\
+* AndroidManifest.xml => ViewPagerIndicator\src\main\AndroidManifest.xml
+* res\ => ViewPagerIndicator\src\main\res\
+* src\ => ViewPagerIndicator\src\main\java\
 
 Missing Android Support Repository:
 -----------------------------------

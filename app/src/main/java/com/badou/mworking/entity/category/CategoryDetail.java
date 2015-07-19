@@ -12,10 +12,13 @@ import com.badou.mworking.util.GsonUtil;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import org.apache.commons.codec.binary.Base64;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.nio.charset.Charset;
 import java.util.Calendar;
 
 public class CategoryDetail implements Serializable {
@@ -69,8 +72,16 @@ public class CategoryDetail implements Serializable {
         int in;
         EntryContent content;
 
+        public void setIn(int in) {
+            this.in = in;
+        }
+
         public boolean isOffline() {
             return offline == 1 || getDeadline() < Calendar.getInstance().getTimeInMillis();
+        }
+
+        public boolean isStarted() {
+            return getStartline() < Calendar.getInstance().getTimeInMillis();
         }
 
         public int getMaxusr() {
@@ -111,7 +122,7 @@ public class CategoryDetail implements Serializable {
         String description;
 
         public String getDescription() {
-            return description;
+            return new String(Base64.encodeBase64(description.getBytes()), Charset.forName("UTF-8"));
         }
     }
 
