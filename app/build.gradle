@@ -61,4 +61,5 @@ dependencies {
     compile 'se.emilsjolander:stickylistheaders:2.7.0'
     compile 'com.loopj.android:android-async-http:1.4.7'
     compile project(':PseudoMaterialHeader')
+    compile files('libs/commons-codec-1.10.jar')
 }

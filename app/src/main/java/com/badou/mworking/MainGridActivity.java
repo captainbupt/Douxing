@@ -244,7 +244,7 @@ public class MainGridActivity extends BaseNoTitleActivity implements MainGridVie
      */
     @Override
     public void onBackPressed() {
-        if (!mMainSearchFragment.getPresenter().onBackPressed())
+        if (mMainSearchFragment == null || !mMainSearchFragment.getPresenter().onBackPressed())
             mMainPresenter.onBackPressed();
     }
 

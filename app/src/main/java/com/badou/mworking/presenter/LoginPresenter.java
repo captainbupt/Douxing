@@ -12,7 +12,6 @@ import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.domain.LoginUseCase;
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.BaseSubscriber;
-import com.badou.mworking.util.EncryptionByMD5;
 import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.SPHelper;
 import com.badou.mworking.view.BaseView;
@@ -21,6 +20,8 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+
+import org.apache.commons.codec.digest.DigestUtils;
 
 import java.util.regex.Pattern;
 
@@ -68,7 +69,7 @@ public class LoginPresenter extends Presenter implements BDLocationListener {
      * 功能描述:用户密码格式正确时,发起网络请求传递信息
      */
     public void verify(final String account, final String password, double latitude, double longitude) {
-        LoginUseCase loginUseCase = new LoginUseCase(account, EncryptionByMD5.getMD5(password.getBytes()), latitude + "", longitude + "");
+        LoginUseCase loginUseCase = new LoginUseCase(account, DigestUtils.md5Hex(password), latitude + "", longitude + "");
         loginUseCase.execute(new BaseSubscriber<UserInfo>(mContext) {
             @Override
             public void onCompleted() {

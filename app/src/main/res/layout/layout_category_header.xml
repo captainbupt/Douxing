@@ -14,7 +14,7 @@
             android:id="@+id/action_bar_background_view"
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_title_bar"
-            android:background="@color/color_bg_blue" />
+            android:background="@color/color_blue" />
 
         <ImageView
             android:id="@+id/back_image_view"
@@ -39,6 +39,7 @@
         android:layout_width="wrap_content"
         android:layout_height="@dimen/height_title_bar"
         android:gravity="center_vertical"
+        android:layout_alignParentBottom="true"
         android:paddingLeft="@dimen/offset_less"
         android:textColor="@color/color_white"
         android:textSize="@dimen/text_size_title_bar_title" />

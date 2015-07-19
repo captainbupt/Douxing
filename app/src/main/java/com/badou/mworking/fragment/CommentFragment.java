@@ -12,18 +12,23 @@ import com.badou.mworking.adapter.CommentAdapter;
 import com.badou.mworking.base.BaseFragment;
 import com.badou.mworking.entity.comment.Comment;
 import com.badou.mworking.presenter.CommentPresenter;
+import com.badou.mworking.util.DensityUtil;
 import com.badou.mworking.view.CommentView;
 import com.badou.mworking.widget.BottomSendMessageView;
+import com.badou.mworking.widget.CategoryTabContent;
 import com.badou.mworking.widget.NoneResultView;
+import com.captainhwz.layout.DefaultContentHandler;
+import com.captainhwz.layout.MaterialHeaderLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.nineoldandroids.view.ViewHelper;
 
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class CommentFragment extends BaseFragment implements CommentView {
+public class CommentFragment extends BaseFragment implements CommentView, CategoryTabContent.ScrollableContent {
 
     public static final String KEY_RID = "rid";
 
@@ -45,12 +50,16 @@ public class CommentFragment extends BaseFragment implements CommentView {
     CommentPresenter mPresenter;
     CommentAdapter mCommentAdapter;
 
+    public CommentFragment() {
+        mPresenter = new CommentPresenter(mContext);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_comment, container, false);
+        final View view = inflater.inflate(R.layout.fragment_comment, container, false);
         ButterKnife.bind(this, view);
         Bundle bundle = getArguments();
-        mPresenter = new CommentPresenter(mContext, (String) bundle.getCharSequence(KEY_RID));
+        mPresenter.setRid((String) bundle.getCharSequence(KEY_RID));
         mPresenter.attachView(this);
         mCommentAdapter = new CommentAdapter(mContext);
         mContentListView.setAdapter(mCommentAdapter);
@@ -58,7 +67,7 @@ public class CommentFragment extends BaseFragment implements CommentView {
         return view;
     }
 
-    public CommentPresenter getCommentPresenter() {
+    public CommentPresenter getPresenter() {
         return mPresenter;
     }
 
@@ -192,5 +201,30 @@ public class CommentFragment extends BaseFragment implements CommentView {
     @Override
     public void setCommentCount(int count) {
         mCommentAdapter.setAllCount(count);
+    }
+
+    @Override
+    public boolean checkCanDoRefresh(MaterialHeaderLayout frame, View content, View header) {
+        return DefaultContentHandler.checkContentCanBePulledDown(frame, mContentListView.getRefreshableView(), header);
+    }
+
+    @Override
+    public String getTitle() {
+        return mContext.getString(R.string.entry_comment) + "(" + mCommentAdapter.getCount() + ")";
+    }
+
+    @Override
+    public void onChange(float ratio, float offsetY) {
+        ViewHelper.setTranslationY(mBottomView, ViewHelper.getTranslationY(mBottomView) - offsetY);
+    }
+
+    boolean isFirst = true;
+
+    @Override
+    public void onOffsetCalculated(int offset) {
+        if (isFirst) {
+            ViewHelper.setTranslationY(mBottomView, -offset);
+            isFirst = false;
+        }
     }
 }

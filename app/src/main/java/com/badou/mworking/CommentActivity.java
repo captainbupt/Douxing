@@ -6,7 +6,6 @@ import android.os.Bundle;
 
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.fragment.CommentFragment;
-import com.badou.mworking.presenter.CommentPresenter;
 
 /**
  * 功能描述: 评论页面
@@ -36,7 +35,7 @@ public class CommentActivity extends BaseBackActionBarActivity {
     @Override
     public void finish() {
         Intent intent = new Intent();
-        intent.putExtra(RESPONSE_COUNT, commentFragment.getCommentPresenter().getCommentCount());
+        intent.putExtra(RESPONSE_COUNT, commentFragment.getPresenter().getCommentCount());
         setResult(RESULT_OK, intent);
         super.finish();
     }

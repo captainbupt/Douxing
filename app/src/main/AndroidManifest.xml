@@ -135,6 +135,9 @@
             android:name=".AskActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".EntryActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".AskSubmitActivity"
             android:screenOrientation="portrait" />
         <activity

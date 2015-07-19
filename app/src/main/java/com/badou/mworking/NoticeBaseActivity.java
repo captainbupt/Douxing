@@ -22,8 +22,6 @@ public class NoticeBaseActivity extends CategoryBaseActivity {
     @Bind(R.id.bottom_view)
     BottomRatingAndCommentView mBottomView;
 
-    CategoryBasePresenter mPresenter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

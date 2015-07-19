@@ -38,6 +38,7 @@ public class CategoryHeader extends RelativeLayout implements HeaderHandler {
         LayoutInflater inflater = LayoutInflater.from(context);
         inflater.inflate(R.layout.layout_category_header, this, true);
         ButterKnife.bind(this, this);
+        ViewHelper.setAlpha(mActionBarBackgroundView, 0);
         leftOffset = context.getResources().getDimensionPixelOffset(R.dimen.width_title_bar);
     }
 
@@ -46,16 +47,17 @@ public class CategoryHeader extends RelativeLayout implements HeaderHandler {
         ViewHelper.setAlpha(mActionBarBackgroundView, (1 - ratio));
         ViewHelper.setTranslationX(mTitleTextView, (float) leftOffset * (1 - ratio));
         ViewHelper.setTranslationY(mActionBarContainer, ViewHelper.getTranslationY(mActionBarContainer) - offsetY);
-        ViewHelper.setTranslationY(mActionBarBackgroundView, ViewHelper.getTranslationY(mActionBarBackgroundView) - offsetY);
     }
 
-    public void addRightImage(int resId, OnClickListener onClickListener) {
-        ImageView imageView = BaseActionBarActivity.getDefaultImageView(mContext, resId);
-        imageView.setOnClickListener(onClickListener);
+    public void addRightImage(ImageView imageView) {
         mRightButtonContainer.addView(imageView);
     }
 
     public void setLeftClick(OnClickListener onClickListener) {
         mBackImageView.setOnClickListener(onClickListener);
+    }
+
+    public void setTitle(String title) {
+        mTitleTextView.setText(title);
     }
 }

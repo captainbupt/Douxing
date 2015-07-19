@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import com.badou.mworking.domain.CategoryCommentGetUseCase;
 import com.badou.mworking.domain.CategoryDetailUseCase;
 import com.badou.mworking.domain.CheckUpdateUseCase;
+import com.badou.mworking.domain.EnrollUseCase;
 import com.badou.mworking.domain.LoginUseCase;
 import com.badou.mworking.domain.StoreUseCase;
 import com.badou.mworking.entity.category.CategoryDetail;
@@ -81,4 +82,7 @@ public interface RestApi {
 
     @POST("/checkin_v2")
     Observable<BaseNetEntity> taskSign(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("rid") String rid, @Query("lat") double latitude, @Query("lon") double longitude);
+
+    @POST("/enroll")
+    Observable<BaseNetEntity> enroll(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Body EnrollUseCase.Body body);
 }

@@ -15,7 +15,6 @@ import com.badou.mworking.net.volley.MyVolley;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.BitmapUtil;
 import com.badou.mworking.util.DensityUtil;
-import com.badou.mworking.util.EncryptionByMD5;
 import com.badou.mworking.util.FileUtils;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -48,31 +47,6 @@ public class ServiceProvider {
 
     private static AsyncHttpClient client = new AsyncHttpClient();
 
-    /**
-     * 功能描述:1 .登录
-     *
-     * @param context
-     * @param username
-     * @param password
-     * @param volleyListener
-     */
-    public static void doLogin(Context context, String username,
-                               String password, JSONObject LocationJson, VolleyListener volleyListener) {
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put(RequestParameters.SERIAL, username);
-            jsonObject.put(RequestParameters.l_PASSWORD,
-                    EncryptionByMD5.getMD5(password.getBytes()));
-            jsonObject.put(RequestParameters.LOCATION, LocationJson);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        MyVolley.getRequestQueue()
-                .add(new JsonObjectRequest(Request.Method.POST, Net
-                        .getRunHost() + Net.LOGIN, jsonObject, volleyListener,
-                        volleyListener));
-        MyVolley.getRequestQueue().start();
-    }
 
     /**
      * 功能描述: 2. 发送短信获取验证码

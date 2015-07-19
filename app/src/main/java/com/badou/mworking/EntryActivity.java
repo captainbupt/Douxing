@@ -1,6 +1,125 @@
 package com.badou.mworking;
 
-import com.badou.mworking.base.BaseNoTitleActivity;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 
-public class EntryActivity extends BaseNoTitleActivity{
+import com.badou.mworking.base.BaseActionBarActivity;
+import com.badou.mworking.base.BaseNoTitleActivity;
+import com.badou.mworking.entity.category.CategoryDetail;
+import com.badou.mworking.fragment.CommentFragment;
+import com.badou.mworking.fragment.EntryIntroductionFragment;
+import com.badou.mworking.presenter.EntryPresenter;
+import com.badou.mworking.presenter.ListPresenter;
+import com.badou.mworking.presenter.Presenter;
+import com.badou.mworking.view.CategoryBaseView;
+import com.badou.mworking.widget.CategoryHeader;
+import com.badou.mworking.widget.CategoryTabContent;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
+public class EntryActivity extends BaseNoTitleActivity implements CategoryBaseView {
+
+    @Bind(R.id.header)
+    CategoryHeader mHeader;
+    @Bind(R.id.content)
+    CategoryTabContent mContent;
+
+    EntryPresenter mPresenter;
+    ImageView mStoreImageView;
+
+    public static Intent getIntent(Context context, String rid) {
+        return CategoryBaseActivity.getIntent(context, EntryActivity.class, rid);
+    }
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_entry);
+        ButterKnife.bind(this);
+        initView();
+        String rid = mReceivedIntent.getStringExtra(CategoryBaseActivity.KEY_RID);
+        EntryIntroductionFragment introductionFragment = EntryIntroductionFragment.getFragment(rid);
+        CommentFragment commentFragment = CommentFragment.getFragment(rid);
+        List<CategoryTabContent.ScrollableContent> list = new ArrayList<>();
+        list.add(introductionFragment);
+        list.add(commentFragment);
+        mContent.setList(list);
+        mPresenter = (EntryPresenter) super.mPresenter;
+        mPresenter.setChildPresenters(introductionFragment.getPresenter(), commentFragment.getPresenter());
+        mPresenter.attachView(this);
+    }
+
+    public void initView() {
+        ImageView statisticalImageView = BaseActionBarActivity.getDefaultImageView(mContext, R.drawable.button_title_statistical_round);
+        statisticalImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.onStatisticalClicked();
+            }
+        });
+        mHeader.addRightImage(statisticalImageView);
+
+        mStoreImageView = BaseActionBarActivity.getDefaultImageView(mContext, R.drawable.button_title_store_round_checked);
+        mStoreImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.onStoreClicked();
+            }
+        });
+        mHeader.addRightImage(mStoreImageView);
+        mHeader.setLeftClick(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+    }
+
+    @Override
+    public Presenter getPresenter() {
+        String rid = mReceivedIntent.getStringExtra(CategoryBaseActivity.KEY_RID);
+        return new EntryPresenter(mContext, rid);
+    }
+
+    @Override
+    public void setData(String rid, CategoryDetail categoryDetail) {
+        setStore(categoryDetail.isStore());
+        mHeader.setTitle(categoryDetail.getSubject());
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!mPresenter.onBackPressed())
+            super.onBackPressed();
+    }
+
+    @Override
+    public void finish() {
+        setResult(RESULT_OK, ListPresenter.getResultIntent(mPresenter.getData()));
+        super.finish();
+    }
+
+    @Override
+    public void setCommentNumber(int number) {
+
+    }
+
+    @Override
+    public void setRatingNumber(int number) {
+
+    }
+
+    @Override
+    public void setStore(boolean isStore) {
+        mStoreImageView.setImageResource(isStore ? R.drawable.button_title_store_round_checked : R.drawable.button_title_store_round_unchecked);
+    }
 }
