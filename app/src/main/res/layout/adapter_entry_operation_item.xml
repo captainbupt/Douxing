@@ -8,12 +8,11 @@
 
     <TextView
         android:id="@+id/index_text_view"
-        android:layout_width="@dimen/icon_size_small"
-        android:layout_height="@dimen/icon_size_small"
+        android:layout_width="@dimen/icon_size_tiny"
+        android:layout_height="@dimen/icon_size_tiny"
+        android:layout_margin="@dimen/offset_less"
         android:background="@drawable/background_entry_operation_round_index"
         android:gravity="center"
-        android:paddingLeft="@dimen/offset_medium"
-        android:paddingRight="@dimen/offset_medium"
         android:textColor="@color/color_text_black"
         android:textSize="@dimen/text_size_large" />
 

@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.badou.mworking.adapter.UserProgressAdapter;
 import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.entity.category.Category;
+import com.badou.mworking.entity.category.Exam;
+import com.badou.mworking.entity.category.Train;
 import com.badou.mworking.entity.user.UserDetail;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
@@ -20,6 +22,7 @@ import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.CategoryIntentFactory;
 import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.DensityUtil;
+import com.badou.mworking.util.GsonUtil;
 import com.badou.mworking.util.ToastUtil;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
@@ -207,9 +210,9 @@ public class UserProgressActivity extends BaseNoTitleActivity {
                         for (int i = 0; i < resultArray.length(); i++) {
                             JSONObject jsonObject = resultArray.optJSONObject(i);
                             if (mType == Category.CATEGORY_EXAM) {
-                                //list.add(new Exam(mContext, jsonObject));
+                                list.add(GsonUtil.fromJson(jsonObject.toString(), Exam.class));
                             } else {
-                                //list.add(new Train(mContext, jsonObject, true));
+                                list.add(GsonUtil.fromJson(jsonObject.toString(), Train.class));
                             }
                             beginIndex++;
                         }
