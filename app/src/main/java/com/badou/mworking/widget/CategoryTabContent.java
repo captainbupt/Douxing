@@ -49,6 +49,7 @@ public class CategoryTabContent extends LinearLayout implements ContentHandler {
         mContext = context;
         mAdapter = new MyViewPagerAdapter(((ActionBarActivity) context).getSupportFragmentManager());
         mViewpager.setAdapter(mAdapter);
+        mViewpager.setOffscreenPageLimit(3);
         mRadioButtonList = new ArrayList<>();
         mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override

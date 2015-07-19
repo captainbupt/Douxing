@@ -7,7 +7,9 @@ import com.badou.mworking.AccountManageActivity;
 import com.badou.mworking.LoginActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.database.MTrainingDBHelper;
+import com.badou.mworking.domain.ChangePasswordUseCase;
 import com.badou.mworking.entity.user.UserInfo;
+import com.badou.mworking.net.BaseSubscriber;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.net.RestRepository;
@@ -70,34 +72,32 @@ public class AccountManagerPresenter extends Presenter {
             accountManageActivity.showToast(R.string.change_error_different_password);
         } else {
             accountManageActivity.showProgressDialog(R.string.change_action_change_passwrod);
-            RestRepository restRepository = new RestRepository();
-           // Observable<String> changePassword = restRepository.changePassword(originPassword, newPassword);
-            ServiceProvider.doChangePassword(accountManageActivity, originPassword,
-                    newPassword, new VolleyListener(accountManageActivity) {
+            new ChangePasswordUseCase(originPassword, newPassword).execute(new BaseSubscriber<ChangePasswordUseCase.Response>(mContext) {
+                @Override
+                public void onResponseSuccess(ChangePasswordUseCase.Response data) {
+                    changePasswordSuccess(data);
+                }
 
-                        @Override
-                        public void onErrorCode(int code) {
-                            accountManageActivity.showToast(R.string.change_error_incorrect_password);
-                        }
+                @Override
+                public void onErrorCode(int code) {
+                    accountManageActivity.showToast(R.string.change_error_incorrect_password);
+                }
 
-                        @Override
-                        public void onCompleted() {
-                            accountManageActivity.hideProgressDialog();
-                        }
-
-                        @Override
-                        public void onResponseSuccess(JSONObject response) {
-                            changePasswordSuccess(response.optJSONObject(Net.DATA));
-                        }
-                    });
+                @Override
+                public void onCompleted() {
+                    accountManageActivity.hideProgressDialog();
+                }
+            });
         }
     }
 
     /**
      * 功能描述:  修改密码
+     *
+     * @param data
      */
-    private void changePasswordSuccess(JSONObject data) {
-        userInfo.setUid(data.optString(RequestParameters.USER_ID));
+    private void changePasswordSuccess(ChangePasswordUseCase.Response data) {
+        userInfo.setUid(data.getUid());
         SPHelper.setUserInfo(userInfo);
         MTrainingDBHelper.getMTrainingDBHelper().createUserTable(userInfo.getUid());
         accountManageActivity.showToast(R.string.change_result_change_password_success);

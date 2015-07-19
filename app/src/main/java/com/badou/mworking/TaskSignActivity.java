@@ -139,7 +139,7 @@ public class TaskSignActivity extends CategoryBaseActivity implements TaskSignVi
             mLocationTextView.setText(R.string.sign_in_task_address_empty);
         }
         int status;
-        if (categoryDetail.getContent().getC() == 1) {
+        if (categoryDetail.getContent().isSigned()) {
             status = STATUS_SIGN;
         } else if (categoryDetail.getTask().isOffline()) {
             status = STATUS_OFFLINE;

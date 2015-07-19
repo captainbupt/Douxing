@@ -21,19 +21,23 @@ import java.io.File;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class TrainingMediaPresenter extends CategoryBasePresenter {
+public class TrainingMediaPresenter extends Presenter {
 
     public String suffix = ".mp4"; // MP4后缀
 
     TrainMediaView mTrainMediaView;
     String mSaveFilePath;
+    String mUrl;
+    String mRid;
     Handler mHandler;
 
     // 自动隐藏顶部和底部View的时间
     private static final int HIDE_TIME = 5000;
 
-    public TrainingMediaPresenter(Context context, int type, String rid, int format) {
-        super(context, type, rid);
+    public TrainingMediaPresenter(Context context, String rid, String url, int format) {
+        super(context);
+        mRid = rid;
+        mUrl = url;
         if (format == Constant.MWKG_FORAMT_TYPE_MP3) {
             suffix = ".mp3";
         } else {
@@ -43,8 +47,8 @@ public class TrainingMediaPresenter extends CategoryBasePresenter {
 
     @Override
     public void attachView(BaseView v) {
-        super.attachView(v);
         mTrainMediaView = (TrainMediaView) v;
+        setData();
     }
 
     public void startDownload() {
@@ -53,7 +57,7 @@ public class TrainingMediaPresenter extends CategoryBasePresenter {
             return;
         }
         mTrainMediaView.statusDownloading();
-        ServiceProvider.doDownloadTrainingFile(mCategoryDetail.getUrl(), mSaveFilePath, new RangeFileAsyncHttpResponseHandler(new File(mSaveFilePath)) {
+        ServiceProvider.doDownloadTrainingFile(mUrl, mSaveFilePath, new RangeFileAsyncHttpResponseHandler(new File(mSaveFilePath)) {
 
             @Override
             public void onProgress(long bytesWritten, long totalSize) {
@@ -105,9 +109,7 @@ public class TrainingMediaPresenter extends CategoryBasePresenter {
         }
     }
 
-    @Override
-    public void setData(final CategoryDetail categoryDetail) {
-        super.setData(categoryDetail);
+    public void setData() {
         mSaveFilePath = FileUtils.getTrainCacheDir(mContext) + mRid + suffix;
         File file = new File(mSaveFilePath);
         // 如果文件已经存在则直接获取文件大写，如果文件不存在则进行网络请求
@@ -121,7 +123,7 @@ public class TrainingMediaPresenter extends CategoryBasePresenter {
             @Override
             public void run() {
                 try {
-                    URL DownRul = new URL(categoryDetail.getUrl());
+                    URL DownRul = new URL(mUrl);
                     HttpURLConnection urlcon = (HttpURLConnection) DownRul.openConnection();
                     final float fileSize = ((float) urlcon.getContentLength()) / 1024f / 1024f;
                     ((Activity) mContext).runOnUiThread(new Runnable() {

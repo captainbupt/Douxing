@@ -20,15 +20,15 @@ public class LoginUseCase extends UseCase {
 
     @Override
     protected Observable buildUseCaseObservable() {
-        return RestRepository.getInstance().login(new Login(username, password, new Location(latitude, longitude)));
+        return RestRepository.getInstance().login(new Body(username, password, new Location(latitude, longitude)));
     }
 
-    public static class Login {
+    public static class Body {
         String serial;
         String pwd;
         Location gps;
 
-        public Login(String serial, String pwd, Location gps) {
+        public Body(String serial, String pwd, Location gps) {
             this.serial = serial;
             this.pwd = pwd;
             this.gps = gps;

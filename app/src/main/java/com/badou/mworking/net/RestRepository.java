@@ -7,6 +7,7 @@ import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.domain.CategoryCommentGetUseCase;
 import com.badou.mworking.domain.CategoryDetailUseCase;
 import com.badou.mworking.domain.CategoryUseCase;
+import com.badou.mworking.domain.ChangePasswordUseCase;
 import com.badou.mworking.domain.CheckUpdateUseCase;
 import com.badou.mworking.domain.EnrollUseCase;
 import com.badou.mworking.domain.LoginUseCase;
@@ -48,11 +49,11 @@ public class RestRepository {
         restApi = restApiAdapter.create(RestApi.class);
     }
 
-/*    public Observable<String> changePassword(String oldPassword, String newPassword) {
-        return restApi.changePassword(AppApplication.SYSPARAM, AppApplication.appVersion, UserInfo.getUserInfo().getUid(), oldPassword, newPassword);
-    }*/
+    public Observable<BaseNetEntity> changePassword(ChangePasswordUseCase.Body body) {
+        return restApi.changePassword(AppApplication.SYSPARAM, AppApplication.appVersion, body);
+    }
 
-    public Observable<BaseNetEntity<UserInfo>> login(LoginUseCase.Login login) {
+    public Observable<BaseNetEntity<UserInfo>> login(LoginUseCase.Body login) {
         return restApi.login(AppApplication.SYSPARAM, AppApplication.appVersion, login);
     }
 

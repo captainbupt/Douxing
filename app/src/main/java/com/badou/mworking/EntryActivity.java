@@ -11,6 +11,7 @@ import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.entity.category.CategoryDetail;
 import com.badou.mworking.fragment.CommentFragment;
 import com.badou.mworking.fragment.EntryIntroductionFragment;
+import com.badou.mworking.fragment.EntryOperationFragment;
 import com.badou.mworking.presenter.EntryPresenter;
 import com.badou.mworking.presenter.ListPresenter;
 import com.badou.mworking.presenter.Presenter;
@@ -46,15 +47,23 @@ public class EntryActivity extends BaseNoTitleActivity implements CategoryBaseVi
         ButterKnife.bind(this);
         initView();
         String rid = mReceivedIntent.getStringExtra(CategoryBaseActivity.KEY_RID);
-        EntryIntroductionFragment introductionFragment = EntryIntroductionFragment.getFragment(rid);
-        CommentFragment commentFragment = CommentFragment.getFragment(rid);
+        final EntryIntroductionFragment introductionFragment = EntryIntroductionFragment.getFragment(rid);
+        final EntryOperationFragment operationFragment = EntryOperationFragment.getFragment(rid);
+        final CommentFragment commentFragment = CommentFragment.getFragment(rid);
         List<CategoryTabContent.ScrollableContent> list = new ArrayList<>();
         list.add(introductionFragment);
+        list.add(operationFragment);
         list.add(commentFragment);
         mContent.setList(list);
         mPresenter = (EntryPresenter) super.mPresenter;
-        mPresenter.setChildPresenters(introductionFragment.getPresenter(), commentFragment.getPresenter());
-        mPresenter.attachView(this);
+        mContent.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mPresenter.setChildPresenters(introductionFragment.getPresenter(), operationFragment.getPresenter(), commentFragment.getPresenter());
+                mPresenter.attachView(EntryActivity.this);
+            }
+        }, 200);
+
     }
 
     public void initView() {

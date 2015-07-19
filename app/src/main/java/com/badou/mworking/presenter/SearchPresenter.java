@@ -1,47 +1,22 @@
 package com.badou.mworking.presenter;
 
 import android.content.Context;
-import android.os.Bundle;
+import android.content.Intent;
 import android.os.Handler;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.badou.mworking.R;
 import com.badou.mworking.domain.SearchUseCase;
 import com.badou.mworking.domain.UseCase;
-import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.CategorySearch;
-import com.badou.mworking.entity.category.CategoryDetail;
 import com.badou.mworking.entity.category.CategorySearchOverall;
-import com.badou.mworking.net.Net;
-import com.badou.mworking.net.ServiceProvider;
-import com.badou.mworking.net.volley.VolleyListener;
-import com.badou.mworking.util.CategoryClickHandler;
-import com.badou.mworking.util.ToastUtil;
+import com.badou.mworking.util.CategoryIntentFactory;
 import com.badou.mworking.view.BaseView;
 import com.badou.mworking.view.MainSearchView;
-import com.badou.mworking.widget.WaitProgressDialog;
 import com.google.gson.reflect.TypeToken;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
-
-import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.ButterKnife;
 
 public class SearchPresenter extends ListPresenter<CategorySearch> {
 
@@ -100,7 +75,7 @@ public class SearchPresenter extends ListPresenter<CategorySearch> {
 
     @Override
     public void toDetailPage(CategorySearch data) {
-
+        mContext.startActivity(CategoryIntentFactory.getIntent(mContext, data.type, data.rid));
     }
 
     @Override

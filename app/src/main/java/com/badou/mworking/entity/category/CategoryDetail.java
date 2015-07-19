@@ -48,16 +48,16 @@ public class CategoryDetail implements Serializable {
         int e = -1;
         int c;
 
-        public int getE() {
+        public int getScore() {
             return e;
         }
 
-        public int getC() {
-            return c;
+        public boolean isSigned() {
+            return c == 1;
         }
 
-        public void setC(int c) {
-            this.c = c;
+        public void setSigned(boolean isSigned) {
+            this.c = isSigned ? 1 : 0;
         }
     }
 

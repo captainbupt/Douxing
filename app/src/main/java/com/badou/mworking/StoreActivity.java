@@ -13,6 +13,7 @@ import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
+import com.badou.mworking.util.CategoryIntentFactory;
 import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.ResourceClickHandler;
 import com.badou.mworking.util.SP;
@@ -31,9 +32,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-/**
- * Created by Administrator on 2015/6/25 0025.
- */
 public class StoreActivity extends BaseBackActionBarActivity {
 
     @Bind(R.id.content_list_view)
@@ -72,7 +70,8 @@ public class StoreActivity extends BaseBackActionBarActivity {
                     }
                 };
                 if (store.type == Store.TYPE_NOTICE || store.type == Store.TYPE_TRAINING || store.type == Store.TYPE_EXAM || store.type == Store.TYPE_TASK || store.type == Store.TYPE_SHELF) {
-                    ResourceClickHandler.toCategoryPage(mContext, Store.getCategoryTypeFromStore(store.type), store.sid, store.subject, onCompleteListener);
+                    mProgressDialog.dismiss();
+                    startActivity(CategoryIntentFactory.getIntent(mContext, Store.getCategoryTypeFromStore(store.type), store.sid));
                 } else if (store.type == Store.TYPE_CHATTER) {
                     ResourceClickHandler.toChatterPage(mContext, store.sid, onCompleteListener);
                 } else if (store.type == Store.TYPE_ASK) {
