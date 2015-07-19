@@ -122,7 +122,7 @@ public class CategoryDetail implements Serializable {
         String description;
 
         public String getDescription() {
-            return new String(Base64.encodeBase64(description.getBytes()), Charset.forName("UTF-8"));
+            return new String(Base64.decodeBase64(description.getBytes()), Charset.forName("UTF-8"));
         }
     }
 

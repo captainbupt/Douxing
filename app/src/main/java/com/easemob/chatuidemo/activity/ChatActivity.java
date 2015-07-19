@@ -510,7 +510,6 @@ public class ChatActivity extends BaseBackActionBarActivity implements OnClickLi
             }
         }.start();
         if (group != null) {
-            ((TextView) findViewById(R.id.name)).setText(group.getGroupName());
             setActionbarTitle(group.getGroupName());
         } else {
             ToastUtil.showToast(mContext, R.string.the_current_group);
@@ -695,7 +694,6 @@ public class ChatActivity extends BaseBackActionBarActivity implements OnClickLi
             else {
                 startActivity(new Intent(ChatActivity.this, VoiceCallActivity.class).putExtra("username",
                         toChatUsername).putExtra("isComingCall", false));
-                voiceCallBtn.setEnabled(false);
                 toggleMore(null);
             }
         } else if (id == R.id.btn_video_call) { // 视频通话
@@ -704,7 +702,6 @@ public class ChatActivity extends BaseBackActionBarActivity implements OnClickLi
             else {
                 startActivity(new Intent(this, VideoCallActivity.class).putExtra("username", toChatUsername).putExtra(
                         "isComingCall", false));
-                videoCallBtn.setEnabled(false);
                 toggleMore(null);
             }
         }
@@ -1208,8 +1205,6 @@ public class ChatActivity extends BaseBackActionBarActivity implements OnClickLi
     }
 
     private PowerManager.WakeLock wakeLock;
-    private ImageView voiceCallBtn;
-    private ImageView videoCallBtn;
 
     /**
      * 按住说话listener
@@ -1390,7 +1385,6 @@ public class ChatActivity extends BaseBackActionBarActivity implements OnClickLi
         HXSDKHelper.getInstance().getNotifier().reset();
         if (group != null)
             setActionbarTitle(group.getGroupName());
-        videoCallBtn.setEnabled(true);
 
         if (adapter != null) {
             adapter.refresh();
