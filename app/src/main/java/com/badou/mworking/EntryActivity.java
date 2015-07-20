@@ -16,6 +16,7 @@ import com.badou.mworking.presenter.EntryPresenter;
 import com.badou.mworking.presenter.ListPresenter;
 import com.badou.mworking.presenter.Presenter;
 import com.badou.mworking.view.CategoryBaseView;
+import com.badou.mworking.view.EntryView;
 import com.badou.mworking.widget.CategoryHeader;
 import com.badou.mworking.widget.CategoryTabContent;
 
@@ -25,7 +26,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class EntryActivity extends BaseNoTitleActivity implements CategoryBaseView {
+public class EntryActivity extends BaseNoTitleActivity implements EntryView {
 
     @Bind(R.id.header)
     CategoryHeader mHeader;
@@ -38,7 +39,6 @@ public class EntryActivity extends BaseNoTitleActivity implements CategoryBaseVi
     public static Intent getIntent(Context context, String rid) {
         return CategoryBaseActivity.getIntent(context, EntryActivity.class, rid);
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,5 +130,10 @@ public class EntryActivity extends BaseNoTitleActivity implements CategoryBaseVi
     @Override
     public void setStore(boolean isStore) {
         mStoreImageView.setImageResource(isStore ? R.drawable.button_title_store_round_checked : R.drawable.button_title_store_round_unchecked);
+    }
+
+    @Override
+    public void setSwipeEnable(boolean isEnable) {
+        mContent.setSwipeEnabled(isEnable);
     }
 }

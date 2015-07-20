@@ -80,7 +80,7 @@ public class ChatAllHistoryFragment extends Fragment {
         listView = (ListView) getView().findViewById(R.id.list);
         headView = LayoutInflater.from(getActivity()).inflate(R.layout.row_chat_history, listView, false);
         ((TextView) headView.findViewById(R.id.name)).setText(R.string.title_name_message_center);
-        ((TextView) headView.findViewById(R.id.unread_msg_number)).setVisibility(View.GONE);
+        headView.findViewById(R.id.unread_msg_number).setVisibility(View.GONE);
         headView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {

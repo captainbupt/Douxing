@@ -56,8 +56,8 @@ public abstract class HXSDKHelper {
 	/**
 	 * 群组更新完成
 	 */
-	static public interface HXSyncListener {
-		public void onSyncSucess(boolean success);
+	public interface HXSyncListener {
+		void onSyncSucess(boolean success);
 	}
 	
     private static final String TAG = "HXSDKHelper";

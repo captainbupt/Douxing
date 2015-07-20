@@ -106,7 +106,7 @@ public class MainSearchFragment extends BaseFragment implements MainSearchView {
     @OnClick(R.id.cancel_text_view)
     void onCancelClicked() {
         if (!mPresenter.onBackPressed()) {
-            ((MainGridActivity) getActivity()).onBackPressed();
+            getActivity().onBackPressed();
         }
     }
 

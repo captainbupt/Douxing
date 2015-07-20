@@ -7,6 +7,7 @@ import com.badou.mworking.domain.CheckUpdateUseCase;
 import com.badou.mworking.domain.EnrollUseCase;
 import com.badou.mworking.domain.LoginUseCase;
 import com.badou.mworking.domain.StoreUseCase;
+import com.badou.mworking.domain.TaskSignUseCase;
 import com.badou.mworking.entity.category.CategoryDetail;
 import com.badou.mworking.entity.category.CategoryOverall;
 import com.badou.mworking.entity.category.CategorySearchOverall;
@@ -20,6 +21,7 @@ import com.badou.mworking.entity.user.UserInfo;
 import java.io.File;
 import java.util.List;
 
+import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.Query;
@@ -81,6 +83,9 @@ public interface RestApi {
 
     @POST("/checkin_v2")
     Observable<BaseNetEntity> taskSign(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("rid") String rid, @Query("lat") double latitude, @Query("lon") double longitude);
+
+    @POST("/checkin_qr")
+    Observable<BaseNetEntity> taskSign(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Body TaskSignUseCase.Body body);
 
     @POST("/enroll")
     Observable<BaseNetEntity> enroll(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @retrofit.http.Body EnrollUseCase.Body body);

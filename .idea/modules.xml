@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/Douxing.iml" filepath="$PROJECT_DIR$/Douxing.iml" />
       <module fileurl="file://$PROJECT_DIR$/PseudoMaterialHeader/PseudoMaterialHeader.iml" filepath="$PROJECT_DIR$/PseudoMaterialHeader/PseudoMaterialHeader.iml" />
       <module fileurl="file://$PROJECT_DIR$/Pulltorefresh/Pulltorefresh.iml" filepath="$PROJECT_DIR$/Pulltorefresh/Pulltorefresh.iml" />
+      <module fileurl="file://$PROJECT_DIR$/QRCodeScan/QRCodeScan.iml" filepath="$PROJECT_DIR$/QRCodeScan/QRCodeScan.iml" />
       <module fileurl="file://$PROJECT_DIR$/SwipeBackLayout/SwipeBackLayout.iml" filepath="$PROJECT_DIR$/SwipeBackLayout/SwipeBackLayout.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>

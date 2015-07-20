@@ -12,7 +12,7 @@
     <string name="tip_anonymous_cancel">我知道了</string>
     <string name="tip_anonymous_logout">你是游客，请退出登录</string>
 
-    <!--空格 -->
+    <string name="introduction_tips">开始体验</string>
     <string name="forget_password_button_next">下一步</string>
     <string name="forget_passwrod_bottom_cannot_receive">未收到短信？点击这里</string>
     <string name="act_forget_verify_top_tip">如果您以员工号登录，请拨打客服电话400-8233-773求助。\n\n如果您以手机号登录，请按照下方提示操作。</string>
@@ -133,7 +133,8 @@
     <string name="add_picture">添加照片</string>
     <string name="save_camera_fail">未找到存储卡，无法存储照片！</string>
     <string name="text_null">暂无</string>
-    <string name="task_signFail">您的位置不在目标地点，无法签到</string>
+    <string name="task_sign_fail">您的位置不在目标地点，无法签到</string>
+    <string name="task_sign_fail_qrcode">二维码错误，请重试</string>
     <string name="task_sign_success">签到成功</string>
     <string name="text_ok">确定</string>
     <string name="task_notStart">任务未开始</string>
@@ -219,6 +220,7 @@
     <string name="entry_status_check_fail">未通过</string>
     <string name="entry_tip_enroll_success">报名成功</string>
     <string name="entry_tip_enroll_cancel_success">取消报名成功</string>
+    <string name="scan_tips">将二维码图片对准扫描框即可自动扫描</string>
 
     <string name="ask_title_right">提问</string>
     <string name="ask_submit_subject_tip">标题</string>

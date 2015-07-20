@@ -40,7 +40,8 @@ public class User extends EMContact {
     private String spell;
     private String tag;
 
-    public User(){}
+    public User() {
+    }
 
     public User(String username, String nick, String avatar, long department, int role) {
         this.username = username;
@@ -48,7 +49,7 @@ public class User extends EMContact {
         this.avatar = avatar;
         this.department = department;
         this.role = role;
-        setSpell(username);
+        setSpell(nick);
     }
 
     public void setTag(Map<Long, Department> departmentMap, Map<Integer, Role> roleMap) {
@@ -101,7 +102,7 @@ public class User extends EMContact {
     }
 
     public Department getDepartment() {
-        return EMChatResManager.getDepartment( department);
+        return EMChatResManager.getDepartment(department);
     }
 
     public String getSpell() {

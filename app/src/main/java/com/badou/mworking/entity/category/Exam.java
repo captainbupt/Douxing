@@ -30,7 +30,7 @@ public class Exam extends Category {
 
     transient Content content;
 
-    public Exam(){};
+    public Exam(){}
 
     public boolean isGraded() {
         return getContent().d == 1;

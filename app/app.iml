@@ -108,6 +108,7 @@
     <orderEntry type="library" exported="" name="android-async-http-1.4.7" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-19.0.1" level="project" />
     <orderEntry type="module" module-name="Pulltorefresh" exported="" />
+    <orderEntry type="module" module-name="QRCodeScan" exported="" />
     <orderEntry type="module" module-name="SwipeBackLayout" exported="" />
     <orderEntry type="module" module-name="PseudoMaterialHeader" exported="" />
   </component>

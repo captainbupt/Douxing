@@ -321,7 +321,7 @@ public class ChatServiceActivity extends BaseNoTitleActivity implements View.OnC
         wakeLock = ((PowerManager) getSystemService(Context.POWER_SERVICE)).newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "demo");
 //			toChatUsername = getIntent().getStringExtra("userId");
         SharedPreferences sharedPreFerences = getSharedPreferences("customernumber", Context.MODE_PRIVATE);
-        toChatUsername = sharedPreFerences.getString("customerkey", "10086456");
+        toChatUsername = sharedPreFerences.getString("customerkey", ChatActivity.SERVICE_ACCOUNT);
 
         ((TextView) findViewById(R.id.name)).setText(toChatUsername);
         conversation = EMChatManager.getInstance().getConversation(toChatUsername);
@@ -370,13 +370,13 @@ public class ChatServiceActivity extends BaseNoTitleActivity implements View.OnC
         if (requestCode == REQUEST_CODE_CONTEXT_MENU) {
             switch (resultCode) {
                 case RESULT_CODE_COPY: // 复制消息
-                    EMMessage copyMsg = ((EMMessage) adapter.getItem(data.getIntExtra("position", -1)));
+                    EMMessage copyMsg = adapter.getItem(data.getIntExtra("position", -1));
                     // clipboard.setText(SmileUtils.getSmiledText(ChatActivity.this,
                     // ((TextMessageBody) copyMsg.getBody()).getMessage()));
                     clipboard.setText(((TextMessageBody) copyMsg.getBody()).getMessage());
                     break;
                 case RESULT_CODE_DELETE: // 删除消息
-                    EMMessage deleteMsg = (EMMessage) adapter.getItem(data.getIntExtra("position", -1));
+                    EMMessage deleteMsg = adapter.getItem(data.getIntExtra("position", -1));
                     conversation.removeMessage(deleteMsg.getMsgId());
                     adapter.refresh();
                     listView.setSelection(data.getIntExtra("position", adapter.getCount()) - 1);

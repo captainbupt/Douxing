@@ -383,7 +383,7 @@ public class DemoHXSDKHelper extends HXSDKHelper {
             contactList = ((DemoHXSDKModel) getModel()).getContactList();
         }*/
         if (contactList == null) {
-            contactList = ((DemoHXSDKModel) getModel()).getContactList();
+            contactList = getModel().getContactList();
         }
 
         return contactList;

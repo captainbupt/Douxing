@@ -5,12 +5,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.badou.mworking.adapter.IntroductionPagerAdapter;
 import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.presenter.IntroductionPresenter;
 import com.badou.mworking.view.IntroductionView;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -25,7 +29,11 @@ public class IntroductionActivity extends BaseNoTitleActivity implements Introdu
     @Bind(R.id.introduction_view_pager)
     ViewPager mIntroductionViewPager;
     @Bind(R.id.introduction_button)
-    Button mIntroductionButton;
+    TextView mIntroductionTextView;
+    @Bind(R.id.radio_group)
+    RadioGroup mRadioGroup;
+    @Bind({R.id.radio_button_1, R.id.radio_button_2, R.id.radio_button_3, R.id.radio_button_4})
+    List<RadioButton> mRadioButtonList;
 
     IntroductionPresenter introductionPresenter;
 
@@ -47,12 +55,13 @@ public class IntroductionActivity extends BaseNoTitleActivity implements Introdu
         mIntroductionViewPager.setCurrentItem(0);
         introductionPresenter = new IntroductionPresenter(mContext);
         introductionPresenter.attachView(this);
+        mRadioButtonList.get(0).setChecked(true);
     }
-
 
     @OnPageChange(value = R.id.introduction_view_pager, callback = OnPageChange.Callback.PAGE_SCROLLED)
     void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         introductionPresenter.onPageScrolled(position, positionOffset, positionOffsetPixels);
+        mRadioButtonList.get(position).setChecked(true);
     }
 
     @OnClick(R.id.introduction_button)
@@ -62,11 +71,13 @@ public class IntroductionActivity extends BaseNoTitleActivity implements Introdu
 
     @Override
     public void showIntroduction() {
-        mIntroductionButton.setVisibility(View.VISIBLE);
+        mRadioGroup.setVisibility(View.INVISIBLE);
+        mIntroductionTextView.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideIntroduction() {
-        mIntroductionButton.setVisibility(View.GONE);
+        mIntroductionTextView.setVisibility(View.INVISIBLE);
+        mRadioGroup.setVisibility(View.VISIBLE);
     }
 }

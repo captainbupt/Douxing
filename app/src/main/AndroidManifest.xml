@@ -165,6 +165,7 @@
         <activity
             android:name=".StoreActivity"
             android:screenOrientation="portrait" />
+        <activity android:name="com.zbar.qrscan.CaptureActivity"/>
         <activity
             android:name="com.badou.mworking.CommentActivity"
             android:screenOrientation="portrait"

@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -64,10 +65,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.badou.mworking.base.AppApplication;
-import com.badou.mworking.entity.emchat.EMChatEntity;
+import com.badou.mworking.R;
 import com.badou.mworking.base.BaseBackActionBarActivity;
-import com.badou.mworking.util.ToastUtil;
+import com.badou.mworking.entity.emchat.EMChatEntity;
 import com.easemob.EMChatRoomChangeListener;
 import com.easemob.EMError;
 import com.easemob.EMEventListener;
@@ -91,7 +91,6 @@ import com.easemob.chat.TextMessageBody;
 import com.easemob.chat.VideoMessageBody;
 import com.easemob.chat.VoiceMessageBody;
 import com.easemob.chatuidemo.DemoHXSDKHelper;
-import com.badou.mworking.R;
 import com.easemob.chatuidemo.adapter.ExpressionAdapter;
 import com.easemob.chatuidemo.adapter.ExpressionPagerAdapter;
 import com.easemob.chatuidemo.adapter.MessageAdapter;
@@ -99,18 +98,21 @@ import com.easemob.chatuidemo.adapter.VoicePlayClickListener;
 import com.easemob.chatuidemo.utils.CommonUtils;
 import com.easemob.chatuidemo.utils.ImageUtils;
 import com.easemob.chatuidemo.utils.SmileUtils;
+import com.easemob.chatuidemo.utils.UserUtils;
 import com.easemob.chatuidemo.widget.ExpandGridView;
 import com.easemob.chatuidemo.widget.PasteEditText;
 import com.easemob.exceptions.EaseMobException;
 import com.easemob.util.EMLog;
 import com.easemob.util.PathUtil;
 import com.easemob.util.VoiceRecorder;
-import com.umeng.analytics.MobclickAgent;
 
 /**
  * 聊天页面
  */
 public class ChatActivity extends BaseBackActionBarActivity implements OnClickListener, EMEventListener {
+
+    public static final String SERVICE_ACCOUNT = "10086456";
+
     private static final String TAG = "ChatActivity";
     private static final int REQUEST_CODE_EMPTY_HISTORY = 2;
     public static final int REQUEST_CODE_CONTEXT_MENU = 3;
@@ -138,6 +140,7 @@ public class ChatActivity extends BaseBackActionBarActivity implements OnClickLi
 
     public static final int RESULT_CODE_COPY = 1;
     public static final int RESULT_CODE_DELETE = 2;
+    //public static final int RESULT_CODE_FORWARD = 3;
     public static final int RESULT_CODE_OPEN = 4;
     public static final int RESULT_CODE_DWONLOAD = 5;
     public static final int RESULT_CODE_TO_CLOUD = 6;
@@ -145,6 +148,7 @@ public class ChatActivity extends BaseBackActionBarActivity implements OnClickLi
 
     public static final int CHATTYPE_SINGLE = 1;
     public static final int CHATTYPE_GROUP = 2;
+    public static final int CHATTYPE_CHATROOM = 3;
 
     public static final String COPY_IMAGE = "EASEMOBIMG";
     private View recordingContainer;
@@ -199,6 +203,8 @@ public class ChatActivity extends BaseBackActionBarActivity implements OnClickLi
         }
     };
     public EMGroup group;
+    public EMChatRoom room;
+    public boolean isRobot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -213,7 +219,6 @@ public class ChatActivity extends BaseBackActionBarActivity implements OnClickLi
      * initView
      */
     protected void initView() {
-        setLeft(R.drawable.button_title_bar_back_grey);
         recordingContainer = findViewById(R.id.recording_container);
         micImage = (ImageView) findViewById(R.id.mic_image);
         recordingHint = (TextView) findViewById(R.id.recording_hint);
@@ -236,6 +241,8 @@ public class ChatActivity extends BaseBackActionBarActivity implements OnClickLi
         iv_emoticons_checked.setVisibility(View.INVISIBLE);
         more = findViewById(R.id.more);
         edittext_layout.setBackgroundResource(R.drawable.input_bar_bg_normal);
+        voiceCallBtn = (ImageView) findViewById(R.id.btn_voice_call);
+        videoCallBtn = (ImageView) findViewById(R.id.btn_video_call);
 
         // 动画资源文件,用于录制语音时
         micImages = new Drawable[]{getResources().getDrawable(R.drawable.record_animate_01),
@@ -359,13 +366,6 @@ public class ChatActivity extends BaseBackActionBarActivity implements OnClickLi
                 }, 1000);
             }
         });
-
-        setRightImage(R.drawable.button_title_bar_group, new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                toGroupDetails(view);
-            }
-        });
     }
 
     private void setUpView() {
@@ -382,9 +382,21 @@ public class ChatActivity extends BaseBackActionBarActivity implements OnClickLi
 
         if (chatType == CHATTYPE_SINGLE) { // 单聊
             toChatUsername = getIntent().getStringExtra("userId");
-            ((TextView) findViewById(R.id.name)).setText(toChatUsername);
+            setActionbarTitle(UserUtils.getUserNick(toChatUsername));
+            setRightImage(R.drawable.mm_title_remove, new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    emptyHistory(v);
+                }
+            });
         } else {
             // 群聊
+            setRightImage(R.drawable.button_title_bar_group, new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    toGroupDetails(v);
+                }
+            });
             findViewById(R.id.container_voice_call).setVisibility(View.GONE);
             findViewById(R.id.container_video_call).setVisibility(View.GONE);
             toChatUsername = getIntent().getStringExtra("groupId");
@@ -395,10 +407,18 @@ public class ChatActivity extends BaseBackActionBarActivity implements OnClickLi
         }
 
         // for chatroom type, we only init conversation and create view adapter on success
-        onConversationInit();
+        if (chatType != CHATTYPE_CHATROOM) {
+            onConversationInit();
 
-        onListViewCreation();
+            onListViewCreation();
 
+            // show forward message if the message is not null
+            String forward_msg_id = getIntent().getStringExtra("forward_msg_id");
+            if (forward_msg_id != null) {
+                // 显示发送要转发的消息
+                forwardMessage(forward_msg_id);
+            }
+        }
     }
 
     protected void onConversationInit() {
@@ -406,6 +426,8 @@ public class ChatActivity extends BaseBackActionBarActivity implements OnClickLi
             conversation = EMChatManager.getInstance().getConversationByType(toChatUsername, EMConversationType.Chat);
         } else if (chatType == CHATTYPE_GROUP) {
             conversation = EMChatManager.getInstance().getConversationByType(toChatUsername, EMConversationType.GroupChat);
+        } else if (chatType == CHATTYPE_CHATROOM) {
+            conversation = EMChatManager.getInstance().getConversationByType(toChatUsername, EMConversationType.ChatRoom);
         }
 
         // 把此会话的未读数置为0
@@ -465,9 +487,7 @@ public class ChatActivity extends BaseBackActionBarActivity implements OnClickLi
         adapter = new MessageAdapter(ChatActivity.this, toChatUsername, chatType);
         // 显示消息
         listView.setAdapter(adapter);
-        View footer = new View(mContext);
-        footer.setPadding(0, 0, 0, getResources().getDimensionPixelOffset(R.dimen.offset_medium));
-        listView.addFooterView(footer);
+
         listView.setOnScrollListener(new ListScrollListener());
         adapter.refreshSelectLast();
 
@@ -488,38 +508,59 @@ public class ChatActivity extends BaseBackActionBarActivity implements OnClickLi
 
     protected void onGroupViewCreation() {
         group = EMGroupManager.getInstance().getGroup(toChatUsername);
-        new Thread() {
-            @Override
-            public void run() {
-                final EMGroup returnGroup;
-                try {
-                    returnGroup = EMGroupManager.getInstance().getGroupFromServer(toChatUsername);
-                    if (returnGroup == null)
-                        throw new EaseMobException();
-                } catch (EaseMobException e) {
-                    e.printStackTrace();
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            ToastUtil.showToast(mContext, R.string.the_current_group);
-                            EMChatManager.getInstance().clearConversation(toChatUsername);
-                            finish();
-                        }
-                    });
-                }
-            }
-        }.start();
+
         if (group != null) {
             setActionbarTitle(group.getGroupName());
         } else {
-            ToastUtil.showToast(mContext, R.string.the_current_group);
-            EMChatManager.getInstance().clearConversation(toChatUsername);
-            finish();
+            setActionbarTitle(toChatUsername);
         }
 
         // 监听当前会话的群聊解散被T事件
         groupListener = new GroupListener();
         EMGroupManager.getInstance().addGroupChangeListener(groupListener);
+    }
+
+    protected void onChatRoomViewCreation() {
+        findViewById(R.id.container_to_group).setVisibility(View.GONE);
+
+        final ProgressDialog pd = ProgressDialog.show(this, "", "Joining......");
+        EMChatManager.getInstance().joinChatRoom(toChatUsername, new EMValueCallBack<EMChatRoom>() {
+
+            @Override
+            public void onSuccess(EMChatRoom value) {
+                // TODO Auto-generated method stub
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        pd.dismiss();
+                        room = EMChatManager.getInstance().getChatRoom(toChatUsername);
+                        if (room != null) {
+                            setActionbarTitle(room.getName());
+                        } else {
+                            setActionbarTitle(toChatUsername);
+                        }
+                        EMLog.d(TAG, "join room success : " + room.getName());
+
+                        onConversationInit();
+
+                        onListViewCreation();
+                    }
+                });
+            }
+
+            @Override
+            public void onError(final int error, String errorMsg) {
+                // TODO Auto-generated method stub
+                EMLog.d(TAG, "join room failure : " + error);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        pd.dismiss();
+                    }
+                });
+                finish();
+            }
+        });
     }
 
     /**
@@ -686,14 +727,15 @@ public class ChatActivity extends BaseBackActionBarActivity implements OnClickLi
             // 点击摄像图标
             Intent intent = new Intent(ChatActivity.this, ImageGridActivity.class);
             startActivityForResult(intent, REQUEST_CODE_SELECT_VIDEO);
-        } /*else if (id == R.id.btn_file) { // 点击文件图标
+        } else if (id == R.id.btn_file) { // 点击文件图标
             selectFileFromLocal();
-        } */ else if (id == R.id.btn_voice_call) { // 点击语音电话图标
+        } else if (id == R.id.btn_voice_call) { // 点击语音电话图标
             if (!EMChatManager.getInstance().isConnected())
                 Toast.makeText(this, st1, Toast.LENGTH_SHORT).show();
             else {
                 startActivity(new Intent(ChatActivity.this, VoiceCallActivity.class).putExtra("username",
                         toChatUsername).putExtra("isComingCall", false));
+                voiceCallBtn.setEnabled(false);
                 toggleMore(null);
             }
         } else if (id == R.id.btn_video_call) { // 视频通话
@@ -702,6 +744,7 @@ public class ChatActivity extends BaseBackActionBarActivity implements OnClickLi
             else {
                 startActivity(new Intent(this, VideoCallActivity.class).putExtra("username", toChatUsername).putExtra(
                         "isComingCall", false));
+                videoCallBtn.setEnabled(false);
                 toggleMore(null);
             }
         }
@@ -843,15 +886,19 @@ public class ChatActivity extends BaseBackActionBarActivity implements OnClickLi
      *
      * @param content message content
      */
-    private void sendText(String content) {
+    public void sendText(String content) {
 
         if (content.length() > 0) {
             EMMessage message = EMMessage.createSendMessage(EMMessage.Type.TXT);
             // 如果是群聊，设置chattype,默认是单聊
             if (chatType == CHATTYPE_GROUP) {
                 message.setChatType(ChatType.GroupChat);
+            } else if (chatType == CHATTYPE_CHATROOM) {
+                message.setChatType(ChatType.ChatRoom);
             }
-
+            if (isRobot) {
+                message.setAttribute("em_robot_message", true);
+            }
             TextMessageBody txtBody = new TextMessageBody(content);
             // 设置消息body
             message.addBody(txtBody);
@@ -885,12 +932,16 @@ public class ChatActivity extends BaseBackActionBarActivity implements OnClickLi
             // 如果是群聊，设置chattype,默认是单聊
             if (chatType == CHATTYPE_GROUP) {
                 message.setChatType(ChatType.GroupChat);
+            } else if (chatType == CHATTYPE_CHATROOM) {
+                message.setChatType(ChatType.ChatRoom);
             }
             message.setReceipt(toChatUsername);
             int len = Integer.parseInt(length);
             VoiceMessageBody body = new VoiceMessageBody(new File(filePath), len);
             message.addBody(body);
-
+            if (isRobot) {
+                message.setAttribute("em_robot_message", true);
+            }
             conversation.addMessage(message);
             adapter.refreshSelectLast();
             setResult(RESULT_OK);
@@ -913,6 +964,8 @@ public class ChatActivity extends BaseBackActionBarActivity implements OnClickLi
         // 如果是群聊，设置chattype,默认是单聊
         if (chatType == CHATTYPE_GROUP) {
             message.setChatType(ChatType.GroupChat);
+        } else if (chatType == CHATTYPE_CHATROOM) {
+            message.setChatType(ChatType.ChatRoom);
         }
 
         message.setReceipt(to);
@@ -920,11 +973,13 @@ public class ChatActivity extends BaseBackActionBarActivity implements OnClickLi
         // 默认超过100k的图片会压缩后发给对方，可以设置成发送原图
         // body.setSendOriginalImage(true);
         message.addBody(body);
+        if (isRobot) {
+            message.setAttribute("em_robot_message", true);
+        }
         conversation.addMessage(message);
 
         listView.setAdapter(adapter);
         adapter.refreshSelectLast();
-
         setResult(RESULT_OK);
         // more(more);
     }
@@ -942,11 +997,16 @@ public class ChatActivity extends BaseBackActionBarActivity implements OnClickLi
             // 如果是群聊，设置chattype,默认是单聊
             if (chatType == CHATTYPE_GROUP) {
                 message.setChatType(ChatType.GroupChat);
+            } else if (chatType == CHATTYPE_CHATROOM) {
+                message.setChatType(ChatType.ChatRoom);
             }
             String to = toChatUsername;
             message.setReceipt(to);
             VideoMessageBody body = new VideoMessageBody(videoFile, thumbPath, length, videoFile.length());
             message.addBody(body);
+            if (isRobot) {
+                message.setAttribute("em_robot_message", true);
+            }
             conversation.addMessage(message);
             listView.setAdapter(adapter);
             adapter.refreshSelectLast();
@@ -1007,10 +1067,15 @@ public class ChatActivity extends BaseBackActionBarActivity implements OnClickLi
         // 如果是群聊，设置chattype,默认是单聊
         if (chatType == CHATTYPE_GROUP) {
             message.setChatType(ChatType.GroupChat);
+        } else if (chatType == CHATTYPE_CHATROOM) {
+            message.setChatType(ChatType.ChatRoom);
         }
         LocationMessageBody locBody = new LocationMessageBody(locationAddress, latitude, longitude);
         message.addBody(locBody);
         message.setReceipt(toChatUsername);
+        if (isRobot) {
+            message.setAttribute("em_robot_message", true);
+        }
         conversation.addMessage(message);
         listView.setAdapter(adapter);
         adapter.refreshSelectLast();
@@ -1058,15 +1123,20 @@ public class ChatActivity extends BaseBackActionBarActivity implements OnClickLi
         // 如果是群聊，设置chattype,默认是单聊
         if (chatType == CHATTYPE_GROUP) {
             message.setChatType(ChatType.GroupChat);
+        } else if (chatType == CHATTYPE_CHATROOM) {
+            message.setChatType(ChatType.ChatRoom);
         }
+
         message.setReceipt(toChatUsername);
         // add message body
         NormalFileMessageBody body = new NormalFileMessageBody(new File(filePath));
         message.addBody(body);
+        if (isRobot) {
+            message.setAttribute("em_robot_message", true);
+        }
         conversation.addMessage(message);
         listView.setAdapter(adapter);
         adapter.refreshSelectLast();
-
         setResult(RESULT_OK);
     }
 
@@ -1153,7 +1223,7 @@ public class ChatActivity extends BaseBackActionBarActivity implements OnClickLi
      * @param view
      */
     public void toGroupDetails(View view) {
-        if (group == null) {
+        if (room == null && group == null) {
             Toast.makeText(getApplicationContext(), R.string.gorup_not_found, Toast.LENGTH_SHORT).show();
             return;
         }
@@ -1205,6 +1275,8 @@ public class ChatActivity extends BaseBackActionBarActivity implements OnClickLi
     }
 
     private PowerManager.WakeLock wakeLock;
+    private ImageView voiceCallBtn;
+    private ImageView videoCallBtn;
 
     /**
      * 按住说话listener
@@ -1372,7 +1444,6 @@ public class ChatActivity extends BaseBackActionBarActivity implements OnClickLi
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        EMChatManager.getInstance().unregisterEventListener(this);
         activityInstance = null;
         if (groupListener != null) {
             EMGroupManager.getInstance().removeGroupChangeListener(groupListener);
@@ -1382,9 +1453,10 @@ public class ChatActivity extends BaseBackActionBarActivity implements OnClickLi
     @Override
     protected void onResume() {
         super.onResume();
-        HXSDKHelper.getInstance().getNotifier().reset();
         if (group != null)
             setActionbarTitle(group.getGroupName());
+        voiceCallBtn.setEnabled(true);
+        videoCallBtn.setEnabled(true);
 
         if (adapter != null) {
             adapter.refresh();
@@ -1477,6 +1549,19 @@ public class ChatActivity extends BaseBackActionBarActivity implements OnClickLi
     }
 
     /**
+     * 返回
+     *
+     * @param view
+     */
+    public void back(View view) {
+        EMChatManager.getInstance().unregisterEventListener(this);
+        if (chatType == CHATTYPE_CHATROOM) {
+            EMChatManager.getInstance().leaveChatRoom(toChatUsername);
+        }
+        finish();
+    }
+
+    /**
      * 覆盖手机返回键
      */
     @Override
@@ -1487,6 +1572,9 @@ public class ChatActivity extends BaseBackActionBarActivity implements OnClickLi
             iv_emoticons_checked.setVisibility(View.INVISIBLE);
         } else {
             super.onBackPressed();
+            if (chatType == CHATTYPE_CHATROOM) {
+                EMChatManager.getInstance().leaveChatRoom(toChatUsername);
+            }
         }
     }
 

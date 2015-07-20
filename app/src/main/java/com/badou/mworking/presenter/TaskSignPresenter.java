@@ -5,16 +5,14 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.text.TextUtils;
 
-import com.badou.mworking.CategoryListActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.domain.TaskSignUseCase;
 import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.CategoryDetail;
-import com.badou.mworking.net.BaseNetEntity;
 import com.badou.mworking.net.BaseSubscriber;
 import com.badou.mworking.util.FileUtils;
-import com.badou.mworking.util.ImageChooser;
 import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.view.BaseView;
@@ -23,10 +21,14 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.zbar.qrscan.CaptureActivity;
 
 import java.io.File;
 
 public class TaskSignPresenter extends CategoryBasePresenter implements BDLocationListener {
+
+    private final static int REQUEST_QRCODE = 11;
+    private final static String RESPONSE_QRCODE = "qrcode";
 
     private boolean isSign = false; //是否签到， 否表示显示我的位置
 
@@ -95,11 +97,28 @@ public class TaskSignPresenter extends CategoryBasePresenter implements BDLocati
             ToastUtil.showToast(mContext, R.string.task_notStart);
             return;
         }
-        if (mCategoryDetail.getTask().isPhoto()) {
+        if (mCategoryDetail.getTask().isQrint()) {
+            ((Activity) mContext).startActivityForResult(new Intent(mContext, CaptureActivity.class), REQUEST_QRCODE);
+        } else if (mCategoryDetail.getTask().isPhoto()) {
             mTaskSignView.takeImage();
         } else {
             mTaskSignView.showProgressDialog(R.string.sign_action_sign_ing);
             startLocation(true);
+        }
+    }
+
+    public static Intent createResult(String qrcode) {
+        Intent intent = new Intent();
+        intent.putExtra(RESPONSE_QRCODE, qrcode);
+        return intent;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_QRCODE && data != null && data.hasExtra(RESPONSE_QRCODE)) {
+            String qrcode = data.getStringExtra(RESPONSE_QRCODE);
+            taskSign(null, qrcode);
         }
     }
 
@@ -124,21 +143,27 @@ public class TaskSignPresenter extends CategoryBasePresenter implements BDLocati
             mTaskSignView.setLocation(location);
         } else {
             isSign = false;
-            taskSign(location);
+            taskSign(location, null);
         }
     }
 
-    private void taskSign(final BDLocation location) {
-        if (location == null) {
+    private void taskSign(final BDLocation location, final String qrcode) {
+        if (location == null && TextUtils.isEmpty(qrcode)) {
             return;
         }
-        File file = null;
-        if (mPhoto != null) {
-            String filePath = mContext.getExternalCacheDir().getPath() + File.separator + "tmp.jpg";
-            FileUtils.writeBitmap2SDcard(mPhoto, filePath);
-            file = new File(filePath);
+        TaskSignUseCase taskSignUseCase;
+        if (TextUtils.isEmpty(qrcode)) {
+            File file = null;
+            if (mPhoto != null) {
+                String filePath = mContext.getExternalCacheDir().getPath() + File.separator + "tmp.jpg";
+                FileUtils.writeBitmap2SDcard(mPhoto, filePath);
+                file = new File(filePath);
+            }
+            taskSignUseCase = new TaskSignUseCase(mRid, location, file);
+        } else {
+            taskSignUseCase = new TaskSignUseCase(mRid, qrcode);
         }
-        new TaskSignUseCase(mRid, location, file).execute(new BaseSubscriber(mContext) {
+        taskSignUseCase.execute(new BaseSubscriber(mContext) {
             @Override
             public void onResponseSuccess(Object data) {
                 if (mPhoto != null && mPhoto.isRecycled()) {
@@ -159,7 +184,11 @@ public class TaskSignPresenter extends CategoryBasePresenter implements BDLocati
             public void onErrorCode(int code) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                 builder.setTitle(R.string.message_tips);
-                builder.setMessage(R.string.task_signFail);
+                if (TextUtils.isEmpty(qrcode)) {
+                    builder.setMessage(R.string.task_sign_fail);
+                } else {
+                    builder.setMessage(R.string.task_sign_fail_qrcode);
+                }
                 builder.show();
             }
         });
