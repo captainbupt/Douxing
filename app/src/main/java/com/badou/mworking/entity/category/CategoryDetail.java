@@ -145,6 +145,10 @@ public class CategoryDetail implements Serializable {
             return offline == 1 || getDeadline() < Calendar.getInstance().getTimeInMillis();
         }
 
+        public boolean isQrint() {
+            return qrint > 0;
+        }
+
         public boolean isPhoto() {
             return photo == 1;
         }

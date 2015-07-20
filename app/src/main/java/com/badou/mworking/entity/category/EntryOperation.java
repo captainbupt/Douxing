@@ -16,4 +16,8 @@ public class EntryOperation {
     public CategoryDetail getCategoryDetail() {
         return categoryDetail;
     }
+
+    public void setCategoryDetail(CategoryDetail categoryDetail) {
+        this.categoryDetail = categoryDetail;
+    }
 }

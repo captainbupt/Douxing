@@ -8,6 +8,7 @@ import com.badou.mworking.R;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.entity.emchat.EMChatEntity;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
+import com.easemob.chatuidemo.activity.ChatActivity;
 import com.easemob.chatuidemo.domain.User;
 import com.squareup.picasso.Picasso;
 
@@ -42,6 +43,18 @@ public class UserUtils {
             }
         } catch (Exception e) {
             imageView.setImageResource(R.drawable.icon_emchat_single);
+        }
+    }
+
+    public static String getUserNick(String username) {
+        if (username.equals(ChatActivity.SERVICE_ACCOUNT)) {
+            return "小兜";
+        }
+        User user = EMChatEntity.getInstance().getContactList().get(username);
+        if (user == null) {
+            return username;
+        } else {
+            return user.getNick();
         }
     }
 

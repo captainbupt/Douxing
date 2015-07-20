@@ -630,7 +630,6 @@ public class MainActivity extends BaseBackActionBarActivity implements EMEventLi
                         Intent intent = new Intent(mContext, LoginActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
-                        finish();
                     }
                 });
                 conflictBuilder.setCancelable(false);

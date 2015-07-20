@@ -11,6 +11,7 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -40,6 +41,8 @@ public class CategoryTabContent extends LinearLayout implements ContentHandler {
     List<RadioButton> mRadioButtonList;
 
     MyViewPagerAdapter mAdapter;
+
+    boolean swipeEnabled;
 
     public CategoryTabContent(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -86,6 +89,33 @@ public class CategoryTabContent extends LinearLayout implements ContentHandler {
                 }
             }
         }, 200);
+    }
+
+    public void setSwipeEnabled(boolean isEnable) {
+        swipeEnabled = isEnable;
+        if (isEnable) {
+            for (int ii = 0; ii < mRadioButtonList.size(); ii++) {
+                mRadioButtonList.get(ii).setEnabled(true);
+            }
+        } else {
+            for (int ii = 1; ii < mRadioButtonList.size(); ii++) {
+                mRadioButtonList.get(ii).setEnabled(false);
+            }
+        }
+        mRadioButtonList.get(0).setChecked(true);
+    }
+
+    float lastX;
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            lastX = ev.getX();
+        }
+        if (ev.getAction() == MotionEvent.ACTION_MOVE && !swipeEnabled) {
+            ev.setLocation(lastX, ev.getY());
+        }
+        return super.dispatchTouchEvent(ev);
     }
 
     public void setList(List<ScrollableContent> scrollableList) {

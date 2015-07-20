@@ -149,7 +149,7 @@ public class MessageAdapter extends BaseAdapter {
         private void refreshList() {
             // UI线程不能直接使用conversation.getAllMessages()
             // 否则在UI刷新过程中，如果收到新的消息，会导致并发问题
-            messages = (EMMessage[]) conversation.getAllMessages().toArray(new EMMessage[conversation.getAllMessages().size()]);
+            messages = conversation.getAllMessages().toArray(new EMMessage[conversation.getAllMessages().size()]);
             for (int i = 0; i < messages.length; i++) {
                 // getMessage will set message as read status
                 conversation.getMessage(i);
@@ -236,7 +236,7 @@ public class MessageAdapter extends BaseAdapter {
      * 获取item类型数
      */
     public int getViewTypeCount() {
-        return 16;
+        return 18;
     }
 
     /**
@@ -417,7 +417,7 @@ public class MessageAdapter extends BaseAdapter {
         }
 
         // 群聊时，显示接收的消息的发送人的名称
-        if ((chatType == ChatType.GroupChat || chatType == chatType.ChatRoom) && message.direct == EMMessage.Direct.RECEIVE) {
+        if ((chatType == ChatType.GroupChat || chatType == ChatType.ChatRoom) && message.direct == EMMessage.Direct.RECEIVE) {
             //demo里使用username代码nick
             String username = message.getFrom();
             User user = EMChatEntity.getInstance().getContactList().get(username);
@@ -428,7 +428,7 @@ public class MessageAdapter extends BaseAdapter {
             }
         }
         // 如果是发送的消息并且不是群聊消息，显示已读textview
-        if (!(chatType == ChatType.GroupChat || chatType == chatType.ChatRoom) && message.direct == EMMessage.Direct.SEND) {
+        if (!(chatType == ChatType.GroupChat || chatType == ChatType.ChatRoom) && message.direct == EMMessage.Direct.SEND) {
             holder.tv_ack = (TextView) convertView.findViewById(R.id.tv_ack);
             holder.tv_delivered = (TextView) convertView.findViewById(R.id.tv_delivered);
             if (holder.tv_ack != null) {

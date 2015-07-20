@@ -12,6 +12,7 @@ import com.badou.mworking.domain.CheckUpdateUseCase;
 import com.badou.mworking.domain.EnrollUseCase;
 import com.badou.mworking.domain.LoginUseCase;
 import com.badou.mworking.domain.StoreUseCase;
+import com.badou.mworking.domain.TaskSignUseCase;
 import com.badou.mworking.entity.category.CategoryDetail;
 import com.badou.mworking.entity.category.CategoryOverall;
 import com.badou.mworking.entity.category.CategorySearchOverall;
@@ -115,6 +116,10 @@ public class RestRepository {
         } else {
             return restApi.taskSign(AppApplication.SYSPARAM, AppApplication.appVersion, uid, rid, latitude, longitude, file);
         }
+    }
+
+    public Observable<BaseNetEntity> taskSign(TaskSignUseCase.Body body) {
+        return restApi.taskSign(AppApplication.SYSPARAM, AppApplication.appVersion, body);
     }
 
     public Observable<BaseNetEntity> enroll(EnrollUseCase.Body body) {

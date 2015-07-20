@@ -436,11 +436,11 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        try {
+/*                        try {
                             EMGroupManager.getInstance().getGroupsFromServer();//需异步处理
                         } catch (EaseMobException e) {
                             e.printStackTrace();
-                        }
+                        }*/
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {

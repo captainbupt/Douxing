@@ -1,5 +1,6 @@
 package com.badou.mworking.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.badou.mworking.widget.CategoryTabContent;
 import com.captainhwz.layout.DefaultContentHandler;
 import com.captainhwz.layout.MaterialHeaderLayout;
 
+import java.io.Serializable;
 import java.util.List;
 
 import butterknife.Bind;
@@ -76,6 +78,12 @@ public class EntryOperationFragment extends BaseFragment implements EntryOperati
     @OnItemClick(R.id.content_list_view)
     void onItemClicked(AdapterView<?> parent, View view, int position, long id) {
         mPresenter.onItemClick((EntryOperation) parent.getAdapter().getItem(position), position - 1);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mPresenter.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

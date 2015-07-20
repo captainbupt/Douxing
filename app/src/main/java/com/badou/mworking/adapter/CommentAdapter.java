@@ -77,7 +77,7 @@ public class CommentAdapter extends MyBaseAdapter<Comment> {
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         }
-        Comment comment = (Comment) mItemList.get(position);
+        Comment comment = mItemList.get(position);
         /*获取员工号*/
         String name = comment.getName();
         if (!TextUtils.isEmpty(name)) {

@@ -18,6 +18,7 @@ import com.easemob.EMCallBack;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroupManager;
 import com.easemob.chatuidemo.DemoHXSDKHelper;
+import com.easemob.chatuidemo.activity.ChatActivity;
 import com.easemob.chatuidemo.activity.ChatServiceActivity;
 
 import org.json.JSONObject;
@@ -48,7 +49,6 @@ public class ForgetPasswordActivity extends BaseBackActionBarActivity {
     void toServiceActivity() {
         mProgressDialog.show();
         final String imei = ((TelephonyManager) getSystemService(TELEPHONY_SERVICE)).getDeviceId();
-        ;
         ServiceProvider.registerAccount(mContext, imei, new VolleyListener(mContext) {
             @Override
             public void onResponseSuccess(JSONObject response) {
@@ -112,7 +112,7 @@ public class ForgetPasswordActivity extends BaseBackActionBarActivity {
                             return;
                         }
                         mProgressDialog.dismiss();
-                        startActivity(new Intent(mContext, ChatServiceActivity.class).putExtra("userId", "customers"));
+                        startActivity(new Intent(mContext, ChatActivity.class).putExtra("userId", "10086456").putExtra("chatType", ChatActivity.CHATTYPE_SINGLE));
                     }
                 });
             }

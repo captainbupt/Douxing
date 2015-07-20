@@ -114,7 +114,7 @@ public class CategoryListActivity extends BaseBackActionBarActivity implements C
      * 初始化action 布局
      */
     private void initTitleView() {
-        if (!mReceivedIntent.getBooleanExtra(KEY_IS_DONE, true)) {
+        if (!mReceivedIntent.getBooleanExtra(KEY_IS_DONE, true) && mCategoryIndex != Category.CATEGORY_ENTRY) {
             mTitleReadTextView = new TextView(mContext);
             mTitleReadTextView.setText(R.string.category_unread);
             mTitleReadTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, DensityUtil.getInstance().getTextSizeSmall());
@@ -131,7 +131,6 @@ public class CategoryListActivity extends BaseBackActionBarActivity implements C
             });
             setUnread(false);
         }
-
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mTitleLayout = inflater.inflate(R.layout.actionbar_progress, null);
         setTitleCustomView(mTitleLayout);

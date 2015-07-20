@@ -10,20 +10,63 @@
         android:flipInterval="30"
         android:persistentDrawingCache="animation" />
 
-    <Button
+    <RadioGroup
+        android:id="@+id/radio_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/offset_xlarge"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/radio_button_1"
+            android:layout_width="5dp"
+            android:layout_height="5dp"
+            android:layout_margin="@dimen/offset_small"
+            android:background="@drawable/radio_button_introduction"
+            android:button="@null" />
+
+        <RadioButton
+            android:id="@+id/radio_button_2"
+            android:layout_width="5dp"
+            android:layout_height="5dp"
+            android:layout_margin="@dimen/offset_small"
+            android:background="@drawable/radio_button_introduction"
+            android:button="@null" />
+
+        <RadioButton
+            android:id="@+id/radio_button_3"
+            android:layout_width="5dp"
+            android:layout_height="5dp"
+            android:layout_margin="@dimen/offset_small"
+            android:background="@drawable/radio_button_introduction"
+            android:button="@null" />
+
+        <RadioButton
+            android:id="@+id/radio_button_4"
+            android:layout_width="5dp"
+            android:layout_height="5dp"
+            android:layout_margin="@dimen/offset_small"
+            android:background="@drawable/radio_button_introduction"
+            android:button="@null" />
+    </RadioGroup>
+
+    <TextView
         android:id="@+id/introduction_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/welcome_btn_marginB"
-        android:background="@drawable/btn_bg_welcome"
+        android:layout_marginBottom="@dimen/offset_xlarge"
+        android:background="@drawable/background_button_introduction"
         android:paddingBottom="@dimen/offset_less"
-        android:paddingLeft="@dimen/offset_xxlarge"
-        android:paddingRight="@dimen/offset_xxlarge"
+        android:paddingLeft="@dimen/offset_medium"
+        android:paddingRight="@dimen/offset_medium"
         android:paddingTop="@dimen/offset_less"
-        android:textColor="@color/color_white"
-        android:textSize="@dimen/text_size_xlarge"
-        android:visibility="visible" />
+        android:text="@string/introduction_tips"
+        android:textColor="#8ccbfd"
+        android:textSize="@dimen/text_size_large"
+        android:visibility="invisible" />
 
 </RelativeLayout>

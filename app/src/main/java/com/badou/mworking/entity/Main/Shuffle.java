@@ -122,10 +122,10 @@ public class Shuffle {
             buttonSurvey.setResId(R.drawable.button_survey);
             buttonSurvey.setKey(BUTTON_SURVEY);
             return buttonSurvey;
-        } else if(BUTTON_ENTRY.equals(key)){
+        } else if (BUTTON_ENTRY.equals(key)) {
             if (buttonEntry == null)
                 buttonEntry = new MainIcon("1", context.getString(R.string.module_default_title_entry));
-            buttonEntry.setResId(R.drawable.button_survey);
+            buttonEntry.setResId(R.drawable.button_entry);
             buttonEntry.setKey(BUTTON_ENTRY);
             return buttonEntry;
         }

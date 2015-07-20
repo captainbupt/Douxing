@@ -138,7 +138,7 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
 
             @Override
             public void onItemClick(View v, int position, long id) {
-                Comment comment = (Comment) mReplyAdapter.getItem(position);
+                Comment comment = mReplyAdapter.getItem(position);
                 if (comment.getName().equals("我")) {
                     return;
                 }

@@ -21,6 +21,7 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 
+import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.util.regex.Pattern;
@@ -69,7 +70,7 @@ public class LoginPresenter extends Presenter implements BDLocationListener {
      * 功能描述:用户密码格式正确时,发起网络请求传递信息
      */
     public void verify(final String account, final String password, double latitude, double longitude) {
-        LoginUseCase loginUseCase = new LoginUseCase(account, DigestUtils.md5Hex(password), latitude + "", longitude + "");
+        LoginUseCase loginUseCase = new LoginUseCase(account, new String(Hex.encodeHex(DigestUtils.md5(password))), latitude + "", longitude + "");
         loginUseCase.execute(new BaseSubscriber<UserInfo>(mContext) {
             @Override
             public void onCompleted() {
