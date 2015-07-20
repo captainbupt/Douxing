@@ -19,7 +19,6 @@ import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroupManager;
 import com.easemob.chatuidemo.DemoHXSDKHelper;
 import com.easemob.chatuidemo.activity.ChatActivity;
-import com.easemob.chatuidemo.activity.ChatServiceActivity;
 
 import org.json.JSONObject;
 
@@ -42,7 +41,7 @@ public class ForgetPasswordActivity extends BaseBackActionBarActivity {
 
     @OnClick(R.id.phone_button)
     void toPhoneActivity() {
-        startActivity(new Intent(this, ForgetPassWordPhoneActivity.class));
+        startActivity(new Intent(this, ForgetPasswordPhoneActivity.class));
     }
 
     @OnClick(R.id.service_button)

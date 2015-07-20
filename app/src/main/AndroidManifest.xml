@@ -188,7 +188,7 @@
             android:name=".ChatterUserActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ForgetPassWordPhoneActivity"
+            android:name=".ForgetPasswordPhoneActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".VideoPlayActivity"
