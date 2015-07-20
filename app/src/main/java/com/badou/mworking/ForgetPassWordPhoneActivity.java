@@ -27,7 +27,7 @@ import org.json.JSONObject;
 /**
  * 功能描述: 忘记密码
  */
-public class ForgetPassWordPhoneActivity extends BaseBackActionBarActivity {
+public class ForgetPasswordPhoneActivity extends BaseBackActionBarActivity {
 
     private EditText mPhoneEditText;
     private EditText mCodeEditText;
