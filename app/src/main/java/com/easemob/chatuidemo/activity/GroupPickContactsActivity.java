@@ -53,9 +53,12 @@ import com.android.volley.VolleyError;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.database.EMChatResManager;
+import com.badou.mworking.domain.EMChatCreateGroupUseCase;
 import com.badou.mworking.entity.emchat.Department;
+import com.badou.mworking.entity.emchat.EMChatEntity;
 import com.badou.mworking.entity.emchat.Role;
 import com.badou.mworking.entity.user.UserInfo;
+import com.badou.mworking.net.BaseSubscriber;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
@@ -72,9 +75,11 @@ import com.easemob.chatuidemo.adapter.MessageAdapter;
 import com.easemob.chatuidemo.adapter.PickContactsAdapter;
 import com.easemob.chatuidemo.adapter.PickContactsAutoCompleteAdapter;
 import com.easemob.chatuidemo.domain.User;
+import com.easemob.chatuidemo.utils.UserUtils;
 import com.easemob.chatuidemo.widget.Sidebar;
 import com.easemob.exceptions.EaseMobException;
 
+import org.jivesoftware.smack.Chat;
 import org.json.JSONObject;
 
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
@@ -137,27 +142,9 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
             public void onClick(View view) {
                 final List<String> members = contactAdapter.getToBeAddMembers();
                 if (exitingMembers.size() > 0) {
-                    if (members.size() + exitingMembers.size() > 199) {
-                        new android.app.AlertDialog.Builder(mContext).setTitle("人数达到上限").setMessage("将自动选取前200人创建群聊").setPositiveButton("确认", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                createGroup(members.subList(0, 199 - exitingMembers.size()).toArray(new String[members.size()]));
-                            }
-                        }).setNegativeButton("取消", null).show();
-                    } else {
-                        save(members.toArray(new String[members.size()]));
-                    }
+                    save(members.toArray(new String[members.size()]));
                 } else if (members.size() > 0) {
-                    if (members.size() > 199) {
-                        new android.app.AlertDialog.Builder(mContext).setTitle("人数达到上限").setMessage("将自动选取前200人创建群聊").setPositiveButton("确认", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                createGroup(members.subList(0, 199).toArray(new String[members.size()]));
-                            }
-                        }).setNegativeButton("取消", null).show();
-                    } else {
-                        createGroup(members.toArray(new String[members.size()]));
-                    }
+                    createGroup(members);
                 } else {
                     ToastUtil.showToast(mContext, R.string.group_member_empty);
                 }
@@ -420,7 +407,7 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
         finish();
     }
 
-    private void createGroup(final String[] members) {
+    private void createGroup(final List<String> members) {
         String st1 = getResources().getString(R.string.Is_to_create_a_group_chat);
         final String st2 = getResources().getString(R.string.Failed_to_create_groups);
         //新建群组
@@ -428,28 +415,48 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
         mProgressDialog.setCanceledOnTouchOutside(false);
         mProgressDialog.show();
 
-        String name = UserInfo.getUserInfo().getName();
+        final String name = UserInfo.getUserInfo().getName();
         String groupName = name + "发起的聊天";
-        ServiceProvider.createGroup(mContext, groupName, "", "欢迎信息", members, new VolleyListener(mContext) {
+        new EMChatCreateGroupUseCase(groupName, groupName, "欢迎信息", members).execute(new BaseSubscriber<EMChatCreateGroupUseCase.Response>(mContext) {
             @Override
-            public void onResponseSuccess(final JSONObject response) {
+            public void onResponseSuccess(final EMChatCreateGroupUseCase.Response data) {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-/*                        try {
-                            EMGroupManager.getInstance().getGroupsFromServer();//需异步处理
+                        final String groupId = data.getGroupid();
+                        try {
+                            EMGroup group = EMGroupManager.getInstance().getGroupFromServer(groupId);
+                            EMGroupManager.getInstance().createOrUpdateLocalGroup(group);
+                            //获取到与聊天人的会话对象。参数username为聊天人的userid或者groupid，后文中的username皆是如此
+                            EMConversation conversation = EMChatManager.getInstance().getConversation(groupId);
+                            //创建一条文本消息
+                            EMMessage message = EMMessage.createSendMessage(EMMessage.Type.TXT);
+                            //如果是群聊，设置chattype,默认是单聊
+                            message.setChatType(EMMessage.ChatType.GroupChat);
+                            message.setAttribute(MessageAdapter.KEY_HELLO_MESSAGE, "1");
+                            //设置消息body
+                            StringBuilder body = new StringBuilder(name);
+                            body.append("邀请了");
+                            for (String member : members) {
+                                body.append(UserUtils.getUserNick(member));
+                                body.append("、");
+                            }
+                            body.deleteCharAt(body.length() - 1);
+                            TextMessageBody txtBody = new TextMessageBody(body.toString());
+                            message.addBody(txtBody);
+                            //设置接收人
+                            message.setReceipt(groupId);
+                            //把消息加入到此会话对象中
+                            conversation.addMessage(message);
+                            //发送消息
+                            EMChatManager.getInstance().sendMessage(message, null);
                         } catch (EaseMobException e) {
                             e.printStackTrace();
-                        }*/
+                        }
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                String groupId = response.optJSONObject(Net.DATA).optString("groupid");
-                                Intent intent = new Intent(mContext, ChatActivity.class);
-                                // it is group chat
-                                intent.putExtra("chatType", ChatActivity.CHATTYPE_GROUP);
-                                intent.putExtra("groupId", groupId);
-                                startActivity(intent);
+                                startActivity(ChatActivity.getGroupIntent(mContext, groupId));
                                 finish();
                             }
                         });
@@ -458,13 +465,8 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
             }
 
             @Override
-            public void onErrorCode(int code) {
-                super.onErrorCode(code);
-                System.out.println("code: " + code);
-            }
-
-            @Override
             public void onCompleted() {
+                super.onCompleted();
                 mProgressDialog.dismiss();
             }
         });

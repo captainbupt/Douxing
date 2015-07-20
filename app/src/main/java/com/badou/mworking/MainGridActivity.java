@@ -17,6 +17,7 @@ import com.badou.mworking.adapter.MainGridAdapter;
 import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.entity.main.MainBanner;
 import com.badou.mworking.entity.main.MainIcon;
+import com.badou.mworking.fragment.MainGuideFragment;
 import com.badou.mworking.fragment.MainSearchFragment;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.presenter.MainPresenter;
@@ -117,6 +118,11 @@ public class MainGridActivity extends BaseNoTitleActivity implements MainGridVie
                 mActivity.finish();
             }
         }).setNegativeButton(R.string.tip_anonymous_cancel, null).show();
+    }
+
+    @Override
+    public void showGuideFragment() {
+        getSupportFragmentManager().beginTransaction().replace(R.id.search_container, new MainGuideFragment()).commit();
     }
 
     @Override
@@ -232,8 +238,7 @@ public class MainGridActivity extends BaseNoTitleActivity implements MainGridVie
             localLayoutParams.setMargins(size / 2, 0, size / 2, 0);
             radioButton.setLayoutParams(localLayoutParams);
             radioButton.setButtonDrawable(android.R.color.transparent);
-            radioButton
-                    .setBackgroundResource(R.drawable.background_rb_welcome);
+            radioButton.setBackgroundResource(R.drawable.background_rb_welcome);
             mIndicatorRadioButtonList.add(radioButton);
             this.mBannerIndicator.addView(radioButton);
         }

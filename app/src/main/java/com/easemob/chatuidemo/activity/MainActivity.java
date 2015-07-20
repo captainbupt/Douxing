@@ -48,6 +48,7 @@ import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.SPHelper;
+import com.badou.mworking.util.ToastUtil;
 import com.easemob.EMCallBack;
 import com.easemob.EMConnectionListener;
 import com.easemob.EMError;
@@ -113,7 +114,11 @@ public class MainActivity extends BaseBackActionBarActivity implements EMEventLi
             setRightImage(R.drawable.button_title_add, new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    startActivity(new Intent(mContext, GroupPickContactsActivity.class));
+                    if (DemoHXSDKHelper.getInstance().isLogined() && chatHistoryFragment.errorItem.getVisibility() == View.GONE) {
+                        startActivity(new Intent(mContext, GroupPickContactsActivity.class));
+                    } else {
+                        ToastUtil.showToast(mContext, R.string.error_service);
+                    }
                 }
             });
         }
@@ -267,7 +272,6 @@ public class MainActivity extends BaseBackActionBarActivity implements EMEventLi
         //内部测试方法，请忽略
         registerInternalDebugReceiver();
     }
-
 
     static void asyncFetchGroupsFromServer() {
         HXSDKHelper.getInstance().asyncFetchGroupsFromServer(new EMCallBack() {
@@ -558,6 +562,19 @@ public class MainActivity extends BaseBackActionBarActivity implements EMEventLi
         // register the event listener when enter the foreground
         EMChatManager.getInstance().registerEventListener(this,
                 new EMNotifierEvent.Event[]{EMNotifierEvent.Event.EventNewMessage, EMNotifierEvent.Event.EventOfflineMessage, EMNotifierEvent.Event.EventConversationListChanged});
+
+        EMGroupManager.getInstance().asyncGetGroupsFromServer(new EMValueCallBack<List<EMGroup>>() {
+
+            @Override
+            public void onSuccess(List<EMGroup> value) {
+                chatHistoryFragment.refresh();
+            }
+
+            @Override
+            public void onError(int i, String s) {
+            }
+
+        });
     }
 
     @Override

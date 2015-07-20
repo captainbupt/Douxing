@@ -106,7 +106,6 @@ public class AccountManagerPresenter extends Presenter {
 
     public void logout() {
         accountManageActivity.startActivity(LoginActivity.getIntent(mContext));
-        accountManageActivity.finish();
     }
 
     public void anonymousClicked() {

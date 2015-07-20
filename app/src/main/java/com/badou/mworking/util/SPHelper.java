@@ -110,6 +110,16 @@ public class SPHelper {
         return SP.getBooleanSP(applicationContext, SP.DEFAULTCACHE, KEY_IS_FIRST, true);
     }
 
+    private static final String KEY_IS_FIRST_MAIN = AppApplication.appVersion + "main";
+
+    public static void setIsMainFirst(boolean isFirst) {
+        SP.putBooleanSP(applicationContext, SP.DEFAULTCACHE, KEY_IS_FIRST_MAIN, isFirst);
+    }
+
+    public static boolean getIsMainFirst() {
+        return SP.getBooleanSP(applicationContext, SP.DEFAULTCACHE, KEY_IS_FIRST_MAIN, true);
+    }
+
     private static final String LOGO_URL = "logoUrl";
 
     public static void setLogoUrl(String logoUrl) {

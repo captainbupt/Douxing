@@ -213,6 +213,13 @@ public class ChatActivity extends BaseBackActionBarActivity implements OnClickLi
         return intent;
     }
 
+    public static Intent getGroupIntent(Context context, String groupId) {
+        Intent intent = new Intent(context, ChatActivity.class);
+        intent.putExtra("groupId", groupId);
+        intent.putExtra("chatType", CHATTYPE_GROUP);
+        return intent;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -387,6 +394,7 @@ public class ChatActivity extends BaseBackActionBarActivity implements OnClickLi
         // 判断单聊还是群聊
         chatType = getIntent().getIntExtra("chatType", CHATTYPE_SINGLE);
 
+
         if (chatType == CHATTYPE_SINGLE) { // 单聊
             toChatUsername = getIntent().getStringExtra("userId");
             setActionbarTitle(UserUtils.getUserNick(toChatUsername));
@@ -407,10 +415,7 @@ public class ChatActivity extends BaseBackActionBarActivity implements OnClickLi
             findViewById(R.id.container_voice_call).setVisibility(View.GONE);
             findViewById(R.id.container_video_call).setVisibility(View.GONE);
             toChatUsername = getIntent().getStringExtra("groupId");
-
-            if (chatType == CHATTYPE_GROUP) {
-                onGroupViewCreation();
-            }
+            onGroupViewCreation();
         }
 
         // for chatroom type, we only init conversation and create view adapter on success

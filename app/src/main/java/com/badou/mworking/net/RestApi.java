@@ -4,6 +4,7 @@ import com.badou.mworking.domain.CategoryCommentGetUseCase;
 import com.badou.mworking.domain.CategoryDetailUseCase;
 import com.badou.mworking.domain.ChangePasswordUseCase;
 import com.badou.mworking.domain.CheckUpdateUseCase;
+import com.badou.mworking.domain.EMChatCreateGroupUseCase;
 import com.badou.mworking.domain.EnrollUseCase;
 import com.badou.mworking.domain.LoginUseCase;
 import com.badou.mworking.domain.StoreUseCase;
@@ -25,6 +26,7 @@ import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.Query;
+import retrofit.mime.TypedString;
 import rx.Observable;
 
 public interface RestApi {
@@ -58,10 +60,10 @@ public interface RestApi {
     Observable<BaseNetEntity<CommentOverall<CategoryComment>>> getCategoryComment(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @retrofit.http.Body CategoryCommentGetUseCase.Body body);
 
     @POST("/comment")
-    Observable<BaseNetEntity> sendCategoryComment(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("rid") String rid, @retrofit.http.Body String comment);
+    Observable<BaseNetEntity> sendCategoryComment(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("rid") String rid, @retrofit.http.Body TypedString comment);
 
     @POST("/comment")
-    Observable<BaseNetEntity> sendCategoryComment(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("rid") String rid, @Query("whom") String whom, @retrofit.http.Body String comment);
+    Observable<BaseNetEntity> sendCategoryComment(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("rid") String rid, @Query("whom") String whom, @retrofit.http.Body TypedString comment);
 
     @POST("/viewres")
     Observable<BaseNetEntity<CategoryDetail>> getCategoryDetail(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @retrofit.http.Body CategoryDetailUseCase.Body body);
@@ -89,4 +91,7 @@ public interface RestApi {
 
     @POST("/enroll")
     Observable<BaseNetEntity> enroll(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @retrofit.http.Body EnrollUseCase.Body body);
+
+    @POST("/genhxgrp")
+    Observable<BaseNetEntity<EMChatCreateGroupUseCase.Response>> createEMChatGroup(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @retrofit.http.Body EMChatCreateGroupUseCase.Body body);
 }

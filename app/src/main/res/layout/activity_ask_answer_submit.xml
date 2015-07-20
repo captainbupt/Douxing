@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:myattr="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_layout_bg"
@@ -33,7 +34,8 @@
         android:paddingLeft="@dimen/offset_medium"
         android:paddingRight="@dimen/offset_medium"
         android:paddingTop="@dimen/offset_small"
-        android:verticalSpacing="@dimen/offset_small" />
+        android:verticalSpacing="@dimen/offset_small"
+        myattr:maxImg="1" />
 
     <TextView
         android:id="@+id/tv_activity_ask_answer_photo"
