@@ -144,6 +144,22 @@ public class CategoryListActivity extends BaseBackActionBarActivity implements C
                 mPresenter.onClassificationStatusChanged();
             }
         });
+        switch (mCategoryIndex) {
+            case Category.CATEGORY_NOTICE:
+                mNoneResultView.setImageResource(R.drawable.background_none_result_notice);
+                break;
+            case Category.CATEGORY_TRAINING:
+                mNoneResultView.setImageResource(R.drawable.background_none_result_training);
+                break;
+            case Category.CATEGORY_EXAM:
+                mNoneResultView.setImageResource(R.drawable.background_none_result_exam);
+                break;
+            case Category.CATEGORY_TASK:
+                mNoneResultView.setImageResource(R.drawable.background_none_result_task);
+                break;
+            default:
+                mNoneResultView.setImageResource(R.drawable.background_none_result_task);
+        }
     }
 
     private void initClassificationView() {
@@ -205,7 +221,7 @@ public class CategoryListActivity extends BaseBackActionBarActivity implements C
 
     @Override
     public void setMoreClassification(List<Classification> data) {
-        mMainClassificationAdapter.setSelectedPosition(0);
+        mMoreClassificationAdapter.setSelectedPosition(0);
         mClassificationMoreList.setVisibility(View.VISIBLE);
         mMoreClassificationAdapter.setList(data);
     }

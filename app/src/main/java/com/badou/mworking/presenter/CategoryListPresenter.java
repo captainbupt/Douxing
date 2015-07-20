@@ -77,7 +77,6 @@ public class CategoryListPresenter extends ListPresenter<Category> {
 
     @Override
     public void onResponseItem(int position, Serializable item) {
-        System.out.println("on response item!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         Category category = mCategoryListView.getItem(position);
         category.updateData((CategoryDetail) item);
         mCategoryListView.setItem(position, category);
@@ -119,6 +118,7 @@ public class CategoryListPresenter extends ListPresenter<Category> {
             mCategoryUseCase.setTag(classification.getTag());
             mCategoryListView.refreshComplete();
             mCategoryListView.showProgressBar();
+            mCategoryListView.startRefreshing();
             mCategoryListView.setActionbarTitle(classification.getName());
         }
     }

@@ -15,7 +15,7 @@
     <string name="introduction_tips">开始体验</string>
     <string name="forget_password_button_next">下一步</string>
     <string name="forget_passwrod_bottom_cannot_receive">未收到短信？点击这里</string>
-    <string name="act_forget_verify_top_tip">如果您以员工号登录，请拨打客服电话400-8233-773求助。\n\n如果您以手机号登录，请按照下方提示操作。</string>
+    <string name="act_forget_verify_top_tip">如果您以手机号登录，请按照下方提示操作。</string>
     <string name="forget_password_verification_top_tip">请重置密码，点击进入应用</string>
     <string name="forget_password_verification_hint_new">请输入新密码</string>
     <string name="forget_password_verification_hint_confirm">请再次输入新密码</string>
@@ -110,7 +110,7 @@
     <string name="title_name_emchat">工作群聊</string>
     <string name="title_name_emchat_contact">通讯录</string>
     <string name="forget_password_tip">请选择找回密码的方式</string>
-    <string name="forget_password_phone">通过手机号找回密码</string>
+    <string name="forget_password_phone">通过手机号找回</string>
     <string name="forget_password_service">联系在线客户</string>
     <string name="forget_password_bottom">客服电话：400-8233-733</string>
     <string name="emchat_contact_title_right">确定</string>
@@ -151,6 +151,7 @@
     <string name="text_newPass">新&#160;密&#160;码:</string>
     <string name="accountManger_logout">退 出 登 录</string>
     <string name="user_center_my_account">我的账号</string>
+    <string name="user_center_service">在线客服中心</string>
     <string name="text_downLoadFile">正在下载文件&#8230;</string>
     <string name="study_fir">进度超过了</string>
     <string name="study_sec">用户</string>

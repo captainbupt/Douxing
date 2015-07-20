@@ -124,8 +124,6 @@ public class MainSearchFragment extends BaseFragment implements MainSearchView {
     public void setFocus() {
         if (mTitleEditText == null)
             return;
-        mTitleEditText.setFocusable(true);
-        mTitleEditText.setFocusableInTouchMode(true);
         mTitleEditText.requestFocus();
         InputMethodManager inputManager = (InputMethodManager) mTitleEditText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         inputManager.showSoftInput(mTitleEditText, 0);
@@ -134,8 +132,6 @@ public class MainSearchFragment extends BaseFragment implements MainSearchView {
     public void hideFocus() {
         if (mTitleEditText == null)
             return;
-        mTitleEditText.setFocusable(false);
-        mTitleEditText.setFocusableInTouchMode(false);
         InputMethodManager inputManager = (InputMethodManager) mTitleEditText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         inputManager.hideSoftInputFromWindow(mTitleEditText.getWindowToken(), 0);
     }

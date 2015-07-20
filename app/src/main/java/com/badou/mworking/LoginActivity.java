@@ -56,7 +56,9 @@ public class LoginActivity extends BaseNoTitleActivity implements LoginView, OnS
 
     public static Intent getIntent(Context context) {
         UserInfo.clearUserInfo((AppApplication) context.getApplicationContext());
-        return new Intent(context, LoginActivity.class);
+        Intent intent = new Intent(context, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        return intent;
     }
 
     protected void initView() {

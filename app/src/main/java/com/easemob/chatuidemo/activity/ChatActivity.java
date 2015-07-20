@@ -206,6 +206,13 @@ public class ChatActivity extends BaseBackActionBarActivity implements OnClickLi
     public EMChatRoom room;
     public boolean isRobot;
 
+    public static Intent getServiceIntent(Context context) {
+        Intent intent = new Intent(context, ChatActivity.class);
+        intent.putExtra("userId", "10086456");
+        intent.putExtra("chatType", CHATTYPE_SINGLE);
+        return intent;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
