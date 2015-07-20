@@ -19,6 +19,7 @@ import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroupManager;
 import com.easemob.chatuidemo.DemoHXSDKHelper;
 import com.easemob.chatuidemo.activity.ChatActivity;
+import com.easemob.chatuidemo.activity.ChatServiceActivity;
 
 import org.json.JSONObject;
 
@@ -39,12 +40,12 @@ public class ForgetPasswordActivity extends BaseBackActionBarActivity {
         setActionbarTitle(R.string.title_name_forget_password);
     }
 
-    @OnClick(R.id.phone_button)
+    @OnClick(R.id.phone_layout)
     void toPhoneActivity() {
         startActivity(new Intent(this, ForgetPasswordPhoneActivity.class));
     }
 
-    @OnClick(R.id.service_button)
+    @OnClick(R.id.service_layout)
     void toServiceActivity() {
         mProgressDialog.show();
         final String imei = ((TelephonyManager) getSystemService(TELEPHONY_SERVICE)).getDeviceId();
@@ -111,7 +112,8 @@ public class ForgetPasswordActivity extends BaseBackActionBarActivity {
                             return;
                         }
                         mProgressDialog.dismiss();
-                        startActivity(new Intent(mContext, ChatActivity.class).putExtra("userId", "10086456").putExtra("chatType", ChatActivity.CHATTYPE_SINGLE));
+                        startActivity(new Intent(mContext, ChatServiceActivity.class));
+                        //startActivity(ChatActivity.getServiceIntent(mContext));
                     }
                 });
             }

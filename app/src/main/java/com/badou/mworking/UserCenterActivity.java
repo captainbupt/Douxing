@@ -30,6 +30,7 @@ import com.badou.mworking.util.LVUtil;
 import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.SP;
 import com.badou.mworking.util.ToastUtil;
+import com.easemob.chatuidemo.activity.ChatActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -199,6 +200,13 @@ public class UserCenterActivity extends BaseNoTitleActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(mActivity, StoreActivity.class));
+            }
+        });
+
+        findViewById(R.id.ll_user_center_service).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(ChatActivity.getServiceIntent(mContext));
             }
         });
     }
