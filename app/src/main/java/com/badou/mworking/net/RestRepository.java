@@ -9,6 +9,7 @@ import com.badou.mworking.domain.CategoryDetailUseCase;
 import com.badou.mworking.domain.CategoryUseCase;
 import com.badou.mworking.domain.ChangePasswordUseCase;
 import com.badou.mworking.domain.CheckUpdateUseCase;
+import com.badou.mworking.domain.EMChatCreateGroupUseCase;
 import com.badou.mworking.domain.EnrollUseCase;
 import com.badou.mworking.domain.LoginUseCase;
 import com.badou.mworking.domain.StoreUseCase;
@@ -27,6 +28,7 @@ import java.io.File;
 import java.util.List;
 
 import retrofit.RestAdapter;
+import retrofit.mime.TypedString;
 import rx.Observable;
 
 public class RestRepository {
@@ -84,9 +86,9 @@ public class RestRepository {
 
     public Observable<BaseNetEntity> sendCategoryComment(String uid, String rid, String whom, String comment) {
         if (TextUtils.isEmpty(whom)) {
-            return restApi.sendCategoryComment(AppApplication.SYSPARAM, AppApplication.appVersion, uid, rid, comment);
+            return restApi.sendCategoryComment(AppApplication.SYSPARAM, AppApplication.appVersion, uid, rid, new TypedString(comment));
         } else {
-            return restApi.sendCategoryComment(AppApplication.SYSPARAM, AppApplication.appVersion, uid, rid, whom, comment);
+            return restApi.sendCategoryComment(AppApplication.SYSPARAM, AppApplication.appVersion, uid, rid, whom, new TypedString(comment));
         }
     }
 
@@ -124,5 +126,9 @@ public class RestRepository {
 
     public Observable<BaseNetEntity> enroll(EnrollUseCase.Body body) {
         return restApi.enroll(AppApplication.SYSPARAM, AppApplication.appVersion, body);
+    }
+
+    public Observable<BaseNetEntity<EMChatCreateGroupUseCase.Response>> createEMChatGroup(EMChatCreateGroupUseCase.Body body) {
+        return restApi.createEMChatGroup(AppApplication.SYSPARAM, AppApplication.appVersion, body);
     }
 }

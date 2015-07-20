@@ -9,6 +9,8 @@ import java.util.List;
 public interface MainGridView extends BaseView {
     void showExperienceDialog();
 
+    void showGuideFragment();
+
     void setMessageCenterStatus(boolean isUnread);
 
     void showSearchFragment();

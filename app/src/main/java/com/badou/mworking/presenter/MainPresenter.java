@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
+import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -84,6 +85,10 @@ public class MainPresenter extends Presenter {
         if (UserInfo.ANONYMOUS_ACCOUNT.equals(UserInfo.getUserInfo().getAccount())) {
             mMainView.showExperienceDialog();
         }
+        if (SPHelper.getIsMainFirst()) {
+            mMainView.showGuideFragment();
+            SPHelper.setIsMainFirst(false);
+        }
         mLogoUrl = SPHelper.getLogoUrl();
         mMainView.setLogoImage(mLogoUrl);
         updateMainIcon();
@@ -147,9 +152,14 @@ public class MainPresenter extends Presenter {
         mMainView.setBannerData(SPHelper.getMainBanner());
         updateMessageCenter();
         //mScrollView.scrollTo(0, 0);
-        UserInfo userInfo = UserInfo.getUserInfo();
+        final UserInfo userInfo = UserInfo.getUserInfo();
         updateMessageCenter();
-        loginEMChat(userInfo.getAccount(), userInfo.getHxpwd());
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                loginEMChat(userInfo.getAccount(), userInfo.getHxpwd());
+            }
+        }).start();
         checkUpdate();
     }
 
@@ -165,58 +175,59 @@ public class MainPresenter extends Presenter {
             ToastUtil.showToast(mContext, R.string.Login_failed);
             return;
         }
-        if (!DemoHXSDKHelper.getInstance().isLogined()) {
-            // 调用sdk登陆方法登陆聊天服务器
-            EMChatManager.getInstance().login(currentUsername, currentPassword, new EMCallBack() {
+        if (DemoHXSDKHelper.getInstance().isLogined())
+            EMChatManager.getInstance().logout();
+        // 调用sdk登陆方法登陆聊天服务器
+        EMChatManager.getInstance().login(currentUsername, currentPassword, new EMCallBack() {
 
-                @Override
-                public void onSuccess() {
-                    ((Activity) mContext).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            // 登陆成功，保存用户名密码
-                            EMChatEntity.getInstance().setUserName(currentUsername);
-                            EMChatEntity.getInstance().setPassword(currentPassword);
+            @Override
+            public void onSuccess() {
+                ((Activity) mContext).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // 登陆成功，保存用户名密码
+                        EMChatEntity.getInstance().setUserName(currentUsername);
+                        EMChatEntity.getInstance().setPassword(currentPassword);
 
-                            try {
-                                // ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
-                                // ** manually load all local groups and
-                                EMGroupManager.getInstance().loadAllGroups();
-                                EMChatManager.getInstance().loadAllConversations();
-                                // 处理好友和群组
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                // 取好友或者群聊失败，不让进入主页面
-                                EMChatEntity.getInstance().logout(null);
-                                Toast.makeText(mContext, R.string.login_failure_failed, Toast.LENGTH_SHORT).show();
-                                return;
-                            }
-                            // 更新当前用户的nickname 此方法的作用是在ios离线推送时能够显示用户nick
-                            boolean updatenick = EMChatManager.getInstance().updateCurrentUserNick(
-                                    EMChatEntity.getInstance().currentUserNick.trim());
-                            if (!updatenick) {
-                                Log.e("LoginActivity", "update current user nick fail");
-                            }
+                        try {
+                            // ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
+                            // ** manually load all local groups and
+                            EMGroupManager.getInstance().loadAllGroups();
+                            EMChatManager.getInstance().loadAllConversations();
+                            // 处理好友和群组
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            // 取好友或者群聊失败，不让进入主页面
+                            EMChatManager.getInstance().logout();
+                            Toast.makeText(mContext, R.string.login_failure_failed, Toast.LENGTH_SHORT).show();
+                            return;
                         }
-                    });
-                }
-
-                @Override
-                public void onProgress(int progress, String status) {
-                }
-
-                @Override
-                public void onError(final int code, final String message) {
-                    ((Activity) mContext).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            ToastUtil.showToast(mContext, R.string.Login_failed);
+                        // 更新当前用户的nickname 此方法的作用是在ios离线推送时能够显示用户nick
+                        boolean updatenick = EMChatManager.getInstance().updateCurrentUserNick(
+                                EMChatEntity.getInstance().currentUserNick.trim());
+                        if (!updatenick) {
+                            Log.e("LoginActivity", "update current user nick fail");
                         }
-                    });
-                }
-            });
-        }
+                    }
+                });
+            }
+
+            @Override
+            public void onProgress(int progress, String status) {
+            }
+
+            @Override
+            public void onError(final int code, final String message) {
+                ((Activity) mContext).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ToastUtil.showToast(mContext, R.string.Login_failed);
+                    }
+                });
+            }
+        });
     }
+
 
     public void onItemClick(MainIcon mainIcon) {
         Intent intent = new Intent();
@@ -337,7 +348,8 @@ public class MainPresenter extends Presenter {
      * @param newVersion
      */
     private void apkUpdate(final NewVersion newVersion) {
-        if (newVersion.hasNewVersion()) {
+        // 有遮罩则不提示更新
+        if (newVersion.hasNewVersion() && ((ActionBarActivity) mContext).getSupportFragmentManager().getFragments() == null) {
             new AlertDialog.Builder(mContext)
                     .setTitle(R.string.main_tips_update_title)
                     .setMessage(newVersion.getDescription())
