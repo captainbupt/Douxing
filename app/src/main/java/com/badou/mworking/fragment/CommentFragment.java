@@ -50,6 +50,16 @@ public class CommentFragment extends BaseFragment implements CommentView, Catego
     CommentPresenter mPresenter;
     CommentAdapter mCommentAdapter;
 
+    OnCommentCountChangedListener mOnCommentCountChangedListener;
+
+    public interface OnCommentCountChangedListener {
+        void onCommentCountChanged(int count);
+    }
+
+    public void setOnCommentCountChangedListener(OnCommentCountChangedListener onCommentCountChangedListener) {
+        this.mOnCommentCountChangedListener = onCommentCountChangedListener;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_comment, container, false);
@@ -197,6 +207,9 @@ public class CommentFragment extends BaseFragment implements CommentView, Catego
     @Override
     public void setCommentCount(int count) {
         mCommentAdapter.setAllCount(count);
+        if (mOnCommentCountChangedListener != null) {
+            mOnCommentCountChangedListener.onCommentCountChanged(count);
+        }
     }
 
     @Override
@@ -206,7 +219,7 @@ public class CommentFragment extends BaseFragment implements CommentView, Catego
 
     @Override
     public String getTitle() {
-        return mContext.getString(R.string.entry_comment) + "(" + mCommentAdapter.getCount() + ")";
+        return mContext.getString(R.string.entry_comment) + "(" + mCommentAdapter.getAllCount() + ")";
     }
 
     @Override

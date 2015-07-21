@@ -50,6 +50,12 @@ public class EntryActivity extends BaseNoTitleActivity implements EntryView {
         final EntryIntroductionFragment introductionFragment = EntryIntroductionFragment.getFragment(rid);
         final EntryOperationFragment operationFragment = EntryOperationFragment.getFragment(rid);
         final CommentFragment commentFragment = CommentFragment.getFragment(rid);
+        commentFragment.setOnCommentCountChangedListener(new CommentFragment.OnCommentCountChangedListener() {
+            @Override
+            public void onCommentCountChanged(int count) {
+                mContent.notifyDataSetChanged();
+            }
+        });
         List<CategoryTabContent.ScrollableContent> list = new ArrayList<>();
         list.add(introductionFragment);
         list.add(operationFragment);

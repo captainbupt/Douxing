@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/color_white"
     android:gravity="center_vertical"
     android:orientation="horizontal"
     android:padding="@dimen/offset_medium">
@@ -13,7 +14,7 @@
         android:layout_margin="@dimen/offset_less"
         android:background="@drawable/background_entry_operation_round_index"
         android:gravity="center"
-        android:textColor="@color/color_text_black"
+        android:textColor="@color/color_text_grey"
         android:textSize="@dimen/text_size_large" />
 
     <LinearLayout
