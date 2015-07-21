@@ -77,7 +77,8 @@ public class EntryOperationFragment extends BaseFragment implements EntryOperati
 
     @OnItemClick(R.id.content_list_view)
     void onItemClicked(AdapterView<?> parent, View view, int position, long id) {
-        mPresenter.onItemClick((EntryOperation) parent.getAdapter().getItem(position), position - 1);
+        if (position >= 1)
+            mPresenter.onItemClick((EntryOperation) parent.getAdapter().getItem(position), position - 1);
     }
 
     @Override

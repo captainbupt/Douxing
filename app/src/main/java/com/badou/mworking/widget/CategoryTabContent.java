@@ -91,6 +91,7 @@ public class CategoryTabContent extends LinearLayout implements ContentHandler {
         }, 200);
     }
 
+
     public void setSwipeEnabled(boolean isEnable) {
         swipeEnabled = isEnable;
         if (isEnable) {
