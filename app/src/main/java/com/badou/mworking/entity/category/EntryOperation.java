@@ -1,7 +1,11 @@
 package com.badou.mworking.entity.category;
 
+import com.google.gson.annotations.SerializedName;
+
 public class EntryOperation {
+    @SerializedName("rid")
     String rid;
+    @SerializedName("categoryDetail")
     CategoryDetail categoryDetail;
 
     public EntryOperation(String rid, CategoryDetail categoryDetail) {

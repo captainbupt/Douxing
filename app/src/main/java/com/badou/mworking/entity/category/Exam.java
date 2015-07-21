@@ -23,6 +23,7 @@ import java.io.Serializable;
 public class Exam extends Category {
 
     @Expose
+    @SerializedName("pass")
     int pass;
     @SerializedName("content")
     @Expose
@@ -30,7 +31,8 @@ public class Exam extends Category {
 
     transient Content content;
 
-    public Exam(){}
+    public Exam() {
+    }
 
     public boolean isGraded() {
         return getContent().d == 1;
@@ -69,10 +71,13 @@ public class Exam extends Category {
 
     static class Content {
         @Expose
+        @SerializedName("s")
         int s;
         @Expose
+        @SerializedName("t")
         int t;
         @Expose
+        @SerializedName("d")
         int d;
 
         public Content() {

@@ -1,28 +1,42 @@
 package com.badou.mworking.entity.comment;
 
+import com.google.gson.annotations.SerializedName;
+
 public class ChatterComment extends Comment {
+
+    @SerializedName("t")
+    long time;
+    @SerializedName("e")
+    String name;
+    @SerializedName("c")
+    String content;
+    @SerializedName("imgurl")
+    String imgUrl;
+    @SerializedName("uid")
+    String uid;
+
     @Override
     public String getName() {
-        return null;
+        return name;
     }
 
     @Override
     public long getTime() {
-        return 0;
+        return time * 1000;
     }
 
     @Override
     public String getContent() {
-        return null;
+        return content;
     }
 
     @Override
     public String getWhom() {
-        return null;
+        return uid;
     }
 
     @Override
     public String getImgUrl() {
-        return null;
+        return imgUrl;
     }
 }

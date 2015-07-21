@@ -46,7 +46,6 @@ import com.easemob.chat.EMConversation.EMConversationType;
 import com.easemob.chatuidemo.Constant;
 import com.badou.mworking.R;
 import com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter;
-import com.easemob.chatuidemo.db.InviteMessgeDao;
 import com.swipe.delete.SwipeLayout;
 
 /**

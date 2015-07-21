@@ -2,6 +2,7 @@ package com.badou.mworking.domain;
 
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.RestRepository;
+import com.google.gson.annotations.SerializedName;
 
 import rx.Observable;
 
@@ -19,7 +20,10 @@ public class CategoryDetailUseCase extends UseCase {
     }
 
     public static class Body {
+
+        @SerializedName("uid")
         String uid;
+        @SerializedName("rid")
         String rid;
 
         public Body(String uid, String rid) {

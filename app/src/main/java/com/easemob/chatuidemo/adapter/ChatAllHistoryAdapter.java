@@ -47,7 +47,6 @@ import com.badou.mworking.R;
 import com.easemob.chatuidemo.activity.ChatAllHistoryFragment;
 import com.easemob.chatuidemo.utils.DateUtils;
 import com.easemob.chatuidemo.utils.SmileUtils;
-import com.easemob.chatuidemo.utils.UserUtils;
 import com.easemob.util.EMLog;
 import com.swipe.delete.SwipeLayout;
 
@@ -112,7 +111,7 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
             EMGroup group = EMGroupManager.getInstance().getGroup(username);
             holder.name.setText(group != null ? group.getGroupName() : username);
         } else if(conversation.getType() == EMConversationType.Chat){
-            UserUtils.setUserAvatar(getContext(), username, holder.avatar);
+            EMChatEntity.setUserAvatar(getContext(), username, holder.avatar);
             holder.name.setText(EMChatEntity.getInstance().getContactList().get(username).getNick());
         }
 

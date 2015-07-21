@@ -18,12 +18,18 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.badou.mworking.MainGridActivity;
 import com.badou.mworking.R;
+import com.badou.mworking.entity.emchat.EMChatEntity;
+import com.badou.mworking.net.Net;
+import com.badou.mworking.net.ServiceProvider;
+import com.badou.mworking.net.volley.VolleyListener;
+import com.badou.mworking.util.ToastUtil;
 import com.easemob.EMCallBack;
 import com.easemob.EMChatRoomChangeListener;
 import com.easemob.EMEventListener;
@@ -46,6 +52,8 @@ import com.easemob.chatuidemo.receiver.CallReceiver;
 import com.easemob.chatuidemo.utils.CommonUtils;
 import com.easemob.util.EMLog;
 import com.easemob.util.EasyUtils;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -407,7 +415,6 @@ public class DemoHXSDKHelper extends HXSDKHelper {
             public void onSuccess() {
                 // TODO Auto-generated method stub
                 setContactList(null);
-                getModel().closeDB();
                 if (callback != null) {
                     callback.onSuccess();
                 }
@@ -436,6 +443,85 @@ public class DemoHXSDKHelper extends HXSDKHelper {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void loginAnonymous(final Activity activity, final EMCallBack emCallBack) {
+        final String imei = ((TelephonyManager) activity.getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
+        ServiceProvider.registerAccount(activity, imei, new VolleyListener(activity) {
+            @Override
+            public void onResponseSuccess(JSONObject response) {
+                final String password = response.optJSONObject(Net.DATA).optString("hxpwd");
+                new Thread() {
+                    @Override
+                    public void run() {
+                        super.run();
+                        loginEMChat(activity, imei, password, emCallBack);
+                    }
+                }.start();
+            }
+
+            @Override
+            public void onErrorCode(int code) {
+                super.onErrorCode(code);
+            }
+        });
+    }
+
+    /**
+     * 登录
+     */
+    public void loginEMChat(final Activity activity, final String currentUsername, final String currentPassword, final EMCallBack emCallBack) {
+        if (TextUtils.isEmpty(currentPassword)) {
+            ToastUtil.showToast(activity, R.string.Login_failed);
+            return;
+        }
+        if (DemoHXSDKHelper.getInstance().isLogined()) {
+            EMChatManager.getInstance().logout();
+        }
+        // 调用sdk登陆方法登陆聊天服务器
+        EMChatManager.getInstance().login(currentUsername, currentPassword, new EMCallBack() {
+
+            @Override
+            public void onSuccess() {
+                // 登陆成功，保存用户名密码
+                EMChatEntity.getInstance().setUserName(currentUsername);
+                EMChatEntity.getInstance().setPassword(currentPassword);
+
+                try {
+                    // ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
+                    // ** manually load all local groups and
+/*                            EMGroupManager.getInstance().loadAllGroups();
+                            EMChatManager.getInstance().loadAllConversations();*/
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    // 取好友或者群聊失败，不让进入主页面
+                    EMChatEntity.getInstance().logout(null);
+                    Toast.makeText(activity, R.string.login_failure_failed, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        emCallBack.onSuccess();
+                    }
+                });
+            }
+
+            @Override
+            public void onProgress(int progress, String status) {
+                emCallBack.onProgress(progress, status);
+            }
+
+            @Override
+            public void onError(final int code, final String message) {
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        emCallBack.onError(code, message);
+                    }
+                });
+            }
+        });
     }
 
 }

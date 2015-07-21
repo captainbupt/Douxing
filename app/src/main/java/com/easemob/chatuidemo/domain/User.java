@@ -18,16 +18,17 @@ import android.content.Context;
 import com.badou.mworking.database.EMChatResManager;
 import com.badou.mworking.entity.emchat.Department;
 import com.badou.mworking.entity.emchat.Role;
-import com.badou.mworking.util.Cn2Spell;
 import com.easemob.chat.EMContact;
 
 import android.content.Intent;
+import android.text.TextUtils;
 
 import com.badou.mworking.database.EMChatResManager;
-import com.badou.mworking.util.Cn2Spell;
 import com.easemob.applib.model.DefaultHXSDKModel;
 import com.easemob.chat.EMContact;
+import com.easemob.util.HanziToPinyin;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -37,7 +38,7 @@ public class User extends EMContact {
     private String avatar;
     private long department;
     private int role;
-    private String spell;
+    private List<HanziToPinyin.Token> spell;
     private String tag;
 
     public User() {
@@ -45,7 +46,7 @@ public class User extends EMContact {
 
     public User(String username, String nick, String avatar, long department, int role) {
         this.username = username;
-        this.nick = nick;
+        this.nick = TextUtils.isEmpty(nick) ? username : nick;
         this.avatar = avatar;
         this.department = department;
         this.role = role;
@@ -77,8 +78,8 @@ public class User extends EMContact {
     }
 
     public void setSpell(String username) {
-        this.spell = Cn2Spell.converterToFirstSpell(username);
-        this.header = String.valueOf(spell.charAt(0)).toUpperCase();
+        this.spell = HanziToPinyin.getInstance().get(username);
+        this.header = String.valueOf(spell.get(0)).toUpperCase();
         if (header.charAt(0) < 'A' || header.charAt(0) > 'Z') {
             header = "#";
         }
@@ -105,7 +106,7 @@ public class User extends EMContact {
         return EMChatResManager.getDepartment(department);
     }
 
-    public String getSpell() {
+    public List<HanziToPinyin.Token> getSpell() {
         return spell;
     }
 

@@ -29,9 +29,9 @@ import android.widget.TextView;
 
 import com.badou.mworking.R;
 import com.badou.mworking.entity.emchat.Department;
+import com.badou.mworking.entity.emchat.EMChatEntity;
 import com.easemob.chatuidemo.Constant;
 import com.easemob.chatuidemo.domain.User;
-import com.easemob.chatuidemo.utils.UserUtils;
 import com.easemob.util.EMLog;
 
 import java.util.ArrayList;
@@ -150,7 +150,7 @@ public class ContactAdapter extends ArrayAdapter<User> implements SectionIndexer
             Department department = user.getDepartment();
             holder.tvDepartment.setText(department == null ? "暂无" : department.getName());
             //设置用户头像
-            UserUtils.setUserAvatar(getContext(), username, holder.avatar);
+            EMChatEntity.setUserAvatar(getContext(), username, holder.avatar);
             if (holder.unreadMsgView != null)
                 holder.unreadMsgView.setVisibility(View.INVISIBLE);
         }

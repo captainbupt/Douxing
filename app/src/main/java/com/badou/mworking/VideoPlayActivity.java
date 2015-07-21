@@ -287,7 +287,7 @@ public class VideoPlayActivity extends BaseBackActionBarActivity {
     @Override
     protected void onDestroy() {
         mProgressDialog.dismiss();
-        ServiceProvider.cancelRequest();
+        ServiceProvider.cancelRequest(mContext);
         super.onDestroy();
     }
 

@@ -6,8 +6,6 @@ import android.content.Intent;
 import com.badou.mworking.EntryActivity;
 import com.badou.mworking.ExamBaseActivity;
 import com.badou.mworking.NoticeBaseActivity;
-import com.badou.mworking.NoticePDFViewActivity;
-import com.badou.mworking.NoticeWebViewActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.TaskSignActivity;
 import com.badou.mworking.TrainBaseActivity;

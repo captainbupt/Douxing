@@ -1,12 +1,19 @@
 package com.badou.mworking.entity.category;
 
-public class Entry extends Category {
+import com.google.gson.annotations.SerializedName;
 
+public class Entry extends Category {
+    @SerializedName("maxusr")
     int maxusr;
+    @SerializedName("deadline_c")
     long deadline_c;
+    @SerializedName("startline_c")
     long startline_c;
+    @SerializedName("enroll")
     int enroll;
+    @SerializedName("in")
     int in;
+    @SerializedName("description")
     String description;
 
     @Override

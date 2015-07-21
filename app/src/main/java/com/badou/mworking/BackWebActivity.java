@@ -1,16 +1,20 @@
 package com.badou.mworking;
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.fragment.WebViewFragment;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
+import com.badou.mworking.util.DensityUtil;
 
 /**
  * 功能描述:  actionbar为返回的网页展示页面
@@ -53,11 +57,15 @@ public class BackWebActivity extends BaseBackActionBarActivity {
      */
     private void bannerDate(String logoUrl) {
         ImageView logoImage = new ImageView(mContext);
-        logoImage.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, getResources().getDimensionPixelOffset(R.dimen.height_title_bar)));
+        logoImage.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
         logoImage.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        int padding = getResources().getDimensionPixelOffset(R.dimen.offset_lless);
-        logoImage.setPadding(padding, padding, padding, padding);
+        int padding = DensityUtil.getInstance().getOffsetLless();
+        logoImage.setPadding(0, padding, 0, padding);
         ImageViewLoader.setImageViewResource(logoImage, R.drawable.logo, logoUrl);
+        ViewGroup.LayoutParams lp = mTitleContainerLayout.getLayoutParams();
+        lp.width = ViewGroup.LayoutParams.MATCH_PARENT;
+        lp.height = ViewGroup.LayoutParams.MATCH_PARENT;
+        mTitleContainerLayout.setLayoutParams(lp);
         setTitleCustomView(logoImage);
     }
 }
