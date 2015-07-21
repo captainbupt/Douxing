@@ -3,6 +3,7 @@ package com.badou.mworking.domain;
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.RestRepository;
 import com.badou.mworking.util.Constant;
+import com.google.gson.annotations.SerializedName;
 
 import rx.Observable;
 
@@ -26,9 +27,13 @@ public class CategoryCommentGetUseCase extends UseCase {
     }
 
     public static class Body {
+        @SerializedName("page_no")
         int page_no;
+        @SerializedName("item_per_page")
         int item_per_page;
+        @SerializedName("uid")
         String uid;
+        @SerializedName("rid")
         String rid;
 
         public Body(int page_no, int item_per_page, String uid, String rid) {

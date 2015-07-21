@@ -32,11 +32,7 @@
     <dimen name="login_logo_pic_small_size">42dp</dimen>
     <dimen name="login_input_icon_size">23dp</dimen>
 
-    <!-- activity main grid -->
-    <dimen name="icon_size_main_grid_category">35dp</dimen>
-
     <!-- user center -->
-    <dimen name="user_center_image_head_size">80dp</dimen>
     <dimen name="user_center_progress_height">8dp</dimen>
     <dimen name="user_center_icon_forward_width">15dp</dimen>
     <dimen name="user_center_icon_forward_height">20dp</dimen>

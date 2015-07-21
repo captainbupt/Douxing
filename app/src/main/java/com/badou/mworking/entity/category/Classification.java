@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.badou.mworking.util.SP;
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -13,14 +14,18 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class Classification{
+public class Classification {
     @Expose
+    @SerializedName("name")
     String name;  //分类名称
     @Expose
+    @SerializedName("tag")
     int tag;   //分类tag
     @Expose
+    @SerializedName("priority")
     int priority;  //分类优先级
     @Expose
+    @SerializedName("son")
     List<Classification> son;
 
     public String getName() {

@@ -18,6 +18,7 @@
 
     <!-- list 8-15 -->
     <dimen name="icon_size_category_item">@dimen/icon_size_medium</dimen>
+    <dimen name="icon_size_main_grid_category">@dimen/icon_size_medium</dimen>
 
 
     <dimen name="height_top_bar">46dp</dimen>

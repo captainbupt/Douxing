@@ -142,7 +142,7 @@ public class PDFViewFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         SPHelper.setPdfPage(mRid, mPdfView.getCurrentPage() + 1);
-        ServiceProvider.cancelRequest();
+        ServiceProvider.cancelRequest(mContext);
         progressDialog.dismiss();
         super.onDestroyView();
         ButterKnife.unbind(this);

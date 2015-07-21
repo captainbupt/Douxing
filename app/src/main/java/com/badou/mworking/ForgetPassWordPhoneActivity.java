@@ -62,13 +62,7 @@ public class ForgetPasswordPhoneActivity extends BaseBackActionBarActivity {
         String tip = getResources().getString(
                 R.string.act_forget_verify_top_tip);
 
-        int start = tip.indexOf("400-8233-773");
-        int end = start + "400-8233-773".length();
-
-        SpannableStringBuilder style = new SpannableStringBuilder(tip);
-        style.setSpan(new URLSpanNoUnderline("400-8233-773"), start, end,
-                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        mTopTipTextView.setText(style);
+        mTopTipTextView.setText(tip);
         mTopTipTextView.setMovementMethod(LinkMovementMethod.getInstance());
         mGetCodeTextView.setText(R.string.forget_password_get_code);
         setButtonDisable(mGetCodeTextView);

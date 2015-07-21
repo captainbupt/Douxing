@@ -130,7 +130,6 @@ public class CategoryBasePresenter extends Presenter {
     }
 
     public CategoryDetail getData() {
-        System.out.println("present: " + (mCategoryDetail.getEcnt()));
         return mCategoryDetail;
     }
 

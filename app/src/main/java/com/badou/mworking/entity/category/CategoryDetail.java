@@ -23,20 +23,33 @@ import java.util.Calendar;
 
 public class CategoryDetail implements Serializable {
 
+    @SerializedName("mcnt")
     int mcnt;
+    @SerializedName("ccnt")
     int ccnt;
+    @SerializedName("ecnt")
     int ecnt;
+    @SerializedName("eval")
     int eval;
     @SerializedName("content")
     String contentStr;
+    @SerializedName("url")
     String url;
+    @SerializedName("fmt")
     int fmt;
+    @SerializedName("tag")
     String tag;
+    @SerializedName("store")
     boolean store;
+    @SerializedName("subject")
     String subject;
+    @SerializedName("img")
     String img;
+    @SerializedName("link_to")
     String link_to;
+    @SerializedName("entry")
     Entry entry;
+    @SerializedName("task")
     Task task;
 
     // 为了保证在传递categoryDetail的过程中，对content的修改不丢失，所以给他添加一个字段。
@@ -45,7 +58,9 @@ public class CategoryDetail implements Serializable {
     Content content;
 
     public static class Content implements Serializable {
+        @SerializedName("e")
         int e = -1;
+        @SerializedName("c")
         int c;
 
         public int getScore() {
@@ -62,14 +77,23 @@ public class CategoryDetail implements Serializable {
     }
 
     public static class Entry implements Serializable {
+        @SerializedName("offline")
         int offline;
+        @SerializedName("maxusr")
         int maxusr;
+        @SerializedName("deadline")
         long deadline;
+        @SerializedName("startline")
         long startline;
+        @SerializedName("deadline_c")
         long deadline_c;
+        @SerializedName("startline_c")
         long startline_c;
+        @SerializedName("enroll")
         int enroll;
+        @SerializedName("in")
         int in;
+        @SerializedName("content")
         EntryContent content;
 
         public void setIn(int in) {
@@ -127,14 +151,23 @@ public class CategoryDetail implements Serializable {
     }
 
     public static class Task implements Serializable {
+        @SerializedName("offline")
         int offline;
+        @SerializedName("place")
         String place;
+        @SerializedName("latitude")
         float latitude;
+        @SerializedName("longitude")
         float longitude;
+        @SerializedName("comment")
         String comment;
+        @SerializedName("deadline")
         long deadline;
+        @SerializedName("startline")
         long startline;
+        @SerializedName("photo")
         int photo;
+        @SerializedName("qrint")
         int qrint;
 
         public boolean isFreeSign() {

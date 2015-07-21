@@ -69,7 +69,7 @@ public class StoreActivity extends BaseBackActionBarActivity {
                         }
                     }
                 };
-                if (store.type == Store.TYPE_NOTICE || store.type == Store.TYPE_TRAINING || store.type == Store.TYPE_EXAM || store.type == Store.TYPE_TASK || store.type == Store.TYPE_SHELF) {
+                if (store.type == Store.TYPE_NOTICE || store.type == Store.TYPE_TRAINING || store.type == Store.TYPE_EXAM || store.type == Store.TYPE_TASK || store.type == Store.TYPE_SHELF || store.type == Store.TYPE_ENTRY) {
                     mProgressDialog.dismiss();
                     startActivity(CategoryIntentFactory.getIntent(mContext, Store.getCategoryTypeFromStore(store.type), store.sid));
                 } else if (store.type == Store.TYPE_CHATTER) {
@@ -110,6 +110,7 @@ public class StoreActivity extends BaseBackActionBarActivity {
 
             @Override
             public void onResponseSuccess(JSONObject response) {
+                System.out.println(response);
                 final String userNum = UserInfo.getUserInfo().getAccount();
                 List<Object> list = new ArrayList<>();
                 JSONArray resultArray = response.optJSONArray(Net.DATA);

@@ -17,7 +17,7 @@ public class Store {
     public static final int TYPE_TASK = 4;
     public static final int TYPE_SHELF = 9;
     public static final int TYPE_CHATTER = 7;
-    public static final int TYPE_ENTRY = 8;
+    public static final int TYPE_ENTRY = 10;
 
     public static final String TYPE_STRING_ASK = "ask";
     public static final String TYPE_STRING_NOTICE = "notice";
@@ -67,6 +67,8 @@ public class Store {
                 return R.drawable.button_task;
             case TYPE_TRAINING:
                 return R.drawable.button_training;
+            case TYPE_ENTRY:
+                return R.drawable.button_entry;
             default:
                 return R.drawable.button_notice;
         }
@@ -88,12 +90,14 @@ public class Store {
                 return TYPE_STRING_TASK;
             case TYPE_TRAINING:
                 return TYPE_STRING_TRAINING;
+            case TYPE_ENTRY:
+                return TYPE_STRING_ENTRY;
             default:
                 return TYPE_STRING_NOTICE;
         }
     }
 
-    public static String getStoreStringFromCategory(int category){
+    public static String getStoreStringFromCategory(int category) {
         return getTypeString(getStoreTypeFromCategory(category));
     }
 
@@ -128,6 +132,8 @@ public class Store {
                 return Category.CATEGORY_TASK;
             case TYPE_TRAINING:
                 return Category.CATEGORY_TRAINING;
+            case TYPE_ENTRY:
+                return Category.CATEGORY_ENTRY;
             default:
                 return Category.CATEGORY_NOTICE;
         }

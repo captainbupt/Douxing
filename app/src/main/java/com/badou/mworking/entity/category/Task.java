@@ -21,20 +21,28 @@ import java.util.Calendar;
 public class Task extends Category {
 
     @Expose
+    @SerializedName("photo")
     int photo;// 是否上传照片
     @Expose
+    @SerializedName("qrint")
     int qrint; // 是否支持二维码
     @Expose
+    @SerializedName("startline")
     long startline;// 开始时间
     @Expose
+    @SerializedName("deadline")
     long deadline;// 结束时间
     @Expose
+    @SerializedName("longitude")
     double longitude;// 经度
     @Expose
+    @SerializedName("latitude")
     double latitude;// 纬度
     @Expose
+    @SerializedName("place")
     String place;// 显示的地址
     @Expose
+    @SerializedName("comment")
     String comment;// 描述
     @SerializedName("content")
     @Expose
@@ -120,6 +128,7 @@ public class Task extends Category {
 
     static class Content {
         @Expose
+        @SerializedName("p")
         String p;
 
         public String getP() {

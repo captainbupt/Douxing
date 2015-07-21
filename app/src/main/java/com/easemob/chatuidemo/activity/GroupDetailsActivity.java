@@ -55,7 +55,6 @@ import com.easemob.chat.TextMessageBody;
 import com.easemob.chatuidemo.DemoHXSDKHelper;
 import com.easemob.chatuidemo.adapter.MessageAdapter;
 import com.easemob.chatuidemo.domain.User;
-import com.easemob.chatuidemo.utils.UserUtils;
 import com.easemob.chatuidemo.widget.ExpandGridView;
 import com.easemob.exceptions.EaseMobException;
 import com.easemob.util.EMLog;
@@ -686,7 +685,7 @@ public class GroupDetailsActivity extends BaseBackActionBarActivity implements O
                 } else {
                     holder.textView.setText(user.getNick());
                 }
-                UserUtils.setUserAvatar(getContext(), username, holder.imageView);
+                EMChatEntity.setUserAvatar(getContext(), username, holder.imageView);
                 // demo群组成员的头像都用默认头像，需由开发者自己去设置头像
                 if (isInDeleteMode) {
                     // 如果是删除模式下，显示减人图标

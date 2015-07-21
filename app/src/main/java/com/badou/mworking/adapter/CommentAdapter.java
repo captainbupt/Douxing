@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
+import com.badou.mworking.entity.comment.ChatterComment;
 import com.badou.mworking.entity.comment.Comment;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
@@ -68,16 +69,19 @@ public class CommentAdapter extends MyBaseAdapter<Comment> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
+        Comment comment = mItemList.get(position);
         /**加载布局**/
         if (convertView != null) {
             holder = (ViewHolder) convertView.getTag();
         } else {
             convertView = mInflater.inflate(R.layout.adapter_comment,
                     parent, false);
+            if (comment instanceof ChatterComment) {
+                convertView.setBackgroundColor(0x00000000);
+            }
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         }
-        Comment comment = mItemList.get(position);
         /*获取员工号*/
         String name = comment.getName();
         if (!TextUtils.isEmpty(name)) {
@@ -92,8 +96,10 @@ public class CommentAdapter extends MyBaseAdapter<Comment> {
         String pubTime = TimeTransfer.long2StringDetailDate(mContext, comment.getTime());
         holder.mDateTextView.setText(pubTime);
 
+        System.out.println("img url: " + comment.getImgUrl());
+
         /**设置头像**/
-        ImageViewLoader.setCircleImageViewResource(holder.mHeadImageView, comment.getImgUrl(),mContext.getResources().getDimensionPixelSize(R.dimen.icon_head_size_middle));
+        ImageViewLoader.setCircleImageViewResource(holder.mHeadImageView, comment.getImgUrl(), mContext.getResources().getDimensionPixelSize(R.dimen.icon_head_size_middle));
 
 		/*设置楼数*/
         int floorNum = mAllCount - position;
@@ -103,7 +109,7 @@ public class CommentAdapter extends MyBaseAdapter<Comment> {
         } else {
             holder.mDividerView.setVisibility(View.VISIBLE);
         }
-        if ((mDeletable || comment.getName().equals("我"))) {
+        if (!TextUtils.isEmpty(mQid) && (mDeletable || comment.getName().equals("我"))) {
             holder.mDeleteTextView.setVisibility(View.VISIBLE);
             holder.mDeleteConfirmListener.floor = floorNum;
         } else {

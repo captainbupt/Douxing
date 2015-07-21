@@ -8,8 +8,10 @@ public class NewVersion {
     @SerializedName("new")
     int isNew;
     @Expose
+    @SerializedName("desc")
     String desc;
     @Expose
+    @SerializedName("url")
     String url;
 
     public boolean hasNewVersion() {

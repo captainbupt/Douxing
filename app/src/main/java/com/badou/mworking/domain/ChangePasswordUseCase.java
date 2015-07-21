@@ -2,6 +2,7 @@ package com.badou.mworking.domain;
 
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.RestRepository;
+import com.google.gson.annotations.SerializedName;
 
 import rx.Observable;
 
@@ -21,8 +22,11 @@ public class ChangePasswordUseCase extends UseCase {
     }
 
     public static class Body {
+        @SerializedName("uid")
         String uid;
+        @SerializedName("oldpwd")
         String oldpwd;
+        @SerializedName("newpwd")
         String newpwd;
 
         public Body(String uid, String oldpwd, String newpwd) {

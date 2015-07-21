@@ -23,7 +23,6 @@ import android.preference.PreferenceManager;
 
 import com.badou.mworking.util.SPHelper;
 import com.easemob.applib.utils.HXPreferenceUtils;
-import com.easemob.chatuidemo.db.UserDao;
 
 import java.util.HashMap;
 import java.util.List;
@@ -37,7 +36,6 @@ import java.util.Map;
 public class DefaultHXSDKModel extends HXSDKModel {
     private static final String PREF_USERNAME = "username";
     private static final String PREF_PWD = "pwd";
-    UserDao dao = null;
     protected Context context = null;
     protected Map<Key, Object> valueCache = new HashMap<Key, Object>();
 
@@ -153,50 +151,11 @@ public class DefaultHXSDKModel extends HXSDKModel {
     }
 
     public void setDisabledGroups(List<String> groups) {
-        /*if(dao == null){
-            dao = new UserDao(context);
-        }
-        
-        dao.setDisabledGroups(groups);
-        //valueCache.put(Key.DisabledGroups, groups);*/
         SPHelper.setDisabledGroup(context, groups);
     }
 
     public List<String> getDisabledGroups() {
-        //Object val = valueCache.get(Key.DisabledGroups);
-       /* Object val = null;
-        if (dao == null) {
-            dao = new UserDao(context);
-        }
-        if (val == null) {
-            val = dao.getDisabledGroups();
-            //valueCache.put(Key.DisabledGroups, val);
-        }*/
         return SPHelper.getDisabledGroup(context);
-    }
-
-    public void setDisabledIds(List<String> ids) {
-        if (dao == null) {
-            dao = new UserDao(context);
-        }
-
-        dao.setDisabledIds(ids);
-        valueCache.put(Key.DisabledIds, ids);
-    }
-
-    public List<String> getDisabledIds() {
-        Object val = valueCache.get(Key.DisabledIds);
-
-        if (dao == null) {
-            dao = new UserDao(context);
-        }
-
-        if (val == null) {
-            val = dao.getDisabledIds();
-            valueCache.put(Key.DisabledIds, val);
-        }
-
-        return (List<String>) val;
     }
 
     public void allowChatroomOwnerLeave(boolean value) {

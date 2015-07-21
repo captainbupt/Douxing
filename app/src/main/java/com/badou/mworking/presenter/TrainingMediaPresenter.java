@@ -189,9 +189,8 @@ public class TrainingMediaPresenter extends Presenter {
         pausePlayer();
     }
 
-    // 来电处理
     public void destroy() {
         pausePlayer();
-        ServiceProvider.cancelRequest();
+        ServiceProvider.cancelRequest(mContext);
     }
 }

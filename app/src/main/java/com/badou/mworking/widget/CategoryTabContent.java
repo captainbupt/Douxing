@@ -95,11 +95,15 @@ public class CategoryTabContent extends LinearLayout implements ContentHandler {
         swipeEnabled = isEnable;
         if (isEnable) {
             for (int ii = 0; ii < mRadioButtonList.size(); ii++) {
-                mRadioButtonList.get(ii).setEnabled(true);
+                RadioButton radioButton = mRadioButtonList.get(ii);
+                radioButton.setEnabled(true);
+                radioButton.setTextColor(mContext.getResources().getColorStateList(R.color.color_radio_button_text_blue_category));
             }
         } else {
             for (int ii = 1; ii < mRadioButtonList.size(); ii++) {
-                mRadioButtonList.get(ii).setEnabled(false);
+                RadioButton radioButton = mRadioButtonList.get(ii);
+                radioButton.setEnabled(false);
+                radioButton.setTextColor(mContext.getResources().getColor(R.color.color_text_grey));
             }
         }
         mRadioButtonList.get(0).setChecked(true);

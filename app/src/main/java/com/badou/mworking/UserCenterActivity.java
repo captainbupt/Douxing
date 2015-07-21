@@ -30,12 +30,16 @@ import com.badou.mworking.util.LVUtil;
 import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.SP;
 import com.badou.mworking.util.ToastUtil;
+import com.easemob.EMCallBack;
+import com.easemob.chatuidemo.DemoHXSDKHelper;
 import com.easemob.chatuidemo.activity.ChatActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+
+import butterknife.OnClick;
 
 /**
  * 功能描述: 个人中心页面
@@ -206,7 +210,29 @@ public class UserCenterActivity extends BaseNoTitleActivity {
         findViewById(R.id.ll_user_center_service).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(ChatActivity.getServiceIntent(mContext));
+                if (DemoHXSDKHelper.getInstance().isLogined()) {
+                    startActivity(ChatActivity.getServiceIntent(mContext));
+                } else {
+                    mProgressDialog.show();
+                    ((DemoHXSDKHelper) DemoHXSDKHelper.getInstance()).loginAnonymous(mActivity, new EMCallBack() {
+                        @Override
+                        public void onSuccess() {
+                            mProgressDialog.dismiss();
+                            startActivity(ChatActivity.getServiceIntent(mContext));
+                        }
+
+                        @Override
+                        public void onError(int i, String s) {
+                            mProgressDialog.dismiss();
+                            ToastUtil.showToast(mContext, R.string.Login_failed);
+                        }
+
+                        @Override
+                        public void onProgress(int i, String s) {
+
+                        }
+                    });
+                }
             }
         });
     }

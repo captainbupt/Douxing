@@ -48,24 +48,22 @@ public class ForgetPasswordActivity extends BaseBackActionBarActivity {
     @OnClick(R.id.service_layout)
     void toServiceActivity() {
         mProgressDialog.show();
-        final String imei = ((TelephonyManager) getSystemService(TELEPHONY_SERVICE)).getDeviceId();
-        ServiceProvider.registerAccount(mContext, imei, new VolleyListener(mContext) {
+        ((DemoHXSDKHelper) DemoHXSDKHelper.getInstance()).loginAnonymous(mActivity, new EMCallBack() {
             @Override
-            public void onResponseSuccess(JSONObject response) {
-                final String password = response.optJSONObject(Net.DATA).optString("hxpwd");
-                new Thread() {
-                    @Override
-                    public void run() {
-                        super.run();
-                        loginEMChat(imei, password);
-                    }
-                }.start();
+            public void onSuccess() {
+                mProgressDialog.dismiss();
+                startActivity(ChatActivity.getServiceIntent(mContext));
             }
 
             @Override
-            public void onErrorCode(int code) {
-                super.onErrorCode(code);
+            public void onError(int i, String s) {
                 mProgressDialog.dismiss();
+                ToastUtil.showToast(mContext, R.string.Login_failed);
+            }
+
+            @Override
+            public void onProgress(int i, String s) {
+
             }
         });
     }
@@ -74,65 +72,6 @@ public class ForgetPasswordActivity extends BaseBackActionBarActivity {
     protected void onDestroy() {
         ButterKnife.unbind(this);
         super.onDestroy();
-    }
-
-    /**
-     * 登录
-     */
-    public void loginEMChat(final String currentUsername, final String currentPassword) {
-        if (TextUtils.isEmpty(currentPassword)) {
-            ToastUtil.showToast(mContext, R.string.Login_failed);
-            return;
-        }
-        if (DemoHXSDKHelper.getInstance().isLogined()) {
-            EMChatManager.getInstance().logout();
-        }
-        // 调用sdk登陆方法登陆聊天服务器
-        EMChatManager.getInstance().login(currentUsername, currentPassword, new EMCallBack() {
-
-            @Override
-            public void onSuccess() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        // 登陆成功，保存用户名密码
-                        EMChatEntity.getInstance().setUserName(currentUsername);
-                        EMChatEntity.getInstance().setPassword(currentPassword);
-
-                        try {
-                            // ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
-                            // ** manually load all local groups and
-                            EMGroupManager.getInstance().loadAllGroups();
-                            EMChatManager.getInstance().loadAllConversations();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            // 取好友或者群聊失败，不让进入主页面
-                            EMChatEntity.getInstance().logout(null);
-                            Toast.makeText(mContext, R.string.login_failure_failed, Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        mProgressDialog.dismiss();
-                        startActivity(new Intent(mContext, ChatServiceActivity.class));
-                        //startActivity(ChatActivity.getServiceIntent(mContext));
-                    }
-                });
-            }
-
-            @Override
-            public void onProgress(int progress, String status) {
-            }
-
-            @Override
-            public void onError(final int code, final String message) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mProgressDialog.dismiss();
-                        ToastUtil.showToast(mContext, R.string.Login_failed);
-                    }
-                });
-            }
-        });
     }
 
     @OnClick(R.id.call_text_view)

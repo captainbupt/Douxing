@@ -6,6 +6,7 @@ import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.RestRepository;
 import com.badou.mworking.util.DensityUtil;
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import rx.Observable;
 
@@ -43,11 +44,11 @@ public class CheckUpdateUseCase extends UseCase {
     }
 
     public static class Body {
-        @Expose
+        @SerializedName("button_vlogo")
         String button_vlogo = "";
-        @Expose
+        @SerializedName("banner")
         String banner = "";
-        @Expose
+        @SerializedName("newver")
         String newver = "";
 
     }

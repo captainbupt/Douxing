@@ -2,6 +2,7 @@ package com.badou.mworking.domain;
 
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.RestRepository;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
@@ -27,10 +28,15 @@ public class EMChatCreateGroupUseCase extends UseCase {
     }
 
     public static class Body {
+        @SerializedName("uid")
         String uid;
+        @SerializedName("name")
         String name;
+        @SerializedName("desc")
         String desc;
+        @SerializedName("msg")
         String msg;
+        @SerializedName("members")
         List<String> members;
 
         public Body(String uid, String name, String desc, String msg, List<String> members) {
@@ -43,6 +49,7 @@ public class EMChatCreateGroupUseCase extends UseCase {
     }
 
     public static class Response {
+        @SerializedName("groupid")
         String groupid;
 
         public String getGroupid() {

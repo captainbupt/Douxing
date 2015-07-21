@@ -8,6 +8,7 @@ public class Logo {
     @SerializedName("new")
     int isNew;
     @Expose
+    @SerializedName("url")
     String url;
 
     public boolean hasNewVersion() {

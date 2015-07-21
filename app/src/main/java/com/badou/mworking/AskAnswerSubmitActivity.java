@@ -100,7 +100,7 @@ public class AskAnswerSubmitActivity extends BaseBackActionBarActivity {
         }
         mProgressDialog.show();
         Bitmap bitmap = null;
-        if (mImageGridView.getCount() > 1)
+        if (mImageGridView.getImages() != null && mImageGridView.getImages().size() >= 1)
             bitmap = (Bitmap) mImageGridView.getImages().get(0);
         // 提交提问内容
         ServiceProvider.doPublishAnswer(mContext, content, mAid, bitmap,
@@ -109,14 +109,13 @@ public class AskAnswerSubmitActivity extends BaseBackActionBarActivity {
                     @Override
                     public void onResponseSuccess(JSONObject response) {
                         setResult(RESULT_OK);
+                        mProgressDialog.dismiss();
                         finish();
                     }
 
                     @Override
                     public void onCompleted() {
-                        if (!mActivity.isFinishing()) {
-                            mProgressDialog.dismiss();
-                        }
+                        mProgressDialog.dismiss();
                     }
                 });
     }

@@ -24,6 +24,7 @@ import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.Constant;
+import com.badou.mworking.util.GsonUtil;
 import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.SPHelper;
 import com.badou.mworking.util.TimeTransfer;
@@ -284,7 +285,7 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
                         mNoneResultView.setVisibility(View.GONE);
                         for (int i = 0; i < length; i++) {
                             JSONObject jsonObject = resultArray.optJSONObject(i);
-                            replys.add(new ChatterComment());
+                            replys.add(GsonUtil.fromJson(jsonObject.toString(), ChatterComment.class));
                         }
                         if (beginNum == 1) {
                             mReplyAdapter.setList(replys, ttlcnt);
