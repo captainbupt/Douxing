@@ -31,6 +31,8 @@ public class TrainBaseActivity extends CategoryBaseActivity {
     @Bind(R.id.content_container)
     FrameLayout mContentContainer;
 
+    private Bundle mSavedInstanceState;
+
     public static Intent getIntent(Context context, String rid, boolean isTraining) {
         Intent intent = CategoryBaseActivity.getIntent(context, TrainBaseActivity.class, rid);
         intent.putExtra(KEY_TRAINING, isTraining);
@@ -41,6 +43,7 @@ public class TrainBaseActivity extends CategoryBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.activity_base_training);
+        mSavedInstanceState = savedInstanceState;
         ButterKnife.bind(this);
         mPresenter.attachView(this);
         boolean isTraining = getIntent().getBooleanExtra(KEY_TRAINING, true);
@@ -78,23 +81,25 @@ public class TrainBaseActivity extends CategoryBaseActivity {
     @Override
     public void setData(String rid, CategoryDetail categoryDetail) {
         super.setData(rid, categoryDetail);
-        if (categoryDetail.getFmt() == Constant.MWKG_FORAMT_TYPE_PDF) {
-            // 判断api,太小用web
-            if (android.os.Build.VERSION.SDK_INT >= 11) {// pdf
-                // pdf文件已存在 调用
-                showPdf(rid, categoryDetail.getUrl());
-            } else {// web
-                showWeb(Constant.TRAIN_IMG_SHOW + rid + Constant.TRAIN_IMG_FORMAT);
+        if (mSavedInstanceState == null) { // 旋转情况下，android自动回保存fragment实例，不必重新添加
+            if (categoryDetail.getFmt() == Constant.MWKG_FORAMT_TYPE_PDF) {
+                // 判断api,太小用web
+                if (android.os.Build.VERSION.SDK_INT >= 11) {// pdf
+                    // pdf文件已存在 调用
+                    showPdf(rid, categoryDetail.getUrl());
+                } else {// web
+                    showWeb(Constant.TRAIN_IMG_SHOW + rid + Constant.TRAIN_IMG_FORMAT);
+                }
+            } else if (categoryDetail.getFmt() == Constant.MWKG_FORAMT_TYPE_HTML) {
+                showWeb(categoryDetail.getUrl());
+            } else if (Constant.MWKG_FORAMT_TYPE_MPEG == categoryDetail.getFmt()) { // 返回MP4格式
+                showVideo(rid, categoryDetail.getUrl(), categoryDetail.getSubject());
+            } else if (Constant.MWKG_FORAMT_TYPE_MP3 == categoryDetail.getFmt()) { // 返回MP3格式
+                showMusic(rid, categoryDetail.getUrl(), categoryDetail.getSubject());
+            } else {
+                showToast(R.string.category_unsupport_type);
+                finish();
             }
-        } else if (categoryDetail.getFmt() == Constant.MWKG_FORAMT_TYPE_HTML) {
-            showWeb(categoryDetail.getUrl());
-        } else if (Constant.MWKG_FORAMT_TYPE_MPEG == categoryDetail.getFmt()) { // 返回MP4格式
-            showVideo(rid, categoryDetail.getUrl(), categoryDetail.getSubject());
-        } else if (Constant.MWKG_FORAMT_TYPE_MP3 == categoryDetail.getFmt()) { // 返回MP3格式
-            showMusic(rid, categoryDetail.getUrl(), categoryDetail.getSubject());
-        } else {
-            showToast(R.string.category_unsupport_type);
-            finish();
         }
     }
 

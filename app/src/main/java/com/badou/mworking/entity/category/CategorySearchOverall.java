@@ -8,11 +8,17 @@ import org.json.JSONObject;
 import java.util.List;
 
 public class CategorySearchOverall {
+    @SerializedName("notice")
     List<CategorySearch> notice;
+    @SerializedName("training")
     List<CategorySearch> training;
+    @SerializedName("exam")
     List<CategorySearch> exam;
+    @SerializedName("task")
     List<CategorySearch> task;
+    @SerializedName("shelf")
     List<CategorySearch> shelf;
+    @SerializedName("entry")
     List<CategorySearch> entry;
 
     public List<CategorySearch> getNotice() {

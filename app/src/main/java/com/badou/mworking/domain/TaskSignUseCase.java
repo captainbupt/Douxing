@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.RestRepository;
 import com.baidu.location.BDLocation;
+import com.google.gson.annotations.SerializedName;
 
 import java.io.File;
 
@@ -38,8 +39,11 @@ public class TaskSignUseCase extends UseCase {
     }
 
     public static class Body {
+        @SerializedName("uid")
         String uid;
+        @SerializedName("rid")
         String rid;
+        @SerializedName("ar")
         String qr;
 
         public Body(String uid, String rid, String qr) {

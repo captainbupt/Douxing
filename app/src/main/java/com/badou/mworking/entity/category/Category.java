@@ -12,6 +12,7 @@ import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.SP;
 import com.badou.mworking.util.SPHelper;
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONObject;
@@ -44,33 +45,47 @@ public abstract class Category implements Serializable {
     }.getType(), new TypeToken<List<Entry>>() {
     }.getType()};
 
+    @SerializedName("offline")
     @Expose
     int offline; // 过期
     @Expose
+    @SerializedName("link_to")
     String link_to;
     @Expose
+    @SerializedName("ts")
     String ts; // 发布时间
     @Expose
+    @SerializedName("read")
     int read;  // 是否完成
     @Expose
+    @SerializedName("rid")
     String rid; // 资源唯一标识 主键id ，资源id
     @Expose
+    @SerializedName("tag")
     String tag; // 类别id
     @Expose
+    @SerializedName("top")
     String top; // 是否置顶 top 默认为0，1表示置顶
     @Expose
+    @SerializedName("type")
     String type; // 通知考试培训签到橱窗
     @Expose
+    @SerializedName("department")
     String department; // 部门
     @Expose
+    @SerializedName("subject")
     String subject; // 标题
     @Expose
+    @SerializedName("url")
     String url; // 资源url 对应不同类型
     @Expose
+    @SerializedName("subtype")
     int subtype; // 资源类型
     @Expose
+    @SerializedName("img")
     String img;  // 图片地址
     @Expose
+    @SerializedName("store")
     boolean store;  // 是否收藏
 
     public Category() {

@@ -13,18 +13,7 @@
  */
 package com.easemob.chatuidemo.activity;
 
-import java.sql.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -47,10 +36,8 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.VolleyError;
-import com.badou.mworking.base.AppApplication;
+import com.badou.mworking.R;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.database.EMChatResManager;
 import com.badou.mworking.domain.EMChatCreateGroupUseCase;
@@ -59,30 +46,29 @@ import com.badou.mworking.entity.emchat.EMChatEntity;
 import com.badou.mworking.entity.emchat.Role;
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.BaseSubscriber;
-import com.badou.mworking.net.Net;
-import com.badou.mworking.net.ServiceProvider;
-import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.SPHelper;
 import com.badou.mworking.util.ToastUtil;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupManager;
-import com.badou.mworking.R;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.TextMessageBody;
 import com.easemob.chatuidemo.adapter.MessageAdapter;
 import com.easemob.chatuidemo.adapter.PickContactsAdapter;
 import com.easemob.chatuidemo.adapter.PickContactsAutoCompleteAdapter;
 import com.easemob.chatuidemo.domain.User;
-import com.easemob.chatuidemo.utils.UserUtils;
 import com.easemob.chatuidemo.widget.Sidebar;
 import com.easemob.exceptions.EaseMobException;
 
-import org.jivesoftware.smack.Chat;
-import org.json.JSONObject;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 public class GroupPickContactsActivity extends BaseBackActionBarActivity {
@@ -348,7 +334,7 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
         Collections.sort(contacts, new Comparator<User>() {
             @Override
             public int compare(User lhs, User rhs) {
-                return (lhs.getSpell().compareTo(rhs.getSpell()));
+                return (lhs.getNick().compareTo(rhs.getNick()));
             }
         });
 
@@ -438,7 +424,7 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
                             StringBuilder body = new StringBuilder(name);
                             body.append("邀请了");
                             for (String member : members) {
-                                body.append(UserUtils.getUserNick(member));
+                                body.append(EMChatEntity.getUserNick(member));
                                 body.append("、");
                             }
                             body.deleteCharAt(body.length() - 1);

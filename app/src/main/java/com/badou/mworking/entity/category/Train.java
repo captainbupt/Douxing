@@ -1,6 +1,7 @@
 package com.badou.mworking.entity.category;
 
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
@@ -12,8 +13,10 @@ public class Train extends Category {
     transient boolean isTraining = true;
 
     @Expose
+    @SerializedName("commentInfo")
     TrainingCommentInfo commentInfo;
     @Expose
+    @SerializedName("rating")
     int rating;
 
     public Train() {
@@ -85,14 +88,19 @@ public class Train extends Category {
 
     public static class TrainingCommentInfo implements Serializable {
         @Expose
+        @SerializedName("rid")
         String rid;
         @Expose
+        @SerializedName("mcnt")
         int mcnt;
         @Expose
+        @SerializedName("ccnt")
         int ccnt;
         @Expose
+        @SerializedName("ecnt")
         int ecnt;
         @Expose
+        @SerializedName("eval")
         int eval;
 
         public String getRid() {

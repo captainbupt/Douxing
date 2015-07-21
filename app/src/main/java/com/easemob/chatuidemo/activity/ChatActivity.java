@@ -98,7 +98,6 @@ import com.easemob.chatuidemo.adapter.VoicePlayClickListener;
 import com.easemob.chatuidemo.utils.CommonUtils;
 import com.easemob.chatuidemo.utils.ImageUtils;
 import com.easemob.chatuidemo.utils.SmileUtils;
-import com.easemob.chatuidemo.utils.UserUtils;
 import com.easemob.chatuidemo.widget.ExpandGridView;
 import com.easemob.chatuidemo.widget.PasteEditText;
 import com.easemob.exceptions.EaseMobException;
@@ -397,7 +396,7 @@ public class ChatActivity extends BaseBackActionBarActivity implements OnClickLi
 
         if (chatType == CHATTYPE_SINGLE) { // 单聊
             toChatUsername = getIntent().getStringExtra("userId");
-            setActionbarTitle(UserUtils.getUserNick(toChatUsername));
+            setActionbarTitle(EMChatEntity.getUserNick(toChatUsername));
             setRightImage(R.drawable.mm_title_remove, new OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -430,6 +429,10 @@ public class ChatActivity extends BaseBackActionBarActivity implements OnClickLi
                 // 显示发送要转发的消息
                 forwardMessage(forward_msg_id);
             }
+        }
+
+        if ((chatType == CHATTYPE_SINGLE && toChatUsername.equals(SERVICE_ACCOUNT)) || chatType == CHATTYPE_GROUP) {
+            findViewById(R.id.ll_bottom_option).setVisibility(View.GONE);
         }
     }
 

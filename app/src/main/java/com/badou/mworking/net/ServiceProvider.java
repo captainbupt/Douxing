@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.volley.MyVolley;
 import com.badou.mworking.net.volley.VolleyListener;
@@ -309,7 +310,7 @@ public class ServiceProvider {
         });
     }
 
-    public static void doDownloadTrainingFile(final String url, String fullPath, final RangeFileAsyncHttpResponseHandler httpResponseHandler) {
+    public static void doDownloadTrainingFile(final String url, final String fullPath, final RangeFileAsyncHttpResponseHandler httpResponseHandler) {
         File file = new File(fullPath + ".tmp");
         client.get(url, new RangeFileAsyncHttpResponseHandler(file) {
             @Override
@@ -326,13 +327,14 @@ public class ServiceProvider {
             @Override
             public void onSuccess(int statusCode, Header[] headers, File response) {
                 FileUtils.renameFile(response.getParent(), response.getName(), response.getName().replace(".tmp", ""));
-                httpResponseHandler.onSuccess(statusCode, headers, response);
+                httpResponseHandler.onSuccess(statusCode, headers, new File(fullPath));
             }
         });
     }
 
-    public static void cancelRequest() {
-        client.cancelAllRequests(true);
+    public static void cancelRequest(Context context) {
+        client.cancelRequests(context.getApplicationContext(), false);
+        client.getHttpClient().getConnectionManager().shutdown();
     }
 
     public static void doSubmitError(Context context, String log, String appversion,
@@ -475,13 +477,9 @@ public class ServiceProvider {
                     jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_UID,
                             uid);
                     jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_SUBJECT, subject);
-                    jsonObject.put(
-                            RequestParameters.PUBLISH_QUSETION_SHARE_CONTENT,
-                            content);
+                    jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_CONTENT, content);
                     if (bitmap != null) {
-                        jsonObject.put(
-                                RequestParameters.PUBLISH_QUSETION_SHARE_PICTURE,
-                                BitmapUtil.bitmapToBase64(bitmap));
+                        jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_PICTURE, BitmapUtil.bitmapToBase64(bitmap));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -536,16 +534,11 @@ public class ServiceProvider {
                 JSONObject jsonObject = new JSONObject();
                 String uid = UserInfo.getUserInfo().getUid();
                 try {
-                    jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_UID,
-                            uid);
-                    jsonObject.put(
-                            RequestParameters.PUBLISH_QUSETION_SHARE_CONTENT,
-                            content);
+                    jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_UID, uid);
+                    jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_CONTENT, content);
                     jsonObject.put("aid", aid);
                     if (bitmap != null) {
-                        jsonObject.put(
-                                RequestParameters.PUBLISH_QUSETION_SHARE_PICTURE,
-                                BitmapUtil.bitmapToBase64(bitmap));
+                        jsonObject.put(RequestParameters.PUBLISH_QUSETION_SHARE_PICTURE, BitmapUtil.bitmapToBase64(bitmap));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

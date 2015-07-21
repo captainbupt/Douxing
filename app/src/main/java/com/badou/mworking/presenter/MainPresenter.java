@@ -154,13 +154,15 @@ public class MainPresenter extends Presenter {
         //mScrollView.scrollTo(0, 0);
         final UserInfo userInfo = UserInfo.getUserInfo();
         updateMessageCenter();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                loginEMChat(userInfo.getAccount(), userInfo.getHxpwd());
-            }
-        }).start();
         checkUpdate();
+        if (!userInfo.isAnonymous()) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    loginEMChat(userInfo.getAccount(), userInfo.getHxpwd());
+                }
+            }).start();
+        }
     }
 
     private void updateMessageCenter() {

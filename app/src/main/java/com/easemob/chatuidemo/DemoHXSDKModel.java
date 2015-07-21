@@ -17,7 +17,6 @@ import android.content.Context;
 
 import com.badou.mworking.database.EMChatResManager;
 import com.easemob.applib.model.DefaultHXSDKModel;
-import com.easemob.chatuidemo.db.DemoDBManager;
 import com.easemob.chatuidemo.domain.User;
 
 import java.util.HashMap;
@@ -41,25 +40,17 @@ public class DemoHXSDKModel extends DefaultHXSDKModel {
     }
 
     public boolean saveContactList(List<User> contactList) {
-/*        UserDao dao = new UserDao(context);
-        dao.saveContactList(contactList);*/
         EMChatResManager.insertContacts(contactList);
         return true;
     }
 
     public Map<String, User> getContactList() {
-/*        UserDao dao = new UserDao(context);
-        return dao.getContactList();*/
         List<User> users = EMChatResManager.getContacts();
         Map<String, User> userMap = new HashMap<>(users.size());
         for (User user : users) {
             userMap.put(user.getUsername(), user);
         }
         return userMap;
-    }
-
-    public void closeDB() {
-        DemoDBManager.getInstance().closeDB();
     }
 
     @Override

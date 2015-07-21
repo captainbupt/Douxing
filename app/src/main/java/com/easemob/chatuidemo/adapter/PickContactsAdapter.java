@@ -15,9 +15,9 @@ import android.widget.TextView;
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.entity.emchat.Department;
+import com.badou.mworking.entity.emchat.EMChatEntity;
 import com.badou.mworking.entity.emchat.Role;
 import com.easemob.chatuidemo.domain.User;
-import com.easemob.chatuidemo.utils.UserUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -128,7 +128,7 @@ public class PickContactsAdapter extends MyBaseAdapter<User> implements SectionI
         Department department = user.getDepartment();
         holder.department.setText(department == null ? "暂无" : department.getName());
         //设置用户头像
-        UserUtils.setUserAvatar(mContext, username, holder.avatar);
+        EMChatEntity.setUserAvatar(mContext, username, holder.avatar);
         // 选择框checkbox
         if (mExitingMembers != null && mExitingMembers.contains(username)) {
             holder.checkbox.setButtonDrawable(R.drawable.checkbox_bg_selector);

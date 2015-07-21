@@ -5,6 +5,7 @@ import com.badou.mworking.database.MTrainingDBHelper;
 import com.badou.mworking.entity.main.Shuffle;
 import com.badou.mworking.util.SPHelper;
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -20,28 +21,40 @@ public class UserInfo {
     private String account;
 
     @Expose
+    @SerializedName("uid")
     private String uid;
     @Expose
+    @SerializedName("newuser")
     private Integer newuser;
     @Expose
+    @SerializedName("host")
     private String host;
     @Expose
+    @SerializedName("desc")
     private String desc;
     @Expose
+    @SerializedName("tag")
     private String tag;
     @Expose
+    @SerializedName("admin")
     private Integer admin;
     @Expose
+    @SerializedName("shuffle")
     private Shuffle shuffle;
     @Expose
+    @SerializedName("name")
     private String name;
     @Expose
+    @SerializedName("company")
     private String company;
     @Expose
+    @SerializedName("access")
     private Integer access;
     @Expose
+    @SerializedName("lang")
     private String lang;
     @Expose
+    @SerializedName("hxpwd")
     private String hxpwd;
 
     public static void setUserInfo(AppApplication appApplication, String account, UserInfo userInfo) {
@@ -79,6 +92,10 @@ public class UserInfo {
 
     public static UserInfo getUserInfo() {
         return userInfo;
+    }
+
+    public boolean isAnonymous() {
+        return account.equals(ANONYMOUS_ACCOUNT);
     }
 
     public void setUid(String uid) {

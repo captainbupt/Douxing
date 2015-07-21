@@ -1,5 +1,6 @@
 package com.badou.mworking.fragment;
 
+import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
@@ -92,11 +93,12 @@ public class TrainVideoFragment extends BaseFragment implements TrainMediaView {
         Bundle argument = getArguments();
         mVideoTitleTextView.setText(argument.getString(KEY_SUBJECT));
         mPresenter = new TrainingMediaPresenter(mContext, argument.getString(KEY_RID), argument.getString(KEY_URL), Constant.MWKG_FORAMT_TYPE_MP3);
+        initView(argument);
         mPresenter.attachView(this);
         return view;
     }
 
-    private void initView(Bundle saveInstanceState) {
+    private void initView(Bundle argument) {
         mRotationCheckBox.setChecked(isVertical());
         initListener();
         // 每一次改变方向都会重新调用onCreate，因此需要判断
@@ -105,8 +107,10 @@ public class TrainVideoFragment extends BaseFragment implements TrainMediaView {
         } else {
             showHorizontalView();
         }
-        if (saveInstanceState.containsKey("position")) {
-            lastTime = saveInstanceState.getInt("position");
+        if (argument != null && argument.containsKey("position")) {
+            lastTime = argument.getInt("position");
+        } else {
+            lastTime = -1;
         }
     }
 
@@ -143,14 +147,16 @@ public class TrainVideoFragment extends BaseFragment implements TrainMediaView {
 
     @OnClick(R.id.rotation_check_box)
     void onRotationClicked() {
+        Bundle argument = getArguments();
+        argument.putInt("position", mVideoPlayer.getCurrentPosition());
         if (!isVertical()) {
             mRotationCheckBox.setChecked(true);
             mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-            mPresenter.onRotationChanged(false);
+            //mPresenter.onRotationChanged(false);
         } else {
             mRotationCheckBox.setChecked(false);
             mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-            mPresenter.onRotationChanged(true);
+            //mPresenter.onRotationChanged(true);
         }
     }
 
@@ -308,12 +314,6 @@ public class TrainVideoFragment extends BaseFragment implements TrainMediaView {
         }
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        mPresenter.onRotationChanged(isVertical()); // 竖屏
-        super.onConfigurationChanged(newConfig);
-    }
-
     /**
      * 功能描述:初始化播放器
      */
@@ -336,7 +336,8 @@ public class TrainVideoFragment extends BaseFragment implements TrainMediaView {
                 mVideoPlayer.setVideoHeight(mp.getVideoHeight());
                 mProgressSeekBar.setMax(mVideoPlayer.getDuration());
                 mTotalTimeTextView.setText(new SimpleDateFormat("mm:ss").format(mVideoPlayer.getDuration()));
-                setPlayTime(lastTime, true);
+                if (lastTime > 0)
+                    setPlayTime(lastTime, true);
             }
         });
 
@@ -381,7 +382,7 @@ public class TrainVideoFragment extends BaseFragment implements TrainMediaView {
 
     @Override
     public boolean isVertical() {
-        return getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
+        return mActivity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
     }
 
     private class AnimationImp implements Animation.AnimationListener {
@@ -413,11 +414,4 @@ public class TrainVideoFragment extends BaseFragment implements TrainMediaView {
         ButterKnife.unbind(this);
         super.onDestroy();
     }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putInt("position", getCurrentTime());
-    }
-
 }

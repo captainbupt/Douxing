@@ -71,10 +71,6 @@ import com.easemob.chat.TextMessageBody;
 import com.easemob.chatuidemo.Constant;
 import com.easemob.chatuidemo.DemoHXSDKHelper;
 import com.badou.mworking.R;
-import com.easemob.chatuidemo.db.InviteMessgeDao;
-import com.easemob.chatuidemo.db.UserDao;
-import com.easemob.chatuidemo.domain.InviteMessage;
-import com.easemob.chatuidemo.domain.InviteMessage.InviteMesageStatus;
 import com.easemob.chatuidemo.domain.User;
 import com.easemob.chatuidemo.utils.CommonUtils;
 import com.easemob.util.EMLog;
@@ -110,7 +106,7 @@ public class MainActivity extends BaseBackActionBarActivity implements EMEventLi
         super.onCreate(savedInstanceState);
         setActionbarTitle(R.string.title_name_emchat);
         setLeft(R.drawable.button_title_bar_back_grey);
-        if (!UserInfo.ANONYMOUS_ACCOUNT.equals((UserInfo.getUserInfo().getUid()))) {
+        if (!UserInfo.getUserInfo().isAnonymous()) {
             setRightImage(R.drawable.button_title_add, new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -151,24 +147,25 @@ public class MainActivity extends BaseBackActionBarActivity implements EMEventLi
         // 添加显示第一个fragment
         getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, chatHistoryFragment)
                 .commit();
+        if (!UserInfo.getUserInfo().isAnonymous()) {
+            init();
+            long currentTime = Calendar.getInstance().getTimeInMillis();
+            long lastTime = SPHelper.getContactLastUpdateTime(mContext);
+            if (currentTime - lastTime > 1000l * 60l * 60l * 24l || EMChatResManager.getContacts().size() == 0) {
+                initContactsFromServer(mContext, new OnUpdatingListener() {
+                    @Override
+                    public void onStart() {
+                        mProgressDialog.show();
+                    }
 
-        init();
-        long currentTime = Calendar.getInstance().getTimeInMillis();
-        long lastTime = SPHelper.getContactLastUpdateTime(mContext);
-        if (currentTime - lastTime > 1000l * 60l * 60l * 24l || EMChatResManager.getContacts().size() == 0) {
-            initContactsFromServer(mContext, new OnUpdatingListener() {
-                @Override
-                public void onStart() {
-                    mProgressDialog.show();
-                }
-
-                @Override
-                public void onComplete() {
-                    mProgressDialog.dismiss();
-                }
-            });
-        } else {
-            EMChatEntity.getInstance().getContactList();// 确保初始化一次
+                    @Override
+                    public void onComplete() {
+                        mProgressDialog.dismiss();
+                    }
+                });
+            } else {
+                EMChatEntity.getInstance().getContactList();// 确保初始化一次
+            }
         }
     }
 
@@ -415,7 +412,7 @@ public class MainActivity extends BaseBackActionBarActivity implements EMEventLi
                         // 显示帐号在其他设备登陆dialog
                         showConflictDialog();
                     } else {
-                        if (!UserInfo.ANONYMOUS_ACCOUNT.equals((UserInfo.getUserInfo().getUid()))) {
+                        if (!UserInfo.getUserInfo().isAnonymous()) {
                             chatHistoryFragment.errorItem.setVisibility(View.VISIBLE);
                             if (NetUtils.hasNetwork(MainActivity.this))
                                 chatHistoryFragment.errorText.setText(st1);

@@ -11,14 +11,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/offset_less"
+        android:paddingTop="@dimen/offset_less">
 
         <ImageView
             android:id="@+id/icon_image_view"
             android:layout_width="@dimen/icon_size_main_grid_category"
             android:layout_height="@dimen/icon_size_main_grid_category"
             android:layout_gravity="center_horizontal"
-            android:scaleType="fitXY" />
+            android:scaleType="fitCenter" />
 
         <TextView
             android:id="@+id/name_text_view"
@@ -26,6 +28,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/offset_medium"
+            android:gravity="center"
+            android:minEms="4"
             android:singleLine="true"
             android:textColor="@color/color_text_grey"
             android:textSize="@dimen/text_size_medium" />
@@ -36,7 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/main_grid_container"
+        android:layout_alignRight="@id/main_grid_container"
         android:background="@drawable/icon_chat_unread"
         android:gravity="center"
         android:textColor="@android:color/white"

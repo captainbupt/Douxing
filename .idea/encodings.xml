@@ -8,5 +8,6 @@
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/badou/mworking/fragment/EntryIntroductionFragment.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/badou/mworking/fragment/TrainMusicFragment.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/badou/mworking/fragment/TrainVideoFragment.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/badou/mworking/presenter/UserCenterPresenter.java" charset="UTF-8" />
   </component>
 </project>

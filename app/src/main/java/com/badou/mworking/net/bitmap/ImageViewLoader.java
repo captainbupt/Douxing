@@ -17,6 +17,10 @@ import com.badou.mworking.util.SPHelper;
 public class ImageViewLoader {
 
     public static void setCircleImageViewResource(ImageView imageView, String url, int size) {
+        if (TextUtils.isEmpty(url)) {
+            imageView.setImageResource(R.drawable.icon_user_detail_default_head);
+            return;
+        }
         Bitmap headBmp = BitmapLruCache.getBitmapLruCache().getCircleBitmap(url);
         if (headBmp != null && !headBmp.isRecycled()) {
             imageView.setImageBitmap(headBmp);

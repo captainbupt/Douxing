@@ -196,6 +196,7 @@ public class ChatterUserActivity extends BaseNoTitleActivity {
                         }
                         for (int i = 0; i < resultArray.length(); i++) {
                             JSONObject jo2 = resultArray.optJSONObject(i);
+                            System.out.println(jo2);
                             Chatter chatter = new Chatter(jo2);
                             chatter.headUrl = mUserInfo.headUrl;
                             chatter.level = mUserInfo.level;

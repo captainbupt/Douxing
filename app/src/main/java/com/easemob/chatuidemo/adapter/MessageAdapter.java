@@ -86,7 +86,6 @@ import com.easemob.chatuidemo.utils.DateUtils;
 import com.easemob.chatuidemo.utils.ImageCache;
 import com.easemob.chatuidemo.utils.ImageUtils;
 import com.easemob.chatuidemo.utils.SmileUtils;
-import com.easemob.chatuidemo.utils.UserUtils;
 import com.easemob.exceptions.EaseMobException;
 import com.easemob.util.EMLog;
 import com.easemob.util.FileUtils;
@@ -587,9 +586,9 @@ public class MessageAdapter extends BaseAdapter {
     private void setUserAvatar(EMMessage message, ImageView imageView) {
         if (message.direct == Direct.SEND) {
             //显示自己头像
-            UserUtils.setUserAvatar(context, EMChatManager.getInstance().getCurrentUser(), imageView);
+            EMChatEntity.setUserAvatar(context, EMChatManager.getInstance().getCurrentUser(), imageView);
         } else {
-            UserUtils.setUserAvatar(context, message.getFrom(), imageView);
+            EMChatEntity.setUserAvatar(context, message.getFrom(), imageView);
         }
     }
 
