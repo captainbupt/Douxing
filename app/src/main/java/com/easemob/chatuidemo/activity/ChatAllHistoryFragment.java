@@ -101,6 +101,8 @@ public class ChatAllHistoryFragment extends Fragment {
                 if (position == 0)
                     return;
                 EMConversation conversation = adapter.getItem(position - 1);
+                conversation.resetUnreadMsgCount();
+                refresh();
                 String username = conversation.getUserName();
                 // 进入聊天页面
                 Intent intent = new Intent(getActivity(), ChatActivity.class);

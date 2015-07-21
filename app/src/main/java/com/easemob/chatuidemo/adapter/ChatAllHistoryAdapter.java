@@ -143,6 +143,8 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
     private void deleteItem(int position) {
         EMConversation conversation = getItem(position);
         EMChatManager.getInstance().clearConversation(conversation.getUserName());
+        conversationList.remove(position);
+        notifyDataSetChanged();
         fragment.refresh();
     }
 
