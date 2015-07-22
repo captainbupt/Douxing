@@ -49,7 +49,7 @@ public class AskAdapter extends MyBaseAdapter {
         holder.contentTextView.setText(ask.subject);
 
         holder.copyClickListener.content = ask.subject;
-        holder.viewClickListener.position = position;
+        holder.viewClickListener.setPosition(position);
         return convertView;
     }
 
@@ -70,10 +70,10 @@ public class AskAdapter extends MyBaseAdapter {
             viewClickListener = new AdapterItemClickListener(context) {
                 @Override
                 public void onClick(View view) {
-                    mOnItemClickListener.onItemClick(null, null, position, getItemId(position));
+                    mOnItemClickListener.onItemClick(null, null, getPosition(), getItemId(getPosition()));
                     Intent intent = new Intent();
                     intent.setClass(mContext, AskDetailActivity.class);
-                    intent.putExtra(AskDetailActivity.KEY_ASK, (Ask) getItem(position));
+                    intent.putExtra(AskDetailActivity.KEY_ASK, (Ask) getItem(getPosition()));
                     // 任意
                     ((Activity) mContext).startActivityForResult(intent, 1);
                 }

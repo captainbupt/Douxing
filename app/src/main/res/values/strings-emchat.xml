@@ -92,7 +92,7 @@
     <string name="group_chat">群聊</string>
     <string name="chat_room">聊天室</string>
     <string name="add_friend">添加好友</string>
-    <string name="search">搜索</string>
+    <string name="search">搜索姓名/岗位/工号</string>
     <string name="black_item">黑名单</string>
     <string name="diagnose">诊断</string>
     <string name="push_nick">iOS离线推送昵称</string>
@@ -108,7 +108,7 @@
     <string name="Open_group_members_invited">开放群成员邀请</string>
     <string name="Open_group_chat">公开的群聊</string>
     <string name="blacklist">黑名单列表</string>
-    <string name="Empty_the_chat_record">删除该群</string>
+    <string name="Empty_the_chat_record">清空聊天记录</string>
     <string name="Group_member_count">群组人数</string>
     <string name="Shielding_of_the_message">消息免打扰</string>
     <string name="dismiss_group">解散群聊</string>
@@ -197,7 +197,7 @@
     <string name="group_is_blocked">正在屏蔽群组...</string>
     <string name="group_of_shielding">群屏蔽失败，请检查网络或稍后重试</string>
     <string name="group_of_shielding_owner">群主不能屏蔽群消息</string>
-    <string name="sure_to_empty_this">确定从列表中删除该群?</string>
+    <string name="sure_to_empty_this">确定清空聊天记录?</string>
     <string name="The_delete_button_is_clicked">删除按钮被点击</string>
     <string name="Add_a_button_was_clicked">添加按钮被点击</string>
     <string name="not_delete_myself">不能删除自己</string>

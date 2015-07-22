@@ -2,6 +2,7 @@ package com.badou.mworking.entity.user;
 
 import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.net.ResponseParameters;
+import com.google.gson.annotations.SerializedName;
 
 import org.json.JSONObject;
 
@@ -9,63 +10,106 @@ import java.io.Serializable;
 
 public class UserDetail implements Serializable {
 
-    public String name;//名字
-    public String dpt;//部门
-    public String headimg;//头像地址
-    public int score;//分数
-    public int ask;// 我的圈帖子数量
-    public int share;//分享
-    public int nmsg; //聊天未读数
-    public int circle_lv; //等级
-    public int training_total;//培训总
-    public int training_week;//培训周
-    public int study_total;//学习总
-    public int study_week;//学习周
-    public int study_rank;//学习排名
-    public int score_rank; //考试排名
-    public int study_over; //学习战胜多少人
-    public int score_over; //考试战胜了多少人
-    public int store;
+    @SerializedName("name")
+    String name;//名字
+    @SerializedName("dpt")
+    String dpt;//部门
+    @SerializedName("headimg")
+    String headimg;//头像地址
+    @SerializedName("score")
+    int score;//分数
+    @SerializedName("ask")
+    int ask;// 我的圈帖子数量
+    @SerializedName("share")
+    int share;//分享
+    @SerializedName("nmsg")
+    int nmsg; //聊天未读数
+    @SerializedName("circle_lv")
+    int circle_lv; //等级
+    @SerializedName("training_total")
+    int training_total;//培训总
+    @SerializedName("training_week")
+    int training_week;//培训周
+    @SerializedName("study_total")
+    int study_total;//学习总
+    @SerializedName("study_week")
+    int study_week;//学习周
+    @SerializedName("study_rank")
+    int study_rank;//学习排名
+    @SerializedName("score_rank")
+    int score_rank; //考试排名
+    @SerializedName("study_over")
+    int study_over; //学习战胜多少人
+    @SerializedName("score_over")
+    int score_over; //考试战胜了多少人
+    @SerializedName("store")
+    int store;
 
-    public UserDetail(JSONObject jo) {
-        System.out.println(jo);
-        this.name = jo.optString(RequestParameters.USER_NAME);
-        this.dpt = jo.optString(RequestParameters.USER_DPT);
-        this.headimg = jo.optString(RequestParameters.USER_HEADIMG);
-        this.score = jo.optInt(RequestParameters.USER_SCORE);
-        this.ask = jo.optInt(RequestParameters.USER_ASK);
-        this.share = jo.optInt(RequestParameters.USER_SHARE);
-        this.nmsg = jo.optInt("nmsg");
-        this.training_total = jo.optInt(RequestParameters.USER_TRAINING_TOTAL);
-        this.training_week = jo.optInt(RequestParameters.USER_TRAINING_WEEK);
-        this.study_total = jo.optInt(RequestParameters.USER_STUDY_TOTAL);
-        this.study_week = jo.optInt(RequestParameters.USER_STUDY_WEEK);
-        this.study_rank = jo.optInt(RequestParameters.USER_STUDY_RANK);
-        this.score_rank = jo.optInt(RequestParameters.USER_SCORE_RANK);
-        this.study_over = jo.optInt(RequestParameters.USER_STUDY_OVER);
-        this.score_over = jo.optInt(RequestParameters.USER_SCORE_OVER);
-        this.circle_lv = jo.optInt(ResponseParameters.QUESTION_CIRCLE_LV);
-        this.store = jo.optInt("store");
+    public String getName() {
+        return name;
     }
 
-    public UserDetail getUserDetail(JSONObject jo) {
-        this.name = jo.optString(RequestParameters.USER_NAME);
-        this.dpt = jo.optString(RequestParameters.USER_DPT);
-        this.headimg = jo.optString(RequestParameters.USER_HEADIMG);
-        this.score = jo.optInt(RequestParameters.USER_SCORE);
-        this.ask = jo.optInt(RequestParameters.USER_ASK);
-        this.share = jo.optInt(RequestParameters.USER_SHARE);
-        this.nmsg = jo.optInt("nmsg");
-        this.training_total = jo.optInt(RequestParameters.USER_TRAINING_TOTAL);
-        this.training_week = jo.optInt(RequestParameters.USER_TRAINING_WEEK);
-        this.study_total = jo.optInt(RequestParameters.USER_STUDY_TOTAL);
-        this.study_week = jo.optInt(RequestParameters.USER_STUDY_WEEK);
-        this.study_rank = jo.optInt(RequestParameters.USER_STUDY_RANK);
-        this.score_rank = jo.optInt(RequestParameters.USER_SCORE_RANK);
-        this.study_over = jo.optInt(RequestParameters.USER_STUDY_OVER);
-        this.score_over = jo.optInt(RequestParameters.USER_SCORE_OVER);
-        this.circle_lv = jo.optInt(ResponseParameters.QUESTION_CIRCLE_LV);
-        return this;
+    public String getDpt() {
+        return dpt;
     }
 
+    public String getHeadimg() {
+        return headimg;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public int getAsk() {
+        return ask;
+    }
+
+    public int getShare() {
+        return share;
+    }
+
+    public int getNmsg() {
+        return nmsg;
+    }
+
+    public int getLevel() {
+        return circle_lv;
+    }
+
+    public int getTrainingTotal() {
+        return training_total;
+    }
+
+    public int getTrainingWeek() {
+        return training_week;
+    }
+
+    public int getStudyTotal() {
+        return study_total;
+    }
+
+    public int getStudyWeek() {
+        return study_week;
+    }
+
+    public int getStudyRank() {
+        return study_rank;
+    }
+
+    public int getScoreRank() {
+        return score_rank;
+    }
+
+    public int getStudyOver() {
+        return study_over;
+    }
+
+    public int getScoreOver() {
+        return score_over;
+    }
+
+    public int getStore() {
+        return store;
+    }
 }

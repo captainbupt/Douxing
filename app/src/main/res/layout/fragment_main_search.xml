@@ -9,15 +9,15 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_title_bar"
         android:background="@color/color_blue"
-        android:orientation="horizontal"
-        android:paddingBottom="@dimen/offset_less"
-        android:paddingLeft="@dimen/offset_medium"
-        android:paddingRight="@dimen/offset_medium"
-        android:paddingTop="@dimen/offset_less">
+        android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="@dimen/offset_less"
+            android:layout_marginLeft="@dimen/offset_medium"
+            android:layout_marginTop="@dimen/offset_less"
             android:layout_weight="1"
             android:background="@drawable/background_corner_radius_small_ffffffff"
             android:gravity="center_vertical">
@@ -43,9 +43,11 @@
         <TextView
             android:id="@+id/cancel_text_view"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
-            android:paddingLeft="@dimen/offset_less"
+            android:gravity="center"
+            android:paddingLeft="@dimen/offset_medium"
+            android:paddingRight="@dimen/offset_medium"
             android:text="@string/main_search_cancel"
             android:textColor="@color/color_white"
             android:textSize="@dimen/text_size_medium" />

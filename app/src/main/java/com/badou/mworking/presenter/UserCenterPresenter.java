@@ -15,16 +15,18 @@ import com.badou.mworking.ChatterUserActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.StoreActivity;
 import com.badou.mworking.UserProgressActivity;
+import com.badou.mworking.domain.SetHeadUseCase;
+import com.badou.mworking.domain.UserDetailUseCase;
 import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.user.UserChatterInfo;
 import com.badou.mworking.entity.user.UserDetail;
 import com.badou.mworking.entity.user.UserInfo;
-import com.badou.mworking.net.Net;
-import com.badou.mworking.net.ServiceProvider;
-import com.badou.mworking.net.volley.VolleyListener;
+import com.badou.mworking.net.BaseSubscriber;
+import com.badou.mworking.net.bitmap.BitmapLruCache;
 import com.badou.mworking.util.Constant;
+import com.badou.mworking.util.FileUtils;
 import com.badou.mworking.util.NetUtils;
-import com.badou.mworking.util.SP;
+import com.badou.mworking.util.SPHelper;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.view.BaseView;
 import com.badou.mworking.view.UserCenterView;
@@ -32,17 +34,14 @@ import com.easemob.EMCallBack;
 import com.easemob.chatuidemo.DemoHXSDKHelper;
 import com.easemob.chatuidemo.activity.ChatActivity;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.File;
 
 public class UserCenterPresenter extends Presenter {
     UserDetail mUserDetail;
-    Bitmap mHeadBmp;
     String mFinalImgPath;
     String mImgCacheUrl = "";
     UserCenterView mUserCenterView;
+    UserDetailUseCase mUserDetailUseCase;
 
     public UserCenterPresenter(Context context) {
         super(context);
@@ -51,6 +50,69 @@ public class UserCenterPresenter extends Presenter {
     @Override
     public void attachView(BaseView v) {
         mUserCenterView = (UserCenterView) v;
+        initData();
+    }
+
+    private void initData() {
+        // 根据uid拿到用户头像的路径
+        mFinalImgPath = mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath() + File.separator + UserInfo.getUserInfo().getUid() + ".png";
+        UserDetail userDetail = SPHelper.getUserDetail();
+        if (userDetail != null) {
+            mImgCacheUrl = userDetail.getHeadimg();
+            mUserCenterView.setData(userDetail);
+        }
+        mUserCenterView.showProgressDialog(R.string.user_detail_download_ing);
+        updateData();
+    }
+
+    // 获取用户详情
+    private void updateData() {
+        if (mUserDetailUseCase == null)
+            mUserDetailUseCase = new UserDetailUseCase();
+        mUserDetailUseCase.execute(new BaseSubscriber<UserDetail>(mContext) {
+            @Override
+            public void onResponseSuccess(UserDetail data) {
+                mUserDetail = data;
+                mImgCacheUrl = data.getHeadimg();
+                SPHelper.setUserDetail(data);
+                mUserCenterView.setData(data);
+            }
+
+            @Override
+            public void onCompleted() {
+                mUserCenterView.hideProgressDialog();
+            }
+        });
+    }
+
+    /**
+     * 保存裁剪之后的图片数据
+     */
+    public void onImageSelected(final Bitmap bitmap) {
+        if (bitmap != null) {
+            mUserCenterView.showProgressDialog(R.string.user_detail_icon_upload_ing);
+            new SetHeadUseCase(FileUtils.writeBitmap2TmpFile(mContext, bitmap)).execute(new BaseSubscriber(mContext) {
+                @Override
+                public void onResponseSuccess(Object data) {
+                    BitmapLruCache.getBitmapLruCache().remove(mImgCacheUrl);
+                    mUserCenterView.setHeadImage(mImgCacheUrl);
+                    mUserCenterView.showToast(R.string.user_detail_icon_upload_success);
+                }
+
+                @Override
+                public void onErrorCode(int code) {
+                    super.onErrorCode(code);
+                }
+
+                @Override
+                public void onCompleted() {
+                    mUserCenterView.hideProgressDialog();
+                }
+            });
+        } else {
+            ToastUtil.showToast(mContext,
+                    R.string.user_detail_icon_upload_failed);
+        }
     }
 
     public void changeUserHead() {
@@ -99,7 +161,7 @@ public class UserCenterPresenter extends Presenter {
 
     public void toMyChat() {
         Intent intent = new Intent(mContext, ChatListActivity.class);
-        intent.putExtra(ChatListActivity.KEY_HEAD_URL, mUserDetail.headimg);
+        intent.putExtra(ChatListActivity.KEY_HEAD_URL, mUserDetail.getHeadimg());
         mContext.startActivity(intent);
     }
 
@@ -141,140 +203,8 @@ public class UserCenterPresenter extends Presenter {
         }
     }
 
-    private void initData() {
-        // 获取用户的uid
-        // 根据uid拿到用户头像的路径
-        mFinalImgPath = mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath() + File.separator + UserInfo.getUserInfo().getUid() + ".png";
-        mUserDetail = getUserCache();
-        mUserCenterView.showProgressDialog(R.string.user_detail_download_ing);
-        updateData();
-    }
-
     @Override
     public void resume() {
-        super.resume();
         updateData();
-    }
-
-    private void updateData() {
-        // 获取用户详情
-        ServiceProvider.doOptainUserDetail(mContext, UserInfo.getUserInfo().getUid(), new VolleyListener(
-                mContext) {
-
-            @Override
-            public void onCompleted() {
-                mUserCenterView.hideProgressDialog();
-            }
-
-            @Override
-            public void onResponseSuccess(JSONObject response) {
-                JSONObject jObject = response.optJSONObject(Net.DATA);
-                saveUserCache(jObject);
-                mUserDetail = new UserDetail(jObject);
-            }
-        });
-    }
-
-    private void saveUserCache(JSONObject jsonObject) {
-        SP.putStringSP(mContext, SP.DEFAULTCACHE, "userdetail", jsonObject.toString());
-    }
-
-    private UserDetail getUserCache() {
-        try {
-            JSONObject jsonObject = new JSONObject(SP.getStringSP(mContext, SP.DEFAULTCACHE, "userdetail", ""));
-            return new UserDetail(jsonObject);
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-    }
-
-    /**
-     * 设置分数 学习进度
-     */
-/*    private void updateViewValue() {
-
-        if (mUserDetail == null) {
-            return;
-        }
-        // 用户信息
-        String strScore = mContext.getResources().getString(R.string.text_score);
-        String strPingJunFen = mContext.getResources().getString(R.string.user_center_exam_average);
-        setUserIcon(mUid, mUserDetail.headimg);
-        if (!TextUtils.isEmpty(mUserDetail.name)) {
-            ((TextView) findViewById(R.id.tv_user_center_top_name))
-                    .setText(mUserDetail.name + "\n" + mUserDetail.dpt);
-        }
-        if (!TextUtils.isEmpty(String.valueOf(mUserDetail.score))) {
-            ((TextView) findViewById(R.id.tv_user_center_exam_score))
-                    .setText(strPingJunFen + String.valueOf(mUserDetail.score)
-                            + strScore);
-        }
-
-        // 学习进度
-        if (!TextUtils.isEmpty(String.valueOf(mUserDetail.study_total))
-                && !TextUtils.isEmpty(String.valueOf(mUserDetail
-                .training_total))) {
-            ((TextView) findViewById(R.id.tv_user_center_study_percent))
-                    .setText(String.valueOf(mUserDetail.study_total)
-                            + "/"
-                            + String.valueOf(mUserDetail.training_total));
-            int study = mUserDetail.study_total;
-            int training = mUserDetail.training_total;
-            int s = study * 100;
-            if (training != 0) {
-                int progress = s / training;
-                ProgressBar pbTotalBar = (ProgressBar) findViewById(R.id.pb_user_center_study_progress);
-                pbTotalBar.setProgress(progress);
-            }
-        }
-
-        // 同事圈
-        postsNumTextView.setText(mUserDetail.ask + getResources().getString(R.string.chatter_num));
-        LVUtil.setTextViewBg(levelTextView, mUserDetail.circle_lv);
-        int nmsg = mUserDetail.nmsg;
-        if (nmsg > 0) {
-            chatNumTextView.setVisibility(View.VISIBLE);
-            chatNumTextView.setText(nmsg + "");
-        } else {
-            chatNumTextView.setVisibility(View.GONE);
-        }
-        int storeNumber = mUserDetail.store;
-        storeNumTextView.setText(storeNumber + getResources().getString(R.string.chatter_num));
-
-    }*/
-
-    /**
-     * 保存裁剪之后的图片数据
-     */
-    private void getImageToView(final Bitmap bitmap) {
-        if (bitmap != null) {
-            mUserCenterView.showProgressDialog(R.string.user_detail_icon_upload_ing);
-            ServiceProvider.doUpdateBitmap(mContext, bitmap,
-                    Net.getRunHost() + Net.UPDATE_HEAD_ICON(UserInfo.getUserInfo().getUid()),
-                    new VolleyListener(mContext) {
-
-                        @Override
-                        public void onCompleted() {
-                            mUserCenterView.hideProgressDialog();
-                        }
-
-                        @Override
-                        public void onResponseSuccess(JSONObject response) {
-                            if (mHeadBmp != null && !mHeadBmp.isRecycled()) {
-                                mHeadBmp.recycle();
-                            }
-                            bitmap.recycle();
-                            mUserCenterView.showToast(R.string.user_detail_icon_upload_success);
-                        }
-                    });
-        } else {
-            ToastUtil.showToast(mContext,
-                    R.string.user_detail_icon_upload_failed);
-        }
     }
 }

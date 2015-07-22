@@ -144,7 +144,7 @@ public class VideoPlayActivity extends BaseBackActionBarActivity {
 
     private void downloadFile() {
         mProgressDialog.show();
-        ServiceProvider.doDownloadTrainingFile(videoURl, videoPath, new RangeFileAsyncHttpResponseHandler(new File(videoPath)) {
+        ServiceProvider.doDownloadTrainingFile(mContext, videoURl, videoPath, new RangeFileAsyncHttpResponseHandler(new File(videoPath)) {
 
             @Override
             public void onProgress(long bytesWritten, long totalSize) {

@@ -1,6 +1,7 @@
 package com.badou.mworking.net;
 
 
+import android.graphics.Bitmap;
 import android.text.TextUtils;
 
 import com.badou.mworking.base.AppApplication;
@@ -22,7 +23,9 @@ import com.badou.mworking.entity.category.Train;
 import com.badou.mworking.entity.comment.CategoryComment;
 import com.badou.mworking.entity.comment.CommentOverall;
 import com.badou.mworking.entity.main.MainData;
+import com.badou.mworking.entity.user.UserDetail;
 import com.badou.mworking.entity.user.UserInfo;
+import com.badou.mworking.util.FileUtils;
 
 import java.io.File;
 import java.util.List;
@@ -131,4 +134,13 @@ public class RestRepository {
     public Observable<BaseNetEntity<EMChatCreateGroupUseCase.Response>> createEMChatGroup(EMChatCreateGroupUseCase.Body body) {
         return restApi.createEMChatGroup(AppApplication.SYSPARAM, AppApplication.appVersion, body);
     }
+
+    public Observable<BaseNetEntity<UserDetail>> getUserDetail(String uid) {
+        return restApi.getUserDetail(AppApplication.SYSPARAM, AppApplication.appVersion, uid);
+    }
+
+    public Observable<BaseNetEntity> setUserHead(String uid, File file) {
+        return restApi.setUserHead(AppApplication.SYSPARAM, AppApplication.appVersion, uid, file);
+    }
+
 }

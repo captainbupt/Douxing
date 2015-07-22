@@ -15,43 +15,38 @@
         android:paddingBottom="@dimen/offset_large">
 
         <ImageView
-            android:id="@+id/iv_user_center_top_head"
+            android:id="@+id/head_image_view"
             android:layout_width="@dimen/user_center_image_head_size"
             android:layout_height="@dimen/user_center_image_head_size"
-            android:layout_below="@+id/iv_user_center_top_back"
+            android:layout_below="@+id/back_image_view"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/offset_less"
             android:scaleType="fitXY"
             android:src="@drawable/icon_user_detail_default_head" />
 
-        <TextView
-            android:id="@+id/tv_user_center_top_level"
+        <com.badou.mworking.widget.LevelTextView
+            android:id="@+id/level_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@id/iv_user_center_top_head"
+            android:layout_alignTop="@id/head_image_view"
             android:layout_marginTop="@dimen/offset_small"
-            android:layout_toRightOf="@id/iv_user_center_top_head"
-            android:paddingBottom="1dp"
-            android:paddingLeft="2dp"
-            android:paddingRight="2dp"
-            android:paddingTop="1dp"
+            android:layout_toRightOf="@id/head_image_view"
             android:textColor="#ffffff"
             android:textSize="@dimen/text_size_small" />
 
         <TextView
-            android:id="@+id/tv_user_center_top_name"
+            android:id="@+id/name_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/iv_user_center_top_head"
+            android:layout_below="@+id/head_image_view"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/offset_less"
             android:gravity="center_horizontal"
-            android:text=""
             android:textColor="@android:color/white"
             android:textSize="@dimen/text_size_large" />
 
         <ImageView
-            android:id="@+id/iv_user_center_top_about"
+            android:id="@+id/about_image_view"
             android:layout_width="@dimen/height_title_bar"
             android:layout_height="@dimen/height_title_bar"
             android:layout_alignParentRight="true"
@@ -61,7 +56,7 @@
             android:src="@drawable/icon_user_center_about_us" />
 
         <ImageView
-            android:id="@+id/iv_user_center_top_back"
+            android:id="@+id/back_image_view"
             android:layout_width="@dimen/height_title_bar"
             android:layout_height="@dimen/height_title_bar"
             android:layout_alignParentLeft="true"
@@ -91,7 +86,7 @@
                 android:paddingRight="@dimen/offset_medium">
 
                 <LinearLayout
-                    android:id="@+id/ll_user_center_study_progress"
+                    android:id="@+id/study_progress_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
@@ -126,7 +121,7 @@
                                 android:textSize="@dimen/text_size_medium" />
 
                             <TextView
-                                android:id="@+id/tv_user_center_study_percent"
+                                android:id="@+id/study_percent_text_view"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="right"
@@ -136,7 +131,7 @@
                         </LinearLayout>
 
                         <ProgressBar
-                            android:id="@+id/pb_user_center_study_progress"
+                            android:id="@+id/study_progress_bar"
                             style="@style/ProgressBarUserCenter"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/user_center_progress_height"
@@ -156,7 +151,7 @@
                     android:background="@color/color_bg_grey" />
 
                 <LinearLayout
-                    android:id="@+id/ll_user_center_exam"
+                    android:id="@+id/my_exam_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
@@ -181,7 +176,7 @@
                         android:textSize="@dimen/text_size_medium" />
 
                     <TextView
-                        android:id="@+id/tv_user_center_exam_score"
+                        android:id="@+id/exam_score_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="@dimen/offset_less"
@@ -208,7 +203,7 @@
 
 
                 <LinearLayout
-                    android:id="@+id/ll_user_center_group"
+                    android:id="@+id/my_chatter_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
@@ -232,7 +227,7 @@
                         android:textSize="@dimen/text_size_medium" />
 
                     <TextView
-                        android:id="@+id/tv_user_center_group_post_number"
+                        android:id="@+id/chatter_number_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="@dimen/offset_less"
@@ -251,7 +246,7 @@
                     android:background="@color/color_bg_grey" />
 
                 <LinearLayout
-                    android:id="@+id/ll_user_center_message"
+                    android:id="@+id/my_message_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
@@ -275,7 +270,7 @@
                         android:textSize="@dimen/text_size_medium" />
 
                     <TextView
-                        android:id="@+id/tv_user_center_message_number"
+                        android:id="@+id/message_number_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="@dimen/offset_less"
@@ -301,7 +296,7 @@
                     android:background="@color/color_bg_grey" />
 
                 <LinearLayout
-                    android:id="@+id/ll_user_center_store"
+                    android:id="@+id/my_store_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
@@ -325,7 +320,7 @@
                         android:textSize="@dimen/text_size_medium" />
 
                     <TextView
-                        android:id="@+id/tv_user_center_store_number"
+                        android:id="@+id/store_number_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="@dimen/offset_less"
@@ -349,7 +344,7 @@
                 android:paddingRight="@dimen/offset_medium">
 
                 <LinearLayout
-                    android:id="@+id/ll_user_center_my_account"
+                    android:id="@+id/my_account_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
@@ -384,7 +379,7 @@
                     android:background="@color/color_bg_grey" />
 
                 <LinearLayout
-                    android:id="@+id/ll_user_center_service"
+                    android:id="@+id/service_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"

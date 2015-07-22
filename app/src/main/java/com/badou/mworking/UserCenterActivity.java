@@ -3,72 +3,87 @@ package com.badou.mworking;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Environment;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.badou.mworking.base.BaseNoTitleActivity;
-import com.badou.mworking.entity.category.Category;
-import com.badou.mworking.entity.user.UserChatterInfo;
 import com.badou.mworking.entity.user.UserDetail;
-import com.badou.mworking.entity.user.UserInfo;
-import com.badou.mworking.net.Net;
-import com.badou.mworking.net.ServiceProvider;
-import com.badou.mworking.net.bitmap.BitmapLruCache;
-import com.badou.mworking.net.bitmap.CircleImageListener;
-import com.badou.mworking.net.volley.MyVolley;
-import com.badou.mworking.net.volley.VolleyListener;
-import com.badou.mworking.util.BitmapUtil;
-import com.badou.mworking.util.Constant;
-import com.badou.mworking.util.FileUtils;
+import com.badou.mworking.net.bitmap.ImageViewLoader;
+import com.badou.mworking.presenter.Presenter;
+import com.badou.mworking.presenter.UserCenterPresenter;
 import com.badou.mworking.util.ImageChooser;
-import com.badou.mworking.util.LVUtil;
-import com.badou.mworking.util.NetUtils;
-import com.badou.mworking.util.SP;
-import com.badou.mworking.util.ToastUtil;
-import com.easemob.EMCallBack;
-import com.easemob.chatuidemo.DemoHXSDKHelper;
-import com.easemob.chatuidemo.activity.ChatActivity;
+import com.badou.mworking.view.UserCenterView;
+import com.badou.mworking.widget.LevelTextView;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.File;
-
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
  * 功能描述: 个人中心页面
  */
-public class UserCenterActivity extends BaseNoTitleActivity {
+public class UserCenterActivity extends BaseNoTitleActivity implements UserCenterView {
 
-    private String mUid = "";
-    private String finalImgPath;
+    @Bind(R.id.head_image_view)
+    ImageView mHeadImageView;
+    @Bind(R.id.level_text_view)
+    LevelTextView mLevelTextView;
+    @Bind(R.id.name_text_view)
+    TextView mNameTextView;
+    @Bind(R.id.about_image_view)
+    ImageView mAboutImageView;
+    @Bind(R.id.back_image_view)
+    ImageView mBackImageView;
+    @Bind(R.id.study_percent_text_view)
+    TextView mStudyPercentTextView;
+    @Bind(R.id.study_progress_bar)
+    ProgressBar mStudyProgressBar;
+    @Bind(R.id.study_progress_layout)
+    LinearLayout mStudyProgressLayout;
+    @Bind(R.id.exam_score_text_view)
+    TextView mExamScoreTextView;
+    @Bind(R.id.my_exam_layout)
+    LinearLayout mMyExamLayout;
+    @Bind(R.id.chatter_number_text_view)
+    TextView mChatterNumberTextView;
+    @Bind(R.id.my_chatter_layout)
+    LinearLayout mMyChatterLayout;
+    @Bind(R.id.message_number_text_view)
+    TextView mMessageNumberTextView;
+    @Bind(R.id.my_message_layout)
+    LinearLayout mMyMessageLayout;
+    @Bind(R.id.store_number_text_view)
+    TextView mStoreNumberTextView;
+    @Bind(R.id.my_store_layout)
+    LinearLayout mMyStoreLayout;
+    @Bind(R.id.my_account_layout)
+    LinearLayout mMyAccountLayout;
+    @Bind(R.id.service_layout)
+    LinearLayout mServiceLayout;
+    @Bind(R.id.user_center_linear)
+    LinearLayout mUserCenterLinear;
 
-    private UserDetail mUserDetail;
+    ImageChooser mImageChooser;
 
-    private ImageView ivUserHeadIcon;
-    private TextView postsNumTextView;     // 我的圈帖子数量
-    private TextView levelTextView;    //等级
-    private Bitmap headBmp;
-    private String imgCacheUrl = "";
-    private TextView chatNumTextView;   //聊天未读数量
-    private TextView storeNumTextView;   //收藏数量
-
-    private ImageChooser mImageChooser;
+    UserCenterPresenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_center);
+        ButterKnife.bind(this);
         disableSwipeBack();
-        initView();
-        initListener();
-        initData();
+        mPresenter = (UserCenterPresenter) super.mPresenter;
+        mPresenter.attachView(this);
+    }
+
+    @Override
+    public Presenter getPresenter() {
+        return new UserCenterPresenter(mContext);
     }
 
     @Override
@@ -77,226 +92,60 @@ public class UserCenterActivity extends BaseNoTitleActivity {
         overridePendingTransition(R.anim.slide_in_from_bottom, R.anim.slide_out_to_bottom);
     }
 
-    private void initView() {
-        postsNumTextView = (TextView) findViewById(R.id.tv_user_center_group_post_number);
-        chatNumTextView = (TextView) findViewById(R.id.tv_user_center_message_number);
-
-        // 用户头像
-        ivUserHeadIcon = (ImageView) findViewById(R.id.iv_user_center_top_head);
-        levelTextView = (TextView) findViewById(R.id.tv_user_center_top_level);
-        storeNumTextView = (TextView) findViewById(R.id.tv_user_center_store_number);
-
+    @OnClick(R.id.head_image_view)
+    void onHeadClicked() {
+        mPresenter.changeUserHead();
     }
 
-    private void initListener() {
-
-        mImageChooser = new ImageChooser(mContext, true, true, true);
-        mImageChooser.setOnImageChosenListener(new ImageChooser.OnImageChosenListener() {
-            @Override
-            public void onImageChosen(Bitmap bitmap, int type) {
-                getImageToView(bitmap);
-            }
-        });
-
-        ivUserHeadIcon.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // 判断是否联网，如果没有联网的话，不进行拍照和相册选取图片的操作
-                if (!NetUtils.isNetConnected(mContext)) {
-                    ToastUtil.showToast(mContext, R.string.error_service);
-                    return;
-                }
-                mImageChooser.takeImage(getResources().getString(R.string.uc_dialog_title_settingHead));
-            }
-        });
-
-        levelTextView.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-                checkLevel();
-            }
-        });
-
-        // actionbar home 操作，返回主界面
-        findViewById(R.id.iv_user_center_top_back).setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (mContext != null) {
-                    finish();
-                }
-            }
-        });
-
-        // 我的学习
-        findViewById(R.id.ll_user_center_study_progress)
-                .setOnClickListener(new OnClickListener() {
-
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(mActivity, UserProgressActivity.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable(UserProgressActivity.KEY_USERINFO, mUserDetail);
-                        intent.putExtras(bundle);
-                        intent.putExtra(UserProgressActivity.KEY_TYPE, Category.CATEGORY_TRAINING);
-                        startActivity(intent);
-                    }
-                });
-        // 进入我的圈页面
-        findViewById(R.id.ll_user_center_group)
-                .setOnClickListener(new OnClickListener() {
-
-                    @Override
-                    public void onClick(View v) {
-                        // 缺省UID的情况下，默认进入我的圈
-                        Intent intent = new Intent(mContext, ChatterUserActivity.class);
-                        intent.putExtra(ChatterUserActivity.KEY_USER_CHATTER, new UserChatterInfo(mUserDetail));
-                        intent.putExtra(ChatterUserActivity.KEY_UID, mUid);
-                        startActivity(intent);
-                    }
-                });
-
-        // 进入我的考试
-        findViewById(R.id.ll_user_center_exam)
-                .setOnClickListener(new OnClickListener() {
-
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(mActivity, UserProgressActivity.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable(UserProgressActivity.KEY_USERINFO, mUserDetail);
-                        intent.putExtras(bundle);
-                        intent.putExtra(UserProgressActivity.KEY_TYPE, Category.CATEGORY_EXAM);
-                        startActivity(intent);
-                    }
-                });
-
-        // 进入我的私信
-        findViewById(R.id.ll_user_center_message)
-                .setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(mActivity, ChatListActivity.class);
-                        intent.putExtra(ChatListActivity.KEY_HEAD_URL, mUserDetail.headimg);
-                        startActivity(intent);
-                    }
-                });
-        // 进入我的账号
-        findViewById(R.id.ll_user_center_my_account)
-                .setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        startActivity(new Intent(mActivity, AccountManageActivity.class));
-                    }
-                });
-        // 进入关于我们
-        findViewById(R.id.iv_user_center_top_about).setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-                startActivity(new Intent(mActivity, AboutUsActivity.class));
-            }
-        });
-
-        findViewById(R.id.ll_user_center_store).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(mActivity, StoreActivity.class));
-            }
-        });
-
-        findViewById(R.id.ll_user_center_service).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (DemoHXSDKHelper.getInstance().isLogined()) {
-                    startActivity(ChatActivity.getServiceIntent(mContext));
-                } else {
-                    mProgressDialog.show();
-                    ((DemoHXSDKHelper) DemoHXSDKHelper.getInstance()).loginAnonymous(mActivity, new EMCallBack() {
-                        @Override
-                        public void onSuccess() {
-                            mProgressDialog.dismiss();
-                            startActivity(ChatActivity.getServiceIntent(mContext));
-                        }
-
-                        @Override
-                        public void onError(int i, String s) {
-                            mProgressDialog.dismiss();
-                            ToastUtil.showToast(mContext, R.string.Login_failed);
-                        }
-
-                        @Override
-                        public void onProgress(int i, String s) {
-
-                        }
-                    });
-                }
-            }
-        });
+    @OnClick(R.id.level_text_view)
+    void onLevelClicked() {
+        mPresenter.checkLevel();
     }
 
-    private void initData() {
-        // 获取用户的uid
-        try {
-            mUid = UserInfo.getUserInfo().getUid();
-            // 根据uid拿到用户头像的路径
-            finalImgPath = mActivity.getExternalFilesDir(
-                    Environment.DIRECTORY_PICTURES).getAbsolutePath()
-                    + File.separator + mUid + ".png";
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-        mUserDetail = getUserCache();
-        updateViewValue();
-        mProgressDialog.setContent(R.string.user_detail_download_ing);
-
-        mProgressDialog.show();
-        updateData();
+    @OnClick(R.id.back_image_view)
+    public void onBackPressedClicked() {
+        super.onBackPressed();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        updateData();
+    @OnClick(R.id.study_progress_layout)
+    void onStudyProgressClicked() {
+        mPresenter.toMyStudy();
     }
 
-    private void updateData() {
-        // 获取用户详情
-        ServiceProvider.doOptainUserDetail(mContext, mUid, new VolleyListener(
-                mContext) {
-
-            @Override
-            public void onCompleted() {
-                if (!mActivity.isFinishing())
-                    mProgressDialog.dismiss();
-            }
-
-            @Override
-            public void onResponseSuccess(JSONObject response) {
-                JSONObject jObject = response.optJSONObject(Net.DATA);
-                saveUserCache(jObject);
-                mUserDetail = new UserDetail(jObject);
-                updateViewValue();
-            }
-        });
+    @OnClick(R.id.my_exam_layout)
+    void onExamProgressClicked() {
+        mPresenter.toMyExam();
     }
 
-    private void saveUserCache(JSONObject jsonObject) {
-        SP.putStringSP(mContext, SP.DEFAULTCACHE, "userdetail", jsonObject.toString());
+    @OnClick(R.id.my_chatter_layout)
+    void onChatterClicked() {
+        mPresenter.toMyChatter();
     }
 
-    private UserDetail getUserCache() {
-        try {
-            JSONObject jsonObject = new JSONObject(SP.getStringSP(mContext, SP.DEFAULTCACHE, "userdetail", ""));
-            return new UserDetail(jsonObject);
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return null;
-        }
+    @OnClick(R.id.my_message_layout)
+    void onMessageClicked() {
+        mPresenter.toMyChat();
     }
 
+    @OnClick(R.id.my_store_layout)
+    void onStoreClicked() {
+        mPresenter.toMyStore();
+    }
+
+    @OnClick(R.id.my_account_layout)
+    void onAccountClicked() {
+        mPresenter.toMyAccount();
+    }
+
+    @OnClick(R.id.service_layout)
+    void onServiceClicked() {
+        mPresenter.toService();
+    }
+
+    @OnClick(R.id.about_image_view)
+    void onAboutUsClicked() {
+        mPresenter.toAboutUs();
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -305,170 +154,58 @@ public class UserCenterActivity extends BaseNoTitleActivity {
     }
 
     /**
-     * 功能描述: 从文件中获取用户头像
-     *
-     * @param path
-     * @return
-     */
-    private Bitmap getUserIconFromFile(String path) {
-        if (!FileUtils.hasSdcard()) {
-            return null;
-        }
-        int headWidth, headHeight;
-        headWidth = getResources().getDimensionPixelSize(
-                R.dimen.user_center_image_head_size);
-        headHeight = headWidth;
-        return BitmapUtil.decodeSampledBitmapFromFile(path, headWidth,
-                headHeight);
-    }
-
-    /**
-     * 功能描述: 设置用户头像
-     *
-     * @param uid
-     * @param imgUrl
-     */
-    private void setUserIcon(final String uid, final String imgUrl) {
-        if (headBmp != null && !headBmp.isRecycled()) {
-            headBmp.recycle();
-            headBmp = null;
-        }
-        if (!TextUtils.isEmpty(imgUrl))
-            headBmp = BitmapLruCache.getBitmapLruCache()
-                    .getCircleBitmap(imgUrl);
-        int headWidth, headHeight;
-        headWidth = getResources().getDimensionPixelSize(
-                R.dimen.user_center_image_head_size);
-        headHeight = headWidth;
-        headBmp = BitmapUtil.getCirlBitmp(headBmp,
-                headWidth, headHeight);
-        if (headBmp != null) {
-            ivUserHeadIcon.setImageBitmap(headBmp);
-            return;
-        }
-        Bitmap tmpBitmap = getUserIconFromFile(finalImgPath);
-        headBmp = BitmapUtil.getCirlBitmp(tmpBitmap, headWidth, headHeight);
-        if (headBmp != null) {
-            System.out.println("imgUrl: " + imgCacheUrl);
-            BitmapLruCache.getBitmapLruCache().putBitmap(imgCacheUrl, tmpBitmap);
-            ivUserHeadIcon.setImageBitmap(headBmp);
-            BitmapLruCache.getBitmapLruCache().putCircleBitmap(imgCacheUrl, headBmp);
-            return;
-        } else {
-            MyVolley.getImageLoader().get(
-                    imgUrl,
-                    new CircleImageListener(imgUrl, ivUserHeadIcon, headWidth, headHeight));
-        }
-    }
-
-    /**
      * 设置分数 学习进度
      */
-    private void updateViewValue() {
-
-        if (mUserDetail == null) {
-            return;
-        }
-
+    public void setData(UserDetail userDetail) {
+        if (!TextUtils.isEmpty(userDetail.getHeadimg()))
+            setHeadImage(userDetail.getHeadimg());
         // 用户信息
-        imgCacheUrl = mUserDetail.headimg;
         String strScore = mContext.getResources().getString(R.string.text_score);
         String strPingJunFen = mContext.getResources().getString(R.string.user_center_exam_average);
-        setUserIcon(mUid, mUserDetail.headimg);
-        if (!TextUtils.isEmpty(mUserDetail.name)) {
-            ((TextView) findViewById(R.id.tv_user_center_top_name))
-                    .setText(mUserDetail.name + "\n" + mUserDetail.dpt);
-        }
-        if (!TextUtils.isEmpty(String.valueOf(mUserDetail.score))) {
-            ((TextView) findViewById(R.id.tv_user_center_exam_score))
-                    .setText(strPingJunFen + String.valueOf(mUserDetail.score)
-                            + strScore);
-        }
+        mNameTextView.setText(userDetail.getName() + "\n" + userDetail.getDpt());
+        mExamScoreTextView.setText(strPingJunFen + userDetail.getScore() + strScore);
 
         // 学习进度
-        if (!TextUtils.isEmpty(String.valueOf(mUserDetail.study_total))
-                && !TextUtils.isEmpty(String.valueOf(mUserDetail
-                .training_total))) {
-            ((TextView) findViewById(R.id.tv_user_center_study_percent))
-                    .setText(String.valueOf(mUserDetail.study_total)
-                            + "/"
-                            + String.valueOf(mUserDetail.training_total));
-            int study = mUserDetail.study_total;
-            int training = mUserDetail.training_total;
-            int s = study * 100;
-            if (training != 0) {
-                int progress = s / training;
-                ProgressBar pbTotalBar = (ProgressBar) findViewById(R.id.pb_user_center_study_progress);
-                pbTotalBar.setProgress(progress);
-            }
+        int study = userDetail.getStudyTotal();
+        int training = userDetail.getTrainingTotal();
+        mStudyPercentTextView.setText(study + "/" + training);
+        int s = study * 100;
+        if (training != 0) {
+            int progress = s / training;
+            mStudyProgressBar.setProgress(progress);
         }
 
         // 同事圈
-        postsNumTextView.setText(mUserDetail.ask + getResources().getString(R.string.chatter_num));
-        LVUtil.setTextViewBg(levelTextView, mUserDetail.circle_lv);
-        int nmsg = mUserDetail.nmsg;
+        mChatterNumberTextView.setText(userDetail.getAsk() + getResources().getString(R.string.chatter_num));
+        mLevelTextView.setLevel(userDetail.getLevel());
+        int nmsg = userDetail.getNmsg();
         if (nmsg > 0) {
-            chatNumTextView.setVisibility(View.VISIBLE);
-            chatNumTextView.setText(nmsg + "");
+            mMessageNumberTextView.setVisibility(View.VISIBLE);
+            mMessageNumberTextView.setText(nmsg + "");
         } else {
-            chatNumTextView.setVisibility(View.GONE);
+            mMessageNumberTextView.setVisibility(View.GONE);
         }
-        int storeNumber = mUserDetail.store;
-        storeNumTextView.setText(storeNumber + getResources().getString(R.string.chatter_num));
+        int storeNumber = userDetail.getStore();
+        mStoreNumberTextView.setText(storeNumber + getResources().getString(R.string.chatter_num));
 
     }
 
-    /**
-     * 保存裁剪之后的图片数据
-     */
-    private void getImageToView(final Bitmap bitmap) {
-        if (bitmap != null) {
-            mProgressDialog.setTitle(R.string.user_detail_icon_upload_ing);
-            mProgressDialog.show();
-            ServiceProvider.doUpdateBitmap(mContext, bitmap,
-                    Net.getRunHost() + Net.UPDATE_HEAD_ICON(mUid),
-                    new VolleyListener(mContext) {
-
-                        @Override
-                        public void onCompleted() {
-                            if (!mActivity.isFinishing())
-                                mProgressDialog.dismiss();
-                        }
-
-                        @Override
-                        public void onResponseSuccess(JSONObject response) {
-                            Bitmap headbitmap = BitmapLruCache.getBitmapLruCache().get(imgCacheUrl);
-                            if (headbitmap != null && !headbitmap.isRecycled()) {
-                                headbitmap.recycle();
-                            }
-                            FileUtils.writeBitmap2SDcard(bitmap, finalImgPath);
-                            bitmap.recycle();
-                            setUserIcon(mUid, null);
-                            ToastUtil.showToast(mContext, R.string.user_detail_icon_upload_success);
-                        }
-                    });
-        } else {
-            ToastUtil.showToast(mContext,
-                    R.string.user_detail_icon_upload_failed);
-        }
-    }
-
-    /**
-     * 功能描述: 等级查看
-     */
-    public void checkLevel() {
-        if (levelTextView != null) {
-            levelTextView.setOnClickListener(new OnClickListener() {
-
+    @Override
+    public void takeImage() {
+        if (mImageChooser == null) {
+            mImageChooser = new ImageChooser(mContext, true, true, true);
+            mImageChooser.setOnImageChosenListener(new ImageChooser.OnImageChosenListener() {
                 @Override
-                public void onClick(View arg0) {
-                    String userId = UserInfo.getUserInfo().getUid();
-                    Intent intent = new Intent(mContext, BackWebActivity.class);
-                    intent.putExtra("title", "等级介绍");
-                    intent.putExtra(BackWebActivity.KEY_URL, Constant.LV_URL + userId);
-                    startActivity(intent);
+                public void onImageChosen(Bitmap bitmap, int type) {
+                    mPresenter.onImageSelected(bitmap);
                 }
             });
         }
+        mImageChooser.takeImage(getString(R.string.uc_dialog_title_settingHead));
+    }
+
+    @Override
+    public void setHeadImage(String url) {
+        ImageViewLoader.setCircleImageViewResource(mHeadImageView, url, getResources().getDimensionPixelSize(R.dimen.user_center_image_head_size));
     }
 }
