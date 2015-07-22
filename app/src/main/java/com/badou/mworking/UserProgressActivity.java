@@ -141,14 +141,14 @@ public class UserProgressActivity extends BaseNoTitleActivity {
             String str2 = " <font color=\'#ffffff\'><b>"
                     + getResources().getString(R.string.study_sec)
                     + "</b></font>";// 的用户
-            String html = str1 + " <font color=\'#DD523f\'><b>" + userDetail.study_rank
+            String html = str1 + " <font color=\'#DD523f\'><b>" + userDetail.getStudyRank()
                     + "%</b></font>" + str2;
             mTopRankTextView.setText(Html.fromHtml(html));
-            if (userDetail.study_rank >= 0 && userDetail.study_rank <= 50) {
+            if (userDetail.getStudyRank() >= 0 && userDetail.getStudyRank() <= 50) {
                 mTopContentTextView.setText(R.string.study_level_low);
-            } else if (userDetail.study_rank > 50 && userDetail.study_rank <= 80) {
+            } else if (userDetail.getStudyRank() > 50 && userDetail.getStudyRank() <= 80) {
                 mTopContentTextView.setText(R.string.study_level_middle);
-            } else if (userDetail.study_rank > 80 && userDetail.study_rank <= 100) {
+            } else if (userDetail.getStudyRank() > 80 && userDetail.getStudyRank() <= 100) {
                 mTopContentTextView.setText(R.string.study_level_high);
             }
             mMiddleTextView.setText(R.string.user_progress_middle_training);
@@ -159,12 +159,12 @@ public class UserProgressActivity extends BaseNoTitleActivity {
         } else {
             String str1 = " <font color=\'#ffffff\'><b>" + "第" + "</b></font>";//第
             String str2 = " <font color=\'#ffffff\'><b>" + "名, " + "</b></font>";//名
-            String html1 = str1 + " <font color=\'#DD523f\'><b>" + userDetail.score_over + "</b></font>" + str2;
+            String html1 = str1 + " <font color=\'#DD523f\'><b>" + userDetail.getScoreOver() + "</b></font>" + str2;
             String str3 = " <font color=\'#ffffff\'><b>" + "超过" + "</b></font>";//你的学习成绩
             String str4 = " <font color=\'#ffffff\'><b>" + "学员" + "</b></font>";//的用户
-            String html2 = str3 + " <font color=\'#DD523f\'><b>" + userDetail.score_rank + "%</b></font>" + str4;
+            String html2 = str3 + " <font color=\'#DD523f\'><b>" + userDetail.getScoreRank() + "%</b></font>" + str4;
             mTopRankTextView.setText(Html.fromHtml(html1 + html2));
-            mTopContentTextView.setText(userDetail.score + "");
+            mTopContentTextView.setText(userDetail.getScore() + "");
             mMiddleTextView.setText(R.string.user_progress_middle_exam);
             mBottomTextView.setText(R.string.user_progress_bottom_exam);
             mAverageTextView.setVisibility(View.VISIBLE);

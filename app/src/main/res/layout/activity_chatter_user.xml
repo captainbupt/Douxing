@@ -49,17 +49,13 @@
                 android:scaleType="fitXY"
                 android:src="@drawable/icon_user_detail_default_head" />
 
-            <TextView
+            <com.badou.mworking.widget.LevelTextView
                 android:id="@+id/tv_chatter_user_top_level"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@id/iv_chatter_user_top_head"
                 android:layout_marginTop="@dimen/offset_small"
                 android:layout_toRightOf="@id/iv_chatter_user_top_head"
-                android:paddingBottom="1dp"
-                android:paddingLeft="2dp"
-                android:paddingRight="2dp"
-                android:paddingTop="1dp"
                 android:textColor="#ffffff"
                 android:textSize="@dimen/text_size_small" />
 
@@ -87,10 +83,10 @@
             android:id="@+id/nrv_chatter_user_none_result"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            myattr:imgSrc="@drawable/background_none_result_chatter"
-            myattr:tipText="@string/none_result_chatter"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/offset_xxlarge"
-            android:visibility="gone" />
+            android:visibility="gone"
+            myattr:imgSrc="@drawable/background_none_result_chatter"
+            myattr:tipText="@string/none_result_chatter" />
     </LinearLayout>
 </com.handmark.pulltorefresh.library.PullToRefreshScrollView>

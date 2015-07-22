@@ -987,10 +987,6 @@ com.badou.mworking.fragment.TrainVideoFragment:
     static final java.lang.String KEY_RID
     static final java.lang.String KEY_URL
     static final java.lang.String KEY_SUBJECT
-    100:111:private void initView(android.os.Bundle)
-    118:132:private void initListener()
-com.badou.mworking.fragment.TrainVideoFragment$1:
-    118:118:TrainVideoFragment$1(com.badou.mworking.fragment.TrainVideoFragment)
 com.badou.mworking.fragment.WebViewFragment:
     175:180:private android.content.Intent createDefaultOpenableIntent()
     184:187:private varargs android.content.Intent createChooserIntent(android.content.Intent[])
@@ -1040,6 +1036,7 @@ com.badou.mworking.util.SPHelper:
     private static final java.lang.String MAIN_BANNER
     private static final java.lang.String LIST_CACHE
     private static final java.lang.String CATEGORY_CLASSIFICATION
+    private static final java.lang.String KEY_USER_DETAIL
 com.badou.mworking.widget.BannerGallery:
     private static final int timerAnimation
 com.badou.mworking.widget.CategoryHeader:

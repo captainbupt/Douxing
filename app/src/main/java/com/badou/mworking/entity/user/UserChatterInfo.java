@@ -6,9 +6,6 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 
-/**
- * Created by Administrator on 2015/6/12.
- */
 public class UserChatterInfo implements Serializable {
     public String name;//员工号 (登录号? 用户名)
     public String department;

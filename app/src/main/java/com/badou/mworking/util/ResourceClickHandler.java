@@ -72,14 +72,9 @@ public class ResourceClickHandler {
         onCompleteListener.onComplete(true);
         Intent intent = new Intent(context, ChatListActivity.class);
         UserDetail userDetail = null;
-        try {
-            JSONObject jsonObject = new JSONObject(SP.getStringSP(context, SP.DEFAULTCACHE, "userdetail", ""));
-            userDetail = new UserDetail(jsonObject);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        userDetail = SPHelper.getUserDetail();
         if (userDetail != null) {
-            intent.putExtra(ChatListActivity.KEY_HEAD_URL, userDetail.headimg);
+            intent.putExtra(ChatListActivity.KEY_HEAD_URL, userDetail.getHeadimg());
         }
         context.startActivity(intent);
     }

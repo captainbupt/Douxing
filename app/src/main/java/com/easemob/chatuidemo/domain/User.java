@@ -79,7 +79,7 @@ public class User extends EMContact {
 
     public void setSpell(String username) {
         this.spell = HanziToPinyin.getInstance().get(username);
-        this.header = String.valueOf(spell.get(0)).toUpperCase();
+        this.header = String.valueOf(spell.get(0).target.charAt(0)).toUpperCase();
         if (header.charAt(0) < 'A' || header.charAt(0) > 'Z') {
             header = "#";
         }

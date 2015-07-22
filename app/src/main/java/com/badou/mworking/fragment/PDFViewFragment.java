@@ -116,7 +116,7 @@ public class PDFViewFragment extends BaseFragment {
         }
         progressDialog = new HorizontalProgressDialog(mContext);
         progressDialog.show();
-        ServiceProvider.doDownloadTrainingFile(url, mFilePath, new RangeFileAsyncHttpResponseHandler(new File(mFilePath)) {
+        ServiceProvider.doDownloadTrainingFile(mContext, url, mFilePath, new RangeFileAsyncHttpResponseHandler(new File(mFilePath)) {
 
             @Override
             public void onProgress(long bytesWritten, long totalSize) {

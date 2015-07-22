@@ -217,6 +217,14 @@ public class FileUtils {
         return true;
     }
 
+    public static File writeBitmap2TmpFile(Context context, Bitmap bitmap) {
+        if (bitmap == null || bitmap.isRecycled())
+            return null;
+        String filePath = context.getExternalCacheDir().getPath() + File.separator + "tmp.jpg";
+        FileUtils.writeBitmap2SDcard(bitmap, filePath);
+        return new File(filePath);
+    }
+
     public static void writeBitmap2SDcard(Bitmap bitmap, String path) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);

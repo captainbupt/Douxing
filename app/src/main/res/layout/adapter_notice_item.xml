@@ -57,7 +57,8 @@
                 android:background="@drawable/flag_category_unread"
                 android:gravity="center"
                 android:text="@string/category_unread"
-                android:textColor="@color/color_white" />
+                android:textColor="@color/color_white"
+                android:textSize="@dimen/text_size_less" />
         </LinearLayout>
 
         <ImageView

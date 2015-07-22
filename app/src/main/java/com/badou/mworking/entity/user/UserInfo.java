@@ -2,6 +2,7 @@ package com.badou.mworking.entity.user;
 
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.database.MTrainingDBHelper;
+import com.badou.mworking.entity.emchat.EMChatEntity;
 import com.badou.mworking.entity.main.Shuffle;
 import com.badou.mworking.util.SPHelper;
 import com.google.gson.annotations.Expose;
@@ -75,6 +76,7 @@ public class UserInfo {
 
     public static void clearUserInfo(AppApplication appApplication) {
         JPushInterface.stopPush(appApplication);
+        EMChatEntity.getInstance().logout(null);
         SPHelper.setUserInfo(null);
     }
 

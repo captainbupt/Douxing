@@ -17,6 +17,7 @@ import com.badou.mworking.entity.category.Train;
 import com.badou.mworking.entity.comment.CategoryComment;
 import com.badou.mworking.entity.comment.CommentOverall;
 import com.badou.mworking.entity.main.MainData;
+import com.badou.mworking.entity.user.UserDetail;
 import com.badou.mworking.entity.user.UserInfo;
 
 import java.io.File;
@@ -94,4 +95,10 @@ public interface RestApi {
 
     @POST("/genhxgrp")
     Observable<BaseNetEntity<EMChatCreateGroupUseCase.Response>> createEMChatGroup(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @retrofit.http.Body EMChatCreateGroupUseCase.Body body);
+
+    @POST("/viewusr")
+    Observable<BaseNetEntity<UserDetail>> getUserDetail(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid);
+
+    @POST("/setimg")
+    Observable<BaseNetEntity> setUserHead(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Body File imgFile);
 }

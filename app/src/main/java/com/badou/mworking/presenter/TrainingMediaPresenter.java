@@ -57,7 +57,7 @@ public class TrainingMediaPresenter extends Presenter {
             return;
         }
         mTrainMediaView.statusDownloading();
-        ServiceProvider.doDownloadTrainingFile(mUrl, mSaveFilePath, new RangeFileAsyncHttpResponseHandler(new File(mSaveFilePath)) {
+        ServiceProvider.doDownloadTrainingFile(mContext, mUrl, mSaveFilePath, new RangeFileAsyncHttpResponseHandler(new File(mSaveFilePath)) {
 
             @Override
             public void onProgress(long bytesWritten, long totalSize) {

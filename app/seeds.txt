@@ -7731,9 +7731,9 @@ com.badou.mworking.EntryActivity$$ViewBinder: void bind(butterknife.ButterKnife$
 com.badou.mworking.EntryActivity$$ViewBinder: void unbind(com.badou.mworking.EntryActivity)
 com.badou.mworking.EntryActivity$$ViewBinder: void unbind(java.lang.Object)
 com.badou.mworking.EntryActivity$$ViewBinder: void bind(butterknife.ButterKnife$Finder,java.lang.Object,java.lang.Object)
-com.badou.mworking.EntryActivity$2: void onClick(android.view.View)
 com.badou.mworking.EntryActivity$3: void onClick(android.view.View)
 com.badou.mworking.EntryActivity$4: void onClick(android.view.View)
+com.badou.mworking.EntryActivity$5: void onClick(android.view.View)
 com.badou.mworking.ExamBaseActivity
 com.badou.mworking.ExamBaseActivity: android.widget.FrameLayout mContentContainer
 com.badou.mworking.ExamBaseActivity: ExamBaseActivity()
@@ -7902,14 +7902,6 @@ com.badou.mworking.NoticeBaseActivity$$ViewBinder: void unbind(com.badou.mworkin
 com.badou.mworking.NoticeBaseActivity$$ViewBinder: void unbind(java.lang.Object)
 com.badou.mworking.NoticeBaseActivity$$ViewBinder: void bind(butterknife.ButterKnife$Finder,java.lang.Object,java.lang.Object)
 com.badou.mworking.NoticeBaseActivity$1: void onClick(android.view.View)
-com.badou.mworking.NoticePDFViewActivity
-com.badou.mworking.NoticePDFViewActivity: NoticePDFViewActivity()
-com.badou.mworking.NoticePDFViewActivity: android.content.Intent getIntent(android.content.Context,java.lang.String)
-com.badou.mworking.NoticePDFViewActivity: void setData(java.lang.String,com.badou.mworking.entity.category.CategoryDetail)
-com.badou.mworking.NoticeWebViewActivity
-com.badou.mworking.NoticeWebViewActivity: NoticeWebViewActivity()
-com.badou.mworking.NoticeWebViewActivity: android.content.Intent getIntent(android.content.Context,java.lang.String)
-com.badou.mworking.NoticeWebViewActivity: void setData(java.lang.String,com.badou.mworking.entity.category.CategoryDetail)
 com.badou.mworking.PhotoActivity
 com.badou.mworking.PhotoActivity: java.lang.String KEY_URL
 com.badou.mworking.PhotoActivity: java.lang.String KEY_PATH
@@ -8950,6 +8942,7 @@ com.badou.mworking.R$drawable: int welcom_logo
 com.badou.mworking.R$drawable: int whom
 com.badou.mworking.R$drawable: R$drawable()
 com.badou.mworking.R$id
+com.badou.mworking.R$id: int about_image_view
 com.badou.mworking.R$id: int action_bar
 com.badou.mworking.R$id: int action_bar_activity_content
 com.badou.mworking.R$id: int action_bar_background_view
@@ -9037,6 +9030,7 @@ com.badou.mworking.R$id: int cb_push
 com.badou.mworking.R$id: int cb_save
 com.badou.mworking.R$id: int chat_swipe_layout
 com.badou.mworking.R$id: int chatter_item_view
+com.badou.mworking.R$id: int chatter_number_text_view
 com.badou.mworking.R$id: int chatting_click_area
 com.badou.mworking.R$id: int chatting_content_iv
 com.badou.mworking.R$id: int chatting_length_iv
@@ -9122,6 +9116,7 @@ com.badou.mworking.R$id: int et_view_bottom_send_message_content
 com.badou.mworking.R$id: int etsound_playstop
 com.badou.mworking.R$id: int etsound_playstop_fl
 com.badou.mworking.R$id: int etsound_rlcontent
+com.badou.mworking.R$id: int exam_score_text_view
 com.badou.mworking.R$id: int expand_activities_button
 com.badou.mworking.R$id: int expanded_menu
 com.badou.mworking.R$id: int experience_text_view
@@ -9137,6 +9132,7 @@ com.badou.mworking.R$id: int forget_text_view
 com.badou.mworking.R$id: int fragment_container
 com.badou.mworking.R$id: int gridView
 com.badou.mworking.R$id: int gridview
+com.badou.mworking.R$id: int head_image_view
 com.badou.mworking.R$id: int header
 com.badou.mworking.R$id: int home
 com.badou.mworking.R$id: int homeAsUp
@@ -9203,9 +9199,6 @@ com.badou.mworking.R$id: int iv_switch_open_speaker
 com.badou.mworking.R$id: int iv_switch_open_vibrate
 com.badou.mworking.R$id: int iv_switch_unblock_groupmsg
 com.badou.mworking.R$id: int iv_unread_voice
-com.badou.mworking.R$id: int iv_user_center_top_about
-com.badou.mworking.R$id: int iv_user_center_top_back
-com.badou.mworking.R$id: int iv_user_center_top_head
 com.badou.mworking.R$id: int iv_user_progress_top_back
 com.badou.mworking.R$id: int iv_userhead
 com.badou.mworking.R$id: int iv_username
@@ -9219,6 +9212,7 @@ com.badou.mworking.R$id: int layout_action_bg
 com.badou.mworking.R$id: int left
 com.badou.mworking.R$id: int left_list_view
 com.badou.mworking.R$id: int left_mask
+com.badou.mworking.R$id: int level_text_view
 com.badou.mworking.R$id: int list
 com.badou.mworking.R$id: int listMode
 com.badou.mworking.R$id: int list_item
@@ -9231,6 +9225,7 @@ com.badou.mworking.R$id: int ll_activity_chatter_submit_bottom_topic
 com.badou.mworking.R$id: int ll_black_list
 com.badou.mworking.R$id: int ll_bottom_comment
 com.badou.mworking.R$id: int ll_bottom_container
+com.badou.mworking.R$id: int ll_bottom_option
 com.badou.mworking.R$id: int ll_bottom_rating
 com.badou.mworking.R$id: int ll_btn_container
 com.badou.mworking.R$id: int ll_btns
@@ -9255,13 +9250,6 @@ com.badou.mworking.R$id: int ll_set_push_nick
 com.badou.mworking.R$id: int ll_surface_baseline
 com.badou.mworking.R$id: int ll_top_container
 com.badou.mworking.R$id: int ll_user
-com.badou.mworking.R$id: int ll_user_center_exam
-com.badou.mworking.R$id: int ll_user_center_group
-com.badou.mworking.R$id: int ll_user_center_message
-com.badou.mworking.R$id: int ll_user_center_my_account
-com.badou.mworking.R$id: int ll_user_center_service
-com.badou.mworking.R$id: int ll_user_center_store
-com.badou.mworking.R$id: int ll_user_center_study_progress
 com.badou.mworking.R$id: int ll_voice_control
 com.badou.mworking.R$id: int load_progressBar
 com.badou.mworking.R$id: int loading
@@ -9282,6 +9270,7 @@ com.badou.mworking.R$id: int map
 com.badou.mworking.R$id: int message
 com.badou.mworking.R$id: int message_center_image_view
 com.badou.mworking.R$id: int message_layout
+com.badou.mworking.R$id: int message_number_text_view
 com.badou.mworking.R$id: int message_title
 com.badou.mworking.R$id: int mic_image
 com.badou.mworking.R$id: int middle
@@ -9295,7 +9284,12 @@ com.badou.mworking.R$id: int more_new
 com.badou.mworking.R$id: int msg_state
 com.badou.mworking.R$id: int msg_status
 com.badou.mworking.R$id: int music_title_text_view
+com.badou.mworking.R$id: int my_account_layout
+com.badou.mworking.R$id: int my_chatter_layout
+com.badou.mworking.R$id: int my_exam_layout
 com.badou.mworking.R$id: int my_head_img
+com.badou.mworking.R$id: int my_message_layout
+com.badou.mworking.R$id: int my_store_layout
 com.badou.mworking.R$id: int name
 com.badou.mworking.R$id: int name_text_view
 com.badou.mworking.R$id: int net_exception_image_view
@@ -9327,7 +9321,6 @@ com.badou.mworking.R$id: int pb_actionbar
 com.badou.mworking.R$id: int pb_load_local
 com.badou.mworking.R$id: int pb_load_more
 com.badou.mworking.R$id: int pb_sending
-com.badou.mworking.R$id: int pb_user_center_study_progress
 com.badou.mworking.R$id: int pdf_view
 com.badou.mworking.R$id: int pdfview_activity_pdf_view
 com.badou.mworking.R$id: int percentage
@@ -9442,6 +9435,10 @@ com.badou.mworking.R$id: int sl_adapter_message_center
 com.badou.mworking.R$id: int small_content_container
 com.badou.mworking.R$id: int split_action_bar
 com.badou.mworking.R$id: int status_text_view
+com.badou.mworking.R$id: int store_number_text_view
+com.badou.mworking.R$id: int study_percent_text_view
+com.badou.mworking.R$id: int study_progress_bar
+com.badou.mworking.R$id: int study_progress_layout
 com.badou.mworking.R$id: int subject
 com.badou.mworking.R$id: int subject_text_view
 com.badou.mworking.R$id: int submit_area
@@ -9594,13 +9591,6 @@ com.badou.mworking.R$id: int tv_nick
 com.badou.mworking.R$id: int tv_nickname_description
 com.badou.mworking.R$id: int tv_text
 com.badou.mworking.R$id: int tv_title
-com.badou.mworking.R$id: int tv_user_center_exam_score
-com.badou.mworking.R$id: int tv_user_center_group_post_number
-com.badou.mworking.R$id: int tv_user_center_message_number
-com.badou.mworking.R$id: int tv_user_center_store_number
-com.badou.mworking.R$id: int tv_user_center_study_percent
-com.badou.mworking.R$id: int tv_user_center_top_level
-com.badou.mworking.R$id: int tv_user_center_top_name
 com.badou.mworking.R$id: int tv_user_progress_bottom
 com.badou.mworking.R$id: int tv_user_progress_middle_tip
 com.badou.mworking.R$id: int tv_user_progress_top_average
@@ -11033,24 +11023,50 @@ com.badou.mworking.TrainBaseActivity$$ViewBinder: void bind(butterknife.ButterKn
 com.badou.mworking.TrainBaseActivity$1: void onClick(android.view.View)
 com.badou.mworking.TrainBaseActivity$2: void onClick(android.view.View)
 com.badou.mworking.UserCenterActivity
+com.badou.mworking.UserCenterActivity: android.widget.ImageView mHeadImageView
+com.badou.mworking.UserCenterActivity: com.badou.mworking.widget.LevelTextView mLevelTextView
+com.badou.mworking.UserCenterActivity: android.widget.TextView mNameTextView
+com.badou.mworking.UserCenterActivity: android.widget.ImageView mAboutImageView
+com.badou.mworking.UserCenterActivity: android.widget.ImageView mBackImageView
+com.badou.mworking.UserCenterActivity: android.widget.TextView mStudyPercentTextView
+com.badou.mworking.UserCenterActivity: android.widget.ProgressBar mStudyProgressBar
+com.badou.mworking.UserCenterActivity: android.widget.LinearLayout mStudyProgressLayout
+com.badou.mworking.UserCenterActivity: android.widget.TextView mExamScoreTextView
+com.badou.mworking.UserCenterActivity: android.widget.LinearLayout mMyExamLayout
+com.badou.mworking.UserCenterActivity: android.widget.TextView mChatterNumberTextView
+com.badou.mworking.UserCenterActivity: android.widget.LinearLayout mMyChatterLayout
+com.badou.mworking.UserCenterActivity: android.widget.TextView mMessageNumberTextView
+com.badou.mworking.UserCenterActivity: android.widget.LinearLayout mMyMessageLayout
+com.badou.mworking.UserCenterActivity: android.widget.TextView mStoreNumberTextView
+com.badou.mworking.UserCenterActivity: android.widget.LinearLayout mMyStoreLayout
+com.badou.mworking.UserCenterActivity: android.widget.LinearLayout mMyAccountLayout
+com.badou.mworking.UserCenterActivity: android.widget.LinearLayout mServiceLayout
+com.badou.mworking.UserCenterActivity: android.widget.LinearLayout mUserCenterLinear
 com.badou.mworking.UserCenterActivity: UserCenterActivity()
 com.badou.mworking.UserCenterActivity: void onCreate(android.os.Bundle)
+com.badou.mworking.UserCenterActivity: com.badou.mworking.presenter.Presenter getPresenter()
 com.badou.mworking.UserCenterActivity: void finish()
-com.badou.mworking.UserCenterActivity: void onResume()
+com.badou.mworking.UserCenterActivity: void onHeadClicked()
+com.badou.mworking.UserCenterActivity: void onLevelClicked()
+com.badou.mworking.UserCenterActivity: void onBackPressedClicked()
+com.badou.mworking.UserCenterActivity: void onStudyProgressClicked()
+com.badou.mworking.UserCenterActivity: void onExamProgressClicked()
+com.badou.mworking.UserCenterActivity: void onChatterClicked()
+com.badou.mworking.UserCenterActivity: void onMessageClicked()
+com.badou.mworking.UserCenterActivity: void onStoreClicked()
+com.badou.mworking.UserCenterActivity: void onAccountClicked()
+com.badou.mworking.UserCenterActivity: void onServiceClicked()
+com.badou.mworking.UserCenterActivity: void onAboutUsClicked()
 com.badou.mworking.UserCenterActivity: void onActivityResult(int,int,android.content.Intent)
-com.badou.mworking.UserCenterActivity: void checkLevel()
-com.badou.mworking.UserCenterActivity$10: void onClick(android.view.View)
-com.badou.mworking.UserCenterActivity$11: void onClick(android.view.View)
-com.badou.mworking.UserCenterActivity$12: void onClick(android.view.View)
-com.badou.mworking.UserCenterActivity$15: void onClick(android.view.View)
-com.badou.mworking.UserCenterActivity$2: void onClick(android.view.View)
-com.badou.mworking.UserCenterActivity$3: void onClick(android.view.View)
-com.badou.mworking.UserCenterActivity$4: void onClick(android.view.View)
-com.badou.mworking.UserCenterActivity$5: void onClick(android.view.View)
-com.badou.mworking.UserCenterActivity$6: void onClick(android.view.View)
-com.badou.mworking.UserCenterActivity$7: void onClick(android.view.View)
-com.badou.mworking.UserCenterActivity$8: void onClick(android.view.View)
-com.badou.mworking.UserCenterActivity$9: void onClick(android.view.View)
+com.badou.mworking.UserCenterActivity: void setData(com.badou.mworking.entity.user.UserDetail)
+com.badou.mworking.UserCenterActivity: void takeImage()
+com.badou.mworking.UserCenterActivity: void setHeadImage(java.lang.String)
+com.badou.mworking.UserCenterActivity$$ViewBinder
+com.badou.mworking.UserCenterActivity$$ViewBinder: UserCenterActivity$$ViewBinder()
+com.badou.mworking.UserCenterActivity$$ViewBinder: void bind(butterknife.ButterKnife$Finder,com.badou.mworking.UserCenterActivity,java.lang.Object)
+com.badou.mworking.UserCenterActivity$$ViewBinder: void unbind(com.badou.mworking.UserCenterActivity)
+com.badou.mworking.UserCenterActivity$$ViewBinder: void unbind(java.lang.Object)
+com.badou.mworking.UserCenterActivity$$ViewBinder: void bind(butterknife.ButterKnife$Finder,java.lang.Object,java.lang.Object)
 com.badou.mworking.UserProgressActivity
 com.badou.mworking.UserProgressActivity: java.lang.String KEY_TYPE
 com.badou.mworking.UserProgressActivity: java.lang.String KEY_USERINFO
@@ -11477,6 +11493,9 @@ com.badou.mworking.domain.SearchUseCase
 com.badou.mworking.domain.SearchUseCase: SearchUseCase()
 com.badou.mworking.domain.SearchUseCase: void setKey(java.lang.String)
 com.badou.mworking.domain.SearchUseCase: rx.Observable buildUseCaseObservable()
+com.badou.mworking.domain.SetHeadUseCase
+com.badou.mworking.domain.SetHeadUseCase: SetHeadUseCase(java.io.File)
+com.badou.mworking.domain.SetHeadUseCase: rx.Observable buildUseCaseObservable()
 com.badou.mworking.domain.StoreUseCase
 com.badou.mworking.domain.StoreUseCase: StoreUseCase(java.lang.String,java.lang.String)
 com.badou.mworking.domain.StoreUseCase: void setIsAdd(boolean)
@@ -11499,6 +11518,9 @@ com.badou.mworking.domain.UseCase: UseCase()
 com.badou.mworking.domain.UseCase: rx.Observable buildUseCaseObservable()
 com.badou.mworking.domain.UseCase: void execute(rx.Subscriber)
 com.badou.mworking.domain.UseCase: void unsubscribe()
+com.badou.mworking.domain.UserDetailUseCase
+com.badou.mworking.domain.UserDetailUseCase: UserDetailUseCase()
+com.badou.mworking.domain.UserDetailUseCase: rx.Observable buildUseCaseObservable()
 com.badou.mworking.entity.Ask
 com.badou.mworking.entity.Ask: java.lang.String WENDACACHE
 com.badou.mworking.entity.Ask: java.lang.String aid
@@ -11897,25 +11919,24 @@ com.badou.mworking.entity.user.UserChatterInfo: UserChatterInfo(com.badou.mworki
 com.badou.mworking.entity.user.UserChatterInfo: UserChatterInfo(com.badou.mworking.entity.Chatter)
 com.badou.mworking.entity.user.UserChatterInfo: UserChatterInfo(org.json.JSONObject)
 com.badou.mworking.entity.user.UserDetail
-com.badou.mworking.entity.user.UserDetail: java.lang.String name
-com.badou.mworking.entity.user.UserDetail: java.lang.String dpt
-com.badou.mworking.entity.user.UserDetail: java.lang.String headimg
-com.badou.mworking.entity.user.UserDetail: int score
-com.badou.mworking.entity.user.UserDetail: int ask
-com.badou.mworking.entity.user.UserDetail: int share
-com.badou.mworking.entity.user.UserDetail: int nmsg
-com.badou.mworking.entity.user.UserDetail: int circle_lv
-com.badou.mworking.entity.user.UserDetail: int training_total
-com.badou.mworking.entity.user.UserDetail: int training_week
-com.badou.mworking.entity.user.UserDetail: int study_total
-com.badou.mworking.entity.user.UserDetail: int study_week
-com.badou.mworking.entity.user.UserDetail: int study_rank
-com.badou.mworking.entity.user.UserDetail: int score_rank
-com.badou.mworking.entity.user.UserDetail: int study_over
-com.badou.mworking.entity.user.UserDetail: int score_over
-com.badou.mworking.entity.user.UserDetail: int store
-com.badou.mworking.entity.user.UserDetail: UserDetail(org.json.JSONObject)
-com.badou.mworking.entity.user.UserDetail: com.badou.mworking.entity.user.UserDetail getUserDetail(org.json.JSONObject)
+com.badou.mworking.entity.user.UserDetail: UserDetail()
+com.badou.mworking.entity.user.UserDetail: java.lang.String getName()
+com.badou.mworking.entity.user.UserDetail: java.lang.String getDpt()
+com.badou.mworking.entity.user.UserDetail: java.lang.String getHeadimg()
+com.badou.mworking.entity.user.UserDetail: int getScore()
+com.badou.mworking.entity.user.UserDetail: int getAsk()
+com.badou.mworking.entity.user.UserDetail: int getShare()
+com.badou.mworking.entity.user.UserDetail: int getNmsg()
+com.badou.mworking.entity.user.UserDetail: int getLevel()
+com.badou.mworking.entity.user.UserDetail: int getTrainingTotal()
+com.badou.mworking.entity.user.UserDetail: int getTrainingWeek()
+com.badou.mworking.entity.user.UserDetail: int getStudyTotal()
+com.badou.mworking.entity.user.UserDetail: int getStudyWeek()
+com.badou.mworking.entity.user.UserDetail: int getStudyRank()
+com.badou.mworking.entity.user.UserDetail: int getScoreRank()
+com.badou.mworking.entity.user.UserDetail: int getStudyOver()
+com.badou.mworking.entity.user.UserDetail: int getScoreOver()
+com.badou.mworking.entity.user.UserDetail: int getStore()
 com.badou.mworking.entity.user.UserInfo
 com.badou.mworking.entity.user.UserInfo: java.lang.String ANONYMOUS_ACCOUNT
 com.badou.mworking.entity.user.UserInfo: java.lang.String ANONYMOUS_PASSWORD
@@ -11962,6 +11983,7 @@ com.badou.mworking.fragment.CommentFragment: com.badou.mworking.widget.NoneResul
 com.badou.mworking.fragment.CommentFragment: com.badou.mworking.widget.BottomSendMessageView mBottomView
 com.badou.mworking.fragment.CommentFragment: CommentFragment()
 com.badou.mworking.fragment.CommentFragment: com.badou.mworking.fragment.CommentFragment getFragment(java.lang.String)
+com.badou.mworking.fragment.CommentFragment: void setOnCommentCountChangedListener(com.badou.mworking.fragment.CommentFragment$OnCommentCountChangedListener)
 com.badou.mworking.fragment.CommentFragment: android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle)
 com.badou.mworking.fragment.CommentFragment: com.badou.mworking.presenter.CommentPresenter getPresenter()
 com.badou.mworking.fragment.CommentFragment: void initListener()
@@ -11996,6 +12018,8 @@ com.badou.mworking.fragment.CommentFragment$$ViewBinder: void bind(butterknife.B
 com.badou.mworking.fragment.CommentFragment$$ViewBinder: void unbind(com.badou.mworking.fragment.CommentFragment)
 com.badou.mworking.fragment.CommentFragment$$ViewBinder: void unbind(java.lang.Object)
 com.badou.mworking.fragment.CommentFragment$$ViewBinder: void bind(butterknife.ButterKnife$Finder,java.lang.Object,java.lang.Object)
+com.badou.mworking.fragment.CommentFragment$OnCommentCountChangedListener
+com.badou.mworking.fragment.CommentFragment$OnCommentCountChangedListener: void onCommentCountChanged(int)
 com.badou.mworking.fragment.EntryIntroductionFragment
 com.badou.mworking.fragment.EntryIntroductionFragment: android.widget.TextView mEntryBeginTextView
 com.badou.mworking.fragment.EntryIntroductionFragment: android.widget.TextView mActivityBeginTextView
@@ -12192,7 +12216,6 @@ com.badou.mworking.fragment.TrainVideoFragment: void showHorizontalView()
 com.badou.mworking.fragment.TrainVideoFragment: void setPlayTime(int,boolean)
 com.badou.mworking.fragment.TrainVideoFragment: void setFileSize(float)
 com.badou.mworking.fragment.TrainVideoFragment: void setProgressBar(boolean)
-com.badou.mworking.fragment.TrainVideoFragment: void onConfigurationChanged(android.content.res.Configuration)
 com.badou.mworking.fragment.TrainVideoFragment: void startPlay()
 com.badou.mworking.fragment.TrainVideoFragment: void stopPlay()
 com.badou.mworking.fragment.TrainVideoFragment: int getCurrentTime()
@@ -12200,7 +12223,6 @@ com.badou.mworking.fragment.TrainVideoFragment: boolean isPlaying()
 com.badou.mworking.fragment.TrainVideoFragment: boolean isVertical()
 com.badou.mworking.fragment.TrainVideoFragment: void onPause()
 com.badou.mworking.fragment.TrainVideoFragment: void onDestroy()
-com.badou.mworking.fragment.TrainVideoFragment: void onSaveInstanceState(android.os.Bundle)
 com.badou.mworking.fragment.TrainVideoFragment$$ViewBinder
 com.badou.mworking.fragment.TrainVideoFragment$$ViewBinder: TrainVideoFragment$$ViewBinder()
 com.badou.mworking.fragment.TrainVideoFragment$$ViewBinder: void bind(butterknife.ButterKnife$Finder,com.badou.mworking.fragment.TrainVideoFragment,java.lang.Object)
@@ -12232,7 +12254,9 @@ com.badou.mworking.fragment.WebViewFragment$OnScaleChangedListener
 com.badou.mworking.fragment.WebViewFragment$OnScaleChangedListener: void onScaleChanged(android.webkit.WebView,float,float)
 com.badou.mworking.listener.AdapterItemClickListener
 com.badou.mworking.listener.AdapterItemClickListener: android.content.Context mContext
-com.badou.mworking.listener.AdapterItemClickListener: int position
+com.badou.mworking.listener.AdapterItemClickListener: int mPosition
+com.badou.mworking.listener.AdapterItemClickListener: void setPosition(int)
+com.badou.mworking.listener.AdapterItemClickListener: int getPosition()
 com.badou.mworking.listener.AdapterItemClickListener: AdapterItemClickListener(android.content.Context)
 com.badou.mworking.listener.CopyClickListener
 com.badou.mworking.listener.CopyClickListener: java.lang.String content
@@ -12557,6 +12581,8 @@ com.badou.mworking.net.RestApi: rx.Observable taskSign(java.lang.String,java.lan
 com.badou.mworking.net.RestApi: rx.Observable taskSign(java.lang.String,java.lang.String,com.badou.mworking.domain.TaskSignUseCase$Body)
 com.badou.mworking.net.RestApi: rx.Observable enroll(java.lang.String,java.lang.String,com.badou.mworking.domain.EnrollUseCase$Body)
 com.badou.mworking.net.RestApi: rx.Observable createEMChatGroup(java.lang.String,java.lang.String,com.badou.mworking.domain.EMChatCreateGroupUseCase$Body)
+com.badou.mworking.net.RestApi: rx.Observable getUserDetail(java.lang.String,java.lang.String,java.lang.String)
+com.badou.mworking.net.RestApi: rx.Observable setUserHead(java.lang.String,java.lang.String,java.lang.String,java.io.File)
 com.badou.mworking.net.RestRepository
 com.badou.mworking.net.RestRepository: com.badou.mworking.net.RestApi restApi
 com.badou.mworking.net.RestRepository: com.badou.mworking.net.RestRepository getInstance()
@@ -12577,7 +12603,10 @@ com.badou.mworking.net.RestRepository: rx.Observable taskSign(java.lang.String,j
 com.badou.mworking.net.RestRepository: rx.Observable taskSign(com.badou.mworking.domain.TaskSignUseCase$Body)
 com.badou.mworking.net.RestRepository: rx.Observable enroll(com.badou.mworking.domain.EnrollUseCase$Body)
 com.badou.mworking.net.RestRepository: rx.Observable createEMChatGroup(com.badou.mworking.domain.EMChatCreateGroupUseCase$Body)
+com.badou.mworking.net.RestRepository: rx.Observable getUserDetail(java.lang.String)
+com.badou.mworking.net.RestRepository: rx.Observable setUserHead(java.lang.String,java.io.File)
 com.badou.mworking.net.ServiceProvider
+com.badou.mworking.net.ServiceProvider: boolean isForceStopped
 com.badou.mworking.net.ServiceProvider: ServiceProvider()
 com.badou.mworking.net.ServiceProvider: void getVerificationCode(android.content.Context,java.lang.String,com.badou.mworking.net.volley.VolleyListener)
 com.badou.mworking.net.ServiceProvider: void doForgetPassword(android.content.Context,java.lang.String,java.lang.String,java.lang.String,com.badou.mworking.net.volley.VolleyListener)
@@ -12592,8 +12621,8 @@ com.badou.mworking.net.ServiceProvider: void doReplyComment(android.content.Cont
 com.badou.mworking.net.ServiceProvider: void doCheckUpdate(android.content.Context,org.json.JSONObject,com.badou.mworking.net.volley.VolleyListener)
 com.badou.mworking.net.ServiceProvider: java.lang.String getScreenLevel(android.content.Context)
 com.badou.mworking.net.ServiceProvider: void doUpdateMTraning(android.content.Context,java.lang.String,com.loopj.android.http.RangeFileAsyncHttpResponseHandler)
-com.badou.mworking.net.ServiceProvider: void doDownloadTrainingFile(java.lang.String,java.lang.String,com.loopj.android.http.RangeFileAsyncHttpResponseHandler)
-com.badou.mworking.net.ServiceProvider: void cancelRequest()
+com.badou.mworking.net.ServiceProvider: void doDownloadTrainingFile(android.content.Context,java.lang.String,java.lang.String,com.loopj.android.http.RangeFileAsyncHttpResponseHandler)
+com.badou.mworking.net.ServiceProvider: void cancelRequest(android.content.Context)
 com.badou.mworking.net.ServiceProvider: void doSubmitError(android.content.Context,java.lang.String,java.lang.String,com.badou.mworking.net.volley.VolleyListener)
 com.badou.mworking.net.ServiceProvider: void doOptainUserDetail(android.content.Context,java.lang.String,com.badou.mworking.net.volley.VolleyListener)
 com.badou.mworking.net.ServiceProvider: void doPublishQuestionShare(android.content.Context,java.lang.String,java.lang.String,android.graphics.Bitmap,int,com.badou.mworking.net.volley.VolleyListener)
@@ -12858,6 +12887,21 @@ com.badou.mworking.presenter.TrainingMediaPresenter: void onRotationChanged(bool
 com.badou.mworking.presenter.TrainingMediaPresenter: void setData()
 com.badou.mworking.presenter.TrainingMediaPresenter: void pause()
 com.badou.mworking.presenter.TrainingMediaPresenter: void destroy()
+com.badou.mworking.presenter.UserCenterPresenter
+com.badou.mworking.presenter.UserCenterPresenter: UserCenterPresenter(android.content.Context)
+com.badou.mworking.presenter.UserCenterPresenter: void attachView(com.badou.mworking.view.BaseView)
+com.badou.mworking.presenter.UserCenterPresenter: void onImageSelected(android.graphics.Bitmap)
+com.badou.mworking.presenter.UserCenterPresenter: void changeUserHead()
+com.badou.mworking.presenter.UserCenterPresenter: void checkLevel()
+com.badou.mworking.presenter.UserCenterPresenter: void toMyStudy()
+com.badou.mworking.presenter.UserCenterPresenter: void toMyExam()
+com.badou.mworking.presenter.UserCenterPresenter: void toMyChatter()
+com.badou.mworking.presenter.UserCenterPresenter: void toMyChat()
+com.badou.mworking.presenter.UserCenterPresenter: void toMyAccount()
+com.badou.mworking.presenter.UserCenterPresenter: void toAboutUs()
+com.badou.mworking.presenter.UserCenterPresenter: void toMyStore()
+com.badou.mworking.presenter.UserCenterPresenter: void toService()
+com.badou.mworking.presenter.UserCenterPresenter: void resume()
 com.badou.mworking.receiver.AlarmReceiver
 com.badou.mworking.receiver.AlarmReceiver: java.lang.String ACTION_A
 com.badou.mworking.receiver.AlarmReceiver: AlarmReceiver()
@@ -12974,6 +13018,7 @@ com.badou.mworking.util.FileUtils: boolean isFileExist(java.lang.String)
 com.badou.mworking.util.FileUtils: java.io.File write2SDFromInput(java.lang.String,java.io.InputStream)
 com.badou.mworking.util.FileUtils: boolean deleteGeneralFile(java.lang.String)
 com.badou.mworking.util.FileUtils: boolean cutGeneralFile(java.lang.String,java.lang.String)
+com.badou.mworking.util.FileUtils: java.io.File writeBitmap2TmpFile(android.content.Context,android.graphics.Bitmap)
 com.badou.mworking.util.FileUtils: void writeBitmap2SDcard(android.graphics.Bitmap,java.lang.String)
 com.badou.mworking.util.FileUtils: long getAvailaleSize()
 com.badou.mworking.util.FileUtils: long getFileSize(java.io.File)
@@ -13014,9 +13059,6 @@ com.badou.mworking.util.ImageChooser$OnImageChosenListener
 com.badou.mworking.util.ImageChooser$OnImageChosenListener: void onImageChosen(android.graphics.Bitmap,int)
 com.badou.mworking.util.ImageChooser$OnOperationClickListener
 com.badou.mworking.util.ImageChooser$OnOperationClickListener: boolean onOperationClick(int)
-com.badou.mworking.util.LVUtil
-com.badou.mworking.util.LVUtil: LVUtil()
-com.badou.mworking.util.LVUtil: void setTextViewBg(android.widget.TextView,int)
 com.badou.mworking.util.NetUtils
 com.badou.mworking.util.NetUtils: NetUtils()
 com.badou.mworking.util.NetUtils: boolean isNetConnected(android.content.Context)
@@ -13091,6 +13133,8 @@ com.badou.mworking.util.SPHelper: void setContactLastUpdateTime(android.content.
 com.badou.mworking.util.SPHelper: long getContactLastUpdateTime(android.content.Context)
 com.badou.mworking.util.SPHelper: void setDisabledGroup(android.content.Context,java.util.List)
 com.badou.mworking.util.SPHelper: java.util.List getDisabledGroup(android.content.Context)
+com.badou.mworking.util.SPHelper: void setUserDetail(com.badou.mworking.entity.user.UserDetail)
+com.badou.mworking.util.SPHelper: com.badou.mworking.entity.user.UserDetail getUserDetail()
 com.badou.mworking.util.TimeTransfer
 com.badou.mworking.util.TimeTransfer: TimeTransfer()
 com.badou.mworking.util.TimeTransfer: java.lang.String long2StringDate(android.content.Context,long)
@@ -13203,6 +13247,10 @@ com.badou.mworking.view.TrainMediaView: void stopPlay()
 com.badou.mworking.view.TrainMediaView: int getCurrentTime()
 com.badou.mworking.view.TrainMediaView: boolean isPlaying()
 com.badou.mworking.view.TrainMediaView: boolean isVertical()
+com.badou.mworking.view.UserCenterView
+com.badou.mworking.view.UserCenterView: void takeImage()
+com.badou.mworking.view.UserCenterView: void setData(com.badou.mworking.entity.user.UserDetail)
+com.badou.mworking.view.UserCenterView: void setHeadImage(java.lang.String)
 com.badou.mworking.widget.BannerGallery
 com.badou.mworking.widget.BannerGallery: BannerGallery(android.content.Context)
 com.badou.mworking.widget.BannerGallery: BannerGallery(android.content.Context,android.util.AttributeSet)
@@ -13299,6 +13347,9 @@ com.badou.mworking.widget.InputMethodRelativeLayout: void onSizeChanged(int,int,
 com.badou.mworking.widget.InputMethodRelativeLayout: void setOnSizeChangedListenner(com.badou.mworking.widget.InputMethodRelativeLayout$OnSizeChangedListenner)
 com.badou.mworking.widget.InputMethodRelativeLayout$OnSizeChangedListenner
 com.badou.mworking.widget.InputMethodRelativeLayout$OnSizeChangedListenner: void onSizeChange(boolean,int,int)
+com.badou.mworking.widget.LevelTextView
+com.badou.mworking.widget.LevelTextView: LevelTextView(android.content.Context,android.util.AttributeSet)
+com.badou.mworking.widget.LevelTextView: void setLevel(int)
 com.badou.mworking.widget.LineGridView
 com.badou.mworking.widget.LineGridView: LineGridView(android.content.Context)
 com.badou.mworking.widget.LineGridView: LineGridView(android.content.Context,android.util.AttributeSet)
@@ -22362,7 +22413,6 @@ com.easemob.chatuidemo.activity.ChatAllHistoryFragment: com.easemob.chatuidemo.a
 com.easemob.chatuidemo.activity.ChatAllHistoryFragment: android.widget.RelativeLayout errorItem
 com.easemob.chatuidemo.activity.ChatAllHistoryFragment: android.widget.TextView errorText
 com.easemob.chatuidemo.activity.ChatAllHistoryFragment: boolean hidden
-com.easemob.chatuidemo.activity.ChatAllHistoryFragment: java.util.List conversationList
 com.easemob.chatuidemo.activity.ChatAllHistoryFragment: android.view.View headView
 com.easemob.chatuidemo.activity.ChatAllHistoryFragment: ChatAllHistoryFragment()
 com.easemob.chatuidemo.activity.ChatAllHistoryFragment: android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle)
@@ -22375,6 +22425,8 @@ com.easemob.chatuidemo.activity.ChatAllHistoryFragment: void onHiddenChanged(boo
 com.easemob.chatuidemo.activity.ChatAllHistoryFragment: void onResume()
 com.easemob.chatuidemo.activity.ChatAllHistoryFragment: void onSaveInstanceState(android.os.Bundle)
 com.easemob.chatuidemo.activity.ChatAllHistoryFragment: com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter access$000(com.easemob.chatuidemo.activity.ChatAllHistoryFragment)
+com.easemob.chatuidemo.activity.ChatAllHistoryFragment: void access$100(com.easemob.chatuidemo.activity.ChatAllHistoryFragment)
+com.easemob.chatuidemo.activity.ChatAllHistoryFragment: java.util.List access$200(com.easemob.chatuidemo.activity.ChatAllHistoryFragment)
 com.easemob.chatuidemo.activity.ChatAllHistoryFragment$1
 com.easemob.chatuidemo.activity.ChatAllHistoryFragment$1: com.easemob.chatuidemo.activity.ChatAllHistoryFragment this$0
 com.easemob.chatuidemo.activity.ChatAllHistoryFragment$1: ChatAllHistoryFragment$1(com.easemob.chatuidemo.activity.ChatAllHistoryFragment)
@@ -22386,8 +22438,12 @@ com.easemob.chatuidemo.activity.ChatAllHistoryFragment$2: void onItemClick(andro
 com.easemob.chatuidemo.activity.ChatAllHistoryFragment$3
 com.easemob.chatuidemo.activity.ChatAllHistoryFragment$3: com.easemob.chatuidemo.activity.ChatAllHistoryFragment this$0
 com.easemob.chatuidemo.activity.ChatAllHistoryFragment$3: ChatAllHistoryFragment$3(com.easemob.chatuidemo.activity.ChatAllHistoryFragment)
-com.easemob.chatuidemo.activity.ChatAllHistoryFragment$3: int compare(android.util.Pair,android.util.Pair)
-com.easemob.chatuidemo.activity.ChatAllHistoryFragment$3: int compare(java.lang.Object,java.lang.Object)
+com.easemob.chatuidemo.activity.ChatAllHistoryFragment$3: void run()
+com.easemob.chatuidemo.activity.ChatAllHistoryFragment$4
+com.easemob.chatuidemo.activity.ChatAllHistoryFragment$4: com.easemob.chatuidemo.activity.ChatAllHistoryFragment this$0
+com.easemob.chatuidemo.activity.ChatAllHistoryFragment$4: ChatAllHistoryFragment$4(com.easemob.chatuidemo.activity.ChatAllHistoryFragment)
+com.easemob.chatuidemo.activity.ChatAllHistoryFragment$4: int compare(android.util.Pair,android.util.Pair)
+com.easemob.chatuidemo.activity.ChatAllHistoryFragment$4: int compare(java.lang.Object,java.lang.Object)
 com.easemob.chatuidemo.activity.ChatServiceActivity
 com.easemob.chatuidemo.activity.ChatServiceActivity: int REQUEST_CODE_EMPTY_HISTORY
 com.easemob.chatuidemo.activity.ChatServiceActivity: int REQUEST_CODE_CONTEXT_MENU
@@ -23610,23 +23666,13 @@ com.easemob.chatuidemo.activity.VoiceCallActivity$4: int[] $SwitchMap$com$easemo
 com.easemob.chatuidemo.activity.VoiceCallActivity$4: void <clinit>()
 com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter
 com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter: java.lang.String TAG
-com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter: android.view.LayoutInflater inflater
-com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter: java.util.List conversationList
-com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter: java.util.List copyConversationList
-com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter: com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter$ConversationFilter conversationFilter
-com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter: boolean notiyfyByFilter
 com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter: com.easemob.chatuidemo.activity.ChatAllHistoryFragment fragment
-com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter: ChatAllHistoryAdapter(android.content.Context,int,java.util.List,com.easemob.chatuidemo.activity.ChatAllHistoryFragment)
+com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter: ChatAllHistoryAdapter(android.content.Context,com.easemob.chatuidemo.activity.ChatAllHistoryFragment)
 com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter: android.view.View getView(int,android.view.View,android.view.ViewGroup)
 com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter: void deleteItem(int)
 com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter: java.lang.String getMessageDigest(com.easemob.chat.EMMessage,android.content.Context)
-com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter: java.lang.String getStrng(android.content.Context,int)
-com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter: android.widget.Filter getFilter()
-com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter: void notifyDataSetChanged()
+com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter: java.lang.String getString(android.content.Context,int)
 com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter: void access$100(com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter,int)
-com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter: java.util.List access$200(com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter)
-com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter: java.util.List access$300(com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter)
-com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter: boolean access$402(com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter,boolean)
 com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter$1
 com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter$1: com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter$ViewHolder val$finalHolder
 com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter$1: com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter this$0
@@ -23635,12 +23681,6 @@ com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter$1: void onClick(android.vie
 com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter$2
 com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter$2: int[] $SwitchMap$com$easemob$chat$EMMessage$Type
 com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter$2: void <clinit>()
-com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter$ConversationFilter
-com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter$ConversationFilter: java.util.List mOriginalValues
-com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter$ConversationFilter: com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter this$0
-com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter$ConversationFilter: ChatAllHistoryAdapter$ConversationFilter(com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter,java.util.List)
-com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter$ConversationFilter: android.widget.Filter$FilterResults performFiltering(java.lang.CharSequence)
-com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter$ConversationFilter: void publishResults(java.lang.CharSequence,android.widget.Filter$FilterResults)
 com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter$ViewHolder
 com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter$ViewHolder: android.widget.TextView name
 com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter$ViewHolder: android.widget.TextView unreadLabel

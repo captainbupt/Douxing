@@ -59,7 +59,6 @@ public class ChatAllHistoryFragment extends Fragment {
 
     public TextView errorText;
     private boolean hidden;
-    private List<EMConversation> conversationList = new ArrayList<EMConversation>();
     private View headView;
 
     @Override
@@ -75,7 +74,6 @@ public class ChatAllHistoryFragment extends Fragment {
         errorItem = (RelativeLayout) getView().findViewById(R.id.rl_error_item);
         errorText = (TextView) errorItem.findViewById(R.id.tv_connect_errormsg);
 
-        conversationList.addAll(loadConversationsWithRecentChat());
         listView = (ListView) getView().findViewById(R.id.list);
         headView = LayoutInflater.from(getActivity()).inflate(R.layout.row_chat_history, listView, false);
         ((TextView) headView.findViewById(R.id.name)).setText(R.string.title_name_message_center);
@@ -87,9 +85,8 @@ public class ChatAllHistoryFragment extends Fragment {
             }
         });
         ((SwipeLayout) headView.findViewById(R.id.sl_adapter_message_center)).setSwipeEnabled(false);
-        updateHeadView();
         listView.addHeaderView(headView);
-        adapter = new ChatAllHistoryAdapter(getActivity(), 1, conversationList, this);
+        adapter = new ChatAllHistoryAdapter(getActivity(), this);
         // 设置adapter
         listView.setAdapter(adapter);
 
@@ -112,7 +109,7 @@ public class ChatAllHistoryFragment extends Fragment {
                 startActivity(intent);
             }
         });
-
+        refresh();
     }
 
     private void updateHeadView() {
@@ -132,11 +129,13 @@ public class ChatAllHistoryFragment extends Fragment {
      * 刷新页面
      */
     public void refresh() {
-        updateHeadView();
-        conversationList.clear();
-        conversationList.addAll(loadConversationsWithRecentChat());
-        if (adapter != null)
-            adapter.notifyDataSetChanged();
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                updateHeadView();
+                adapter.setList(loadConversationsWithRecentChat());
+            }
+        });
     }
 
     /**
@@ -168,9 +167,9 @@ public class ChatAllHistoryFragment extends Fragment {
         synchronized (conversations) {
             for (EMConversation conversation : conversations.values()) {
                 if (conversation.getAllMessages().size() != 0) {
-                    //if(conversation.getType() != EMConversationType.ChatRoom){
-                    sortList.add(new Pair<Long, EMConversation>(conversation.getLastMessage().getMsgTime(), conversation));
-                    //}
+                    sortList.add(new Pair<>(conversation.getLastMessage().getMsgTime(), conversation));
+                } else {
+                    sortList.add(new Pair<>(0l, conversation));
                 }
             }
         }

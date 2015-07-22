@@ -10,11 +10,8 @@ import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.entity.ChatterHot;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
-import com.badou.mworking.util.LVUtil;
+import com.badou.mworking.widget.LevelTextView;
 
-/**
- * Created by Administrator on 2015/6/12.
- */
 public class ChatterHotAdapter extends MyBaseAdapter {
 
 
@@ -37,7 +34,7 @@ public class ChatterHotAdapter extends MyBaseAdapter {
         ImageViewLoader.setCircleImageViewResource(holder.headImageView, hot.headUrl, mContext.getResources().getDimensionPixelSize(R.dimen.icon_head_size_middle));
         holder.dataTextView.setText("发帖 " + hot.topicNumber + "\t获赞 " + hot.praiseNumber + "\t获评 " + hot.commentNumber);
         holder.rankTextView.setText((i + 1) + "");
-        LVUtil.setTextViewBg(holder.levelTextView, hot.level);
+        holder.levelTextView.setLevel(hot.level);
         if (i <= 2) {
             switch (i) {
                 case 0:
@@ -68,7 +65,7 @@ public class ChatterHotAdapter extends MyBaseAdapter {
         ImageView headImageView;
         TextView nameTextView;
         TextView dataTextView;
-        TextView levelTextView;
+        LevelTextView levelTextView;
         ImageView rankImageView;
         TextView rankTextView;
 
@@ -78,7 +75,7 @@ public class ChatterHotAdapter extends MyBaseAdapter {
             dataTextView = (TextView) view.findViewById(R.id.tv_adapter_chatter_hot_data);
             rankImageView = (ImageView) view.findViewById(R.id.iv_adapter_chatter_hot_rank);
             rankTextView = (TextView) view.findViewById(R.id.tv_adapter_chatter_hot_rank);
-            levelTextView = (TextView) view.findViewById(R.id.tv_adapter_chatter_hot_level);
+            levelTextView = (LevelTextView) view.findViewById(R.id.tv_adapter_chatter_hot_level);
         }
     }
 }

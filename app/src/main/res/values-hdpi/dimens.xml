@@ -15,9 +15,9 @@
     <dimen name="offset_large">20dp</dimen>
     <dimen name="offset_xlarge">30dp</dimen>
     <dimen name="offset_xxlarge">45dp</dimen>
-    <dimen name="icon_size_tiny">20dp</dimen>
-    <dimen name="icon_size_small">30dp</dimen>
-    <dimen name="icon_size_medium">40dp</dimen>
+    <dimen name="icon_size_tiny">23dp</dimen>
+    <dimen name="icon_size_small">33dp</dimen>
+    <dimen name="icon_size_medium">43dp</dimen>
     <dimen name="icon_size_larger">50dp</dimen>
     <dimen name="icon_size_large">60dp</dimen>
     <dimen name="icon_size_xlarge">75dp</dimen>
