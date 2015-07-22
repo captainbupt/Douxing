@@ -153,13 +153,7 @@ public class TaskSignPresenter extends CategoryBasePresenter implements BDLocati
         }
         TaskSignUseCase taskSignUseCase;
         if (TextUtils.isEmpty(qrcode)) {
-            File file = null;
-            if (mPhoto != null) {
-                String filePath = mContext.getExternalCacheDir().getPath() + File.separator + "tmp.jpg";
-                FileUtils.writeBitmap2SDcard(mPhoto, filePath);
-                file = new File(filePath);
-            }
-            taskSignUseCase = new TaskSignUseCase(mRid, location, file);
+            taskSignUseCase = new TaskSignUseCase(mRid, location, FileUtils.writeBitmap2TmpFile(mContext, mPhoto));
         } else {
             taskSignUseCase = new TaskSignUseCase(mRid, qrcode);
         }

@@ -68,7 +68,7 @@ public class StoreAdapter extends MyBaseAdapter {
         } else {
             holder = (NormalViewHolder) view.getTag();
         }
-        holder.itemClickListener.position = i;
+        holder.itemClickListener.setPosition(i);
         Store store = (Store) getItem(i);
         holder.store = store;
         holder.typeImageView.setImageResource(Store.getIconRes(store.type));
@@ -102,7 +102,7 @@ public class StoreAdapter extends MyBaseAdapter {
         } else {
             holder = (ChatterViewHolder) view.getTag();
         }
-        holder.itemClickListener.position = i;
+        holder.itemClickListener.setPosition(i);
         Store store = (Store) getItem(i);
         holder.store = store;
         holder.chatterItemView.setData(store.chatter, true);
@@ -139,7 +139,7 @@ public class StoreAdapter extends MyBaseAdapter {
                         @Override
                         public void onResponseSuccess(JSONObject response) {
                             swipeLayout.close();
-                            remove(position);
+                            remove(getPosition());
                         }
 
                         @Override

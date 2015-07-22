@@ -38,7 +38,7 @@ public class MessageCenterAdapter extends MyBaseAdapter {
         MessageCenter messageCenter = (MessageCenter) getItem(i);
         holder.descriptionTextView.setText(messageCenter.description);
         holder.timeTextView.setText(df.format(messageCenter.ts));
-        holder.deleteListener.position = i;
+        holder.deleteListener.setPosition(i);
         return view;
     }
 
@@ -62,7 +62,7 @@ public class MessageCenterAdapter extends MyBaseAdapter {
             deleteListener = new AdapterItemClickListener(context) {
                 @Override
                 public void onClick(View view) {
-                    deleteItem(position);
+                    deleteItem(getPosition());
                     swipeLayout.close();
                 }
             };

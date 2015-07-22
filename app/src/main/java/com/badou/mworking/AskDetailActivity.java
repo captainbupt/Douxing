@@ -49,7 +49,7 @@ public class AskDetailActivity extends BaseBackActionBarActivity {
     public static final String RESULT_KEY_COUNT = "count";
     public static final String RESULT_KEY_STORE = "store";
 
-    Intent resultIntent = new Intent();
+    Intent mResultIntent;
 
     private Ask mAsk;
 
@@ -77,6 +77,7 @@ public class AskDetailActivity extends BaseBackActionBarActivity {
         setActionbarTitle("问答详情");
         mAsk = (Ask) mReceivedIntent.getSerializableExtra(KEY_ASK);
         setContentView(R.layout.activity_ask_detail);
+        mResultIntent = new Intent();
         initView();
         initListener();
         initData();
@@ -192,7 +193,7 @@ public class AskDetailActivity extends BaseBackActionBarActivity {
 
             @Override
             public void onResponseSuccess(JSONObject response) {
-                resultIntent.putExtra(RESULT_KEY_DELETE, true);
+                mResultIntent.putExtra(RESULT_KEY_DELETE, true);
                 finish();
             }
 
@@ -264,14 +265,14 @@ public class AskDetailActivity extends BaseBackActionBarActivity {
             beginIndex = 1;
             mAnswerAdapter.setReplyCount(mAsk.count);
             updateListView(1);
-            mReceivedIntent.putExtra(RESULT_KEY_COUNT, mAsk.count);
+            mResultIntent.putExtra(RESULT_KEY_COUNT, mAsk.count);
         }
     }
 
     @Override
     public void finish() {
-        mReceivedIntent.putExtra(RESULT_KEY_STORE, mAsk.isStore);
-        setResult(RESULT_OK, mReceivedIntent);
+        mResultIntent.putExtra(RESULT_KEY_STORE, mAsk.isStore);
+        setResult(RESULT_OK, mResultIntent);
         super.finish();
     }
 }

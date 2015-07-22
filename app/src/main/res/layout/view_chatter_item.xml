@@ -34,16 +34,11 @@
                 android:textColor="@color/color_text_grey"
                 android:textSize="@dimen/text_size_medium" />
 
-            <TextView
+            <com.badou.mworking.widget.LevelTextView
                 android:id="@+id/tv_adapter_chatter_level"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/offset_small"
-                android:background="@drawable/background_lv_fir"
-                android:paddingBottom="1dp"
-                android:paddingLeft="2dp"
-                android:paddingRight="2dp"
-                android:paddingTop="1dp"
                 android:textColor="#ffffff"
                 android:textSize="@dimen/text_size_small" />
         </LinearLayout>

@@ -7,6 +7,7 @@ import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.Classification;
 import com.badou.mworking.entity.main.MainBanner;
+import com.badou.mworking.entity.user.UserDetail;
 import com.badou.mworking.entity.user.UserInfo;
 import com.google.gson.reflect.TypeToken;
 
@@ -236,6 +237,23 @@ public class SPHelper {
                 groups.add(ids[ii]);
             }
             return groups;
+        }
+    }
+
+    private static final String KEY_USER_DETAIL = "userdetail";
+
+    public static void setUserDetail(UserDetail userDetail) {
+        String uid = UserInfo.getUserInfo().getUid();
+        SP.putStringSP(applicationContext, SP.DEFAULTCACHE, KEY_USER_DETAIL + uid, GsonUtil.toJson(userDetail));
+    }
+
+    public static UserDetail getUserDetail() {
+        String uid = UserInfo.getUserInfo().getUid();
+        String content = SP.getStringSP(applicationContext, SP.DEFAULTCACHE, KEY_USER_DETAIL + uid, null);
+        if (TextUtils.isEmpty(content)) {
+            return null;
+        } else {
+            return GsonUtil.fromJson(content, UserDetail.class);
         }
     }
 

@@ -8,7 +8,16 @@ import android.view.View;
  */
 public abstract class AdapterItemClickListener implements View.OnClickListener {
     protected Context mContext;
-    public int position;
+
+    public void setPosition(int position) {
+        this.mPosition = position;
+    }
+
+    public int getPosition(){
+        return mPosition;
+    }
+
+    int mPosition;
 
     public AdapterItemClickListener(Context context) {
         this.mContext = context;

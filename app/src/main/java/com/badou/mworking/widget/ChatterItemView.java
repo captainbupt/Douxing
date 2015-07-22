@@ -22,7 +22,6 @@ import com.badou.mworking.listener.TopicClickableSpan;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.net.volley.VolleyListener;
-import com.badou.mworking.util.LVUtil;
 import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.SPHelper;
 import com.badou.mworking.util.TimeTransfer;
@@ -35,7 +34,7 @@ public class ChatterItemView extends LinearLayout {
     ImageView headImageView;// 头像
     TextView nameTextView;// 用户名称
     TextView dateTextView;// 下方日期时间
-    TextView levelTextView; // 等级
+    LevelTextView levelTextView; // 等级
     TextViewFixTouchConsume contentTextView;// 评论的内容
     TextView fullContentTextView;
     VideoImageView videoImageView;
@@ -72,7 +71,7 @@ public class ChatterItemView extends LinearLayout {
         replyNumberTextView = (TextView) findViewById(R.id.tv_adapter_chatter_reply_number);
         praiseCheckBox = (CheckBox) findViewById(R.id.cb_adapter_chatter_praise);
         praiseNumberTextView = (TextView) findViewById(R.id.tv_adapter_chatter_praise_number);
-        levelTextView = (TextView) findViewById(R.id.tv_adapter_chatter_level);
+        levelTextView = (LevelTextView) findViewById(R.id.tv_adapter_chatter_level);
         saveInternetTextView = (TextView) findViewById(R.id.tv_adapter_chatter_save_internet);
         headClickListener = new HeadClickListener();
         praiseClickListener = new PraiseClickListener();
@@ -119,7 +118,7 @@ public class ChatterItemView extends LinearLayout {
             levelTextView.setVisibility(View.GONE);
         } else {
             levelTextView.setVisibility(View.VISIBLE);
-            LVUtil.setTextViewBg(levelTextView, chatter.level);
+            levelTextView.setLevel(chatter.level);
         }
         /** 设置点赞的check **/
         if (ChatterResManager.isSelect(mContext, chatter.qid)) {

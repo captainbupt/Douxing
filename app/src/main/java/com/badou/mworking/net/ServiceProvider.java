@@ -20,6 +20,7 @@ import com.badou.mworking.util.FileUtils;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RangeFileAsyncHttpResponseHandler;
+import com.loopj.android.http.RequestHandle;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -28,6 +29,7 @@ import org.apache.http.HttpStatus;
 import org.apache.http.ParseException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.params.ClientPNames;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.FileEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -40,6 +42,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 功能描述: 网络获取
@@ -310,13 +314,16 @@ public class ServiceProvider {
         });
     }
 
-    public static void doDownloadTrainingFile(final String url, final String fullPath, final RangeFileAsyncHttpResponseHandler httpResponseHandler) {
+    // 必须传入Context，已便在Activity结束的时候能够停止全部相关请求
+    public static void doDownloadTrainingFile(Context context, final String url, final String fullPath, final RangeFileAsyncHttpResponseHandler httpResponseHandler) {
         File file = new File(fullPath + ".tmp");
-        client.get(url, new RangeFileAsyncHttpResponseHandler(file) {
+        isForceStopped = false;
+        client.get(context, url, new RangeFileAsyncHttpResponseHandler(file) {
             @Override
             public void onProgress(long bytesWritten, long totalSize) {
                 super.onProgress(bytesWritten, totalSize);
-                httpResponseHandler.onProgress(bytesWritten, totalSize);
+                if (!isForceStopped)
+                    httpResponseHandler.onProgress(bytesWritten, totalSize);
             }
 
             @Override
@@ -326,15 +333,21 @@ public class ServiceProvider {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, File response) {
-                FileUtils.renameFile(response.getParent(), response.getName(), response.getName().replace(".tmp", ""));
-                httpResponseHandler.onSuccess(statusCode, headers, new File(fullPath));
+                if (!isForceStopped) {
+                    FileUtils.renameFile(response.getParent(), response.getName(), response.getName().replace(".tmp", ""));
+                    httpResponseHandler.onSuccess(statusCode, headers, new File(fullPath));
+                }
             }
         });
     }
 
+    public static boolean isForceStopped = false;
+
     public static void cancelRequest(Context context) {
-        client.cancelRequests(context.getApplicationContext(), false);
-        client.getHttpClient().getConnectionManager().shutdown();
+        isForceStopped = true;
+        client.cancelRequests(context, true);
+        // request取消后会导致重定向选项被关闭，比许手动开启
+        client.getHttpClient().getParams().setParameter(ClientPNames.ALLOW_CIRCULAR_REDIRECTS, true);
     }
 
     public static void doSubmitError(Context context, String log, String appversion,

@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import com.badou.mworking.AccountManageActivity;
 import com.badou.mworking.LoginActivity;
 import com.badou.mworking.R;
+import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.database.MTrainingDBHelper;
 import com.badou.mworking.domain.ChangePasswordUseCase;
 import com.badou.mworking.entity.user.UserInfo;
@@ -105,6 +106,7 @@ public class AccountManagerPresenter extends Presenter {
     }
 
     public void logout() {
+        UserInfo.clearUserInfo((AppApplication) mContext.getApplicationContext());
         accountManageActivity.startActivity(LoginActivity.getIntent(mContext));
     }
 

@@ -18,8 +18,8 @@ import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.Constant;
-import com.badou.mworking.util.LVUtil;
 import com.badou.mworking.util.ToastUtil;
+import com.badou.mworking.widget.LevelTextView;
 import com.badou.mworking.widget.NoScrollListView;
 import com.badou.mworking.widget.NoneResultView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -44,7 +44,7 @@ public class ChatterUserActivity extends BaseNoTitleActivity {
     private UserChatterInfo mUserInfo;
 
     private ImageView mHeadImageView;
-    private TextView mLevelTextView;
+    private LevelTextView mLevelTextView;
     private TextView mNameTextView;
     private NoScrollListView mContentListView;
     private ImageView mBackImageView;
@@ -67,7 +67,7 @@ public class ChatterUserActivity extends BaseNoTitleActivity {
 
     private void initView() {
         mHeadImageView = (ImageView) findViewById(R.id.iv_chatter_user_top_head);
-        mLevelTextView = (TextView) findViewById(R.id.tv_chatter_user_top_level);
+        mLevelTextView = (LevelTextView) findViewById(R.id.tv_chatter_user_top_level);
         mNameTextView = (TextView) findViewById(R.id.tv_chatter_user_top_name);
         mContentListView = (NoScrollListView) findViewById(R.id.nslv_chatter_user_content);
         mBackImageView = (ImageView) findViewById(R.id.iv_chatter_user_top_back);
@@ -139,7 +139,7 @@ public class ChatterUserActivity extends BaseNoTitleActivity {
         if (mUserInfo != null) {
             ImageViewLoader.setCircleImageViewResource(mHeadImageView, mUserInfo.headUrl, getResources().getDimensionPixelSize(R.dimen.user_center_image_head_size));
             mNameTextView.setText(mUserInfo.name + "\n" + mUserInfo.department);
-            LVUtil.setTextViewBg(mLevelTextView, mUserInfo.level);
+            mLevelTextView.setLevel(mUserInfo.level);
         }
         mCurrentPage = 1;
         mProgressDialog.show();
@@ -192,7 +192,7 @@ public class ChatterUserActivity extends BaseNoTitleActivity {
                             mUserInfo = new UserChatterInfo(contentObject);
                             ImageViewLoader.setCircleImageViewResource(mHeadImageView, mUserInfo.headUrl, getResources().getDimensionPixelSize(R.dimen.user_center_image_head_size));
                             mNameTextView.setText(mUserInfo.name + "\n" + mUserInfo.department);
-                            LVUtil.setTextViewBg(mLevelTextView, mUserInfo.level);
+                            mLevelTextView.setLevel(mUserInfo.level);
                         }
                         for (int i = 0; i < resultArray.length(); i++) {
                             JSONObject jo2 = resultArray.optJSONObject(i);
