@@ -1,6 +1,5 @@
 package com.badou.mworking.fragment;
 
-import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
@@ -25,10 +24,10 @@ import android.widget.TextView;
 import com.badou.mworking.R;
 import com.badou.mworking.TrainBaseActivity;
 import com.badou.mworking.base.BaseFragment;
-import com.badou.mworking.presenter.TrainingMediaPresenter;
+import com.badou.mworking.presenter.DownloadPresenter;
 import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.DensityUtil;
-import com.badou.mworking.view.TrainMediaView;
+import com.badou.mworking.view.DownloadView;
 import com.badou.mworking.widget.FullScreenVideoView;
 
 import java.io.File;
@@ -38,7 +37,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class TrainVideoFragment extends BaseFragment implements TrainMediaView {
+public class TrainVideoFragment extends BaseFragment implements DownloadView {
 
     static final String KEY_RID = "rid";
     static final String KEY_URL = "url";
@@ -73,7 +72,7 @@ public class TrainVideoFragment extends BaseFragment implements TrainMediaView {
     @Bind(R.id.container_layout)
     RelativeLayout mContainerLayout;
 
-    private TrainingMediaPresenter mPresenter;
+    private DownloadPresenter mPresenter;
     private int lastTime = 0;
 
     public static TrainVideoFragment getFragment(String rid, String url, String subject) {
@@ -92,7 +91,7 @@ public class TrainVideoFragment extends BaseFragment implements TrainMediaView {
         ButterKnife.bind(this, view);
         Bundle argument = getArguments();
         mVideoTitleTextView.setText(argument.getString(KEY_SUBJECT));
-        mPresenter = new TrainingMediaPresenter(mContext, argument.getString(KEY_RID), argument.getString(KEY_URL), Constant.MWKG_FORAMT_TYPE_MP3);
+        mPresenter = new DownloadPresenter(mContext, argument.getString(KEY_RID), argument.getString(KEY_URL), Constant.MWKG_FORAMT_TYPE_MP3);
         initView(argument);
         mPresenter.attachView(this);
         return view;

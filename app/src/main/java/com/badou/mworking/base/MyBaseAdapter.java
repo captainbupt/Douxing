@@ -35,7 +35,8 @@ public abstract class MyBaseAdapter<T> extends BaseAdapter {
     }
 
     public void clear() {
-        mItemList.clear();
+        if (mItemList != null)
+            mItemList.clear();
         notifyDataSetChanged();
     }
 

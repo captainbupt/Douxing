@@ -32,6 +32,5 @@ public class IntroductionPresenter extends Presenter {
     public void onIntroductionClick() {
         // 引导页面之后必然是登陆页面
         mContext.startActivity(LoginActivity.getIntent(mContext));
-        ((Activity)mContext).finish();
     }
 }

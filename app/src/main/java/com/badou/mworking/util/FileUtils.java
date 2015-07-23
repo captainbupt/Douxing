@@ -335,9 +335,7 @@ public class FileUtils {
      * 功能描述: 微培训文件缓存目录
      */
     public static String getTrainCacheDir(Context context) {
-        String filePath = context.getExternalFilesDir(
-                Environment.DIRECTORY_DOWNLOADS).getAbsolutePath()
-                + File.separator + "train";
+        String filePath = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + "train";
         File file = new File(filePath);
         if (!file.exists()) {
             file.mkdirs();
@@ -386,21 +384,23 @@ public class FileUtils {
      * @param oldname 原来的文件名
      * @param newname 新文件名
      */
-    public static void renameFile(String path, String oldname, String newname) {
+    public static File renameFile(String path, String oldname, String newname) {
+        File oldfile = new File(path, oldname);
         if (!oldname.equals(newname)) {//新的文件名和以前文件名不同时,才有必要进行重命名
-            File oldfile = new File(path, oldname);
             File newfile = new File(path, newname);
             if (!oldfile.exists()) {
-                return;//重命名文件不存在
+                return oldfile;//重命名文件不存在
             }
             if (newfile.exists())//若在该目录下已经有一个文件和新文件名相同，则不允许重命名
                 System.out.println(newname + "已经存在！");
             else {
                 oldfile.renameTo(newfile);
+                return newfile;
             }
         } else {
             System.out.println("新文件名和旧文件名相同...");
         }
+        return oldfile;
     }
 
     public static String readFile2String(String filePath) {

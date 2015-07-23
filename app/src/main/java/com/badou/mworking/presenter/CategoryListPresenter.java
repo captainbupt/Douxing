@@ -2,6 +2,7 @@ package com.badou.mworking.presenter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.provider.ContactsContract;
 
 import com.badou.mworking.domain.CategoryUseCase;
 import com.badou.mworking.domain.ClassificationUseCase;
@@ -21,6 +22,11 @@ import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class CategoryListPresenter extends ListPresenter<Category> {
 
@@ -137,8 +143,8 @@ public class CategoryListPresenter extends ListPresenter<Category> {
         mCategoryListView.setUnread(isUnread);
         mCategoryUseCase.setDone(isUnread ? CategoryUseCase.TYPE_UNREAD : CategoryUseCase.TYPE_ALL);
         mCategoryListView.refreshComplete();
-        mCategoryListView.startRefreshing();
         mCategoryListView.hideMenu();
         status_menu_show = false;
+        mCategoryListView.startRefreshing();
     }
 }

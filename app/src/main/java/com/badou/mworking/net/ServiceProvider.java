@@ -314,31 +314,44 @@ public class ServiceProvider {
         });
     }
 
+    public interface DownloadListener {
+        void onProgress(long current, long total);
+
+        void onFailure(int statusCode, Header[] headers, Throwable throwable, File file);
+
+        void onSuccess(int statusCode, Header[] headers, File response);
+    }
+
     // 必须传入Context，已便在Activity结束的时候能够停止全部相关请求
-    public static void doDownloadTrainingFile(Context context, final String url, final String fullPath, final RangeFileAsyncHttpResponseHandler httpResponseHandler) {
+    public static void doDownloadTrainingFile(Context context, final String url, final String fullPath, final DownloadListener downloadListener) {
         File file = new File(fullPath + ".tmp");
+
         isForceStopped = false;
-        client.get(context, url, new RangeFileAsyncHttpResponseHandler(file) {
-            @Override
-            public void onProgress(long bytesWritten, long totalSize) {
-                super.onProgress(bytesWritten, totalSize);
-                if (!isForceStopped)
-                    httpResponseHandler.onProgress(bytesWritten, totalSize);
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
-                httpResponseHandler.onFailure(statusCode, headers, throwable, file);
-            }
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, File response) {
-                if (!isForceStopped) {
-                    FileUtils.renameFile(response.getParent(), response.getName(), response.getName().replace(".tmp", ""));
-                    httpResponseHandler.onSuccess(statusCode, headers, new File(fullPath));
+        try {
+            client.get(context, url, new RangeFileAsyncHttpResponseHandler(file) {
+                @Override
+                public void onProgress(long bytesWritten, long totalSize) {
+                    super.onProgress(bytesWritten, totalSize);
+                    if (!isForceStopped)
+                        downloadListener.onProgress(bytesWritten, totalSize);
                 }
-            }
-        });
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
+                    downloadListener.onFailure(statusCode, headers, throwable, file);
+                }
+
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, File response) {
+                    if (!isForceStopped) {
+                        FileUtils.renameFile(response.getParent(), response.getName(), response.getName().replace(".tmp", ""));
+                        downloadListener.onSuccess(statusCode, headers, new File(fullPath));
+                    }
+                }
+            });
+        } catch (AssertionError e) {
+            downloadListener.onFailure(400, null, e, file);
+        }
     }
 
     public static boolean isForceStopped = false;

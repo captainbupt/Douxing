@@ -26,6 +26,7 @@ public class Train extends Category {
     public void updateData(CategoryDetail categoryDetail) {
         rating = categoryDetail.getContent().e;
         this.store = categoryDetail.store;
+        this.read = 1;
         commentInfo.eval = categoryDetail.eval;
         commentInfo.mcnt = categoryDetail.mcnt;
         commentInfo.ccnt = categoryDetail.ccnt;

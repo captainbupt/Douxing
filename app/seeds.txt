@@ -12576,13 +12576,13 @@ com.badou.mworking.net.RestApi: rx.Observable getSearchResult(java.lang.String,j
 com.badou.mworking.net.RestApi: rx.Observable markRead(java.lang.String,java.lang.String,java.lang.String,java.lang.String)
 com.badou.mworking.net.RestApi: rx.Observable deleteStore(java.lang.String,java.lang.String,com.badou.mworking.domain.StoreUseCase$Body)
 com.badou.mworking.net.RestApi: rx.Observable addStore(java.lang.String,java.lang.String,com.badou.mworking.domain.StoreUseCase$Body)
-com.badou.mworking.net.RestApi: rx.Observable taskSign(java.lang.String,java.lang.String,java.lang.String,java.lang.String,double,double,java.io.File)
+com.badou.mworking.net.RestApi: rx.Observable taskSign(java.lang.String,java.lang.String,java.lang.String,java.lang.String,double,double,retrofit.mime.TypedFile)
 com.badou.mworking.net.RestApi: rx.Observable taskSign(java.lang.String,java.lang.String,java.lang.String,java.lang.String,double,double)
 com.badou.mworking.net.RestApi: rx.Observable taskSign(java.lang.String,java.lang.String,com.badou.mworking.domain.TaskSignUseCase$Body)
 com.badou.mworking.net.RestApi: rx.Observable enroll(java.lang.String,java.lang.String,com.badou.mworking.domain.EnrollUseCase$Body)
 com.badou.mworking.net.RestApi: rx.Observable createEMChatGroup(java.lang.String,java.lang.String,com.badou.mworking.domain.EMChatCreateGroupUseCase$Body)
 com.badou.mworking.net.RestApi: rx.Observable getUserDetail(java.lang.String,java.lang.String,java.lang.String)
-com.badou.mworking.net.RestApi: rx.Observable setUserHead(java.lang.String,java.lang.String,java.lang.String,java.io.File)
+com.badou.mworking.net.RestApi: rx.Observable setUserHead(java.lang.String,java.lang.String,java.lang.String,retrofit.mime.TypedFile)
 com.badou.mworking.net.RestRepository
 com.badou.mworking.net.RestRepository: com.badou.mworking.net.RestApi restApi
 com.badou.mworking.net.RestRepository: com.badou.mworking.net.RestRepository getInstance()
@@ -12673,6 +12673,7 @@ com.badou.mworking.net.bitmap.BitmapLruCache: android.graphics.Bitmap getBitmap(
 com.badou.mworking.net.bitmap.BitmapLruCache: android.graphics.Bitmap getCircleBitmap(java.lang.String)
 com.badou.mworking.net.bitmap.BitmapLruCache: void putCircleBitmap(java.lang.String,android.graphics.Bitmap)
 com.badou.mworking.net.bitmap.BitmapLruCache: void putBitmap(java.lang.String,android.graphics.Bitmap)
+com.badou.mworking.net.bitmap.BitmapLruCache: void removeCircle(java.lang.String)
 com.badou.mworking.net.bitmap.BitmapLruCache: void init(android.content.Context)
 com.badou.mworking.net.bitmap.BitmapLruCache: com.badou.mworking.net.bitmap.BitmapLruCache getBitmapLruCache()
 com.badou.mworking.net.bitmap.BitmapLruCache: int sizeOf(java.lang.Object,java.lang.Object)

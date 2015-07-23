@@ -71,6 +71,9 @@ public class MainGridActivity extends BaseNoTitleActivity implements MainGridVie
 
     public static Intent getIntent(Context context, boolean toMessageCenter) {
         Intent intent = new Intent(context, MainGridActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(KEY_MESSAGE_CENTER, toMessageCenter);
         return new Intent(context, MainGridActivity.class);
     }

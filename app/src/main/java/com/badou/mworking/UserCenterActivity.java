@@ -208,4 +208,9 @@ public class UserCenterActivity extends BaseNoTitleActivity implements UserCente
     public void setHeadImage(String url) {
         ImageViewLoader.setCircleImageViewResource(mHeadImageView, url, getResources().getDimensionPixelSize(R.dimen.user_center_image_head_size));
     }
+
+    @Override
+    public void setHeadImage(Bitmap bitmap) {
+        mHeadImageView.setImageBitmap(bitmap);
+    }
 }
