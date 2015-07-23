@@ -14361,30 +14361,30 @@ com.badou.mworking.MainGridActivity -> com.badou.mworking.MainGridActivity:
     java.util.List mIndicatorRadioButtonList -> c
     com.badou.mworking.fragment.MainSearchFragment mMainSearchFragment -> d
     com.badou.mworking.presenter.MainPresenter mMainPresenter -> e
-    73:75:android.content.Intent getIntent(android.content.Context,boolean) -> getIntent
-    80:87:void onCreate(android.os.Bundle) -> onCreate
-    90:98:void initialize() -> a
-    103:104:void setLogoImage(java.lang.String) -> setLogoImage
-    108:110:void setBannerData(java.util.List) -> setBannerData
-    114:121:void showExperienceDialog() -> showExperienceDialog
-    125:126:void showGuideFragment() -> showGuideFragment
-    130:135:void setMessageCenterStatus(boolean) -> setMessageCenterStatus
-    139:142:void showSearchFragment() -> showSearchFragment
-    146:149:void hideSearchFragment() -> hideSearchFragment
-    153:154:void setMainIconData(java.util.List) -> setMainIconData
-    158:163:void setIndicator(int) -> setIndicator
-    167:169:void onResume() -> onResume
-    173:180:com.badou.mworking.fragment.MainSearchFragment getSearchFragment() -> getSearchFragment
-    185:186:void onCategoryClick(android.widget.AdapterView,android.view.View,int,long) -> onCategoryClick
-    190:191:void onUserCenterClick() -> onUserCenterClick
-    195:196:void onSearchClick() -> onSearchClick
-    200:201:void onMessageCenterClick() -> onMessageCenterClick
-    206:207:void onBannerClick(android.widget.AdapterView,android.view.View,int,long) -> onBannerClick
-    211:212:void onBannerSelected(android.widget.AdapterView,android.view.View,int,long) -> onBannerSelected
-    219:221:void updateBanner(java.util.List) -> a
-    227:245:void updateIndicator(java.util.List) -> b
-    252:254:void onBackPressed() -> onBackPressed
-    258:260:void onDestroy() -> onDestroy
+    73:78:android.content.Intent getIntent(android.content.Context,boolean) -> getIntent
+    83:90:void onCreate(android.os.Bundle) -> onCreate
+    93:101:void initialize() -> a
+    106:107:void setLogoImage(java.lang.String) -> setLogoImage
+    111:113:void setBannerData(java.util.List) -> setBannerData
+    117:124:void showExperienceDialog() -> showExperienceDialog
+    128:129:void showGuideFragment() -> showGuideFragment
+    133:138:void setMessageCenterStatus(boolean) -> setMessageCenterStatus
+    142:145:void showSearchFragment() -> showSearchFragment
+    149:152:void hideSearchFragment() -> hideSearchFragment
+    156:157:void setMainIconData(java.util.List) -> setMainIconData
+    161:166:void setIndicator(int) -> setIndicator
+    170:172:void onResume() -> onResume
+    176:183:com.badou.mworking.fragment.MainSearchFragment getSearchFragment() -> getSearchFragment
+    188:189:void onCategoryClick(android.widget.AdapterView,android.view.View,int,long) -> onCategoryClick
+    193:194:void onUserCenterClick() -> onUserCenterClick
+    198:199:void onSearchClick() -> onSearchClick
+    203:204:void onMessageCenterClick() -> onMessageCenterClick
+    209:210:void onBannerClick(android.widget.AdapterView,android.view.View,int,long) -> onBannerClick
+    214:215:void onBannerSelected(android.widget.AdapterView,android.view.View,int,long) -> onBannerSelected
+    222:224:void updateBanner(java.util.List) -> a
+    230:248:void updateIndicator(java.util.List) -> b
+    255:257:void onBackPressed() -> onBackPressed
+    261:263:void onDestroy() -> onDestroy
     41:41:android.content.Context access$000(com.badou.mworking.MainGridActivity) -> a
     41:41:android.app.Activity access$100(com.badou.mworking.MainGridActivity) -> b
 com.badou.mworking.MainGridActivity$$ViewBinder -> com.badou.mworking.MainGridActivity$$ViewBinder:
@@ -14419,7 +14419,7 @@ com.badou.mworking.MainGridActivity$$ViewBinder$6 -> aan:
     84:85:void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
 com.badou.mworking.MainGridActivity$1 -> aao:
     com.badou.mworking.MainGridActivity this$0 -> a
-    117:119:void onClick(android.content.DialogInterface,int) -> onClick
+    120:122:void onClick(android.content.DialogInterface,int) -> onClick
 com.badou.mworking.Manifest -> com.badou.mworking.Manifest:
 com.badou.mworking.Manifest$permission -> com.badou.mworking.Manifest$permission:
     java.lang.String JPUSH_MESSAGE -> JPUSH_MESSAGE
@@ -18877,7 +18877,7 @@ com.badou.mworking.entity.category.Notice -> com.badou.mworking.entity.category.
     26:26:int getCommentNumber() -> getCommentNumber
     30:31:void setCommentNumber(int) -> setCommentNumber
     35:35:int getCategoryType() -> getCategoryType
-    43:44:void updateData(com.badou.mworking.entity.category.CategoryDetail) -> updateData
+    43:45:void updateData(com.badou.mworking.entity.category.CategoryDetail) -> updateData
 com.badou.mworking.entity.category.Task -> com.badou.mworking.entity.category.Task:
     int photo -> l
     long startline -> m
@@ -18910,26 +18910,26 @@ com.badou.mworking.entity.category.Train -> com.badou.mworking.entity.category.T
     boolean isTraining -> l
     com.badou.mworking.entity.category.Train$TrainingCommentInfo commentInfo -> m
     int rating -> n
-    27:33:void updateData(com.badou.mworking.entity.category.CategoryDetail) -> updateData
-    36:37:void setUrl(java.lang.String) -> setUrl
-    41:41:int getCategoryType() -> getCategoryType
-    45:46:void setIsTraining(boolean) -> setIsTraining
-    49:49:boolean isTraining() -> isTraining
-    53:54:void setCommentInfo(com.badou.mworking.entity.category.Train$TrainingCommentInfo) -> setCommentInfo
-    57:57:int getCommentNumber() -> getCommentNumber
-    61:62:void setCommentNumber(int) -> setCommentNumber
-    65:65:int getRatingNumber() -> getRatingNumber
-    69:69:int getRatingTotalValue() -> getRatingTotalValue
-    73:73:int getRating() -> getRating
-    77:80:void setRatingValue(int,int) -> setRatingValue
-    83:86:void setRatingValue(int) -> setRatingValue
+    27:34:void updateData(com.badou.mworking.entity.category.CategoryDetail) -> updateData
+    37:38:void setUrl(java.lang.String) -> setUrl
+    42:42:int getCategoryType() -> getCategoryType
+    46:47:void setIsTraining(boolean) -> setIsTraining
+    50:50:boolean isTraining() -> isTraining
+    54:55:void setCommentInfo(com.badou.mworking.entity.category.Train$TrainingCommentInfo) -> setCommentInfo
+    58:58:int getCommentNumber() -> getCommentNumber
+    62:63:void setCommentNumber(int) -> setCommentNumber
+    66:66:int getRatingNumber() -> getRatingNumber
+    70:70:int getRatingTotalValue() -> getRatingTotalValue
+    74:74:int getRating() -> getRating
+    78:81:void setRatingValue(int,int) -> setRatingValue
+    84:87:void setRatingValue(int) -> setRatingValue
 com.badou.mworking.entity.category.Train$TrainingCommentInfo -> com.badou.mworking.entity.category.Train$TrainingCommentInfo:
     java.lang.String rid -> a
     int mcnt -> b
     int ccnt -> c
     int ecnt -> d
     int eval -> e
-    107:107:java.lang.String getRid() -> getRid
+    108:108:java.lang.String getRid() -> getRid
 com.badou.mworking.entity.comment.CategoryComment -> com.badou.mworking.entity.comment.CategoryComment:
     java.lang.String employee_id -> a
     java.lang.String info -> b
@@ -19465,7 +19465,7 @@ com.badou.mworking.fragment.PDFViewFragment -> com.badou.mworking.fragment.PDFVi
     57:68:void initData() -> a
     72:106:void showPdf() -> b
     109:140:void startDownload(java.lang.String) -> a
-    144:149:void onDestroyView() -> onDestroyView
+    144:150:void onDestroyView() -> onDestroyView
     26:26:android.app.Activity access$000(com.badou.mworking.fragment.PDFViewFragment) -> a
     26:26:android.content.Context access$100(com.badou.mworking.fragment.PDFViewFragment) -> b
     26:26:com.badou.mworking.widget.HorizontalProgressDialog access$200(com.badou.mworking.fragment.PDFViewFragment) -> c
@@ -19997,35 +19997,35 @@ com.badou.mworking.net.RestApi -> com.badou.mworking.net.RestApi:
     rx.Observable markRead(java.lang.String,java.lang.String,java.lang.String,java.lang.String) -> markRead
     rx.Observable deleteStore(java.lang.String,java.lang.String,com.badou.mworking.domain.StoreUseCase$Body) -> deleteStore
     rx.Observable addStore(java.lang.String,java.lang.String,com.badou.mworking.domain.StoreUseCase$Body) -> addStore
-    rx.Observable taskSign(java.lang.String,java.lang.String,java.lang.String,java.lang.String,double,double,java.io.File) -> taskSign
+    rx.Observable taskSign(java.lang.String,java.lang.String,java.lang.String,java.lang.String,double,double,retrofit.mime.TypedFile) -> taskSign
     rx.Observable taskSign(java.lang.String,java.lang.String,java.lang.String,java.lang.String,double,double) -> taskSign
     rx.Observable taskSign(java.lang.String,java.lang.String,com.badou.mworking.domain.TaskSignUseCase$Body) -> taskSign
     rx.Observable enroll(java.lang.String,java.lang.String,com.badou.mworking.domain.EnrollUseCase$Body) -> enroll
     rx.Observable createEMChatGroup(java.lang.String,java.lang.String,com.badou.mworking.domain.EMChatCreateGroupUseCase$Body) -> createEMChatGroup
     rx.Observable getUserDetail(java.lang.String,java.lang.String,java.lang.String) -> getUserDetail
-    rx.Observable setUserHead(java.lang.String,java.lang.String,java.lang.String,java.io.File) -> setUserHead
+    rx.Observable setUserHead(java.lang.String,java.lang.String,java.lang.String,retrofit.mime.TypedFile) -> setUserHead
 com.badou.mworking.net.RestRepository -> com.badou.mworking.net.RestRepository:
     com.badou.mworking.net.RestApi restApi -> restApi
     com.badou.mworking.net.RestRepository restRepository -> a
-    43:45:com.badou.mworking.net.RestRepository getInstance() -> getInstance
-    59:59:rx.Observable changePassword(com.badou.mworking.domain.ChangePasswordUseCase$Body) -> changePassword
-    63:63:rx.Observable login(com.badou.mworking.domain.LoginUseCase$Body) -> login
-    67:67:rx.Observable checkUpdate(java.lang.String,java.lang.String,com.badou.mworking.domain.CheckUpdateUseCase$Body) -> checkUpdate
-    71:71:rx.Observable getClassification(java.lang.String,java.lang.String) -> getClassification
-    75:78:rx.Observable getCategory(java.lang.String,java.lang.String,int,int,int,int) -> getCategory
-    83:83:rx.Observable getTrainCommentInfo(java.lang.String,java.util.List) -> getTrainCommentInfo
-    87:87:rx.Observable getCategoryComment(com.badou.mworking.domain.CategoryCommentGetUseCase$Body) -> getCategoryComment
-    91:94:rx.Observable sendCategoryComment(java.lang.String,java.lang.String,java.lang.String,java.lang.String) -> sendCategoryComment
-    99:99:rx.Observable getCategoryDetail(com.badou.mworking.domain.CategoryDetailUseCase$Body) -> getCategoryDetail
-    103:103:rx.Observable getSearchResult(java.lang.String,java.lang.String) -> getSearchResult
-    107:107:rx.Observable markRead(java.lang.String,java.lang.String) -> markRead
-    111:114:rx.Observable modifyStore(com.badou.mworking.domain.StoreUseCase$Body,boolean) -> modifyStore
-    119:122:rx.Observable taskSign(java.lang.String,java.lang.String,double,double,java.io.File) -> taskSign
-    127:127:rx.Observable taskSign(com.badou.mworking.domain.TaskSignUseCase$Body) -> taskSign
-    131:131:rx.Observable enroll(com.badou.mworking.domain.EnrollUseCase$Body) -> enroll
-    135:135:rx.Observable createEMChatGroup(com.badou.mworking.domain.EMChatCreateGroupUseCase$Body) -> createEMChatGroup
-    139:139:rx.Observable getUserDetail(java.lang.String) -> getUserDetail
-    143:143:rx.Observable setUserHead(java.lang.String,java.io.File) -> setUserHead
+    45:47:com.badou.mworking.net.RestRepository getInstance() -> getInstance
+    61:61:rx.Observable changePassword(com.badou.mworking.domain.ChangePasswordUseCase$Body) -> changePassword
+    65:65:rx.Observable login(com.badou.mworking.domain.LoginUseCase$Body) -> login
+    69:69:rx.Observable checkUpdate(java.lang.String,java.lang.String,com.badou.mworking.domain.CheckUpdateUseCase$Body) -> checkUpdate
+    73:73:rx.Observable getClassification(java.lang.String,java.lang.String) -> getClassification
+    77:80:rx.Observable getCategory(java.lang.String,java.lang.String,int,int,int,int) -> getCategory
+    85:85:rx.Observable getTrainCommentInfo(java.lang.String,java.util.List) -> getTrainCommentInfo
+    89:89:rx.Observable getCategoryComment(com.badou.mworking.domain.CategoryCommentGetUseCase$Body) -> getCategoryComment
+    93:96:rx.Observable sendCategoryComment(java.lang.String,java.lang.String,java.lang.String,java.lang.String) -> sendCategoryComment
+    101:101:rx.Observable getCategoryDetail(com.badou.mworking.domain.CategoryDetailUseCase$Body) -> getCategoryDetail
+    105:105:rx.Observable getSearchResult(java.lang.String,java.lang.String) -> getSearchResult
+    109:109:rx.Observable markRead(java.lang.String,java.lang.String) -> markRead
+    113:116:rx.Observable modifyStore(com.badou.mworking.domain.StoreUseCase$Body,boolean) -> modifyStore
+    121:124:rx.Observable taskSign(java.lang.String,java.lang.String,double,double,java.io.File) -> taskSign
+    129:129:rx.Observable taskSign(com.badou.mworking.domain.TaskSignUseCase$Body) -> taskSign
+    133:133:rx.Observable enroll(com.badou.mworking.domain.EnrollUseCase$Body) -> enroll
+    137:137:rx.Observable createEMChatGroup(com.badou.mworking.domain.EMChatCreateGroupUseCase$Body) -> createEMChatGroup
+    141:141:rx.Observable getUserDetail(java.lang.String) -> getUserDetail
+    145:145:rx.Observable setUserHead(java.lang.String,java.io.File) -> setUserHead
 com.badou.mworking.net.ServiceProvider -> com.badou.mworking.net.ServiceProvider:
     com.loopj.android.http.AsyncHttpClient client -> a
     boolean isForceStopped -> isForceStopped
@@ -20135,14 +20135,16 @@ com.badou.mworking.net.ServiceProvider$8 -> agg:
 com.badou.mworking.net.ServiceProvider$9 -> agh:
     736:736:void onResponseSuccess(org.json.JSONObject) -> onResponseSuccess
 com.badou.mworking.net.bitmap.BitmapLruCache -> com.badou.mworking.net.bitmap.BitmapLruCache:
-    com.badou.mworking.net.bitmap.BitmapLruCache mBitmapLruCache -> a
-    34:34:int sizeOf(java.lang.String,android.graphics.Bitmap) -> sizeOf
-    39:42:android.graphics.Bitmap getBitmap(java.lang.String) -> getBitmap
-    46:49:android.graphics.Bitmap getCircleBitmap(java.lang.String) -> getCircleBitmap
-    53:58:void putCircleBitmap(java.lang.String,android.graphics.Bitmap) -> putCircleBitmap
-    62:67:void putBitmap(java.lang.String,android.graphics.Bitmap) -> putBitmap
-    70:75:void init(android.content.Context) -> init
-    78:81:com.badou.mworking.net.bitmap.BitmapLruCache getBitmapLruCache() -> getBitmapLruCache
+    java.lang.String SUFFIX -> a
+    com.badou.mworking.net.bitmap.BitmapLruCache mBitmapLruCache -> b
+    36:36:int sizeOf(java.lang.String,android.graphics.Bitmap) -> sizeOf
+    41:44:android.graphics.Bitmap getBitmap(java.lang.String) -> getBitmap
+    48:51:android.graphics.Bitmap getCircleBitmap(java.lang.String) -> getCircleBitmap
+    55:60:void putCircleBitmap(java.lang.String,android.graphics.Bitmap) -> putCircleBitmap
+    64:69:void putBitmap(java.lang.String,android.graphics.Bitmap) -> putBitmap
+    72:73:void removeCircle(java.lang.String) -> removeCircle
+    76:81:void init(android.content.Context) -> init
+    84:87:com.badou.mworking.net.bitmap.BitmapLruCache getBitmapLruCache() -> getBitmapLruCache
     26:26:int sizeOf(java.lang.Object,java.lang.Object) -> sizeOf
 com.badou.mworking.net.bitmap.CircleImageListener -> com.badou.mworking.net.bitmap.CircleImageListener:
     android.widget.ImageView mImageView -> a
@@ -20152,10 +20154,10 @@ com.badou.mworking.net.bitmap.CircleImageListener -> com.badou.mworking.net.bitm
     28:29:void onErrorResponse(com.android.volley.VolleyError) -> onErrorResponse
     33:42:void onResponse(com.android.volley.toolbox.ImageLoader$ImageContainer,boolean) -> onResponse
 com.badou.mworking.net.bitmap.ImageViewLoader -> com.badou.mworking.net.bitmap.ImageViewLoader:
-    20:30:void setCircleImageViewResource(android.widget.ImageView,java.lang.String,int) -> setCircleImageViewResource
-    33:39:void setSquareImageViewResource(android.widget.ImageView,int,java.lang.String,int) -> setSquareImageViewResource
-    42:60:void setSquareImageViewResourceOnWifi(android.content.Context,android.widget.ImageView,int,java.lang.String,int) -> setSquareImageViewResourceOnWifi
-    63:73:void setImageViewResource(android.widget.ImageView,int,java.lang.String) -> setImageViewResource
+    20:32:void setCircleImageViewResource(android.widget.ImageView,java.lang.String,int) -> setCircleImageViewResource
+    35:41:void setSquareImageViewResource(android.widget.ImageView,int,java.lang.String,int) -> setSquareImageViewResource
+    44:62:void setSquareImageViewResourceOnWifi(android.content.Context,android.widget.ImageView,int,java.lang.String,int) -> setSquareImageViewResourceOnWifi
+    65:75:void setImageViewResource(android.widget.ImageView,int,java.lang.String) -> setImageViewResource
 com.badou.mworking.net.bitmap.NormalImageListener -> com.badou.mworking.net.bitmap.NormalImageListener:
     android.widget.ImageView mImageView -> a
     java.lang.String mImgUrl -> b
@@ -20232,26 +20234,26 @@ com.badou.mworking.presenter.CategoryListPresenter -> com.badou.mworking.present
     int mCategoryIndex -> mCategoryIndex
     boolean isUnread -> isUnread
     boolean status_menu_show -> status_menu_show
-    42:45:void attachView(com.badou.mworking.view.BaseView) -> attachView
-    49:52:java.lang.reflect.Type getType() -> getType
-    57:58:com.badou.mworking.domain.UseCase getRefreshUseCase(int) -> getRefreshUseCase
-    63:63:java.lang.String getCacheKey() -> getCacheKey
-    68:70:boolean setData(java.lang.Object,int) -> setData
-    75:76:void toDetailPage(com.badou.mworking.entity.category.Category) -> toDetailPage
-    80:83:void onResponseItem(int,java.io.Serializable) -> onResponseItem
-    87:102:void getClassifications() -> a
-    105:111:void onClassificationStatusChanged() -> onClassificationStatusChanged
-    114:124:void onClassificationMainClicked(com.badou.mworking.entity.category.Classification) -> onClassificationMainClicked
-    127:133:void onClassificationMoreClicked(com.badou.mworking.entity.category.Classification) -> onClassificationMoreClicked
-    136:143:void onUnreadClick() -> onUnreadClick
-    25:25:void toDetailPage(java.lang.Object) -> toDetailPage
+    48:51:void attachView(com.badou.mworking.view.BaseView) -> attachView
+    55:58:java.lang.reflect.Type getType() -> getType
+    63:64:com.badou.mworking.domain.UseCase getRefreshUseCase(int) -> getRefreshUseCase
+    69:69:java.lang.String getCacheKey() -> getCacheKey
+    74:76:boolean setData(java.lang.Object,int) -> setData
+    81:82:void toDetailPage(com.badou.mworking.entity.category.Category) -> toDetailPage
+    86:89:void onResponseItem(int,java.io.Serializable) -> onResponseItem
+    93:108:void getClassifications() -> a
+    111:117:void onClassificationStatusChanged() -> onClassificationStatusChanged
+    120:130:void onClassificationMainClicked(com.badou.mworking.entity.category.Classification) -> onClassificationMainClicked
+    133:139:void onClassificationMoreClicked(com.badou.mworking.entity.category.Classification) -> onClassificationMoreClicked
+    142:150:void onUnreadClick() -> onUnreadClick
+    31:31:void toDetailPage(java.lang.Object) -> toDetailPage
 com.badou.mworking.presenter.CategoryListPresenter$1 -> agm:
     com.badou.mworking.presenter.CategoryListPresenter this$0 -> a
-    92:100:void onResponseSuccess(java.util.List) -> onResponseSuccess
+    98:106:void onResponseSuccess(java.util.List) -> onResponseSuccess
 com.badou.mworking.presenter.CategoryListPresenter$1$1 -> agn:
     com.badou.mworking.presenter.CategoryListPresenter$1 this$1 -> a
-    95:95:int compare(com.badou.mworking.entity.category.Classification,com.badou.mworking.entity.category.Classification) -> a
-    92:92:int compare(java.lang.Object,java.lang.Object) -> compare
+    101:101:int compare(com.badou.mworking.entity.category.Classification,com.badou.mworking.entity.category.Classification) -> a
+    98:98:int compare(java.lang.Object,java.lang.Object) -> compare
 com.badou.mworking.presenter.CommentPresenter -> com.badou.mworking.presenter.CommentPresenter:
     com.badou.mworking.view.CommentView mCommentView -> a
     com.badou.mworking.domain.CategoryCommentGetUseCase mCommentGetUseCase -> b
@@ -20332,7 +20334,7 @@ com.badou.mworking.presenter.IntroductionPresenter -> com.badou.mworking.present
     com.badou.mworking.view.IntroductionView introductionView -> a
     21:22:void attachView(com.badou.mworking.view.BaseView) -> attachView
     25:30:void onPageScrolled(int,float,int) -> onPageScrolled
-    34:36:void onIntroductionClick() -> onIntroductionClick
+    34:35:void onIntroductionClick() -> onIntroductionClick
 com.badou.mworking.presenter.ListPresenter -> com.badou.mworking.presenter.ListPresenter:
     int mCurrentIndex -> mCurrentIndex
     int mClickPosition -> mClickPosition
@@ -20349,14 +20351,14 @@ com.badou.mworking.presenter.ListPresenter -> com.badou.mworking.presenter.ListP
     68:84:void refresh() -> refresh
     87:102:void loadMore() -> loadMore
     105:108:boolean setData(java.lang.Object,int) -> setData
-    112:148:boolean setList(java.util.List,int) -> setList
-    154:160:void onItemClick(java.lang.Object,int) -> onItemClick
+    112:147:boolean setList(java.util.List,int) -> setList
+    153:159:void onItemClick(java.lang.Object,int) -> onItemClick
     void toDetailPage(java.lang.Object) -> toDetailPage
-    166:168:void destroy() -> destroy
-    171:181:void onActivityResult(int,int,android.content.Intent) -> onActivityResult
-    184:185:void onResponseItem(int,java.io.Serializable) -> onResponseItem
-    188:188:android.content.Intent getResultIntent(java.io.Serializable) -> getResultIntent
-    192:195:android.content.Intent getResultIntent(java.io.Serializable,boolean) -> getResultIntent
+    165:167:void destroy() -> destroy
+    170:180:void onActivityResult(int,int,android.content.Intent) -> onActivityResult
+    183:184:void onResponseItem(int,java.io.Serializable) -> onResponseItem
+    187:187:android.content.Intent getResultIntent(java.io.Serializable) -> getResultIntent
+    191:194:android.content.Intent getResultIntent(java.io.Serializable,boolean) -> getResultIntent
 com.badou.mworking.presenter.ListPresenter$1 -> agw:
     com.badou.mworking.presenter.ListPresenter this$0 -> a
     56:57:void run() -> run
@@ -20586,36 +20588,37 @@ com.badou.mworking.presenter.UserCenterPresenter -> com.badou.mworking.presenter
     java.lang.String mImgCacheUrl -> c
     com.badou.mworking.view.UserCenterView mUserCenterView -> d
     com.badou.mworking.domain.UserDetailUseCase mUserDetailUseCase -> e
-    52:54:void attachView(com.badou.mworking.view.BaseView) -> attachView
-    58:66:void initData() -> a
-    70:86:void updateData() -> b
-    92:116:void onImageSelected(android.graphics.Bitmap) -> onImageSelected
-    120:125:void changeUserHead() -> changeUserHead
-    128:133:void checkLevel() -> checkLevel
-    136:142:void toMyStudy() -> toMyStudy
-    145:151:void toMyExam() -> toMyExam
-    155:160:void toMyChatter() -> toMyChatter
-    163:166:void toMyChat() -> toMyChat
-    169:170:void toMyAccount() -> toMyAccount
-    173:174:void toAboutUs() -> toAboutUs
-    177:178:void toMyStore() -> toMyStore
-    181:204:void toService() -> toService
-    208:209:void resume() -> resume
+    54:56:void attachView(com.badou.mworking.view.BaseView) -> attachView
+    60:68:void initData() -> a
+    72:88:void updateData() -> b
+    94:121:void onImageSelected(android.graphics.Bitmap) -> onImageSelected
+    125:130:void changeUserHead() -> changeUserHead
+    133:138:void checkLevel() -> checkLevel
+    141:147:void toMyStudy() -> toMyStudy
+    150:156:void toMyExam() -> toMyExam
+    160:165:void toMyChatter() -> toMyChatter
+    168:171:void toMyChat() -> toMyChat
+    174:175:void toMyAccount() -> toMyAccount
+    178:179:void toAboutUs() -> toAboutUs
+    182:183:void toMyStore() -> toMyStore
+    186:209:void toService() -> toService
+    213:214:void resume() -> resume
 com.badou.mworking.presenter.UserCenterPresenter$1 -> ahu:
     com.badou.mworking.presenter.UserCenterPresenter this$0 -> a
-    75:79:void onResponseSuccess(com.badou.mworking.entity.user.UserDetail) -> a
-    83:84:void onCompleted() -> onCompleted
-    72:72:void onResponseSuccess(java.lang.Object) -> onResponseSuccess
+    77:81:void onResponseSuccess(com.badou.mworking.entity.user.UserDetail) -> a
+    85:86:void onCompleted() -> onCompleted
+    74:74:void onResponseSuccess(java.lang.Object) -> onResponseSuccess
 com.badou.mworking.presenter.UserCenterPresenter$2 -> ahv:
-    com.badou.mworking.presenter.UserCenterPresenter this$0 -> a
-    97:100:void onResponseSuccess(java.lang.Object) -> onResponseSuccess
-    104:105:void onErrorCode(int) -> onErrorCode
-    109:110:void onCompleted() -> onCompleted
+    android.graphics.Bitmap val$bitmap -> a
+    com.badou.mworking.presenter.UserCenterPresenter this$0 -> b
+    99:105:void onResponseSuccess(java.lang.Object) -> onResponseSuccess
+    109:110:void onErrorCode(int) -> onErrorCode
+    114:115:void onCompleted() -> onCompleted
 com.badou.mworking.presenter.UserCenterPresenter$3 -> ahw:
     com.badou.mworking.presenter.UserCenterPresenter this$0 -> a
-    188:190:void onSuccess() -> onSuccess
-    194:196:void onError(int,java.lang.String) -> onError
-    201:201:void onProgress(int,java.lang.String) -> onProgress
+    193:195:void onSuccess() -> onSuccess
+    199:201:void onError(int,java.lang.String) -> onError
+    206:206:void onProgress(int,java.lang.String) -> onProgress
 com.badou.mworking.receiver.AlarmReceiver -> com.badou.mworking.receiver.AlarmReceiver:
     java.lang.String ACTION_A -> ACTION_A
     26:29:void onReceive(android.content.Context,android.content.Intent) -> onReceive

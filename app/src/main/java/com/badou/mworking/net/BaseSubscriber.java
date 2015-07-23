@@ -52,6 +52,7 @@ public abstract class BaseSubscriber<T> extends Subscriber<BaseNetEntity<T>> {
             ToastUtil.showToast(mContext, i);
         } catch (Exception e) {
             e.printStackTrace();
+            ToastUtil.showToast(mContext, R.string.error_service);
         }
     }
 

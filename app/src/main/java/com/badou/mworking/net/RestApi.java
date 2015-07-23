@@ -27,6 +27,7 @@ import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.Query;
+import retrofit.mime.TypedFile;
 import retrofit.mime.TypedString;
 import rx.Observable;
 
@@ -82,7 +83,7 @@ public interface RestApi {
     Observable<BaseNetEntity> addStore(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @retrofit.http.Body StoreUseCase.Body body);
 
     @POST("/checkin_v2")
-    Observable<BaseNetEntity> taskSign(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("rid") String rid, @Query("lat") double latitude, @Query("lon") double longitude, @retrofit.http.Body File file);
+    Observable<BaseNetEntity> taskSign(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("rid") String rid, @Query("lat") double latitude, @Query("lon") double longitude, @retrofit.http.Body TypedFile file);
 
     @POST("/checkin_v2")
     Observable<BaseNetEntity> taskSign(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("rid") String rid, @Query("lat") double latitude, @Query("lon") double longitude);
@@ -100,5 +101,5 @@ public interface RestApi {
     Observable<BaseNetEntity<UserDetail>> getUserDetail(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid);
 
     @POST("/setimg")
-    Observable<BaseNetEntity> setUserHead(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Body File imgFile);
+    Observable<BaseNetEntity> setUserHead(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Body TypedFile imgFile);
 }

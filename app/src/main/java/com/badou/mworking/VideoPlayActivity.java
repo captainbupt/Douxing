@@ -144,11 +144,10 @@ public class VideoPlayActivity extends BaseBackActionBarActivity {
 
     private void downloadFile() {
         mProgressDialog.show();
-        ServiceProvider.doDownloadTrainingFile(mContext, videoURl, videoPath, new RangeFileAsyncHttpResponseHandler(new File(videoPath)) {
+        ServiceProvider.doDownloadTrainingFile(mContext, videoURl, videoPath, new ServiceProvider.DownloadListener() {
 
             @Override
             public void onProgress(long bytesWritten, long totalSize) {
-                super.onProgress(bytesWritten, totalSize);
                 if (mSeekBar.getMax() != (int) totalSize) {
                     mSeekBar.setMax((int) totalSize);
                 }

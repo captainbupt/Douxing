@@ -23,8 +23,10 @@ import android.support.v4.util.LruCache;
 
 import com.android.volley.toolbox.ImageLoader.ImageCache;
 
-public class BitmapLruCache extends LruCache<String, Bitmap> implements
-        ImageCache {
+public class BitmapLruCache extends LruCache<String, Bitmap> implements ImageCache {
+
+    private final String SUFFIX = "Circle";
+
     public BitmapLruCache(int maxSize) {
         super(maxSize);
     }
@@ -46,14 +48,14 @@ public class BitmapLruCache extends LruCache<String, Bitmap> implements
         if (url == null || "".equals(url)) {
             return null;
         }
-        return get(url + "Circle");
+        return get(url + SUFFIX);
     }
 
     public void putCircleBitmap(String url, Bitmap bitmap) {
         if (bitmap == null || bitmap.isRecycled()) {
-            remove(url + "Circle");
+            remove(url + SUFFIX);
         } else {
-            put(url + "Circle", bitmap);
+            put(url + SUFFIX, bitmap);
         }
     }
 
@@ -64,6 +66,10 @@ public class BitmapLruCache extends LruCache<String, Bitmap> implements
         } else {
             put(url, bitmap);
         }
+    }
+
+    public void removeCircle(String url) {
+        remove(url + SUFFIX);
     }
 
     public static void init(Context context) {

@@ -23,8 +23,10 @@ public class ImageViewLoader {
         }
         Bitmap headBmp = BitmapLruCache.getBitmapLruCache().getCircleBitmap(url);
         if (headBmp != null && !headBmp.isRecycled()) {
+            System.out.println("get image from cache");
             imageView.setImageBitmap(headBmp);
         } else {
+            System.out.println("get image from server");
             MyVolley.getImageLoader().get(url, new CircleImageListener(url, imageView, size, size), size, size);
         }
     }

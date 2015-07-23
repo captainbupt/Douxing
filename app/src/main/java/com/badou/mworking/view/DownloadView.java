@@ -2,10 +2,10 @@ package com.badou.mworking.view;
 
 import java.io.File;
 
-public interface TrainMediaView extends BaseView {
+public interface DownloadView extends BaseView {
     void statusNotDownLoad();
 
-    void statusDownloadFinish(File filePath);
+    void statusDownloadFinish(File file);
 
     void statusDownloading();
 

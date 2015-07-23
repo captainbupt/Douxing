@@ -94,7 +94,7 @@
     <string name="text_cancel">取消</string>
     <string name="tips_pdf_view_open_error">打开PDF文件异常，请重新下载</string>
     <string name="tips_audio_network">建议在WIFI环境下浏览</string>
-    <string name="tips_audio_error">媒体文件打开异常，请重试</string>
+    <string name="tips_audio_error">文件打开异常，请重试</string>
     <string name="tips_audio_get_size_fail">获取文件大小失败</string>
     <string name="category_unsupport_type">当前版本暂不支持该操作</string>
     <string name="title_name_about">关于我们</string>
@@ -298,6 +298,11 @@
     <string name="error_code_50013">部门受限</string>
     <string name="error_code_50014">等级受限</string>
     <string name="error_code_50015">分类操作失败</string>
+    <string name="error_code_50016">达到用户上限</string>
+    <string name="error_code_50017">环信TOKEN错误</string>
+    <string name="error_code_50018">环信新增用户失败</string>
+    <string name="error_code_50019">环信创建群组失败</string>
+    <string name="error_code_50020">抓取URL失败</string>
 
 </resources>
 
