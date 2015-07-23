@@ -248,6 +248,7 @@ public class CategoryListActivity extends BaseBackActionBarActivity implements C
 
     @Override
     public void startRefreshing() {
+        mContentListView.scrollTo(0, 0);
         mContentListView.setRefreshing();
     }
 

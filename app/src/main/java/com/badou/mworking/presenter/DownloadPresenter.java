@@ -1,19 +1,17 @@
 package com.badou.mworking.presenter;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Handler;
 
 import com.badou.mworking.R;
-import com.badou.mworking.entity.category.CategoryDetail;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.FileUtils;
 import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.view.BaseView;
-import com.badou.mworking.view.TrainMediaView;
-import com.loopj.android.http.RangeFileAsyncHttpResponseHandler;
+import com.badou.mworking.view.DownloadView;
 
 import org.apache.http.Header;
 
@@ -21,11 +19,11 @@ import java.io.File;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class TrainingMediaPresenter extends Presenter {
+public class DownloadPresenter extends Presenter {
 
     public String suffix = ".mp4"; // MP4后缀
 
-    TrainMediaView mTrainMediaView;
+    DownloadView mDownloadView;
     String mSaveFilePath;
     String mUrl;
     String mRid;
@@ -34,46 +32,47 @@ public class TrainingMediaPresenter extends Presenter {
     // 自动隐藏顶部和底部View的时间
     private static final int HIDE_TIME = 5000;
 
-    public TrainingMediaPresenter(Context context, String rid, String url, int format) {
+    public DownloadPresenter(Context context, String rid, String url, int format) {
         super(context);
         mRid = rid;
         mUrl = url;
         if (format == Constant.MWKG_FORAMT_TYPE_MP3) {
             suffix = ".mp3";
-        } else {
+        } else if (format == Constant.MWKG_FORAMT_TYPE_MPEG) {
             suffix = ".mp4";
+        } else if (format == Constant.MWKG_FORAMT_TYPE_PDF) {
+            suffix = ".pdf";
         }
     }
 
     @Override
     public void attachView(BaseView v) {
-        mTrainMediaView = (TrainMediaView) v;
+        mDownloadView = (DownloadView) v;
         setData();
     }
 
     public void startDownload() {
         if (!NetUtils.isNetConnected(mContext)) {
-            mTrainMediaView.showToast(R.string.error_service);
+            mDownloadView.showToast(R.string.error_service);
             return;
         }
-        mTrainMediaView.statusDownloading();
-        ServiceProvider.doDownloadTrainingFile(mContext, mUrl, mSaveFilePath, new RangeFileAsyncHttpResponseHandler(new File(mSaveFilePath)) {
+        mDownloadView.statusDownloading();
+        ServiceProvider.doDownloadTrainingFile(mContext, mUrl, mSaveFilePath, new ServiceProvider.DownloadListener() {
 
             @Override
             public void onProgress(long bytesWritten, long totalSize) {
-                super.onProgress(bytesWritten, totalSize);
-                mTrainMediaView.setProgress(bytesWritten, totalSize);
+                mDownloadView.setProgress(bytesWritten, totalSize);
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
-                mTrainMediaView.showToast(R.string.error_service);
-                mTrainMediaView.statusNotDownLoad();
+                mDownloadView.showToast(R.string.error_service);
+                mDownloadView.statusNotDownLoad();
             }
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, File file) {
-                mTrainMediaView.statusDownloadFinish(file);
+                mDownloadView.statusDownloadFinish(file);
             }
         });
     }
@@ -83,8 +82,8 @@ public class TrainingMediaPresenter extends Presenter {
         if (file.exists()) {
             file.delete();
         }
-        mTrainMediaView.showToast(R.string.tips_audio_error);
-        mTrainMediaView.statusNotDownLoad();
+        mDownloadView.showToast(R.string.tips_audio_error);
+        mDownloadView.statusNotDownLoad();
     }
 
     public void statusChange(boolean isPlaying) {
@@ -97,15 +96,15 @@ public class TrainingMediaPresenter extends Presenter {
 
     public void onProgressChanged(int progress, boolean fromUser) {
         if (fromUser) {
-            mTrainMediaView.setPlayTime(progress, true);
+            mDownloadView.setPlayTime(progress, true);
         }
     }
 
     public void onRotationChanged(boolean isVertical) {
         if (isVertical) {
-            mTrainMediaView.showVerticalView();
+            mDownloadView.showVerticalView();
         } else {
-            mTrainMediaView.showHorizontalView();
+            mDownloadView.showHorizontalView();
         }
     }
 
@@ -114,7 +113,7 @@ public class TrainingMediaPresenter extends Presenter {
         File file = new File(mSaveFilePath);
         // 如果文件已经存在则直接获取文件大写，如果文件不存在则进行网络请求
         if (file.exists()) {
-            mTrainMediaView.statusDownloadFinish(file);
+            mDownloadView.statusDownloadFinish(file);
             return;
         }
 
@@ -129,29 +128,29 @@ public class TrainingMediaPresenter extends Presenter {
                     ((Activity) mContext).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            mTrainMediaView.setFileSize(fileSize);
+                            mDownloadView.setFileSize(fileSize);
                         }
                     });
                 } catch (Exception e) {
                     ((Activity) mContext).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            mTrainMediaView.showToast(R.string.tips_audio_get_size_fail);
+                            mDownloadView.showToast(R.string.tips_audio_get_size_fail);
                         }
                     });
                     e.printStackTrace();
                 }
             }
         }).start();
-        mTrainMediaView.statusNotDownLoad();
+        mDownloadView.statusNotDownLoad();
     }
 
     private Runnable hideRunnable = new Runnable() {
 
         @Override
         public void run() {
-            if (!mTrainMediaView.isVertical() && mTrainMediaView.isPlaying()) {
-                mTrainMediaView.setProgressBar(false);
+            if (!mDownloadView.isVertical() && mDownloadView.isPlaying()) {
+                mDownloadView.setProgressBar(false);
             }
             mHandler.removeCallbacks(hideRunnable);
             mHandler.postDelayed(hideRunnable, HIDE_TIME);
@@ -161,7 +160,7 @@ public class TrainingMediaPresenter extends Presenter {
     private Runnable changeStatusRunnable = new Runnable() {
         @Override
         public void run() {
-            mTrainMediaView.setPlayTime(mTrainMediaView.getCurrentTime(), false);
+            mDownloadView.setPlayTime(mDownloadView.getCurrentTime(), false);
             mHandler.postDelayed(changeStatusRunnable, 1000);
         }
     };
@@ -174,7 +173,7 @@ public class TrainingMediaPresenter extends Presenter {
             mHandler = new Handler();
         mHandler.postDelayed(hideRunnable, HIDE_TIME);
         mHandler.post(changeStatusRunnable);
-        mTrainMediaView.startPlay();
+        mDownloadView.startPlay();
     }
 
     private void pausePlayer() {
@@ -182,7 +181,7 @@ public class TrainingMediaPresenter extends Presenter {
             mHandler = new Handler();
         mHandler.removeCallbacks(hideRunnable);
         mHandler.removeCallbacks(changeStatusRunnable);
-        mTrainMediaView.stopPlay();
+        mDownloadView.stopPlay();
     }
 
     public void pause() {

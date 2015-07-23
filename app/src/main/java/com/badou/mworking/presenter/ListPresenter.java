@@ -110,7 +110,6 @@ public abstract class ListPresenter<T> extends Presenter {
 
     protected boolean setList(List<T> data, int index) {
         mBaseListView.refreshComplete();
-        System.out.println("size: " + data.size());
         if (index == 1) {
             if (data == null || data.size() == 0) {
                 mBaseListView.showNoneResult();

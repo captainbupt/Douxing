@@ -13,11 +13,9 @@ import android.widget.TextView;
 
 import com.badou.mworking.R;
 import com.badou.mworking.base.BaseFragment;
-import com.badou.mworking.entity.category.CategoryDetail;
-import com.badou.mworking.presenter.CategoryBasePresenter;
-import com.badou.mworking.presenter.TrainingMediaPresenter;
+import com.badou.mworking.presenter.DownloadPresenter;
 import com.badou.mworking.util.Constant;
-import com.badou.mworking.view.TrainMediaView;
+import com.badou.mworking.view.DownloadView;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -26,7 +24,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class TrainMusicFragment extends BaseFragment implements TrainMediaView {
+public class TrainMusicFragment extends BaseFragment implements DownloadView {
 
     private static final String KEY_RID = "rid";
     private static final String KEY_URL = "url";
@@ -51,7 +49,7 @@ public class TrainMusicFragment extends BaseFragment implements TrainMediaView {
 
     private MediaPlayer mMusicPlayer = null;
 
-    TrainingMediaPresenter mPresenter;
+    DownloadPresenter mPresenter;
 
     public static TrainMusicFragment getFragment(String rid, String url, String subject) {
         TrainMusicFragment trainMusicFragment = new TrainMusicFragment();
@@ -70,7 +68,7 @@ public class TrainMusicFragment extends BaseFragment implements TrainMediaView {
         initListener();
         Bundle argument = getArguments();
         mMusicTitleTextView.setText(argument.getString(KEY_SUBJECT));
-        mPresenter = new TrainingMediaPresenter(mContext, argument.getString(KEY_RID), argument.getString(KEY_URL), Constant.MWKG_FORAMT_TYPE_MP3);
+        mPresenter = new DownloadPresenter(mContext, argument.getString(KEY_RID), argument.getString(KEY_URL), Constant.MWKG_FORAMT_TYPE_MP3);
         mPresenter.attachView(this);
         return view;
     }

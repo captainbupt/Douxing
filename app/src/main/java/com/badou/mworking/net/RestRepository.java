@@ -3,6 +3,7 @@ package com.badou.mworking.net;
 
 import android.graphics.Bitmap;
 import android.text.TextUtils;
+import android.webkit.MimeTypeMap;
 
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.domain.CategoryCommentGetUseCase;
@@ -31,6 +32,7 @@ import java.io.File;
 import java.util.List;
 
 import retrofit.RestAdapter;
+import retrofit.mime.TypedFile;
 import retrofit.mime.TypedString;
 import rx.Observable;
 
@@ -119,7 +121,7 @@ public class RestRepository {
         if (file == null) {
             return restApi.taskSign(AppApplication.SYSPARAM, AppApplication.appVersion, uid, rid, latitude, longitude);
         } else {
-            return restApi.taskSign(AppApplication.SYSPARAM, AppApplication.appVersion, uid, rid, latitude, longitude, file);
+            return restApi.taskSign(AppApplication.SYSPARAM, AppApplication.appVersion, uid, rid, latitude, longitude, new TypedFile("image/jpg", file));
         }
     }
 
@@ -140,7 +142,7 @@ public class RestRepository {
     }
 
     public Observable<BaseNetEntity> setUserHead(String uid, File file) {
-        return restApi.setUserHead(AppApplication.SYSPARAM, AppApplication.appVersion, uid, file);
+        return restApi.setUserHead(AppApplication.SYSPARAM, AppApplication.appVersion, uid, new TypedFile("image/jpg", file));
     }
 
 }

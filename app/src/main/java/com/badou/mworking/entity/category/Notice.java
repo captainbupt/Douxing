@@ -41,5 +41,6 @@ public class Notice extends Category {
     @Override
     public void updateData(CategoryDetail categoryDetail) {
         this.store = categoryDetail.store;
+        this.read = 1;
     }
 }
