@@ -28,6 +28,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.Toast;
+
+import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.BDNotifyListener;
@@ -49,7 +51,7 @@ import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.CoordinateConverter;
 import com.badou.mworking.R;
 
-public class BaiduMapActivity extends Activity {
+public class BaiduMapActivity extends BaseBackActionBarActivity {
 
 	private final static String TAG = "map";
 	static MapView mMapView = null;
@@ -59,7 +61,6 @@ public class BaiduMapActivity extends Activity {
 	public MyLocationListenner myListener = new MyLocationListenner();
 	public NotifyLister mNotifyer = null;
 
-	Button sendButton = null;
 
 	EditText indexText = null;
 	int index = 0;
@@ -68,9 +69,9 @@ public class BaiduMapActivity extends Activity {
 	public static BaiduMapActivity instance = null;
 	ProgressDialog progressDialog;
 	private BaiduMap mBaiduMap;
-	
+
 	private LocationMode mCurrentMode;
-	
+
 	/**
 	 * 构造广播监听类，监听 SDK key 验证以及网络异常广播
 	 */
@@ -79,7 +80,7 @@ public class BaiduMapActivity extends Activity {
 			String s = intent.getAction();
 			String st1 = getResources().getString(R.string.Network_error);
 			if (s.equals(SDKInitializer.SDK_BROADTCAST_ACTION_STRING_PERMISSION_CHECK_ERROR)) {
-				
+
 				String st2 = getResources().getString(R.string.please_check);
 				Toast.makeText(instance, st2, Toast.LENGTH_SHORT).show();
 			} else if (s.equals(SDKInitializer.SDK_BROADCAST_ACTION_STRING_NETWORK_ERROR)) {
@@ -89,18 +90,24 @@ public class BaiduMapActivity extends Activity {
 	}
 
 	private BaiduSDKReceiver mBaiduReceiver;
-	
-	
+
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		instance = this;
-		//在使用SDK各组件之前初始化context信息，传入ApplicationContext  
+		//在使用SDK各组件之前初始化context信息，传入ApplicationContext
         //注意该方法要再setContentView方法之前实现  
-        SDKInitializer.initialize(getApplicationContext());  
+        SDKInitializer.initialize(getApplicationContext());
 		setContentView(R.layout.activity_baidumap);
 		mMapView = (MapView) findViewById(R.id.bmapView);
-		sendButton = (Button) findViewById(R.id.btn_location_send);
+		setActionbarTitle(R.string.location_message);
+		setRightText(R.string.button_send, new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				sendLocation(v);
+			}
+		});
 		Intent intent = getIntent();
 		double latitude = intent.getDoubleExtra("latitude", 0);
 		mCurrentMode = LocationMode.NORMAL;
@@ -131,7 +138,7 @@ public class BaiduMapActivity extends Activity {
 	}
 
 	private void showMap(double latitude, double longtitude, String address) {
-		sendButton.setVisibility(View.GONE);
+		mTitleRightContainer.setVisibility(View.GONE);
 		LatLng llA = new LatLng(latitude, longtitude);
 		CoordinateConverter converter= new CoordinateConverter();
 		converter.coord(llA);
@@ -221,7 +228,7 @@ public class BaiduMapActivity extends Activity {
 			}
 			Log.d("map", "On location change received:" + location);
 			Log.d("map", "addr:" + location.getAddrStr());
-			sendButton.setEnabled(true);
+            mTitleRightContainer.setEnabled(true);
 			if (progressDialog != null) {
 				progressDialog.dismiss();
 			}
@@ -242,7 +249,7 @@ public class BaiduMapActivity extends Activity {
 			LatLng convertLatLng = converter.convert();
 			OverlayOptions ooA = new MarkerOptions().position(convertLatLng).icon(BitmapDescriptorFactory
 					.fromResource(R.drawable.icon_marka))
-					.zIndex(4).draggable(true);
+                    .zIndex(4).draggable(true);
 			mBaiduMap.addOverlay(ooA);
 			MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(convertLatLng, 17.0f);
 			mBaiduMap.animateMapStatus(u);
@@ -260,10 +267,6 @@ public class BaiduMapActivity extends Activity {
 		}
 	}
 
-	public void back(View v) {
-		finish();
-	}
-
 	public void sendLocation(View view) {
 		Intent intent = this.getIntent();
 		intent.putExtra("latitude", lastLocation.getLatitude());
@@ -271,7 +274,6 @@ public class BaiduMapActivity extends Activity {
 		intent.putExtra("address", lastLocation.getAddrStr());
 		this.setResult(RESULT_OK, intent);
 		finish();
-		overridePendingTransition(R.anim.slide_in_from_left, R.anim.slide_out_to_right);
 	}
 
 }
