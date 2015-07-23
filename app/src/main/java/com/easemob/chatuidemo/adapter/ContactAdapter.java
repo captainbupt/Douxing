@@ -127,33 +127,15 @@ public class ContactAdapter extends ArrayAdapter<User> implements SectionIndexer
         } else {
             holder.tvHeader.setVisibility(View.GONE);
         }*/
-        //显示申请与通知item
-        if (username.equals(Constant.NEW_FRIENDS_USERNAME)) {
-            holder.nameTextview.setText(user.getNick());
-            holder.avatar.setImageResource(R.drawable.new_friends_icon);
-            if (user.getUnreadMsgCount() > 0) {
-                holder.unreadMsgView.setVisibility(View.VISIBLE);
-                holder.unreadMsgView.setText(user.getUnreadMsgCount() + "");
-            } else {
-                holder.unreadMsgView.setVisibility(View.INVISIBLE);
-            }
-        } else if (username.equals(Constant.GROUP_USERNAME)) {
-            //群聊item
-            holder.nameTextview.setText(user.getNick());
-            holder.avatar.setImageResource(R.drawable.groups_icon);
-        } else if (username.equals(Constant.CHAT_ROOM)) {
-            //群聊item
-            holder.nameTextview.setText(user.getNick());
-            holder.avatar.setImageResource(R.drawable.groups_icon);
-        } else {
-            holder.nameTextview.setText(user.getNick());
-            Department department = user.getDepartment();
-            holder.tvDepartment.setText(department == null ? "暂无" : department.getName());
-            //设置用户头像
-            EMChatEntity.setUserAvatar(getContext(), username, holder.avatar);
-            if (holder.unreadMsgView != null)
-                holder.unreadMsgView.setVisibility(View.INVISIBLE);
-        }
+
+        holder.nameTextview.setText(user.getNick());
+        Department department = user.getDepartment();
+        holder.tvDepartment.setText(department == null ? "暂无" : department.getName());
+        //设置用户头像
+        EMChatEntity.setUserAvatar(getContext(), username, holder.avatar);
+        if (holder.unreadMsgView != null)
+            holder.unreadMsgView.setVisibility(View.INVISIBLE);
+
         return convertView;
     }
 
