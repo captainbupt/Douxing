@@ -19,7 +19,6 @@ import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroupManager;
 import com.easemob.chatuidemo.DemoHXSDKHelper;
 import com.easemob.chatuidemo.activity.ChatActivity;
-import com.easemob.chatuidemo.activity.ChatServiceActivity;
 
 import org.json.JSONObject;
 

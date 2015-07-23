@@ -3,16 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_bg_grey"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/background_list_item"
+        android:background="@drawable/background_white_grey"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="@dimen/offset_less" >
-        
+        android:padding="@dimen/offset_less">
+
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -46,10 +46,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/background_list_item"
+        android:background="@drawable/background_white_grey"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="@dimen/offset_less" >
+        android:padding="@dimen/offset_less">
 
         <TextView
             android:layout_width="0dp"
@@ -58,12 +58,12 @@
             android:text="同事圈"
             android:textColor="@color/color_user_setting_option"
             android:textSize="@dimen/text_size_medium" />
-        
-          <TextView
-            android:layout_marginRight="@dimen/offset_medium"
-           	android:id="@+id/tongshiquan_cache_tv"
+
+        <TextView
+            android:id="@+id/tongshiquan_cache_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/offset_medium"
             android:textColor="@color/color_user_setting_option"
             android:textSize="@dimen/text_size_medium" />
 

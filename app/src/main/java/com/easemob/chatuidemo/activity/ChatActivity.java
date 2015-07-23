@@ -397,12 +397,6 @@ public class ChatActivity extends BaseBackActionBarActivity implements OnClickLi
         if (chatType == CHATTYPE_SINGLE) { // 单聊
             toChatUsername = getIntent().getStringExtra("userId");
             setActionbarTitle(EMChatEntity.getUserNick(toChatUsername));
-            setRightImage(R.drawable.mm_title_remove, new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    emptyHistory(v);
-                }
-            });
         } else {
             // 群聊
             setRightImage(R.drawable.button_title_bar_group, new OnClickListener() {
@@ -533,49 +527,6 @@ public class ChatActivity extends BaseBackActionBarActivity implements OnClickLi
         // 监听当前会话的群聊解散被T事件
         groupListener = new GroupListener();
         EMGroupManager.getInstance().addGroupChangeListener(groupListener);
-    }
-
-    protected void onChatRoomViewCreation() {
-        findViewById(R.id.container_to_group).setVisibility(View.GONE);
-
-        final ProgressDialog pd = ProgressDialog.show(this, "", "Joining......");
-        EMChatManager.getInstance().joinChatRoom(toChatUsername, new EMValueCallBack<EMChatRoom>() {
-
-            @Override
-            public void onSuccess(EMChatRoom value) {
-                // TODO Auto-generated method stub
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        pd.dismiss();
-                        room = EMChatManager.getInstance().getChatRoom(toChatUsername);
-                        if (room != null) {
-                            setActionbarTitle(room.getName());
-                        } else {
-                            setActionbarTitle(toChatUsername);
-                        }
-                        EMLog.d(TAG, "join room success : " + room.getName());
-
-                        onConversationInit();
-
-                        onListViewCreation();
-                    }
-                });
-            }
-
-            @Override
-            public void onError(final int error, String errorMsg) {
-                // TODO Auto-generated method stub
-                EMLog.d(TAG, "join room failure : " + error);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        pd.dismiss();
-                    }
-                });
-                finish();
-            }
-        });
     }
 
     /**
