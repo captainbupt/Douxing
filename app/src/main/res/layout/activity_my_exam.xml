@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_bg_grey"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_top_dark_blue">
+
+        <ImageView
+            android:id="@+id/back_image_view"
+            android:layout_width="@dimen/height_title_bar"
+            android:layout_height="@dimen/height_title_bar"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:padding="@dimen/offset_less"
+            android:scaleType="centerInside"
+            android:src="@drawable/button_title_bar_back_normal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/height_title_bar"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:text="@string/user_center_my_study_progress"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/text_size_title_bar_title" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/back_image_view"
+            android:padding="@dimen/offset_lless"
+            android:text="@string/user_center_exam_average"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_medium" />
+
+        <TextView
+            android:id="@+id/description_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/back_image_view"
+            android:layout_centerHorizontal="true"
+            android:padding="@dimen/offset_less"
+            android:textColor="@android:color/white"
+            android:textSize="70sp" />
+
+        <TextView
+            android:id="@+id/rank_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/description_text_view"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/offset_large"
+            android:textSize="@dimen/text_size_medium" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:gravity="center"
+        android:padding="@dimen/offset_less"
+        android:text="@string/user_progress_middle_exam"
+        android:textColor="@color/color_blue"
+        android:textSize="@dimen/text_size_large" />
+
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        android:id="@+id/content_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:divider="@null"
+        android:scrollbars="none" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_border_white"
+        android:gravity="center"
+        android:padding="@dimen/offset_less">
+
+        <TextView
+            android:id="@+id/bottom_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_button_enable_red"
+            android:gravity="center"
+            android:paddingBottom="@dimen/offset_less"
+            android:paddingLeft="@dimen/offset_medium"
+            android:paddingRight="@dimen/offset_medium"
+            android:text="@string/user_progress_bottom_exam"
+            android:paddingTop="@dimen/offset_less"
+            android:textColor="@color/color_button_text_red"
+            android:textSize="@dimen/text_size_large" />
+
+    </LinearLayout>
+
+</LinearLayout>

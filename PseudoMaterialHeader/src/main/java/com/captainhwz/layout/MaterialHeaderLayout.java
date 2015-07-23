@@ -301,7 +301,7 @@ public class MaterialHeaderLayout extends ViewGroup {
                     }
 
                     Log.v(LOG_TAG, "move pos: " + offsetY + ", speed: " + offsetY / mIndicator.getOffsetTime());
-                    if (Math.abs(offsetY / mIndicator.getOffsetTime()) > 1) {
+                    if (Math.abs(offsetY / (float) mIndicator.getOffsetTime()) > 1.5f) {
                         if (offsetY > 0) {
                             mScrollChecker.tryToScrollTo(mHeaderMaxHeight, 300);
                         } else {

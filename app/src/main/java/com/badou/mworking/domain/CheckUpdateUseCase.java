@@ -50,6 +50,5 @@ public class CheckUpdateUseCase extends UseCase {
         String banner = "";
         @SerializedName("newver")
         String newver = "";
-
     }
 }

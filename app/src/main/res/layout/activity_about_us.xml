@@ -28,7 +28,7 @@
                 android:src="@drawable/login_logo" />
 
             <TextView
-                android:id="@+id/tv_info"
+                android:id="@+id/version_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/offset_micro"
@@ -43,7 +43,7 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/ll_check_update"
+                android:id="@+id/check_update_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/background_white_grey"
@@ -74,7 +74,7 @@
                 android:background="@color/color_border_grey" />
 
             <LinearLayout
-                android:id="@+id/ll_clear_cache"
+                android:id="@+id/clear_cache_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/background_white_grey"
@@ -121,7 +121,7 @@
                     android:textSize="@dimen/text_size_large" />
 
                 <CheckBox
-                    android:id="@+id/cb_push"
+                    android:id="@+id/push_check_box"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/selector_pic_show"
@@ -152,7 +152,7 @@
                     android:textSize="@dimen/text_size_large" />
 
                 <CheckBox
-                    android:id="@+id/cb_save"
+                    android:id="@+id/save_check_box"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/selector_pic_show"
@@ -168,7 +168,7 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/ll_faq"
+                android:id="@+id/faq_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/background_white_grey"
@@ -199,7 +199,7 @@
                 android:background="@color/color_border_grey" />
 
             <LinearLayout
-                android:id="@+id/ll_contact"
+                android:id="@+id/contact_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/background_white_grey"

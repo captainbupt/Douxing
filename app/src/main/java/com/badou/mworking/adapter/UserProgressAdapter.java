@@ -11,10 +11,7 @@ import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.Exam;
 import com.badou.mworking.util.TimeTransfer;
 
-/**
- * Created by Administrator on 2015/5/29.
- */
-public class UserProgressAdapter extends MyBaseAdapter {
+public class UserProgressAdapter extends MyBaseAdapter<Category> {
 
     private int mType;
 

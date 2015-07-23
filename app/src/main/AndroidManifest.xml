@@ -165,7 +165,7 @@
         <activity
             android:name=".StoreActivity"
             android:screenOrientation="portrait" />
-        <activity android:name="com.zbar.qrscan.CaptureActivity"/>
+        <activity android:name="com.zbar.qrscan.CaptureActivity" />
         <activity
             android:name="com.badou.mworking.CommentActivity"
             android:screenOrientation="portrait"
@@ -197,8 +197,10 @@
             android:name=".ForgetPasswordVerificationActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UserProgressActivity"
-
+            android:name=".MyStudyActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MyExamActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ChattingActivity"
