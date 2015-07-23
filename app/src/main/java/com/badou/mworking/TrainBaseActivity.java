@@ -24,12 +24,13 @@ import butterknife.ButterKnife;
 
 public class TrainBaseActivity extends CategoryBaseActivity {
 
-    public static final String KEY_TRAINING = "training";
+    private static final String KEY_TRAINING = "training";
 
     @Bind(R.id.bottom_view)
     BottomRatingAndCommentView mBottomView;
     @Bind(R.id.content_container)
     FrameLayout mContentContainer;
+
 
     private Bundle mSavedInstanceState;
 
@@ -146,4 +147,9 @@ public class TrainBaseActivity extends CategoryBaseActivity {
         mBottomView.setRatingData(number);
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        mPresenter.pause();
+        super.onSaveInstanceState(outState);
+    }
 }

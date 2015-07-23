@@ -43,7 +43,7 @@ public class TaskSignUseCase extends UseCase {
         String uid;
         @SerializedName("rid")
         String rid;
-        @SerializedName("ar")
+        @SerializedName("qr")
         String qr;
 
         public Body(String uid, String rid, String qr) {

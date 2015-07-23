@@ -280,7 +280,8 @@ public class TrainVideoFragment extends BaseFragment implements DownloadView {
 
     @Override
     public void setFileSize(float fileSize) {
-        mFileSizeTextView.setText(String.format("视频文件（%.1fM）", fileSize));
+        if (mFileSizeTextView != null)
+            mFileSizeTextView.setText(String.format("视频文件（%.1fM）", fileSize));
     }
 
     @Override

@@ -40,6 +40,7 @@ import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.util.AlarmUtil;
 import com.badou.mworking.util.AppManager;
+import com.badou.mworking.util.DialogUtil;
 import com.badou.mworking.util.SPHelper;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.view.BaseView;
@@ -328,8 +329,9 @@ public class MainPresenter extends Presenter {
         useCase.execute(new BaseSubscriber<MainData>(mContext) {
             @Override
             public void onResponseSuccess(MainData data) {
-                if (data.getNewVersion().hasNewVersion()) {
-                    apkUpdate(data.getNewVersion());
+                // 有遮罩则不提示更新
+                if (data.getNewVersion().hasNewVersion() && ((ActionBarActivity) mContext).getSupportFragmentManager().getFragments() == null) {
+                    DialogUtil.apkUpdate(mContext, mMainView, data.getNewVersion());
                 }
                 String logoUrl = data.getButton_vlogo().getUrl();
                 if (data.getButton_vlogo().hasNewVersion()) {
@@ -342,47 +344,6 @@ public class MainPresenter extends Presenter {
                 SPHelper.setMainBanner(data.getBanner());
             }
         });
-    }
-
-    /**
-     * 在主页验证是否有软件更新
-     *
-     * @param newVersion
-     */
-    private void apkUpdate(final NewVersion newVersion) {
-        // 有遮罩则不提示更新
-        if (newVersion.hasNewVersion() && ((ActionBarActivity) mContext).getSupportFragmentManager().getFragments() == null) {
-            new AlertDialog.Builder(mContext)
-                    .setTitle(R.string.main_tips_update_title)
-                    .setMessage(newVersion.getDescription())
-                    .setPositiveButton(R.string.main_tips_update_btn_ok,
-                            new DialogInterface.OnClickListener() {
-
-                                @Override
-                                public void onClick(DialogInterface dialog,
-                                                    int which) {
-                                    mMainView.showProgressDialog(R.string.action_update_download_ing);
-                                    ServiceProvider.doUpdateMTraning(mContext, newVersion.getUrl(), new RangeFileAsyncHttpResponseHandler(new File("update.apk")) { // 仅仅是借用该接口
-
-                                        @Override
-                                        public void onSuccess(int statusCode, Header[] headers, File file) {
-                                            mMainView.hideProgressDialog();
-                                            Intent intent = new Intent();
-                                            intent.setAction(Intent.ACTION_VIEW);
-                                            intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
-                                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                            mContext.startActivity(intent);
-                                        }
-
-                                        @Override
-                                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
-                                            mMainView.showToast(R.string.error_service);
-                                            mMainView.hideProgressDialog();
-                                        }
-                                    });
-                                }
-                            }).setNegativeButton(R.string.text_cancel, null).show();
-        }
     }
 
     public int getUnreadMsgCountTotal() {

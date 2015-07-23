@@ -13,9 +13,10 @@ import com.badou.mworking.AccountManageActivity;
 import com.badou.mworking.BackWebActivity;
 import com.badou.mworking.ChatListActivity;
 import com.badou.mworking.ChatterUserActivity;
+import com.badou.mworking.MyExamActivity;
+import com.badou.mworking.MyStudyActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.StoreActivity;
-import com.badou.mworking.UserProgressActivity;
 import com.badou.mworking.domain.SetHeadUseCase;
 import com.badou.mworking.domain.UserDetailUseCase;
 import com.badou.mworking.entity.category.Category;
@@ -143,21 +144,11 @@ public class UserCenterPresenter extends Presenter {
     }
 
     public void toMyStudy() {
-        Intent intent = new Intent(mContext, UserProgressActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(UserProgressActivity.KEY_USERINFO, mUserDetail);
-        intent.putExtras(bundle);
-        intent.putExtra(UserProgressActivity.KEY_TYPE, Category.CATEGORY_TRAINING);
-        mContext.startActivity(intent);
+        mContext.startActivity(MyStudyActivity.getIntent(mContext, mUserDetail));
     }
 
     public void toMyExam() {
-        Intent intent = new Intent(mContext, UserProgressActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(UserProgressActivity.KEY_USERINFO, mUserDetail);
-        intent.putExtras(bundle);
-        intent.putExtra(UserProgressActivity.KEY_TYPE, Category.CATEGORY_EXAM);
-        mContext.startActivity(intent);
+        mContext.startActivity(MyExamActivity.getIntent(mContext, mUserDetail));
     }
 
     public void toMyChatter() {

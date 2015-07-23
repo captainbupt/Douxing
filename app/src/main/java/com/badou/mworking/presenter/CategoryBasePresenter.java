@@ -33,12 +33,12 @@ public class CategoryBasePresenter extends Presenter {
     int mCategoryType;
     CategoryDetail mCategoryDetail;
     StoreUseCase mStoreUseCase;
+    boolean isPaused;
 
     public CategoryBasePresenter(Context context, int type, String rid) {
         super(context);
         this.mCategoryType = type;
         this.mRid = rid;
-        //mCategoryDetail = new CategoryDetail();
     }
 
     @Override
@@ -48,7 +48,8 @@ public class CategoryBasePresenter extends Presenter {
         new CategoryDetailUseCase(mRid).execute(new BaseSubscriber<CategoryDetail>(mContext) {
             @Override
             public void onResponseSuccess(CategoryDetail data) {
-                mCategoryBaseView.setData(mRid, data);
+                if (!isPaused)
+                    mCategoryBaseView.setData(mRid, data);
                 setData(data);
             }
 
@@ -69,12 +70,13 @@ public class CategoryBasePresenter extends Presenter {
         if (requestCode == REQUEST_COMMENT && resultCode == Activity.RESULT_OK && data != null) {
             int commentNumber = data.getIntExtra(CommentActivity.RESPONSE_COUNT, 0);
             mCategoryBaseView.setCommentNumber(commentNumber);
-            mCategoryDetail.setCcnt(commentNumber);
+            // 存在Detail还没加载，就跳到评论的情况，做个保护
+            if (mCategoryDetail != null)
+                mCategoryDetail.setCcnt(commentNumber);
         }
     }
 
     public void setData(CategoryDetail categoryDetail) {
-        // mCategoryDetail.setData(categoryDetail);
         this.mCategoryDetail = categoryDetail;
     }
 
@@ -89,6 +91,10 @@ public class CategoryBasePresenter extends Presenter {
     }
 
     public void onStoreClicked() {
+        if (mCategoryDetail == null) {
+            mCategoryBaseView.showToast(R.string.message_wait);
+            return;
+        }
         if (mCategoryDetail.isStore()) {
             mCategoryBaseView.showProgressDialog(R.string.progress_tips_delete_store_ing);
         } else {
@@ -103,6 +109,7 @@ public class CategoryBasePresenter extends Presenter {
                 boolean isStore = !mCategoryDetail.isStore();
                 mCategoryDetail.setStore(isStore);
                 mCategoryBaseView.setStore(isStore);
+                mCategoryBaseView.showToast(isStore ? R.string.store_add_success : R.string.store_cancel_success);
             }
 
             @Override
@@ -118,6 +125,10 @@ public class CategoryBasePresenter extends Presenter {
     }
 
     public void onRatingClicked() {
+        if (mCategoryDetail == null) {
+            mCategoryBaseView.showToast(R.string.message_wait);
+            return;
+        }
         new RatingDilog(mContext, mRid, mCategoryDetail.getRating(), new RatingDilog.OnRatingCompletedListener() {
 
             @Override
@@ -133,4 +144,21 @@ public class CategoryBasePresenter extends Presenter {
         return mCategoryDetail;
     }
 
+    @Override
+    public void resume() {
+        isPaused = false;
+        if (mCategoryBaseView != null && mCategoryDetail != null)
+            mCategoryBaseView.setData(mRid, mCategoryDetail);
+    }
+
+    @Override
+    public void pause() {
+        isPaused = true;
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+        isPaused = true;
+    }
 }
