@@ -115,7 +115,6 @@ public class JPushReceiver extends BroadcastReceiver {
 
     private void toMessageCenter(Context context, Bundle bundle) {
         Intent intent = MainGridActivity.getIntent(context, true);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(intent);
     }
 

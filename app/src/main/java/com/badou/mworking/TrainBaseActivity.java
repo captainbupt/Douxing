@@ -149,7 +149,6 @@ public class TrainBaseActivity extends CategoryBaseActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        mPresenter.pause();
         super.onSaveInstanceState(outState);
     }
 }

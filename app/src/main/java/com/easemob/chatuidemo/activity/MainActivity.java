@@ -617,8 +617,7 @@ public class MainActivity extends BaseBackActionBarActivity implements EMEventLi
                         dialog.dismiss();
                         conflictBuilder = null;
                         UserInfo.clearUserInfo((AppApplication) mContext.getApplicationContext());
-                        Intent intent = new Intent(mContext, LoginActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        Intent intent = LoginActivity.getIntent(mContext);
                         startActivity(intent);
                     }
                 });

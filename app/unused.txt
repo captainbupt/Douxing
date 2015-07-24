@@ -940,6 +940,9 @@ com.badou.mworking.ForgetPasswordPhoneActivity:
     private static final int totalTime
 com.badou.mworking.ForgetPasswordVerificationActivity:
     private static final java.lang.String LOG
+com.badou.mworking.MainGridActivity:
+    private static final java.lang.String KEY_MESSAGE_CENTER
+    private static final java.lang.String KEY_EMCHAT
 com.badou.mworking.MyExamActivity:
     private static final java.lang.String KEY_USER_DETAIL
 com.badou.mworking.MyStudyActivity:

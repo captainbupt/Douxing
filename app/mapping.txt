@@ -14322,7 +14322,6 @@ com.badou.mworking.LoginActivity$$ViewBinder$5 -> aad:
     com.badou.mworking.LoginActivity$$ViewBinder this$0 -> b
     96:97:void doClick(android.view.View) -> doClick
 com.badou.mworking.MainGridActivity -> com.badou.mworking.MainGridActivity:
-    java.lang.String KEY_MESSAGE_CENTER -> KEY_MESSAGE_CENTER
     android.widget.ImageView mUserCenterImageView -> mUserCenterImageView
     android.widget.ImageView mLogoImageView -> mLogoImageView
     android.widget.ImageView mMessageCenterImageView -> mMessageCenterImageView
@@ -14336,32 +14335,33 @@ com.badou.mworking.MainGridActivity -> com.badou.mworking.MainGridActivity:
     java.util.List mIndicatorRadioButtonList -> c
     com.badou.mworking.fragment.MainSearchFragment mMainSearchFragment -> d
     com.badou.mworking.presenter.MainPresenter mMainPresenter -> e
-    73:78:android.content.Intent getIntent(android.content.Context,boolean) -> getIntent
-    83:90:void onCreate(android.os.Bundle) -> onCreate
-    93:101:void initialize() -> a
-    106:107:void setLogoImage(java.lang.String) -> setLogoImage
-    111:113:void setBannerData(java.util.List) -> setBannerData
-    117:124:void showExperienceDialog() -> showExperienceDialog
-    128:129:void showGuideFragment() -> showGuideFragment
-    133:138:void setMessageCenterStatus(boolean) -> setMessageCenterStatus
-    142:145:void showSearchFragment() -> showSearchFragment
-    149:152:void hideSearchFragment() -> hideSearchFragment
-    156:157:void setMainIconData(java.util.List) -> setMainIconData
-    161:166:void setIndicator(int) -> setIndicator
-    170:172:void onResume() -> onResume
-    176:183:com.badou.mworking.fragment.MainSearchFragment getSearchFragment() -> getSearchFragment
-    188:189:void onCategoryClick(android.widget.AdapterView,android.view.View,int,long) -> onCategoryClick
-    193:194:void onUserCenterClick() -> onUserCenterClick
-    198:199:void onSearchClick() -> onSearchClick
-    203:204:void onMessageCenterClick() -> onMessageCenterClick
-    209:210:void onBannerClick(android.widget.AdapterView,android.view.View,int,long) -> onBannerClick
-    214:215:void onBannerSelected(android.widget.AdapterView,android.view.View,int,long) -> onBannerSelected
-    222:224:void updateBanner(java.util.List) -> a
-    230:248:void updateIndicator(java.util.List) -> b
-    255:257:void onBackPressed() -> onBackPressed
-    261:263:void onDestroy() -> onDestroy
-    41:41:android.content.Context access$000(com.badou.mworking.MainGridActivity) -> a
-    41:41:android.app.Activity access$100(com.badou.mworking.MainGridActivity) -> b
+    76:81:android.content.Intent getIntent(android.content.Context,boolean) -> getIntent
+    86:96:android.content.Intent getIntent(android.content.Context,java.lang.String,boolean) -> getIntent
+    101:111:void onCreate(android.os.Bundle) -> onCreate
+    114:122:void initialize() -> a
+    127:128:void setLogoImage(java.lang.String) -> setLogoImage
+    132:134:void setBannerData(java.util.List) -> setBannerData
+    138:145:void showExperienceDialog() -> showExperienceDialog
+    149:150:void showGuideFragment() -> showGuideFragment
+    154:159:void setMessageCenterStatus(boolean) -> setMessageCenterStatus
+    163:166:void showSearchFragment() -> showSearchFragment
+    170:173:void hideSearchFragment() -> hideSearchFragment
+    177:178:void setMainIconData(java.util.List) -> setMainIconData
+    182:187:void setIndicator(int) -> setIndicator
+    191:193:void onResume() -> onResume
+    197:204:com.badou.mworking.fragment.MainSearchFragment getSearchFragment() -> getSearchFragment
+    209:210:void onCategoryClick(android.widget.AdapterView,android.view.View,int,long) -> onCategoryClick
+    214:215:void onUserCenterClick() -> onUserCenterClick
+    219:220:void onSearchClick() -> onSearchClick
+    224:225:void onMessageCenterClick() -> onMessageCenterClick
+    230:231:void onBannerClick(android.widget.AdapterView,android.view.View,int,long) -> onBannerClick
+    235:236:void onBannerSelected(android.widget.AdapterView,android.view.View,int,long) -> onBannerSelected
+    243:245:void updateBanner(java.util.List) -> a
+    251:269:void updateIndicator(java.util.List) -> b
+    276:278:void onBackPressed() -> onBackPressed
+    282:284:void onDestroy() -> onDestroy
+    43:43:android.content.Context access$000(com.badou.mworking.MainGridActivity) -> a
+    43:43:android.app.Activity access$100(com.badou.mworking.MainGridActivity) -> b
 com.badou.mworking.MainGridActivity$$ViewBinder -> com.badou.mworking.MainGridActivity$$ViewBinder:
     11:89:void bind(butterknife.ButterKnife$Finder,com.badou.mworking.MainGridActivity,java.lang.Object) -> bind
     92:100:void unbind(com.badou.mworking.MainGridActivity) -> unbind
@@ -14394,7 +14394,7 @@ com.badou.mworking.MainGridActivity$$ViewBinder$6 -> aaj:
     84:85:void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
 com.badou.mworking.MainGridActivity$1 -> aak:
     com.badou.mworking.MainGridActivity this$0 -> a
-    120:122:void onClick(android.content.DialogInterface,int) -> onClick
+    141:143:void onClick(android.content.DialogInterface,int) -> onClick
 com.badou.mworking.Manifest -> com.badou.mworking.Manifest:
 com.badou.mworking.Manifest$permission -> com.badou.mworking.Manifest$permission:
     java.lang.String JPUSH_MESSAGE -> JPUSH_MESSAGE
@@ -17553,7 +17553,7 @@ com.badou.mworking.TrainBaseActivity -> com.badou.mworking.TrainBaseActivity:
     137:138:void setBottomViewVisible(boolean) -> setBottomViewVisible
     142:143:void setCommentNumber(int) -> setCommentNumber
     147:148:void setRatingNumber(int) -> setRatingNumber
-    152:154:void onSaveInstanceState(android.os.Bundle) -> onSaveInstanceState
+    152:153:void onSaveInstanceState(android.os.Bundle) -> onSaveInstanceState
     25:25:com.badou.mworking.presenter.Presenter getPresenter() -> getPresenter
 com.badou.mworking.TrainBaseActivity$$ViewBinder -> com.badou.mworking.TrainBaseActivity$$ViewBinder:
     11:15:void bind(butterknife.ButterKnife$Finder,com.badou.mworking.TrainBaseActivity,java.lang.Object) -> bind
@@ -20062,31 +20062,30 @@ com.badou.mworking.presenter.CategoryBasePresenter -> com.badou.mworking.present
     com.badou.mworking.entity.category.CategoryDetail mCategoryDetail -> d
     com.badou.mworking.domain.StoreUseCase mStoreUseCase -> e
     boolean isPaused -> f
-    46:67:void attachView(com.badou.mworking.view.BaseView) -> attachView
-    70:77:void onActivityResult(int,int,android.content.Intent) -> onActivityResult
-    80:81:void setData(com.badou.mworking.entity.category.CategoryDetail) -> setData
-    84:91:void onStatisticalClicked() -> onStatisticalClicked
-    94:121:void onStoreClicked() -> onStoreClicked
-    124:125:void onCommentClicked() -> onCommentClicked
-    128:141:void onRatingClicked() -> onRatingClicked
-    144:144:com.badou.mworking.entity.category.CategoryDetail getData() -> getData
-    149:152:void resume() -> resume
-    156:157:void pause() -> pause
-    161:163:void destroy() -> destroy
+    46:76:void attachView(com.badou.mworking.view.BaseView) -> attachView
+    79:86:void onActivityResult(int,int,android.content.Intent) -> onActivityResult
+    89:90:void setData(com.badou.mworking.entity.category.CategoryDetail) -> setData
+    93:100:void onStatisticalClicked() -> onStatisticalClicked
+    103:130:void onStoreClicked() -> onStoreClicked
+    133:134:void onCommentClicked() -> onCommentClicked
+    137:150:void onRatingClicked() -> onRatingClicked
+    153:153:com.badou.mworking.entity.category.CategoryDetail getData() -> getData
+    158:162:void resume() -> resume
 com.badou.mworking.presenter.CategoryBasePresenter$1 -> agj:
     com.badou.mworking.presenter.CategoryBasePresenter this$0 -> a
     51:54:void onResponseSuccess(com.badou.mworking.entity.category.CategoryDetail) -> a
     58:59:void onCompleted() -> onCompleted
     63:65:void onErrorCode(int) -> onErrorCode
+    69:74:void onError(java.lang.Throwable) -> onError
     48:48:void onResponseSuccess(java.lang.Object) -> onResponseSuccess
 com.badou.mworking.presenter.CategoryBasePresenter$2 -> agk:
     com.badou.mworking.presenter.CategoryBasePresenter this$0 -> a
-    109:113:void onResponseSuccess(com.badou.mworking.net.BaseNetEntity) -> a
-    117:119:void onCompleted() -> onCompleted
-    106:106:void onResponseSuccess(java.lang.Object) -> onResponseSuccess
+    118:122:void onResponseSuccess(com.badou.mworking.net.BaseNetEntity) -> a
+    126:128:void onCompleted() -> onCompleted
+    115:115:void onResponseSuccess(java.lang.Object) -> onResponseSuccess
 com.badou.mworking.presenter.CategoryBasePresenter$3 -> agl:
     com.badou.mworking.presenter.CategoryBasePresenter this$0 -> a
-    136:139:void onRatingCompleted(int) -> onRatingCompleted
+    145:148:void onRatingCompleted(int) -> onRatingCompleted
 com.badou.mworking.presenter.CategoryListPresenter -> com.badou.mworking.presenter.CategoryListPresenter:
     com.badou.mworking.view.CategoryListView mCategoryListView -> mCategoryListView
     com.badou.mworking.domain.CategoryUseCase mCategoryUseCase -> mCategoryUseCase
@@ -20488,7 +20487,7 @@ com.badou.mworking.receiver.JPushReceiver -> com.badou.mworking.receiver.JPushRe
     java.lang.String TYPE_ADD -> TYPE_ADD
     37:86:void onReceive(android.content.Context,android.content.Intent) -> onReceive
     103:114:void processCustomMessage(android.content.Context,android.os.Bundle) -> a
-    117:120:void toMessageCenter(android.content.Context,android.os.Bundle) -> b
+    117:119:void toMessageCenter(android.content.Context,android.os.Bundle) -> b
 com.badou.mworking.util.AlarmUtil -> com.badou.mworking.util.AlarmUtil:
     39:52:void OpenTimer(android.content.Context) -> OpenTimer
     55:60:void cancel(android.content.Context) -> cancel
@@ -29037,17 +29036,17 @@ com.easemob.chatuidemo.DemoHXSDKHelper -> com.easemob.chatuidemo.DemoHXSDKHelper
     108:118:void initListener() -> initListener
     126:264:void initEventListener() -> initEventListener
     274:274:com.easemob.applib.model.HXNotifier$HXNotificationInfoProvider getNotificationListener() -> getNotificationListener
-    331:335:void onConnectionConflict() -> onConnectionConflict
-    339:343:void onCurrentAccountRemoved() -> onCurrentAccountRemoved
-    348:348:com.easemob.applib.model.HXSDKModel createModel() -> createModel
-    353:353:com.easemob.applib.model.HXNotifier createNotifier() -> createNotifier
-    381:381:com.easemob.chatuidemo.DemoHXSDKModel getModel() -> getModel
-    393:397:java.util.Map getContactList() -> getContactList
-    406:407:void setContactList(java.util.Map) -> setContactList
-    411:438:void logout(com.easemob.EMCallBack) -> logout
-    442:446:void endCall() -> endCall
-    449:468:void loginAnonymous(android.app.Activity,com.easemob.EMCallBack) -> loginAnonymous
-    474:525:void loginEMChat(android.app.Activity,java.lang.String,java.lang.String,com.easemob.EMCallBack) -> loginEMChat
+    324:328:void onConnectionConflict() -> onConnectionConflict
+    332:336:void onCurrentAccountRemoved() -> onCurrentAccountRemoved
+    341:341:com.easemob.applib.model.HXSDKModel createModel() -> createModel
+    346:346:com.easemob.applib.model.HXNotifier createNotifier() -> createNotifier
+    374:374:com.easemob.chatuidemo.DemoHXSDKModel getModel() -> getModel
+    386:390:java.util.Map getContactList() -> getContactList
+    399:400:void setContactList(java.util.Map) -> setContactList
+    404:431:void logout(com.easemob.EMCallBack) -> logout
+    435:439:void endCall() -> endCall
+    442:461:void loginAnonymous(android.app.Activity,com.easemob.EMCallBack) -> loginAnonymous
+    467:518:void loginEMChat(android.app.Activity,java.lang.String,java.lang.String,com.easemob.EMCallBack) -> loginEMChat
     67:67:com.easemob.applib.model.HXSDKModel getModel() -> getModel
     67:67:java.util.List access$000(com.easemob.chatuidemo.DemoHXSDKHelper) -> access$000
     67:67:android.content.Context access$100(com.easemob.chatuidemo.DemoHXSDKHelper) -> access$100
@@ -29086,44 +29085,44 @@ com.easemob.chatuidemo.DemoHXSDKHelper$3 -> com.easemob.chatuidemo.DemoHXSDKHelp
     285:285:int getSmallIcon(com.easemob.chat.EMMessage) -> getSmallIcon
     291:296:java.lang.String getDisplayedText(com.easemob.chat.EMMessage) -> getDisplayedText
     301:301:java.lang.String getLatestText(com.easemob.chat.EMMessage,int,int) -> getLatestText
-    308:323:android.content.Intent getLaunchIntent(com.easemob.chat.EMMessage) -> getLaunchIntent
+    309:316:android.content.Intent getLaunchIntent(com.easemob.chat.EMMessage) -> getLaunchIntent
 com.easemob.chatuidemo.DemoHXSDKHelper$4 -> com.easemob.chatuidemo.DemoHXSDKHelper$4:
     com.easemob.chatuidemo.DemoHXSDKHelper this$0 -> this$0
-    355:373:void onNewMsg(com.easemob.chat.EMMessage) -> onNewMsg
+    348:366:void onNewMsg(com.easemob.chat.EMMessage) -> onNewMsg
 com.easemob.chatuidemo.DemoHXSDKHelper$5 -> com.easemob.chatuidemo.DemoHXSDKHelper$5:
     com.easemob.EMCallBack val$callback -> val$callback
     com.easemob.chatuidemo.DemoHXSDKHelper this$0 -> this$0
-    417:421:void onSuccess() -> onSuccess
-    427:427:void onError(int,java.lang.String) -> onError
-    432:435:void onProgress(int,java.lang.String) -> onProgress
+    410:414:void onSuccess() -> onSuccess
+    420:420:void onError(int,java.lang.String) -> onError
+    425:428:void onProgress(int,java.lang.String) -> onProgress
 com.easemob.chatuidemo.DemoHXSDKHelper$6 -> com.easemob.chatuidemo.DemoHXSDKHelper$6:
     android.app.Activity val$activity -> val$activity
     java.lang.String val$imei -> val$imei
     com.easemob.EMCallBack val$emCallBack -> val$emCallBack
     com.easemob.chatuidemo.DemoHXSDKHelper this$0 -> this$0
-    453:461:void onResponseSuccess(org.json.JSONObject) -> onResponseSuccess
-    465:466:void onErrorCode(int) -> onErrorCode
+    446:454:void onResponseSuccess(org.json.JSONObject) -> onResponseSuccess
+    458:459:void onErrorCode(int) -> onErrorCode
 com.easemob.chatuidemo.DemoHXSDKHelper$6$1 -> com.easemob.chatuidemo.DemoHXSDKHelper$6$1:
     java.lang.String val$password -> val$password
     com.easemob.chatuidemo.DemoHXSDKHelper$6 this$1 -> this$1
-    457:459:void run() -> run
+    450:452:void run() -> run
 com.easemob.chatuidemo.DemoHXSDKHelper$7 -> com.easemob.chatuidemo.DemoHXSDKHelper$7:
     java.lang.String val$currentUsername -> val$currentUsername
     java.lang.String val$currentPassword -> val$currentPassword
     android.app.Activity val$activity -> val$activity
     com.easemob.EMCallBack val$emCallBack -> val$emCallBack
     com.easemob.chatuidemo.DemoHXSDKHelper this$0 -> this$0
-    487:508:void onSuccess() -> onSuccess
-    512:513:void onProgress(int,java.lang.String) -> onProgress
-    517:523:void onError(int,java.lang.String) -> onError
+    480:501:void onSuccess() -> onSuccess
+    505:506:void onProgress(int,java.lang.String) -> onProgress
+    510:516:void onError(int,java.lang.String) -> onError
 com.easemob.chatuidemo.DemoHXSDKHelper$7$1 -> com.easemob.chatuidemo.DemoHXSDKHelper$7$1:
     com.easemob.chatuidemo.DemoHXSDKHelper$7 this$1 -> this$1
-    505:506:void run() -> run
+    498:499:void run() -> run
 com.easemob.chatuidemo.DemoHXSDKHelper$7$2 -> com.easemob.chatuidemo.DemoHXSDKHelper$7$2:
     int val$code -> val$code
     java.lang.String val$message -> val$message
     com.easemob.chatuidemo.DemoHXSDKHelper$7 this$1 -> this$1
-    520:521:void run() -> run
+    513:514:void run() -> run
 com.easemob.chatuidemo.DemoHXSDKHelper$8 -> com.easemob.chatuidemo.DemoHXSDKHelper$8:
     int[] $SwitchMap$com$easemob$EMNotifierEvent$Event -> $SwitchMap$com$easemob$EMNotifierEvent$Event
 com.easemob.chatuidemo.DemoHXSDKModel -> com.easemob.chatuidemo.DemoHXSDKModel:
@@ -29862,11 +29861,11 @@ com.easemob.chatuidemo.activity.MainActivity -> com.easemob.chatuidemo.activity.
     547:575:void onResume() -> onResume
     579:584:void onStop() -> onStop
     588:591:void onSaveInstanceState(android.os.Bundle) -> onSaveInstanceState
-    603:634:void showConflictDialog() -> showConflictDialog
-    640:669:void showAccountRemovedDialog() -> showAccountRemovedDialog
-    673:679:void onNewIntent(android.content.Intent) -> onNewIntent
-    685:714:void registerInternalDebugReceiver() -> registerInternalDebugReceiver
-    718:720:void onCreateContextMenu(android.view.ContextMenu,android.view.View,android.view.ContextMenu$ContextMenuInfo) -> onCreateContextMenu
+    603:633:void showConflictDialog() -> showConflictDialog
+    639:668:void showAccountRemovedDialog() -> showAccountRemovedDialog
+    672:678:void onNewIntent(android.content.Intent) -> onNewIntent
+    684:713:void registerInternalDebugReceiver() -> registerInternalDebugReceiver
+    717:719:void onCreateContextMenu(android.view.ContextMenu,android.view.View,android.view.ContextMenu$ContextMenuInfo) -> onCreateContextMenu
     83:83:com.easemob.chatuidemo.activity.ChatAllHistoryFragment access$000(com.easemob.chatuidemo.activity.MainActivity) -> access$000
     83:83:android.content.Context access$100(com.easemob.chatuidemo.activity.MainActivity) -> access$100
     83:83:android.content.Context access$200(com.easemob.chatuidemo.activity.MainActivity) -> access$200
@@ -29914,21 +29913,21 @@ com.easemob.chatuidemo.activity.MainActivity$6 -> com.easemob.chatuidemo.activit
     563:563:void onSuccess(java.lang.Object) -> onSuccess
 com.easemob.chatuidemo.activity.MainActivity$7 -> com.easemob.chatuidemo.activity.MainActivity$7:
     com.easemob.chatuidemo.activity.MainActivity this$0 -> this$0
-    617:623:void onClick(android.content.DialogInterface,int) -> onClick
+    617:622:void onClick(android.content.DialogInterface,int) -> onClick
 com.easemob.chatuidemo.activity.MainActivity$8 -> com.easemob.chatuidemo.activity.MainActivity$8:
     com.easemob.chatuidemo.activity.MainActivity this$0 -> this$0
-    654:658:void onClick(android.content.DialogInterface,int) -> onClick
+    653:657:void onClick(android.content.DialogInterface,int) -> onClick
 com.easemob.chatuidemo.activity.MainActivity$9 -> com.easemob.chatuidemo.activity.MainActivity$9:
     com.easemob.chatuidemo.activity.MainActivity this$0 -> this$0
-    689:710:void onReceive(android.content.Context,android.content.Intent) -> onReceive
+    688:709:void onReceive(android.content.Context,android.content.Intent) -> onReceive
 com.easemob.chatuidemo.activity.MainActivity$9$1 -> com.easemob.chatuidemo.activity.MainActivity$9$1:
     com.easemob.chatuidemo.activity.MainActivity$9 this$1 -> this$1
-    693:700:void onSuccess() -> onSuccess
-    704:704:void onProgress(int,java.lang.String) -> onProgress
-    708:708:void onError(int,java.lang.String) -> onError
+    692:699:void onSuccess() -> onSuccess
+    703:703:void onProgress(int,java.lang.String) -> onProgress
+    707:707:void onError(int,java.lang.String) -> onError
 com.easemob.chatuidemo.activity.MainActivity$9$1$1 -> com.easemob.chatuidemo.activity.MainActivity$9$1$1:
     com.easemob.chatuidemo.activity.MainActivity$9$1 this$2 -> this$2
-    696:698:void run() -> run
+    695:697:void run() -> run
 com.easemob.chatuidemo.activity.MainActivity$MyConnectionListener -> com.easemob.chatuidemo.activity.MainActivity$MyConnectionListener:
     com.easemob.chatuidemo.activity.MainActivity this$0 -> this$0
     372:398:void onConnected() -> onConnected
