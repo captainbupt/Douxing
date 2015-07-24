@@ -1,10 +1,12 @@
 package com.badou.mworking.presenter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
 import com.badou.mworking.view.BaseView;
+import com.badou.mworking.widget.ChatterUrlPopupWindow;
 
 /**
  * Base class representing a Presenter in a model view presenter (MVP) pattern.
@@ -12,6 +14,7 @@ import com.badou.mworking.view.BaseView;
 public abstract class Presenter {
 
     Context mContext;
+    ChatterUrlPopupWindow mPopupWindow;
 
     public Presenter(Context context) {
         this.mContext = context;
@@ -43,4 +46,16 @@ public abstract class Presenter {
     }
 
     public abstract void attachView(BaseView v);
+
+    public void comeToForeground() {
+        if (mContext instanceof Activity) {
+            if (mPopupWindow == null)
+                mPopupWindow = new ChatterUrlPopupWindow(mContext);
+            mPopupWindow.setUrl("www.baidu.com");
+            mPopupWindow.showPopupWindow(((Activity) mContext).getWindow().getDecorView().findViewById(android.R.id.content));
+        }
+    }
+
+    public void backToBackground() {
+    }
 }

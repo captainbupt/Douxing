@@ -6,8 +6,8 @@ import org.json.JSONObject;
  * Created by Administrator on 2015/6/11.
  */
 public class ChatterTopic {
-    public String key;
-    public long time;
+    String key;
+    long time;
 
     public ChatterTopic(JSONObject jsonObject) {
         key = jsonObject.optString("key");
@@ -17,5 +17,9 @@ public class ChatterTopic {
     public ChatterTopic(String key, long time) {
         this.key = key;
         this.time = time;
+    }
+
+    public String getKey() {
+        return key;
     }
 }

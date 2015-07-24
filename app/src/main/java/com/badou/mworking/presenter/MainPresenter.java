@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.badou.mworking.AskActivity;
 import com.badou.mworking.BackWebActivity;
 import com.badou.mworking.ChatterActivity;
+import com.badou.mworking.LoginActivity;
 import com.badou.mworking.MainGridActivity;
 import com.badou.mworking.MessageCenterActivity;
 import com.badou.mworking.R;
@@ -83,6 +84,9 @@ public class MainPresenter extends Presenter {
     }
 
     private void initialize() {
+        if(UserInfo.getUserInfo() == null){
+            mContext.startActivity(LoginActivity.getIntent(mContext));
+        }
         if (UserInfo.ANONYMOUS_ACCOUNT.equals(UserInfo.getUserInfo().getAccount())) {
             mMainView.showExperienceDialog();
         }

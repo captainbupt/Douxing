@@ -6,7 +6,7 @@
     android:background="@color/color_layout_bg">
 
     <EditText
-        android:id="@+id/et_activity_chatter_submit_content"
+        android:id="@+id/content_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -23,11 +23,60 @@
         android:textColor="@color/color_black"
         android:textSize="@dimen/text_size_medium" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_grey"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/offset_less"
+        android:paddingLeft="@dimen/offset_medium"
+        android:paddingRight="@dimen/offset_medium"
+        android:paddingTop="@dimen/offset_less">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="URL"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/text_size_medium" />
+
+        <LinearLayout
+            android:id="@+id/url_content_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/color_light_grey"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/offset_small">
+
+            <ImageView
+                android:layout_width="@dimen/icon_size_small"
+                android:layout_height="@dimen/icon_size_small"
+                android:src="@drawable/icon_chatter_url_default" />
+
+            <com.badou.mworking.widget.EllipsizeTextView
+                android:id="@+id/url_title_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/offset_small"
+                android:textColor="@color/color_text_black"
+                android:textSize="@dimen/text_size_medium" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/offset_less"
+            android:src="@drawable/arrow_white_right" />
+    </LinearLayout>
+
     <com.badou.mworking.widget.MultiImageEditGridView
-        android:id="@+id/miegv_activity_chatter_submit"
+        android:id="@+id/image_grid_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/et_activity_chatter_submit_content"
+        android:layout_below="@id/content_edit_text"
         android:horizontalSpacing="@dimen/offset_less"
         android:numColumns="3"
         android:paddingBottom="@dimen/offset_less"
@@ -38,10 +87,10 @@
         myattr:maxImg="4" />
 
     <com.badou.mworking.widget.VideoImageView
-        android:id="@+id/viv_activity_chatter_submit"
+        android:id="@+id/video_image_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/et_activity_chatter_submit_content"
+        android:layout_below="@id/content_edit_text"
         android:paddingBottom="@dimen/offset_less"
         android:paddingLeft="@dimen/offset_medium"
         android:paddingRight="@dimen/offset_medium"
@@ -56,7 +105,7 @@
         android:orientation="horizontal">
 
         <LinearLayout
-            android:id="@+id/ll_activity_chatter_submit_bottom_topic"
+            android:id="@+id/bottom_topic_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -86,7 +135,7 @@
             android:background="@color/color_border_grey" />
 
         <LinearLayout
-            android:id="@+id/ll_activity_chatter_submit_bottom_anonymous"
+            android:id="@+id/bottom_anonymous_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -95,7 +144,7 @@
             android:padding="@dimen/offset_medium">
 
             <CheckBox
-                android:id="@+id/cb_activity_chatter_bottom_anonymous"
+                android:id="@+id/anonymous_check_box"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/icon_bottom_check_box"
@@ -116,7 +165,7 @@
             android:background="@color/color_border_grey" />
 
         <LinearLayout
-            android:id="@+id/ll_activity_chatter_submit_bottom_photo"
+            android:id="@+id/bottom_photo_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -139,63 +188,11 @@
         </LinearLayout>
     </LinearLayout>
 
-    <ScrollView
-        android:id="@+id/sv_activity_chatter_submit_topic"
+    <ListView
+        android:id="@+id/topic_list_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/color_white"
-        android:visibility="gone">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingBottom="@dimen/offset_small"
-                android:paddingLeft="@dimen/offset_medium"
-                android:paddingRight="@dimen/offset_medium"
-                android:paddingTop="@dimen/offset_small">
-
-                <EditText
-                    android:id="@+id/et_activity_chatter_submit_topic_edit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@color/transparent"
-                    android:hint="@string/chatter_submit_topic_hint"
-                    android:maxEms="15"
-                    android:singleLine="true"
-                    android:textColor="@color/color_text_black"
-                    android:textSize="@dimen/text_size_medium" />
-
-                <TextView
-                    android:id="@+id/tv_activity_chatter_submit_confirm"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/background_button_enable_blue"
-                    android:paddingLeft="@dimen/offset_less"
-                    android:paddingRight="@dimen/offset_less"
-                    android:text="@string/chatter_submit_topic_confirm"
-                    android:textColor="@color/color_button_text_blue"
-                    android:textSize="@dimen/text_size_medium" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/color_border_grey" />
-
-            <com.badou.mworking.widget.NoScrollListView
-                android:id="@+id/nslv_activity_chatter_submit_topic"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/color_white"
-                myattr:dividerColor="@color/color_border_grey"
-                myattr:dividerHeight="1dp" />
-        </LinearLayout>
-    </ScrollView>
+        android:divider="@color/color_border_grey"
+        android:dividerHeight="1dp" />
 </RelativeLayout>

@@ -13,6 +13,7 @@ import com.badou.mworking.presenter.Presenter;
 import com.badou.mworking.util.AppManager;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.view.BaseView;
+import com.badou.mworking.widget.ChatterUrlPopupWindow;
 import com.badou.mworking.widget.WaitProgressDialog;
 import com.easemob.applib.controller.HXSDKHelper;
 import com.nineoldandroids.view.ViewHelper;
@@ -97,10 +98,45 @@ public class BaseNoTitleActivity extends ActionBarActivity implements SwipeBackA
         overridePendingTransition(R.anim.in_from_left, R.anim.out_to_right);
     }
 
-    // Press the back button in mobile phone
+    // 用于判断是否从后台返回或者是否到后台
+    public static boolean isAppWentToBg = false;
+    public static boolean isWindowFocused = false;
+    public static boolean isBackPressed = false;
+
     @Override
     public void onBackPressed() {
+        isBackPressed = true;
         finish();
+    }
+
+    @Override
+    protected void onStart() {
+        if (isAppWentToBg) {
+            isAppWentToBg = false;
+            if (mPresenter != null)
+                mPresenter.comeToForeground();
+        }
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (!isWindowFocused) {
+            isAppWentToBg = true;
+            if (mPresenter != null) // 这个过程无法Toast或者修改UI
+                mPresenter.backToBackground();
+        }
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        isWindowFocused = hasFocus;
+        if (isBackPressed && !hasFocus) {
+            isBackPressed = false;
+            isWindowFocused = true;
+        }
+        super.onWindowFocusChanged(hasFocus);
     }
 
     @Override

@@ -25,7 +25,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/background_border_radius_small_ffffffff"
+            android:background="@drawable/background_border_radius_small_grey"
             android:paddingBottom="@dimen/offset_small"
             android:paddingLeft="@dimen/offset_less"
             android:paddingRight="@dimen/offset_less"

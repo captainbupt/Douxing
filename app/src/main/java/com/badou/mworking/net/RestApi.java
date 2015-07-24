@@ -7,6 +7,7 @@ import com.badou.mworking.domain.CheckUpdateUseCase;
 import com.badou.mworking.domain.EMChatCreateGroupUseCase;
 import com.badou.mworking.domain.EnrollUseCase;
 import com.badou.mworking.domain.LoginUseCase;
+import com.badou.mworking.domain.PublishChatterUseCase;
 import com.badou.mworking.domain.StoreUseCase;
 import com.badou.mworking.domain.TaskSignUseCase;
 import com.badou.mworking.entity.category.CategoryDetail;
@@ -106,4 +107,7 @@ public interface RestApi {
 
     @POST("/setimg")
     Observable<BaseNetEntity> setUserHead(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Body TypedFile imgFile);
+
+    @POST("/publish")
+    Observable<BaseNetEntity<PublishChatterUseCase.Response>> publishChatter(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Body PublishChatterUseCase.Body body);
 }

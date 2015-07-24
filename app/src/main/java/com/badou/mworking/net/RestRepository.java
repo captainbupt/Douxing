@@ -14,6 +14,7 @@ import com.badou.mworking.domain.CheckUpdateUseCase;
 import com.badou.mworking.domain.EMChatCreateGroupUseCase;
 import com.badou.mworking.domain.EnrollUseCase;
 import com.badou.mworking.domain.LoginUseCase;
+import com.badou.mworking.domain.PublishChatterUseCase;
 import com.badou.mworking.domain.StoreUseCase;
 import com.badou.mworking.domain.TaskSignUseCase;
 import com.badou.mworking.entity.category.CategoryDetail;
@@ -144,6 +145,10 @@ public class RestRepository {
 
     public Observable<BaseNetEntity> setUserHead(String uid, File file) {
         return restApi.setUserHead(AppApplication.SYSPARAM, AppApplication.appVersion, uid, new TypedFile("image/jpg", file));
+    }
+
+    public Observable<BaseNetEntity<PublishChatterUseCase.Response>> publishChatter(PublishChatterUseCase.Body body) {
+        return restApi.publishChatter(AppApplication.SYSPARAM, AppApplication.appVersion, body);
     }
 
 }
