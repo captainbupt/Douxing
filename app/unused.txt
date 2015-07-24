@@ -940,8 +940,14 @@ com.badou.mworking.ForgetPasswordPhoneActivity:
     private static final int totalTime
 com.badou.mworking.ForgetPasswordVerificationActivity:
     private static final java.lang.String LOG
+com.badou.mworking.MyExamActivity:
+    private static final java.lang.String KEY_USER_DETAIL
+com.badou.mworking.MyStudyActivity:
+    private static final java.lang.String KEY_USER_DETAIL
 com.badou.mworking.TipsWebView:
     142:147:private void loginSuccess(org.json.JSONObject)
+com.badou.mworking.TrainBaseActivity:
+    private static final java.lang.String KEY_TRAINING
 com.badou.mworking.VideoPlayActivity:
     private static final int VIDEOPLAY
 com.badou.mworking.VideoTakeActivity:
@@ -979,6 +985,9 @@ com.badou.mworking.fragment.EntryIntroductionFragment:
     private static final java.lang.String KEY_RID
 com.badou.mworking.fragment.EntryOperationFragment:
     private static final java.lang.String KEY_RID
+com.badou.mworking.fragment.PDFViewFragment:
+    private static final java.lang.String KEY_RID
+    private static final java.lang.String KEY_URL
 com.badou.mworking.fragment.TrainMusicFragment:
     private static final java.lang.String KEY_RID
     private static final java.lang.String KEY_URL
@@ -998,11 +1007,11 @@ com.badou.mworking.fragment.WebViewFragment$1:
     95:100:public void openFileChooser(android.webkit.ValueCallback,java.lang.String)
     104:105:public void openFileChooser(android.webkit.ValueCallback)
     109:110:public void openFileChooser(android.webkit.ValueCallback,java.lang.String,java.lang.String)
+com.badou.mworking.presenter.DownloadPresenter:
+    private static final int HIDE_TIME
 com.badou.mworking.presenter.TaskSignPresenter:
     private static final int REQUEST_QRCODE
     private static final java.lang.String RESPONSE_QRCODE
-com.badou.mworking.presenter.TrainingMediaPresenter:
-    private static final int HIDE_TIME
 com.badou.mworking.receiver.JPushReceiver:
     private static final java.lang.String TAG
     private static final java.lang.String KEY_TYPE

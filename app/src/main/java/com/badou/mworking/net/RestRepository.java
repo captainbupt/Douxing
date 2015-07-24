@@ -27,11 +27,13 @@ import com.badou.mworking.entity.main.MainData;
 import com.badou.mworking.entity.user.UserDetail;
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.util.FileUtils;
+import com.google.gson.Gson;
 
 import java.io.File;
 import java.util.List;
 
 import retrofit.RestAdapter;
+import retrofit.converter.GsonConverter;
 import retrofit.mime.TypedFile;
 import retrofit.mime.TypedString;
 import rx.Observable;
@@ -53,7 +55,6 @@ public class RestRepository {
                 .setLogLevel(RestAdapter.LogLevel.FULL)
                         //.setConverter(new StringConverter())
                 .build();
-
         restApi = restApiAdapter.create(RestApi.class);
     }
 

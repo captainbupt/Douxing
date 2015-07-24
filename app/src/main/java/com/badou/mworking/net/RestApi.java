@@ -19,13 +19,17 @@ import com.badou.mworking.entity.comment.CommentOverall;
 import com.badou.mworking.entity.main.MainData;
 import com.badou.mworking.entity.user.UserDetail;
 import com.badou.mworking.entity.user.UserInfo;
+import com.easemob.chatuidemo.domain.User;
 
 import java.io.File;
 import java.util.List;
 
+import retrofit.Callback;
 import retrofit.http.Body;
+import retrofit.http.Field;
 import retrofit.http.GET;
 import retrofit.http.POST;
+import retrofit.http.Path;
 import retrofit.http.Query;
 import retrofit.mime.TypedFile;
 import retrofit.mime.TypedString;

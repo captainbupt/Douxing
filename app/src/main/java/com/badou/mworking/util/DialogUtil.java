@@ -19,12 +19,12 @@ import java.io.File;
 
 public class DialogUtil {
     /**
-     * ÔÚÖ÷Ò³ÑéÖ¤ÊÇ·ñÓĞÈí¼ş¸üĞÂ
+     * åœ¨ä¸»é¡µéªŒè¯æ˜¯å¦æœ‰è½¯ä»¶æ›´æ–°
      *
      * @param newVersion
      */
     public static void apkUpdate(final Context context, final BaseView baseView, final NewVersion newVersion) {
-        // ÓĞÕÚÕÖÔò²»ÌáÊ¾¸üĞÂ
+        // æœ‰é®ç½©åˆ™ä¸æç¤ºæ›´æ–°
         if (newVersion.hasNewVersion()) {
             new AlertDialog.Builder(context).setTitle(R.string.main_tips_update_title).setMessage(newVersion.getDescription())
                     .setPositiveButton(R.string.main_tips_update_btn_ok,
@@ -34,7 +34,7 @@ public class DialogUtil {
                                 public void onClick(DialogInterface dialog,
                                                     int which) {
                                     baseView.showProgressDialog(R.string.action_update_download_ing);
-                                    ServiceProvider.doUpdateMTraning(context, newVersion.getUrl(), new RangeFileAsyncHttpResponseHandler(new File("update.apk")) { // ½ö½öÊÇ½èÓÃ¸Ã½Ó¿Ú
+                                    ServiceProvider.doUpdateMTraning(context, newVersion.getUrl(), new RangeFileAsyncHttpResponseHandler(new File("update.apk")) { // ä»…ä»…æ˜¯å€Ÿç”¨è¯¥æ¥å£
 
                                         @Override
                                         public void onSuccess(int statusCode, Header[] headers, File file) {
