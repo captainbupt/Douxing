@@ -11,7 +11,7 @@
         android:layout_height="@dimen/icon_size_medium"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
         android:src="@drawable/smiley_add_btn" />
 
     <TextView

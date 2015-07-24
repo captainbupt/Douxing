@@ -25,8 +25,8 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="@dimen/margin_chat_activity"
-            android:background="@drawable/icon_emchat_single"
-            android:scaleType="fitCenter" />
+            android:scaleType="centerCrop"
+            android:src="@drawable/icon_emchat_single" />
 
         <TextView
             android:id="@+id/tv_userid"
