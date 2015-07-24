@@ -63,6 +63,15 @@ public class CategoryBasePresenter extends Presenter {
                 mCategoryBaseView.showToast(R.string.tip_message_center_resource_gone);
                 ((Activity) mContext).finish();
             }
+
+            @Override
+            public void onError(Throwable e) {
+                if (e instanceof IllegalStateException) { // 因为延迟操作，存在fragment在saveInstanceState之后commit的情况，catch这个错误，并在重新加载时显示
+                    isPaused = true;
+                } else {
+                    super.onError(e);
+                }
+            }
         });
     }
 
@@ -146,19 +155,9 @@ public class CategoryBasePresenter extends Presenter {
 
     @Override
     public void resume() {
-        isPaused = false;
-        if (mCategoryBaseView != null && mCategoryDetail != null)
+        if (isPaused && mCategoryBaseView != null && mCategoryDetail != null) {
             mCategoryBaseView.setData(mRid, mCategoryDetail);
-    }
-
-    @Override
-    public void pause() {
-        isPaused = true;
-    }
-
-    @Override
-    public void destroy() {
-        super.destroy();
-        isPaused = true;
+        }
+        isPaused = false;
     }
 }

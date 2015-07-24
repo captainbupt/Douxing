@@ -7836,7 +7836,6 @@ com.badou.mworking.LoginActivity$$ViewBinder: void unbind(com.badou.mworking.Log
 com.badou.mworking.LoginActivity$$ViewBinder: void unbind(java.lang.Object)
 com.badou.mworking.LoginActivity$$ViewBinder: void bind(butterknife.ButterKnife$Finder,java.lang.Object,java.lang.Object)
 com.badou.mworking.MainGridActivity
-com.badou.mworking.MainGridActivity: java.lang.String KEY_MESSAGE_CENTER
 com.badou.mworking.MainGridActivity: android.widget.ImageView mUserCenterImageView
 com.badou.mworking.MainGridActivity: android.widget.ImageView mLogoImageView
 com.badou.mworking.MainGridActivity: android.widget.ImageView mMessageCenterImageView
@@ -7847,6 +7846,7 @@ com.badou.mworking.MainGridActivity: com.badou.mworking.widget.LineGridView mCon
 com.badou.mworking.MainGridActivity: com.badou.mworking.widget.TopFadeScrollView mTopFadeScrollView
 com.badou.mworking.MainGridActivity: MainGridActivity()
 com.badou.mworking.MainGridActivity: android.content.Intent getIntent(android.content.Context,boolean)
+com.badou.mworking.MainGridActivity: android.content.Intent getIntent(android.content.Context,java.lang.String,boolean)
 com.badou.mworking.MainGridActivity: void onCreate(android.os.Bundle)
 com.badou.mworking.MainGridActivity: void setLogoImage(java.lang.String)
 com.badou.mworking.MainGridActivity: void setBannerData(java.util.List)
@@ -12619,8 +12619,6 @@ com.badou.mworking.presenter.CategoryBasePresenter: void onCommentClicked()
 com.badou.mworking.presenter.CategoryBasePresenter: void onRatingClicked()
 com.badou.mworking.presenter.CategoryBasePresenter: com.badou.mworking.entity.category.CategoryDetail getData()
 com.badou.mworking.presenter.CategoryBasePresenter: void resume()
-com.badou.mworking.presenter.CategoryBasePresenter: void pause()
-com.badou.mworking.presenter.CategoryBasePresenter: void destroy()
 com.badou.mworking.presenter.CategoryListPresenter
 com.badou.mworking.presenter.CategoryListPresenter: com.badou.mworking.view.CategoryListView mCategoryListView
 com.badou.mworking.presenter.CategoryListPresenter: com.badou.mworking.domain.CategoryUseCase mCategoryUseCase
