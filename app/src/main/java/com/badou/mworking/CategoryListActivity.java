@@ -248,8 +248,10 @@ public class CategoryListActivity extends BaseBackActionBarActivity implements C
 
     @Override
     public void startRefreshing() {
-        mContentListView.scrollTo(0, 0);
-        mContentListView.setRefreshing();
+        // 当上拉一次后，setRefreshing默认会继续上拉，导致错误。因此设置强制下拉。这个控件不是特别好用，要换了。。
+        mContentListView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
+        mContentListView.setRefreshing(true);
+        mContentListView.setMode(PullToRefreshBase.Mode.BOTH);
     }
 
     @Override
