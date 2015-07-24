@@ -24,8 +24,8 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:layout_marginRight="@dimen/margin_chat_activity"
-            android:background="@drawable/icon_emchat_single"
-            android:scaleType="fitXY" />
+            android:scaleType="centerCrop"
+            android:src="@drawable/icon_emchat_single" />
 
         <ImageView
             android:id="@+id/iv_voice"
