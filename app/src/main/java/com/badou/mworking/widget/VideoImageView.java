@@ -17,11 +17,9 @@ import com.badou.mworking.util.FileUtils;
 
 import java.io.File;
 
-/**
- * Created by Administrator on 2015/6/10.
- */
 public class VideoImageView extends FrameLayout {
     private Context mContext;
+    private String mLocalPath;
     private String mUrl;
     private String mQid;
     private ImageView mContentImageView;
@@ -71,14 +69,18 @@ public class VideoImageView extends FrameLayout {
         mShowImageView.setLayoutParams(layoutParams);
     }
 
-    public void setData(Bitmap bitmap, String videoUrl, String qid) {
+    public void setData(Bitmap bitmap, String localPath) {
+        if (mBitmap != null && !mBitmap.isRecycled())
+            mBitmap.recycle();
         mBitmap = bitmap;
         mContentImageView.setImageBitmap(bitmap);
-        mUrl = videoUrl;
-        mQid = qid;
+        mLocalPath = localPath;
+        mQid = null;
     }
 
     public void setData(String imgUrl, String videoUrl, String qid) {
+        if (mBitmap != null && !mBitmap.isRecycled())
+            mBitmap.recycle();
         ImageViewLoader.setSquareImageViewResource(mContentImageView, R.drawable.icon_image_default, imgUrl, mContext.getResources().getDimensionPixelSize(R.dimen.image_size_content));
         mUrl = videoUrl;
         mQid = qid;
@@ -108,8 +110,8 @@ public class VideoImageView extends FrameLayout {
         } else {
             // 还未上传，直接打开本地文件
             Intent intent = new Intent(mContext, VideoPlayActivity.class);
-            intent.putExtra(VideoPlayActivity.KEY_VIDEOURL, mUrl);
-            intent.putExtra(VideoPlayActivity.KEY_VIDEOPATH, FileUtils.getChatterVideoDir(mContext));
+            intent.putExtra(VideoPlayActivity.KEY_VIDEOPATH, mLocalPath);
+            //intent.putExtra(VideoPlayActivity.KEY_VIDEOPATH, FileUtils.getChatterVideoDir(mContext));
             mContext.startActivity(intent);
         }
     }

@@ -4,11 +4,12 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
@@ -22,6 +23,7 @@ import com.badou.mworking.util.FileUtils;
 import com.badou.mworking.util.ImageChooser;
 import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.ToastUtil;
+import com.badou.mworking.widget.EllipsizeTextView;
 import com.badou.mworking.widget.MultiImageEditGridView;
 import com.badou.mworking.widget.NoScrollListView;
 import com.badou.mworking.widget.VideoImageView;
@@ -32,23 +34,40 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 /**
  * 功能描述: 同事圈发送消息界面
  */
 public class ChatterSubmitActivity extends BaseBackActionBarActivity {
 
-    private EditText mContentEditText;
-    private MultiImageEditGridView mImageGridView;
-    private VideoImageView mVideoImageView;
-    private LinearLayout mBottomTopicLayout;
-    private LinearLayout mBottomAnonymousLayout;
-    private LinearLayout mBottomPhotoLayout;
-    private CheckBox mAnonymousCheckBox;
-    private ScrollView mTopicScrollView;
-    private NoScrollListView mTopicListView;
+
+    @Bind(R.id.content_edit_text)
+    EditText mContentEditText;
+    @Bind(R.id.url_title_text_view)
+    EllipsizeTextView mUrlTitleTextView;
+    @Bind(R.id.url_content_layout)
+    LinearLayout mUrlContentLayout;
+    @Bind(R.id.image_grid_view)
+    MultiImageEditGridView mImageGridView;
+    @Bind(R.id.video_image_view)
+    VideoImageView mVideoImageView;
+    @Bind(R.id.bottom_topic_layout)
+    LinearLayout mBottomTopicLayout;
+    @Bind(R.id.anonymous_check_box)
+    CheckBox mAnonymousCheckBox;
+    @Bind(R.id.bottom_anonymous_layout)
+    LinearLayout mBottomAnonymousLayout;
+    @Bind(R.id.bottom_photo_layout)
+    LinearLayout mBottomPhotoLayout;
+    @Bind(R.id.topic_list_view)
+    ListView mTopicListView;
+
     private ChatterTopicAdapter mTopicAdapter;
-    private TextView mTopicCustomConfirmTextView;
-    private EditText mTopicCustomEditText;
+    TextView mTopicConfirmTextView;
+    EditText mTopicEditText;
 
     private int mImageType = -1;
     private ImageChooser mImageChooser;
@@ -57,6 +76,7 @@ public class ChatterSubmitActivity extends BaseBackActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatter_submit);
+        ButterKnife.bind(this);
         initView();
         initListener();
         // 设置图片
@@ -66,22 +86,22 @@ public class ChatterSubmitActivity extends BaseBackActionBarActivity {
                 send();
             }
         });
-        setActionbarTitle("分享");
+        setActionbarTitle(R.string.chatter_title_right);
     }
 
     private void initView() {
-        mContentEditText = (EditText) findViewById(R.id.et_activity_chatter_submit_content);
-        mImageGridView = (MultiImageEditGridView) findViewById(R.id.miegv_activity_chatter_submit);
-        mBottomTopicLayout = (LinearLayout) findViewById(R.id.ll_activity_chatter_submit_bottom_topic);
-        mBottomAnonymousLayout = (LinearLayout) findViewById(R.id.ll_activity_chatter_submit_bottom_anonymous);
-        mBottomPhotoLayout = (LinearLayout) findViewById(R.id.ll_activity_chatter_submit_bottom_photo);
-        mAnonymousCheckBox = (CheckBox) findViewById(R.id.cb_activity_chatter_bottom_anonymous);
-        mVideoImageView = (VideoImageView) findViewById(R.id.viv_activity_chatter_submit);
-        mTopicScrollView = (ScrollView) findViewById(R.id.sv_activity_chatter_submit_topic);
-        mTopicListView = (NoScrollListView) findViewById(R.id.nslv_activity_chatter_submit_topic);
-        mTopicCustomConfirmTextView = (TextView) findViewById(R.id.tv_activity_chatter_submit_confirm);
-        mTopicCustomEditText = (EditText) findViewById(R.id.et_activity_chatter_submit_topic_edit);
+        View header = LayoutInflater.from(mContext).inflate(R.layout.layout_chatter_topic_header, mTopicListView, false);
+        mTopicConfirmTextView = (TextView) header.findViewById(R.id.topic_confirm_text_view);
+        mTopicEditText = (EditText) header.findViewById(R.id.topic_edit_text);
+        mTopicListView.addHeaderView(header);
     }
+
+    @OnClick(R.id.bottom_topic_layout)
+    void onTopicClicked(){
+
+    }
+
+
 
     private void initListener() {
         mBottomTopicLayout.setOnClickListener(new View.OnClickListener() {
@@ -120,7 +140,7 @@ public class ChatterSubmitActivity extends BaseBackActionBarActivity {
             public void onImageChosen(Bitmap bitmap, int type) {
                 if (type == ImageChooser.TYPE_VIDEO) {
                     mVideoImageView.setVisibility(View.VISIBLE);
-                    mVideoImageView.setData(bitmap, null, null);
+                    mVideoImageView.setData(bitmap, null);
                     mImageGridView.clear();
                     mImageGridView.setVisibility(View.GONE);
                 } else {
@@ -142,10 +162,10 @@ public class ChatterSubmitActivity extends BaseBackActionBarActivity {
             }
         });
         mTopicAdapter = new ChatterTopicAdapter(mContext);
-        mTopicCustomConfirmTextView.setOnClickListener(new View.OnClickListener() {
+        mTopicConfirmTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String topic = mTopicCustomEditText.getText().toString().replace("#", "").replace(" ", "").trim();
+                String topic = mTopicEditText.getText().toString().replace("#", "").replace(" ", "").trim();
                 onTopicSelected(topic);
             }
         });

@@ -199,6 +199,7 @@
     <string name="statistical_data">统计数据</string>
     <string name="tips_full_content">查看全文</string>
     <string name="tips_save_internet">当前为省流量模式</string>
+    <string name="chatter_tip_share_url">将复制的URL分享到朋友圈</string>
     <string name="chatter_title_right">分享</string>
     <string name="chatter_title_hot">达人</string>
     <string name="chatter_submit_topic_hint">#请输入新的话题#</string>
