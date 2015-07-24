@@ -20313,16 +20313,16 @@ com.badou.mworking.presenter.MainPresenter -> com.badou.mworking.presenter.MainP
     170:171:void updateMessageCenter() -> f
     177:232:void loginEMChat(java.lang.String,java.lang.String) -> loginEMChat
     236:271:void onItemClick(com.badou.mworking.entity.main.MainIcon) -> onItemClick
-    274:285:void onBannerClick(android.widget.AdapterView,android.view.View,int,long) -> onBannerClick
-    288:289:void onBannerSelected(android.widget.AdapterView,android.view.View,int,long) -> onBannerSelected
-    292:295:void onUserCenterClick() -> onUserCenterClick
-    298:300:void onSearchClick() -> onSearchClick
-    303:304:void onMessageCenterClick() -> onMessageCenterClick
-    307:320:boolean onBackPressed() -> onBackPressed
-    328:347:void checkUpdate() -> g
-    350:357:int getUnreadMsgCountTotal() -> getUnreadMsgCountTotal
-    378:381:void resume() -> resume
-    385:387:void destroy() -> destroy
+    274:296:void onBannerClick(android.widget.AdapterView,android.view.View,int,long) -> onBannerClick
+    299:300:void onBannerSelected(android.widget.AdapterView,android.view.View,int,long) -> onBannerSelected
+    303:306:void onUserCenterClick() -> onUserCenterClick
+    309:311:void onSearchClick() -> onSearchClick
+    314:315:void onMessageCenterClick() -> onMessageCenterClick
+    318:331:boolean onBackPressed() -> onBackPressed
+    339:358:void checkUpdate() -> g
+    361:368:int getUnreadMsgCountTotal() -> getUnreadMsgCountTotal
+    389:392:void resume() -> resume
+    396:398:void destroy() -> destroy
     65:65:java.lang.String access$002(com.badou.mworking.presenter.MainPresenter,java.lang.String) -> a
     65:65:void access$100(com.badou.mworking.presenter.MainPresenter) -> a
 com.badou.mworking.presenter.MainPresenter$1 -> ahg:
@@ -20344,14 +20344,14 @@ com.badou.mworking.presenter.MainPresenter$2$2 -> ahj:
     227:228:void run() -> run
 com.badou.mworking.presenter.MainPresenter$3 -> ahk:
     com.badou.mworking.presenter.MainPresenter this$0 -> a
-    333:345:void onResponseSuccess(com.badou.mworking.entity.main.MainData) -> a
-    329:329:void onResponseSuccess(java.lang.Object) -> onResponseSuccess
+    344:356:void onResponseSuccess(com.badou.mworking.entity.main.MainData) -> a
+    340:340:void onResponseSuccess(java.lang.Object) -> onResponseSuccess
 com.badou.mworking.presenter.MainPresenter$4 -> ahl:
     com.badou.mworking.presenter.MainPresenter this$0 -> a
-    363:364:void onEvent(com.easemob.EMNotifierEvent) -> onEvent
+    374:375:void onEvent(com.easemob.EMNotifierEvent) -> onEvent
 com.badou.mworking.presenter.MainPresenter$5 -> ahm:
     com.badou.mworking.presenter.MainPresenter this$0 -> a
-    370:373:void onReceive(android.content.Context,android.content.Intent) -> onReceive
+    381:384:void onReceive(android.content.Context,android.content.Intent) -> onReceive
 com.badou.mworking.presenter.Presenter -> com.badou.mworking.presenter.Presenter:
     android.content.Context mContext -> k
     25:25:void resume() -> resume

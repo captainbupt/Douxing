@@ -273,14 +273,25 @@ public class MainPresenter extends Presenter {
     public void onBannerClick(AdapterView<?> parent, View view, int position, long id) {
         MainBanner mainBanner = (MainBanner) parent.getAdapter().getItem(position);
         if (mainBanner != null) {
-            Intent intent = new Intent(mContext, BackWebActivity.class);
-            intent.putExtra(BackWebActivity.KEY_URL, mainBanner.getUrl());
-            if (TextUtils.isEmpty(mLogoUrl)) {
-                intent.putExtra(BackWebActivity.KEY_LOGO_URL, "invalid"); // 非法值
+            String url = mainBanner.getUrl();
+            if (url.endsWith(".mp4") || url.endsWith(".mp3")) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                Uri uri = Uri.parse(url);
+                if (url.endsWith(".mp4"))
+                    intent.setDataAndType(uri, "video/*");
+                else
+                    intent.setDataAndType(uri, "audio/*");
+                mContext.startActivity(intent);
             } else {
-                intent.putExtra(BackWebActivity.KEY_LOGO_URL, mLogoUrl);
+                Intent intent = new Intent(mContext, BackWebActivity.class);
+                intent.putExtra(BackWebActivity.KEY_URL, mainBanner.getUrl());
+                if (TextUtils.isEmpty(mLogoUrl)) {
+                    intent.putExtra(BackWebActivity.KEY_LOGO_URL, "invalid"); // 非法值
+                } else {
+                    intent.putExtra(BackWebActivity.KEY_LOGO_URL, mLogoUrl);
+                }
+                mContext.startActivity(intent);
             }
-            mContext.startActivity(intent);
         }
     }
 
