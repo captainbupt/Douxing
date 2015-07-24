@@ -305,22 +305,15 @@ public class DemoHXSDKHelper extends HXSDKHelper {
             @Override
             public Intent getLaunchIntent(EMMessage message) {
                 //设置点击通知栏跳转事件
-                Intent intent = new Intent(appContext, MainGridActivity.class);
-                intent.putExtra("emchat", true);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                String id;
                 ChatType chatType = message.getChatType();
                 if (chatType == ChatType.Chat) { // 单聊信息
-                    intent.putExtra("userId", message.getFrom());
-                    intent.putExtra("chatType", ChatActivity.CHATTYPE_SINGLE);
+                    id = message.getFrom();
                 } else { // 群聊信息
                     // message.getTo()为群聊id
-                    intent.putExtra("groupId", message.getTo());
-                    if (chatType == ChatType.GroupChat) {
-                        intent.putExtra("chatType", ChatActivity.CHATTYPE_GROUP);
-                    }
-
+                    id = message.getTo();
                 }
-                return intent;
+                return MainGridActivity.getIntent(appContext, id, chatType == ChatType.Chat);
             }
         };
     }

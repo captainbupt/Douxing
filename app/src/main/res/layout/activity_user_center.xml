@@ -74,12 +74,13 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/offset_medium"
+            android:paddingTop="@dimen/offset_lless">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/offset_lless"
                 android:background="@color/color_white"
                 android:orientation="vertical"
                 android:paddingLeft="@dimen/offset_medium"
