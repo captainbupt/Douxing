@@ -79,12 +79,12 @@ public class AboutUsPresenter extends Presenter {
         });
     }
 
-    // Çå³ı»º´æ
+    // æ¸…é™¤ç¼“å­˜
     public void clearCache() {
         mContext.startActivity(new Intent(mContext, ClearCacheActivity.class));
     }
 
-    // ³£¼ûÎÊÌâ
+    // å¸¸è§é—®é¢˜
     public void frequentQuestion() {
         Intent intent1 = new Intent(mContext, TipsWebView.class);
         intent1.putExtra(BackWebActivity.KEY_URL, Net.getRunHost() + Net.FAQ);
@@ -92,7 +92,7 @@ public class AboutUsPresenter extends Presenter {
         mContext.startActivity(intent1);
     }
 
-    // ÁªÏµÎÒÃÇ
+    // è”ç³»æˆ‘ä»¬
     public void contactUs() {
         new AlertDialog.Builder(mContext).setMessage(R.string.about_tips_phone)
                 .setPositiveButton(R.string.about_btn_tophone,
@@ -107,21 +107,21 @@ public class AboutUsPresenter extends Presenter {
                         }).setNegativeButton(R.string.text_cancel, null).show();
     }
 
-    //ÊÇ·ñÏÔÊ¾Í¼Æ¬¿ª¹Ø
+    //æ˜¯å¦æ˜¾ç¤ºå›¾ç‰‡å¼€å…³
     public void saveInternetOption(boolean isChecked) {
         SPHelper.setSaveInternetOption(isChecked);
     }
 
-    //ÊÇ·ñ¿ªÆôÍÆËÍ¿ª¹Ø
+    //æ˜¯å¦å¼€å¯æ¨é€å¼€å…³
     public void closePushOption(boolean isChecked) {
         if (isChecked) {
             SPHelper.setClosePushOption(true);
-            JPushInterface.stopPush(mContext.getApplicationContext());   //ÍÆËÍ¹Ø±Õ
+            JPushInterface.stopPush(mContext.getApplicationContext());   //æ¨é€å…³é—­
             AlarmUtil alarmUtil = new AlarmUtil();
             alarmUtil.cancel(mContext);
         } else {
             SPHelper.setClosePushOption(false);
-            JPushInterface.resumePush(mContext.getApplicationContext());    //ÍÆËÍ´ò¿ª
+            JPushInterface.resumePush(mContext.getApplicationContext());    //æ¨é€æ‰“å¼€
             AlarmUtil alarmUtil = new AlarmUtil();
             alarmUtil.OpenTimer(mContext);
         }

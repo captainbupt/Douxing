@@ -137,7 +137,9 @@ public class CommentFragment extends BaseFragment implements CommentView, Catego
 
     @Override
     public void startRefreshing() {
-        mContentListView.setRefreshing();
+        mContentListView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
+        mContentListView.setRefreshing(true);
+        mContentListView.setMode(PullToRefreshBase.Mode.BOTH);
     }
 
     @Override
