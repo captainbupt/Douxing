@@ -26,7 +26,7 @@
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="@dimen/offset_less"
         android:layout_marginRight="@dimen/offset_less"
-        android:scaleType="fitCenter"
+        android:scaleType="centerCrop"
         android:src="@drawable/icon_emchat_single" />
 
     <LinearLayout
