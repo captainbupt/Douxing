@@ -11,12 +11,12 @@ import android.widget.TextView;
 
 
 /**
- * ÔÚËõÂÔÍ¼µÄÇé¿öÏÂ£¬µ±ÎÄ¼şÃû³¬¹ı³¤¶ÈÊ±ÏÔÊ¾Ê¡ÂÔºÅ
+ * åœ¨ç¼©ç•¥å›¾çš„æƒ…å†µä¸‹ï¼Œå½“æ–‡ä»¶åè¶…è¿‡é•¿åº¦æ—¶æ˜¾ç¤ºçœç•¥å·
  */
 public class EllipsizeTextView extends TextView {
 
 
-    //ÒªÏÔÊ¾µÄÊ¡ÂÔºÅ
+    //è¦æ˜¾ç¤ºçš„çœç•¥å·
     private static final String ELLIPSIS = "...";
 
     private static final String TAG = "EllipsizeText";
@@ -43,13 +43,13 @@ public class EllipsizeTextView extends TextView {
     }
 
 
-    //ÊÇ·ñ»áÔÚÎÄ×Ö¹ı¶àµÄÊ±ºòÏÔÊ¾Ê¡ÂÔ·ûºÅ
+    //æ˜¯å¦ä¼šåœ¨æ–‡å­—è¿‡å¤šçš„æ—¶å€™æ˜¾ç¤ºçœç•¥ç¬¦å·
     public boolean isEllipsized() {
         return isEllipsized;
     }
 
 
-    //ÖØĞ´setMaxLinesµÄ·½·¨£¬ÒòÎªÖ»ÓĞÔÚ´úÂëÖĞsetMaxLine²ÅÓĞĞ§
+    //é‡å†™setMaxLinesçš„æ–¹æ³•ï¼Œå› ä¸ºåªæœ‰åœ¨ä»£ç ä¸­setMaxLineæ‰æœ‰æ•ˆ
     @Override
     public void setMaxLines(int maxLines) {
         super.setMaxLines(maxLines);
@@ -92,9 +92,9 @@ public class EllipsizeTextView extends TextView {
         super.onDraw(canvas);
     }
 
-//×î¹Ø¼üµÄ²¿·ÖÔÚÕâÀï£¬ÆäÊµ¾ÍÊÇ½«ÓÃÒªÏÔÊ¾µÄÎÄ±¾´´½¨Ò»¸ötext layoutÈ»ºóÔÚÕâ¸ölayoutµÄmaxline´óÓÚÔÛÃÇÉè¶¨µÄµÄmaxlineµÄÊ±ºò¾Í½ØÈ¡×Ö·û´®£¬²¢¼ÓÉÏÊ¡ÂÔºÅ
+//æœ€å…³é”®çš„éƒ¨åˆ†åœ¨è¿™é‡Œï¼Œå…¶å®å°±æ˜¯å°†ç”¨è¦æ˜¾ç¤ºçš„æ–‡æœ¬åˆ›å»ºä¸€ä¸ªtext layoutç„¶ååœ¨è¿™ä¸ªlayoutçš„maxlineå¤§äºå’±ä»¬è®¾å®šçš„çš„maxlineçš„æ—¶å€™å°±æˆªå–å­—ç¬¦ä¸²ï¼Œå¹¶åŠ ä¸Šçœç•¥å·
 
-//È»ºóÔÙÓÃ½ØÈ¡¼ÓÉÏÊ¡ÂÔºÅµÄÎÄ×ÖÔÙ´´½¨text layout±È½ÏÊÇ·ñÊÇ´óÓÚmaxline£¬È»ºó´óÓÚµÄ»°¾ÍÃ¿´Î½«×Ö·û´®-1£¬ÖªµÀµÈÓÚmaxline£¬Õâ¸öÊ±ºò¾ÍÊÇÔÛÃÇÒªÏÔÊ¾µÄÎÄ×ÖÁË
+//ç„¶åå†ç”¨æˆªå–åŠ ä¸Šçœç•¥å·çš„æ–‡å­—å†åˆ›å»ºtext layoutæ¯”è¾ƒæ˜¯å¦æ˜¯å¤§äºmaxlineï¼Œç„¶åå¤§äºçš„è¯å°±æ¯æ¬¡å°†å­—ç¬¦ä¸²-1ï¼ŒçŸ¥é“ç­‰äºmaxlineï¼Œè¿™ä¸ªæ—¶å€™å°±æ˜¯å’±ä»¬è¦æ˜¾ç¤ºçš„æ–‡å­—äº†
 
     private void resetText() {
         int maxLines = getMaxLines();
@@ -104,7 +104,7 @@ public class EllipsizeTextView extends TextView {
         if (maxLines != -1) {
             Layout layout = createWorkingLayout(workingText);
             if (layout.getLineCount() > maxLines) {
-//»ñÈ¡Ò»ĞĞÏÔÊ¾×Ö·û¸öÊı£¬È»ºó½ØÈ¡×Ö·û´®Êı
+//è·å–ä¸€è¡Œæ˜¾ç¤ºå­—ç¬¦ä¸ªæ•°ï¼Œç„¶åæˆªå–å­—ç¬¦ä¸²æ•°
                 workingText = fullText.substring(0, layout.getLineEnd(maxLines - 1)).trim() + ELLIPSIS;
                 Layout layout2 = createWorkingLayout(workingText);
                 while (layout2.getLineCount() > maxLines) {
@@ -136,9 +136,9 @@ public class EllipsizeTextView extends TextView {
         }
     }
 
-    //·µ»ØtextviewµÄÏÔÊ¾ÇøÓòµÄlayout£¬¸ÃtextviewµÄlayout²¢²»»áÏÔÊ¾³öÀ´£¬Ö»ÊÇÓÃÆä¿í¶ÈÀ´±È½ÏÒªÏÔÊ¾µÄÎÄ×ÖÊÇ·ñ¹ı³¤
+    //è¿”å›textviewçš„æ˜¾ç¤ºåŒºåŸŸçš„layoutï¼Œè¯¥textviewçš„layoutå¹¶ä¸ä¼šæ˜¾ç¤ºå‡ºæ¥ï¼Œåªæ˜¯ç”¨å…¶å®½åº¦æ¥æ¯”è¾ƒè¦æ˜¾ç¤ºçš„æ–‡å­—æ˜¯å¦è¿‡é•¿
     private Layout createWorkingLayout(String workingText) {
-        //×Ö·û´®×ÊÔ´£¬»­±Ê£¬layoutµÄ¿í¶È£¬LayoutµÄÑùÊ½£¬×ÖÌåµÄ´óĞ¡£¬ĞĞ¼ä¾à
+        //å­—ç¬¦ä¸²èµ„æºï¼Œç”»ç¬”ï¼Œlayoutçš„å®½åº¦ï¼ŒLayoutçš„æ ·å¼ï¼Œå­—ä½“çš„å¤§å°ï¼Œè¡Œé—´è·
         return new StaticLayout(workingText, getPaint(), getWidth() - getPaddingLeft() - getPaddingRight(),
                 Alignment.ALIGN_NORMAL, lineSpacingMultiplier, lineAdditionalVerticalPadding, false);
     }

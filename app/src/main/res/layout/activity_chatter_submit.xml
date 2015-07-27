@@ -23,33 +23,48 @@
         android:textColor="@color/color_black"
         android:textSize="@dimen/text_size_medium" />
 
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/url_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/content_edit_text"
         android:background="@color/color_grey"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
         android:paddingBottom="@dimen/offset_less"
         android:paddingLeft="@dimen/offset_medium"
         android:paddingRight="@dimen/offset_medium"
         android:paddingTop="@dimen/offset_less">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/url_left_text_view"
+            android:layout_width="@dimen/offset_xlarge"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:gravity="right"
             android:text="URL"
             android:textColor="@color/color_white"
             android:textSize="@dimen/text_size_medium" />
 
+        <ImageView
+            android:id="@+id/url_right_image_view"
+            android:layout_width="@dimen/offset_xlarge"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/arrow_white_right" />
+
         <LinearLayout
             android:id="@+id/url_content_layout"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_toLeftOf="@id/url_right_image_view"
+            android:layout_toRightOf="@id/url_left_text_view"
             android:background="@color/color_light_grey"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:padding="@dimen/offset_small">
+            android:padding="@dimen/offset_small"
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="@dimen/icon_size_small"
@@ -64,19 +79,13 @@
                 android:textColor="@color/color_text_black"
                 android:textSize="@dimen/text_size_medium" />
         </LinearLayout>
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/offset_less"
-            android:src="@drawable/arrow_white_right" />
-    </LinearLayout>
+    </RelativeLayout>
 
     <com.badou.mworking.widget.MultiImageEditGridView
         android:id="@+id/image_grid_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/content_edit_text"
+        android:layout_below="@id/url_layout"
         android:horizontalSpacing="@dimen/offset_less"
         android:numColumns="3"
         android:paddingBottom="@dimen/offset_less"

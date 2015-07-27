@@ -33,6 +33,7 @@ public abstract class BaseSubscriber<T> extends Subscriber<BaseNetEntity<T>> {
     @Override
     public void onNext(BaseNetEntity<T> baseNetEntity) {
         if (baseNetEntity.getErrcode() == Net.LOGOUT) {
+            onCompleted();
             AppApplication.logoutShow(mContext);
             return;
         }

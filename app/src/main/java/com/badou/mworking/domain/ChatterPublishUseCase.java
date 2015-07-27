@@ -6,13 +6,13 @@ import com.google.gson.annotations.SerializedName;
 
 import rx.Observable;
 
-public class PublishChatterUseCase extends UseCase {
+public class ChatterPublishUseCase extends UseCase {
 
     String mContent;
     String mPicture;
     boolean mAnonymous;
 
-    public PublishChatterUseCase(String mContent, String mPicture, boolean mAnonymous) {
+    public ChatterPublishUseCase(String mContent, String mPicture, boolean mAnonymous) {
         this.mContent = mContent;
         this.mPicture = mPicture;
         this.mAnonymous = mAnonymous;
@@ -26,7 +26,7 @@ public class PublishChatterUseCase extends UseCase {
     public static class Body {
         @SerializedName("uid")
         String uid;
-        @SerializedName("share")
+        @SerializedName("type")
         String type = "share";
         @SerializedName("content")
         String content;

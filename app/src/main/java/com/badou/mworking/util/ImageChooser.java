@@ -185,8 +185,8 @@ public class ImageChooser {
         ((Activity) mContext).startActivityForResult(intent, VIDEO_REQUEST_CODE);
     }
 
-    public static final int MAX_WIDTH = 800;
-    public static final int MAX_HEIGHT = 1200;
+    public static final int MAX_WIDTH = 400;
+    public static final int MAX_HEIGHT = 400;
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {

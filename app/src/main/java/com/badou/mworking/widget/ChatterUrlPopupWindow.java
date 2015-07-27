@@ -63,7 +63,7 @@ public class ChatterUrlPopupWindow extends PopupWindow {
         super.dismiss();
     }
 
-    public void showPopupWindow(View parent) {
+    public void showPopupWindow(final View parent) {
         if (!this.isShowing()) {
             contentView.postDelayed(new Runnable() {
                 @Override
