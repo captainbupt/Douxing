@@ -7,7 +7,7 @@ import com.badou.mworking.domain.CheckUpdateUseCase;
 import com.badou.mworking.domain.EMChatCreateGroupUseCase;
 import com.badou.mworking.domain.EnrollUseCase;
 import com.badou.mworking.domain.LoginUseCase;
-import com.badou.mworking.domain.PublishChatterUseCase;
+import com.badou.mworking.domain.ChatterPublishUseCase;
 import com.badou.mworking.domain.StoreUseCase;
 import com.badou.mworking.domain.TaskSignUseCase;
 import com.badou.mworking.entity.category.CategoryDetail;
@@ -20,17 +20,13 @@ import com.badou.mworking.entity.comment.CommentOverall;
 import com.badou.mworking.entity.main.MainData;
 import com.badou.mworking.entity.user.UserDetail;
 import com.badou.mworking.entity.user.UserInfo;
-import com.easemob.chatuidemo.domain.User;
+import com.google.gson.internal.LinkedTreeMap;
 
-import java.io.File;
 import java.util.List;
 
-import retrofit.Callback;
 import retrofit.http.Body;
-import retrofit.http.Field;
 import retrofit.http.GET;
 import retrofit.http.POST;
-import retrofit.http.Path;
 import retrofit.http.Query;
 import retrofit.mime.TypedFile;
 import retrofit.mime.TypedString;
@@ -109,5 +105,17 @@ public interface RestApi {
     Observable<BaseNetEntity> setUserHead(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Body TypedFile imgFile);
 
     @POST("/publish")
-    Observable<BaseNetEntity<PublishChatterUseCase.Response>> publishChatter(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Body PublishChatterUseCase.Body body);
+    Observable<BaseNetEntity<ChatterPublishUseCase.Response>> publishChatter(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Body ChatterPublishUseCase.Body body);
+
+    @GET("/getTopicList")
+    Observable<BaseNetEntity<LinkedTreeMap>> getTopicList(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid);
+
+    @POST("/pubphoto")
+    Observable<BaseNetEntity> publicChatterImage(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("qid") String qid, @Query("idx") int index, @Body TypedFile imgFile);
+
+    @POST("/pubweburl")
+    Observable<BaseNetEntity> publicChatterUrl(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("qid") String qid, @Body TypedString url);
+
+    @POST("/pubvideo")
+    Observable<BaseNetEntity> publicChatterVideo(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("qid") String qid, @Body TypedFile videoFile);
 }

@@ -200,6 +200,11 @@
     <string name="tips_full_content">查看全文</string>
     <string name="tips_save_internet">当前为省流量模式</string>
     <string name="chatter_tip_share_url">将复制的URL分享到朋友圈</string>
+    <string name="chatter_tip_share_url_how">如何把链接分享到兜行？</string>
+    <string name="chatter_tip_share_url_step_1">复制网址链接</string>
+    <string name="chatter_tip_share_url_step_2">打开兜行APP</string>
+    <string name="chatter_tip_share_url_step_3">一键分享</string>
+    <string name="chatter_tip_share_url_confirm">我知道了</string>
     <string name="chatter_title_right">分享</string>
     <string name="chatter_title_hot">达人</string>
     <string name="chatter_submit_topic_hint">#请输入新的话题#</string>

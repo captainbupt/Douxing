@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import com.badou.mworking.R;
 import com.badou.mworking.VideoPlayActivity;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
+import com.badou.mworking.util.BitmapUtil;
 import com.badou.mworking.util.FileUtils;
 
 import java.io.File;
@@ -96,8 +97,7 @@ public class VideoImageView extends FrameLayout {
         if (file.exists()) {
             file.delete();
         }
-        if (mBitmap != null && !mBitmap.isRecycled())
-            mBitmap.recycle();
+        BitmapUtil.recycleBitmap(mBitmap);
     }
 
     private void toVideoActivity() {

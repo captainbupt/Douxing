@@ -1,38 +1,30 @@
 package com.badou.mworking.presenter;
 
+import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.text.TextUtils;
-import android.view.View;
+import android.view.Gravity;
 
-import com.android.volley.VolleyError;
 import com.badou.mworking.R;
-import com.badou.mworking.adapter.ChatterTopicAdapter;
-import com.badou.mworking.domain.PublishChatterUseCase;
+import com.badou.mworking.domain.ChatterPublishContentUseCase;
+import com.badou.mworking.domain.ChatterTopicUseCase;
+import com.badou.mworking.domain.ChatterPublishUseCase;
 import com.badou.mworking.entity.ChatterTopic;
-import com.badou.mworking.net.BaseNetEntity;
+import com.badou.mworking.net.BaseListSubscriber;
 import com.badou.mworking.net.BaseSubscriber;
-import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.BitmapUtil;
 import com.badou.mworking.util.FileUtils;
-import com.badou.mworking.util.ImageChooser;
 import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.view.BaseView;
 import com.badou.mworking.view.ChatterSubmitView;
-import com.badou.mworking.widget.NoScrollListView;
-import com.badou.mworking.widget.VideoImageView;
+import com.badou.mworking.widget.ChatterUrlTipPopupWindow;
 
-import org.apache.commons.codec.binary.Base64;
 import org.json.JSONObject;
 
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class ChatterSubmitPresenter extends Presenter {
@@ -41,6 +33,8 @@ public class ChatterSubmitPresenter extends Presenter {
     boolean isAnonymous = false;
     boolean isVideo = false;
     ChatterSubmitView mChatterSubmitView;
+    ChatterPublishContentUseCase mContentUseCase;
+    ChatterUrlTipPopupWindow mPopupWindow;
 
     public ChatterSubmitPresenter(Context context) {
         super(context);
@@ -49,6 +43,9 @@ public class ChatterSubmitPresenter extends Presenter {
     @Override
     public void attachView(BaseView v) {
         mChatterSubmitView = (ChatterSubmitView) v;
+        getTopicList();
+        isTopicShow = false;
+        mChatterSubmitView.setTopicListVisibility(false);
     }
 
     public void showTopic() {
@@ -61,36 +58,37 @@ public class ChatterSubmitPresenter extends Presenter {
         mChatterSubmitView.setAnonymousCheckBox(isAnonymous);
     }
 
+    public void showUrlTip() {
+        if (mPopupWindow == null) {
+            mPopupWindow = new ChatterUrlTipPopupWindow(mContext);
+        }
+        mPopupWindow.showAtLocation(((Activity) mContext).getWindow().getDecorView().findViewById(android.R.id.content), Gravity.CENTER, 0, 0);
+    }
+
     public void takeImage() {
         isTopicShow = false;
         mChatterSubmitView.setTopicListVisibility(false);
-        if (!isVideo && mBitmapList.size() >= mChatterSubmitView.getMaxImageCount()) {
-            mChatterSubmitView.showToast(R.string.chatter_submit_max_image);
-            return;
-        }
         mChatterSubmitView.takeImage();
     }
 
     public void onImageSelected(Bitmap bitmap, boolean isVideo) {
-        if (mBitmapList == null)
-            mBitmapList = new ArrayList<>();
-        if (isVideo) {
-            for (Bitmap tmp : mBitmapList) {
-                if (tmp != null && !tmp.isRecycled())
-                    tmp.recycle();
-            }
-            mBitmapList.clear();
-            mBitmapList.add(bitmap);
-        } else {
-            mBitmapList.add(bitmap);
-        }
         this.isVideo = isVideo;
         mChatterSubmitView.setImageMode(isVideo);
-        mChatterSubmitView.addImage(bitmap);
-        mChatterSubmitView.addVideo(bitmap, FileUtils.getChatterVideoDir(mContext));
+        if (!isVideo) {
+            List<Bitmap> bitmapList = mChatterSubmitView.getCurrentBitmap();
+            if (bitmapList != null && bitmapList.size() >= mChatterSubmitView.getMaxImageCount()) {
+                mChatterSubmitView.showToast(R.string.chatter_submit_max_image);
+                BitmapUtil.recycleBitmap(bitmap);
+            } else {
+                mChatterSubmitView.addImage(bitmap);
+            }
+        } else {
+            mChatterSubmitView.addVideo(bitmap, FileUtils.getChatterVideoDir(mContext));
+        }
     }
 
     public void onTopicConfirmed(String content) {
+        mChatterSubmitView.setTopicListVisibility(false);
         String topic = content.replace("#", "").replace(" ", "").trim();
         mChatterSubmitView.onTopicSelected(topic);
     }
@@ -101,6 +99,7 @@ public class ChatterSubmitPresenter extends Presenter {
 
     public void onVideoDeleted() {
         isVideo = false;
+        mChatterSubmitView.clearBitmap();
         mChatterSubmitView.setImageMode(false);
     }
 
@@ -115,7 +114,7 @@ public class ChatterSubmitPresenter extends Presenter {
     }
 
     public void send(String content) {
-        // 断网判断
+        // 鏂綉鍒ゆ柇
         if (!NetUtils.isNetConnected(mContext)) {
             ToastUtil.showToast(mContext, R.string.error_service);
             return;
@@ -141,74 +140,60 @@ public class ChatterSubmitPresenter extends Presenter {
     }
 
     /**
-     * 发布问题/分享 内容
+     * 鍙戝竷闂/鍒嗕韩 鍐呭
      *
      * @param content
      */
     private void publishQuestionShare(String content, final List<Bitmap> bitmapList, final boolean isVideo) {
-        mChatterSubmitView.showToast(R.string.progress_tips_send_ing);
-        PublishChatterUseCase publishChatterUseCase;
+        mChatterSubmitView.showProgressDialog(R.string.progress_tips_send_ing);
+        ChatterPublishUseCase publishChatterUseCase;
         if (isVideo && bitmapList != null && bitmapList.size() == 1) {
-            publishChatterUseCase = new PublishChatterUseCase(content, BitmapUtil.bitmapToBase64(bitmapList.get(0)), isAnonymous);
-        }else{
-            publishChatterUseCase = new PublishChatterUseCase(content, null, isAnonymous);
+            publishChatterUseCase = new ChatterPublishUseCase(content, BitmapUtil.bitmapToBase64(bitmapList.get(0)), isAnonymous);
+        } else {
+            publishChatterUseCase = new ChatterPublishUseCase(content, null, isAnonymous);
         }
-        publishChatterUseCase.execute(new BaseSubscriber<PublishChatterUseCase.Response>(mContext) {
+        publishChatterUseCase.execute(new BaseSubscriber<ChatterPublishUseCase.Response>(mContext) {
             @Override
-            public void onResponseSuccess(PublishChatterUseCase.Response data) {
+            public void onResponseSuccess(ChatterPublishUseCase.Response data) {
                 String qid = data.getQid();
-                if(!isVideo){
-
+                if (isVideo) {
+                    publishVideo(qid);
+                } else if (bitmapList != null && bitmapList.size() > 0) {
+                    publicImage(qid, 1, bitmapList);
+                } else {
+                    mChatterSubmitView.hideProgressDialog();
+                    toChatterActivity();
                 }
             }
 
             @Override
-            public void onCompleted() {
+            public void onError(Throwable e) {
+                super.onError(e);
                 mChatterSubmitView.hideProgressDialog();
             }
         });
-        ServiceProvider.doPublishQuestionShare(mContext, "share", content, bitmap, mAnonymousCheckBox.isChecked() ? 1 : 0,
-                new VolleyListener(mContext) {
-
-                    @Override
-                    public void onResponseSuccess(JSONObject response) {
-                        // 获取questionid
-                        String qid = response.optJSONObject(Net.DATA).optString("qid");
-                        if (TextUtils.isEmpty(qid)) {
-                            ToastUtil.showToast(mContext, R.string.tongShiQuan_submit_fail);
-                            return;
-                        }
-                        if (type == ImageChooser.TYPE_VIDEO) {
-                            publishVideo(qid);
-                        } else if (type == ImageChooser.TYPE_IMAGE) {
-                            publicImage(qid, 0, bitmapList);
-                        } else {
-                            ToastUtil.showToast(mContext, R.string.tongShiQuan_submit_success);
-                            toChatterActivity();
-                        }
-                    }
-
-                    @Override
-                    public void onErrorCode(int code) {
-                        ToastUtil.showToast(mContext, R.string.tongShiQuan_submit_fail);
-                        mProgressDialog.dismiss();
-                    }
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        super.onErrorResponse(error);
-                    }
-                });
     }
 
-    private void publicImage(final String qid, final int index, final List<Object> bitmapList) {
-        ServiceProvider.doUploadImage(mContext, qid, index + 1, (Bitmap) bitmapList.get(index), new VolleyListener(mContext) {
-
+    private void publicImage(final String qid, final int index, final List<Bitmap> bitmapList) {
+        if (bitmapList == null || index - 1 >= bitmapList.size()) {
+            mChatterSubmitView.hideProgressDialog();
+            mChatterSubmitView.showToast(R.string.tongShiQuan_submit_success);
+            toChatterActivity();
+            return;
+        }
+        String filePath = FileUtils.getTrainCacheDir(mContext) + "tmp.jpg";
+        BitmapUtil.saveBitmap(bitmapList.get(index - 1), filePath);
+        if (index == 1) {
+            mContentUseCase = new ChatterPublishContentUseCase(ChatterPublishContentUseCase.TYPE_IMAGE, qid, filePath);
+        } else {
+            mContentUseCase.next(filePath);
+        }
+        mContentUseCase.execute(new BaseSubscriber(mContext) {
             @Override
-            public void onResponseSuccess(JSONObject response) {
-                if (index == bitmapList.size() - 1) {
-                    mProgressDialog.dismiss();
-                    ToastUtil.showToast(mContext, R.string.tongShiQuan_submit_success);
+            public void onResponseSuccess(Object data) {
+                if (index >= bitmapList.size()) {
+                    mChatterSubmitView.hideProgressDialog();
+                    mChatterSubmitView.showToast(R.string.tongShiQuan_submit_success);
                     toChatterActivity();
                 } else {
                     publicImage(qid, index + 1, bitmapList);
@@ -216,60 +201,53 @@ public class ChatterSubmitPresenter extends Presenter {
             }
 
             @Override
-            public void onErrorCode(int code) {
-                ToastUtil.showToast(mContext, R.string.tongShiQuan_submit_fail);
+            public void onError(Throwable e) {
+                super.onError(e);
+                mChatterSubmitView.hideProgressDialog();
             }
         });
     }
 
     /**
-     * 功能描述: 上传视屏
+     * 鍔熻兘鎻忚堪: 涓婁紶瑙嗗睆
      */
     private void publishVideo(String qid) {
-
-        ServiceProvider.doUploadVideo(mContext, qid, FileUtils.getChatterVideoDir(mContext), new VolleyListener(mContext) {
+        mContentUseCase = new ChatterPublishContentUseCase(ChatterPublishContentUseCase.TYPE_VIDEO, qid, FileUtils.getChatterVideoDir(mContext));
+        mContentUseCase.execute(new BaseSubscriber(mContext) {
             @Override
-            public void onResponseSuccess(JSONObject response) {
+            public void onResponseSuccess(Object data) {
                 ToastUtil.showToast(mContext, R.string.tongShiQuan_submit_success);
                 toChatterActivity();
             }
 
             @Override
-            public void onErrorCode(int code) {
-                ToastUtil.showToast(mContext, R.string.tongShiQuan_submit_fail);
-            }
-
-            @Override
             public void onCompleted() {
-                mProgressDialog.dismiss();
+                mChatterSubmitView.hideProgressDialog();
             }
         });
-
     }
 
     private void toChatterActivity() {
-        setResult(RESULT_OK);
-        finish();
+        mChatterSubmitView.clearBitmap();
+        ((Activity) mContext).setResult(Activity.RESULT_OK);
+        ((Activity) mContext).finish();
     }
 
     private void getTopicList() {
-        ServiceProvider.doGetTopicList(mContext, new VolleyListener(mContext) {
+        new ChatterTopicUseCase().execute(new BaseListSubscriber<ChatterTopic>(mContext) {
 
             @Override
-            public void onResponseSuccess(JSONObject response) {
-                JSONObject datas = response.optJSONObject(Net.DATA);
-                if (datas == null) {
-                    return;
-                }
-                List<Object> topicList = new ArrayList<>();
-                Iterator it = datas.keys();
-                while (it.hasNext()) {
-                    String key = (String) it.next();
-                    String value = datas.optString(key);
-                    topicList.add(new ChatterTopic(key, Long.parseLong(value) * 1000));
-                }
-                mTopicAdapter.setList(topicList);
+            public void onResponseSuccess(List<ChatterTopic> data) {
+                mChatterSubmitView.onTopicSynchronized(data);
             }
         });
+    }
+
+    @Override
+    public void destroy() {
+        if (mPopupWindow != null) {
+            mPopupWindow.dismiss();
+        }
+        super.destroy();
     }
 }
