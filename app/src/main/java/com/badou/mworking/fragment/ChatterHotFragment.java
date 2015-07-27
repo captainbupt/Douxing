@@ -14,7 +14,7 @@ import com.badou.mworking.ChatterUserActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.adapter.ChatterHotAdapter;
 import com.badou.mworking.base.BaseFragment;
-import com.badou.mworking.entity.ChatterHot;
+import com.badou.mworking.entity.chatter.ChatterHot;
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
@@ -50,9 +50,9 @@ public class ChatterHotFragment extends BaseFragment {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_chatter_list, null);
         mContentListView = (PullToRefreshListView) view
-                .findViewById(R.id.ptrlv_fragment_chatter_list);
+                .findViewById(R.id.content_list_view);
         mContentListView.setMode(PullToRefreshBase.Mode.BOTH);
-        mNoneResultImageView = (NoneResultView) view.findViewById(R.id.nrv_fragment_chatter_list_none_result);
+        mNoneResultImageView = (NoneResultView) view.findViewById(R.id.none_result_view);
         initListener();
         initData();
         return view;

@@ -102,9 +102,9 @@ public class ChatterActivity extends BaseBackActionBarActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_CHATTER_SUBMIT && resultCode == RESULT_OK) {
+/*        if (requestCode == REQUEST_CHATTER_SUBMIT && resultCode == RESULT_OK) {
             ((ChatterListFragment) mFragmentAdapter.getItem(0)).refreshData();
-        }
+        }*/
         super.onActivityResult(requestCode, resultCode, data);
     }
 

@@ -15,6 +15,14 @@ public class BaseNetEntity<T> {
     @Expose
     T data;
 
+    public BaseNetEntity() {
+    }
+
+    public BaseNetEntity(int errcode, T data) {
+        this.errcode = errcode;
+        this.data = data;
+    }
+
     public static BaseNetEntity fromJson(String json, Class clazz) {
         Gson gson = new Gson();
         Type objectType = type(BaseNetEntity.class, clazz);

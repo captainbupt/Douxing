@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.badou.mworking.adapter.ChatterListAdapter;
 import com.badou.mworking.base.BaseNoTitleActivity;
-import com.badou.mworking.entity.Chatter;
+import com.badou.mworking.entity.chatter.Chatter;
 import com.badou.mworking.entity.user.UserChatterInfo;
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.Net;
@@ -18,6 +18,7 @@ import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.Constant;
+import com.badou.mworking.util.GsonUtil;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.LevelTextView;
 import com.badou.mworking.widget.NoScrollListView;
@@ -119,8 +120,6 @@ public class ChatterUserActivity extends BaseNoTitleActivity {
                 mChatterAdapter.remove(mClickPosition);
             } else {
                 Chatter chatter = (Chatter) mChatterAdapter.getItem(mClickPosition);
-                chatter.replyNumber = data.getIntExtra(ChatterDetailActivity.RESULT_KEY_COUNT, chatter.replyNumber);
-                chatter.isStore = data.getBooleanExtra(ChatterDetailActivity.RESULT_KEY_STORE, chatter.isStore);
                 mChatterAdapter.setItem(mClickPosition, chatter);
             }
         }
@@ -187,7 +186,7 @@ public class ChatterUserActivity extends BaseNoTitleActivity {
                         mNoneResultView.setVisibility(View.GONE);
                         mCurrentPage++;
                         // 新加载的内容添加到list
-                        List<Object> chatters = new ArrayList<>();
+                        List<Chatter> chatters = new ArrayList<>();
                         if (mUserInfo == null) {
                             mUserInfo = new UserChatterInfo(contentObject);
                             ImageViewLoader.setCircleImageViewResource(mHeadImageView, mUserInfo.headUrl, getResources().getDimensionPixelSize(R.dimen.user_center_image_head_size));
@@ -196,12 +195,10 @@ public class ChatterUserActivity extends BaseNoTitleActivity {
                         }
                         for (int i = 0; i < resultArray.length(); i++) {
                             JSONObject jo2 = resultArray.optJSONObject(i);
-                            System.out.println(jo2);
-                            Chatter chatter = new Chatter(jo2);
-                            chatter.headUrl = mUserInfo.headUrl;
-                            chatter.level = mUserInfo.level;
-                            if (mUid.equals(selfuid))
-                                chatter.deletable = true;
+                            Chatter chatter = GsonUtil.fromJson(jo2.toString(), Chatter.class);
+                            chatter.setHeadUrl(mUserInfo.headUrl);
+                            chatter.setLevel(mUserInfo.level);
+                            chatter.setDeletable(mUid.equals(selfuid));
                             chatters.add(chatter);
                         }
                         if (beginNum == 1) {// 页码为1 重新加载第一页

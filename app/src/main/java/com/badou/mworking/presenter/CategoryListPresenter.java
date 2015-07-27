@@ -2,7 +2,6 @@ package com.badou.mworking.presenter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.provider.ContactsContract;
 
 import com.badou.mworking.domain.CategoryUseCase;
 import com.badou.mworking.domain.ClassificationUseCase;
@@ -11,7 +10,7 @@ import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.CategoryDetail;
 import com.badou.mworking.entity.category.CategoryOverall;
 import com.badou.mworking.entity.category.Classification;
-import com.badou.mworking.net.BaseListSubscriber;
+import com.badou.mworking.net.BaseSubscriber;
 import com.badou.mworking.util.CategoryIntentFactory;
 import com.badou.mworking.util.SPHelper;
 import com.badou.mworking.view.BaseView;
@@ -22,11 +21,6 @@ import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 public class CategoryListPresenter extends ListPresenter<Category> {
 
@@ -91,8 +85,7 @@ public class CategoryListPresenter extends ListPresenter<Category> {
     // 功能描述:通过网络获取 类别 列表
     private void getClassifications() {
         mCategoryListView.setMainClassification(SPHelper.getClassification(Category.CATEGORY_KEY_NAMES[mCategoryIndex]));
-        new ClassificationUseCase(Category.CATEGORY_KEY_NAMES[mCategoryIndex]).execute(new BaseListSubscriber<Classification>(mContext) {
-
+        new ClassificationUseCase(Category.CATEGORY_KEY_NAMES[mCategoryIndex]).execute(new BaseSubscriber<List<Classification>>(mContext) {
             @Override
             public void onResponseSuccess(List<Classification> data) {
                 Collections.sort(data, new Comparator<Classification>() {

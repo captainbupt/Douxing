@@ -23,10 +23,8 @@ public class ImageViewLoader {
         }
         Bitmap headBmp = BitmapLruCache.getBitmapLruCache().getCircleBitmap(url);
         if (headBmp != null && !headBmp.isRecycled()) {
-            System.out.println("get image from cache");
             imageView.setImageBitmap(headBmp);
         } else {
-            System.out.println("get image from server");
             MyVolley.getImageLoader().get(url, new CircleImageListener(url, imageView, size, size), size, size);
         }
     }
@@ -36,7 +34,7 @@ public class ImageViewLoader {
         if (headBmp != null && !headBmp.isRecycled()) {
             imageView.setImageBitmap(headBmp);
         } else {
-            MyVolley.getImageLoader().get(url, new NormalImageListener(imageView, url, R.drawable.icon_image_default), size, size);
+            MyVolley.getImageLoader().get(url, new NormalImageListener(imageView, url, defaultResId), size, size);
         }
     }
 

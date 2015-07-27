@@ -41,6 +41,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:gravity="right"
+            android:paddingRight="@dimen/offset_small"
             android:text="URL"
             android:textColor="@color/color_white"
             android:textSize="@dimen/text_size_medium" />
@@ -52,33 +53,16 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:scaleType="centerInside"
-            android:src="@drawable/arrow_white_right" />
+            android:src="@drawable/chatter_submit_arrow_url" />
 
-        <LinearLayout
+        <com.badou.mworking.widget.ChatterUrlView
             android:id="@+id/url_content_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@id/url_right_image_view"
             android:layout_toRightOf="@id/url_left_text_view"
-            android:background="@color/color_light_grey"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="@dimen/offset_small"
-            android:visibility="gone">
+            android:visibility="gone" />
 
-            <ImageView
-                android:layout_width="@dimen/icon_size_small"
-                android:layout_height="@dimen/icon_size_small"
-                android:src="@drawable/icon_chatter_url_default" />
-
-            <com.badou.mworking.widget.EllipsizeTextView
-                android:id="@+id/url_title_text_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/offset_small"
-                android:textColor="@color/color_text_black"
-                android:textSize="@dimen/text_size_medium" />
-        </LinearLayout>
     </RelativeLayout>
 
     <com.badou.mworking.widget.MultiImageEditGridView
@@ -99,7 +83,7 @@
         android:id="@+id/video_image_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/content_edit_text"
+        android:layout_below="@id/url_layout"
         android:paddingBottom="@dimen/offset_less"
         android:paddingLeft="@dimen/offset_medium"
         android:paddingRight="@dimen/offset_medium"
@@ -183,11 +167,13 @@
             android:padding="@dimen/offset_medium">
 
             <ImageView
+                android:id="@+id/bottom_photo_image_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/icon_bottom_photo" />
 
             <TextView
+                android:id="@+id/bottom_photo_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/offset_less"
@@ -200,7 +186,7 @@
     <ListView
         android:id="@+id/topic_list_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="@color/color_white"
         android:divider="@color/color_border_grey"
         android:dividerHeight="1dp" />

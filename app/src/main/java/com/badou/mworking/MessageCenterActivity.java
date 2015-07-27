@@ -69,7 +69,7 @@ public class MessageCenterActivity extends BaseBackActionBarActivity {
         };
         if (messageCenter.type.equals(MessageCenter.TYPE_NOTICE) || messageCenter.type.equals(MessageCenter.TYPE_EXAM)
                 || messageCenter.type.equals(MessageCenter.TYPE_TRAINING) || messageCenter.type.equals(MessageCenter.TYPE_TASK)
-                || messageCenter.type.equals(MessageCenter.TYPE_SHELF)) {
+                || messageCenter.type.equals(MessageCenter.TYPE_SHELF) || messageCenter.type.equals(MessageCenter.TYPE_ENTRY)) {
             mProgressDialog.dismiss();
             mContentAdapter.deleteItem(position);
             startActivity(CategoryIntentFactory.getIntent(context, messageCenter.getCategoryType(), messageCenter.add, true));

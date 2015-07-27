@@ -5,6 +5,8 @@ import android.text.TextUtils;
 
 import com.badou.mworking.R;
 import com.badou.mworking.entity.category.Category;
+import com.badou.mworking.entity.chatter.Chatter;
+import com.badou.mworking.util.GsonUtil;
 
 import org.json.JSONObject;
 
@@ -48,7 +50,7 @@ public class Store {
         }
         JSONObject chatterJsonObject = jsonObject.optJSONObject("qas");
         if (chatterJsonObject != null)
-            chatter = new Chatter(chatterJsonObject);
+            chatter = GsonUtil.fromJson(chatterJsonObject.toString(), Chatter.class);
     }
 
     public static int getIconRes(int type) {

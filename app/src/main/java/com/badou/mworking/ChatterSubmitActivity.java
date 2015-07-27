@@ -1,41 +1,34 @@
 package com.badou.mworking;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.android.volley.VolleyError;
 import com.badou.mworking.adapter.ChatterTopicAdapter;
 import com.badou.mworking.base.BaseBackActionBarActivity;
-import com.badou.mworking.entity.ChatterTopic;
-import com.badou.mworking.net.Net;
-import com.badou.mworking.net.ServiceProvider;
-import com.badou.mworking.net.volley.VolleyListener;
+import com.badou.mworking.entity.chatter.ChatterTopic;
+import com.badou.mworking.entity.chatter.UrlContent;
 import com.badou.mworking.presenter.ChatterSubmitPresenter;
 import com.badou.mworking.presenter.Presenter;
-import com.badou.mworking.util.FileUtils;
 import com.badou.mworking.util.ImageChooser;
-import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.view.ChatterSubmitView;
-import com.badou.mworking.widget.EllipsizeTextView;
+import com.badou.mworking.widget.ChatterUrlView;
 import com.badou.mworking.widget.MultiImageEditGridView;
-import com.badou.mworking.widget.NoScrollListView;
 import com.badou.mworking.widget.VideoImageView;
 
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import butterknife.Bind;
@@ -47,21 +40,8 @@ import butterknife.OnClick;
  */
 public class ChatterSubmitActivity extends BaseBackActionBarActivity implements ChatterSubmitView {
 
+    private static final String KEY_URL = "url";
 
-    @Bind(R.id.content_edit_text)
-    EditText mContentEditText;
-    @Bind(R.id.url_title_text_view)
-    EllipsizeTextView mUrlTitleTextView;
-    @Bind(R.id.url_content_layout)
-    LinearLayout mUrlContentLayout;
-    @Bind(R.id.image_grid_view)
-    MultiImageEditGridView mImageGridView;
-    @Bind(R.id.video_image_view)
-    VideoImageView mVideoImageView;
-    @Bind(R.id.anonymous_check_box)
-    CheckBox mAnonymousCheckBox;
-    @Bind(R.id.topic_list_view)
-    ListView mTopicListView;
 
     ChatterTopicAdapter mTopicAdapter;
     TextView mTopicConfirmTextView;
@@ -69,6 +49,40 @@ public class ChatterSubmitActivity extends BaseBackActionBarActivity implements 
 
     ImageChooser mImageChooser;
     ChatterSubmitPresenter mPresenter;
+    @Bind(R.id.content_edit_text)
+    EditText mContentEditText;
+    @Bind(R.id.url_left_text_view)
+    TextView mUrlLeftTextView;
+    @Bind(R.id.url_right_image_view)
+    ImageView mUrlRightImageView;
+    @Bind(R.id.url_content_layout)
+    ChatterUrlView mUrlContentLayout;
+    @Bind(R.id.url_layout)
+    RelativeLayout mUrlLayout;
+    @Bind(R.id.image_grid_view)
+    MultiImageEditGridView mImageGridView;
+    @Bind(R.id.video_image_view)
+    VideoImageView mVideoImageView;
+    @Bind(R.id.bottom_topic_layout)
+    LinearLayout mBottomTopicLayout;
+    @Bind(R.id.anonymous_check_box)
+    CheckBox mAnonymousCheckBox;
+    @Bind(R.id.bottom_anonymous_layout)
+    LinearLayout mBottomAnonymousLayout;
+    @Bind(R.id.bottom_photo_image_view)
+    ImageView mBottomPhotoImageView;
+    @Bind(R.id.bottom_photo_text_view)
+    TextView mBottomPhotoTextView;
+    @Bind(R.id.bottom_photo_layout)
+    LinearLayout mBottomPhotoLayout;
+    @Bind(R.id.topic_list_view)
+    ListView mTopicListView;
+
+    public static Intent getIntent(Context context, String url) {
+        Intent intent = new Intent(context, ChatterSubmitActivity.class);
+        intent.putExtra(KEY_URL, url);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,17 +97,18 @@ public class ChatterSubmitActivity extends BaseBackActionBarActivity implements 
 
     @Override
     public Presenter getPresenter() {
-        return new ChatterSubmitPresenter(mContext);
+        return new ChatterSubmitPresenter(mContext, mReceivedIntent.getStringExtra(KEY_URL));
     }
 
     private void initView() {
-        setActionbarTitle(R.string.chatter_title_right);
+        setActionbarTitle(R.string.chatter_submit_title_share);
         View header = LayoutInflater.from(mContext).inflate(R.layout.layout_chatter_topic_header, mTopicListView, false);
         mTopicConfirmTextView = (TextView) header.findViewById(R.id.topic_confirm_text_view);
         mTopicEditText = (EditText) header.findViewById(R.id.topic_edit_text);
         mTopicListView.addHeaderView(header);
         mTopicAdapter = new ChatterTopicAdapter(mContext);
         mTopicListView.setAdapter(mTopicAdapter);
+
     }
 
     @OnClick(R.id.bottom_topic_layout)
@@ -112,7 +127,7 @@ public class ChatterSubmitActivity extends BaseBackActionBarActivity implements 
     }
 
     @OnClick(R.id.url_layout)
-    void onUrlLayoutClicked(){
+    void onUrlLayoutClicked() {
         mPresenter.showUrlTip();
     }
 
@@ -247,6 +262,40 @@ public class ChatterSubmitActivity extends BaseBackActionBarActivity implements 
     @Override
     public void onTopicSynchronized(List<ChatterTopic> topics) {
         mTopicAdapter.setList(topics);
+    }
+
+    @Override
+    public void setUrlContent(UrlContent urlContent) {
+        mUrlContentLayout.setData(urlContent);
+    }
+
+    @Override
+    public void setModeUrl() {
+        mImageGridView.setVisibility(View.INVISIBLE);
+        mBottomPhotoLayout.setEnabled(false);
+        mUrlContentLayout.setVisibility(View.VISIBLE);
+        mBottomPhotoTextView.setTextColor(0xffc6c6c6);
+        mBottomPhotoImageView.setImageResource(R.drawable.icon_bottom_photo_disable);
+        mUrlRightImageView.setEnabled(true);
+        mUrlRightImageView.setImageResource(R.drawable.button_chatter_submit_url_cancel);
+        mUrlRightImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.cancelUrlSharing();
+            }
+        });
+    }
+
+    @Override
+    public void setModeNormal() {
+        clearBitmap();
+        mImageGridView.setVisibility(View.GONE);
+        mBottomPhotoLayout.setEnabled(true);
+        mUrlRightImageView.setImageResource(R.drawable.chatter_submit_arrow_url);
+        mBottomPhotoTextView.setTextColor(getResources().getColor(R.color.color_text_black));
+        mBottomPhotoImageView.setImageResource(R.drawable.icon_bottom_photo);
+        mUrlContentLayout.setVisibility(View.INVISIBLE);
+        mUrlRightImageView.setEnabled(false);
     }
 
     @Override

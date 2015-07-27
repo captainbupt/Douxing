@@ -1,4 +1,4 @@
-package com.badou.mworking.entity;
+package com.badou.mworking.entity.chatter;
 
 import org.json.JSONObject;
 

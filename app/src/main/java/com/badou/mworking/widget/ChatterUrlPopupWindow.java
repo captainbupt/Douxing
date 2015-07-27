@@ -1,6 +1,7 @@
 package com.badou.mworking.widget;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.badou.mworking.ChatterSubmitActivity;
 import com.badou.mworking.R;
 
 import butterknife.Bind;
@@ -55,6 +57,8 @@ public class ChatterUrlPopupWindow extends PopupWindow {
     @OnClick(R.id.share_text_view)
     void share() {
         String url = mUrlTextView.getText().toString();
+        Intent intent = ChatterSubmitActivity.getIntent(mContext, url);
+        mContext.startActivity(intent);
         dismiss();
     }
 
