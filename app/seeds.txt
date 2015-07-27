@@ -11465,6 +11465,7 @@ com.badou.mworking.entity.MessageCenter: java.lang.String TYPE_SHELF
 com.badou.mworking.entity.MessageCenter: java.lang.String TYPE_CHATTER
 com.badou.mworking.entity.MessageCenter: java.lang.String TYPE_ASK
 com.badou.mworking.entity.MessageCenter: java.lang.String TYPE_CHAT
+com.badou.mworking.entity.MessageCenter: java.lang.String TYPE_ENTRY
 com.badou.mworking.entity.MessageCenter: int id
 com.badou.mworking.entity.MessageCenter: long ts
 com.badou.mworking.entity.MessageCenter: java.lang.String type

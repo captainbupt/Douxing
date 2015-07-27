@@ -18474,13 +18474,14 @@ com.badou.mworking.entity.MessageCenter -> com.badou.mworking.entity.MessageCent
     java.lang.String TYPE_CHATTER -> TYPE_CHATTER
     java.lang.String TYPE_ASK -> TYPE_ASK
     java.lang.String TYPE_CHAT -> TYPE_CHAT
+    java.lang.String TYPE_ENTRY -> TYPE_ENTRY
     int id -> id
     long ts -> ts
     java.lang.String type -> type
     java.lang.String description -> description
     java.lang.String add -> add
-    54:59:android.content.ContentValues getContentValue() -> getContentValue
-    63:73:int getCategoryType() -> getCategoryType
+    52:57:android.content.ContentValues getContentValue() -> getContentValue
+    61:73:int getCategoryType() -> getCategoryType
 com.badou.mworking.entity.Store -> com.badou.mworking.entity.Store:
     int TYPE_ASK -> TYPE_ASK
     int TYPE_NOTICE -> TYPE_NOTICE
