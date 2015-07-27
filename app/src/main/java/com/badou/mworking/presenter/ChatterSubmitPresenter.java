@@ -10,11 +10,10 @@ import com.badou.mworking.R;
 import com.badou.mworking.domain.ChatterPublishContentUseCase;
 import com.badou.mworking.domain.ChatterTopicUseCase;
 import com.badou.mworking.domain.ChatterPublishUseCase;
-import com.badou.mworking.entity.ChatterTopic;
-import com.badou.mworking.net.BaseListSubscriber;
+import com.badou.mworking.domain.UrlContentUseCase;
+import com.badou.mworking.entity.chatter.ChatterTopic;
+import com.badou.mworking.entity.chatter.UrlContent;
 import com.badou.mworking.net.BaseSubscriber;
-import com.badou.mworking.net.ServiceProvider;
-import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.BitmapUtil;
 import com.badou.mworking.util.FileUtils;
 import com.badou.mworking.util.NetUtils;
@@ -22,8 +21,6 @@ import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.view.BaseView;
 import com.badou.mworking.view.ChatterSubmitView;
 import com.badou.mworking.widget.ChatterUrlTipPopupWindow;
-
-import org.json.JSONObject;
 
 import java.util.List;
 
@@ -35,9 +32,11 @@ public class ChatterSubmitPresenter extends Presenter {
     ChatterSubmitView mChatterSubmitView;
     ChatterPublishContentUseCase mContentUseCase;
     ChatterUrlTipPopupWindow mPopupWindow;
+    String mUrl;
 
-    public ChatterSubmitPresenter(Context context) {
+    public ChatterSubmitPresenter(Context context, String url) {
         super(context);
+        this.mUrl = url;
     }
 
     @Override
@@ -46,6 +45,40 @@ public class ChatterSubmitPresenter extends Presenter {
         getTopicList();
         isTopicShow = false;
         mChatterSubmitView.setTopicListVisibility(false);
+        if (!TextUtils.isEmpty(mUrl)) {
+            mChatterSubmitView.setModeUrl();
+            parseUrl(mUrl);
+        }
+    }
+
+    private void parseUrl(String url) {
+        mChatterSubmitView.showProgressDialog();
+        new UrlContentUseCase(url).execute(new BaseSubscriber<UrlContent>(mContext) {
+
+            @Override
+            public void onResponseSuccess(UrlContent data) {
+                mChatterSubmitView.setUrlContent(data);
+            }
+
+            @Override
+            public void onCompleted() {
+                mChatterSubmitView.hideProgressDialog();
+            }
+
+            @Override
+            public void onErrorCode(int code) {
+                if (code == 40010) {
+                    mChatterSubmitView.setUrlContent(null);
+                } else {
+                    super.onErrorCode(code);
+                }
+            }
+        });
+    }
+
+    public void cancelUrlSharing() {
+        mUrl = null;
+        mChatterSubmitView.setModeNormal();
     }
 
     public void showTopic() {
@@ -131,11 +164,11 @@ public class ChatterSubmitPresenter extends Presenter {
         }
         List<Bitmap> bitmapList = mChatterSubmitView.getCurrentBitmap();
         if (!isVideo && bitmapList != null && bitmapList.size() >= 1) {
-            publishQuestionShare(content, bitmapList, isVideo);
+            publishQuestionShare(content, bitmapList, isVideo, null);
         } else if (isVideo) {
-            publishQuestionShare(content, bitmapList, isVideo);
+            publishQuestionShare(content, bitmapList, isVideo, null);
         } else {
-            publishQuestionShare(content, null, isVideo);
+            publishQuestionShare(content, null, isVideo, mUrl);
         }
     }
 
@@ -144,7 +177,7 @@ public class ChatterSubmitPresenter extends Presenter {
      *
      * @param content
      */
-    private void publishQuestionShare(String content, final List<Bitmap> bitmapList, final boolean isVideo) {
+    private void publishQuestionShare(String content, final List<Bitmap> bitmapList, final boolean isVideo, final String url) {
         mChatterSubmitView.showProgressDialog(R.string.progress_tips_send_ing);
         ChatterPublishUseCase publishChatterUseCase;
         if (isVideo && bitmapList != null && bitmapList.size() == 1) {
@@ -160,6 +193,8 @@ public class ChatterSubmitPresenter extends Presenter {
                     publishVideo(qid);
                 } else if (bitmapList != null && bitmapList.size() > 0) {
                     publicImage(qid, 1, bitmapList);
+                } else if (!TextUtils.isEmpty(url)) {
+                    publishUrl(qid, url);
                 } else {
                     mChatterSubmitView.hideProgressDialog();
                     toChatterActivity();
@@ -227,6 +262,22 @@ public class ChatterSubmitPresenter extends Presenter {
         });
     }
 
+    private void publishUrl(String qid, String url) {
+        mContentUseCase = new ChatterPublishContentUseCase(ChatterPublishContentUseCase.TYPE_URL, qid, url);
+        mContentUseCase.execute(new BaseSubscriber(mContext) {
+            @Override
+            public void onResponseSuccess(Object data) {
+                ToastUtil.showToast(mContext, R.string.tongShiQuan_submit_success);
+                toChatterActivity();
+            }
+
+            @Override
+            public void onCompleted() {
+                mChatterSubmitView.hideProgressDialog();
+            }
+        });
+    }
+
     private void toChatterActivity() {
         mChatterSubmitView.clearBitmap();
         ((Activity) mContext).setResult(Activity.RESULT_OK);
@@ -234,7 +285,7 @@ public class ChatterSubmitPresenter extends Presenter {
     }
 
     private void getTopicList() {
-        new ChatterTopicUseCase().execute(new BaseListSubscriber<ChatterTopic>(mContext) {
+        new ChatterTopicUseCase().execute(new BaseSubscriber<List<ChatterTopic>>(mContext) {
 
             @Override
             public void onResponseSuccess(List<ChatterTopic> data) {

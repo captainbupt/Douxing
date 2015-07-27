@@ -23,6 +23,12 @@ public class DensityUtil {
     private int textSizeLarge;
     private int textSizeXlarge;
     private int textSizeXxlarge;
+    private int iconSizeTiny;
+    private int iconSizeSmall;
+    private int iconSizeMedium;
+    private int iconSizeLarger;
+    private int iconSizeLarge;
+    private int iconSizeXlarge;
     private int screenHeight;
     private int screenWidth;
 
@@ -46,8 +52,38 @@ public class DensityUtil {
         densityUtil.textSizeLarge = resources.getDimensionPixelSize(R.dimen.text_size_large);
         densityUtil.textSizeXlarge = resources.getDimensionPixelSize(R.dimen.text_size_xlarge);
         densityUtil.textSizeXxlarge = resources.getDimensionPixelSize(R.dimen.text_size_xxlarge);
+        densityUtil.iconSizeTiny = resources.getDimensionPixelSize(R.dimen.icon_size_tiny);
+        densityUtil.iconSizeSmall = resources.getDimensionPixelSize(R.dimen.icon_size_small);
+        densityUtil.iconSizeMedium = resources.getDimensionPixelSize(R.dimen.icon_size_medium);
+        densityUtil.iconSizeLarger = resources.getDimensionPixelSize(R.dimen.icon_size_larger);
+        densityUtil.iconSizeLarge = resources.getDimensionPixelSize(R.dimen.icon_size_large);
+        densityUtil.iconSizeXlarge = resources.getDimensionPixelSize(R.dimen.icon_size_xlarge);
         densityUtil.screenWidth = getWidthInPx(activity);
         densityUtil.screenHeight = getHeightInPx(activity);
+    }
+
+    public int getIconSizeTiny() {
+        return iconSizeTiny;
+    }
+
+    public int getIconSizeSmall() {
+        return iconSizeSmall;
+    }
+
+    public int getIconSizeMedium() {
+        return iconSizeMedium;
+    }
+
+    public int getIconSizeLarger() {
+        return iconSizeLarger;
+    }
+
+    public int getIconSizeLarge() {
+        return iconSizeLarge;
+    }
+
+    public int getIconSizeXlarge() {
+        return iconSizeXlarge;
     }
 
     public int getOffsetMicro() {

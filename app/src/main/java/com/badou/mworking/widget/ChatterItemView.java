@@ -1,22 +1,20 @@
 package com.badou.mworking.widget;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.badou.mworking.BackWebActivity;
 import com.badou.mworking.ChatterUserActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.database.ChatterResManager;
-import com.badou.mworking.entity.Chatter;
+import com.badou.mworking.entity.chatter.Chatter;
 import com.badou.mworking.entity.user.UserChatterInfo;
 import com.badou.mworking.listener.TopicClickableSpan;
 import com.badou.mworking.net.ServiceProvider;
@@ -28,23 +26,41 @@ import com.badou.mworking.util.TimeTransfer;
 
 import org.json.JSONObject;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 public class ChatterItemView extends LinearLayout {
 
+    @Bind(R.id.head_image_view)
+    ImageView mHeadImageView;
+    @Bind(R.id.name_text_view)
+    TextView mNameTextView;
+    @Bind(R.id.level_text_view)
+    LevelTextView mLevelTextView;
+    @Bind(R.id.content_text_view)
+    TextViewFixTouchConsume mContentTextView;
+    @Bind(R.id.full_content_text_view)
+    TextView mFullContentTextView;
+    @Bind(R.id.video_image_view)
+    VideoImageView mVideoImageView;
+    @Bind(R.id.image_grid_view)
+    MultiImageShowGridView mImageGridView;
+    @Bind(R.id.url_content_view)
+    ChatterUrlView mUrlContentView;
+    @Bind(R.id.save_internet_text_view)
+    TextView mSaveInternetTextView;
+    @Bind(R.id.time_text_view)
+    TextView mTimeTextView;
+    @Bind(R.id.praise_image_view)
+    ImageView mPraiseImageView;
+    @Bind(R.id.praise_text_view)
+    TextView mPraiseTextView;
+    @Bind(R.id.reply_text_view)
+    TextView mReplyTextView;
+
     private Context mContext;
-    ImageView headImageView;// 头像
-    TextView nameTextView;// 用户名称
-    TextView dateTextView;// 下方日期时间
-    LevelTextView levelTextView; // 等级
-    TextViewFixTouchConsume contentTextView;// 评论的内容
-    TextView fullContentTextView;
-    VideoImageView videoImageView;
-    MultiImageShowGridView imageGridView;
-    TextView saveInternetTextView; // 省流量模式
-    TextView replyNumberTextView;// 评论的数量
-    CheckBox praiseCheckBox;// 点赞chk
-    TextView praiseNumberTextView;// 点赞数
-    HeadClickListener headClickListener;
-    PraiseClickListener praiseClickListener;
+    HeadClickListener mHeadClickListener;
+    PraiseClickListener mPraiseClickListener;
 
     public ChatterItemView(Context context) {
         super(context);
@@ -56,87 +72,96 @@ public class ChatterItemView extends LinearLayout {
         initialize(context);
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void initialize(Context context) {
         mContext = context;
         LayoutInflater mInflater = LayoutInflater.from(context);
         mInflater.inflate(R.layout.view_chatter_item, this, true);
-        headImageView = (ImageView) findViewById(R.id.iv_adapter_chatter_head);
-        nameTextView = (TextView) findViewById(R.id.tv_adapter_chatter_name);
-        contentTextView = (TextViewFixTouchConsume) findViewById(R.id.tv_adapter_chatter_content);
-        fullContentTextView = (TextView) findViewById(R.id.tv_adapter_chatter_full_content);
-        dateTextView = (TextView) findViewById(R.id.tv_adapter_chatter_time);
-        videoImageView = (VideoImageView) findViewById(R.id.viv_adapter_chatter_video);
-        imageGridView = (MultiImageShowGridView) findViewById(R.id.misgv_adapter_chatter_image);
-        replyNumberTextView = (TextView) findViewById(R.id.tv_adapter_chatter_reply_number);
-        praiseCheckBox = (CheckBox) findViewById(R.id.cb_adapter_chatter_praise);
-        praiseNumberTextView = (TextView) findViewById(R.id.tv_adapter_chatter_praise_number);
-        levelTextView = (LevelTextView) findViewById(R.id.tv_adapter_chatter_level);
-        saveInternetTextView = (TextView) findViewById(R.id.tv_adapter_chatter_save_internet);
-        headClickListener = new HeadClickListener();
-        praiseClickListener = new PraiseClickListener();
-        praiseNumberTextView.setOnClickListener(praiseClickListener);
-        praiseCheckBox.setOnClickListener(praiseClickListener);
+        ButterKnife.bind(this, this);
     }
 
     public void setData(Chatter chatter, boolean isHeadClickable) {
-        nameTextView.setText(chatter.name);
-        String content = chatter.content;
-        TopicClickableSpan.setClickTopic(mContext, contentTextView, content, 100);
-        if (contentTextView.getText().length() > 100) {
-            fullContentTextView.setVisibility(View.VISIBLE);
+        mNameTextView.setText(chatter.getName());
+        String content = chatter.getContent();
+        TopicClickableSpan.setClickTopic(mContext, mContentTextView, content, 100);
+        if (mContentTextView.getText().length() > 100) {
+            mFullContentTextView.setVisibility(View.VISIBLE);
         } else {
-            fullContentTextView.setVisibility(View.GONE);
+            mFullContentTextView.setVisibility(View.GONE);
         }
-        dateTextView.setText(TimeTransfer.long2ChatterDetailData(mContext, chatter.publishTime));
-        replyNumberTextView.setText("" + chatter.replyNumber);
-        ImageViewLoader.setCircleImageViewResource(headImageView, chatter.headUrl, mContext.getResources().getDimensionPixelSize(R.dimen.icon_head_size_middle));
+        mTimeTextView.setText(TimeTransfer.long2ChatterDetailData(mContext, chatter.getPublishTime()));
+        mReplyTextView.setText("" + chatter.getReplyNumber());
+        ImageViewLoader.setCircleImageViewResource(mHeadImageView, chatter.getHeadUrl(), mContext.getResources().getDimensionPixelSize(R.dimen.icon_head_size_middle));
 
-        // 评论中添加的图片
-        // 没有的话，判断是否是wifi网络
-        if (NetUtils.isWifiConnected(mContext) || !SPHelper.getSaveInternetOption()) {
-            saveInternetTextView.setVisibility(View.GONE);
-            if (!TextUtils.isEmpty(chatter.videoUrl)) {
-                videoImageView.setVisibility(View.VISIBLE);
-                videoImageView.setData(chatter.imgUrl, chatter.videoUrl, chatter.qid);
-                imageGridView.setVisibility(View.GONE);
-            } else {
-                imageGridView.setVisibility(View.VISIBLE);
-                imageGridView.setList(chatter.photoUrls);
-                videoImageView.setVisibility(View.GONE);
+        // 有Url则直接显示url
+        System.out.println("url content: " + (chatter.getUrlContent() != null));
+        if (chatter.getUrlContent() != null)
+            System.out.println("url: " + chatter.getUrlContent().getUrl());
+        if (chatter.getUrlContent() != null && !TextUtils.isEmpty(chatter.getUrlContent().getUrl())) {
+            mUrlContentView.setVisibility(View.VISIBLE);
+            mVideoImageView.setVisibility(View.GONE);
+            mImageGridView.setVisibility(View.GONE);
+            mSaveInternetTextView.setVisibility(View.GONE);
+            mUrlContentView.setData(chatter.getUrlContent());
+        } else { // 无url则判断是否省流量
+            mUrlContentView.setVisibility(View.GONE);
+            if (NetUtils.isWifiConnected(mContext) || !SPHelper.getSaveInternetOption()) {
+                mSaveInternetTextView.setVisibility(View.GONE);
+                if (!TextUtils.isEmpty(chatter.getVideoUrl())) {
+                    mVideoImageView.setVisibility(View.VISIBLE);
+                    mVideoImageView.setData(chatter.getImgUrl(), chatter.getVideoUrl(), chatter.getQid());
+                    mImageGridView.setVisibility(View.GONE);
+                } else if (chatter.hasImageList()) {
+                    mImageGridView.setVisibility(View.VISIBLE);
+                    mImageGridView.setList(chatter.getPhotoUrls());
+                    mVideoImageView.setVisibility(View.GONE);
+                } else {
+                    mImageGridView.setVisibility(View.GONE);
+                    mVideoImageView.setVisibility(View.GONE);
+                }
+            } else { // 省流量则在有图片时显示提示
+                mVideoImageView.setVisibility(View.GONE);
+                mImageGridView.setVisibility(View.GONE);
+                if (!TextUtils.isEmpty(chatter.getVideoUrl()) || chatter.hasImageList()) {
+                    mSaveInternetTextView.setVisibility(View.VISIBLE);
+                } else {
+                    mSaveInternetTextView.setVisibility(View.GONE);
+                }
             }
-        } else {
-            videoImageView.setVisibility(View.GONE);
-            imageGridView.setVisibility(View.GONE);
-            saveInternetTextView.setVisibility(View.VISIBLE);
         }
 
         /** 设置点赞数和监听 **/
-        praiseNumberTextView.setText(chatter.praiseNumber + "");
+        mPraiseTextView.setText(chatter.getPraiseNumber() + "");
         // 设置显示级别
-        if (chatter.name.equals("神秘的TA")) {
-            levelTextView.setVisibility(View.GONE);
+        if (chatter.getName().equals("神秘的TA")) {
+            mLevelTextView.setVisibility(View.GONE);
         } else {
-            levelTextView.setVisibility(View.VISIBLE);
-            levelTextView.setLevel(chatter.level);
+            mLevelTextView.setVisibility(View.VISIBLE);
+            mLevelTextView.setLevel(chatter.getLevel());
         }
+        if (isHeadClickable) { // 设置头像点击事件
+            if (mHeadClickListener == null)
+                mHeadClickListener = new HeadClickListener();
+            mHeadImageView.setOnClickListener(mHeadClickListener);
+            mHeadClickListener.chatter = chatter;
+        }
+
         /** 设置点赞的check **/
-        if (ChatterResManager.isSelect(mContext, chatter.qid)) {
-            praiseCheckBox.setChecked(true);
-            praiseCheckBox.setEnabled(false);
-            praiseNumberTextView.setEnabled(false);
+        if (ChatterResManager.isSelect(mContext, chatter.getQid())) {
+            mPraiseImageView.setImageResource(R.drawable.icon_praise_checked);
+            mPraiseImageView.setEnabled(false);
+            mPraiseTextView.setEnabled(false);
         } else {
-            praiseCheckBox.setChecked(false);
-            praiseCheckBox.setEnabled(true);
-            praiseNumberTextView.setEnabled(true);
+            mPraiseImageView.setImageResource(R.drawable.icon_praise_unchecked);
+            // 设置点赞点击事件
+            mPraiseClickListener = new PraiseClickListener();
+            mPraiseImageView.setOnClickListener(mPraiseClickListener);
+            mPraiseTextView.setOnClickListener(mPraiseClickListener);
+            mPraiseClickListener.chatter = chatter;
+            mPraiseClickListener.praiseImageView = mPraiseImageView;
+            mPraiseClickListener.numberTextView = mPraiseTextView;
+            mPraiseImageView.setEnabled(true);
+            mPraiseTextView.setEnabled(true);
         }
-        if (isHeadClickable) {
-            headImageView.setOnClickListener(headClickListener);
-        }
-        praiseClickListener.chatter = chatter;
-        praiseClickListener.checkBox = praiseCheckBox;
-        praiseClickListener.numberTextView = praiseNumberTextView;
-        headClickListener.chatter = chatter;
     }
 
     class HeadClickListener implements OnClickListener {
@@ -149,7 +174,7 @@ public class ChatterItemView extends LinearLayout {
                 return;
             }
             Intent intent = new Intent(mContext, ChatterUserActivity.class);
-            intent.putExtra(ChatterUserActivity.KEY_UID, chatter.uid);
+            intent.putExtra(ChatterUserActivity.KEY_UID, chatter.getUid());
             intent.putExtra(ChatterUserActivity.KEY_USER_CHATTER, userChatterInfo);
             mContext.startActivity(intent);
         }
@@ -157,36 +182,34 @@ public class ChatterItemView extends LinearLayout {
 
     class PraiseClickListener implements OnClickListener {
         public Chatter chatter;
-        public CheckBox checkBox;
+        public ImageView praiseImageView;
         public TextView numberTextView;
 
         @Override
         public void onClick(View arg0) {
-            chatter.praiseNumber++;
-            checkBox.setChecked(true);
-            checkBox.setEnabled(false);
-            numberTextView.setEnabled(false);
-            numberTextView.setText(chatter.praiseNumber + "");
+            chatter.increasePraise();
+            praiseImageView.setImageResource(R.drawable.icon_praise_checked);
+            numberTextView.setText(chatter.getPraiseNumber() + "");
 
             /** 调用同事圈点赞接口 提交点赞 **/
-            ServiceProvider.doSetCredit(mContext, chatter.qid,
-                    new VolleyListener(mContext) {
+            ServiceProvider.doSetCredit(mContext, chatter.getQid(), new VolleyListener(mContext) {
 
-                        @Override
-                        public void onErrorCode(int code) {
-                            chatter.praiseNumber--;
-                            checkBox.setChecked(false);
-                            numberTextView.setText(chatter.praiseNumber + "");
-                            checkBox.setEnabled(true);
-                            numberTextView.setEnabled(true);
-                        }
+                @Override
+                public void onErrorCode(int code) {
+                    chatter.decreasePraise();
+                    praiseImageView.setImageResource(R.drawable.icon_praise_unchecked);
+                    numberTextView.setText(chatter.getPraiseNumber() + "");
+                    mPraiseImageView.setEnabled(true);
+                    mPraiseTextView.setEnabled(true);
+                }
 
-                        @Override
-                        public void onResponseSuccess(JSONObject response) {
-                            ChatterResManager
-                                    .insertItem(mContext, chatter);
-                        }
-                    });
+                @Override
+                public void onResponseSuccess(JSONObject response) {
+                    ChatterResManager.insertItem(mContext, chatter);
+                    mPraiseImageView.setEnabled(false);
+                    mPraiseTextView.setEnabled(false);
+                }
+            });
         }
     }
 }

@@ -84,8 +84,9 @@ public class MainPresenter extends Presenter {
     }
 
     private void initialize() {
-        if(UserInfo.getUserInfo() == null){
+        if (UserInfo.getUserInfo() == null) {
             mContext.startActivity(LoginActivity.getIntent(mContext));
+            return;
         }
         if (UserInfo.ANONYMOUS_ACCOUNT.equals(UserInfo.getUserInfo().getAccount())) {
             mMainView.showExperienceDialog();
@@ -251,8 +252,7 @@ public class MainPresenter extends Presenter {
             case RequestParameters.CHK_UPDATA_PIC_SURVEY: // 培训调研
                 String uid = UserInfo.getUserInfo().getUid();
                 String url = Net.getWeiDiaoYanURl() + uid;
-                intent.setClass(mContext, BackWebActivity.class);
-                intent.putExtra(BackWebActivity.KEY_URL, url);
+                intent = BackWebActivity.getIntent(mContext, mainIcon.getName(), url);
                 break;
             case RequestParameters.CHK_UPDATA_PIC_TASK: // 任务签到
                 intent = CategoryListActivity.getIntent(mContext, Category.CATEGORY_TASK, false);
@@ -270,20 +270,13 @@ public class MainPresenter extends Presenter {
                 intent = CategoryListActivity.getIntent(mContext, Category.CATEGORY_ENTRY, false);
                 break;
         }
-        intent.putExtra(BaseActionBarActivity.KEY_TITLE, mainIcon.getName());
         mContext.startActivity(intent);
     }
 
     public void onBannerClick(AdapterView<?> parent, View view, int position, long id) {
         MainBanner mainBanner = (MainBanner) parent.getAdapter().getItem(position);
         if (mainBanner != null) {
-            Intent intent = new Intent(mContext, BackWebActivity.class);
-            intent.putExtra(BackWebActivity.KEY_URL, mainBanner.getUrl());
-            if (TextUtils.isEmpty(mLogoUrl)) {
-                intent.putExtra(BackWebActivity.KEY_LOGO_URL, "invalid"); // 非法值
-            } else {
-                intent.putExtra(BackWebActivity.KEY_LOGO_URL, mLogoUrl);
-            }
+            Intent intent = BackWebActivity.getIntent(mContext, TextUtils.isEmpty(mLogoUrl) ? "invalid" : mLogoUrl, mainBanner.getUrl());
             mContext.startActivity(intent);
         }
     }

@@ -93,9 +93,7 @@ public class CategoryBasePresenter extends Presenter {
         String titleStr = mContext.getResources().getString(R.string.statistical_data);
         String uid = UserInfo.getUserInfo().getUid();
         String url = Net.getRunHost() + Net.getTongji(uid, mRid);
-        Intent intent = new Intent(mContext, BackWebActivity.class);
-        intent.putExtra(BackWebActivity.KEY_URL, url);
-        intent.putExtra(BackWebActivity.KEY_TITLE, titleStr);
+        Intent intent = BackWebActivity.getIntent(mContext, titleStr, url);
         mContext.startActivity(intent);
     }
 

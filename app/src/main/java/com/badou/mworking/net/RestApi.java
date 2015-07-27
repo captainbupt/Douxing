@@ -3,6 +3,7 @@ package com.badou.mworking.net;
 import com.badou.mworking.domain.CategoryCommentGetUseCase;
 import com.badou.mworking.domain.CategoryDetailUseCase;
 import com.badou.mworking.domain.ChangePasswordUseCase;
+import com.badou.mworking.domain.ChatterListUseCase;
 import com.badou.mworking.domain.CheckUpdateUseCase;
 import com.badou.mworking.domain.EMChatCreateGroupUseCase;
 import com.badou.mworking.domain.EnrollUseCase;
@@ -10,11 +11,14 @@ import com.badou.mworking.domain.LoginUseCase;
 import com.badou.mworking.domain.ChatterPublishUseCase;
 import com.badou.mworking.domain.StoreUseCase;
 import com.badou.mworking.domain.TaskSignUseCase;
+import com.badou.mworking.domain.UrlContentUseCase;
+import com.badou.mworking.entity.chatter.Chatter;
 import com.badou.mworking.entity.category.CategoryDetail;
 import com.badou.mworking.entity.category.CategoryOverall;
 import com.badou.mworking.entity.category.CategorySearchOverall;
 import com.badou.mworking.entity.category.Classification;
 import com.badou.mworking.entity.category.Train;
+import com.badou.mworking.entity.chatter.UrlContent;
 import com.badou.mworking.entity.comment.CategoryComment;
 import com.badou.mworking.entity.comment.CommentOverall;
 import com.badou.mworking.entity.main.MainData;
@@ -48,7 +52,7 @@ public interface RestApi {
     Observable<BaseNetEntity<MainData>> checkUpdate(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("screen") String screen, @retrofit.http.Body CheckUpdateUseCase.Body body);
 
     @GET("/gettaglist")
-    Observable<BaseNetListEntity<Classification>> getClassification(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("type") String type, @Query("fmt") String format);
+    Observable<BaseNetEntity<List<Classification>>> getClassification(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("type") String type, @Query("fmt") String format);
 
     @GET("/sync_v2")
     <T> Observable<BaseNetEntity<CategoryOverall>> getCategoryNotice(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("type") String type, @Query("tag") int tag, @Query("begin") int begin, @Query("limit") int pageNum, @Query("key") String key);
@@ -57,7 +61,7 @@ public interface RestApi {
     <T> Observable<BaseNetEntity<CategoryOverall>> getCategoryNotice(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("type") String type, @Query("tag") int tag, @Query("begin") int begin, @Query("limit") int pageNum, @Query("key") String key, @Query("done") int done);
 
     @POST("/getmc2")
-    Observable<BaseNetListEntity<Train.TrainingCommentInfo>> getTrainCommentInfo(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @retrofit.http.Body List<String> rids);
+    Observable<BaseNetEntity<List<Train.TrainingCommentInfo>>> getTrainCommentInfo(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @retrofit.http.Body List<String> rids);
 
     @POST("/getcomment")
     Observable<BaseNetEntity<CommentOverall<CategoryComment>>> getCategoryComment(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @retrofit.http.Body CategoryCommentGetUseCase.Body body);
@@ -118,4 +122,13 @@ public interface RestApi {
 
     @POST("/pubvideo")
     Observable<BaseNetEntity> publicChatterVideo(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("qid") String qid, @Body TypedFile videoFile);
+
+    @POST("/getpublish")
+    Observable<BaseNetEntity<ChatterListUseCase.Response>> getChatterList(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Body ChatterListUseCase.Body body);
+
+    @GET("/getTopicInfo")
+    Observable<BaseNetEntity<ChatterListUseCase.Response>> getChatterList(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("topic") String topic, @Query("page_no") int page_no, @Query("item_per_page") int item_per_page);
+
+    @POST("/parseurl")
+    Observable<BaseNetEntity<UrlContent>> parseUrlContent(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Body UrlContentUseCase.Body body);
 }

@@ -30,7 +30,7 @@ import org.json.JSONObject;
 
 public class TipsWebView extends BaseNoTitleActivity {
 
-    public static final String KEY_TipsWebView = "key_Tips";
+    public static final String KEY_URL = "url";
     public static final String KEY_TITLE = "title";
     public static final String VALUE_TipsWebView_JSON = "key_json";
     public static final String KEY_TipsWebView_PHONE = "key_phone";
@@ -64,7 +64,7 @@ public class TipsWebView extends BaseNoTitleActivity {
         TextView titleTv = (TextView) initAction();
         final int tag = ACT_TipsWebView;
         titleTv.setText(getIntent().getStringExtra(KEY_TITLE));
-        mCurrentUrl = getIntent().getStringExtra(BackWebActivity.KEY_URL);
+        mCurrentUrl = getIntent().getStringExtra(KEY_URL);
 
         tvbottomBtn.setText(R.string.toPhone);
         tvbottomBtn.setVisibility(View.GONE);

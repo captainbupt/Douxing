@@ -18,9 +18,6 @@ import com.badou.mworking.net.bitmap.ImageViewLoader;
 
 import java.util.List;
 
-/**
- * Created by Administrator on 2015/6/8.
- */
 public class MultiImageShowGridView extends GridView {
 
     private MultiImageShowAdapter mAdapter;
@@ -47,7 +44,7 @@ public class MultiImageShowGridView extends GridView {
         super.onMeasure(widthMeasureSpec, expandSpec);
     }
 
-    public void setList(List<Object> imgUrlList) {
+    public void setList(List<String> imgUrlList) {
         LinearLayout.LayoutParams layoutParams;
         if (imgUrlList != null) {
             int paddingSide = getPaddingLeft();

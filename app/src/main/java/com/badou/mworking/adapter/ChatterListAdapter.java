@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
-import com.badou.mworking.entity.Chatter;
+import com.badou.mworking.entity.chatter.Chatter;
 import com.badou.mworking.widget.ChatterItemView;
 import com.swipe.delete.SwipeLayout;
 
@@ -16,7 +16,7 @@ import butterknife.ButterKnife;
 /**
  * 功能描述:同事圈adapter
  */
-public class ChatterListAdapter extends MyBaseAdapter {
+public class ChatterListAdapter extends MyBaseAdapter<Chatter> {
 
     private boolean isHeadClickable;
 
@@ -36,7 +36,7 @@ public class ChatterListAdapter extends MyBaseAdapter {
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         }
-        final Chatter chatter = (Chatter) mItemList.get(position);
+        final Chatter chatter = mItemList.get(position);
         holder.chatterItemView.setData(chatter, isHeadClickable);
         return convertView;
     }

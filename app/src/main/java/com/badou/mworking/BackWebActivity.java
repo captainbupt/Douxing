@@ -22,22 +22,30 @@ import com.badou.mworking.util.DensityUtil;
 @SuppressLint("SetJavaScriptEnabled")
 public class BackWebActivity extends BaseBackActionBarActivity {
 
-    public static final String KEY_URL = "url";
-    public static final String KEY_LOGO_URL = "logo";
+    private static final String KEY_URL = "url";
+    private static final String KEY_LOGO_URL = "logo";
+    private static final String KEY_TITLE = "title";
     WebViewFragment mWebFragment;
+
+    public static Intent getIntent(Context context, String title, String url) {
+        Intent intent = new Intent(context, BackWebActivity.class);
+        intent.putExtra(KEY_TITLE, title);
+        intent.putExtra(KEY_URL, url);
+        return intent;
+    }
+
+    public static Intent getIntentBanner(Context context, String url, String logoUrl) {
+        Intent intent = new Intent(context, BackWebActivity.class);
+        intent.putExtra(KEY_LOGO_URL, logoUrl);
+        intent.putExtra(KEY_URL, url);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_view);
         initData();
-    }
-
-    public static Intent getIntent(Context context, String url, String logoUrl) {
-        Intent intent = new Intent(context, BackWebActivity.class);
-        intent.putExtra(KEY_URL, url);
-        intent.putExtra(KEY_LOGO_URL, logoUrl);
-        return intent;
     }
 
     private void initData() {
@@ -49,6 +57,8 @@ public class BackWebActivity extends BaseBackActionBarActivity {
         if (mReceivedIntent.hasExtra(KEY_LOGO_URL)) {
             String logoUrl = mReceivedIntent.getStringExtra(KEY_LOGO_URL);
             bannerDate(logoUrl);
+        } else {
+            setActionbarTitle(mReceivedIntent.getStringExtra(KEY_TITLE));
         }
     }
 

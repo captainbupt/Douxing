@@ -137,9 +137,7 @@ public class UserCenterPresenter extends Presenter {
 
     public void checkLevel() {
         String userId = UserInfo.getUserInfo().getUid();
-        Intent intent = new Intent(mContext, BackWebActivity.class);
-        intent.putExtra("title", "等级介绍");
-        intent.putExtra(BackWebActivity.KEY_URL, Constant.LV_URL + userId);
+        Intent intent = BackWebActivity.getIntent(mContext, "等级介绍", Constant.LV_URL + userId);
         mContext.startActivity(intent);
     }
 

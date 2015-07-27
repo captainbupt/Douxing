@@ -9,7 +9,7 @@ import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.CategoryDetail;
 import com.badou.mworking.entity.category.CategoryOverall;
 import com.badou.mworking.entity.category.Train;
-import com.badou.mworking.net.BaseListSubscriber;
+import com.badou.mworking.net.BaseSubscriber;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -40,7 +40,7 @@ public class TrainingListPresenter extends CategoryListPresenter {
             rids.add(category.getRid());
         }
         commentInfoUseCase.setRids(rids);
-        commentInfoUseCase.execute(new BaseListSubscriber<Train.TrainingCommentInfo>(mContext) {
+        commentInfoUseCase.execute(new BaseSubscriber<List<Train.TrainingCommentInfo>>(mContext) {
             @Override
             public void onResponseSuccess(List<Train.TrainingCommentInfo> data) {
                 for (Train.TrainingCommentInfo commentInfo : data) {

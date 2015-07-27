@@ -205,7 +205,11 @@
     <string name="chatter_tip_share_url_step_2">打开兜行APP</string>
     <string name="chatter_tip_share_url_step_3">一键分享</string>
     <string name="chatter_tip_share_url_confirm">我知道了</string>
+    <string name="chatter_parse_url_fail">url解析失败</string>
     <string name="chatter_title_right">分享</string>
+    <string name="chatter_submit_title_share">分享</string>
+    <string name="chatter_submit_title_url">分享</string>
+    <string name="chatter_submit_title_url_detail">链接详情</string>
     <string name="chatter_title_hot">达人</string>
     <string name="chatter_submit_topic_hint">#请输入新的话题#</string>
     <string name="chatter_submit_topic_confirm">确认</string>

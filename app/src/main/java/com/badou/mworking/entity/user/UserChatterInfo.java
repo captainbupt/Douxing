@@ -1,6 +1,6 @@
 package com.badou.mworking.entity.user;
 
-import com.badou.mworking.entity.Chatter;
+import com.badou.mworking.entity.chatter.Chatter;
 
 import org.json.JSONObject;
 
@@ -20,10 +20,10 @@ public class UserChatterInfo implements Serializable {
     }
 
     public UserChatterInfo(Chatter chatter) {
-        this.name = chatter.name;
-        this.department = chatter.department;
-        this.headUrl = chatter.headUrl;
-        this.level = chatter.level;
+        this.name = chatter.getName();
+        this.department = chatter.getDepartment();
+        this.headUrl = chatter.getHeadUrl();
+        this.level = chatter.getLevel();
     }
 
     public UserChatterInfo(JSONObject jsonObject) {

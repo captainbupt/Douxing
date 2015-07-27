@@ -29,8 +29,6 @@ import org.json.JSONObject;
 
 public class BaseActionBarActivity extends BaseNoTitleActivity {
 
-    public final static String KEY_TITLE = "title";
-
     protected View actionBarView;
     protected TextView mTitleTextView;
     protected ImageView mTitleLeftImageView;
@@ -43,7 +41,6 @@ public class BaseActionBarActivity extends BaseNoTitleActivity {
         super.onCreate(savedInstanceState);
         initActionBarView();
         initActionBarListener();
-        initActionBarData();
     }
 
     /**
@@ -77,16 +74,6 @@ public class BaseActionBarActivity extends BaseNoTitleActivity {
                 clickLeft();
             }
         });
-    }
-
-    private void initActionBarData() {
-        mReceivedIntent = getIntent();
-        if (mReceivedIntent != null) {
-            String title = mReceivedIntent.getStringExtra(KEY_TITLE);
-            if (!TextUtils.isEmpty(title)) {
-                setActionbarTitle(title);
-            }
-        }
     }
 
     public void setLeft(int resId) {
@@ -176,9 +163,7 @@ public class BaseActionBarActivity extends BaseNoTitleActivity {
                 String titleStr = getResources().getString(R.string.statistical_data);
                 String uid = UserInfo.getUserInfo().getUid();
                 String url = Net.getRunHost() + Net.getTongji(uid, sid);
-                Intent intent = new Intent(mContext, BackWebActivity.class);
-                intent.putExtra(BackWebActivity.KEY_URL, url);
-                intent.putExtra(BackWebActivity.KEY_TITLE, titleStr);
+                Intent intent = BackWebActivity.getIntent(mContext, titleStr, url);
                 startActivity(intent);
             }
         });

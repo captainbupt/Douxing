@@ -8,6 +8,7 @@ import com.badou.mworking.domain.CategoryCommentGetUseCase;
 import com.badou.mworking.domain.CategoryDetailUseCase;
 import com.badou.mworking.domain.CategoryUseCase;
 import com.badou.mworking.domain.ChangePasswordUseCase;
+import com.badou.mworking.domain.ChatterListUseCase;
 import com.badou.mworking.domain.CheckUpdateUseCase;
 import com.badou.mworking.domain.EMChatCreateGroupUseCase;
 import com.badou.mworking.domain.EnrollUseCase;
@@ -15,12 +16,15 @@ import com.badou.mworking.domain.LoginUseCase;
 import com.badou.mworking.domain.ChatterPublishUseCase;
 import com.badou.mworking.domain.StoreUseCase;
 import com.badou.mworking.domain.TaskSignUseCase;
-import com.badou.mworking.entity.ChatterTopic;
+import com.badou.mworking.domain.UrlContentUseCase;
+import com.badou.mworking.entity.chatter.Chatter;
+import com.badou.mworking.entity.chatter.ChatterTopic;
 import com.badou.mworking.entity.category.CategoryDetail;
 import com.badou.mworking.entity.category.CategoryOverall;
 import com.badou.mworking.entity.category.CategorySearchOverall;
 import com.badou.mworking.entity.category.Classification;
 import com.badou.mworking.entity.category.Train;
+import com.badou.mworking.entity.chatter.UrlContent;
 import com.badou.mworking.entity.comment.CategoryComment;
 import com.badou.mworking.entity.comment.CommentOverall;
 import com.badou.mworking.entity.main.MainData;
@@ -52,7 +56,7 @@ public class RestRepository {
     public RestRepository() {
         RestAdapter restApiAdapter = new RestAdapter.Builder()
                 .setEndpoint("http://115.28.138.79/badou")
-                .setLogLevel(RestAdapter.LogLevel.BASIC)
+                .setLogLevel(RestAdapter.LogLevel.FULL)
                         //.setConverter(new StringConverter())
                 .build();
         restApi = restApiAdapter.create(RestApi.class);
@@ -70,7 +74,7 @@ public class RestRepository {
         return restApi.checkUpdate(AppApplication.SYSPARAM, AppApplication.appVersion, uid, screen, updateInfo);
     }
 
-    public Observable<BaseNetListEntity<Classification>> getClassification(String uid, String type) {
+    public Observable<BaseNetEntity<List<Classification>>> getClassification(String uid, String type) {
         return restApi.getClassification(AppApplication.SYSPARAM, AppApplication.appVersion, uid, type, "nest");
     }
 
@@ -82,7 +86,7 @@ public class RestRepository {
         }
     }
 
-    public Observable<BaseNetListEntity<Train.TrainingCommentInfo>> getTrainCommentInfo(String uid, List<String> rids) {
+    public Observable<BaseNetEntity<List<Train.TrainingCommentInfo>>> getTrainCommentInfo(String uid, List<String> rids) {
         return restApi.getTrainCommentInfo(AppApplication.SYSPARAM, AppApplication.appVersion, uid, rids);
     }
 
@@ -150,22 +154,21 @@ public class RestRepository {
         return restApi.publishChatter(AppApplication.SYSPARAM, AppApplication.appVersion, body);
     }
 
-    public Observable<BaseNetListEntity<ChatterTopic>> getTopicList(String uid) {
-        return restApi.getTopicList(AppApplication.SYSPARAM, AppApplication.appVersion, uid).map(new Func1<BaseNetEntity<LinkedTreeMap>, BaseNetListEntity<ChatterTopic>>() {
+    public Observable<BaseNetEntity<List<ChatterTopic>>> getTopicList(String uid) {
+        return restApi.getTopicList(AppApplication.SYSPARAM, AppApplication.appVersion, uid).map(new Func1<BaseNetEntity<LinkedTreeMap>, BaseNetEntity<List<ChatterTopic>>>() {
             @Override
-            public BaseNetListEntity<ChatterTopic> call(BaseNetEntity<LinkedTreeMap> linkedTreeMapBaseNetEntity) {
+            public BaseNetEntity<List<ChatterTopic>> call(BaseNetEntity<LinkedTreeMap> linkedTreeMapBaseNetEntity) {
                 List<ChatterTopic> topicList = new ArrayList<>();
                 LinkedTreeMap<String, String> data = linkedTreeMapBaseNetEntity.getData();
                 for (String key : data.keySet()) {
                     topicList.add(new ChatterTopic(key, Long.parseLong(data.get(key))));
                 }
-                return new BaseNetListEntity<ChatterTopic>(linkedTreeMapBaseNetEntity.getErrcode(), topicList);
+                return new BaseNetEntity<List<ChatterTopic>>(linkedTreeMapBaseNetEntity.getErrcode(), topicList);
             }
         });
     }
 
     public Observable<BaseNetEntity> publishChatterImage(String uid, String qid, int index, File imgFile) {
-        System.out.println("image file size: " + imgFile.length() / 1024 + "KB");
         return restApi.publicChatterImage(AppApplication.SYSPARAM, AppApplication.appVersion, uid, qid, index, new TypedFile("image/jpg", imgFile));
     }
 
@@ -175,6 +178,32 @@ public class RestRepository {
 
     public Observable<BaseNetEntity> publicChatterUrl(String uid, String qid, String url) {
         return restApi.publicChatterUrl(AppApplication.SYSPARAM, AppApplication.appVersion, uid, qid, new TypedString(url));
+    }
+
+    public Observable<BaseNetEntity<List<Chatter>>> getChatterList(ChatterListUseCase.Body body, String topic) {
+        Observable<BaseNetEntity<ChatterListUseCase.Response>> responseObservable;
+        if (TextUtils.isEmpty(topic)) {
+            responseObservable = restApi.getChatterList(AppApplication.SYSPARAM, AppApplication.appVersion, body);
+        } else {
+            responseObservable = restApi.getChatterList(AppApplication.SYSPARAM, AppApplication.appVersion, body.getUid(), topic, body.getPageNum(), body.getItemNum());
+        }
+        return responseObservable.map(new Func1<BaseNetEntity<ChatterListUseCase.Response>, BaseNetEntity<List<Chatter>>>() {
+            @Override
+            public BaseNetEntity<List<Chatter>> call(BaseNetEntity<ChatterListUseCase.Response> responseBaseNetEntity) {
+                return new BaseNetEntity<List<Chatter>>(responseBaseNetEntity.getErrcode(), responseBaseNetEntity.getData().getChatterList());
+            }
+        });
+    }
+
+    public Observable<BaseNetEntity<UrlContent>> parseUrlContent(UrlContentUseCase.Body body, final String url) {
+        return restApi.parseUrlContent(AppApplication.SYSPARAM, AppApplication.appVersion, body).map(new Func1<BaseNetEntity<UrlContent>, BaseNetEntity<UrlContent>>() {
+            @Override
+            public BaseNetEntity<UrlContent> call(BaseNetEntity<UrlContent> urlContentBaseNetEntity) {
+                if (urlContentBaseNetEntity.getData() != null)
+                    urlContentBaseNetEntity.getData().setUrl(url);
+                return urlContentBaseNetEntity;
+            }
+        });
     }
 
 }

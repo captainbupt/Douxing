@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.badou.mworking.adapter.CommentAdapter;
 import com.badou.mworking.base.BaseBackActionBarActivity;
-import com.badou.mworking.entity.Chatter;
+import com.badou.mworking.entity.chatter.Chatter;
 import com.badou.mworking.entity.Store;
 import com.badou.mworking.entity.comment.ChatterComment;
 import com.badou.mworking.entity.comment.Comment;
@@ -99,7 +99,7 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
 
     @Override
     protected void onStoreChanged(boolean isStore) {
-        mChatter.isStore = isStore;
+        mChatter.setIsStore(isStore);
     }
 
     /**
@@ -126,13 +126,13 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
      * 功能描述:发送回复TextView设置监听,pullToRefreshScrollView设置下拉刷新监听
      */
     protected void initListener() {
-        mMessageTextView.setOnClickListener(new MessageClickListener(mContext, mChatter.name, mChatter.whom, mChatter.headUrl));
+        mMessageTextView.setOnClickListener(new MessageClickListener(mContext, mChatter.getName(), mChatter.getWhom(), mChatter.getHeadUrl()));
 
         /***删除按钮**/
         mDeleteTextView.setOnClickListener(new DeleteClickListener(mContext, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                deleteComment(mChatter.qid);
+                deleteComment(mChatter.getQid());
             }
         }));
         mReplyListView.setOnItemClickListener(new OnNoScrollItemClickListener() {
@@ -178,48 +178,48 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
      * 功能描述:设置蓝色title显示内容
      */
     private void initData() {
-        addStoreImageView(mChatter.isStore, Store.TYPE_STRING_CHATTER, mChatter.qid);
-        mReplyAdapter = new CommentAdapter(mContext, mChatter.qid, mChatter.deletable, mProgressDialog);
+        addStoreImageView(mChatter.isStore(), Store.TYPE_STRING_CHATTER, mChatter.getQid());
+        mReplyAdapter = new CommentAdapter(mContext, mChatter.getQid(), mChatter.isDeletable(), mProgressDialog);
         mReplyListView.setAdapter(mReplyAdapter);
 
         /**删除和私信逻辑 */
         String userUid = UserInfo.getUserInfo().getUid();
-        TopicClickableSpan.setClickTopic(mContext, mContentTextView, mChatter.content, Integer.MAX_VALUE);
+        TopicClickableSpan.setClickTopic(mContext, mContentTextView, mChatter.getContent(), Integer.MAX_VALUE);
         /**删除和私信逻辑 */
-        String currentUid = mChatter.uid;
+        String currentUid = mChatter.getUid();
         // 点击进入是自己      (TextUtils.isEmpty(currentUid) 我的圈中没有返回uid字段，因为那是自己，当uid为空时，判断为是自己，也就是我的圈跳转进入的，只显示删除)
         if (userUid.equals(currentUid) || TextUtils.isEmpty(currentUid)) {
             mMessageTextView.setVisibility(View.GONE);
         } else {
             mMessageTextView.setVisibility(View.VISIBLE);
         }
-        if (mChatter.deletable) {
+        if (mChatter.isDeletable()) {
             mDeleteTextView.setVisibility(View.VISIBLE);
         } else {
             mDeleteTextView.setVisibility(View.GONE);
         }
-        mNameTextView.setText(mChatter.name);
-        mTimeTextView.setText(TimeTransfer.long2StringDetailDate(mContext, mChatter.publishTime) + "");
+        mNameTextView.setText(mChatter.getName());
+        mTimeTextView.setText(TimeTransfer.long2StringDetailDate(mContext, mChatter.getPublishTime()) + "");
         /**设置头像**/
-        ImageViewLoader.setCircleImageViewResource(mHeadImageView, mChatter.headUrl, mContext.getResources().getDimensionPixelSize(R.dimen.icon_head_size_middle));
+        ImageViewLoader.setCircleImageViewResource(mHeadImageView, mChatter.getHeadUrl(), mContext.getResources().getDimensionPixelSize(R.dimen.icon_head_size_middle));
         // 评论中添加的图片
         // 判断是否在2G/3G下显示图片
         // 没有的话，判断是否是wifi网络
         if (NetUtils.isWifiConnected(mContext) || !SPHelper.getSaveInternetOption()) {
             mSaveInternetTextView.setVisibility(View.GONE);
-            if (!TextUtils.isEmpty(mChatter.videoUrl)) {
+            if (!TextUtils.isEmpty(mChatter.getVideoUrl())) {
                 mImageGridView.setVisibility(View.GONE);
                 mVideoImageView.setVisibility(View.VISIBLE);
-                mVideoImageView.setData(mChatter.imgUrl, mChatter.videoUrl, mChatter.qid);
+                mVideoImageView.setData(mChatter.getImgUrl(), mChatter.getVideoUrl(), mChatter.getQid());
             } else {
                 mImageGridView.setVisibility(View.VISIBLE);
                 mVideoImageView.setVisibility(View.GONE);
-                mImageGridView.setList(mChatter.photoUrls);
+                mImageGridView.setList(mChatter.getPhotoUrls());
             }
         } else {
             mVideoImageView.setVisibility(View.GONE);
             mImageGridView.setVisibility(View.GONE);
-            if (TextUtils.isEmpty(mChatter.imgUrl) && TextUtils.isEmpty(mChatter.videoUrl) && mChatter.photoUrls.size() == 0) {
+            if (TextUtils.isEmpty(mChatter.getImgUrl()) && TextUtils.isEmpty(mChatter.getVideoUrl()) && mChatter.getPhotoUrls().size() == 0) {
                 mSaveInternetTextView.setVisibility(View.GONE);
             } else {
                 mSaveInternetTextView.setVisibility(View.VISIBLE);
@@ -256,7 +256,7 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
      */
     private void updateReply(final int beginNum) {
         // 获取最新内容
-        ServiceProvider.doQuestionShareAnswer(mContext, mChatter.qid, beginNum,
+        ServiceProvider.doQuestionShareAnswer(mContext, mChatter.getQid(), beginNum,
                 Constant.LIST_AROUND_NUM, new VolleyListener(mContext) {
 
                     @Override
@@ -292,7 +292,7 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
                         } else {
                             mReplyAdapter.addList(replys, ttlcnt);
                         }
-                        resultIntent.putExtra(RESULT_KEY_COUNT, mChatter.replyNumber);
+                        resultIntent.putExtra(RESULT_KEY_COUNT, mChatter.getReplyNumber());
                         mCurrentIndex++;
                     }
 
@@ -313,7 +313,7 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
     private void chatterReply(String text) {
         mProgressDialog.setContent(R.string.action_comment_update_ing);
         mProgressDialog.show();
-        ServiceProvider.doAnswerQuestionShare(mContext, mChatter.qid, text,
+        ServiceProvider.doAnswerQuestionShare(mContext, mChatter.getQid(), text,
                 new VolleyListener(mContext) {
 
                     @Override
@@ -339,7 +339,7 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
     private void contentReply(String content, String whom) {
         mProgressDialog.setContent(R.string.action_comment_update_ing);
         mProgressDialog.show();
-        ServiceProvider.ReplyComment(mContext, mChatter.qid, content, whom, new VolleyListener(mContext) {
+        ServiceProvider.ReplyComment(mContext, mChatter.getQid(), content, whom, new VolleyListener(mContext) {
 
             @Override
             public void onResponseSuccess(JSONObject response) {
@@ -362,7 +362,7 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity {
 
     @Override
     public void finish() {
-        resultIntent.putExtra(RESULT_KEY_STORE, mChatter.isStore);
+        resultIntent.putExtra(RESULT_KEY_STORE, mChatter.isStore());
         setResult(RESULT_OK, resultIntent);
         super.finish();
     }

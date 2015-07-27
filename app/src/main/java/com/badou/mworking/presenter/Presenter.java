@@ -1,12 +1,16 @@
 package com.badou.mworking.presenter;
 
 import android.app.Activity;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
 import com.badou.mworking.view.BaseView;
 import com.badou.mworking.widget.ChatterUrlPopupWindow;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Base class representing a Presenter in a model view presenter (MVP) pattern.
@@ -47,12 +51,38 @@ public abstract class Presenter {
 
     public abstract void attachView(BaseView v);
 
+
+    static final Pattern pattern = Pattern.compile("((http[s]{0,1}|ftp)://[a-zA-Z0-9\\.\\-]+\\.([a-zA-Z]{2,4})(:\\d+)?(/[a-zA-Z0-9\\.\\-~!@#$%^&*+?:_/=<>]*)?)|(www.[a-zA-Z0-9\\.\\-]+\\.([a-zA-Z]{2,4})(:\\d+)?(/[a-zA-Z0-9\\.\\-~!@#$%^&*+?:_/=<>]*)?)");
+    static String lastUrl = "";
+
     public void comeToForeground() {
         if (mContext instanceof Activity) {
-            if (mPopupWindow == null)
-                mPopupWindow = new ChatterUrlPopupWindow(mContext);
-            mPopupWindow.setUrl("www.baidu.com");
-            mPopupWindow.showPopupWindow(((Activity) mContext).getWindow().getDecorView().findViewById(android.R.id.content));
+            CharSequence content = null;
+            if (android.os.Build.VERSION.SDK_INT > 11) {
+                android.content.ClipboardManager clipboardManager = (android.content.ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
+                if (clipboardManager.hasPrimaryClip()) {
+                    content = clipboardManager.getPrimaryClip().getItemAt(0).getText();
+                }
+            } else {
+                android.text.ClipboardManager clipboardManager = (android.text.ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
+                if (clipboardManager.hasText()) {
+                    content = clipboardManager.getText();
+                }
+            }
+            if (content == null)
+                return;
+            Matcher matcher = pattern.matcher(content);
+            if (matcher.find()) {
+                String url = matcher.group();
+                if (url.equals(lastUrl)) {
+                    return;
+                }
+                lastUrl = url;
+                if (mPopupWindow == null)
+                    mPopupWindow = new ChatterUrlPopupWindow(mContext);
+                mPopupWindow.setUrl(url);
+                mPopupWindow.showPopupWindow(((Activity) mContext).getWindow().getDecorView().findViewById(android.R.id.content));
+            }
         }
     }
 
