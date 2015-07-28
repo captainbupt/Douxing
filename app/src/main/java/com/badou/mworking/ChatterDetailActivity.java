@@ -1,19 +1,12 @@
 package com.badou.mworking;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.ScrollView;
-import android.widget.TextView;
 
 import com.badou.mworking.adapter.CommentAdapter;
 import com.badou.mworking.base.BaseBackActionBarActivity;
@@ -21,41 +14,17 @@ import com.badou.mworking.entity.Store;
 import com.badou.mworking.entity.chatter.Chatter;
 import com.badou.mworking.entity.comment.ChatterComment;
 import com.badou.mworking.entity.comment.Comment;
-import com.badou.mworking.entity.user.UserInfo;
-import com.badou.mworking.listener.DeleteClickListener;
-import com.badou.mworking.listener.MessageClickListener;
-import com.badou.mworking.listener.TopicClickableSpan;
-import com.badou.mworking.net.Net;
-import com.badou.mworking.net.ServiceProvider;
-import com.badou.mworking.net.bitmap.ImageViewLoader;
-import com.badou.mworking.net.volley.VolleyListener;
-import com.badou.mworking.presenter.ChatterDetailPresenter;
+import com.badou.mworking.presenter.chatter.ChatterDetailPresenter;
 import com.badou.mworking.presenter.ListPresenter;
 import com.badou.mworking.presenter.Presenter;
-import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.DensityUtil;
-import com.badou.mworking.util.GsonUtil;
-import com.badou.mworking.util.NetUtils;
-import com.badou.mworking.util.SPHelper;
-import com.badou.mworking.util.TimeTransfer;
-import com.badou.mworking.util.ToastUtil;
-import com.badou.mworking.view.ChatterDetailView;
+import com.badou.mworking.view.chatter.ChatterDetailView;
 import com.badou.mworking.widget.BottomSendMessageView;
 import com.badou.mworking.widget.ChatterItemView;
-import com.badou.mworking.widget.MultiImageShowGridView;
-import com.badou.mworking.widget.NoScrollListView;
-import com.badou.mworking.widget.NoScrollListView.OnNoScrollItemClickListener;
 import com.badou.mworking.widget.NoneResultView;
-import com.badou.mworking.widget.TextViewFixTouchConsume;
-import com.badou.mworking.widget.VideoImageView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;

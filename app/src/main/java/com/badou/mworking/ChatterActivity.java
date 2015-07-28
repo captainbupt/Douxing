@@ -12,38 +12,52 @@ import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.entity.main.Shuffle;
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.fragment.ChatterHotFragment;
 import com.badou.mworking.fragment.ChatterListFragment;
+import com.badou.mworking.presenter.Presenter;
+import com.badou.mworking.presenter.chatter.ChatterPresenter;
+import com.badou.mworking.view.chatter.ChatterView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnPageChange;
+
 /**
  * 功能描述: 同事圈页面
  */
-public class ChatterActivity extends BaseBackActionBarActivity {
+public class ChatterActivity extends BaseBackActionBarActivity implements ChatterView {
 
-    public static final int REQUEST_CHATTER_SUBMIT = 1001;
+    @Bind(R.id.content_view_pager)
+    ViewPager mContentViewPager;
 
     private RadioGroup mRadioGroup;
     private RadioButton mChatterRadioButton;
     private RadioButton mHotRadioButton;
-    private ViewPager mContentViewPager;
     private FragmentPagerAdapter mFragmentAdapter;
+
+    ChatterPresenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatter);
+        ButterKnife.bind(this);
         initView();
         initListener();
-        initData();
+        mPresenter = (ChatterPresenter) super.mPresenter;
+        mPresenter.attachView(this);
     }
 
+    @Override
+    public Presenter getPresenter() {
+        return new ChatterPresenter(mContext);
+    }
 
     /**
      * c初始化action 布局
@@ -54,9 +68,9 @@ public class ChatterActivity extends BaseBackActionBarActivity {
         setTitleCustomView(mRadioGroup);
         mChatterRadioButton = (RadioButton) mRadioGroup.findViewById(R.id.rb_activity_chatter_title_left);
         mHotRadioButton = (RadioButton) mRadioGroup.findViewById(R.id.rb_activity_chatter_title_right);
-        mContentViewPager = (ViewPager) findViewById(R.id.vp_activity_chatter);
         mFragmentAdapter = new ChatterFragmentPagerAdapter(getSupportFragmentManager());
         mContentViewPager.setAdapter(mFragmentAdapter);
+        mChatterRadioButton.setText(UserInfo.getUserInfo().getShuffle().getMainIcon(mContext, Shuffle.BUTTON_CHATTER).getName());
     }
 
     private void initListener() {
@@ -64,50 +78,45 @@ public class ChatterActivity extends BaseBackActionBarActivity {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int id) {
                 if (id == R.id.rb_activity_chatter_title_left) {
-                    mContentViewPager.setCurrentItem(0);
+                    mPresenter.onPageSelected(0);
                 } else if (id == R.id.rb_activity_chatter_title_right) {
-                    mContentViewPager.setCurrentItem(1);
+                    mPresenter.onPageSelected(1);
                 }
             }
         });
-        mContentViewPager.setOnPageChangeListener(new android.support.v4.view.ViewPager.OnPageChangeListener() {
+        setRightText(R.string.chatter_title_right, new View.OnClickListener() {
             @Override
-            public void onPageScrolled(int i, float v, int i1) {
-
-            }
-
-            @Override
-            public void onPageSelected(int i) {
-                if (i == 0)
-                    mChatterRadioButton.setChecked(true);
-                else
-                    mHotRadioButton.setChecked(true);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int i) {
+            public void onClick(View view) {
+                mPresenter.publishChatter();
             }
         });
     }
 
-    private void initData() {
-        mChatterRadioButton.setText(UserInfo.getUserInfo().getShuffle().getMainIcon(mContext, Shuffle.BUTTON_CHATTER).getName());
-        mChatterRadioButton.setChecked(true);
-        setRightText(R.string.chatter_title_right, new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(mContext, ChatterSubmitActivity.class);
-                startActivityForResult(intent, REQUEST_CHATTER_SUBMIT);
-            }
-        });
+    @OnPageChange(R.id.content_view_pager)
+    void onPageSelected(int position) {
+        mPresenter.onPageSelected(position);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-/*        if (requestCode == REQUEST_CHATTER_SUBMIT && resultCode == RESULT_OK) {
-            ((ChatterListFragment) mFragmentAdapter.getItem(0)).refreshData();
-        }*/
-        super.onActivityResult(requestCode, resultCode, data);
+        mPresenter.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void setChatterPage() {
+        mChatterRadioButton.setChecked(true);
+        mContentViewPager.setCurrentItem(0);
+    }
+
+    @Override
+    public void setHotPage() {
+        mHotRadioButton.setChecked(true);
+        mContentViewPager.setCurrentItem(1);
+    }
+
+    @Override
+    public void refresh() {
+        ((ChatterListFragment) mFragmentAdapter.getItem(0)).startRefreshing();
     }
 
     static class ChatterFragmentPagerAdapter extends FragmentPagerAdapter {

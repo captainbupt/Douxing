@@ -23,12 +23,12 @@ import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.Classification;
-import com.badou.mworking.presenter.CategoryListPresenter;
-import com.badou.mworking.presenter.ExamListPresenter;
+import com.badou.mworking.presenter.category.CategoryListPresenter;
+import com.badou.mworking.presenter.category.ExamListPresenter;
 import com.badou.mworking.presenter.Presenter;
-import com.badou.mworking.presenter.TrainingListPresenter;
+import com.badou.mworking.presenter.category.TrainingListPresenter;
 import com.badou.mworking.util.DensityUtil;
-import com.badou.mworking.view.CategoryListView;
+import com.badou.mworking.view.category.CategoryListView;
 import com.badou.mworking.widget.NoneResultView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -69,6 +69,7 @@ public class CategoryListActivity extends BaseBackActionBarActivity implements C
 
     CategoryListPresenter mPresenter;
 
+    // 正常情况下isDone为false
     public static Intent getIntent(Context context, int category, boolean isDone) {
         Intent intent = new Intent(context, CategoryListActivity.class);
         intent.putExtra(KEY_CATEGORY, category);

@@ -13,7 +13,7 @@ import com.badou.mworking.R;
 import com.badou.mworking.adapter.ChatterListAdapter;
 import com.badou.mworking.base.BaseFragment;
 import com.badou.mworking.entity.chatter.Chatter;
-import com.badou.mworking.presenter.ChatterListPresenter;
+import com.badou.mworking.presenter.chatter.ChatterListPresenter;
 import com.badou.mworking.view.BaseListView;
 import com.badou.mworking.widget.NoneResultView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;

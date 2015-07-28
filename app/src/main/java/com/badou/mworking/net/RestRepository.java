@@ -4,23 +4,24 @@ package com.badou.mworking.net;
 import android.text.TextUtils;
 
 import com.badou.mworking.base.AppApplication;
-import com.badou.mworking.domain.CategoryCommentGetUseCase;
-import com.badou.mworking.domain.CategoryDetailUseCase;
-import com.badou.mworking.domain.CategoryUseCase;
+import com.badou.mworking.domain.category.CategoryCommentGetUseCase;
+import com.badou.mworking.domain.category.CategoryDetailUseCase;
+import com.badou.mworking.domain.category.CategoryUseCase;
 import com.badou.mworking.domain.ChangePasswordUseCase;
-import com.badou.mworking.domain.ChatterListUseCase;
-import com.badou.mworking.domain.ChatterReplyDeleteUseCase;
-import com.badou.mworking.domain.ChatterReplyGetUseCase;
-import com.badou.mworking.domain.ChatterReplySendUseCase;
+import com.badou.mworking.domain.chatter.ChatterListUseCase;
+import com.badou.mworking.domain.chatter.ChatterReplyDeleteUseCase;
+import com.badou.mworking.domain.chatter.ChatterReplyGetUseCase;
+import com.badou.mworking.domain.chatter.ChatterReplySendUseCase;
 import com.badou.mworking.domain.CheckUpdateUseCase;
 import com.badou.mworking.domain.EMChatCreateGroupUseCase;
-import com.badou.mworking.domain.EnrollUseCase;
+import com.badou.mworking.domain.category.EnrollUseCase;
 import com.badou.mworking.domain.LoginUseCase;
-import com.badou.mworking.domain.ChatterPublishUseCase;
+import com.badou.mworking.domain.chatter.ChatterPublishUseCase;
 import com.badou.mworking.domain.StoreUseCase;
-import com.badou.mworking.domain.TaskSignUseCase;
-import com.badou.mworking.domain.UrlContentUseCase;
+import com.badou.mworking.domain.category.TaskSignUseCase;
+import com.badou.mworking.domain.chatter.UrlContentUseCase;
 import com.badou.mworking.entity.chatter.Chatter;
+import com.badou.mworking.entity.chatter.ChatterHotOverall;
 import com.badou.mworking.entity.chatter.ChatterTopic;
 import com.badou.mworking.entity.category.CategoryDetail;
 import com.badou.mworking.entity.category.CategoryOverall;
@@ -238,6 +239,10 @@ public class RestRepository {
 
     public Observable<BaseNetEntity> praiseChatter(String uid, String qid) {
         return restApi.praiseChatter(AppApplication.SYSPARAM, AppApplication.appVersion, uid, qid);
+    }
+
+    public Observable<BaseNetEntity<ChatterHotOverall>> getChatterHotList(String uid, int pageNum, int itemNum) {
+        return restApi.getChatterHotList(AppApplication.SYSPARAM, AppApplication.appVersion, uid, pageNum, itemNum);
     }
 
 }

@@ -1,31 +1,67 @@
 package com.badou.mworking.entity.chatter;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.json.JSONObject;
 
-/**
- * Created by Administrator on 2015/6/12.
- */
 public class ChatterHot {
-    public String uid;
-    public String name;
-    public String username;
-    public String headUrl;
-    public int level;
-    public int topicNumber;
-    public int praiseNumber;
-    public int commentNumber;
-    public int total;
+    @SerializedName("uid")
+    String uid;
+    @SerializedName("employee_id")
+    String name;
+    @SerializedName("eid")
+    String username;
+    @SerializedName("imgurl")
+    String headUrl;
+    @SerializedName("circle_lv")
+    int level;
+    @SerializedName("detail")
+    Content detail;
 
-    public ChatterHot(JSONObject jsonObject) {
-        uid = jsonObject.optString("uid");
-        name = jsonObject.optString("employee_id");
-        username = jsonObject.optString("eid");
-        headUrl = jsonObject.optString("imgurl");
-        level = jsonObject.optInt("circle_lv");
-        JSONObject detailObject = jsonObject.optJSONObject("detail");
-        topicNumber = detailObject.optInt("p");
-        praiseNumber = detailObject.optInt("c");
-        commentNumber = detailObject.optInt("r");
-        total = detailObject.optInt("t");
+    static class Content {
+        @SerializedName("p")
+        int topicNumber;
+        @SerializedName("c")
+        int praiseNumber;
+        @SerializedName("r")
+        int commentNumber;
+        @SerializedName("t")
+        int total;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getHeadUrl() {
+        return headUrl;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public int getTopicNumber() {
+        return detail.topicNumber;
+    }
+
+    public int getPraiseNumber() {
+        return detail.praiseNumber;
+    }
+
+    public int getCommentNumber() {
+        return detail.commentNumber;
+    }
+
+    public int getTotal() {
+        return detail.total;
     }
 }

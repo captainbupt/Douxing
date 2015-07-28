@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
  */
 public abstract class Presenter {
 
-    Context mContext;
+    protected Context mContext;
     ChatterUrlPopupWindow mPopupWindow;
 
     public Presenter(Context context) {
