@@ -64,7 +64,6 @@ public class AppApplication extends Application {
 
         ResourceHelper.init(this);
         SPHelper.initialize(this);
-        GsonUtil.initialize();
 
         MTrainingDBHelper.init(getApplicationContext());
         JPushInterface.setDebugMode(false);

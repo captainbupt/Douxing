@@ -1,30 +1,19 @@
 package com.badou.mworking.presenter;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.text.TextUtils;
 
-import com.badou.mworking.R;
-import com.badou.mworking.domain.CategoryCommentGetUseCase;
-import com.badou.mworking.domain.CategoryCommentSendUseCase;
-import com.badou.mworking.domain.UseCase;
 import com.badou.mworking.entity.comment.CategoryComment;
 import com.badou.mworking.entity.comment.Comment;
 import com.badou.mworking.entity.comment.CommentOverall;
-import com.badou.mworking.net.BaseNetEntity;
-import com.badou.mworking.net.BaseSubscriber;
 import com.badou.mworking.view.BaseView;
 import com.badou.mworking.view.CommentView;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
-import java.util.List;
 
 public abstract class CommentPresenter extends ListPresenter<Comment> {
 
-    CommentView mCommentView;
+    protected CommentView mCommentView;
 
-    String mWhom = null;
+    protected String mWhom = null;
     int mTotalCount = 0;
 
     public CommentPresenter(Context context) {

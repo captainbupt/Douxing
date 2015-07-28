@@ -1,0 +1,15 @@
+package com.badou.mworking.view.category;
+
+import com.badou.mworking.entity.category.CategoryDetail;
+import com.badou.mworking.view.BaseView;
+
+public interface CategoryBaseView extends BaseView {
+
+    void setData(String rid, CategoryDetail categoryDetail);
+
+    void setCommentNumber(int number);
+
+    void setRatingNumber(int number);
+
+    void setStore(boolean isStore);
+}

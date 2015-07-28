@@ -30,7 +30,7 @@ public abstract class ListPresenter<T> extends Presenter {
     protected static final String RESULT_DELETED = "deleted";
     protected static final int REQUEST_DETAIL = 5;
 
-    BaseListView<T> mBaseListView;
+    protected BaseListView<T> mBaseListView;
 
     Handler handler;
 

@@ -12,7 +12,10 @@ import com.badou.mworking.entity.chatter.ChatterHot;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.widget.LevelTextView;
 
-public class ChatterHotAdapter extends MyBaseAdapter {
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
+public class ChatterHotAdapter extends MyBaseAdapter<ChatterHot> {
 
 
     public ChatterHotAdapter(Context context) {
@@ -29,12 +32,12 @@ public class ChatterHotAdapter extends MyBaseAdapter {
         } else {
             holder = (ViewHolder) view.getTag();
         }
-        ChatterHot hot = (ChatterHot) getItem(i);
-        holder.nameTextView.setText(hot.name);
-        ImageViewLoader.setCircleImageViewResource(holder.headImageView, hot.headUrl, mContext.getResources().getDimensionPixelSize(R.dimen.icon_head_size_middle));
-        holder.dataTextView.setText("发帖 " + hot.topicNumber + "\t获赞 " + hot.praiseNumber + "\t获评 " + hot.commentNumber);
+        ChatterHot hot = getItem(i);
+        holder.nameTextView.setText(hot.getName());
+        ImageViewLoader.setCircleImageViewResource(holder.headImageView, hot.getHeadUrl(), mContext.getResources().getDimensionPixelSize(R.dimen.icon_head_size_middle));
+        holder.dataTextView.setText("发帖 " + hot.getTopicNumber() + "\t获赞 " + hot.getPraiseNumber() + "\t获评 " + hot.getCommentNumber());
         holder.rankTextView.setText((i + 1) + "");
-        holder.levelTextView.setLevel(hot.level);
+        holder.levelTextView.setLevel(hot.getLevel());
         if (i <= 2) {
             switch (i) {
                 case 0:
@@ -61,21 +64,23 @@ public class ChatterHotAdapter extends MyBaseAdapter {
         return view;
     }
 
+
     class ViewHolder {
+        @Bind(R.id.head_image_view)
         ImageView headImageView;
+        @Bind(R.id.name_text_view)
         TextView nameTextView;
+        @Bind(R.id.data_text_view)
         TextView dataTextView;
+        @Bind(R.id.level_text_view)
         LevelTextView levelTextView;
+        @Bind(R.id.rank_image_view)
         ImageView rankImageView;
+        @Bind(R.id.rank_text_view)
         TextView rankTextView;
 
-        public ViewHolder(View view) {
-            headImageView = (ImageView) view.findViewById(R.id.iv_adapter_chatter_hot_head);
-            nameTextView = (TextView) view.findViewById(R.id.tv_adapter_chatter_hot_name);
-            dataTextView = (TextView) view.findViewById(R.id.tv_adapter_chatter_hot_data);
-            rankImageView = (ImageView) view.findViewById(R.id.iv_adapter_chatter_hot_rank);
-            rankTextView = (TextView) view.findViewById(R.id.tv_adapter_chatter_hot_rank);
-            levelTextView = (LevelTextView) view.findViewById(R.id.tv_adapter_chatter_hot_level);
+        ViewHolder(View view) {
+            ButterKnife.bind(this, view);
         }
     }
 }

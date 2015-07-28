@@ -4,13 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 
 import com.badou.mworking.CategoryListActivity;
-import com.badou.mworking.domain.CategoryUseCase;
+import com.badou.mworking.domain.category.CategoryUseCase;
 import com.badou.mworking.domain.UseCase;
 import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.CategoryOverall;
 import com.badou.mworking.util.CategoryIntentFactory;
 import com.badou.mworking.util.SPHelper;
-import com.badou.mworking.view.CategoryListView;
+import com.badou.mworking.view.category.CategoryListView;
 
 import java.lang.reflect.Type;
 

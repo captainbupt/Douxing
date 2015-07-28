@@ -14,8 +14,8 @@ import android.widget.TextView;
 import com.badou.mworking.ChatterUserActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.database.ChatterResManager;
-import com.badou.mworking.domain.ChatterDeleteUseCase;
-import com.badou.mworking.domain.ChatterPraiseUseCase;
+import com.badou.mworking.domain.chatter.ChatterDeleteUseCase;
+import com.badou.mworking.domain.chatter.ChatterPraiseUseCase;
 import com.badou.mworking.entity.chatter.Chatter;
 import com.badou.mworking.entity.user.UserChatterInfo;
 import com.badou.mworking.entity.user.UserInfo;
@@ -23,15 +23,10 @@ import com.badou.mworking.listener.DeleteClickListener;
 import com.badou.mworking.listener.MessageClickListener;
 import com.badou.mworking.listener.TopicClickableSpan;
 import com.badou.mworking.net.BaseSubscriber;
-import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
-import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.SPHelper;
 import com.badou.mworking.util.TimeTransfer;
-
-import org.jivesoftware.smack.Chat;
-import org.json.JSONObject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

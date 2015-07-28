@@ -1,6 +1,5 @@
 package com.badou.mworking.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.text.TextUtils;
@@ -11,19 +10,14 @@ import android.widget.TextView;
 
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
-import com.badou.mworking.domain.ChatterReplyDeleteUseCase;
-import com.badou.mworking.entity.comment.ChatterComment;
+import com.badou.mworking.domain.chatter.ChatterReplyDeleteUseCase;
 import com.badou.mworking.entity.comment.Comment;
 import com.badou.mworking.listener.DeleteClickListener;
 import com.badou.mworking.net.BaseSubscriber;
-import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
-import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.TimeTransfer;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.WaitProgressDialog;
-
-import org.json.JSONObject;
 
 import java.util.List;
 

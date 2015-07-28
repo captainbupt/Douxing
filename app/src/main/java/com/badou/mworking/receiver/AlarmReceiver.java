@@ -7,7 +7,6 @@ import android.content.Intent;
 import com.badou.mworking.CategoryListActivity;
 import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.user.UserInfo;
-import com.badou.mworking.presenter.TrainingListPresenter;
 import com.badou.mworking.util.NotificationUtil;
 import com.badou.mworking.util.SP;
 

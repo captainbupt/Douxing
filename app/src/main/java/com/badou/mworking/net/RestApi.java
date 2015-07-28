@@ -1,26 +1,27 @@
 package com.badou.mworking.net;
 
-import com.badou.mworking.domain.CategoryCommentGetUseCase;
-import com.badou.mworking.domain.CategoryDetailUseCase;
+import com.badou.mworking.domain.category.CategoryCommentGetUseCase;
+import com.badou.mworking.domain.category.CategoryDetailUseCase;
 import com.badou.mworking.domain.ChangePasswordUseCase;
-import com.badou.mworking.domain.ChatterListUseCase;
-import com.badou.mworking.domain.ChatterReplyDeleteUseCase;
-import com.badou.mworking.domain.ChatterReplyGetUseCase;
-import com.badou.mworking.domain.ChatterReplySendUseCase;
+import com.badou.mworking.domain.chatter.ChatterListUseCase;
+import com.badou.mworking.domain.chatter.ChatterReplyDeleteUseCase;
+import com.badou.mworking.domain.chatter.ChatterReplyGetUseCase;
+import com.badou.mworking.domain.chatter.ChatterReplySendUseCase;
 import com.badou.mworking.domain.CheckUpdateUseCase;
 import com.badou.mworking.domain.EMChatCreateGroupUseCase;
-import com.badou.mworking.domain.EnrollUseCase;
+import com.badou.mworking.domain.category.EnrollUseCase;
 import com.badou.mworking.domain.LoginUseCase;
-import com.badou.mworking.domain.ChatterPublishUseCase;
+import com.badou.mworking.domain.chatter.ChatterPublishUseCase;
 import com.badou.mworking.domain.StoreUseCase;
-import com.badou.mworking.domain.TaskSignUseCase;
-import com.badou.mworking.domain.UrlContentUseCase;
+import com.badou.mworking.domain.category.TaskSignUseCase;
+import com.badou.mworking.domain.chatter.UrlContentUseCase;
 import com.badou.mworking.entity.chatter.Chatter;
 import com.badou.mworking.entity.category.CategoryDetail;
 import com.badou.mworking.entity.category.CategoryOverall;
 import com.badou.mworking.entity.category.CategorySearchOverall;
 import com.badou.mworking.entity.category.Classification;
 import com.badou.mworking.entity.category.Train;
+import com.badou.mworking.entity.chatter.ChatterHotOverall;
 import com.badou.mworking.entity.chatter.UrlContent;
 import com.badou.mworking.entity.comment.CategoryComment;
 import com.badou.mworking.entity.comment.ChatterComment;
@@ -159,4 +160,7 @@ public interface RestApi {
 
     @GET("/setCredit")
     Observable<BaseNetEntity> praiseChatter(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("qid") String qid);
+
+    @GET("/getdaren")
+    Observable<BaseNetEntity<ChatterHotOverall>> getChatterHotList(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("page_no") int pageNum, @Query("item_per_page") int itemNum);
 }

@@ -51,6 +51,7 @@ public class BaseNoTitleActivity extends ActionBarActivity implements SwipeBackA
         mPresenter = getPresenter();
     }
 
+    // 最后应该为抽象方法
     public Presenter getPresenter() {
         return new Presenter(mContext) {
             @Override

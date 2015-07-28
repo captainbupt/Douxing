@@ -12,11 +12,10 @@ import com.badou.mworking.entity.category.CategoryDetail;
 import com.badou.mworking.fragment.CommentFragment;
 import com.badou.mworking.fragment.EntryIntroductionFragment;
 import com.badou.mworking.fragment.EntryOperationFragment;
-import com.badou.mworking.presenter.EntryPresenter;
+import com.badou.mworking.presenter.category.EntryPresenter;
 import com.badou.mworking.presenter.ListPresenter;
 import com.badou.mworking.presenter.Presenter;
-import com.badou.mworking.view.CategoryBaseView;
-import com.badou.mworking.view.EntryView;
+import com.badou.mworking.view.category.EntryView;
 import com.badou.mworking.widget.CategoryHeader;
 import com.badou.mworking.widget.CategoryTabContent;
 

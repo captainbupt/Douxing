@@ -9,11 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GsonUtil {
-    private static Gson gson;
 
-    public static void initialize() {
-        gson = new Gson();
-    }
+    private static final Gson gson = new Gson();
 
     public static Object fromJson(String jsonString, Type type) {
         return gson.fromJson(jsonString, type);
@@ -41,7 +38,7 @@ public class GsonUtil {
         return gson.toJson(object);
     }
 
-    // Collect需要使用此方法
+    // 作为一个辅助型的方法，一般情况可以不用
     public static String toJson(Object object, Type type) {
         return gson.toJson(object, type);
     }

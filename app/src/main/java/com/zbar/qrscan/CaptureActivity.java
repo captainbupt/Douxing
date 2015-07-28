@@ -2,7 +2,6 @@ package com.zbar.qrscan;
 
 import java.io.IOException;
 
-import android.app.Activity;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Point;
 import android.media.AudioManager;
@@ -19,11 +18,10 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.badou.mworking.R;
 import com.badou.mworking.base.BaseNoTitleActivity;
-import com.badou.mworking.presenter.TaskSignPresenter;
+import com.badou.mworking.presenter.category.TaskSignPresenter;
 import com.zbar.lib.camera.CameraManager;
 import com.zbar.lib.decode.InactivityTimer;
 import com.zbar.qrscan.decode.CaptureActivityHandler;
