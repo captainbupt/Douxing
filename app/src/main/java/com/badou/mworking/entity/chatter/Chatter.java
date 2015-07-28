@@ -1,6 +1,8 @@
 package com.badou.mworking.entity.chatter;
 
 import android.content.ContentValues;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.badou.mworking.database.MTrainingDBHelper;
 import com.badou.mworking.util.GsonUtil;
@@ -13,7 +15,7 @@ import java.util.List;
 /**
  * 功能描述:  同事圈实体类
  */
-public class Chatter implements Serializable {
+public class Chatter implements Parcelable {
     @SerializedName("qid")
     String qid;//qid
     @SerializedName("uid")
@@ -139,6 +141,10 @@ public class Chatter implements Serializable {
         this.isStore = isStore;
     }
 
+    public void setReplyNumber(int replyNumber) {
+        this.replyNumber = replyNumber;
+    }
+
     public boolean hasImageList() {
         return photoUrls != null && photoUrls.size() > 0;
     }
@@ -155,5 +161,15 @@ public class Chatter implements Serializable {
         v.put(MTrainingDBHelper.QUAN_QID, qid);
         v.put(MTrainingDBHelper.QUAN_IS_CHECK, 1);
         return v;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(GsonUtil.toJson(this, Chatter.class));
     }
 }

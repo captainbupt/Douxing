@@ -1,6 +1,7 @@
 package com.badou.mworking.widget;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -10,13 +11,18 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.badou.mworking.BackWebActivity;
 import com.badou.mworking.ChatterUserActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.database.ChatterResManager;
+import com.badou.mworking.domain.ChatterDeleteUseCase;
+import com.badou.mworking.domain.ChatterPraiseUseCase;
 import com.badou.mworking.entity.chatter.Chatter;
 import com.badou.mworking.entity.user.UserChatterInfo;
+import com.badou.mworking.entity.user.UserInfo;
+import com.badou.mworking.listener.DeleteClickListener;
+import com.badou.mworking.listener.MessageClickListener;
 import com.badou.mworking.listener.TopicClickableSpan;
+import com.badou.mworking.net.BaseSubscriber;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.net.volley.VolleyListener;
@@ -24,6 +30,7 @@ import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.SPHelper;
 import com.badou.mworking.util.TimeTransfer;
 
+import org.jivesoftware.smack.Chat;
 import org.json.JSONObject;
 
 import butterknife.Bind;
@@ -57,10 +64,15 @@ public class ChatterItemView extends LinearLayout {
     TextView mPraiseTextView;
     @Bind(R.id.reply_text_view)
     TextView mReplyTextView;
+    @Bind(R.id.reply_image_view)
+    ImageView mReplyImageView;
+    @Bind(R.id.message_text_view)
+    TextView mMessageTextView;
+    @Bind(R.id.delete_text_view)
+    TextView mDeleteTextView;
 
-    private Context mContext;
-    HeadClickListener mHeadClickListener;
-    PraiseClickListener mPraiseClickListener;
+    Context mContext;
+    OnDeletedListener mOnDeletedListener;
 
     public ChatterItemView(Context context) {
         super(context);
@@ -79,7 +91,11 @@ public class ChatterItemView extends LinearLayout {
         ButterKnife.bind(this, this);
     }
 
-    public void setData(Chatter chatter, boolean isHeadClickable) {
+    public void setOnDeletedListener(OnDeletedListener onDeletedListener) {
+        this.mOnDeletedListener = onDeletedListener;
+    }
+
+    public void setData(final Chatter chatter, boolean isHeadClickable, boolean isDetail) {
         mNameTextView.setText(chatter.getName());
         String content = chatter.getContent();
         TopicClickableSpan.setClickTopic(mContext, mContentTextView, content, 100);
@@ -89,11 +105,9 @@ public class ChatterItemView extends LinearLayout {
             mFullContentTextView.setVisibility(View.GONE);
         }
         mTimeTextView.setText(TimeTransfer.long2ChatterDetailData(mContext, chatter.getPublishTime()));
-        mReplyTextView.setText("" + chatter.getReplyNumber());
         ImageViewLoader.setCircleImageViewResource(mHeadImageView, chatter.getHeadUrl(), mContext.getResources().getDimensionPixelSize(R.dimen.icon_head_size_middle));
 
         // 有Url则直接显示url
-        System.out.println("url content: " + (chatter.getUrlContent() != null));
         if (chatter.getUrlContent() != null)
             System.out.println("url: " + chatter.getUrlContent().getUrl());
         if (chatter.getUrlContent() != null && !TextUtils.isEmpty(chatter.getUrlContent().getUrl())) {
@@ -129,8 +143,6 @@ public class ChatterItemView extends LinearLayout {
             }
         }
 
-        /** 设置点赞数和监听 **/
-        mPraiseTextView.setText(chatter.getPraiseNumber() + "");
         // 设置显示级别
         if (chatter.getName().equals("神秘的TA")) {
             mLevelTextView.setVisibility(View.GONE);
@@ -139,77 +151,150 @@ public class ChatterItemView extends LinearLayout {
             mLevelTextView.setLevel(chatter.getLevel());
         }
         if (isHeadClickable) { // 设置头像点击事件
-            if (mHeadClickListener == null)
-                mHeadClickListener = new HeadClickListener();
-            mHeadImageView.setOnClickListener(mHeadClickListener);
-            mHeadClickListener.chatter = chatter;
-        }
-
-        /** 设置点赞的check **/
-        if (ChatterResManager.isSelect(mContext, chatter.getQid())) {
-            mPraiseImageView.setImageResource(R.drawable.icon_praise_checked);
-            mPraiseImageView.setEnabled(false);
-            mPraiseTextView.setEnabled(false);
-        } else {
-            mPraiseImageView.setImageResource(R.drawable.icon_praise_unchecked);
-            // 设置点赞点击事件
-            mPraiseClickListener = new PraiseClickListener();
-            mPraiseImageView.setOnClickListener(mPraiseClickListener);
-            mPraiseTextView.setOnClickListener(mPraiseClickListener);
-            mPraiseClickListener.chatter = chatter;
-            mPraiseClickListener.praiseImageView = mPraiseImageView;
-            mPraiseClickListener.numberTextView = mPraiseTextView;
-            mPraiseImageView.setEnabled(true);
-            mPraiseTextView.setEnabled(true);
-        }
-    }
-
-    class HeadClickListener implements OnClickListener {
-        public Chatter chatter;
-
-        @Override
-        public void onClick(View v) {
-            UserChatterInfo userChatterInfo = new UserChatterInfo(chatter);
-            if (userChatterInfo.name.equals("神秘的TA")) {
-                return;
-            }
-            Intent intent = new Intent(mContext, ChatterUserActivity.class);
-            intent.putExtra(ChatterUserActivity.KEY_UID, chatter.getUid());
-            intent.putExtra(ChatterUserActivity.KEY_USER_CHATTER, userChatterInfo);
-            mContext.startActivity(intent);
-        }
-    }
-
-    class PraiseClickListener implements OnClickListener {
-        public Chatter chatter;
-        public ImageView praiseImageView;
-        public TextView numberTextView;
-
-        @Override
-        public void onClick(View arg0) {
-            chatter.increasePraise();
-            praiseImageView.setImageResource(R.drawable.icon_praise_checked);
-            numberTextView.setText(chatter.getPraiseNumber() + "");
-
-            /** 调用同事圈点赞接口 提交点赞 **/
-            ServiceProvider.doSetCredit(mContext, chatter.getQid(), new VolleyListener(mContext) {
-
+            mHeadImageView.setEnabled(true);
+            mHeadImageView.setOnClickListener(new OnClickListener() {
                 @Override
-                public void onErrorCode(int code) {
-                    chatter.decreasePraise();
-                    praiseImageView.setImageResource(R.drawable.icon_praise_unchecked);
-                    numberTextView.setText(chatter.getPraiseNumber() + "");
-                    mPraiseImageView.setEnabled(true);
-                    mPraiseTextView.setEnabled(true);
-                }
-
-                @Override
-                public void onResponseSuccess(JSONObject response) {
-                    ChatterResManager.insertItem(mContext, chatter);
-                    mPraiseImageView.setEnabled(false);
-                    mPraiseTextView.setEnabled(false);
+                public void onClick(View v) {
+                    toUserChatter(chatter);
                 }
             });
+        } else {
+            mHeadImageView.setEnabled(false);
         }
+
+        if (!isDetail) {
+            /** 设置点赞数和监听 **/
+            mPraiseTextView.setText(chatter.getPraiseNumber() + "");
+            /** 设置点赞的check **/
+            if (ChatterResManager.isSelect(mContext, chatter.getQid())) {
+                mPraiseImageView.setImageResource(R.drawable.icon_praise_checked);
+                mPraiseImageView.setEnabled(false);
+                mPraiseTextView.setEnabled(false);
+            } else {
+                mPraiseImageView.setImageResource(R.drawable.icon_praise_unchecked);
+                // 设置点赞点击事件
+                OnClickListener praiseClickListener = new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        praise(chatter);
+                    }
+                };
+                mPraiseImageView.setOnClickListener(praiseClickListener);
+                mPraiseTextView.setOnClickListener(praiseClickListener);
+                mPraiseImageView.setEnabled(true);
+                mPraiseTextView.setEnabled(true);
+            }
+            mReplyTextView.setText("" + chatter.getReplyNumber());
+            mPraiseTextView.setVisibility(View.VISIBLE);
+            mPraiseImageView.setVisibility(View.VISIBLE);
+            mReplyTextView.setVisibility(View.VISIBLE);
+            mReplyImageView.setVisibility(View.VISIBLE);
+            mMessageTextView.setVisibility(View.GONE);
+            mDeleteTextView.setVisibility(View.GONE);
+        } else {
+            mMessageTextView.setOnClickListener(new MessageClickListener(mContext, chatter.getName(), chatter.getWhom(), chatter.getHeadUrl()));
+
+            /***删除按钮**/
+            mDeleteTextView.setOnClickListener(new DeleteClickListener(mContext, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    deleteComment(chatter.getQid());
+                }
+            }));
+            mPraiseTextView.setVisibility(View.GONE);
+            mPraiseImageView.setVisibility(View.GONE);
+            mReplyTextView.setVisibility(View.GONE);
+            mReplyImageView.setVisibility(View.GONE);
+            mMessageTextView.setVisibility(View.VISIBLE);
+            mDeleteTextView.setVisibility(View.VISIBLE);
+            // 点击进入是自己      (TextUtils.isEmpty(currentUid) 我的圈中没有返回uid字段，因为那是自己，当uid为空时，判断为是自己，也就是我的圈跳转进入的，只显示删除)
+            if (UserInfo.getUserInfo().getUid().equals(chatter.getUid()) || TextUtils.isEmpty(chatter.getUid())) {
+                mMessageTextView.setVisibility(View.GONE);
+            } else {
+                mMessageTextView.setVisibility(View.VISIBLE);
+            }
+            if (chatter.isDeletable()) {
+                mDeleteTextView.setVisibility(View.VISIBLE);
+            } else {
+                mDeleteTextView.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    public interface OnDeletedListener {
+        void onDeleted();
+
+        void onStart();
+
+        void onComplete();
+    }
+
+    /**
+     * 功能描述:删除我的圈中的item
+     */
+    private void deleteComment(final String qid) {
+        if (mOnDeletedListener != null)
+            mOnDeletedListener.onStart();
+        new ChatterDeleteUseCase(qid).execute(new BaseSubscriber(mContext) {
+            @Override
+            public void onResponseSuccess(Object data) {
+                if (mOnDeletedListener != null)
+                    mOnDeletedListener.onDeleted();
+            }
+
+            @Override
+            public void onCompleted() {
+                if (mOnDeletedListener != null)
+                    mOnDeletedListener.onComplete();
+            }
+        });
+    }
+
+    public void toUserChatter(Chatter chatter) {
+        UserChatterInfo userChatterInfo = new UserChatterInfo(chatter);
+        if (userChatterInfo.name.equals("神秘的TA")) {
+            return;
+        }
+        Intent intent = new Intent(mContext, ChatterUserActivity.class);
+        intent.putExtra(ChatterUserActivity.KEY_UID, chatter.getUid());
+        intent.putExtra(ChatterUserActivity.KEY_USER_CHATTER, userChatterInfo);
+        mContext.startActivity(intent);
+    }
+
+    /**
+     * 调用同事圈点赞接口 提交点赞 *
+     */
+    public void praise(final Chatter chatter) {
+        chatter.increasePraise();
+        mPraiseImageView.setImageResource(R.drawable.icon_praise_checked);
+        mReplyTextView.setText(chatter.getPraiseNumber() + "");
+        mPraiseImageView.setEnabled(false);
+        mPraiseTextView.setEnabled(false);
+        new ChatterPraiseUseCase(chatter.getQid()).execute(new BaseSubscriber(mContext) {
+            @Override
+            public void onResponseSuccess(Object data) {
+                ChatterResManager.insertItem(mContext, chatter);
+            }
+
+            @Override
+            public void onErrorCode(int code) {
+                super.onErrorCode(code);
+                praiseFail();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                praiseFail();
+            }
+
+            private void praiseFail() {
+                chatter.decreasePraise();
+                mPraiseImageView.setImageResource(R.drawable.icon_praise_unchecked);
+                mReplyTextView.setText(chatter.getPraiseNumber() + "");
+                mPraiseImageView.setEnabled(true);
+                mPraiseTextView.setEnabled(true);
+            }
+        });
     }
 }

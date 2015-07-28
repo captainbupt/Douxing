@@ -10,6 +10,8 @@ import android.widget.ListView;
 import com.badou.mworking.adapter.AskAdapter;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.entity.Ask;
+import com.badou.mworking.entity.main.MainIcon;
+import com.badou.mworking.entity.main.Shuffle;
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
@@ -45,6 +47,7 @@ public class AskActivity extends BaseBackActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setActionbarTitle(UserInfo.getUserInfo().getShuffle().getMainIcon(mContext, Shuffle.BUTTON_ASK).getName());
         setContentView(R.layout.activity_ask);
         initView();
         initListener();

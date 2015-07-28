@@ -4,6 +4,9 @@ import com.badou.mworking.domain.CategoryCommentGetUseCase;
 import com.badou.mworking.domain.CategoryDetailUseCase;
 import com.badou.mworking.domain.ChangePasswordUseCase;
 import com.badou.mworking.domain.ChatterListUseCase;
+import com.badou.mworking.domain.ChatterReplyDeleteUseCase;
+import com.badou.mworking.domain.ChatterReplyGetUseCase;
+import com.badou.mworking.domain.ChatterReplySendUseCase;
 import com.badou.mworking.domain.CheckUpdateUseCase;
 import com.badou.mworking.domain.EMChatCreateGroupUseCase;
 import com.badou.mworking.domain.EnrollUseCase;
@@ -20,6 +23,7 @@ import com.badou.mworking.entity.category.Classification;
 import com.badou.mworking.entity.category.Train;
 import com.badou.mworking.entity.chatter.UrlContent;
 import com.badou.mworking.entity.comment.CategoryComment;
+import com.badou.mworking.entity.comment.ChatterComment;
 import com.badou.mworking.entity.comment.CommentOverall;
 import com.badou.mworking.entity.main.MainData;
 import com.badou.mworking.entity.user.UserDetail;
@@ -129,6 +133,30 @@ public interface RestApi {
     @GET("/getTopicInfo")
     Observable<BaseNetEntity<ChatterListUseCase.Response>> getChatterList(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("topic") String topic, @Query("page_no") int page_no, @Query("item_per_page") int item_per_page);
 
+    @POST("/viewqas")
+    Observable<BaseNetEntity<ChatterListUseCase.Response>> getChatterListUser(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Body ChatterListUseCase.Body body);
+
     @POST("/parseurl")
     Observable<BaseNetEntity<UrlContent>> parseUrlContent(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Body UrlContentUseCase.Body body);
+
+    @GET("/getonepub")
+    Observable<BaseNetEntity<Chatter>> getChatter(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("qid") String qid);
+
+    @GET("/delpublish")
+    Observable<BaseNetEntity> deleteChatter(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("qid") String qid);
+
+    @POST("/getreply")
+    Observable<BaseNetEntity<CommentOverall<ChatterComment>>> getChatterReply(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Body ChatterReplyGetUseCase.Body body);
+
+    @POST("/reply")
+    Observable<BaseNetEntity> replyChatter(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Body ChatterReplySendUseCase.Body body);
+
+    @POST("/replyat")
+    Observable<BaseNetEntity> replyChatterAt(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Body ChatterReplySendUseCase.Body body);
+
+    @POST("/delreply")
+    Observable<BaseNetEntity> deleteChatterReply(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Body ChatterReplyDeleteUseCase.Body body);
+
+    @GET("/setCredit")
+    Observable<BaseNetEntity> praiseChatter(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("qid") String qid);
 }

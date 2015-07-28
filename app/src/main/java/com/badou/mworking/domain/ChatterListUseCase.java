@@ -1,5 +1,7 @@
 package com.badou.mworking.domain;
 
+import android.text.TextUtils;
+
 import com.badou.mworking.entity.chatter.Chatter;
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.RestRepository;
@@ -12,20 +14,29 @@ import rx.Observable;
 
 public class ChatterListUseCase extends UseCase {
 
-    private int mPageNum;
-    private String mTopic;
+    int mPageNum;
+    String mTopic;
+    String mUid;
 
     public void setPageNum(int pageNum) {
         this.mPageNum = pageNum;
     }
 
-    public ChatterListUseCase(String topic){
+    public ChatterListUseCase(String topic) {
         this.mTopic = topic;
+    }
+
+    public void setUid(String uid) {
+        this.mUid = uid;
     }
 
     @Override
     protected Observable buildUseCaseObservable() {
-        return RestRepository.getInstance().getChatterList(new Body(UserInfo.getUserInfo().getUid(), "share", mPageNum, Constant.LIST_ITEM_NUM), mTopic);
+        if (TextUtils.isEmpty(mUid)) {
+            return RestRepository.getInstance().getChatterList(new Body(UserInfo.getUserInfo().getUid(), "share", mPageNum, Constant.LIST_ITEM_NUM), mTopic, false);
+        } else {
+            return RestRepository.getInstance().getChatterList(new Body(mUid, "share", mPageNum, Constant.LIST_ITEM_NUM), mTopic, true);
+        }
     }
 
     public static class Body {

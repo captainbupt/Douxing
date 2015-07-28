@@ -105,7 +105,7 @@ public class StoreAdapter extends MyBaseAdapter {
         holder.itemClickListener.setPosition(i);
         Store store = (Store) getItem(i);
         holder.store = store;
-        holder.chatterItemView.setData(store.chatter, true);
+        holder.chatterItemView.setData(store.chatter, true, false);
         ((ViewGroup) view).setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
         return view;
     }

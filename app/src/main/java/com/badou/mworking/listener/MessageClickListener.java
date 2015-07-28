@@ -7,9 +7,6 @@ import android.view.View;
 import com.badou.mworking.ChattingActivity;
 import com.badou.mworking.base.BaseActionBarActivity;
 
-/**
- * Created by Administrator on 2015/6/10.
- */
 public class MessageClickListener implements View.OnClickListener {
 
     private Context mContext;
@@ -31,7 +28,7 @@ public class MessageClickListener implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         Intent intent = new Intent(mContext, ChattingActivity.class);
-        intent.putExtra(BaseActionBarActivity.KEY_TITLE, userName);
+        // intent.putExtra(BaseActionBarActivity.KEY_TITLE, userName);
         intent.putExtra(ChattingActivity.KEY_WHOM, whom);
         intent.putExtra(ChattingActivity.KEY_OTHER_IMG, headUrl);
         mContext.startActivity(intent);

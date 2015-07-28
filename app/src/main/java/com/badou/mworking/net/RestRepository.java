@@ -9,6 +9,9 @@ import com.badou.mworking.domain.CategoryDetailUseCase;
 import com.badou.mworking.domain.CategoryUseCase;
 import com.badou.mworking.domain.ChangePasswordUseCase;
 import com.badou.mworking.domain.ChatterListUseCase;
+import com.badou.mworking.domain.ChatterReplyDeleteUseCase;
+import com.badou.mworking.domain.ChatterReplyGetUseCase;
+import com.badou.mworking.domain.ChatterReplySendUseCase;
 import com.badou.mworking.domain.CheckUpdateUseCase;
 import com.badou.mworking.domain.EMChatCreateGroupUseCase;
 import com.badou.mworking.domain.EnrollUseCase;
@@ -26,6 +29,7 @@ import com.badou.mworking.entity.category.Classification;
 import com.badou.mworking.entity.category.Train;
 import com.badou.mworking.entity.chatter.UrlContent;
 import com.badou.mworking.entity.comment.CategoryComment;
+import com.badou.mworking.entity.comment.ChatterComment;
 import com.badou.mworking.entity.comment.CommentOverall;
 import com.badou.mworking.entity.main.MainData;
 import com.badou.mworking.entity.user.UserDetail;
@@ -180,9 +184,11 @@ public class RestRepository {
         return restApi.publicChatterUrl(AppApplication.SYSPARAM, AppApplication.appVersion, uid, qid, new TypedString(url));
     }
 
-    public Observable<BaseNetEntity<List<Chatter>>> getChatterList(ChatterListUseCase.Body body, String topic) {
+    public Observable<BaseNetEntity<List<Chatter>>> getChatterList(ChatterListUseCase.Body body, String topic, boolean isUser) {
         Observable<BaseNetEntity<ChatterListUseCase.Response>> responseObservable;
-        if (TextUtils.isEmpty(topic)) {
+        if (isUser) {
+            responseObservable = restApi.getChatterListUser(AppApplication.SYSPARAM, AppApplication.appVersion, body);
+        } else if (TextUtils.isEmpty(topic)) {
             responseObservable = restApi.getChatterList(AppApplication.SYSPARAM, AppApplication.appVersion, body);
         } else {
             responseObservable = restApi.getChatterList(AppApplication.SYSPARAM, AppApplication.appVersion, body.getUid(), topic, body.getPageNum(), body.getItemNum());
@@ -204,6 +210,34 @@ public class RestRepository {
                 return urlContentBaseNetEntity;
             }
         });
+    }
+
+    public Observable<BaseNetEntity<Chatter>> getChatter(String uid, String qid) {
+        return restApi.getChatter(AppApplication.SYSPARAM, AppApplication.appVersion, uid, qid);
+    }
+
+    public Observable<BaseNetEntity<CommentOverall<ChatterComment>>> getChatterReply(ChatterReplyGetUseCase.Body body) {
+        return restApi.getChatterReply(AppApplication.SYSPARAM, AppApplication.appVersion, body);
+    }
+
+    public Observable<BaseNetEntity> deleteChatter(String uid, String qid) {
+        return restApi.deleteChatter(AppApplication.SYSPARAM, AppApplication.appVersion, uid, qid);
+    }
+
+    public Observable<BaseNetEntity> sendChatterReply(ChatterReplySendUseCase.Body body) {
+        return restApi.replyChatter(AppApplication.SYSPARAM, AppApplication.appVersion, body);
+    }
+
+    public Observable<BaseNetEntity> sendChatterReplyAt(ChatterReplySendUseCase.Body body) {
+        return restApi.replyChatterAt(AppApplication.SYSPARAM, AppApplication.appVersion, body);
+    }
+
+    public Observable<BaseNetEntity> deleteChatterReply(ChatterReplyDeleteUseCase.Body body) {
+        return restApi.deleteChatterReply(AppApplication.SYSPARAM, AppApplication.appVersion, body);
+    }
+
+    public Observable<BaseNetEntity> praiseChatter(String uid, String qid) {
+        return restApi.praiseChatter(AppApplication.SYSPARAM, AppApplication.appVersion, uid, qid);
     }
 
 }
