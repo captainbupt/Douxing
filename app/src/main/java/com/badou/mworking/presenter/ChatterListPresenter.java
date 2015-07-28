@@ -8,9 +8,11 @@ import com.badou.mworking.domain.ChatterListUseCase;
 import com.badou.mworking.domain.UseCase;
 import com.badou.mworking.entity.chatter.Chatter;
 import com.badou.mworking.fragment.ChatterListFragment;
+import com.badou.mworking.util.GsonUtil;
 import com.badou.mworking.util.SP;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.List;
 
@@ -42,6 +44,11 @@ public class ChatterListPresenter extends ListPresenter<Chatter> {
     }
 
     @Override
+    public void onResponseItem(int position, Serializable item) {
+        mBaseListView.setItem(position, GsonUtil.fromJson((String) item,Chatter.class));
+    }
+
+    @Override
     protected UseCase getRefreshUseCase(int pageIndex) {
         if (mChatterListUseCase == null)
             mChatterListUseCase = new ChatterListUseCase(mTopic);
@@ -52,8 +59,7 @@ public class ChatterListPresenter extends ListPresenter<Chatter> {
     @Override
     public void toDetailPage(Chatter data) {
         // 跳转到单条的Item的页面，并传递数据
-        Intent intent = new Intent(mContext, ChatterDetailActivity.class);
-        intent.putExtra(ChatterDetailActivity.KEY_CHATTER, data);
+        Intent intent = ChatterDetailActivity.getIntent(mContext, data.getQid());
         mFragment.startActivityForResult(intent, REQUEST_DETAIL);
     }
 }

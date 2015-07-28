@@ -29,10 +29,12 @@ public class MessageCenterResManager {
     }
 
     public static List<Object> getAllItem(Context context) {
-        MTrainingDBHelper mTrainingDBHelper = MTrainingDBHelper
-                .getMTrainingDBHelper();
+        MTrainingDBHelper mTrainingDBHelper = MTrainingDBHelper.getMTrainingDBHelper();
         SQLiteDatabase dbReader = mTrainingDBHelper.getDatabase();
-        String userNum = UserInfo.getUserInfo().getAccount();
+        UserInfo userInfo = UserInfo.getUserInfo();
+        if (userInfo == null || TextUtils.isEmpty(userInfo.getAccount()))
+            return new ArrayList<>();
+        String userNum = userInfo.getAccount();
         List<Object> messageCenterList = new ArrayList<>();
         Cursor cursor = dbReader.query(MTrainingDBHelper.TBL_NAME_MESSAGE_CENTER + userNum.replace("@", ""),
                 null, null, null, null, null, MTrainingDBHelper.MESSAGE_CENTER_TS + " DESC");

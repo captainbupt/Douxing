@@ -14,6 +14,8 @@ import android.widget.RadioGroup;
 
 import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.base.BaseBackActionBarActivity;
+import com.badou.mworking.entity.main.Shuffle;
+import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.fragment.ChatterHotFragment;
 import com.badou.mworking.fragment.ChatterListFragment;
 
@@ -89,7 +91,7 @@ public class ChatterActivity extends BaseBackActionBarActivity {
     }
 
     private void initData() {
-        mChatterRadioButton.setText(mReceivedIntent.getStringExtra(BaseActionBarActivity.KEY_TITLE));
+        mChatterRadioButton.setText(UserInfo.getUserInfo().getShuffle().getMainIcon(mContext, Shuffle.BUTTON_CHATTER).getName());
         mChatterRadioButton.setChecked(true);
         setRightText(R.string.chatter_title_right, new View.OnClickListener() {
             @Override

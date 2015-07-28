@@ -69,7 +69,7 @@ public class ChatListActivity extends BaseBackActionBarActivity {
                                     long arg3) {
                 Intent intent = new Intent(mContext, ChattingActivity.class);
                 ChattingListInfo contanctsList = (ChattingListInfo) mAdapter.getItem(positon - 1);
-                intent.putExtra(BaseActionBarActivity.KEY_TITLE, contanctsList.name);
+                //intent.putExtra(BaseActionBarActivity.KEY_TITLE, contanctsList.name);
                 intent.putExtra(ChattingActivity.KEY_WHOM, contanctsList.whom);
                 intent.putExtra(ChattingActivity.KEY_OTHER_IMG, contanctsList.img);
                 intent.putExtra(ChattingActivity.KEY_SELF_IMG, mReceivedIntent.getStringExtra(KEY_HEAD_URL));

@@ -155,20 +155,6 @@ public class BaseActionBarActivity extends BaseNoTitleActivity {
         return logoImage;
     }
 
-    protected void addStatisticalImageView(final String sid) {
-        ImageView imageView = getDefaultImageView(mContext, R.drawable.button_title_admin_statistical);
-        addTitleRightView(imageView, new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String titleStr = getResources().getString(R.string.statistical_data);
-                String uid = UserInfo.getUserInfo().getUid();
-                String url = Net.getRunHost() + Net.getTongji(uid, sid);
-                Intent intent = BackWebActivity.getIntent(mContext, titleStr, url);
-                startActivity(intent);
-            }
-        });
-    }
-
     protected void addStoreImageView(boolean isStored, final String type, final String sid) {
         final ImageView imageView = getDefaultImageView(mContext, isStored ? R.drawable.button_title_store_checked : R.drawable.button_title_store_unchecked);
         imageView.setTag(isStored);

@@ -26,8 +26,7 @@ public class ResourceClickHandler {
             @Override
             public void onResponseSuccess(JSONObject response) {
                 Chatter chatter = GsonUtil.fromJson(response.optJSONObject(Net.DATA).toString(), Chatter.class);
-                Intent intent = new Intent(context, ChatterDetailActivity.class);
-                intent.putExtra(ChatterDetailActivity.KEY_CHATTER, chatter);
+                Intent intent = ChatterDetailActivity.getIntent(context, chatter.getQid());
                 context.startActivity(intent);
                 onCompleteListener.onComplete(true);
             }

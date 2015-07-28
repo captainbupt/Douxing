@@ -105,8 +105,6 @@ public class AskSubmitActivity extends BaseBackActionBarActivity {
                     @Override
                     public void onResponseSuccess(JSONObject response) {
                         Intent intent = new Intent(mContext, AskActivity.class);
-                        intent.putExtra(BaseActionBarActivity.KEY_TITLE,
-                                UserInfo.getUserInfo().getShuffle().getMainIcon(mContext, Shuffle.BUTTON_ASK).getName());
                         startActivity(intent);
                         finish();
                     }

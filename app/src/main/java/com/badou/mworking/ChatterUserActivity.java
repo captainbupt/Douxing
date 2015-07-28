@@ -104,9 +104,8 @@ public class ChatterUserActivity extends BaseNoTitleActivity {
             public void onItemClick(View v, int position, long id) {
                 mClickPosition = position;
                 // 跳转到单条的Item的页面，并传递数据
-                Chatter chatter = (Chatter) mChatterAdapter.getItem(position);
-                Intent intent = new Intent(mContext, ChatterDetailActivity.class);
-                intent.putExtra(ChatterDetailActivity.KEY_CHATTER, chatter);
+                Chatter chatter = mChatterAdapter.getItem(position);
+                Intent intent = ChatterDetailActivity.getIntent(mContext, chatter.getQid());
                 startActivityForResult(intent, REQUEST_CHATTER_DETAIL);
             }
         });
@@ -116,12 +115,12 @@ public class ChatterUserActivity extends BaseNoTitleActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK && mClickPosition >= 0 && mClickPosition < mChatterAdapter.getCount()) {
-            if (data.getBooleanExtra(ChatterDetailActivity.RESULT_KEY_DELETE, false)) {
+/*            if (data.getBooleanExtra(ChatterDetailActivity.RESULT_KEY_DELETE, false)) {
                 mChatterAdapter.remove(mClickPosition);
             } else {
                 Chatter chatter = (Chatter) mChatterAdapter.getItem(mClickPosition);
                 mChatterAdapter.setItem(mClickPosition, chatter);
-            }
+            }*/
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

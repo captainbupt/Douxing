@@ -11,6 +11,7 @@ import com.badou.mworking.R;
 import com.badou.mworking.adapter.CommentAdapter;
 import com.badou.mworking.base.BaseFragment;
 import com.badou.mworking.entity.comment.Comment;
+import com.badou.mworking.presenter.CategoryCommentPresenter;
 import com.badou.mworking.presenter.CommentPresenter;
 import com.badou.mworking.util.DensityUtil;
 import com.badou.mworking.view.CommentView;
@@ -65,7 +66,7 @@ public class CommentFragment extends BaseFragment implements CommentView, Catego
         final View view = inflater.inflate(R.layout.fragment_comment, container, false);
         ButterKnife.bind(this, view);
         Bundle bundle = getArguments();
-        mPresenter = new CommentPresenter(mContext, bundle.getString(KEY_RID));
+        mPresenter = new CategoryCommentPresenter(mContext, bundle.getString(KEY_RID));
         mPresenter.attachView(this);
         mCommentAdapter = new CommentAdapter(mContext);
         mContentListView.setAdapter(mCommentAdapter);

@@ -11,8 +11,11 @@ import android.widget.TextView;
 
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
+import com.badou.mworking.domain.ChatterReplyDeleteUseCase;
 import com.badou.mworking.entity.comment.ChatterComment;
 import com.badou.mworking.entity.comment.Comment;
+import com.badou.mworking.listener.DeleteClickListener;
+import com.badou.mworking.net.BaseSubscriber;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.net.volley.VolleyListener;
@@ -29,18 +32,21 @@ import java.util.List;
  */
 public class CommentAdapter extends MyBaseAdapter<Comment> {
 
+    boolean isChatter;
+
     private int mAllCount = 0;
     private String mQid;
-    private int mType;
     private boolean mDeletable;
     private WaitProgressDialog mProgressDialog;
 
     public CommentAdapter(Context context) {
         super(context);
+        isChatter = false;
     }
 
     public CommentAdapter(Context context, String qid, boolean deletable, WaitProgressDialog progressDialog) {
         super(context);
+        isChatter = true;
         mQid = qid;
         mProgressDialog = progressDialog;
         mDeletable = deletable;
@@ -76,11 +82,15 @@ public class CommentAdapter extends MyBaseAdapter<Comment> {
         } else {
             convertView = mInflater.inflate(R.layout.adapter_comment,
                     parent, false);
-            if (comment instanceof ChatterComment) {
-                convertView.setBackgroundColor(0x00000000);
-            }
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
+        }
+        if (isChatter) {
+            if (position == 0) {
+                convertView.setBackgroundResource(R.drawable.bg_around_detail);
+            } else {
+                convertView.setBackgroundColor(0xffdde7ec);
+            }
         }
         /*获取员工号*/
         String name = comment.getName();
@@ -95,8 +105,6 @@ public class CommentAdapter extends MyBaseAdapter<Comment> {
         /*获取评论时间*/
         String pubTime = TimeTransfer.long2StringDetailDate(mContext, comment.getTime());
         holder.mDateTextView.setText(pubTime);
-
-        System.out.println("img url: " + comment.getImgUrl());
 
         /**设置头像**/
         ImageViewLoader.setCircleImageViewResource(holder.mHeadImageView, comment.getImgUrl(), mContext.getResources().getDimensionPixelSize(R.dimen.icon_head_size_middle));
@@ -141,13 +149,12 @@ public class CommentAdapter extends MyBaseAdapter<Comment> {
             mDividerView = view.findViewById(R.id.view_adapter_comment_divider);
             mDeleteTextView = (TextView) view.findViewById(R.id.tv_adapter_comment_delete);
             mDeleteConfirmListener = new DeleteConfirmListener();
-            /*if (mType == Comment.TYPE_CHATTER) {
-                mDeleteTextView.setOnClickListener(new DeleteClickListener(mContext, mDeleteConfirmListener));
-                view.setBackgroundColor(0x00000000);
+            mDeleteTextView.setOnClickListener(new DeleteClickListener(mContext, mDeleteConfirmListener));
+            if (isChatter) {
                 mDeleteTextView.setVisibility(View.VISIBLE);
             } else {
                 mDeleteTextView.setVisibility(View.GONE);
-            }*/
+            }
         }
     }
 
@@ -158,24 +165,21 @@ public class CommentAdapter extends MyBaseAdapter<Comment> {
         @Override
         public void onClick(DialogInterface dialogInterface, int i) {
             mProgressDialog.setContent(R.string.progress_tips_delete_ing);
-            ServiceProvider.deleteReplyComment(mContext, mQid, floor,
-                    new VolleyListener(mContext) {
+            mProgressDialog.show();
+            new ChatterReplyDeleteUseCase(mQid, floor).execute(new BaseSubscriber(mContext) {
+                @Override
+                public void onResponseSuccess(Object data) {
+                    ToastUtil.showToast(mContext, "删除评论成功！");
+                    int position = mAllCount - floor;
+                    mAllCount--;
+                    remove(position);
+                }
 
-                        @Override
-                        public void onResponseSuccess(JSONObject response) {
-                            ToastUtil.showToast(mContext, "删除评论成功！");
-                            int position = mAllCount - floor;
-                            mAllCount--;
-                            remove(position);
-                        }
-
-                        @Override
-                        public void onCompleted() {
-                            if (!((Activity) mContext).isFinishing()) {
-                                mProgressDialog.dismiss();
-                            }
-                        }
-                    });
+                @Override
+                public void onCompleted() {
+                    mProgressDialog.dismiss();
+                }
+            });
         }
     }
 }

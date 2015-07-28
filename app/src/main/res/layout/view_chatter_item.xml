@@ -108,7 +108,7 @@
                 android:id="@+id/praise_image_view"
                 android:layout_width="@dimen/around_icon_reply_width"
                 android:layout_height="@dimen/around_icon_reply_height"
-                android:src="@drawable/icon_praise_unchecked"/>
+                android:src="@drawable/icon_praise_unchecked" />
 
             <TextView
                 android:id="@+id/praise_text_view"
@@ -122,6 +122,7 @@
 
 
             <ImageView
+                android:id="@+id/reply_image_view"
                 android:layout_width="@dimen/around_icon_reply_width"
                 android:layout_height="@dimen/around_icon_reply_height"
                 android:layout_marginLeft="@dimen/offset_less"
@@ -136,6 +137,27 @@
                 android:minEms="1"
                 android:singleLine="true"
                 android:textColor="@color/color_text_blue"
+                android:textSize="@dimen/text_size_less" />
+
+            <TextView
+                android:id="@+id/message_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/offset_micro"
+                android:singleLine="true"
+                android:text="@string/operation_message"
+                android:textColor="@color/color_blue"
+                android:textSize="@dimen/text_size_less" />
+
+            <TextView
+                android:id="@+id/delete_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/offset_less"
+                android:padding="@dimen/offset_micro"
+                android:singleLine="true"
+                android:text="@string/operation_delete"
+                android:textColor="@color/color_blue"
                 android:textSize="@dimen/text_size_less" />
         </LinearLayout>
     </LinearLayout>

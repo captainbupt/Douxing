@@ -20,20 +20,15 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.List;
 
-public class CommentPresenter extends ListPresenter<Comment> {
+public abstract class CommentPresenter extends ListPresenter<Comment> {
 
     CommentView mCommentView;
-    CategoryCommentGetUseCase mCommentGetUseCase;
-    CategoryCommentSendUseCase mCommentSendUseCase;
 
-    String mRid;
     String mWhom = null;
     int mTotalCount = 0;
 
-
-    public CommentPresenter(Context context, String rid) {
+    public CommentPresenter(Context context) {
         super(context);
-        this.mRid = rid;
     }
 
     @Override
@@ -43,22 +38,8 @@ public class CommentPresenter extends ListPresenter<Comment> {
     }
 
     @Override
-    protected Type getType() {
-        return new TypeToken<List<Comment>>() {
-        }.getType();
-    }
-
-    @Override
     protected String getCacheKey() {
         return null;
-    }
-
-    @Override
-    protected UseCase getRefreshUseCase(int pageNum) {
-        if (mCommentGetUseCase == null)
-            mCommentGetUseCase = new CategoryCommentGetUseCase(mRid);
-        mCommentGetUseCase.setPageNum(pageNum);
-        return mCommentGetUseCase;
     }
 
     @Override
@@ -90,23 +71,7 @@ public class CommentPresenter extends ListPresenter<Comment> {
         return false;
     }
 
-    public void submitComment(String comment) {
-        mCommentView.showProgressDialog(R.string.action_comment_update_ing);
-        if (mCommentSendUseCase == null)
-            mCommentSendUseCase = new CategoryCommentSendUseCase(mRid);
-        mCommentSendUseCase.setData(comment, mWhom);
-        mCommentSendUseCase.execute(new BaseSubscriber<BaseNetEntity>(mContext) {
-            @Override
-            public void onResponseSuccess(BaseNetEntity data) {
-                mCommentView.startRefreshing();
-            }
-
-            @Override
-            public void onCompleted() {
-                mCommentView.hideProgressDialog();
-            }
-        });
-    }
+    public abstract void submitComment(String comment);
 
     // 将评论数返回
     public int getCommentCount() {

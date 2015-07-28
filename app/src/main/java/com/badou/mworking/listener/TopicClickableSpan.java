@@ -35,7 +35,6 @@ public class TopicClickableSpan extends ClickableSpan {
         System.out.println(mTopic);
         Intent intent = new Intent(mContext, ChatterTopicActivity.class);
         intent.putExtra(ChatterTopicActivity.KEY_TOPIC, mTopic);
-        intent.putExtra(BaseActionBarActivity.KEY_TITLE, "#" + mTopic + "#");
         mContext.startActivity(intent);
         ((Activity) mContext).overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
         if (mContext.getClass().equals(ChatterTopicActivity.class)) {

@@ -37,7 +37,7 @@ public class ChatterListAdapter extends MyBaseAdapter<Chatter> {
             convertView.setTag(holder);
         }
         final Chatter chatter = mItemList.get(position);
-        holder.chatterItemView.setData(chatter, isHeadClickable);
+        holder.chatterItemView.setData(chatter, isHeadClickable, false);
         return convertView;
     }
 

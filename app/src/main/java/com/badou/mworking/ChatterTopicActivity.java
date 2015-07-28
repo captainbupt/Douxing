@@ -13,7 +13,9 @@ public class ChatterTopicActivity extends BaseBackActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatter_topic);
-        ChatterListFragment fragment = ChatterListFragment.getFragment(mReceivedIntent.getStringExtra(KEY_TOPIC));
+        String topic = mReceivedIntent.getStringExtra(KEY_TOPIC);
+        setActionbarTitle("#" + topic + "#");
+        ChatterListFragment fragment = ChatterListFragment.getFragment(topic);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fl_activity_chatter_topic_container, fragment);
         transaction.commit();

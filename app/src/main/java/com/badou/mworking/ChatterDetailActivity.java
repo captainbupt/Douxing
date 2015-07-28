@@ -1,18 +1,24 @@
 package com.badou.mworking;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.badou.mworking.adapter.CommentAdapter;
 import com.badou.mworking.base.BaseBackActionBarActivity;
-import com.badou.mworking.entity.chatter.Chatter;
 import com.badou.mworking.entity.Store;
+import com.badou.mworking.entity.chatter.Chatter;
 import com.badou.mworking.entity.comment.ChatterComment;
 import com.badou.mworking.entity.comment.Comment;
 import com.badou.mworking.entity.user.UserInfo;
@@ -23,13 +29,19 @@ import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.net.volley.VolleyListener;
+import com.badou.mworking.presenter.ChatterDetailPresenter;
+import com.badou.mworking.presenter.ListPresenter;
+import com.badou.mworking.presenter.Presenter;
 import com.badou.mworking.util.Constant;
+import com.badou.mworking.util.DensityUtil;
 import com.badou.mworking.util.GsonUtil;
 import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.SPHelper;
 import com.badou.mworking.util.TimeTransfer;
 import com.badou.mworking.util.ToastUtil;
+import com.badou.mworking.view.ChatterDetailView;
 import com.badou.mworking.widget.BottomSendMessageView;
+import com.badou.mworking.widget.ChatterItemView;
 import com.badou.mworking.widget.MultiImageShowGridView;
 import com.badou.mworking.widget.NoScrollListView;
 import com.badou.mworking.widget.NoScrollListView.OnNoScrollItemClickListener;
@@ -37,6 +49,7 @@ import com.badou.mworking.widget.NoneResultView;
 import com.badou.mworking.widget.TextViewFixTouchConsume;
 import com.badou.mworking.widget.VideoImageView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 
 import org.json.JSONArray;
@@ -45,325 +58,215 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * 功能描述: 同事圈详情
  */
-public class ChatterDetailActivity extends BaseBackActionBarActivity {
+public class ChatterDetailActivity extends BaseBackActionBarActivity implements ChatterDetailView {
 
-    public static final String KEY_CHATTER = "chatter";
+    private static final String KEY_QID = "qid";
 
-    public static final String RESULT_KEY_DELETE = "delete";
-    public static final String RESULT_KEY_COUNT = "count";
-    public static final String RESULT_KEY_STORE = "store";
+    @Bind(R.id.content_list_view)
+    PullToRefreshListView mContentListView;
+    @Bind(R.id.bottom_send_view)
+    BottomSendMessageView mBottomSendView;
 
-    Intent resultIntent = new Intent();
-    private Chatter mChatter;
+    CommentAdapter mReplyAdapter;// 同事圈list
 
-    private CommentAdapter mReplyAdapter;// 同事圈list
+    NoneResultView mNoneResultView;
+    ChatterItemView mChatterItemView;
 
-    private PullToRefreshScrollView mPullToRefreshScrollView;
-    private ImageView mHeadImageView;
-    private TextView mNameTextView;
-    private TextViewFixTouchConsume mContentTextView;
-    private MultiImageShowGridView mImageGridView;
-    private VideoImageView mVideoImageView;
-    private TextView mSaveInternetTextView;
-    private TextView mTimeTextView;
-    private TextView mDeleteTextView;
-    private TextView mMessageTextView;    //私信
-    private BottomSendMessageView mSendMessageView;
-    private NoScrollListView mReplyListView;
+    ChatterDetailPresenter mPresenter;
 
-    private NoneResultView mNoneResultView;
-
-    private int mCurrentIndex = 1;
-    private boolean isReply;
-    private String mReplyWhom;
+    public static Intent getIntent(Context context, String qid) {
+        Intent intent = new Intent(context, ChatterDetailActivity.class);
+        intent.putExtra(KEY_QID, qid);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setActionbarTitle(mContext.getResources().getString(R.string.title_name_NeiRongXiangQing));
-        mChatter = (Chatter) mReceivedIntent.getSerializableExtra(KEY_CHATTER);
         setContentView(R.layout.activity_chatter_detail);
+        ButterKnife.bind(this);
         initView();
         initListener();
-        initData();
-        mPullToRefreshScrollView.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mPullToRefreshScrollView.setRefreshing();
-            }
-        }, 700);
+        mPresenter = (ChatterDetailPresenter) super.mPresenter;
+        mPresenter.attachView(this);
     }
 
     @Override
-    protected void onStoreChanged(boolean isStore) {
-        mChatter.setIsStore(isStore);
+    public Presenter getPresenter() {
+        return new ChatterDetailPresenter(mContext, mReceivedIntent.getStringExtra(KEY_QID));
     }
 
     /**
      * 功能描述:实例化自定义listview,设置显示的内容
      */
     protected void initView() {
-        mHeadImageView = (ImageView) findViewById(R.id.iv_activity_chatter_detail_head);
-        mNameTextView = (TextView) findViewById(R.id.tv_activity_chatter_detail_name);
-        mContentTextView = (TextViewFixTouchConsume) findViewById(R.id.tv_activity_chatter_detail_content);
-        mImageGridView = (MultiImageShowGridView) findViewById(R.id.misgv_activity_chatter_detail_image);
-        mVideoImageView = (VideoImageView) findViewById(R.id.viv_activity_chatter_detail_video);
-        mSaveInternetTextView = (TextView) findViewById(R.id.tv_activity_chatter_detail_save_internet);
-        mTimeTextView = (TextView) findViewById(R.id.tv_activity_chatter_detail_time);
-        mMessageTextView = (TextView) findViewById(R.id.tv_activity_chatter_detail_message);
-        mDeleteTextView = (TextView) findViewById(R.id.tv_activity_chatter_detail_delete);
-        mSendMessageView = (BottomSendMessageView) findViewById(R.id.bsmv_activity_chatter_detail);
-        mReplyListView = (NoScrollListView) findViewById(R.id.nslv_activity_chatter_detail_reply);
-        mPullToRefreshScrollView = (PullToRefreshScrollView) findViewById(R.id.ptrsv_activity_chatter_detail);
-        mNoneResultView = (NoneResultView) findViewById(R.id.nrv_activity_chatter_detail_none);
+        mChatterItemView = new ChatterItemView(mContext);
+        mContentListView.getRefreshableView().addHeaderView(mChatterItemView, null, false);
+        mNoneResultView = new NoneResultView(mContext);
         mNoneResultView.setContent(-1, R.string.none_result_reply);
+        mNoneResultView.setGravity(Gravity.CENTER_HORIZONTAL);
+        mNoneResultView.setPadding(0, DensityUtil.getInstance().getOffsetXlarge(), 0, 0);
     }
 
     /**
      * 功能描述:发送回复TextView设置监听,pullToRefreshScrollView设置下拉刷新监听
      */
     protected void initListener() {
-        mMessageTextView.setOnClickListener(new MessageClickListener(mContext, mChatter.getName(), mChatter.getWhom(), mChatter.getHeadUrl()));
-
-        /***删除按钮**/
-        mDeleteTextView.setOnClickListener(new DeleteClickListener(mContext, new DialogInterface.OnClickListener() {
+        mChatterItemView.setOnDeletedListener(new ChatterItemView.OnDeletedListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                deleteComment(mChatter.getQid());
+            public void onDeleted() {
+                setResult(RESULT_OK, ListPresenter.getResultIntent(null, true));
+                ChatterDetailActivity.super.finish(); // 避免冲突
             }
-        }));
-        mReplyListView.setOnItemClickListener(new OnNoScrollItemClickListener() {
 
             @Override
-            public void onItemClick(View v, int position, long id) {
-                Comment comment = mReplyAdapter.getItem(position);
-                if (comment.getName().equals("我")) {
-                    return;
-                }
-                isReply = true;
-                mReplyWhom = comment.getWhom();
-                mSendMessageView.setContent(getResources().getString(R.string.button_reply) + ": " + comment.getName(), getResources().getString(R.string.button_reply));
+            public void onStart() {
+                showProgressDialog(R.string.progress_tips_delete_ing);
+            }
+
+            @Override
+            public void onComplete() {
+                hideProgressDialog();
             }
         });
-        mPullToRefreshScrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ScrollView>() {
-
+        mContentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onPullDownToRefresh(PullToRefreshBase<ScrollView> refreshView) {
-                mCurrentIndex = 1;
-                // 获取最新回复/提问
-                updateReply(mCurrentIndex);
-            }
-
-            @Override
-            public void onPullUpToRefresh(PullToRefreshBase<ScrollView> refreshView) {
-                updateReply(mCurrentIndex);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ChatterComment chatterComment = (ChatterComment) parent.getAdapter().getItem(position);
+                mPresenter.onItemClick(chatterComment, position - 1);
             }
         });
-        mSendMessageView.setOnSubmitListener(new BottomSendMessageView.OnSubmitListener() {
+
+        mContentListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+                mPresenter.refresh();
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+                mPresenter.loadMore();
+            }
+        });
+        mBottomSendView.setOnSubmitListener(new BottomSendMessageView.OnSubmitListener() {
             @Override
             public void onSubmit(String content) {
-                if (isReply) {
-                    contentReply(content, mReplyWhom);
-                } else {
-                    chatterReply(content);
-                }
-            }
-        });
-    }
-
-    /**
-     * 功能描述:设置蓝色title显示内容
-     */
-    private void initData() {
-        addStoreImageView(mChatter.isStore(), Store.TYPE_STRING_CHATTER, mChatter.getQid());
-        mReplyAdapter = new CommentAdapter(mContext, mChatter.getQid(), mChatter.isDeletable(), mProgressDialog);
-        mReplyListView.setAdapter(mReplyAdapter);
-
-        /**删除和私信逻辑 */
-        String userUid = UserInfo.getUserInfo().getUid();
-        TopicClickableSpan.setClickTopic(mContext, mContentTextView, mChatter.getContent(), Integer.MAX_VALUE);
-        /**删除和私信逻辑 */
-        String currentUid = mChatter.getUid();
-        // 点击进入是自己      (TextUtils.isEmpty(currentUid) 我的圈中没有返回uid字段，因为那是自己，当uid为空时，判断为是自己，也就是我的圈跳转进入的，只显示删除)
-        if (userUid.equals(currentUid) || TextUtils.isEmpty(currentUid)) {
-            mMessageTextView.setVisibility(View.GONE);
-        } else {
-            mMessageTextView.setVisibility(View.VISIBLE);
-        }
-        if (mChatter.isDeletable()) {
-            mDeleteTextView.setVisibility(View.VISIBLE);
-        } else {
-            mDeleteTextView.setVisibility(View.GONE);
-        }
-        mNameTextView.setText(mChatter.getName());
-        mTimeTextView.setText(TimeTransfer.long2StringDetailDate(mContext, mChatter.getPublishTime()) + "");
-        /**设置头像**/
-        ImageViewLoader.setCircleImageViewResource(mHeadImageView, mChatter.getHeadUrl(), mContext.getResources().getDimensionPixelSize(R.dimen.icon_head_size_middle));
-        // 评论中添加的图片
-        // 判断是否在2G/3G下显示图片
-        // 没有的话，判断是否是wifi网络
-        if (NetUtils.isWifiConnected(mContext) || !SPHelper.getSaveInternetOption()) {
-            mSaveInternetTextView.setVisibility(View.GONE);
-            if (!TextUtils.isEmpty(mChatter.getVideoUrl())) {
-                mImageGridView.setVisibility(View.GONE);
-                mVideoImageView.setVisibility(View.VISIBLE);
-                mVideoImageView.setData(mChatter.getImgUrl(), mChatter.getVideoUrl(), mChatter.getQid());
-            } else {
-                mImageGridView.setVisibility(View.VISIBLE);
-                mVideoImageView.setVisibility(View.GONE);
-                mImageGridView.setList(mChatter.getPhotoUrls());
-            }
-        } else {
-            mVideoImageView.setVisibility(View.GONE);
-            mImageGridView.setVisibility(View.GONE);
-            if (TextUtils.isEmpty(mChatter.getImgUrl()) && TextUtils.isEmpty(mChatter.getVideoUrl()) && mChatter.getPhotoUrls().size() == 0) {
-                mSaveInternetTextView.setVisibility(View.GONE);
-            } else {
-                mSaveInternetTextView.setVisibility(View.VISIBLE);
-            }
-        }
-        mSendMessageView.setContent(getResources().getString(R.string.comment_hint), getResources().getString(R.string.button_send));
-    }
-
-    /**
-     * 功能描述:删除我的圈中的item
-     *
-     * @param qid
-     */
-    private void deleteComment(final String qid) {
-        ServiceProvider.doMyGroup_del(mContext, qid, new VolleyListener(
-                mContext) {
-            @Override
-            public void onResponseSuccess(JSONObject response) {
-                resultIntent.putExtra(RESULT_KEY_DELETE, true);
-                finish();
-            }
-
-            @Override
-            public void onCompleted() {
-                if (!mActivity.isFinishing()) {
-                    mProgressDialog.dismiss();
-                }
-            }
-        });
-    }
-
-    /**
-     * 功能描述:通过网络获取最新 回复/提问 的内容
-     */
-    private void updateReply(final int beginNum) {
-        // 获取最新内容
-        ServiceProvider.doQuestionShareAnswer(mContext, mChatter.getQid(), beginNum,
-                Constant.LIST_AROUND_NUM, new VolleyListener(mContext) {
-
-                    @Override
-                    public void onResponseSuccess(JSONObject response) {
-                        JSONObject data = response.optJSONObject(Net.DATA);
-                        JSONArray resultArray = data.optJSONArray("result");
-                        int ttlcnt = data.optInt("ttlcnt");
-                        if (resultArray == null || resultArray.length() == 0) {
-                            return;
-                        }
-                        List<Comment> replys = new ArrayList<>();
-                        int length = resultArray.length();
-                        if (length == 0) {
-                            if (beginNum == 1) {
-                                mReplyAdapter.setList(null, ttlcnt);
-                                mReplyListView.setVisibility(View.GONE);
-                                mNoneResultView.setVisibility(View.VISIBLE);
-                            } else {
-                                mReplyListView.setVisibility(View.VISIBLE);
-                                mNoneResultView.setVisibility(View.GONE);
-                                ToastUtil.showToast(mContext, R.string.no_more);
-                            }
-                            return;
-                        }
-                        mReplyListView.setVisibility(View.VISIBLE);
-                        mNoneResultView.setVisibility(View.GONE);
-                        for (int i = 0; i < length; i++) {
-                            JSONObject jsonObject = resultArray.optJSONObject(i);
-                            replys.add(GsonUtil.fromJson(jsonObject.toString(), ChatterComment.class));
-                        }
-                        if (beginNum == 1) {
-                            mReplyAdapter.setList(replys, ttlcnt);
-                        } else {
-                            mReplyAdapter.addList(replys, ttlcnt);
-                        }
-                        resultIntent.putExtra(RESULT_KEY_COUNT, mChatter.getReplyNumber());
-                        mCurrentIndex++;
-                    }
-
-                    @Override
-                    public void onCompleted() {
-                        if (mPullToRefreshScrollView.isRefreshing())
-                            mPullToRefreshScrollView.onRefreshComplete();
-                    }
-
-                });
-    }
-
-    /**
-     * 功能描述:发起网络请求,回复问题/分享 (将回复内容发送到服务)
-     *
-     * @param text
-     */
-    private void chatterReply(String text) {
-        mProgressDialog.setContent(R.string.action_comment_update_ing);
-        mProgressDialog.show();
-        ServiceProvider.doAnswerQuestionShare(mContext, mChatter.getQid(), text,
-                new VolleyListener(mContext) {
-
-                    @Override
-                    public void onResponseSuccess(JSONObject response) {
-                        // 响应成功
-                        mCurrentIndex = 1;
-                        updateReply(1);
-                    }
-
-                    @Override
-                    public void onCompleted() {
-                        if (!mActivity.isFinishing()) {
-                            mProgressDialog.dismiss();
-                        }
-                    }
-                });
-
-    }
-
-    /**
-     * 评论回复
-     */
-    private void contentReply(String content, String whom) {
-        mProgressDialog.setContent(R.string.action_comment_update_ing);
-        mProgressDialog.show();
-        ServiceProvider.ReplyComment(mContext, mChatter.getQid(), content, whom, new VolleyListener(mContext) {
-
-            @Override
-            public void onResponseSuccess(JSONObject response) {
-                mCurrentIndex = 1;
-                updateReply(1);
-                // 关闭键盘
-                mSendMessageView.hideKeyboard();
-                mSendMessageView.setContent(getResources().getString(R.string.comment_hint), getResources().getString(R.string.button_send));
-                mSendMessageView.clearContent();
-                isReply = false;
-            }
-
-            @Override
-            public void onCompleted() {
-                if (!mActivity.isFinishing())
-                    mProgressDialog.dismiss();
+                mPresenter.submitComment(content);
             }
         });
     }
 
     @Override
     public void finish() {
-        resultIntent.putExtra(RESULT_KEY_STORE, mChatter.isStore());
-        setResult(RESULT_OK, resultIntent);
+        setResult(RESULT_OK, mPresenter.getResult());
         super.finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!mPresenter.onBackPressed())
+            super.onBackPressed();
+    }
+
+    @Override
+    public void setData(Chatter chatter) {
+        addStoreImageView(chatter.isStore(), Store.TYPE_STRING_CHATTER, chatter.getQid());
+        mReplyAdapter = new CommentAdapter(mContext, chatter.getQid(), chatter.isDeletable(), mProgressDialog);
+        mContentListView.setAdapter(mReplyAdapter);
+        mChatterItemView.setData(chatter, false, true);
+    }
+
+    @Override
+    public void setBottomSend() {
+        mBottomSendView.clearContent();
+        mBottomSendView.hideKeyboard();
+        mBottomSendView.setContent(getResources().getString(R.string.comment_hint), getResources().getString(R.string.button_send));
+    }
+
+    @Override
+    public void setBottomReply(String name) {
+        mBottomSendView.clearContent();
+        mBottomSendView.showKeyboard();
+        mBottomSendView.setContent(getResources().getString(R.string.button_reply) + ": " + name, getResources().getString(R.string.button_reply));
+    }
+
+    @Override
+    public void setCommentCount(int count) {
+        mReplyAdapter.setAllCount(count);
+    }
+
+    @Override
+    public void showNoneResult() {
+        mContentListView.getRefreshableView().addFooterView(mNoneResultView, null, false);
+    }
+
+    @Override
+    public void hideNoneResult() {
+        mContentListView.getRefreshableView().removeFooterView(mNoneResultView);
+    }
+
+    @Override
+    public void disablePullUp() {
+        mContentListView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
+    }
+
+    @Override
+    public void enablePullUp() {
+        mContentListView.setMode(PullToRefreshBase.Mode.BOTH);
+    }
+
+    @Override
+    public void startRefreshing() {
+        mContentListView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
+        mContentListView.setRefreshing();
+        mContentListView.setMode(PullToRefreshBase.Mode.BOTH);
+    }
+
+    @Override
+    public boolean isRefreshing() {
+        return mContentListView.isRefreshing();
+    }
+
+    @Override
+    public void refreshComplete() {
+        mContentListView.onRefreshComplete();
+    }
+
+    @Override
+    public void setData(List<Comment> data) {
+        mReplyAdapter.setList(data);
+    }
+
+    @Override
+    public void addData(List<Comment> data) {
+        mReplyAdapter.addList(data);
+    }
+
+    @Override
+    public int getDataCount() {
+        return mReplyAdapter.getAllCount();
+    }
+
+    @Override
+    public void setItem(int index, Comment item) {
+        mReplyAdapter.setItem(index, item);
+    }
+
+    @Override
+    public Comment getItem(int index) {
+        return mReplyAdapter.getItem(index);
+    }
+
+    @Override
+    public void removeItem(int index) {
+        mReplyAdapter.remove(index);
     }
 }
