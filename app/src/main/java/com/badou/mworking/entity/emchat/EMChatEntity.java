@@ -108,6 +108,10 @@ public class EMChatEntity {
      * @param username
      */
     public static void setUserAvatar(Context context, String username, ImageView imageView) {
+        if (ChatActivity.SERVICE_ACCOUNT.equals(username)) {
+            imageView.setImageResource(R.drawable.ic_launcher);
+            return;
+        }
         try {
             User user = getInstance().getContactList().get(username);
             if (user != null && !TextUtils.isEmpty(user.getAvatar())) {

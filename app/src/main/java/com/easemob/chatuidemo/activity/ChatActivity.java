@@ -206,8 +206,12 @@ public class ChatActivity extends BaseBackActionBarActivity implements OnClickLi
     public boolean isRobot;
 
     public static Intent getServiceIntent(Context context) {
+        return getSingleIntent(context, SERVICE_ACCOUNT);
+    }
+
+    public static Intent getSingleIntent(Context context, String userId) {
         Intent intent = new Intent(context, ChatActivity.class);
-        intent.putExtra("userId", "10086456");
+        intent.putExtra("userId", userId);
         intent.putExtra("chatType", CHATTYPE_SINGLE);
         return intent;
     }

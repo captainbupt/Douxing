@@ -576,9 +576,9 @@ public class GroupDetailsActivity extends BaseBackActionBarActivity implements O
                 startActivity(new Intent(GroupDetailsActivity.this, GroupBlacklistActivity.class).putExtra("groupId", groupId));
                 break;*/
 
-/*            case R.id.rl_change_group_name: // 修改群名称
+            case R.id.rl_change_group_name: // 修改群名称
                 startActivityForResult(new Intent(this, EditActivity.class).putExtra("data", group.getGroupName()), REQUEST_CODE_EDIT_GROUPNAME);
-                break;*/
+                break;
 
             default:
                 break;

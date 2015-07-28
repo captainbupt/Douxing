@@ -102,10 +102,13 @@ public class ChatAllHistoryFragment extends Fragment {
                 refresh();
                 String username = conversation.getUserName();
                 // 进入聊天页面
-                Intent intent = new Intent(getActivity(), ChatActivity.class);
-                // it is group chat
-                intent.putExtra("chatType", ChatActivity.CHATTYPE_GROUP);
-                intent.putExtra("groupId", username);
+                Intent intent;
+                if (conversation.getType() == EMConversationType.Chat) {
+                    intent = ChatActivity.getSingleIntent(getActivity(), username);
+                } else {
+                    // it is group chat
+                    intent = ChatActivity.getGroupIntent(getActivity(), username);
+                }
                 startActivity(intent);
             }
         });
@@ -156,7 +159,7 @@ public class ChatAllHistoryFragment extends Fragment {
         List<String> illegalKey = new ArrayList<>();
         for (String key : conversations.keySet()) {
             EMConversation conversation = conversations.get(key);
-            if (!conversation.isGroup() || EMChatManager.getInstance().getGroup(conversation.getUserName()) == null) {
+            if (conversation.isGroup() && EMChatManager.getInstance().getGroup(conversation.getUserName()) == null) {
                 illegalKey.add(key);
             }
         }

@@ -9070,6 +9070,7 @@ com.badou.mworking.R$id: int downloading_progress_bar
 com.badou.mworking.R$id: int dropdown
 com.badou.mworking.R$id: int edit
 com.badou.mworking.R$id: int edit_query
+com.badou.mworking.R$id: int edittext
 com.badou.mworking.R$id: int edittext_layout
 com.badou.mworking.R$id: int end
 com.badou.mworking.R$id: int end_date_text_view
@@ -9597,6 +9598,7 @@ com.badou.mworking.R$layout: int activity_chatter_user
 com.badou.mworking.R$layout: int activity_chatting
 com.badou.mworking.R$layout: int activity_clear_cache
 com.badou.mworking.R$layout: int activity_comment
+com.badou.mworking.R$layout: int activity_edit
 com.badou.mworking.R$layout: int activity_emchat
 com.badou.mworking.R$layout: int activity_entry
 com.badou.mworking.R$layout: int activity_forget_password
@@ -22134,6 +22136,7 @@ com.easemob.chatuidemo.activity.ChatActivity: android.widget.ImageView voiceCall
 com.easemob.chatuidemo.activity.ChatActivity: android.widget.ImageView videoCallBtn
 com.easemob.chatuidemo.activity.ChatActivity: ChatActivity()
 com.easemob.chatuidemo.activity.ChatActivity: android.content.Intent getServiceIntent(android.content.Context)
+com.easemob.chatuidemo.activity.ChatActivity: android.content.Intent getSingleIntent(android.content.Context,java.lang.String)
 com.easemob.chatuidemo.activity.ChatActivity: android.content.Intent getGroupIntent(android.content.Context,java.lang.String)
 com.easemob.chatuidemo.activity.ChatActivity: void onCreate(android.os.Bundle)
 com.easemob.chatuidemo.activity.ChatActivity: void initView()
@@ -22352,6 +22355,15 @@ com.easemob.chatuidemo.activity.ContextMenu: void delete(android.view.View)
 com.easemob.chatuidemo.activity.ContextMenu: void open(android.view.View)
 com.easemob.chatuidemo.activity.ContextMenu: void download(android.view.View)
 com.easemob.chatuidemo.activity.ContextMenu: void toCloud(android.view.View)
+com.easemob.chatuidemo.activity.EditActivity
+com.easemob.chatuidemo.activity.EditActivity: android.widget.EditText editText
+com.easemob.chatuidemo.activity.EditActivity: EditActivity()
+com.easemob.chatuidemo.activity.EditActivity: void onCreate(android.os.Bundle)
+com.easemob.chatuidemo.activity.EditActivity: void save(android.view.View)
+com.easemob.chatuidemo.activity.EditActivity$1
+com.easemob.chatuidemo.activity.EditActivity$1: com.easemob.chatuidemo.activity.EditActivity this$0
+com.easemob.chatuidemo.activity.EditActivity$1: EditActivity$1(com.easemob.chatuidemo.activity.EditActivity)
+com.easemob.chatuidemo.activity.EditActivity$1: void onClick(android.view.View)
 com.easemob.chatuidemo.activity.ExitGroupDialog
 com.easemob.chatuidemo.activity.ExitGroupDialog: android.widget.TextView text
 com.easemob.chatuidemo.activity.ExitGroupDialog: android.widget.Button exitBtn

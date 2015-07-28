@@ -454,8 +454,15 @@ public class DemoHXSDKHelper extends HXSDKHelper {
             }
 
             @Override
+            public void onResponse(Object responseObject) {
+                System.out.println(responseObject);
+                super.onResponse(responseObject);
+            }
+
+            @Override
             public void onErrorCode(int code) {
                 super.onErrorCode(code);
+                emCallBack.onError(code, "");
             }
         });
     }

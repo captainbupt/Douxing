@@ -15650,6 +15650,7 @@ com.badou.mworking.R$id -> com.badou.mworking.R$id:
     int dropdown -> dropdown
     int edit -> edit
     int edit_query -> edit_query
+    int edittext -> edittext
     int edittext_layout -> edittext_layout
     int end -> end
     int end_date_text_view -> end_date_text_view
@@ -16175,6 +16176,7 @@ com.badou.mworking.R$layout -> com.badou.mworking.R$layout:
     int activity_chatting -> activity_chatting
     int activity_clear_cache -> activity_clear_cache
     int activity_comment -> activity_comment
+    int activity_edit -> activity_edit
     int activity_emchat -> activity_emchat
     int activity_entry -> activity_entry
     int activity_forget_password -> activity_forget_password
@@ -18825,8 +18827,8 @@ com.badou.mworking.entity.emchat.EMChatEntity -> com.badou.mworking.entity.emcha
     84:85:void setUserName(java.lang.String) -> setUserName
     94:95:void setPassword(java.lang.String) -> setPassword
     102:103:void logout(com.easemob.EMCallBack) -> logout
-    112:122:void setUserAvatar(android.content.Context,java.lang.String,android.widget.ImageView) -> setUserAvatar
-    125:132:java.lang.String getUserNick(java.lang.String) -> getUserNick
+    111:126:void setUserAvatar(android.content.Context,java.lang.String,android.widget.ImageView) -> setUserAvatar
+    129:136:java.lang.String getUserNick(java.lang.String) -> getUserNick
 com.badou.mworking.entity.emchat.Role -> com.badou.mworking.entity.emchat.Role:
     int id -> a
     java.lang.String name -> b
@@ -29296,50 +29298,51 @@ com.easemob.chatuidemo.activity.ChatActivity -> com.easemob.chatuidemo.activity.
     android.os.PowerManager$WakeLock wakeLock -> wakeLock
     android.widget.ImageView voiceCallBtn -> voiceCallBtn
     android.widget.ImageView videoCallBtn -> videoCallBtn
-    209:212:android.content.Intent getServiceIntent(android.content.Context) -> getServiceIntent
-    216:219:android.content.Intent getGroupIntent(android.content.Context,java.lang.String) -> getGroupIntent
-    224:229:void onCreate(android.os.Bundle) -> onCreate
-    235:382:void initView() -> initView
-    385:431:void setUpView() -> setUpView
-    434:493:void onConversationInit() -> onConversationInit
-    496:516:void onListViewCreation() -> onListViewCreation
-    519:530:void onGroupViewCreation() -> onGroupViewCreation
-    536:658:void onActivityResult(int,int,android.content.Intent) -> onActivityResult
-    667:717:void onClick(android.view.View) -> onClick
-    726:774:void onEvent(com.easemob.EMNotifierEvent) -> onEvent
-    778:787:void refreshUIWithNewMessage() -> refreshUIWithNewMessage
-    790:799:void refreshUI() -> refreshUI
-    805:817:void selectPicFromCamera() -> selectPicFromCamera
-    823:833:void selectFileFromLocal() -> selectFileFromLocal
-    840:848:void selectPicFromLocal() -> selectPicFromLocal
-    857:882:void sendText(java.lang.String) -> sendText
-    893:919:void sendVoice(java.lang.String,java.lang.String,java.lang.String,boolean) -> sendVoice
-    927:951:void sendPicture(java.lang.String) -> sendPicture
-    957:984:void sendVideo(java.lang.String,java.lang.String,int) -> sendVideo
-    993:1021:void sendPicByUri(android.net.Uri) -> sendPicByUri
-    1032:1050:void sendLocationMsg(double,double,java.lang.String,java.lang.String) -> sendLocationMsg
-    1058:1107:void sendFile(android.net.Uri) -> sendFile
-    1113:1119:void resendMessage() -> resendMessage
-    1127:1140:void setModeVoice(android.view.View) -> setModeVoice
-    1157:1173:void setModeKeyboard(android.view.View) -> setModeKeyboard
-    1181:1184:void emptyHistory(android.view.View) -> emptyHistory
-    1192:1200:void toGroupDetails(android.view.View) -> toGroupDetails
-    1208:1226:void toggleMore(android.view.View) -> toggleMore
-    1234:1241:void editClick(android.view.View) -> editClick
-    1339:1395:android.view.View getGridChildView(int) -> getGridChildView
-    1399:1406:java.util.List getExpressionRes(int) -> getExpressionRes
-    1412:1417:void onDestroy() -> onDestroy
-    1421:1438:void onResume() -> onResume
-    1444:1452:void onStop() -> onStop
-    1456:1472:void onPause() -> onPause
-    1478:1482:void hideKeyboard() -> hideKeyboard
-    1490:1515:void addUserToBlacklist(java.lang.String) -> addUserToBlacklist
-    1523:1528:void back(android.view.View) -> back
-    1535:1545:void onBackPressed() -> onBackPressed
-    1606:1614:void onNewIntent(android.content.Intent) -> onNewIntent
-    1622:1649:void forwardMessage(java.lang.String) -> forwardMessage
-    1692:1692:java.lang.String getToChatUsername() -> getToChatUsername
-    1696:1696:android.widget.ListView getListView() -> getListView
+    209:209:android.content.Intent getServiceIntent(android.content.Context) -> getServiceIntent
+    213:216:android.content.Intent getSingleIntent(android.content.Context,java.lang.String) -> getSingleIntent
+    220:223:android.content.Intent getGroupIntent(android.content.Context,java.lang.String) -> getGroupIntent
+    228:233:void onCreate(android.os.Bundle) -> onCreate
+    239:386:void initView() -> initView
+    389:435:void setUpView() -> setUpView
+    438:497:void onConversationInit() -> onConversationInit
+    500:520:void onListViewCreation() -> onListViewCreation
+    523:534:void onGroupViewCreation() -> onGroupViewCreation
+    540:662:void onActivityResult(int,int,android.content.Intent) -> onActivityResult
+    671:721:void onClick(android.view.View) -> onClick
+    730:778:void onEvent(com.easemob.EMNotifierEvent) -> onEvent
+    782:791:void refreshUIWithNewMessage() -> refreshUIWithNewMessage
+    794:803:void refreshUI() -> refreshUI
+    809:821:void selectPicFromCamera() -> selectPicFromCamera
+    827:837:void selectFileFromLocal() -> selectFileFromLocal
+    844:852:void selectPicFromLocal() -> selectPicFromLocal
+    861:886:void sendText(java.lang.String) -> sendText
+    897:923:void sendVoice(java.lang.String,java.lang.String,java.lang.String,boolean) -> sendVoice
+    931:955:void sendPicture(java.lang.String) -> sendPicture
+    961:988:void sendVideo(java.lang.String,java.lang.String,int) -> sendVideo
+    997:1025:void sendPicByUri(android.net.Uri) -> sendPicByUri
+    1036:1054:void sendLocationMsg(double,double,java.lang.String,java.lang.String) -> sendLocationMsg
+    1062:1111:void sendFile(android.net.Uri) -> sendFile
+    1117:1123:void resendMessage() -> resendMessage
+    1131:1144:void setModeVoice(android.view.View) -> setModeVoice
+    1161:1177:void setModeKeyboard(android.view.View) -> setModeKeyboard
+    1185:1188:void emptyHistory(android.view.View) -> emptyHistory
+    1196:1204:void toGroupDetails(android.view.View) -> toGroupDetails
+    1212:1230:void toggleMore(android.view.View) -> toggleMore
+    1238:1245:void editClick(android.view.View) -> editClick
+    1343:1399:android.view.View getGridChildView(int) -> getGridChildView
+    1403:1410:java.util.List getExpressionRes(int) -> getExpressionRes
+    1416:1421:void onDestroy() -> onDestroy
+    1425:1442:void onResume() -> onResume
+    1448:1456:void onStop() -> onStop
+    1460:1476:void onPause() -> onPause
+    1482:1486:void hideKeyboard() -> hideKeyboard
+    1494:1519:void addUserToBlacklist(java.lang.String) -> addUserToBlacklist
+    1527:1532:void back(android.view.View) -> back
+    1539:1549:void onBackPressed() -> onBackPressed
+    1610:1618:void onNewIntent(android.content.Intent) -> onNewIntent
+    1626:1653:void forwardMessage(java.lang.String) -> forwardMessage
+    1696:1696:java.lang.String getToChatUsername() -> getToChatUsername
+    1700:1700:android.widget.ListView getListView() -> getListView
     111:111:android.graphics.drawable.Drawable[] access$000(com.easemob.chatuidemo.activity.ChatActivity) -> access$000
     111:111:android.widget.ImageView access$100(com.easemob.chatuidemo.activity.ChatActivity) -> access$100
     111:111:android.widget.RelativeLayout access$200(com.easemob.chatuidemo.activity.ChatActivity) -> access$200
@@ -29373,78 +29376,78 @@ com.easemob.chatuidemo.activity.ChatActivity$1 -> com.easemob.chatuidemo.activit
     201:202:void handleMessage(android.os.Message) -> handleMessage
 com.easemob.chatuidemo.activity.ChatActivity$10 -> com.easemob.chatuidemo.activity.ChatActivity$10:
     com.easemob.chatuidemo.activity.ChatActivity this$0 -> this$0
-    796:797:void run() -> run
+    800:801:void run() -> run
 com.easemob.chatuidemo.activity.ChatActivity$11 -> com.easemob.chatuidemo.activity.ChatActivity$11:
     com.easemob.chatuidemo.adapter.ExpressionAdapter val$expressionAdapter -> val$expressionAdapter
     com.easemob.chatuidemo.activity.ChatActivity this$0 -> this$0
-    1355:1393:void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
+    1359:1397:void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
 com.easemob.chatuidemo.activity.ChatActivity$12 -> com.easemob.chatuidemo.activity.ChatActivity$12:
     java.lang.String val$username -> val$username
     android.app.ProgressDialog val$pd -> val$pd
     com.easemob.chatuidemo.activity.ChatActivity this$0 -> this$0
-    1497:1513:void run() -> run
+    1501:1517:void run() -> run
 com.easemob.chatuidemo.activity.ChatActivity$12$1 -> com.easemob.chatuidemo.activity.ChatActivity$12$1:
     com.easemob.chatuidemo.activity.ChatActivity$12 this$1 -> this$1
-    1500:1502:void run() -> run
+    1504:1506:void run() -> run
 com.easemob.chatuidemo.activity.ChatActivity$12$2 -> com.easemob.chatuidemo.activity.ChatActivity$12$2:
     com.easemob.chatuidemo.activity.ChatActivity$12 this$1 -> this$1
-    1508:1510:void run() -> run
+    1512:1514:void run() -> run
 com.easemob.chatuidemo.activity.ChatActivity$13 -> com.easemob.chatuidemo.activity.ChatActivity$13:
     int[] $SwitchMap$com$easemob$EMNotifierEvent$Event -> $SwitchMap$com$easemob$EMNotifierEvent$Event
     int[] $SwitchMap$com$easemob$chat$EMMessage$Type -> $SwitchMap$com$easemob$chat$EMMessage$Type
 com.easemob.chatuidemo.activity.ChatActivity$2 -> com.easemob.chatuidemo.activity.ChatActivity$2:
     com.easemob.chatuidemo.activity.ChatActivity this$0 -> this$0
-    292:298:void onFocusChange(android.view.View,boolean) -> onFocusChange
+    296:302:void onFocusChange(android.view.View,boolean) -> onFocusChange
 com.easemob.chatuidemo.activity.ChatActivity$3 -> com.easemob.chatuidemo.activity.ChatActivity$3:
     com.easemob.chatuidemo.activity.ChatActivity this$0 -> this$0
-    304:310:void onClick(android.view.View) -> onClick
+    308:314:void onClick(android.view.View) -> onClick
 com.easemob.chatuidemo.activity.ChatActivity$4 -> com.easemob.chatuidemo.activity.ChatActivity$4:
     com.easemob.chatuidemo.activity.ChatActivity this$0 -> this$0
-    317:324:void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
-    328:328:void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
-    333:333:void afterTextChanged(android.text.Editable) -> afterTextChanged
+    321:328:void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
+    332:332:void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
+    337:337:void afterTextChanged(android.text.Editable) -> afterTextChanged
 com.easemob.chatuidemo.activity.ChatActivity$5 -> com.easemob.chatuidemo.activity.ChatActivity$5:
     com.easemob.chatuidemo.activity.ChatActivity this$0 -> this$0
-    345:380:void onRefresh() -> onRefresh
+    349:384:void onRefresh() -> onRefresh
 com.easemob.chatuidemo.activity.ChatActivity$5$1 -> com.easemob.chatuidemo.activity.ChatActivity$5$1:
     com.easemob.chatuidemo.activity.ChatActivity$5 this$1 -> this$1
-    349:378:void run() -> run
+    353:382:void run() -> run
 com.easemob.chatuidemo.activity.ChatActivity$6 -> com.easemob.chatuidemo.activity.ChatActivity$6:
     com.easemob.chatuidemo.activity.ChatActivity this$0 -> this$0
-    405:406:void onClick(android.view.View) -> onClick
+    409:410:void onClick(android.view.View) -> onClick
 com.easemob.chatuidemo.activity.ChatActivity$7 -> com.easemob.chatuidemo.activity.ChatActivity$7:
     com.easemob.chatuidemo.activity.ChatActivity this$0 -> this$0
-    465:468:void onChatRoomDestroyed(java.lang.String,java.lang.String) -> onChatRoomDestroyed
-    472:472:void onMemberJoined(java.lang.String,java.lang.String) -> onMemberJoined
-    478:478:void onMemberExited(java.lang.String,java.lang.String,java.lang.String) -> onMemberExited
-    483:490:void onMemberKicked(java.lang.String,java.lang.String,java.lang.String) -> onMemberKicked
+    469:472:void onChatRoomDestroyed(java.lang.String,java.lang.String) -> onChatRoomDestroyed
+    476:476:void onMemberJoined(java.lang.String,java.lang.String) -> onMemberJoined
+    482:482:void onMemberExited(java.lang.String,java.lang.String,java.lang.String) -> onMemberExited
+    487:494:void onMemberKicked(java.lang.String,java.lang.String,java.lang.String) -> onMemberKicked
 com.easemob.chatuidemo.activity.ChatActivity$8 -> com.easemob.chatuidemo.activity.ChatActivity$8:
     com.easemob.chatuidemo.activity.ChatActivity this$0 -> this$0
-    507:513:boolean onTouch(android.view.View,android.view.MotionEvent) -> onTouch
+    511:517:boolean onTouch(android.view.View,android.view.MotionEvent) -> onTouch
 com.easemob.chatuidemo.activity.ChatActivity$9 -> com.easemob.chatuidemo.activity.ChatActivity$9:
     com.easemob.chatuidemo.activity.ChatActivity this$0 -> this$0
-    784:785:void run() -> run
+    788:789:void run() -> run
 com.easemob.chatuidemo.activity.ChatActivity$GroupListener -> com.easemob.chatuidemo.activity.ChatActivity$GroupListener:
     com.easemob.chatuidemo.activity.ChatActivity this$0 -> this$0
-    1658:1670:void onUserRemoved(java.lang.String,java.lang.String) -> onUserRemoved
-    1675:1687:void onGroupDestroy(java.lang.String,java.lang.String) -> onGroupDestroy
+    1662:1674:void onUserRemoved(java.lang.String,java.lang.String) -> onUserRemoved
+    1679:1691:void onGroupDestroy(java.lang.String,java.lang.String) -> onGroupDestroy
 com.easemob.chatuidemo.activity.ChatActivity$GroupListener$1 -> com.easemob.chatuidemo.activity.ChatActivity$GroupListener$1:
     java.lang.String st13 -> st13
     java.lang.String val$groupId -> val$groupId
     com.easemob.chatuidemo.activity.ChatActivity$GroupListener this$1 -> this$1
-    1662:1668:void run() -> run
+    1666:1672:void run() -> run
 com.easemob.chatuidemo.activity.ChatActivity$GroupListener$2 -> com.easemob.chatuidemo.activity.ChatActivity$GroupListener$2:
     java.lang.String st14 -> st14
     java.lang.String val$groupId -> val$groupId
     com.easemob.chatuidemo.activity.ChatActivity$GroupListener this$1 -> this$1
-    1679:1685:void run() -> run
+    1683:1689:void run() -> run
 com.easemob.chatuidemo.activity.ChatActivity$ListScrollListener -> com.easemob.chatuidemo.activity.ChatActivity$ListScrollListener:
     com.easemob.chatuidemo.activity.ChatActivity this$0 -> this$0
-    1554:1594:void onScrollStateChanged(android.widget.AbsListView,int) -> onScrollStateChanged
-    1599:1599:void onScroll(android.widget.AbsListView,int,int,int) -> onScroll
+    1558:1598:void onScrollStateChanged(android.widget.AbsListView,int) -> onScrollStateChanged
+    1603:1603:void onScroll(android.widget.AbsListView,int,int,int) -> onScroll
 com.easemob.chatuidemo.activity.ChatActivity$PressToSpeakListen -> com.easemob.chatuidemo.activity.ChatActivity$PressToSpeakListen:
     com.easemob.chatuidemo.activity.ChatActivity this$0 -> this$0
-    1253:1327:boolean onTouch(android.view.View,android.view.MotionEvent) -> onTouch
+    1257:1331:boolean onTouch(android.view.View,android.view.MotionEvent) -> onTouch
 com.easemob.chatuidemo.activity.ChatAllHistoryFragment -> com.easemob.chatuidemo.activity.ChatAllHistoryFragment:
     android.widget.ListView listView -> listView
     com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter adapter -> adapter
@@ -29453,14 +29456,14 @@ com.easemob.chatuidemo.activity.ChatAllHistoryFragment -> com.easemob.chatuidemo
     boolean hidden -> hidden
     android.view.View headView -> headView
     66:66:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
-    71:113:void onActivityCreated(android.os.Bundle) -> onActivityCreated
-    116:126:void updateHeadView() -> updateHeadView
-    132:139:void refresh() -> refresh
-    148:186:java.util.List loadConversationsWithRecentChat() -> loadConversationsWithRecentChat
-    193:207:void sortConversationByLastChatTime(java.util.List) -> sortConversationByLastChatTime
-    211:216:void onHiddenChanged(boolean) -> onHiddenChanged
-    220:224:void onResume() -> onResume
-    228:234:void onSaveInstanceState(android.os.Bundle) -> onSaveInstanceState
+    71:116:void onActivityCreated(android.os.Bundle) -> onActivityCreated
+    119:129:void updateHeadView() -> updateHeadView
+    135:142:void refresh() -> refresh
+    151:189:java.util.List loadConversationsWithRecentChat() -> loadConversationsWithRecentChat
+    196:210:void sortConversationByLastChatTime(java.util.List) -> sortConversationByLastChatTime
+    214:219:void onHiddenChanged(boolean) -> onHiddenChanged
+    223:227:void onResume() -> onResume
+    231:237:void onSaveInstanceState(android.os.Bundle) -> onSaveInstanceState
     54:54:com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter access$000(com.easemob.chatuidemo.activity.ChatAllHistoryFragment) -> access$000
     54:54:void access$100(com.easemob.chatuidemo.activity.ChatAllHistoryFragment) -> access$100
     54:54:java.util.List access$200(com.easemob.chatuidemo.activity.ChatAllHistoryFragment) -> access$200
@@ -29469,14 +29472,14 @@ com.easemob.chatuidemo.activity.ChatAllHistoryFragment$1 -> com.easemob.chatuide
     84:85:void onClick(android.view.View) -> onClick
 com.easemob.chatuidemo.activity.ChatAllHistoryFragment$2 -> com.easemob.chatuidemo.activity.ChatAllHistoryFragment$2:
     com.easemob.chatuidemo.activity.ChatAllHistoryFragment this$0 -> this$0
-    98:110:void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
+    98:113:void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
 com.easemob.chatuidemo.activity.ChatAllHistoryFragment$3 -> com.easemob.chatuidemo.activity.ChatAllHistoryFragment$3:
     com.easemob.chatuidemo.activity.ChatAllHistoryFragment this$0 -> this$0
-    135:137:void run() -> run
+    138:140:void run() -> run
 com.easemob.chatuidemo.activity.ChatAllHistoryFragment$4 -> com.easemob.chatuidemo.activity.ChatAllHistoryFragment$4:
     com.easemob.chatuidemo.activity.ChatAllHistoryFragment this$0 -> this$0
-    197:202:int compare(android.util.Pair,android.util.Pair) -> compare
-    193:193:int compare(java.lang.Object,java.lang.Object) -> compare
+    200:205:int compare(android.util.Pair,android.util.Pair) -> compare
+    196:196:int compare(java.lang.Object,java.lang.Object) -> compare
 com.easemob.chatuidemo.activity.ContextMenu -> com.easemob.chatuidemo.activity.ContextMenu:
     int position -> position
     31:46:void onCreate(android.os.Bundle) -> onCreate
@@ -29486,6 +29489,13 @@ com.easemob.chatuidemo.activity.ContextMenu -> com.easemob.chatuidemo.activity.C
     64:66:void open(android.view.View) -> open
     68:70:void download(android.view.View) -> download
     72:74:void toCloud(android.view.View) -> toCloud
+com.easemob.chatuidemo.activity.EditActivity -> com.easemob.chatuidemo.activity.EditActivity:
+    android.widget.EditText editText -> editText
+    18:32:void onCreate(android.os.Bundle) -> onCreate
+    36:38:void save(android.view.View) -> save
+com.easemob.chatuidemo.activity.EditActivity$1 -> com.easemob.chatuidemo.activity.EditActivity$1:
+    com.easemob.chatuidemo.activity.EditActivity this$0 -> this$0
+    29:30:void onClick(android.view.View) -> onClick
 com.easemob.chatuidemo.activity.ExitGroupDialog -> com.easemob.chatuidemo.activity.ExitGroupDialog:
     android.widget.TextView text -> text
     android.widget.Button exitBtn -> exitBtn

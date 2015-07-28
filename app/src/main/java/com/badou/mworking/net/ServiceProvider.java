@@ -1290,6 +1290,7 @@ public class ServiceProvider {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        System.out.println(jsonObject);
         MyVolley.getRequestQueue().add(new JsonObjectRequest(Request.Method.POST, Net.getRunHost() + Net.registerAccount(),
                 jsonObject, volleyListener, volleyListener));
         MyVolley.getRequestQueue().start();
