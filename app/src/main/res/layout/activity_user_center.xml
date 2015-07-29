@@ -7,64 +7,7 @@
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/background_top_dark_blue"
-        android:orientation="vertical"
-        android:paddingBottom="@dimen/offset_large">
-
-        <ImageView
-            android:id="@+id/head_image_view"
-            android:layout_width="@dimen/user_center_image_head_size"
-            android:layout_height="@dimen/user_center_image_head_size"
-            android:layout_below="@+id/back_image_view"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/offset_less"
-            android:scaleType="fitXY"
-            android:src="@drawable/icon_user_detail_default_head" />
-
-        <com.badou.mworking.widget.LevelTextView
-            android:id="@+id/level_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@id/head_image_view"
-            android:layout_marginTop="@dimen/offset_small"
-            android:layout_toRightOf="@id/head_image_view"
-            android:textColor="#ffffff"
-            android:textSize="@dimen/text_size_small" />
-
-        <TextView
-            android:id="@+id/name_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/head_image_view"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/offset_less"
-            android:gravity="center_horizontal"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/text_size_large" />
-
-        <ImageView
-            android:id="@+id/about_image_view"
-            android:layout_width="@dimen/height_title_bar"
-            android:layout_height="@dimen/height_title_bar"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:padding="@dimen/offset_less"
-            android:scaleType="centerInside"
-            android:src="@drawable/icon_user_center_about_us" />
-
-        <ImageView
-            android:id="@+id/back_image_view"
-            android:layout_width="@dimen/height_title_bar"
-            android:layout_height="@dimen/height_title_bar"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:padding="@dimen/offset_less"
-            android:scaleType="centerInside"
-            android:src="@drawable/button_title_bar_back_normal" />
-    </RelativeLayout>
+    <include layout="@layout/layout_user_center_header" />
 
     <ScrollView
         android:layout_width="match_parent"

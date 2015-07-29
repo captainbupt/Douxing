@@ -32,6 +32,7 @@ import butterknife.ButterKnife;
 public class ChatterListFragment extends BaseFragment implements BaseListView<Chatter> {
 
     private static final String KEY_ARGUMENT_TOPIC = "topic";
+    private static final String KEY_ARGUMENT_UID = "uid";
 
     @Bind(R.id.content_list_view)
     PullToRefreshListView mContentListView;
@@ -41,11 +42,15 @@ public class ChatterListFragment extends BaseFragment implements BaseListView<Ch
     ChatterListAdapter mChatterAdapter;
     ChatterListPresenter mPresenter;
 
-    public static ChatterListFragment getFragment(String topic) {
+    public static ChatterListFragment getFragment(String topic, String uid) {
         ChatterListFragment fragment = new ChatterListFragment();
         if (!TextUtils.isEmpty(topic)) {
             Bundle argument = new Bundle();
             argument.putString(KEY_ARGUMENT_TOPIC, topic);
+            fragment.setArguments(argument);
+        } else if (!TextUtils.isEmpty(uid)) {
+            Bundle argument = new Bundle();
+            argument.putString(KEY_ARGUMENT_UID, uid);
             fragment.setArguments(argument);
         }
         return fragment;
@@ -59,12 +64,18 @@ public class ChatterListFragment extends BaseFragment implements BaseListView<Ch
         initListener();
         Bundle argument = getArguments();
         if (argument != null && argument.containsKey(KEY_ARGUMENT_TOPIC)) {
-            mPresenter = new ChatterListPresenter(mContext, this, argument.getString(KEY_ARGUMENT_TOPIC));
+            mPresenter = new ChatterListPresenter(mContext, this, argument.getString(KEY_ARGUMENT_TOPIC), true);
+        } else if (argument != null && argument.containsKey(KEY_ARGUMENT_UID)) {
+            mPresenter = new ChatterListPresenter(mContext, this, argument.getString(KEY_ARGUMENT_UID), false);
         } else {
             mPresenter = new ChatterListPresenter(mContext, this);
         }
         mPresenter.attachView(this);
         return view;
+    }
+
+    public void setHeaderView(View view) {
+        mContentListView.getRefreshableView().addHeaderView(view, null, false);
     }
 
     private void initListener() {

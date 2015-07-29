@@ -68,6 +68,8 @@ public class ChatterItemView extends LinearLayout {
 
     Context mContext;
     OnDeletedListener mOnDeletedListener;
+    PraiseClickListener mPraiseClickListener;
+    HeadClickListener mHeadClickListener;
 
     public ChatterItemView(Context context) {
         super(context);
@@ -84,6 +86,11 @@ public class ChatterItemView extends LinearLayout {
         LayoutInflater mInflater = LayoutInflater.from(context);
         mInflater.inflate(R.layout.view_chatter_item, this, true);
         ButterKnife.bind(this, this);
+        mPraiseClickListener = new PraiseClickListener();
+        mPraiseImageView.setOnClickListener(mPraiseClickListener);
+        mPraiseTextView.setOnClickListener(mPraiseClickListener);
+        mHeadClickListener = new HeadClickListener();
+        mHeadImageView.setOnClickListener(mHeadClickListener);
     }
 
     public void setOnDeletedListener(OnDeletedListener onDeletedListener) {
@@ -103,8 +110,6 @@ public class ChatterItemView extends LinearLayout {
         ImageViewLoader.setCircleImageViewResource(mHeadImageView, chatter.getHeadUrl(), mContext.getResources().getDimensionPixelSize(R.dimen.icon_head_size_middle));
 
         // 有Url则直接显示url
-        if (chatter.getUrlContent() != null)
-            System.out.println("url: " + chatter.getUrlContent().getUrl());
         if (chatter.getUrlContent() != null && !TextUtils.isEmpty(chatter.getUrlContent().getUrl())) {
             mUrlContentView.setVisibility(View.VISIBLE);
             mVideoImageView.setVisibility(View.GONE);
@@ -147,12 +152,7 @@ public class ChatterItemView extends LinearLayout {
         }
         if (isHeadClickable) { // 设置头像点击事件
             mHeadImageView.setEnabled(true);
-            mHeadImageView.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    toUserChatter(chatter);
-                }
-            });
+            mHeadClickListener.setChatter(chatter);
         } else {
             mHeadImageView.setEnabled(false);
         }
@@ -168,14 +168,7 @@ public class ChatterItemView extends LinearLayout {
             } else {
                 mPraiseImageView.setImageResource(R.drawable.icon_praise_unchecked);
                 // 设置点赞点击事件
-                OnClickListener praiseClickListener = new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        praise(chatter);
-                    }
-                };
-                mPraiseImageView.setOnClickListener(praiseClickListener);
-                mPraiseTextView.setOnClickListener(praiseClickListener);
+                mPraiseClickListener.setChatter(chatter);
                 mPraiseImageView.setEnabled(true);
                 mPraiseTextView.setEnabled(true);
             }
@@ -245,15 +238,40 @@ public class ChatterItemView extends LinearLayout {
         });
     }
 
+    class HeadClickListener implements OnClickListener {
+
+        private Chatter chatter;
+
+        public void setChatter(Chatter chatter) {
+            this.chatter = chatter;
+        }
+
+        @Override
+        public void onClick(View v) {
+            toUserChatter(chatter);
+        }
+    }
+
     public void toUserChatter(Chatter chatter) {
-        UserChatterInfo userChatterInfo = new UserChatterInfo(chatter);
-        if (userChatterInfo.name.equals("神秘的TA")) {
+        if (chatter.getName().equals("神秘的TA")) {
             return;
         }
-        Intent intent = new Intent(mContext, ChatterUserActivity.class);
-        intent.putExtra(ChatterUserActivity.KEY_UID, chatter.getUid());
-        intent.putExtra(ChatterUserActivity.KEY_USER_CHATTER, userChatterInfo);
+        Intent intent = ChatterUserActivity.getIntent(mContext, new UserChatterInfo(chatter));
         mContext.startActivity(intent);
+    }
+
+    class PraiseClickListener implements OnClickListener {
+
+        private Chatter chatter;
+
+        public void setChatter(Chatter chatter) {
+            this.chatter = chatter;
+        }
+
+        @Override
+        public void onClick(View v) {
+            praise(chatter);
+        }
     }
 
     /**

@@ -66,9 +66,10 @@ public class UserCenterActivity extends BaseNoTitleActivity implements UserCente
     LinearLayout mServiceLayout;
     @Bind(R.id.user_center_linear)
     LinearLayout mUserCenterLinear;
+    @Bind(R.id.title_text_view)
+    TextView mTitleTextView;
 
     ImageChooser mImageChooser;
-
     UserCenterPresenter mPresenter;
 
     @Override
@@ -76,6 +77,7 @@ public class UserCenterActivity extends BaseNoTitleActivity implements UserCente
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_center);
         ButterKnife.bind(this);
+        mTitleTextView.setVisibility(View.INVISIBLE);
         disableSwipeBack();
         mPresenter = (UserCenterPresenter) super.mPresenter;
         mPresenter.attachView(this);

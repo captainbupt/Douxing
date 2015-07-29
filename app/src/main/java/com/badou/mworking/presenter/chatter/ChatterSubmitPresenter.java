@@ -125,12 +125,13 @@ public class ChatterSubmitPresenter extends Presenter {
 
     public void onTopicConfirmed(String content) {
         mChatterSubmitView.setTopicListVisibility(false);
+        isTopicShow = false;
         String topic = content.replace("#", "").replace(" ", "").trim();
         mChatterSubmitView.onTopicSelected(topic);
     }
 
     public void onTopicClicked(ChatterTopic chatterTopic) {
-        mChatterSubmitView.onTopicSelected(chatterTopic.getKey());
+        onTopicConfirmed(chatterTopic.getKey());
     }
 
     public void onVideoDeleted() {

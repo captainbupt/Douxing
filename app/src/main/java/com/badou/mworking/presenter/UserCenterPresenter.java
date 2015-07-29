@@ -72,7 +72,7 @@ public class UserCenterPresenter extends Presenter {
     // 获取用户详情
     private void updateData() {
         if (mUserDetailUseCase == null)
-            mUserDetailUseCase = new UserDetailUseCase();
+            mUserDetailUseCase = new UserDetailUseCase(UserInfo.getUserInfo().getUid());
         mUserDetailUseCase.execute(new BaseSubscriber<UserDetail>(mContext) {
             @Override
             public void onResponseSuccess(UserDetail data) {
@@ -151,9 +151,7 @@ public class UserCenterPresenter extends Presenter {
 
     public void toMyChatter() {
         // 缺省UID的情况下，默认进入我的圈
-        Intent intent = new Intent(mContext, ChatterUserActivity.class);
-        intent.putExtra(ChatterUserActivity.KEY_USER_CHATTER, new UserChatterInfo(mUserDetail));
-        intent.putExtra(ChatterUserActivity.KEY_UID, UserInfo.getUserInfo().getUid());
+        Intent intent = ChatterUserActivity.getIntent(mContext, new UserChatterInfo(UserInfo.getUserInfo().getUid(), mUserDetail));
         mContext.startActivity(intent);
 
     }

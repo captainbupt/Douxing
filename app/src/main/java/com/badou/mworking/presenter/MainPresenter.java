@@ -276,8 +276,19 @@ public class MainPresenter extends Presenter {
     public void onBannerClick(AdapterView<?> parent, View view, int position, long id) {
         MainBanner mainBanner = (MainBanner) parent.getAdapter().getItem(position);
         if (mainBanner != null) {
-            Intent intent = BackWebActivity.getIntent(mContext, TextUtils.isEmpty(mLogoUrl) ? "invalid" : mLogoUrl, mainBanner.getUrl());
-            mContext.startActivity(intent);
+            String url = mainBanner.getUrl();
+            if (url.endsWith(".mp4") || url.endsWith(".mp3")) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                Uri uri = Uri.parse(url);
+                if (url.endsWith(".mp4"))
+                    intent.setDataAndType(uri, "video/*");
+                else
+                    intent.setDataAndType(uri, "audio/*");
+                mContext.startActivity(intent);
+            } else {
+                Intent intent = BackWebActivity.getIntent(mContext, TextUtils.isEmpty(mLogoUrl) ? "invalid" : mLogoUrl, mainBanner.getUrl());
+                mContext.startActivity(intent);
+            }
         }
     }
 
