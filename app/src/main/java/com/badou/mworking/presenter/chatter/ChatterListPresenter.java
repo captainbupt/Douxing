@@ -2,6 +2,7 @@ package com.badou.mworking.presenter.chatter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 
 import com.badou.mworking.ChatterDetailActivity;
 import com.badou.mworking.domain.chatter.ChatterListUseCase;
@@ -22,15 +23,20 @@ public class ChatterListPresenter extends ListPresenter<Chatter> {
     ChatterListUseCase mChatterListUseCase;
     ChatterListFragment mFragment;
     String mTopic;
+    String mUid;
 
-    public ChatterListPresenter(Context context, ChatterListFragment fragment, String topic) {
+    public ChatterListPresenter(Context context, ChatterListFragment fragment, String info, boolean isTopic) {
         super(context);
         this.mFragment = fragment;
-        this.mTopic = topic;
+        if (isTopic) {
+            this.mTopic = info;
+        } else {
+            this.mUid = info;
+        }
     }
 
     public ChatterListPresenter(Context context, ChatterListFragment fragment) {
-        this(context, fragment, null);
+        this(context, fragment, null, false);
     }
 
     @Override
@@ -46,13 +52,17 @@ public class ChatterListPresenter extends ListPresenter<Chatter> {
 
     @Override
     public void onResponseItem(int position, Serializable item) {
-        mBaseListView.setItem(position, GsonUtil.fromJson((String) item,Chatter.class));
+        mBaseListView.setItem(position, GsonUtil.fromJson((String) item, Chatter.class));
     }
 
     @Override
     protected UseCase getRefreshUseCase(int pageIndex) {
-        if (mChatterListUseCase == null)
+        if (mChatterListUseCase == null) {
             mChatterListUseCase = new ChatterListUseCase(mTopic);
+            if (!TextUtils.isEmpty(mUid)) {
+                mChatterListUseCase.setUid(mUid);
+            }
+        }
         mChatterListUseCase.setPageNum(pageIndex);
         return mChatterListUseCase;
     }

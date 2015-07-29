@@ -15,7 +15,7 @@ public class ChatterTopicActivity extends BaseBackActionBarActivity {
         setContentView(R.layout.activity_chatter_topic);
         String topic = mReceivedIntent.getStringExtra(KEY_TOPIC);
         setActionbarTitle("#" + topic + "#");
-        ChatterListFragment fragment = ChatterListFragment.getFragment(topic);
+        ChatterListFragment fragment = ChatterListFragment.getFragment(topic, null);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fl_activity_chatter_topic_container, fragment);
         transaction.commit();

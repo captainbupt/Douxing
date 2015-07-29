@@ -4,10 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.badou.mworking.ChatterUserActivity;
+import com.badou.mworking.domain.UserDetailUseCase;
 import com.badou.mworking.domain.chatter.ChatterHotListUseCase;
 import com.badou.mworking.domain.UseCase;
 import com.badou.mworking.entity.chatter.ChatterHot;
 import com.badou.mworking.entity.chatter.ChatterHotOverall;
+import com.badou.mworking.entity.user.UserChatterInfo;
+import com.badou.mworking.entity.user.UserDetail;
+import com.badou.mworking.net.BaseSubscriber;
 import com.badou.mworking.presenter.ListPresenter;
 import com.badou.mworking.util.SP;
 import com.google.gson.reflect.TypeToken;
@@ -48,9 +52,19 @@ public class ChatterHotPresenter extends ListPresenter<ChatterHot> {
     }
 
     @Override
-    public void toDetailPage(ChatterHot data) {
-        Intent intent = new Intent(mContext, ChatterUserActivity.class);
-        intent.putExtra(ChatterUserActivity.KEY_UID, data.getUid());
-        mContext.startActivity(intent);
+    public void toDetailPage(final ChatterHot data) {
+        mBaseListView.showProgressDialog();
+        new UserDetailUseCase(data.getUid()).execute(new BaseSubscriber<UserDetail>(mContext) {
+            @Override
+            public void onResponseSuccess(UserDetail userDetail) {
+                Intent intent = ChatterUserActivity.getIntent(mContext, new UserChatterInfo(data.getUid(), userDetail));
+                mContext.startActivity(intent);
+            }
+
+            @Override
+            public void onCompleted() {
+                mBaseListView.hideProgressDialog();
+            }
+        });
     }
 }
