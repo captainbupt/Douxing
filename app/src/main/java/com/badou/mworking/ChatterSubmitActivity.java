@@ -93,11 +93,20 @@ public class ChatterSubmitActivity extends BaseBackActionBarActivity implements 
         initListener();
         this.mPresenter = (ChatterSubmitPresenter) super.mPresenter;
         mPresenter.attachView(this);
+        mPresenter.setUrl(mReceivedIntent.getStringExtra(KEY_URL));
     }
 
     @Override
     public Presenter getPresenter() {
-        return new ChatterSubmitPresenter(mContext, mReceivedIntent.getStringExtra(KEY_URL));
+        return new ChatterSubmitPresenter(mContext);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        if (intent.hasExtra(KEY_URL) && mPresenter != null) {
+            mPresenter.setUrl(intent.getStringExtra(KEY_URL));
+        }
+        mReceivedIntent = intent;
     }
 
     private void initView() {
@@ -289,12 +298,12 @@ public class ChatterSubmitActivity extends BaseBackActionBarActivity implements 
     @Override
     public void setModeNormal() {
         clearBitmap();
-        mImageGridView.setVisibility(View.GONE);
+        mImageGridView.setVisibility(View.VISIBLE);
         mBottomPhotoLayout.setEnabled(true);
         mUrlRightImageView.setImageResource(R.drawable.chatter_submit_arrow_url);
         mBottomPhotoTextView.setTextColor(getResources().getColor(R.color.color_text_black));
         mBottomPhotoImageView.setImageResource(R.drawable.icon_bottom_photo);
-        mUrlContentLayout.setVisibility(View.INVISIBLE);
+        mUrlContentLayout.setVisibility(View.GONE);
         mUrlRightImageView.setEnabled(false);
     }
 

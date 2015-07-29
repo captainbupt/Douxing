@@ -35,9 +35,8 @@ public class ChatterSubmitPresenter extends Presenter {
     ChatterUrlTipPopupWindow mPopupWindow;
     String mUrl;
 
-    public ChatterSubmitPresenter(Context context, String url) {
+    public ChatterSubmitPresenter(Context context) {
         super(context);
-        this.mUrl = url;
     }
 
     @Override
@@ -46,9 +45,13 @@ public class ChatterSubmitPresenter extends Presenter {
         getTopicList();
         isTopicShow = false;
         mChatterSubmitView.setTopicListVisibility(false);
-        if (!TextUtils.isEmpty(mUrl)) {
+    }
+
+    public void setUrl(String url) {
+        if (!TextUtils.isEmpty(url)) {
             mChatterSubmitView.setModeUrl();
-            parseUrl(mUrl);
+            parseUrl(url);
+            this.mUrl = url;
         }
     }
 
@@ -68,9 +71,8 @@ public class ChatterSubmitPresenter extends Presenter {
 
             @Override
             public void onErrorCode(int code) {
-                if (code == 40010) {
-                    mChatterSubmitView.setUrlContent(null);
-                } else {
+                mChatterSubmitView.setUrlContent(null);
+                if (code != 40010) {
                     super.onErrorCode(code);
                 }
             }

@@ -232,8 +232,7 @@ public class BitmapUtil {
      * @param reqHeight
      * @return
      */
-    public static Bitmap decodeSampledBitmapFromFile(String path, int reqWidth,
-                                                     int reqHeight) {
+    public static Bitmap decodeSampledBitmapFromFile(String path, int reqWidth, int reqHeight) {
         File file = new File(path);
         if (!file.exists())
             return null;
