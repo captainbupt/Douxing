@@ -4,11 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
-import com.badou.mworking.PhotoActivity;
+import com.badou.mworking.MultiPhotoActivity;
 
-/**
- * Created by Administrator on 2015/6/8.
- */
+import java.util.ArrayList;
+
 public class FullImageListener implements View.OnClickListener {
 
     private String mUrl;
@@ -21,8 +20,9 @@ public class FullImageListener implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        Intent intent = new Intent(mContext, PhotoActivity.class);
-        intent.putExtra(PhotoActivity.KEY_URL, mUrl);
+        Intent intent = MultiPhotoActivity.getIntentFromWeb(mContext, new ArrayList<String>() {{
+            add(mUrl);
+        }}, 0);
         mContext.startActivity(intent);
     }
 }

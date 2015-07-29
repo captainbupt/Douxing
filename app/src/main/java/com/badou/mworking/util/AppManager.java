@@ -57,7 +57,6 @@ public class AppManager {
 	public void removeActivity(Activity activity){
 		if (activity != null){
 			activityStack.remove(activity);
-			activity = null;
 		}
 	}
 

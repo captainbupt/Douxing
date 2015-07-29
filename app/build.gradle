@@ -20,7 +20,7 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config
         }
@@ -63,4 +63,5 @@ dependencies {
     compile project(':PseudoMaterialHeader')
     compile files('libs/commons-codec-1.10.jar')
     compile project(':QRCodeScan')
+    compile 'com.github.chrisbanes.photoview:library:1.2.3'
 }

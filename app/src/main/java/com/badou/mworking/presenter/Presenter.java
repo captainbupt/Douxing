@@ -1,11 +1,13 @@
 package com.badou.mworking.presenter;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.badou.mworking.util.AppManager;
 import com.badou.mworking.view.BaseView;
 import com.badou.mworking.widget.ChatterUrlPopupWindow;
 
@@ -56,33 +58,32 @@ public abstract class Presenter {
     static String lastUrl = "";
 
     public void comeToForeground() {
-        if (mContext instanceof Activity) {
-            CharSequence content = null;
-            if (android.os.Build.VERSION.SDK_INT > 11) {
-                android.content.ClipboardManager clipboardManager = (android.content.ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
-                if (clipboardManager.hasPrimaryClip()) {
-                    content = clipboardManager.getPrimaryClip().getItemAt(0).getText();
-                }
-            } else {
-                android.text.ClipboardManager clipboardManager = (android.text.ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
-                if (clipboardManager.hasText()) {
-                    content = clipboardManager.getText();
-                }
+        Activity activity = AppManager.getAppManager().currentActivity();
+        CharSequence content = null;
+        if (android.os.Build.VERSION.SDK_INT > 11) {
+            android.content.ClipboardManager clipboardManager = (android.content.ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
+            if (clipboardManager.hasPrimaryClip()) {
+                content = clipboardManager.getPrimaryClip().getItemAt(0).getText();
             }
-            if (content == null)
+        } else {
+            android.text.ClipboardManager clipboardManager = (android.text.ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
+            if (clipboardManager.hasText()) {
+                content = clipboardManager.getText();
+            }
+        }
+        if (content == null)
+            return;
+        Matcher matcher = pattern.matcher(content);
+        if (matcher.find()) {
+            String url = matcher.group();
+            if (url.equals(lastUrl)) {
                 return;
-            Matcher matcher = pattern.matcher(content);
-            if (matcher.find()) {
-                String url = matcher.group();
-                if (url.equals(lastUrl)) {
-                    return;
-                }
-                lastUrl = url;
-                if (mPopupWindow == null)
-                    mPopupWindow = new ChatterUrlPopupWindow(mContext);
-                mPopupWindow.setUrl(url);
-                mPopupWindow.showPopupWindow(((Activity) mContext).getWindow().getDecorView().findViewById(android.R.id.content));
             }
+            lastUrl = url;
+            if (mPopupWindow == null)
+                mPopupWindow = new ChatterUrlPopupWindow(activity);
+            mPopupWindow.setUrl(url);
+            mPopupWindow.showPopupWindow(activity.getWindow().getDecorView().findViewById(android.R.id.content));
         }
     }
 
