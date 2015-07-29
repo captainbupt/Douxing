@@ -19922,7 +19922,7 @@ com.badou.mworking.net.ServiceProvider -> com.badou.mworking.net.ServiceProvider
     1245:1250:void getStore(android.content.Context,int,int,com.badou.mworking.net.volley.VolleyListener) -> getStore
     1253:1263:void getContacts(android.content.Context,com.badou.mworking.net.volley.VolleyListener) -> getContacts
     1266:1284:void createGroup(android.content.Context,java.lang.String,java.lang.String,java.lang.String,java.lang.String[],com.badou.mworking.net.volley.VolleyListener) -> createGroup
-    1287:1296:void registerAccount(android.content.Context,java.lang.String,com.badou.mworking.net.volley.VolleyListener) -> registerAccount
+    1287:1297:void registerAccount(android.content.Context,java.lang.String,com.badou.mworking.net.volley.VolleyListener) -> registerAccount
 com.badou.mworking.net.ServiceProvider$1 -> afv:
     com.loopj.android.http.RangeFileAsyncHttpResponseHandler val$httpResponseHandler -> a
     300:302:void onProgress(long,long) -> onProgress
@@ -20618,13 +20618,13 @@ com.badou.mworking.util.DensityUtil -> com.badou.mworking.util.DensityUtil:
     106:106:int getTextSizeXxlarge() -> getTextSizeXxlarge
     110:110:int getScreenHeight() -> getScreenHeight
     114:114:int getScreenWidth() -> getScreenWidth
-    118:121:com.badou.mworking.util.DensityUtil getInstance() -> getInstance
-    125:127:int getHeightInPx(android.app.Activity) -> getHeightInPx
-    131:133:int getWidthInPx(android.app.Activity) -> getWidthInPx
-    137:138:int dip2px(android.content.Context,float) -> dip2px
-    142:143:int px2dip(android.content.Context,float) -> px2dip
-    147:148:int px2sp(android.content.Context,float) -> px2sp
-    152:153:int sp2px(android.content.Context,float) -> sp2px
+    118:124:com.badou.mworking.util.DensityUtil getInstance() -> getInstance
+    129:131:int getHeightInPx(android.app.Activity) -> getHeightInPx
+    135:137:int getWidthInPx(android.app.Activity) -> getWidthInPx
+    141:142:int dip2px(android.content.Context,float) -> dip2px
+    146:147:int px2dip(android.content.Context,float) -> px2dip
+    151:152:int px2sp(android.content.Context,float) -> px2sp
+    156:157:int sp2px(android.content.Context,float) -> sp2px
 com.badou.mworking.util.DialogUtil -> com.badou.mworking.util.DialogUtil:
     28:58:void apkUpdate(android.content.Context,com.badou.mworking.view.BaseView,com.badou.mworking.entity.main.NewVersion) -> apkUpdate
 com.badou.mworking.util.DialogUtil$1 -> ahy:
@@ -29048,8 +29048,8 @@ com.easemob.chatuidemo.DemoHXSDKHelper -> com.easemob.chatuidemo.DemoHXSDKHelper
     399:400:void setContactList(java.util.Map) -> setContactList
     404:431:void logout(com.easemob.EMCallBack) -> logout
     435:439:void endCall() -> endCall
-    442:461:void loginAnonymous(android.app.Activity,com.easemob.EMCallBack) -> loginAnonymous
-    467:518:void loginEMChat(android.app.Activity,java.lang.String,java.lang.String,com.easemob.EMCallBack) -> loginEMChat
+    442:468:void loginAnonymous(android.app.Activity,com.easemob.EMCallBack) -> loginAnonymous
+    474:525:void loginEMChat(android.app.Activity,java.lang.String,java.lang.String,com.easemob.EMCallBack) -> loginEMChat
     67:67:com.easemob.applib.model.HXSDKModel getModel() -> getModel
     67:67:java.util.List access$000(com.easemob.chatuidemo.DemoHXSDKHelper) -> access$000
     67:67:android.content.Context access$100(com.easemob.chatuidemo.DemoHXSDKHelper) -> access$100
@@ -29104,7 +29104,8 @@ com.easemob.chatuidemo.DemoHXSDKHelper$6 -> com.easemob.chatuidemo.DemoHXSDKHelp
     com.easemob.EMCallBack val$emCallBack -> val$emCallBack
     com.easemob.chatuidemo.DemoHXSDKHelper this$0 -> this$0
     446:454:void onResponseSuccess(org.json.JSONObject) -> onResponseSuccess
-    458:459:void onErrorCode(int) -> onErrorCode
+    458:460:void onResponse(java.lang.Object) -> onResponse
+    464:466:void onErrorCode(int) -> onErrorCode
 com.easemob.chatuidemo.DemoHXSDKHelper$6$1 -> com.easemob.chatuidemo.DemoHXSDKHelper$6$1:
     java.lang.String val$password -> val$password
     com.easemob.chatuidemo.DemoHXSDKHelper$6 this$1 -> this$1
@@ -29115,17 +29116,17 @@ com.easemob.chatuidemo.DemoHXSDKHelper$7 -> com.easemob.chatuidemo.DemoHXSDKHelp
     android.app.Activity val$activity -> val$activity
     com.easemob.EMCallBack val$emCallBack -> val$emCallBack
     com.easemob.chatuidemo.DemoHXSDKHelper this$0 -> this$0
-    480:501:void onSuccess() -> onSuccess
-    505:506:void onProgress(int,java.lang.String) -> onProgress
-    510:516:void onError(int,java.lang.String) -> onError
+    487:508:void onSuccess() -> onSuccess
+    512:513:void onProgress(int,java.lang.String) -> onProgress
+    517:523:void onError(int,java.lang.String) -> onError
 com.easemob.chatuidemo.DemoHXSDKHelper$7$1 -> com.easemob.chatuidemo.DemoHXSDKHelper$7$1:
     com.easemob.chatuidemo.DemoHXSDKHelper$7 this$1 -> this$1
-    498:499:void run() -> run
+    505:506:void run() -> run
 com.easemob.chatuidemo.DemoHXSDKHelper$7$2 -> com.easemob.chatuidemo.DemoHXSDKHelper$7$2:
     int val$code -> val$code
     java.lang.String val$message -> val$message
     com.easemob.chatuidemo.DemoHXSDKHelper$7 this$1 -> this$1
-    513:514:void run() -> run
+    520:521:void run() -> run
 com.easemob.chatuidemo.DemoHXSDKHelper$8 -> com.easemob.chatuidemo.DemoHXSDKHelper$8:
     int[] $SwitchMap$com$easemob$EMNotifierEvent$Event -> $SwitchMap$com$easemob$EMNotifierEvent$Event
 com.easemob.chatuidemo.DemoHXSDKModel -> com.easemob.chatuidemo.DemoHXSDKModel:

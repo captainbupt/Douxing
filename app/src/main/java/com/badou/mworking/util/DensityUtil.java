@@ -115,10 +115,14 @@ public class DensityUtil {
     }
 
     public static DensityUtil getInstance() {
-        if (densityUtil != null)
+        if (densityUtil != null) {
             return densityUtil;
-        else
+        } else if (AppManager.getAppManager().currentActivity() != null && !AppManager.getAppManager().currentActivity().isFinishing()) {
+            DensityUtil.init(AppManager.getAppManager().currentActivity());
+            return densityUtil;
+        } else {
             throw new IllegalStateException("DensityUtil not initialized");
+        }
     }
 
     public static final int getHeightInPx(Activity activity) {

@@ -21922,6 +21922,7 @@ com.easemob.chatuidemo.DemoHXSDKHelper$6: com.easemob.EMCallBack val$emCallBack
 com.easemob.chatuidemo.DemoHXSDKHelper$6: com.easemob.chatuidemo.DemoHXSDKHelper this$0
 com.easemob.chatuidemo.DemoHXSDKHelper$6: DemoHXSDKHelper$6(com.easemob.chatuidemo.DemoHXSDKHelper,android.content.Context,android.app.Activity,java.lang.String,com.easemob.EMCallBack)
 com.easemob.chatuidemo.DemoHXSDKHelper$6: void onResponseSuccess(org.json.JSONObject)
+com.easemob.chatuidemo.DemoHXSDKHelper$6: void onResponse(java.lang.Object)
 com.easemob.chatuidemo.DemoHXSDKHelper$6: void onErrorCode(int)
 com.easemob.chatuidemo.DemoHXSDKHelper$6$1
 com.easemob.chatuidemo.DemoHXSDKHelper$6$1: java.lang.String val$password
