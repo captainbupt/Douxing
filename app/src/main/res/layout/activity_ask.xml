@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:myattr="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_layout_bg">
 
 
     <com.badou.mworking.widget.NoneResultView
-        android:id="@+id/nrv_activity_question_none"
+        android:id="@+id/none_result_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        myattr:imgSrc="@drawable/background_none_result_ask"
+        myattr:tipText="@string/none_result_ask"
         android:layout_gravity="center"/>
 
     <com.handmark.pulltorefresh.library.PullToRefreshListView
-        android:id="@+id/ptrlv_activity_question_content"
+        android:id="@+id/content_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/transparent"

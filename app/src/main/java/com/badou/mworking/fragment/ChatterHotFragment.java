@@ -12,7 +12,7 @@ import com.badou.mworking.adapter.ChatterHotAdapter;
 import com.badou.mworking.base.BaseFragment;
 import com.badou.mworking.entity.chatter.ChatterHot;
 import com.badou.mworking.presenter.chatter.ChatterHotPresenter;
-import com.badou.mworking.view.BaseListView;
+import com.badou.mworking.view.chatter.ChatterHotListView;
 import com.badou.mworking.widget.NoneResultView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -22,7 +22,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ChatterHotFragment extends BaseFragment implements BaseListView<ChatterHot> {
+public class ChatterHotFragment extends BaseFragment implements ChatterHotListView {
 
     @Bind(R.id.content_list_view)
     PullToRefreshListView mContentListView;

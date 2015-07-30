@@ -1,5 +1,12 @@
 package com.badou.mworking.net;
 
+import com.badou.mworking.domain.ask.AskDeleteUseCase;
+import com.badou.mworking.domain.ask.AskListUseCase;
+import com.badou.mworking.domain.ask.AskPublishUseCase;
+import com.badou.mworking.domain.ask.AskReplyGetUseCase;
+import com.badou.mworking.domain.ask.AskReplyPraiseUseCase;
+import com.badou.mworking.domain.ask.AskReplySendUseCase;
+import com.badou.mworking.domain.ask.AskUseCase;
 import com.badou.mworking.domain.category.CategoryCommentGetUseCase;
 import com.badou.mworking.domain.category.CategoryDetailUseCase;
 import com.badou.mworking.domain.ChangePasswordUseCase;
@@ -15,6 +22,7 @@ import com.badou.mworking.domain.chatter.ChatterPublishUseCase;
 import com.badou.mworking.domain.StoreUseCase;
 import com.badou.mworking.domain.category.TaskSignUseCase;
 import com.badou.mworking.domain.chatter.UrlContentUseCase;
+import com.badou.mworking.entity.Ask;
 import com.badou.mworking.entity.chatter.Chatter;
 import com.badou.mworking.entity.category.CategoryDetail;
 import com.badou.mworking.entity.category.CategoryOverall;
@@ -163,4 +171,25 @@ public interface RestApi {
 
     @GET("/getdaren")
     Observable<BaseNetEntity<ChatterHotOverall>> getChatterHotList(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("page_no") int pageNum, @Query("item_per_page") int itemNum);
+
+    @POST("/getask")
+    Observable<BaseNetEntity<List<Ask>>> getAskList(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Body AskListUseCase.Body body);
+
+    @POST("/pubask")
+    Observable<BaseNetEntity<AskPublishUseCase.Response>> publishAsk(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Body AskPublishUseCase.Body body);
+
+    @POST("/getoneask")
+    Observable<BaseNetEntity<Ask>> getAsk(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Body AskUseCase.Body body);
+
+    @POST("/getanswer")
+    Observable<BaseNetEntity<List<Ask>>> getAskReply(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Body AskReplyGetUseCase.Body body);
+
+    @POST("/delask")
+    Observable<BaseNetEntity> deleteAsk(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Body AskDeleteUseCase.Body body);
+
+    @POST("/pollanswer")
+    Observable<BaseNetEntity> praiseAnswer(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Body AskReplyPraiseUseCase.Body body);
+
+    @POST("/pubanswer")
+    Observable<BaseNetEntity> replyAsk(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Body AskReplySendUseCase.Body body);
 }

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.entity.chatter.Chatter;
+import com.badou.mworking.listener.AdapterItemClickListener;
 import com.badou.mworking.widget.ChatterItemView;
 import com.swipe.delete.SwipeLayout;
 
@@ -18,11 +19,13 @@ import butterknife.ButterKnife;
  */
 public class ChatterListAdapter extends MyBaseAdapter<Chatter> {
 
-    private boolean isHeadClickable;
+    AdapterItemClickListener mHeadClickListener;
+    AdapterItemClickListener mPraiseClickListener;
 
-    public ChatterListAdapter(Context context, boolean isHeadClickable) {
+    public ChatterListAdapter(Context context, AdapterItemClickListener headClickListener, AdapterItemClickListener praiseClickListener) {
         super(context);
-        this.isHeadClickable = isHeadClickable;
+        mHeadClickListener = headClickListener;
+        mPraiseClickListener = praiseClickListener;
     }
 
     @Override
@@ -35,17 +38,17 @@ public class ChatterListAdapter extends MyBaseAdapter<Chatter> {
                     parent, false);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
+            holder.chatterItemView.setHeadListener(mHeadClickListener);
+            holder.chatterItemView.setPraiseListener(mPraiseClickListener);
         }
         final Chatter chatter = mItemList.get(position);
-        holder.chatterItemView.setData(chatter, isHeadClickable, false);
+        holder.chatterItemView.setData(chatter, false, position);
         return convertView;
     }
 
     static class ViewHolder {
         @Bind(R.id.chatter_item_view)
         ChatterItemView chatterItemView;
-        @Bind(R.id.swipe_layout)
-        SwipeLayout swipeLayout;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);

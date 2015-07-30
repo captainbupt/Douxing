@@ -1,22 +1,33 @@
 package com.badou.mworking.presenter.chatter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
 import com.badou.mworking.R;
+import com.badou.mworking.domain.StoreUseCase;
+import com.badou.mworking.domain.chatter.ChatterDeleteUseCase;
+import com.badou.mworking.domain.chatter.ChatterReplyDeleteUseCase;
 import com.badou.mworking.domain.chatter.ChatterReplyGetUseCase;
 import com.badou.mworking.domain.chatter.ChatterReplySendUseCase;
 import com.badou.mworking.domain.chatter.ChatterUseCase;
 import com.badou.mworking.domain.UseCase;
+import com.badou.mworking.entity.Store;
+import com.badou.mworking.entity.StoreItem;
 import com.badou.mworking.entity.chatter.Chatter;
 import com.badou.mworking.entity.comment.ChatterComment;
+import com.badou.mworking.entity.comment.Comment;
 import com.badou.mworking.net.BaseNetEntity;
 import com.badou.mworking.net.BaseSubscriber;
 import com.badou.mworking.presenter.CommentPresenter;
 import com.badou.mworking.presenter.ListPresenter;
+import com.badou.mworking.util.DialogUtil;
 import com.badou.mworking.util.GsonUtil;
+import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.view.BaseView;
+import com.badou.mworking.view.StoreItemView;
 import com.badou.mworking.view.chatter.ChatterDetailView;
+import com.easemob.chatuidemo.activity.ChatActivity;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
@@ -29,6 +40,7 @@ public class ChatterDetailPresenter extends CommentPresenter {
     ChatterReplyGetUseCase mReplyGetUseCase;
     ChatterReplySendUseCase mReplySendUseCase;
     ChatterDetailView mDetailView;
+    StoreUseCase mStoreUseCase;
 
     public ChatterDetailPresenter(Context context, String qid) {
         super(context);
@@ -93,8 +105,53 @@ public class ChatterDetailPresenter extends CommentPresenter {
         return mReplyGetUseCase;
     }
 
-    public Intent getResult(){
-        mChatter.setReplyNumber(mDetailView.getDataCount());
-        return ListPresenter.getResultIntent(GsonUtil.toJson(mChatter, Chatter.class));
+    public Intent getResult() {
+        if (mChatter == null) {
+            return ListPresenter.getResultIntent(null, true);
+        } else {
+            mChatter.setReplyNumber(mDetailView.getDataCount());
+            return ListPresenter.getResultIntent(GsonUtil.toJson(mChatter, Chatter.class));
+        }
+    }
+
+    public void deleteChatter() {
+        new ChatterDeleteUseCase(mQid).execute(new BaseSubscriber(mContext) {
+            @Override
+            public void onResponseSuccess(Object data) {
+                ((Activity) mContext).finish();
+            }
+        });
+    }
+
+    public void toMessage() {
+        mContext.startActivity(ChatActivity.getSingleIntent(mContext, mChatter.getWhom()));
+    }
+
+    public void deleteChatterReply(final int position) {
+        DialogUtil.showDeleteDialog(mContext, new DialogUtil.OnConfirmListener() {
+            @Override
+            public void onConfirm() {
+                mDetailView.showProgressDialog(R.string.progress_tips_delete_ing);
+                new ChatterReplyDeleteUseCase(mQid, mDetailView.getDataCount() - position).execute(new BaseSubscriber(mContext) {
+                    @Override
+                    public void onResponseSuccess(Object data) {
+                        mDetailView.showToast(R.string.chatter_tip_delete_success);
+                        mDetailView.setCommentCount(mDetailView.getDataCount() - 1);
+                        mDetailView.removeItem(position);
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        mDetailView.hideProgressDialog();
+                    }
+                });
+            }
+        });
+    }
+
+    public void onStoreClicked() {
+        if(mStoreUseCase == null)
+            mStoreUseCase = new StoreUseCase(mQid,Store.TYPE_STRING_CHATTER);
+        mStoreUseCase.onStoreClicked(mContext, mDetailView, mChatter);
     }
 }

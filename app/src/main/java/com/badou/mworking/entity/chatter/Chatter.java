@@ -5,6 +5,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.badou.mworking.database.MTrainingDBHelper;
+import com.badou.mworking.entity.StoreItem;
 import com.badou.mworking.util.GsonUtil;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.internal.LinkedTreeMap;
@@ -15,7 +16,7 @@ import java.util.List;
 /**
  * 功能描述:  同事圈实体类
  */
-public class Chatter implements Parcelable {
+public class Chatter implements Parcelable, StoreItem {
     @SerializedName("qid")
     String qid;//qid
     @SerializedName("uid")
@@ -171,5 +172,9 @@ public class Chatter implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(GsonUtil.toJson(this, Chatter.class));
+    }
+
+    public void setStore(boolean store) {
+        this.isStore = store;
     }
 }

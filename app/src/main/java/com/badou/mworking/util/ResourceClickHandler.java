@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.badou.mworking.AskDetailActivity;
-import com.badou.mworking.ChatListActivity;
 import com.badou.mworking.ChatterDetailActivity;
 import com.badou.mworking.entity.Ask;
 import com.badou.mworking.entity.chatter.Chatter;
@@ -22,42 +21,17 @@ public class ResourceClickHandler {
     }
 
     public static void toChatterPage(final Context context, final String sid, final OnCompleteListener onCompleteListener) {
-        ServiceProvider.doGetChatterById(context, sid, new VolleyListener(context) {
-            @Override
-            public void onResponseSuccess(JSONObject response) {
-                Chatter chatter = GsonUtil.fromJson(response.optJSONObject(Net.DATA).toString(), Chatter.class);
-                Intent intent = ChatterDetailActivity.getIntent(context, chatter.getQid());
-                context.startActivity(intent);
-                onCompleteListener.onComplete(true);
-            }
-
-            @Override
-            public void onErrorCode(int code) {
-                onCompleteListener.onComplete(false);
-            }
-
-        });
+        Intent intent = ChatterDetailActivity.getIntent(context, sid);
+        context.startActivity(intent);
+        onCompleteListener.onComplete(true);
     }
 
     public static void toAskPage(final Context context, final String sid, final OnCompleteListener onCompleteListener) {
-        ServiceProvider.doGetAskById(context, sid, new VolleyListener(context) {
-            @Override
-            public void onResponseSuccess(JSONObject response) {
-                Ask ask = new Ask(response.optJSONObject(Net.DATA));
-                Intent intent = new Intent(context, AskDetailActivity.class);
-                intent.putExtra(AskDetailActivity.KEY_ASK, ask);
-                context.startActivity(intent);
-                onCompleteListener.onComplete(true);
-            }
-
-            @Override
-            public void onErrorCode(int code) {
-                onCompleteListener.onComplete(false);
-            }
-        });
+        context.startActivity(AskDetailActivity.getIntent(context, sid));
+        onCompleteListener.onComplete(true);
     }
 
-    public static void toChatPage(final Context context, final OnCompleteListener onCompleteListener) {
+/*    public static void toChatPage(final Context context, final OnCompleteListener onCompleteListener) {
         onCompleteListener.onComplete(true);
         Intent intent = new Intent(context, ChatListActivity.class);
         UserDetail userDetail = null;
@@ -66,5 +40,5 @@ public class ResourceClickHandler {
             intent.putExtra(ChatListActivity.KEY_HEAD_URL, userDetail.getHeadimg());
         }
         context.startActivity(intent);
-    }
+    }*/
 }

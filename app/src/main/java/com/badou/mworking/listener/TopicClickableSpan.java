@@ -18,9 +18,6 @@ import com.badou.mworking.widget.TextViewFixTouchConsume;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created by Administrator on 2015/6/11.
- */
 public class TopicClickableSpan extends ClickableSpan {
     private String mTopic;
     private Context mContext;

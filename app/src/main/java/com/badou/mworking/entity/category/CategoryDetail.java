@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.badou.mworking.base.AppApplication;
+import com.badou.mworking.entity.StoreItem;
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ResponseParameters;
@@ -21,7 +22,7 @@ import java.io.Serializable;
 import java.nio.charset.Charset;
 import java.util.Calendar;
 
-public class CategoryDetail implements Serializable {
+public class CategoryDetail implements Serializable, StoreItem {
 
     @SerializedName("mcnt")
     int mcnt;

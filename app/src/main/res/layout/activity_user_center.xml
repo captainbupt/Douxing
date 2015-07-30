@@ -187,6 +187,7 @@
                         android:src="@drawable/icon_user_center_forward" />
                 </LinearLayout>
 
+<!--
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
@@ -237,6 +238,7 @@
                         android:layout_height="@dimen/user_center_icon_forward_height"
                         android:src="@drawable/icon_user_center_forward" />
                 </LinearLayout>
+-->
 
                 <View
                     android:layout_width="match_parent"

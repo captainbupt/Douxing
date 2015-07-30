@@ -205,11 +205,15 @@ public class ChatActivity extends BaseBackActionBarActivity implements OnClickLi
     public EMChatRoom room;
     public boolean isRobot;
 
-    public static Intent getServiceIntent(Context context) {
+    public static Intent getSingleIntent(Context context, String userId) {
         Intent intent = new Intent(context, ChatActivity.class);
-        intent.putExtra("userId", "10086456");
+        intent.putExtra("userId", userId);
         intent.putExtra("chatType", CHATTYPE_SINGLE);
         return intent;
+    }
+
+    public static Intent getServiceIntent(Context context) {
+        return getSingleIntent(context, "10086456");
     }
 
     public static Intent getGroupIntent(Context context, String groupId) {

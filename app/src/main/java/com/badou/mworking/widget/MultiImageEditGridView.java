@@ -60,6 +60,15 @@ public class MultiImageEditGridView extends GridView {
         modifyLayout();
     }
 
+    public void setImage(int position, Bitmap bmp) {
+        if (position >= mAdapter.getListCount()) {
+            addImage(bmp);
+            return;
+        }
+        mAdapter.setItem(position, bmp);
+        modifyLayout();
+    }
+
     public void clear() {
         List<Bitmap> bitmaps = getImages();
         mAdapter.setList(null);
@@ -130,10 +139,15 @@ public class MultiImageEditGridView extends GridView {
                 Bitmap old = (Bitmap) mItemList.get(mMaxImage - 1);
                 mItemList.set(mMaxImage - 1, bitmap);
                 notifyDataSetChanged();
-                if (old != null && !old.isRecycled()) {
-                    old.recycle();
-                }
+                BitmapUtil.recycleBitmap(old);
             }
+        }
+
+        @Override
+        public void setItem(int position, Bitmap item) {
+            Bitmap bitmap = getItem(position);
+            super.setItem(position, item);
+            BitmapUtil.recycleBitmap(bitmap);
         }
 
         @Override

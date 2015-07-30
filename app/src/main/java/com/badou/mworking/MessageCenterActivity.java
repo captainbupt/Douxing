@@ -77,9 +77,9 @@ public class MessageCenterActivity extends BaseBackActionBarActivity {
             ResourceClickHandler.toChatterPage(context, messageCenter.add, onCompleteListener);
         } else if (messageCenter.type.equals(MessageCenter.TYPE_ASK)) {
             ResourceClickHandler.toAskPage(context, messageCenter.add, onCompleteListener);
-        } else if (messageCenter.type.equals(MessageCenter.TYPE_CHAT)) {
+        } /*else if (messageCenter.type.equals(MessageCenter.TYPE_CHAT)) {
             ResourceClickHandler.toChatPage(context, onCompleteListener);
-        } else {
+        }*/ else {
             ToastUtil.showToast(mContext, R.string.category_unsupport_type);
             mProgressDialog.dismiss();
         }

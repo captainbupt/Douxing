@@ -11,7 +11,6 @@ import android.text.TextUtils;
 import com.badou.mworking.AboutUsActivity;
 import com.badou.mworking.AccountManageActivity;
 import com.badou.mworking.BackWebActivity;
-import com.badou.mworking.ChatListActivity;
 import com.badou.mworking.ChatterUserActivity;
 import com.badou.mworking.MyExamActivity;
 import com.badou.mworking.MyStudyActivity;
@@ -155,12 +154,12 @@ public class UserCenterPresenter extends Presenter {
         mContext.startActivity(intent);
 
     }
-
+/*
     public void toMyChat() {
         Intent intent = new Intent(mContext, ChatListActivity.class);
         intent.putExtra(ChatListActivity.KEY_HEAD_URL, mUserDetail.getHeadimg());
         mContext.startActivity(intent);
-    }
+    }*/
 
     public void toMyAccount() {
         mContext.startActivity(new Intent(mContext, AccountManageActivity.class));
