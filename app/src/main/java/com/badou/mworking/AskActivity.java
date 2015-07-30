@@ -1,5 +1,6 @@
 package com.badou.mworking;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -10,15 +11,19 @@ import android.widget.ListView;
 import com.badou.mworking.adapter.AskAdapter;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.entity.Ask;
-import com.badou.mworking.entity.main.MainIcon;
 import com.badou.mworking.entity.main.Shuffle;
 import com.badou.mworking.entity.user.UserInfo;
+import com.badou.mworking.listener.AdapterItemClickListener;
+import com.badou.mworking.listener.AdapterItemLongClickListener;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
+import com.badou.mworking.presenter.Presenter;
+import com.badou.mworking.presenter.ask.AskPresenter;
 import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.SP;
 import com.badou.mworking.util.ToastUtil;
+import com.badou.mworking.view.ask.AskListView;
 import com.badou.mworking.widget.NoneResultView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
@@ -31,158 +36,148 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * 问答页面
  */
-public class AskActivity extends BaseBackActionBarActivity {
+public class AskActivity extends BaseBackActionBarActivity implements AskListView {
 
-    private NoneResultView mNoneResultView;  //当没有人提问时显示该图片
+    @Bind(R.id.none_result_view)
+    NoneResultView mNoneResultView;
+    @Bind(R.id.content_list_view)
+    PullToRefreshListView mContentListView;
 
-    private PullToRefreshListView mContentListView;
-    private AskAdapter mAskAdapter;
+    AskAdapter mAskAdapter;
 
-    private int beginIndex = 1;
-    private int mClickPosition = -1;
+    AskPresenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setActionbarTitle(UserInfo.getUserInfo().getShuffle().getMainIcon(mContext, Shuffle.BUTTON_ASK).getName());
         setContentView(R.layout.activity_ask);
+        ButterKnife.bind(this);
         initView();
-        initListener();
-        initData();
+        mPresenter = (AskPresenter) super.mPresenter;
+        mPresenter.attachView(this);
+    }
+
+    @Override
+    public Presenter getPresenter() {
+        return new AskPresenter(mContext);
     }
 
     private void initView() {
         setRightText(R.string.ask_title_right, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext, AskSubmitActivity.class);
-                startActivity(intent);
+                mPresenter.publishAsk();
             }
         });
-        mNoneResultView = (NoneResultView) findViewById(R.id.nrv_activity_question_none);
-        mNoneResultView.setContent(R.drawable.background_none_result_ask, R.string.none_result_ask);
-        // 因为需要同时添加单击和长按事件，pullToRefresh并不支持该操作。所以只能在adapter里面进行添加
-        mContentListView = (PullToRefreshListView) findViewById(R.id.ptrlv_activity_question_content);
-    }
-
-    private void initListener() {
+        mContentListView.setMode(Mode.BOTH);
+        // 单点和长按会冲突，只能在adapter里面加
+        mAskAdapter = new AskAdapter(mContext, new AdapterItemClickListener(mContext) {
+            @Override
+            public void onClick(View v) {
+                int position = (int) v.getTag(R.id.tag_position);
+                mPresenter.onItemClick(mAskAdapter.getItem(position), position);
+            }
+        }, new AdapterItemLongClickListener(mContext) {
+            @Override
+            public boolean onLongClick(View v) {
+                mPresenter.copy(mAskAdapter.getItem((int) v.getTag(R.id.tag_position)));
+                return true;
+            }
+        });
+        mContentListView.setAdapter(mAskAdapter);
         mContentListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                beginIndex = 1;
-                updateListView(beginIndex);
+                mPresenter.refresh();
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-                updateListView(beginIndex);
+                mPresenter.loadMore();
             }
         });
-    }
-
-    private void initData() {
-        mContentListView.setMode(Mode.BOTH);
-        mAskAdapter = new AskAdapter(mContext, new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                mClickPosition = i;
-            }
-        });
-        getCache();
-        mContentListView.setAdapter(mAskAdapter);
-        beginIndex = 1;
-        //updateListView(1);
-        mContentListView.setRefreshing();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK && mClickPosition >= 0 && mClickPosition < mAskAdapter.getCount()) {
-            if (data.getBooleanExtra(AskDetailActivity.RESULT_KEY_STORE, false)) {
-                mAskAdapter.remove(mClickPosition);
-            } else {
-                Ask ask = (Ask) mAskAdapter.getItem(mClickPosition);
-                ask.count = data.getIntExtra(AskDetailActivity.RESULT_KEY_COUNT, ask.count);
-                ask.isStore = data.getBooleanExtra(AskDetailActivity.RESULT_KEY_STORE, ask.isStore);
-                mAskAdapter.setItem(mClickPosition, ask);
-            }
-        }
+        mPresenter.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
-    /**
-     * 功能描述:
-     *
-     * @param beginNum
-     */
-    private void updateListView(int beginNum) {
+    @Override
+    public void showNoneResult() {
+        mNoneResultView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideNoneResult() {
+        mNoneResultView.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void disablePullUp() {
+        mContentListView.setMode(Mode.PULL_FROM_START);
+    }
+
+    @Override
+    public void enablePullUp() {
+        mContentListView.setMode(Mode.BOTH);
+    }
+
+    @Override
+    public void startRefreshing() {
         showProgressBar();
-        mNoneResultView.setVisibility(View.GONE);
-        ServiceProvider.updateAskList(AskActivity.this, beginNum, Constant.LIST_ITEM_NUM, "", new VolleyListener(AskActivity.this) {
-
-            @Override
-            public void onCompleted() {
-                hideProgressBar();
-                mContentListView.onRefreshComplete();
-            }
-
-            @Override
-            public void onResponseSuccess(JSONObject response) {
-                JSONArray data = response.optJSONArray(Net.DATA);
-                List<Object> askTemp = new ArrayList<>();
-                int length = data.length();
-                if (length == 0) {
-                    if (beginIndex == 1) {
-                        mNoneResultView.setVisibility(View.VISIBLE);
-                        mAskAdapter.setList(null);
-                    } else {
-                        ToastUtil.showToast(mContext, R.string.no_more);
-                    }
-                    return;
-                }
-                mNoneResultView.setVisibility(View.GONE);
-                for (int i = 0; i < length; i++) {
-                    JSONObject jb = data.optJSONObject(i);
-                    Ask ask = new Ask(jb);
-                    askTemp.add(ask);
-                }
-                String userNum = UserInfo.getUserInfo().getAccount();
-                //添加缓存
-                if (beginIndex == 1) {
-                    mAskAdapter.setList(askTemp);
-                    //添加缓存
-                    SP.putStringSP(AskActivity.this, SP.ASK, userNum + Ask.WENDACACHE, data.toString());
-                } else {
-                    mAskAdapter.addList(askTemp);
-                }
-                beginIndex++;
-            }
-        });
+        mContentListView.setMode(Mode.PULL_FROM_START);
+        mContentListView.setRefreshing();
+        mContentListView.setMode(Mode.BOTH);
     }
 
-    /**
-     * 功能描述:  获取缓存
-     */
-    public void getCache() {
-        String userNum = UserInfo.getUserInfo().getAccount();
-        List<Object> list = new ArrayList<>();
-        String sp = SP.getStringSP(AskActivity.this, SP.ASK, userNum + Ask.WENDACACHE, "");
-        if (TextUtils.isEmpty(sp)) {
-            return;
-        }
-        JSONArray resultArray;
-        try {
-            resultArray = new JSONArray(sp);
-            for (int i = 0; i < resultArray.length(); i++) {
-                JSONObject jsonObject = resultArray.optJSONObject(i);
-                Ask ask = new Ask(jsonObject);
-                list.add(ask);
-            }
-            mAskAdapter.setList(list);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+    @Override
+    public boolean isRefreshing() {
+        return mContentListView.isRefreshing();
     }
+
+    @Override
+    public void refreshComplete() {
+        mContentListView.onRefreshComplete();
+        hideProgressBar();
+    }
+
+    @Override
+    public void setData(List<Ask> data) {
+        mAskAdapter.setList(data);
+    }
+
+    @Override
+    public void addData(List<Ask> data) {
+        mAskAdapter.addList(data);
+    }
+
+    @Override
+    public int getDataCount() {
+        return mAskAdapter.getCount();
+    }
+
+    @Override
+    public void setItem(int index, Ask item) {
+        mAskAdapter.setItem(index, item);
+    }
+
+    @Override
+    public Ask getItem(int index) {
+        return mAskAdapter.getItem(index);
+    }
+
+    @Override
+    public void removeItem(int index) {
+        mAskAdapter.remove(index);
+    }
+
 }

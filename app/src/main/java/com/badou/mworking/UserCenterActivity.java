@@ -52,10 +52,6 @@ public class UserCenterActivity extends BaseNoTitleActivity implements UserCente
     TextView mChatterNumberTextView;
     @Bind(R.id.my_chatter_layout)
     LinearLayout mMyChatterLayout;
-    @Bind(R.id.message_number_text_view)
-    TextView mMessageNumberTextView;
-    @Bind(R.id.my_message_layout)
-    LinearLayout mMyMessageLayout;
     @Bind(R.id.store_number_text_view)
     TextView mStoreNumberTextView;
     @Bind(R.id.my_store_layout)
@@ -123,11 +119,11 @@ public class UserCenterActivity extends BaseNoTitleActivity implements UserCente
     void onChatterClicked() {
         mPresenter.toMyChatter();
     }
-
+/*
     @OnClick(R.id.my_message_layout)
     void onMessageClicked() {
         mPresenter.toMyChat();
-    }
+    }*/
 
     @OnClick(R.id.my_store_layout)
     void onStoreClicked() {
@@ -180,13 +176,13 @@ public class UserCenterActivity extends BaseNoTitleActivity implements UserCente
         // 同事圈
         mChatterNumberTextView.setText(userDetail.getAsk() + getResources().getString(R.string.chatter_num));
         mLevelTextView.setLevel(userDetail.getLevel());
-        int nmsg = userDetail.getNmsg();
+/*        int nmsg = userDetail.getNmsg();
         if (nmsg > 0) {
             mMessageNumberTextView.setVisibility(View.VISIBLE);
             mMessageNumberTextView.setText(nmsg + "");
         } else {
             mMessageNumberTextView.setVisibility(View.GONE);
-        }
+        }*/
         int storeNumber = userDetail.getStore();
         mStoreNumberTextView.setText(storeNumber + getResources().getString(R.string.chatter_num));
 

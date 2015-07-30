@@ -4,6 +4,13 @@ package com.badou.mworking.net;
 import android.text.TextUtils;
 
 import com.badou.mworking.base.AppApplication;
+import com.badou.mworking.domain.ask.AskDeleteUseCase;
+import com.badou.mworking.domain.ask.AskListUseCase;
+import com.badou.mworking.domain.ask.AskPublishUseCase;
+import com.badou.mworking.domain.ask.AskReplyGetUseCase;
+import com.badou.mworking.domain.ask.AskReplyPraiseUseCase;
+import com.badou.mworking.domain.ask.AskReplySendUseCase;
+import com.badou.mworking.domain.ask.AskUseCase;
 import com.badou.mworking.domain.category.CategoryCommentGetUseCase;
 import com.badou.mworking.domain.category.CategoryDetailUseCase;
 import com.badou.mworking.domain.category.CategoryUseCase;
@@ -20,6 +27,7 @@ import com.badou.mworking.domain.chatter.ChatterPublishUseCase;
 import com.badou.mworking.domain.StoreUseCase;
 import com.badou.mworking.domain.category.TaskSignUseCase;
 import com.badou.mworking.domain.chatter.UrlContentUseCase;
+import com.badou.mworking.entity.Ask;
 import com.badou.mworking.entity.chatter.Chatter;
 import com.badou.mworking.entity.chatter.ChatterHotOverall;
 import com.badou.mworking.entity.chatter.ChatterTopic;
@@ -62,7 +70,6 @@ public class RestRepository {
         RestAdapter restApiAdapter = new RestAdapter.Builder()
                 .setEndpoint("http://115.28.138.79/badou")
                 .setLogLevel(RestAdapter.LogLevel.FULL)
-                        //.setConverter(new StringConverter())
                 .build();
         restApi = restApiAdapter.create(RestApi.class);
     }
@@ -245,4 +252,31 @@ public class RestRepository {
         return restApi.getChatterHotList(AppApplication.SYSPARAM, AppApplication.appVersion, uid, pageNum, itemNum);
     }
 
+    public Observable<BaseNetEntity<List<Ask>>> getAskList(AskListUseCase.Body body) {
+        return restApi.getAskList(AppApplication.SYSPARAM, AppApplication.appVersion, body);
+    }
+
+    public Observable<BaseNetEntity<Ask>> getAsk(AskUseCase.Body body) {
+        return restApi.getAsk(AppApplication.SYSPARAM, AppApplication.appVersion, body);
+    }
+
+    public Observable<BaseNetEntity<AskPublishUseCase.Response>> publishAsk(AskPublishUseCase.Body body) {
+        return restApi.publishAsk(AppApplication.SYSPARAM, AppApplication.appVersion, body);
+    }
+
+    public Observable<BaseNetEntity<List<Ask>>> getAskReply(AskReplyGetUseCase.Body body) {
+        return restApi.getAskReply(AppApplication.SYSPARAM, AppApplication.appVersion, body);
+    }
+
+    public Observable<BaseNetEntity> deleteAsk(AskDeleteUseCase.Body body) {
+        return restApi.deleteAsk(AppApplication.SYSPARAM, AppApplication.appVersion, body);
+    }
+
+    public Observable<BaseNetEntity> praiseAskReply(AskReplyPraiseUseCase.Body body) {
+        return restApi.praiseAnswer(AppApplication.SYSPARAM, AppApplication.appVersion, body);
+    }
+
+    public Observable<BaseNetEntity> sendAskReply(AskReplySendUseCase.Body body) {
+        return restApi.replyAsk(AppApplication.SYSPARAM, AppApplication.appVersion, body);
+    }
 }

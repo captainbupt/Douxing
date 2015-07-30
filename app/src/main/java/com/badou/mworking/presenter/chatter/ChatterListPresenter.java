@@ -5,10 +5,15 @@ import android.content.Intent;
 import android.text.TextUtils;
 
 import com.badou.mworking.ChatterDetailActivity;
+import com.badou.mworking.ChatterUserActivity;
+import com.badou.mworking.database.ChatterResManager;
 import com.badou.mworking.domain.chatter.ChatterListUseCase;
 import com.badou.mworking.domain.UseCase;
+import com.badou.mworking.domain.chatter.ChatterPraiseUseCase;
 import com.badou.mworking.entity.chatter.Chatter;
+import com.badou.mworking.entity.user.UserChatterInfo;
 import com.badou.mworking.fragment.ChatterListFragment;
+import com.badou.mworking.net.BaseSubscriber;
 import com.badou.mworking.presenter.ListPresenter;
 import com.badou.mworking.util.GsonUtil;
 import com.badou.mworking.util.SP;
@@ -72,5 +77,27 @@ public class ChatterListPresenter extends ListPresenter<Chatter> {
         // 跳转到单条的Item的页面，并传递数据
         Intent intent = ChatterDetailActivity.getIntent(mContext, data.getQid());
         mFragment.startActivityForResult(intent, REQUEST_DETAIL);
+    }
+
+    public void toTopicList() {
+
+    }
+
+    public void toUserList(Chatter chatter) {
+        if (chatter.getName().equals("神秘的TA")) {
+            return;
+        }
+        mContext.startActivity(ChatterUserActivity.getIntent(mContext, new UserChatterInfo(chatter)));
+    }
+
+    public void praise(final Chatter chatter, final int position) {
+        new ChatterPraiseUseCase(chatter.getQid()).execute(new BaseSubscriber(mContext) {
+            @Override
+            public void onResponseSuccess(Object data) {
+                ChatterResManager.insertItem(mContext, chatter);
+                chatter.increasePraise();
+                mBaseListView.setItem(position, chatter);
+            }
+        });
     }
 }

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.badou.mworking.adapter.CommentAdapter;
@@ -14,6 +15,7 @@ import com.badou.mworking.entity.Store;
 import com.badou.mworking.entity.chatter.Chatter;
 import com.badou.mworking.entity.comment.ChatterComment;
 import com.badou.mworking.entity.comment.Comment;
+import com.badou.mworking.listener.AdapterItemClickListener;
 import com.badou.mworking.presenter.chatter.ChatterDetailPresenter;
 import com.badou.mworking.presenter.ListPresenter;
 import com.badou.mworking.presenter.Presenter;
@@ -42,11 +44,12 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity implements 
     @Bind(R.id.bottom_send_view)
     BottomSendMessageView mBottomSendView;
 
+    ImageView mStoreImageView;
+
     CommentAdapter mReplyAdapter;// 同事圈list
 
     NoneResultView mNoneResultView;
     ChatterItemView mChatterItemView;
-
     ChatterDetailPresenter mPresenter;
 
     public static Intent getIntent(Context context, String qid) {
@@ -88,21 +91,16 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity implements 
      * 功能描述:发送回复TextView设置监听,pullToRefreshScrollView设置下拉刷新监听
      */
     protected void initListener() {
-        mChatterItemView.setOnDeletedListener(new ChatterItemView.OnDeletedListener() {
+        mChatterItemView.setMessageListener(new AdapterItemClickListener(mContext) {
             @Override
-            public void onDeleted() {
-                setResult(RESULT_OK, ListPresenter.getResultIntent(null, true));
-                ChatterDetailActivity.super.finish(); // 避免冲突
+            public void onClick(View v) {
+                mPresenter.toMessage();
             }
-
+        });
+        mChatterItemView.setDeleteListener(new AdapterItemClickListener(mContext) {
             @Override
-            public void onStart() {
-                showProgressDialog(R.string.progress_tips_delete_ing);
-            }
-
-            @Override
-            public void onComplete() {
-                hideProgressDialog();
+            public void onClick(View v) {
+                mPresenter.deleteChatter();
             }
         });
         mContentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -147,10 +145,26 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity implements 
 
     @Override
     public void setData(Chatter chatter) {
-        addStoreImageView(chatter.isStore(), Store.TYPE_STRING_CHATTER, chatter.getQid());
-        mReplyAdapter = new CommentAdapter(mContext, chatter.getQid(), chatter.isDeletable(), mProgressDialog);
+        mStoreImageView = getDefaultImageView(mContext, chatter.isStore() ? R.drawable.button_title_store_checked : R.drawable.button_title_store_unchecked);
+        addTitleRightView(mStoreImageView, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.onStoreClicked();
+            }
+        });
+        mReplyAdapter = new CommentAdapter(mContext, chatter.getQid(), chatter.isDeletable(), new AdapterItemClickListener(mContext) {
+            @Override
+            public void onClick(View v) {
+                mPresenter.deleteChatterReply((int) v.getTag());
+            }
+        });
         mContentListView.setAdapter(mReplyAdapter);
-        mChatterItemView.setData(chatter, false, true);
+        mChatterItemView.setData(chatter, true, 0);
+    }
+
+    @Override
+    public void setStore(boolean isStore) {
+        mStoreImageView.setImageResource(isStore ? R.drawable.button_title_store_checked : R.drawable.button_title_store_unchecked);
     }
 
     @Override
@@ -197,6 +211,7 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity implements 
         mContentListView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         mContentListView.setRefreshing();
         mContentListView.setMode(PullToRefreshBase.Mode.BOTH);
+        showProgressBar();
     }
 
     @Override
@@ -207,6 +222,7 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity implements 
     @Override
     public void refreshComplete() {
         mContentListView.onRefreshComplete();
+        hideProgressBar();
     }
 
     @Override

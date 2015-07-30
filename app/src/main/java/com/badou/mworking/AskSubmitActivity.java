@@ -3,41 +3,52 @@ package com.badou.mworking;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.base.BaseBackActionBarActivity;
-import com.badou.mworking.entity.main.Shuffle;
-import com.badou.mworking.entity.user.UserInfo;
-import com.badou.mworking.net.ServiceProvider;
-import com.badou.mworking.net.volley.VolleyListener;
+import com.badou.mworking.presenter.Presenter;
+import com.badou.mworking.presenter.ask.AskPresenter;
+import com.badou.mworking.presenter.ask.AskSubmitPresenter;
 import com.badou.mworking.util.ImageChooser;
-import com.badou.mworking.util.ToastUtil;
+import com.badou.mworking.view.ask.AskSubmitView;
 import com.badou.mworking.widget.MultiImageEditGridView;
 
-import org.json.JSONObject;
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * 问答提问页面
  */
-public class AskSubmitActivity extends BaseBackActionBarActivity {
+public class AskSubmitActivity extends BaseBackActionBarActivity implements AskSubmitView {
 
-    private EditText mSubjectEditView;
-    private EditText mDescriptionEditView;
-    private MultiImageEditGridView mImageGridView;
-    private TextView mBottomPhotoTextView;
-    private ImageChooser mImageChooser;
+    @Bind(R.id.subject_text_view)
+    EditText mSubjectTextView;
+    @Bind(R.id.content_text_view)
+    EditText mContentTextView;
+    @Bind(R.id.image_grid_view)
+    MultiImageEditGridView mImageGridView;
+    @Bind(R.id.submit_photo_text_view)
+    TextView mSubmitPhotoTextView;
+
+    AskSubmitPresenter mPresenter;
+    ImageChooser mImageChooser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ask_submit);
+        ButterKnife.bind(this);
         setActionbarTitle(getResources().getString(R.string.ask_title_right));
         initView();
-        initListener();
+        mPresenter = (AskSubmitPresenter) super.mPresenter;
+        mPresenter.attachView(this);
+    }
+
+    @Override
+    public Presenter getPresenter() {
+        return new AskSubmitPresenter(mContext);
     }
 
     /**
@@ -47,74 +58,49 @@ public class AskSubmitActivity extends BaseBackActionBarActivity {
         setRightImage(R.drawable.button_title_send, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendWenDaContent();
+                mPresenter.publishAsk(mSubjectTextView.getText().toString(), mContentTextView.getText().toString(), mImageGridView.getImages());
             }
         });
-        mSubjectEditView = (EditText) findViewById(R.id.et_activity_ask_submit_subject);
-        mDescriptionEditView = (EditText) findViewById(R.id.et_activity_ask_submit_description);
-        mImageGridView = (MultiImageEditGridView) findViewById(R.id.miegv_activity_ask_submit);
-        mBottomPhotoTextView = (TextView) findViewById(R.id.tv_activity_ask_submit_photo);
-    }
-
-    private void initListener() {
-        mBottomPhotoTextView.setOnClickListener(new View.OnClickListener() {
+        mSubmitPhotoTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mImageChooser.takeImage(getResources().getString(R.string.add_picture));
+                mPresenter.takeImage();
             }
         });
         mImageGridView.setAddOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mImageChooser.takeImage(getResources().getString(R.string.add_picture));
+                mPresenter.takeImage();
             }
         });
         mImageChooser = new ImageChooser(mContext, true, true, false);
         mImageChooser.setOnImageChosenListener(new ImageChooser.OnImageChosenListener() {
             @Override
             public void onImageChosen(Bitmap bitmap, int type) {
-                mImageGridView.addImage(bitmap);
+                mPresenter.onImageSelected(bitmap);
             }
         });
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
         mImageChooser.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void sendWenDaContent() {
-        String subject = mSubjectEditView.getText().toString();
-        String content = mDescriptionEditView.getText().toString();
-        if (TextUtils.isEmpty(subject) || TextUtils.isEmpty(content)) {
-            ToastUtil.showToast(mContext, R.string.ask_answer_tip_empty);
-            return;
-        } else if (content.replace(" ", "").length() < 5 || subject.replace(" ", "").length() < 5) {
-            ToastUtil.showToast(mContext, R.string.ask_answer_tip_little);
-            return;
-        }
-        Bitmap bitmap = null;
+    @Override
+    public void addImage(Bitmap bitmap) {
+        mImageGridView.setImage(0, bitmap);
+    }
 
-        if (mImageGridView.getImages() != null && mImageGridView.getImages().size() >= 1)
-            bitmap = (Bitmap) mImageGridView.getImages().get(0);
-        // 提交提问内容
-        ServiceProvider.doPublishAsk(mContext, subject, content, bitmap,
-                new VolleyListener(mContext) {
+    @Override
+    public void takeImage() {
+        mImageChooser.takeImage(getResources().getString(R.string.add_picture));
+    }
 
-                    @Override
-                    public void onResponseSuccess(JSONObject response) {
-                        Intent intent = new Intent(mContext, AskActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
-
-                    @Override
-                    public void onCompleted() {
-                        if (!mActivity.isFinishing()) {
-                            mProgressDialog.dismiss();
-                        }
-                    }
-                });
+    @Override
+    protected void onDestroy() {
+        mImageGridView.clear();
+        super.onDestroy();
     }
 }

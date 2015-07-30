@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <EditText
-        android:id="@+id/et_activity_ask_answer_submit_content"
+        android:id="@+id/content_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/offset_small"
@@ -25,10 +25,10 @@
         android:textSize="@dimen/text_size_medium" />
 
     <com.badou.mworking.widget.MultiImageEditGridView
-        android:id="@+id/miegv_activity_ask_answer_submit"
+        android:id="@+id/image_grid_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/et_activity_ask_answer_submit_content"
+        android:layout_below="@id/content_edit_text"
         android:horizontalSpacing="@dimen/offset_small"
         android:paddingBottom="@dimen/offset_small"
         android:paddingLeft="@dimen/offset_medium"
@@ -38,7 +38,7 @@
         myattr:maxImg="1" />
 
     <TextView
-        android:id="@+id/tv_activity_ask_answer_photo"
+        android:id="@+id/photo_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

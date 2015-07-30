@@ -95,33 +95,9 @@ public class CategoryBasePresenter extends Presenter {
     }
 
     public void onStoreClicked() {
-        if (mCategoryDetail == null) {
-            mCategoryBaseView.showToast(R.string.message_wait);
-            return;
-        }
-        if (mCategoryDetail.isStore()) {
-            mCategoryBaseView.showProgressDialog(R.string.progress_tips_delete_store_ing);
-        } else {
-            mCategoryBaseView.showProgressDialog(R.string.progress_tips_store_ing);
-        }
-        if (mStoreUseCase == null)
-            mStoreUseCase = new StoreUseCase(mRid, Store.getStoreStringFromCategory(mCategoryType));
-        mStoreUseCase.setIsAdd(!mCategoryDetail.isStore());
-        mStoreUseCase.execute(new BaseSubscriber<BaseNetEntity>(mContext) {
-            @Override
-            public void onResponseSuccess(BaseNetEntity data) {
-                boolean isStore = !mCategoryDetail.isStore();
-                mCategoryDetail.setStore(isStore);
-                mCategoryBaseView.setStore(isStore);
-                mCategoryBaseView.showToast(isStore ? R.string.store_add_success : R.string.store_cancel_success);
-            }
-
-            @Override
-            public void onCompleted() {
-                super.onCompleted();
-                mCategoryBaseView.hideProgressDialog();
-            }
-        });
+        if(mStoreUseCase == null)
+            mStoreUseCase = new StoreUseCase(mRid,Store.getStoreStringFromCategory(mCategoryType));
+        mStoreUseCase.onStoreClicked(mContext, mCategoryBaseView, mCategoryDetail);
     }
 
     public void onCommentClicked() {

@@ -1,8 +1,6 @@
 package com.badou.mworking.widget;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -11,18 +9,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.badou.mworking.ChatterUserActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.database.ChatterResManager;
-import com.badou.mworking.domain.chatter.ChatterDeleteUseCase;
-import com.badou.mworking.domain.chatter.ChatterPraiseUseCase;
 import com.badou.mworking.entity.chatter.Chatter;
-import com.badou.mworking.entity.user.UserChatterInfo;
 import com.badou.mworking.entity.user.UserInfo;
-import com.badou.mworking.listener.DeleteClickListener;
-import com.badou.mworking.listener.MessageClickListener;
+import com.badou.mworking.listener.AdapterItemClickListener;
 import com.badou.mworking.listener.TopicClickableSpan;
-import com.badou.mworking.net.BaseSubscriber;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.SPHelper;
@@ -67,9 +59,10 @@ public class ChatterItemView extends LinearLayout {
     TextView mDeleteTextView;
 
     Context mContext;
-    OnDeletedListener mOnDeletedListener;
-    PraiseClickListener mPraiseClickListener;
-    HeadClickListener mHeadClickListener;
+    AdapterItemClickListener mDeletedClickListener;
+    AdapterItemClickListener mPraiseClickListener;
+    AdapterItemClickListener mHeadClickListener;
+    AdapterItemClickListener mMessageClickListener;
 
     public ChatterItemView(Context context) {
         super(context);
@@ -86,18 +79,30 @@ public class ChatterItemView extends LinearLayout {
         LayoutInflater mInflater = LayoutInflater.from(context);
         mInflater.inflate(R.layout.view_chatter_item, this, true);
         ButterKnife.bind(this, this);
-        mPraiseClickListener = new PraiseClickListener();
+    }
+
+    public void setDeleteListener(AdapterItemClickListener deletedClickListener) {
+        mDeletedClickListener = deletedClickListener;
+        mDeleteTextView.setOnClickListener(deletedClickListener);
+    }
+
+    public void setPraiseListener(AdapterItemClickListener praiseClickListener) {
+        mPraiseClickListener = praiseClickListener;
         mPraiseImageView.setOnClickListener(mPraiseClickListener);
         mPraiseTextView.setOnClickListener(mPraiseClickListener);
-        mHeadClickListener = new HeadClickListener();
+    }
+
+    public void setHeadListener(AdapterItemClickListener headClickListener) {
+        mHeadClickListener = headClickListener;
         mHeadImageView.setOnClickListener(mHeadClickListener);
     }
 
-    public void setOnDeletedListener(OnDeletedListener onDeletedListener) {
-        this.mOnDeletedListener = onDeletedListener;
+    public void setMessageListener(AdapterItemClickListener messageClickListener) {
+        mMessageClickListener = messageClickListener;
+        mMessageTextView.setOnClickListener(mMessageClickListener);
     }
 
-    public void setData(final Chatter chatter, boolean isHeadClickable, boolean isDetail) {
+    public void setData(final Chatter chatter, boolean isDetail, int position) {
         mNameTextView.setText(chatter.getName());
         String content = chatter.getContent();
         TopicClickableSpan.setClickTopic(mContext, mContentTextView, content, 100);
@@ -150,12 +155,6 @@ public class ChatterItemView extends LinearLayout {
             mLevelTextView.setVisibility(View.VISIBLE);
             mLevelTextView.setLevel(chatter.getLevel());
         }
-        if (isHeadClickable) { // 设置头像点击事件
-            mHeadImageView.setEnabled(true);
-            mHeadClickListener.setChatter(chatter);
-        } else {
-            mHeadImageView.setEnabled(false);
-        }
 
         if (!isDetail) {
             /** 设置点赞数和监听 **/
@@ -168,7 +167,6 @@ public class ChatterItemView extends LinearLayout {
             } else {
                 mPraiseImageView.setImageResource(R.drawable.icon_praise_unchecked);
                 // 设置点赞点击事件
-                mPraiseClickListener.setChatter(chatter);
                 mPraiseImageView.setEnabled(true);
                 mPraiseTextView.setEnabled(true);
             }
@@ -180,15 +178,6 @@ public class ChatterItemView extends LinearLayout {
             mMessageTextView.setVisibility(View.GONE);
             mDeleteTextView.setVisibility(View.GONE);
         } else {
-            mMessageTextView.setOnClickListener(new MessageClickListener(mContext, chatter.getName(), chatter.getWhom(), chatter.getHeadUrl()));
-
-            /***删除按钮**/
-            mDeleteTextView.setOnClickListener(new DeleteClickListener(mContext, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    deleteComment(chatter.getQid());
-                }
-            }));
             mPraiseTextView.setVisibility(View.GONE);
             mPraiseImageView.setVisibility(View.GONE);
             mReplyTextView.setVisibility(View.GONE);
@@ -207,107 +196,18 @@ public class ChatterItemView extends LinearLayout {
                 mDeleteTextView.setVisibility(View.GONE);
             }
         }
-    }
-
-    public interface OnDeletedListener {
-        void onDeleted();
-
-        void onStart();
-
-        void onComplete();
-    }
-
-    /**
-     * 功能描述:删除我的圈中的item
-     */
-    private void deleteComment(final String qid) {
-        if (mOnDeletedListener != null)
-            mOnDeletedListener.onStart();
-        new ChatterDeleteUseCase(qid).execute(new BaseSubscriber(mContext) {
-            @Override
-            public void onResponseSuccess(Object data) {
-                if (mOnDeletedListener != null)
-                    mOnDeletedListener.onDeleted();
-            }
-
-            @Override
-            public void onCompleted() {
-                if (mOnDeletedListener != null)
-                    mOnDeletedListener.onComplete();
-            }
-        });
-    }
-
-    class HeadClickListener implements OnClickListener {
-
-        private Chatter chatter;
-
-        public void setChatter(Chatter chatter) {
-            this.chatter = chatter;
-        }
-
-        @Override
-        public void onClick(View v) {
-            toUserChatter(chatter);
-        }
-    }
-
-    public void toUserChatter(Chatter chatter) {
-        if (chatter.getName().equals("神秘的TA")) {
-            return;
-        }
-        Intent intent = ChatterUserActivity.getIntent(mContext, new UserChatterInfo(chatter));
-        mContext.startActivity(intent);
-    }
-
-    class PraiseClickListener implements OnClickListener {
-
-        private Chatter chatter;
-
-        public void setChatter(Chatter chatter) {
-            this.chatter = chatter;
-        }
-
-        @Override
-        public void onClick(View v) {
-            praise(chatter);
-        }
-    }
-
-    /**
-     * 调用同事圈点赞接口 提交点赞 *
-     */
-    public void praise(final Chatter chatter) {
-        chatter.increasePraise();
-        mPraiseImageView.setImageResource(R.drawable.icon_praise_checked);
-        mReplyTextView.setText(chatter.getPraiseNumber() + "");
-        mPraiseImageView.setEnabled(false);
-        mPraiseTextView.setEnabled(false);
-        new ChatterPraiseUseCase(chatter.getQid()).execute(new BaseSubscriber(mContext) {
-            @Override
-            public void onResponseSuccess(Object data) {
-                ChatterResManager.insertItem(mContext, chatter);
-            }
-
-            @Override
-            public void onErrorCode(int code) {
-                super.onErrorCode(code);
-                praiseFail();
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                super.onError(e);
-                praiseFail();
-            }
-
-            private void praiseFail() {
-                chatter.decreasePraise();
-                mPraiseImageView.setImageResource(R.drawable.icon_praise_unchecked);
-                mReplyTextView.setText(chatter.getPraiseNumber() + "");
-                mPraiseImageView.setEnabled(true);
-                mPraiseTextView.setEnabled(true);
-            }
-        });
+        if (mDeletedClickListener != null)
+            mDeletedClickListener.setPosition(position);
+        mDeleteTextView.setTag(position);
+        if (mPraiseClickListener != null)
+            mPraiseClickListener.setPosition(position);
+        mPraiseTextView.setTag(position);
+        mPraiseImageView.setTag(position);
+        if (mHeadClickListener != null)
+            mHeadClickListener.setPosition(position);
+        mHeadImageView.setTag(position);
+        if (mMessageClickListener != null)
+            mMessageClickListener.setPosition(position);
+        mMessageTextView.setTag(position);
     }
 }

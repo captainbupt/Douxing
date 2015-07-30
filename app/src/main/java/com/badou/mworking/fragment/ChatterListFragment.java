@@ -13,8 +13,9 @@ import com.badou.mworking.R;
 import com.badou.mworking.adapter.ChatterListAdapter;
 import com.badou.mworking.base.BaseFragment;
 import com.badou.mworking.entity.chatter.Chatter;
+import com.badou.mworking.listener.AdapterItemClickListener;
 import com.badou.mworking.presenter.chatter.ChatterListPresenter;
-import com.badou.mworking.view.BaseListView;
+import com.badou.mworking.view.chatter.ChatterListView;
 import com.badou.mworking.widget.NoneResultView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
@@ -29,7 +30,7 @@ import butterknife.ButterKnife;
 /**
  * 功能描述: 同事圈列表页
  */
-public class ChatterListFragment extends BaseFragment implements BaseListView<Chatter> {
+public class ChatterListFragment extends BaseFragment implements ChatterListView {
 
     private static final String KEY_ARGUMENT_TOPIC = "topic";
     private static final String KEY_ARGUMENT_UID = "uid";
@@ -85,7 +86,17 @@ public class ChatterListFragment extends BaseFragment implements BaseListView<Ch
                 mPresenter.onItemClick((Chatter) adapterView.getAdapter().getItem(i), i - 1);
             }
         });
-        mChatterAdapter = new ChatterListAdapter(mContext, true);
+        mChatterAdapter = new ChatterListAdapter(mContext, new AdapterItemClickListener(mContext) {
+            @Override
+            public void onClick(View v) {
+                mPresenter.toUserList(getItem((int) v.getTag()));
+            }
+        }, new AdapterItemClickListener(mContext) {
+            @Override
+            public void onClick(View v) {
+                mPresenter.praise(getItem((int) v.getTag()), (int) v.getTag());
+            }
+        });
         mContentListView.setAdapter(mChatterAdapter);
         mContentListView.setOnRefreshListener(new OnRefreshListener2<ListView>() {
             @Override
