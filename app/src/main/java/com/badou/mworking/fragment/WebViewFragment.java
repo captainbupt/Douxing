@@ -52,7 +52,10 @@ public class WebViewFragment extends BaseFragment {
     public static BaseFragment getFragment(String url) {
         WebViewFragment webViewFragment = new WebViewFragment();
         Bundle bundle = new Bundle();
-        bundle.putString(KEY_URL, url);
+        if (url.startsWith("http://") || url.startsWith("https://"))
+            bundle.putString(KEY_URL, url);
+        else
+            bundle.putString(KEY_URL, "http://" + url);
         webViewFragment.setArguments(bundle);
         return webViewFragment;
     }

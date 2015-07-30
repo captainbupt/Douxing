@@ -286,7 +286,7 @@ public class MainPresenter extends Presenter {
                     intent.setDataAndType(uri, "audio/*");
                 mContext.startActivity(intent);
             } else {
-                Intent intent = BackWebActivity.getIntent(mContext, TextUtils.isEmpty(mLogoUrl) ? "invalid" : mLogoUrl, mainBanner.getUrl());
+                Intent intent = BackWebActivity.getIntentBanner(mContext, mainBanner.getUrl(), TextUtils.isEmpty(mLogoUrl) ? "invalid" : mLogoUrl);
                 mContext.startActivity(intent);
             }
         }

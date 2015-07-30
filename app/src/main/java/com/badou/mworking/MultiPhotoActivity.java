@@ -132,12 +132,6 @@ public class MultiPhotoActivity extends BaseNoTitleActivity implements MultiPhot
 
     @Override
     protected void onDestroy() {
-        // 导致SwipeBack无效
-        if (mBitmaps != null) {
-            for (int ii = 0; ii < mBitmaps.length; ii++) {
-                BitmapUtil.recycleBitmap(mBitmaps[ii]);
-            }
-        }
         super.onDestroy();
     }
 

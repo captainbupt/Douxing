@@ -31,7 +31,7 @@ import org.json.JSONObject;
 /**
  * 功能描述: 课件评分Dialog
  */
-public class RatingDilog extends Dialog {
+public class RatingDialog extends Dialog {
 
     private Context mContext;
     private RatingBar mScoreRatingBar;  // 评分选择器
@@ -43,28 +43,27 @@ public class RatingDilog extends Dialog {
     private LinearLayout mNotRatedLayout;  //评分布局
     private LinearLayout mRatedLayout;//已经评过分了布局
 
-    private String mRid;     //资源id
     private int mCurrentScore = 0;
 
-    public OnRatingCompletedListener mOnRatingCompletedListener;
+    public OnRatingConfirmListener mOnRatingCompletedListener;
 
-    public interface OnRatingCompletedListener {
-        void onRatingCompleted(int coursewareScore);
+    public interface OnRatingConfirmListener {
+        void onRatingConfirm(int rating);
     }
 
-    public RatingDilog(Context context, String rid, int currentScore,
-                       OnRatingCompletedListener listener) {
+    public RatingDialog(Context context, OnRatingConfirmListener listener) {
         super(context);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.dialog_rating);
         this.mOnRatingCompletedListener = listener;
         this.mContext = context;
-        this.mRid = rid;
-        this.mCurrentScore = currentScore;
         initView();
         initListener();
     }
 
+    public void setCurrentScore(int score) {
+        this.mCurrentScore = score;
+    }
 
     /**
      * 功能描述: 布局初始化
@@ -97,7 +96,7 @@ public class RatingDilog extends Dialog {
         mConfirmTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                uploadRating();
+                mOnRatingCompletedListener.onRatingConfirm((int) mScoreRatingBar.getRating());
             }
         });
         mCancelTextView.setOnClickListener(new View.OnClickListener() {
@@ -160,21 +159,4 @@ public class RatingDilog extends Dialog {
                 break;
         }
     }
-
-    /**
-     * 功能描述: 提交课件评分
-     */
-    private void uploadRating() {
-        final int rating = (int) mScoreRatingBar.getRating();
-        ServiceProvider.coursewareScoring(mContext, mRid, rating + "", new VolleyListener(mContext) {
-
-            @Override
-            public void onResponseSuccess(JSONObject jsonObject) {
-                if (mOnRatingCompletedListener != null)
-                    mOnRatingCompletedListener.onRatingCompleted(rating);
-                dismiss();
-            }
-        });
-    }
-
 }
