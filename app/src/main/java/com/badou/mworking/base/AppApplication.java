@@ -51,9 +51,6 @@ public class AppApplication extends Application {
         // Bitmap初始化必须在MyVolley之前，否则会丢出异常
         BitmapLruCache.init(getApplicationContext());
         MyVolley.init(getApplicationContext());
-        //开启异常捕获
-/*        CrashHandler crashHandler = CrashHandler.getInstance();
-        crashHandler.init(this);*/
         //获取程序版本
         try {
             appVersion = getVersionName();

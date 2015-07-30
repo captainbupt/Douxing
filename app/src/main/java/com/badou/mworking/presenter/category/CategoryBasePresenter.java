@@ -9,16 +9,16 @@ import com.badou.mworking.CommentActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.domain.category.CategoryDetailUseCase;
 import com.badou.mworking.domain.StoreUseCase;
+import com.badou.mworking.domain.category.CategoryRateUseCase;
 import com.badou.mworking.entity.Store;
 import com.badou.mworking.entity.category.CategoryDetail;
 import com.badou.mworking.entity.user.UserInfo;
-import com.badou.mworking.net.BaseNetEntity;
 import com.badou.mworking.net.BaseSubscriber;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.presenter.Presenter;
 import com.badou.mworking.view.BaseView;
 import com.badou.mworking.view.category.CategoryBaseView;
-import com.badou.mworking.widget.RatingDilog;
+import com.badou.mworking.widget.RatingDialog;
 
 public class CategoryBasePresenter extends Presenter {
 
@@ -30,6 +30,7 @@ public class CategoryBasePresenter extends Presenter {
     int mCategoryType;
     CategoryDetail mCategoryDetail;
     StoreUseCase mStoreUseCase;
+    RatingDialog mRatingDialog;
     boolean isPaused;
 
     public CategoryBasePresenter(Context context, int type, String rid) {
@@ -95,8 +96,8 @@ public class CategoryBasePresenter extends Presenter {
     }
 
     public void onStoreClicked() {
-        if(mStoreUseCase == null)
-            mStoreUseCase = new StoreUseCase(mRid,Store.getStoreStringFromCategory(mCategoryType));
+        if (mStoreUseCase == null)
+            mStoreUseCase = new StoreUseCase(mRid, Store.getStoreStringFromCategory(mCategoryType));
         mStoreUseCase.onStoreClicked(mContext, mCategoryBaseView, mCategoryDetail);
     }
 
@@ -109,15 +110,41 @@ public class CategoryBasePresenter extends Presenter {
             mCategoryBaseView.showToast(R.string.message_wait);
             return;
         }
-        new RatingDilog(mContext, mRid, mCategoryDetail.getRating(), new RatingDilog.OnRatingCompletedListener() {
+        if (mRatingDialog == null) {
+            mRatingDialog = new RatingDialog(mContext, new RatingDialog.OnRatingConfirmListener() {
+
+                @Override
+                public void onRatingConfirm(int rating) {
+                    uploadRating(rating);
+                    mCategoryDetail.setRating(rating);
+                    mCategoryDetail.setEcnt(mCategoryDetail.getEcnt() + 1);
+                    mCategoryBaseView.setRatingNumber(mCategoryDetail.getEcnt());
+                }
+            });
+        }
+        mRatingDialog.setCurrentScore(mCategoryDetail.getRating());
+        mRatingDialog.show();
+    }
+
+    /**
+     * 功能描述: 提交课件评分
+     */
+    private void uploadRating(int rating) {
+        mCategoryBaseView.hideProgressDialog();
+        CategoryRateUseCase categoryRateUseCase = new CategoryRateUseCase(mRid);
+        categoryRateUseCase.execute(new BaseSubscriber(mContext) {
+            @Override
+            public void onResponseSuccess(Object data) {
+                if (mRatingDialog != null) {
+                    mRatingDialog.dismiss();
+                }
+            }
 
             @Override
-            public void onRatingCompleted(int score) {
-                mCategoryDetail.setRating(score);
-                mCategoryDetail.setEcnt(mCategoryDetail.getEcnt() + 1);
-                mCategoryBaseView.setRatingNumber(mCategoryDetail.getEcnt());
+            public void onCompleted() {
+                mCategoryBaseView.hideProgressDialog();
             }
-        }).show();
+        });
     }
 
     public CategoryDetail getData() {

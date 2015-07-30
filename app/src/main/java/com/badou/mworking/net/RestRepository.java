@@ -106,6 +106,10 @@ public class RestRepository {
         return restApi.getCategoryComment(AppApplication.SYSPARAM, AppApplication.appVersion, body);
     }
 
+    public Observable<BaseNetEntity> rateCategory(String uid, String rid, int credit) {
+        return restApi.rateCategory(AppApplication.SYSPARAM, AppApplication.appVersion, uid, rid, credit);
+    }
+
     public Observable<BaseNetEntity> sendCategoryComment(String uid, String rid, String whom, String comment) {
         if (TextUtils.isEmpty(whom)) {
             return restApi.sendCategoryComment(AppApplication.SYSPARAM, AppApplication.appVersion, uid, rid, new TypedString(comment));

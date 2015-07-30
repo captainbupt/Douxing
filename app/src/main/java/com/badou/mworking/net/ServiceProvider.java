@@ -175,26 +175,6 @@ public class ServiceProvider {
         client.getHttpClient().getParams().setParameter(ClientPNames.ALLOW_CIRCULAR_REDIRECTS, true);
     }
 
-    public static void doSubmitError(Context context, String log, String appversion,
-                                     VolleyListener volleyListener) {
-        MyVolley.getRequestQueue().add(
-                new MyJsonRequest(Request.Method.POST, Net.getRunHost()
-                        + Net.SUBMIT_ERROR(appversion), log, volleyListener,
-                        volleyListener));
-        MyVolley.getRequestQueue().start();
-    }
-
-    /**
-     * 功能描述: 课件打分
-     */
-    public static void coursewareScoring(Context context, String rid, String credit, VolleyListener volleyListener) {
-        String uid = UserInfo.getUserInfo().getUid();
-        MyVolley.getRequestQueue().add(
-                new JsonObjectRequest(Request.Method.GET, Net.getRunHost() + Net.COURSEWARE_SCORING(uid, rid, credit),
-                        null, volleyListener, volleyListener));
-        MyVolley.getRequestQueue().start();
-    }
-
     public static void deleteStore(Context context, String sid, String type, VolleyListener volleyListener) {
         String uid = UserInfo.getUserInfo().getUid();
         JSONObject json = new JSONObject();
