@@ -18,9 +18,6 @@ import com.badou.mworking.widget.TextViewFixTouchConsume;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created by Administrator on 2015/6/11.
- */
 public class TopicClickableSpan extends ClickableSpan {
     private String mTopic;
     private Context mContext;
@@ -35,7 +32,6 @@ public class TopicClickableSpan extends ClickableSpan {
         System.out.println(mTopic);
         Intent intent = new Intent(mContext, ChatterTopicActivity.class);
         intent.putExtra(ChatterTopicActivity.KEY_TOPIC, mTopic);
-        intent.putExtra(BaseActionBarActivity.KEY_TITLE, "#" + mTopic + "#");
         mContext.startActivity(intent);
         ((Activity) mContext).overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
         if (mContext.getClass().equals(ChatterTopicActivity.class)) {

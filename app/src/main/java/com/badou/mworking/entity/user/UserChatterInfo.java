@@ -1,18 +1,20 @@
 package com.badou.mworking.entity.user;
 
-import com.badou.mworking.entity.Chatter;
+import com.badou.mworking.entity.chatter.Chatter;
 
 import org.json.JSONObject;
 
 import java.io.Serializable;
 
 public class UserChatterInfo implements Serializable {
-    public String name;//员工号 (登录号? 用户名)
-    public String department;
-    public String headUrl;//头像地址
-    public int level;
+    String name;//员工号 (登录号? 用户名)
+    String department;
+    String headUrl;//头像地址
+    int level;
+    String uid;
 
-    public UserChatterInfo(UserDetail userDetail) {
+    public UserChatterInfo(String uid, UserDetail userDetail) {
+        this.uid = uid;
         name = userDetail.name;
         department = userDetail.dpt;
         headUrl = userDetail.headimg;
@@ -20,16 +22,30 @@ public class UserChatterInfo implements Serializable {
     }
 
     public UserChatterInfo(Chatter chatter) {
-        this.name = chatter.name;
-        this.department = chatter.department;
-        this.headUrl = chatter.headUrl;
-        this.level = chatter.level;
+        this.uid = chatter.getUid();
+        this.name = chatter.getName();
+        this.department = chatter.getDepartment();
+        this.headUrl = chatter.getHeadUrl();
+        this.level = chatter.getLevel();
     }
 
-    public UserChatterInfo(JSONObject jsonObject) {
-        this.department = jsonObject.optString("dpt");
-        this.level = jsonObject.optInt("circle_lv");
-        this.name = jsonObject.optString("name");
-        this.headUrl = jsonObject.optString("imgurl");
+    public String getName() {
+        return name;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public String getHeadUrl() {
+        return headUrl;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public String getUid() {
+        return uid;
     }
 }

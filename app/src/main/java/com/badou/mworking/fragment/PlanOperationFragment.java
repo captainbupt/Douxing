@@ -10,12 +10,9 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.badou.mworking.R;
-import com.badou.mworking.adapter.EntryOperationAdapter;
 import com.badou.mworking.adapter.PlanOperationAdapter;
 import com.badou.mworking.base.BaseFragment;
-import com.badou.mworking.entity.category.EntryOperation;
 import com.badou.mworking.entity.category.PlanOperation;
-import com.badou.mworking.presenter.EntryOperationPresenter;
 import com.badou.mworking.presenter.PlanOperationPresenter;
 import com.badou.mworking.util.DensityUtil;
 import com.badou.mworking.view.PlanOperationView;

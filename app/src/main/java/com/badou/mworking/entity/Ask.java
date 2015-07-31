@@ -1,5 +1,7 @@
 package com.badou.mworking.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.json.JSONObject;
 
 import java.io.Serializable;
@@ -7,46 +9,86 @@ import java.io.Serializable;
 /**
  * 问答实体类
  */
-public class Ask implements Serializable {
+public class Ask implements Serializable, StoreItem {
 
-    public final static String WENDACACHE = "wendaCache";
+    @SerializedName("aid")
+    String aid;
+    @SerializedName("eid")
+    String userName;       // 姓名
+    @SerializedName("count")
+    String count;  //回答或者点赞人数
+    @SerializedName("create_ts")
+    long createTime;     //创建时间
+    @SerializedName("content")
+    String content; //内容
+    @SerializedName("imgurl")
+    String userHeadUrl;  //头像地址
+    @SerializedName("picurl")
+    String contentImageUrl; //问题 图片地址
+    @SerializedName("whom")
+    String whom;    //私信聊天whom
+    @SerializedName("circle_lv")
+    int userLevel; //等级
+    @SerializedName("delop")
+    int isDeletable; // 是否有删除权限
+    @SerializedName("subject")
+    String subject; // 标题
+    @SerializedName("store")
+    boolean isStore;
 
-    public String aid;
-    public String userName;       // 姓名
-    public int count;  //回答或者点赞人数
-    public Long createTime;     //创建时间
-    public String content; //内容
-    public String userHeadUrl;  //头像地址
-    public String contentImageUrl; //问题 图片地址
-    public String whom;    //私信聊天whom
-    public int userLevel; //等级
-    public boolean isDeletable; // 是否有删除权限
-    public String subject; // 标题
-    public boolean isStore;
+    public String getAid() {
+        return aid;
+    }
 
-    /**
-     * 功能描述: json解析
-     *
-     * @param jsonObject
-     */
-    public Ask(JSONObject jsonObject) {
-        super();
-        System.out.println(jsonObject);
-        this.content = jsonObject.optString("content");
-        this.count = jsonObject.optInt("count");
-        this.contentImageUrl = jsonObject.optString("picurl");
-        this.aid = jsonObject.optString("aid");
-        this.createTime = jsonObject
-                .optLong("create_ts") * 1000;
-        this.userName = jsonObject
-                .optString("eid");
-        this.userLevel = jsonObject
-                .optInt("circle_lv");
-        this.userHeadUrl = jsonObject
-                .optString("imgurl");
-        this.whom = jsonObject.optString("whom");
-        this.isDeletable = jsonObject.optInt("delop", 0) == 1;
-        this.subject = jsonObject.optString("subject");
-        this.isStore = jsonObject.optBoolean("store");
+    public String getUserName() {
+        return userName;
+    }
+
+    public int getCount() {
+        return Integer.parseInt(count);
+    }
+
+    public long getCreateTime() {
+        return createTime * 1000l;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public String getUserHeadUrl() {
+        return userHeadUrl;
+    }
+
+    public String getContentImageUrl() {
+        return contentImageUrl;
+    }
+
+    public String getWhom() {
+        return whom;
+    }
+
+    public int getUserLevel() {
+        return userLevel;
+    }
+
+    public boolean isDeletable() {
+        return isDeletable == 1;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public boolean isStore() {
+        return isStore;
+    }
+
+    public void setStore(boolean isStore) {
+        this.isStore = isStore;
+    }
+
+    public void increaseCount() {
+        count = Integer.parseInt(count) + 1 + "";
     }
 }

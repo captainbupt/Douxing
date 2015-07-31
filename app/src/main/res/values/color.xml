@@ -3,7 +3,7 @@
 
     <!-- 8-27 -->
     <!-- 程序页面背景蓝色 -->
-    <color name="color_bg_grey">#ebebeb</color>
+    <color name="color_bg_grey">#fff4f4f4</color>
     <color name="color_bg_transparent_black">#88000000</color>
     <color name="color_bg_blue">#e7f2f7</color>
     <!-- 背景蓝色 -->
@@ -19,14 +19,14 @@
     <!-- 分割线的颜色 -->
     <color name="color_layout_bg">@color/color_bg_grey</color>
     <color name="color_border">@color/color_grey</color>
-    <color name="color_border_grey">#dddddd</color>
+    <color name="color_border_grey">#cccccc</color>
 
     <color name="transparent">#00000000</color>
     <color name="color_white">#ffffffff</color>
     <color name="color_black">#ff000000</color>
     <color name="color_red">#DD523f</color>
     <color name="color_grey">#ffa5a5a5</color>
-    <color name="color_light_grey">#fff4f4f4</color>
+    <color name="color_light_grey">#ececec</color>
 
     <!-- activity base -->
     <color name="color_title_bar_text">@color/color_text_blue</color>

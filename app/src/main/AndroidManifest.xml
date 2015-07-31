@@ -123,6 +123,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ChatterSubmitActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
@@ -177,7 +178,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name="com.badou.mworking.PhotoActivity"
+            android:name=".MultiPhotoActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.badou.mworking.UserCenterActivity"

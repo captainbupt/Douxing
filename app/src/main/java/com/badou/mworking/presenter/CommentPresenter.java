@@ -1,39 +1,23 @@
 package com.badou.mworking.presenter;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.text.TextUtils;
 
-import com.badou.mworking.R;
-import com.badou.mworking.domain.CategoryCommentGetUseCase;
-import com.badou.mworking.domain.CategoryCommentSendUseCase;
-import com.badou.mworking.domain.UseCase;
 import com.badou.mworking.entity.comment.CategoryComment;
 import com.badou.mworking.entity.comment.Comment;
 import com.badou.mworking.entity.comment.CommentOverall;
-import com.badou.mworking.net.BaseNetEntity;
-import com.badou.mworking.net.BaseSubscriber;
 import com.badou.mworking.view.BaseView;
 import com.badou.mworking.view.CommentView;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
-import java.util.List;
+public abstract class CommentPresenter extends ListPresenter<Comment> {
 
-public class CommentPresenter extends ListPresenter<Comment> {
+    protected CommentView mCommentView;
 
-    CommentView mCommentView;
-    CategoryCommentGetUseCase mCommentGetUseCase;
-    CategoryCommentSendUseCase mCommentSendUseCase;
-
-    String mRid;
-    String mWhom = null;
+    protected String mWhom = null;
     int mTotalCount = 0;
 
-
-    public CommentPresenter(Context context, String rid) {
+    public CommentPresenter(Context context) {
         super(context);
-        this.mRid = rid;
     }
 
     @Override
@@ -43,22 +27,8 @@ public class CommentPresenter extends ListPresenter<Comment> {
     }
 
     @Override
-    protected Type getType() {
-        return new TypeToken<List<Comment>>() {
-        }.getType();
-    }
-
-    @Override
     protected String getCacheKey() {
         return null;
-    }
-
-    @Override
-    protected UseCase getRefreshUseCase(int pageNum) {
-        if (mCommentGetUseCase == null)
-            mCommentGetUseCase = new CategoryCommentGetUseCase(mRid);
-        mCommentGetUseCase.setPageNum(pageNum);
-        return mCommentGetUseCase;
     }
 
     @Override
@@ -90,23 +60,7 @@ public class CommentPresenter extends ListPresenter<Comment> {
         return false;
     }
 
-    public void submitComment(String comment) {
-        mCommentView.showProgressDialog(R.string.action_comment_update_ing);
-        if (mCommentSendUseCase == null)
-            mCommentSendUseCase = new CategoryCommentSendUseCase(mRid);
-        mCommentSendUseCase.setData(comment, mWhom);
-        mCommentSendUseCase.execute(new BaseSubscriber<BaseNetEntity>(mContext) {
-            @Override
-            public void onResponseSuccess(BaseNetEntity data) {
-                mCommentView.startRefreshing();
-            }
-
-            @Override
-            public void onCompleted() {
-                mCommentView.hideProgressDialog();
-            }
-        });
-    }
+    public abstract void submitComment(String comment);
 
     // 将评论数返回
     public int getCommentCount() {

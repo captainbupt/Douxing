@@ -13,9 +13,6 @@ import org.json.JSONObject;
 
 import cn.jpush.android.api.JPushInterface;
 
-/**
- * Created by Administrator on 2015/6/15.
- */
 public class MessageCenter {
 
     public static final String TYPE_NOTICE = "notice";
@@ -26,6 +23,7 @@ public class MessageCenter {
     public static final String TYPE_CHATTER = "post";
     public static final String TYPE_ASK = "ask";
     public static final String TYPE_CHAT = "chat";
+    public static final String TYPE_ENTRY = "entry";
 
     public int id;
     public long ts;
@@ -70,6 +68,8 @@ public class MessageCenter {
             return Category.CATEGORY_EXAM;
         if (type.equals(TYPE_SHELF))
             return Category.CATEGORY_SHELF;
+        if (type.equals(TYPE_ENTRY))
+            return Category.CATEGORY_ENTRY;
         return -1;
     }
 }

@@ -11,8 +11,10 @@ import com.badou.mworking.net.ResponseParameters;
 import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.SP;
 import com.badou.mworking.util.SPHelper;
+import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.google.gson.internal.LinkedTreeMap;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONObject;
@@ -180,6 +182,7 @@ public abstract class Category implements Serializable {
     }
 
     public static String getCategoryName(Context context, int type) {
+        LinkedTreeMap map = new LinkedTreeMap();
         Shuffle shuffle = UserInfo.getUserInfo().getShuffle();
         if (type >= 0 && type < CATEGORY_KEY_ICONS.length) {
             return shuffle.getMainIcon(context, CATEGORY_KEY_ICONS[type]).getName();

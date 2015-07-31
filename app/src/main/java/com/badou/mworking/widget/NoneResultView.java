@@ -20,15 +20,24 @@ public class NoneResultView extends LinearLayout {
     private ImageView mImageView;
     private TextView mTextView;
 
+    public NoneResultView(Context context) {
+        super(context);
+        initialize(context);
+    }
+
     public NoneResultView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        initialize(context);
+        initAttr(context, attrs);
+    }
+
+    private void initialize(Context context) {
         mContext = context;
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.view_none_result, this, true);
         mImageView = (ImageView) findViewById(R.id.iv_view_none_result);
         mTextView = (TextView) findViewById(R.id.tv_view_none_result);
-        initAttr(context, attrs);
     }
 
     public void initAttr(Context context, AttributeSet attrs) {

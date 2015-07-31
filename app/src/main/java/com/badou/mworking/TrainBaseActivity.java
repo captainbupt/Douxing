@@ -13,10 +13,8 @@ import com.badou.mworking.fragment.PDFViewFragment;
 import com.badou.mworking.fragment.TrainMusicFragment;
 import com.badou.mworking.fragment.TrainVideoFragment;
 import com.badou.mworking.fragment.WebViewFragment;
-import com.badou.mworking.presenter.CategoryBasePresenter;
-import com.badou.mworking.presenter.ListPresenter;
+import com.badou.mworking.presenter.category.CategoryBasePresenter;
 import com.badou.mworking.util.Constant;
-import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.BottomRatingAndCommentView;
 
 import butterknife.Bind;
@@ -149,7 +147,6 @@ public class TrainBaseActivity extends CategoryBaseActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        mPresenter.pause();
         super.onSaveInstanceState(outState);
     }
 }

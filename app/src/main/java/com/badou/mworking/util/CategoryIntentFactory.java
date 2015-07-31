@@ -10,17 +10,9 @@ import com.badou.mworking.PlanActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.TaskSignActivity;
 import com.badou.mworking.TrainBaseActivity;
-import com.badou.mworking.domain.MarkReadUseCase;
+import com.badou.mworking.domain.category.MarkReadUseCase;
 import com.badou.mworking.entity.category.Category;
-import com.badou.mworking.entity.category.Exam;
-import com.badou.mworking.entity.category.Notice;
-import com.badou.mworking.entity.category.Plan;
-import com.badou.mworking.entity.category.Task;
-import com.badou.mworking.entity.category.Train;
 import com.badou.mworking.net.BaseSubscriber;
-import com.badou.mworking.net.ServiceProvider;
-
-import java.io.File;
 
 public class CategoryIntentFactory {
 

@@ -1,278 +1,297 @@
 package com.badou.mworking;
 
-import android.content.DialogInterface;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.badou.mworking.adapter.AskAnswerAdapter;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.entity.Ask;
 import com.badou.mworking.entity.Store;
-import com.badou.mworking.listener.DeleteClickListener;
-import com.badou.mworking.listener.FullImageListener;
-import com.badou.mworking.listener.MessageClickListener;
-import com.badou.mworking.net.Net;
-import com.badou.mworking.net.ServiceProvider;
+import com.badou.mworking.listener.AdapterItemClickListener;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
-import com.badou.mworking.net.volley.VolleyListener;
-import com.badou.mworking.util.Constant;
+import com.badou.mworking.presenter.Presenter;
+import com.badou.mworking.presenter.ask.AskDetailPresenter;
+import com.badou.mworking.util.DensityUtil;
 import com.badou.mworking.util.TimeTransfer;
-import com.badou.mworking.util.ToastUtil;
-import com.badou.mworking.widget.NoScrollListView;
+import com.badou.mworking.view.ask.AskDetailView;
 import com.badou.mworking.widget.NoneResultView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * 问答详情页面
  */
-public class AskDetailActivity extends BaseBackActionBarActivity {
+public class AskDetailActivity extends BaseBackActionBarActivity implements AskDetailView {
 
-    public static final String KEY_ASK = "ask";
+    private static final String KEY_ASK = "ask";
 
-    public static final int REQUEST_REPLY = 11;
+    AskAnswerAdapter mAnswerAdapter;
 
-    public static final String RESULT_KEY_DELETE = "delete";
-    public static final String RESULT_KEY_COUNT = "count";
-    public static final String RESULT_KEY_STORE = "store";
+    PullToRefreshListView mContentListView;
+    LinearLayout mBottomReplyLayout;  //回复
 
-    Intent mResultIntent;
+    NoneResultView mNoneResultView;
+    AskDetailPresenter mPresenter;
+    @Bind(R.id.subject_text_view)
+    TextView mSubjectTextView;
+    @Bind(R.id.time_text_view)
+    TextView mTimeTextView;
+    @Bind(R.id.content_text_view)
+    TextView mContentTextView;
+    @Bind(R.id.content_image_view)
+    ImageView mContentImageView;
+    @Bind(R.id.head_image_view)
+    ImageView mHeadImageView;
+    @Bind(R.id.name_text_view)
+    TextView mNameTextView;
+    @Bind(R.id.message_text_view)
+    TextView mMessageTextView;
+    @Bind(R.id.delete_text_view)
+    TextView mDeleteTextView;
+    ImageView mStoreImageView;
 
-    private Ask mAsk;
-
-    private AskAnswerAdapter mAnswerAdapter;
-
-    private TextView mSubjectTextView;
-    private TextView mDateTextView;
-    private TextView mContentTextView;
-    private ImageView mContentImageView;// title显示的图片
-    private ImageView mHeadImageView;
-    private TextView mNameTextView;
-    private TextView mMessageTextView;
-    private TextView mDeleteTextView;
-    private NoScrollListView mAnswerListView;
-    private LinearLayout mBottomReplyLayout;  //回复
-
-    private PullToRefreshScrollView pullToRefreshScrollView;
-    private NoneResultView mNoneResultView;
-
-    private int beginIndex = 1;
+    public static Intent getIntent(Context context, String aid) {
+        Intent intent = new Intent(context, AskDetailActivity.class);
+        intent.putExtra(KEY_ASK, aid);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setActionbarTitle("问答详情");
-        mAsk = (Ask) mReceivedIntent.getSerializableExtra(KEY_ASK);
+        setActionbarTitle(R.string.ask_title_detail);
         setContentView(R.layout.activity_ask_detail);
-        mResultIntent = new Intent();
         initView();
-        initListener();
-        initData();
-        // ScollView必须在Activity加载完界面后才能调用setRefreshing
-        // 不然会导致无法滑动的bug
-        // 性能较差的手机可能会出bug，只能通过其他方式进行刷新
-        pullToRefreshScrollView.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                pullToRefreshScrollView.setRefreshing();
-            }
-        }, 700);
+        mPresenter = (AskDetailPresenter) super.mPresenter;
+        mPresenter.attachView(this);
     }
 
     @Override
-    protected void onStoreChanged(boolean isStore) {
-        mAsk.isStore = isStore;
+    public Presenter getPresenter() {
+        if (!mReceivedIntent.hasExtra(KEY_ASK))
+            finish();
+        return new AskDetailPresenter(mContext, mReceivedIntent.getStringExtra(KEY_ASK));
     }
 
     /**
      * 初始化
      */
     private void initView() {
-        mSubjectTextView = (TextView) findViewById(R.id.tv_activity_ask_detail_subject);
-        mDateTextView = (TextView) findViewById(R.id.tv_activity_ask_detail_time);
-        mContentTextView = (TextView) findViewById(R.id.tv_activity_ask_detail_content);
-        mNameTextView = (TextView) findViewById(R.id.tv_activity_ask_detail_name);
-        mMessageTextView = (TextView) findViewById(R.id.tv_activity_ask_detail_message);
-        mDeleteTextView = (TextView) findViewById(R.id.tv_activity_ask_detail_delete);
-        mHeadImageView = (ImageView) findViewById(R.id.iv_activity_ask_detail_user_head);
-        mContentImageView = (ImageView) findViewById(R.id.iv_activity_ask_detail_content);
-        // 自定义LinearLayout
-        mAnswerListView = (NoScrollListView) findViewById(R.id.nslv_activity_ask_detail_answer);
-        mBottomReplyLayout = (LinearLayout) findViewById(R.id.ll_activity_ask_detail_bottom_comment);
-        mNoneResultView = (NoneResultView) findViewById(R.id.nrv_activity_ask_detail_none);
+        mContentListView = (PullToRefreshListView) findViewById(R.id.content_list_view);
+        mBottomReplyLayout = (LinearLayout) findViewById(R.id.reply_layout);
+
+        mNoneResultView = new NoneResultView(mContext);
         mNoneResultView.setContent(-1, R.string.none_result_reply);
-    }
+        mNoneResultView.setGravity(Gravity.CENTER_HORIZONTAL);
+        mNoneResultView.setPadding(0, DensityUtil.getInstance().getOffsetXlarge(), 0, DensityUtil.getInstance().getOffsetXlarge());
+        mContentListView.getRefreshableView().addFooterView(mNoneResultView, null, false);
 
-    /**
-     * 功能描述:发送回复TextView设置监听,pullToRefreshScrollView设置下拉刷新监听
-     */
-    private void initListener() {
+        mContentListView.getRefreshableView().addHeaderView(getHeaderView(mContentListView.getRefreshableView()), null, false);
 
-        // 点击图片放大显示
-        mContentImageView.setOnClickListener(new FullImageListener(mContext, mAsk.contentImageUrl));
-
-        pullToRefreshScrollView = (PullToRefreshScrollView) findViewById(R.id.ptrsv_activity_ask_detail);
-        pullToRefreshScrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ScrollView>() {
+        mContentListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
-            public void onPullDownToRefresh(PullToRefreshBase<ScrollView> refreshView) {
-                beginIndex = 1;
-                updateListView(beginIndex);
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+                mPresenter.refresh();
             }
 
             @Override
-            public void onPullUpToRefresh(PullToRefreshBase<ScrollView> refreshView) {
-                updateListView(beginIndex);
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+                mPresenter.loadMore();
             }
         });
 
         mBottomReplyLayout.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext, AskAnswerSubmitActivity.class);
-                intent.putExtra(AskAnswerSubmitActivity.KEY_AID, mAsk.aid);
-                startActivityForResult(intent, REQUEST_REPLY);
+                mPresenter.submitReply();
+            }
+        });
+    }
+
+    /**
+     * 功能描述:发送回复TextView设置监听,pullToRefreshScrollView设置下拉刷新监听
+     */
+    private View getHeaderView(ViewGroup parentView) {
+        View view = LayoutInflater.from(mContext).inflate(R.layout.layout_ask_detail_header, parentView, false);
+        ButterKnife.bind(this, view);
+        return view;
+    }
+
+    @Override
+    public void setData(Ask ask) {
+        mStoreImageView = getDefaultImageView(mContext, ask.isStore() ? R.drawable.button_title_store_checked : R.drawable.button_title_store_unchecked);
+        addTitleRightView(mStoreImageView, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.onStoreClicked();
+            }
+        });
+        ImageViewLoader.setSquareImageViewResource(mContentImageView, R.drawable.icon_image_default, ask.getContentImageUrl(), getResources().getDimensionPixelSize(R.dimen.icon_size_xlarge));
+        mAnswerAdapter = new AskAnswerAdapter(AskDetailActivity.this, ask.getAid(), ask.getCount(), new AdapterItemClickListener(mContext) {
+            @Override
+            public void onClick(View v) {
+                mPresenter.copy(getItem((int) v.getTag()));
+            }
+        }, new AdapterItemClickListener(mContext) {
+            @Override
+            public void onClick(View v) {
+                mPresenter.praise(getItem((int) v.getTag()), (int) v.getTag());
+            }
+        }, new AdapterItemClickListener(mContext) {
+            @Override
+            public void onClick(View v) {
+                mPresenter.showFullImage(getItem((int) v.getTag()).getContentImageUrl());
+            }
+        });
+        mContentListView.setAdapter(mAnswerAdapter);
+
+        mSubjectTextView.setText(ask.getSubject());
+        mContentTextView.setText(ask.getContent());
+        mTimeTextView.append(TimeTransfer.long2StringDetailDate(mContext, ask.getCreateTime()));
+        mNameTextView.setText(ask.getUserName());
+
+        ImageViewLoader.setCircleImageViewResource(mHeadImageView, ask.getUserHeadUrl(), getResources().getDimensionPixelSize(R.dimen.icon_head_size_small));
+
+        // 点击图片放大显示
+        mContentImageView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.showAskFullImage();
             }
         });
 
-        mDeleteTextView.setOnClickListener(new DeleteClickListener(mContext, new DialogInterface.OnClickListener() {
+        mDeleteTextView.setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                deleteAsk();
+            public void onClick(View v) {
+                mPresenter.deleteAsk();
             }
-        }));
+        });
 
-        mMessageTextView.setOnClickListener(new MessageClickListener(mContext, mAsk.userName, mAsk.whom, mAsk.userHeadUrl));
-    }
+        mMessageTextView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.toMessage();
+            }
+        });
 
-    private void initData() {
-        addStoreImageView(mAsk.isStore, Store.TYPE_STRING_ASK, mAsk.aid);
-        ImageViewLoader.setSquareImageViewResource(mContentImageView, R.drawable.icon_image_default, mAsk.contentImageUrl, getResources().getDimensionPixelSize(R.dimen.icon_size_xlarge));
-        mAnswerAdapter = new AskAnswerAdapter(AskDetailActivity.this, mAsk.aid, mAsk.count);
-        mAnswerListView.setAdapter(mAnswerAdapter);
-
-        mSubjectTextView.setText(mAsk.subject);
-        mContentTextView.setText(mAsk.content);
-        mDateTextView.append(TimeTransfer.long2StringDetailDate(mContext, mAsk.createTime));
-        mNameTextView.setText(mAsk.userName);
-
-        ImageViewLoader.setCircleImageViewResource(mHeadImageView, mAsk.userHeadUrl, getResources().getDimensionPixelSize(R.dimen.icon_head_size_small));
-
-        if (!TextUtils.isEmpty(mAsk.contentImageUrl))
-            ImageViewLoader.setSquareImageViewResource(mContentImageView, R.drawable.icon_image_default, mAsk.contentImageUrl, getResources().getDimensionPixelSize(R.dimen.icon_size_xlarge));
+        if (!TextUtils.isEmpty(ask.getContentImageUrl()))
+            ImageViewLoader.setSquareImageViewResource(mContentImageView, R.drawable.icon_image_default, ask.getContentImageUrl(), getResources().getDimensionPixelSize(R.dimen.icon_size_xlarge));
         else
             mContentImageView.setVisibility(View.GONE);
-        if (mAsk.userName.equals("我")) {
+        if (ask.getUserName().equals("我")) {
             mMessageTextView.setVisibility(View.GONE);
         }
-        if (mAsk.isDeletable) {
+        if (ask.isDeletable()) {
             mDeleteTextView.setVisibility(View.VISIBLE);
         } else {
             mDeleteTextView.setVisibility(View.GONE);
         }
     }
 
-    /**
-     * 功能描述:删除我的圈中的item
-     */
-    private void deleteAsk() {
-        mProgressDialog.show();
-        ServiceProvider.deleteAsk(AskDetailActivity.this, mAsk.aid, new VolleyListener(AskDetailActivity.this) {
-
-            @Override
-            public void onResponseSuccess(JSONObject response) {
-                mResultIntent.putExtra(RESULT_KEY_DELETE, true);
-                finish();
-            }
-
-            @Override
-            public void onCompleted() {
-                if (!mActivity.isFinishing()) {
-                    mProgressDialog.dismiss();
-                }
-            }
-        });
+    @Override
+    public void setReplyCount(int count) {
+        mAnswerAdapter.setReplyCount(count);
     }
 
-
-    /**
-     * 功能描述:获取回答列表
-     */
-    private void updateListView(final int beginNum) {
-        // 获取最新内容
-        ServiceProvider.updateAnswerList(mContext, beginNum, Constant.LIST_ITEM_NUM, mAsk.aid, new VolleyListener(AskDetailActivity.this) {
-
-            @Override
-            public void onResponseSuccess(JSONObject response) {
-                List<Object> tempAsk = new ArrayList<>();
-                JSONArray jsonArray = response.optJSONArray(Net.DATA);
-                if (jsonArray == null) {
-                    return;
-                }
-                int length = jsonArray.length();
-                if (length == 0) {
-                    if (beginIndex == 1) {
-                        mAnswerAdapter.setList(null);
-                        mNoneResultView.setVisibility(View.VISIBLE);
-                    } else {
-                        mNoneResultView.setVisibility(View.GONE);
-                        ToastUtil.showToast(AskDetailActivity.this, "没有更多了");
-                    }
-                    return;
-                }
-                mNoneResultView.setVisibility(View.GONE);
-                for (int i = 0; i < length; i++) {
-                    JSONObject jsonObject = jsonArray.optJSONObject(i);
-                    tempAsk.add(new Ask(jsonObject));
-                }
-                if (beginIndex == 1) {
-                    mAnswerAdapter.setList(tempAsk);
-                } else {
-                    mAnswerAdapter.addList(tempAsk);
-                }
-                beginIndex++;
-            }
-
-            @Override
-            public void onCompleted() {
-                if (!mActivity.isFinishing()) {
-                    mProgressDialog.dismiss();
-                }
-                pullToRefreshScrollView.onRefreshComplete();
-            }
-
-        });
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == REQUEST_REPLY) {
-            mAsk.count++;
-            mProgressDialog.show();
-            beginIndex = 1;
-            mAnswerAdapter.setReplyCount(mAsk.count);
-            updateListView(1);
-            mResultIntent.putExtra(RESULT_KEY_COUNT, mAsk.count);
-        }
+        mPresenter.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
     public void finish() {
-        mResultIntent.putExtra(RESULT_KEY_STORE, mAsk.isStore);
-        setResult(RESULT_OK, mResultIntent);
+        setResult(RESULT_OK, mPresenter.getResult());
         super.finish();
+    }
+
+    @Override
+    public void showNoneResult() {
+        mNoneResultView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideNoneResult() {
+        mNoneResultView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void disablePullUp() {
+        mContentListView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
+    }
+
+    @Override
+    public void enablePullUp() {
+        mContentListView.setMode(PullToRefreshBase.Mode.BOTH);
+    }
+
+    @Override
+    public void startRefreshing() {
+        mContentListView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
+        mContentListView.setRefreshing();
+        mContentListView.setMode(PullToRefreshBase.Mode.BOTH);
+        showProgressBar();
+    }
+
+    @Override
+    public boolean isRefreshing() {
+        return mContentListView.isRefreshing();
+    }
+
+    @Override
+    public void refreshComplete() {
+        mContentListView.onRefreshComplete();
+        hideProgressBar();
+    }
+
+    @Override
+    public void setData(List<Ask> data) {
+        mAnswerAdapter.setList(data);
+    }
+
+    @Override
+    public void addData(List<Ask> data) {
+        mAnswerAdapter.addList(data);
+    }
+
+    @Override
+    public int getDataCount() {
+        return mAnswerAdapter.getRelyCount();
+    }
+
+    @Override
+    public void setItem(int index, Ask item) {
+        mAnswerAdapter.setItem(index, item);
+    }
+
+    @Override
+    public Ask getItem(int index) {
+        return mAnswerAdapter.getItem(index);
+    }
+
+    @Override
+    public void removeItem(int index) {
+        mAnswerAdapter.remove(index);
+    }
+
+    @Override
+    public void setStore(boolean isStore) {
+        mStoreImageView.setImageResource(isStore ? R.drawable.button_title_store_checked : R.drawable.button_title_store_unchecked);
     }
 }

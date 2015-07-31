@@ -4,43 +4,45 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.database.AskResManager;
+import com.badou.mworking.domain.ask.AskReplyPraiseUseCase;
 import com.badou.mworking.entity.Ask;
-import com.badou.mworking.listener.CopyClickListener;
-import com.badou.mworking.listener.FullImageListener;
-import com.badou.mworking.net.ServiceProvider;
+import com.badou.mworking.listener.AdapterItemClickListener;
+import com.badou.mworking.net.BaseSubscriber;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
-import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.TimeTransfer;
-import com.badou.mworking.widget.WaitProgressDialog;
-
-import org.json.JSONObject;
 
 /**
  * 问答详情页面
  */
-public class AskAnswerAdapter extends MyBaseAdapter {
+public class AskAnswerAdapter extends MyBaseAdapter<Ask> {
 
-    private WaitProgressDialog mProgressDialog;
     private String mAid;
     private int mReplyCount;
+    AdapterItemClickListener mCopyListener;
+    AdapterItemClickListener mPraiseListener;
+    AdapterItemClickListener mFullImageListener;
 
-    public AskAnswerAdapter(Context context, String aid, int count) {
+    public AskAnswerAdapter(Context context, String aid, int count, AdapterItemClickListener copyListener, AdapterItemClickListener praiseListener, AdapterItemClickListener fullImageListener) {
         super(context);
         this.mAid = aid;
         this.mReplyCount = count;
-        mProgressDialog = new WaitProgressDialog(context, R.string.progress_tips_praise_ing);
+        mCopyListener = copyListener;
+        mPraiseListener = praiseListener;
+        mFullImageListener = fullImageListener;
     }
 
     public void setReplyCount(int count) {
         this.mReplyCount = count;
+    }
+
+    public int getRelyCount() {
+        return mReplyCount;
     }
 
     @Override
@@ -49,41 +51,37 @@ public class AskAnswerAdapter extends MyBaseAdapter {
         if (convertView != null) {
             holder = (ViewHolder) convertView.getTag();
         } else {
-            convertView = mInflater.inflate(R.layout.adapter_ask_answer,
-                    parent, false);
+            convertView = mInflater.inflate(R.layout.adapter_ask_answer, parent, false);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
+            holder.praiseTextView.setOnClickListener(mPraiseListener);
+            holder.praiseImageView.setOnClickListener(mPraiseListener);
+            holder.contentImageView.setOnClickListener(mFullImageListener);
+            convertView.setOnClickListener(mCopyListener);
         }
         final Ask ask = (Ask) getItem(position);
-        holder.nameTextView.setText(ask.userName);
-        holder.contentTextView.setText(ask.content);
-        holder.dateTextView.setText(TimeTransfer.long2StringDetailDate(mContext, ask.createTime));
+        holder.nameTextView.setText(ask.getUserName());
+        holder.contentTextView.setText(ask.getContent());
+        holder.dateTextView.setText(TimeTransfer.long2StringDetailDate(mContext, ask.getCreateTime()));
 
-        ImageViewLoader.setCircleImageViewResource(holder.headImageView, ask.userHeadUrl, mContext.getResources().getDimensionPixelSize(R.dimen.icon_head_size_middle));
-        ImageViewLoader.setSquareImageViewResourceOnWifi(mContext, holder.contentImageView, R.drawable.icon_image_default, ask.contentImageUrl, mContext.getResources().getDimensionPixelSize(R.dimen.icon_size_xlarge));
-        holder.contentImageView.setOnClickListener(new FullImageListener(mContext, ask.contentImageUrl));
+        ImageViewLoader.setCircleImageViewResource(holder.headImageView, ask.getUserHeadUrl(), mContext.getResources().getDimensionPixelSize(R.dimen.icon_head_size_middle));
+        ImageViewLoader.setSquareImageViewResourceOnWifi(mContext, holder.contentImageView, R.drawable.icon_image_default, ask.getContentImageUrl(), mContext.getResources().getDimensionPixelSize(R.dimen.icon_size_xlarge));
 
         /** 设置点赞的check **/
-        if (AskResManager.isSelect(mContext, mAid, ask.createTime / 1000 + "")) {
-            holder.praiseCheckBox.setChecked(true);
-            holder.praiseCheckBox.setEnabled(false);
+        if (AskResManager.isSelect(mAid, ask.getCreateTime())) {
+            holder.praiseImageView.setImageResource(R.drawable.icon_praise_checked);
+            holder.praiseImageView.setEnabled(false);
         } else {
-            holder.praiseCheckBox.setChecked(false);
-            holder.praiseCheckBox.setEnabled(true);
+            holder.praiseImageView.setImageResource(R.drawable.icon_praise_unchecked);
+            holder.praiseImageView.setEnabled(true);
         }
-        holder.praiseTextView.setText(ask.count + "");
+        holder.praiseTextView.setText(ask.getCount() + "");
 
-        holder.praiseCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-            @Override
-            public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-                praise(position);
-            }
-        });
-        holder.copyClickListener.content = ask.content;
         final int floorNum = mReplyCount - position;
         holder.floorTextView.setText(floorNum + mContext.getResources().getString(R.string.floor_num));
-
+        holder.praiseTextView.setTag(position);
+        holder.praiseImageView.setTag(position);
+        holder.contentImageView.setTag(position);
         return convertView;
     }
 
@@ -96,46 +94,21 @@ public class AskAnswerAdapter extends MyBaseAdapter {
         TextView dateTextView;
         TextView floorTextView;
         TextView praiseTextView;    //点赞数量
-        CheckBox praiseCheckBox;   //点赞checkbox
-        CopyClickListener copyClickListener;
+        ImageView praiseImageView;   //点赞checkbox
 
         public ViewHolder(View view) {
-            contentImageView = (ImageView) view.findViewById(R.id.iv_adapter_ask_answer);
+            contentImageView = (ImageView) view.findViewById(R.id.content_image_view);
             headImageView = (ImageView) view
-                    .findViewById(R.id.iv_adapter_ask_answer_head);
+                    .findViewById(R.id.head_image_view);
             nameTextView = (TextView) view
-                    .findViewById(R.id.tv_adapter_ask_answer_name);
+                    .findViewById(R.id.name_text_view);
             contentTextView = (TextView) view
-                    .findViewById(R.id.tv_adapter_ask_answer_content);
+                    .findViewById(R.id.content_text_view);
             dateTextView = (TextView) view
                     .findViewById(R.id.tv_adapter_ask_answer_date);
             floorTextView = (TextView) view.findViewById(R.id.tv_adapter_ask_answer_floor);
             praiseTextView = (TextView) view.findViewById(R.id.tv_adapter_ask_answer_praise_count);
-            praiseCheckBox = (CheckBox) view.findViewById(R.id.cb_adapter_ask_answer_praise);
-            copyClickListener = new CopyClickListener(mContext);
-            view.setOnClickListener(copyClickListener);
+            praiseImageView = (ImageView) view.findViewById(R.id.iv_adapter_ask_answer_praise);
         }
-    }
-
-    /**
-     * 回复点赞
-     */
-    private void praise(int position) {
-        mProgressDialog.show();
-        final Ask ask = (Ask) getItem(position);
-        ServiceProvider.pollAnswer(mContext, mAid, ask.createTime / 1000 + "", new VolleyListener(mContext) {
-
-            @Override
-            public void onResponseSuccess(JSONObject response) {
-                ask.count++;
-                AskResManager.insertItem(mContext, mAid, ask.createTime);
-                AskAnswerAdapter.this.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCompleted() {
-                mProgressDialog.dismiss();
-            }
-        });
     }
 }

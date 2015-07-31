@@ -4,8 +4,8 @@ import android.content.Context;
 
 import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.CategoryDetail;
+import com.badou.mworking.presenter.category.CategoryBasePresenter;
 import com.badou.mworking.view.BaseView;
-import com.badou.mworking.view.EntryView;
 import com.badou.mworking.view.PlanView;
 
 /**

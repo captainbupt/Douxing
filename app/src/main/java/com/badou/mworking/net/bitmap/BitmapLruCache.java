@@ -25,7 +25,8 @@ import com.android.volley.toolbox.ImageLoader.ImageCache;
 
 public class BitmapLruCache extends LruCache<String, Bitmap> implements ImageCache {
 
-    private final String SUFFIX = "Circle";
+    private final String SUFFIX_CIRCLE = "Circle"; // 存储圆形图片
+    private final String SUFFIX_ORIGIN = "origin"; // 存储原图（正常情况下都会进行压缩）
 
     public BitmapLruCache(int maxSize) {
         super(maxSize);
@@ -48,14 +49,29 @@ public class BitmapLruCache extends LruCache<String, Bitmap> implements ImageCac
         if (url == null || "".equals(url)) {
             return null;
         }
-        return get(url + SUFFIX);
+        return get(url + SUFFIX_CIRCLE);
     }
 
     public void putCircleBitmap(String url, Bitmap bitmap) {
         if (bitmap == null || bitmap.isRecycled()) {
-            remove(url + SUFFIX);
+            remove(url + SUFFIX_CIRCLE);
         } else {
-            put(url + SUFFIX, bitmap);
+            put(url + SUFFIX_CIRCLE, bitmap);
+        }
+    }
+
+    public Bitmap getOriginBitmap(String url) {
+        if (url == null || "".equals(url)) {
+            return null;
+        }
+        return get(url + SUFFIX_ORIGIN);
+    }
+
+    public void putOriginBitmap(String url, Bitmap bitmap) {
+        if (bitmap == null || bitmap.isRecycled()) {
+            remove(url + SUFFIX_ORIGIN);
+        } else {
+            put(url + SUFFIX_ORIGIN, bitmap);
         }
     }
 
@@ -69,7 +85,7 @@ public class BitmapLruCache extends LruCache<String, Bitmap> implements ImageCac
     }
 
     public void removeCircle(String url) {
-        remove(url + SUFFIX);
+        remove(url + SUFFIX_CIRCLE);
     }
 
     public static void init(Context context) {

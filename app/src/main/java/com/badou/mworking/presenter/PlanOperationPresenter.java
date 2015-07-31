@@ -4,15 +4,14 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 
-import com.badou.mworking.domain.CategoryDetailUseCase;
 import com.badou.mworking.domain.UseCase;
+import com.badou.mworking.domain.category.CategoryDetailUseCase;
 import com.badou.mworking.entity.category.CategoryDetail;
 import com.badou.mworking.entity.category.EntryOperation;
 import com.badou.mworking.entity.category.PlanOperation;
 import com.badou.mworking.net.BaseSubscriber;
 import com.badou.mworking.util.CategoryIntentFactory;
 import com.badou.mworking.view.BaseView;
-import com.badou.mworking.view.EntryOperationView;
 import com.badou.mworking.view.PlanOperationView;
 import com.google.gson.reflect.TypeToken;
 

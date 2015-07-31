@@ -25,6 +25,8 @@ import com.badou.mworking.view.MainGridView;
 import com.badou.mworking.widget.BannerGallery;
 import com.badou.mworking.widget.LineGridView;
 import com.badou.mworking.widget.TopFadeScrollView;
+import com.easemob.chat.EMMessage;
+import com.easemob.chatuidemo.activity.ChatActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +42,8 @@ import butterknife.OnItemSelected;
  */
 public class MainGridActivity extends BaseNoTitleActivity implements MainGridView {
 
-    public static final String KEY_MESSAGE_CENTER = "messagecenter";
+    private static final String KEY_MESSAGE_CENTER = "messagecenter";
+    private static final String KEY_EMCHAT = "emchat";
 
     @Bind(R.id.user_center_image_view)
     ImageView mUserCenterImageView;
@@ -75,7 +78,22 @@ public class MainGridActivity extends BaseNoTitleActivity implements MainGridVie
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(KEY_MESSAGE_CENTER, toMessageCenter);
-        return new Intent(context, MainGridActivity.class);
+        return intent;
+    }
+
+    public static Intent getIntent(Context context, String id, boolean isSingle) {
+        //设置点击通知栏跳转事件
+        Intent intent = new Intent(context, MainGridActivity.class);
+        intent.putExtra(KEY_EMCHAT, true);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        if (isSingle) { // 单聊信息
+            intent.putExtra("userId", id);
+            intent.putExtra("chatType", ChatActivity.CHATTYPE_SINGLE);
+        } else { // 群聊信息
+            intent.putExtra("groupId", id);
+            intent.putExtra("chatType", ChatActivity.CHATTYPE_GROUP);
+        }
+        return intent;
     }
 
     @Override
@@ -83,6 +101,9 @@ public class MainGridActivity extends BaseNoTitleActivity implements MainGridVie
         super.onCreate(savedInstanceState);
         if (mReceivedIntent.getBooleanExtra(MainGridActivity.KEY_MESSAGE_CENTER, false)) {
             mContext.startActivity(new Intent(mContext, MessageCenterActivity.class));
+        } else if (mReceivedIntent.getBooleanExtra(MainGridActivity.KEY_EMCHAT, false)) {
+            mReceivedIntent.setClass(mContext, ChatActivity.class);
+            mContext.startActivity(mReceivedIntent);
         }
         setContentView(R.layout.activity_main_grid);
         ButterKnife.bind(this);

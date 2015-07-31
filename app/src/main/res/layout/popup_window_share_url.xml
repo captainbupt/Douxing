@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/cancel_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="-8dp"
+        android:padding="@dimen/offset_less"
+        android:src="@drawable/button_chatter_share_cancel" />
+
+    <RelativeLayout
+        android:id="@+id/bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_blue"
+        android:paddingBottom="@dimen/offset_less"
+        android:paddingLeft="@dimen/offset_lless"
+        android:paddingRight="@dimen/offset_lless"
+        android:paddingTop="@dimen/offset_less">
+
+        <TextView
+            android:id="@+id/share_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="@dimen/offset_less"
+            android:background="@drawable/background_border_radius_small_white"
+            android:paddingBottom="@dimen/offset_micro"
+            android:paddingLeft="@dimen/offset_less"
+            android:paddingRight="@dimen/offset_less"
+            android:paddingTop="@dimen/offset_micro"
+            android:text="@string/chatter_title_right"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/text_size_medium" />
+
+        <TextView
+            android:id="@+id/tip_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/chatter_tip_share_url"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/text_size_less" />
+
+        <TextView
+            android:id="@+id/url_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tip_text_view"
+            android:layout_toLeftOf="@id/share_text_view"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/text_size_less" />
+    </RelativeLayout>
+
+</LinearLayout>

@@ -95,10 +95,15 @@
     <orderEntry type="library" exported="" name="okio-1.0.0" level="project" />
     <orderEntry type="library" exported="" name="stickylistheaders-2.7.0" level="project" />
     <orderEntry type="library" exported="" name="retrofit-1.9.0" level="project" />
+<<<<<<< HEAD
     <orderEntry type="library" exported="" name="locSDK_3.1" level="project" />
     <orderEntry type="library" exported="" name="android-async-http-1.4.7" level="project" />
     <orderEntry type="library" exported="" name="umeng-analytics-v5.5.3" level="project" />
     <orderEntry type="library" exported="" name="gson-2.3.1" level="project" />
+=======
+    <orderEntry type="library" exported="" name="library-1.2.3" level="project" />
+    <orderEntry type="library" exported="" name="okhttp-2.0.0" level="project" />
+>>>>>>> b1bdbc451037569ae25517b5bb57df1e37002b04
     <orderEntry type="library" exported="" name="rxjava-1.0.12" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-21.0.3" level="project" />
     <orderEntry type="library" exported="" name="baidumapapi_v3_3_0" level="project" />

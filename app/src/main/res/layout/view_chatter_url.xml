@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/color_light_grey"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="@dimen/offset_small">
+
+    <ImageView
+        android:id="@+id/content_image_view"
+        android:layout_width="@dimen/icon_size_small"
+        android:layout_height="@dimen/icon_size_small"
+        android:src="@drawable/icon_chatter_url_default" />
+
+    <com.badou.mworking.widget.EllipsizeTextView
+        android:id="@+id/content_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/offset_small"
+        android:textColor="@color/color_text_black"
+        android:textSize="@dimen/text_size_medium" />
+</LinearLayout>
