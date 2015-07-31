@@ -11,35 +11,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.easemob.chatuidemo.domain;
-
-import android.content.Context;
+package com.badou.mworking.entity.emchat;
 
 import com.badou.mworking.database.EMChatResManager;
-import com.badou.mworking.entity.emchat.Department;
-import com.badou.mworking.entity.emchat.Role;
 import com.easemob.chat.EMContact;
 
-import android.content.Intent;
 import android.text.TextUtils;
 
-import com.badou.mworking.database.EMChatResManager;
-import com.easemob.applib.model.DefaultHXSDKModel;
-import com.easemob.chat.EMContact;
 import com.easemob.util.HanziToPinyin;
+import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class User extends EMContact {
-    private int unreadMsgCount;
-    private String header;
-    private String avatar;
-    private long department;
-    private int role;
-    private List<HanziToPinyin.Token> spell;
-    private String tag;
+    @SerializedName("name")
+    String nick;
+    @SerializedName("employee_id")
+    String username;
+    @SerializedName("imgurl")
+    String avatar;
+    @SerializedName("department")
+    String department;
+    @SerializedName("role")
+    String role;
+
+    transient int unreadMsgCount;
+    transient String header;
+    transient List<HanziToPinyin.Token> spell;
+    transient String tag;
 
     public User() {
     }
@@ -48,8 +48,8 @@ public class User extends EMContact {
         this.username = username;
         this.nick = TextUtils.isEmpty(nick) ? username : nick;
         this.avatar = avatar;
-        this.department = department;
-        this.role = role;
+        this.department = department + "";
+        this.role = role + "";
         setSpell(nick);
     }
 
@@ -78,6 +78,10 @@ public class User extends EMContact {
     }
 
     public void setSpell(String username) {
+        if (TextUtils.isEmpty(username)) {
+            header = "#";
+            return;
+        }
         this.spell = HanziToPinyin.getInstance().get(username);
         this.header = String.valueOf(spell.get(0).target.charAt(0)).toUpperCase();
         if (header.charAt(0) < 'A' || header.charAt(0) > 'Z') {
@@ -89,12 +93,14 @@ public class User extends EMContact {
         this.header = header;
     }
 
-    public int getUnreadMsgCount() {
-        return unreadMsgCount;
+    @Override
+    public String getNick() {
+        return nick;
     }
 
-    public void setUnreadMsgCount(int unreadMsgCount) {
-        this.unreadMsgCount = unreadMsgCount;
+    @Override
+    public String getUsername() {
+        return username;
     }
 
     @Override
@@ -103,7 +109,7 @@ public class User extends EMContact {
     }
 
     public Department getDepartment() {
-        return EMChatResManager.getDepartment(department);
+        return EMChatResManager.getDepartment(getDepartmentId());
     }
 
     public List<HanziToPinyin.Token> getSpell() {
@@ -111,11 +117,11 @@ public class User extends EMContact {
     }
 
     public long getDepartmentId() {
-        return department;
+        return Long.parseLong(department);
     }
 
     public int getRole() {
-        return role;
+        return Integer.parseInt(role);
     }
 
     public String getAvatar() {

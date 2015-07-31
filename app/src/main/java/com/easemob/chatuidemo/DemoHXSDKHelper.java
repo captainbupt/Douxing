@@ -25,10 +25,9 @@ import android.widget.Toast;
 
 import com.badou.mworking.MainGridActivity;
 import com.badou.mworking.R;
+import com.badou.mworking.domain.emchat.EmchatRegisterUseCase;
 import com.badou.mworking.entity.emchat.EMChatEntity;
-import com.badou.mworking.net.Net;
-import com.badou.mworking.net.ServiceProvider;
-import com.badou.mworking.net.volley.VolleyListener;
+import com.badou.mworking.net.BaseSubscriber;
 import com.badou.mworking.util.ToastUtil;
 import com.easemob.EMCallBack;
 import com.easemob.EMChatRoomChangeListener;
@@ -45,15 +44,12 @@ import com.easemob.chat.EMGroupManager;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.EMMessage.ChatType;
 import com.easemob.chat.EMMessage.Type;
-import com.easemob.chatuidemo.activity.ChatActivity;
 import com.easemob.chatuidemo.activity.MainActivity;
-import com.easemob.chatuidemo.domain.User;
+import com.badou.mworking.entity.emchat.User;
 import com.easemob.chatuidemo.receiver.CallReceiver;
 import com.easemob.chatuidemo.utils.CommonUtils;
 import com.easemob.util.EMLog;
 import com.easemob.util.EasyUtils;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -440,10 +436,10 @@ public class DemoHXSDKHelper extends HXSDKHelper {
 
     public void loginAnonymous(final Activity activity, final EMCallBack emCallBack) {
         final String imei = ((TelephonyManager) activity.getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
-        ServiceProvider.registerAccount(activity, imei, new VolleyListener(activity) {
+        new EmchatRegisterUseCase(imei).execute(new BaseSubscriber<EmchatRegisterUseCase.Response>(activity) {
             @Override
-            public void onResponseSuccess(JSONObject response) {
-                final String password = response.optJSONObject(Net.DATA).optString("hxpwd");
+            public void onResponseSuccess(EmchatRegisterUseCase.Response data) {
+                final String password = data.getPwd();
                 new Thread() {
                     @Override
                     public void run() {
@@ -451,11 +447,6 @@ public class DemoHXSDKHelper extends HXSDKHelper {
                         loginEMChat(activity, imei, password, emCallBack);
                     }
                 }.start();
-            }
-
-            @Override
-            public void onErrorCode(int code) {
-                super.onErrorCode(code);
             }
         });
     }

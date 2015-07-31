@@ -5,8 +5,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -18,11 +16,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.badou.mworking.base.BaseBackActionBarActivity;
-import com.badou.mworking.net.ServiceProvider;
-import com.badou.mworking.net.volley.VolleyListener;
+import com.badou.mworking.domain.VerificationMessageUseCase;
+import com.badou.mworking.net.BaseSubscriber;
 import com.badou.mworking.util.ToastUtil;
-
-import org.json.JSONObject;
 
 /**
  * 功能描述: 忘记密码
@@ -234,21 +230,26 @@ public class ForgetPasswordPhoneActivity extends BaseBackActionBarActivity {
 
     private void getVerificationCode(final String phoneNum) {
         // 发起网络请求
-        ServiceProvider.getVerificationCode(mContext, phoneNum,
-                new VolleyListener(mContext) {
-                    @Override
-                    public void onResponseSuccess(JSONObject response) {
+        new VerificationMessageUseCase(phoneNum).execute(new BaseSubscriber(mContext) {
+            @Override
+            public void onResponseSuccess(Object data) {
 
-                    }
+            }
 
-                    @Override
-                    public void onErrorCode(int code) {
-                        recLen = 0;
-                        setButtonEnable(mGetCodeTextView);
-                        // 响应错误
-                        ToastUtil.showToast(mContext, R.string.error_service);
-                    }
-                });
+            @Override
+            public void onErrorCode(int code) {
+                recLen = 0;
+                setButtonEnable(mGetCodeTextView);
+                ToastUtil.showToast(mContext, R.string.error_service);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                recLen = 0;
+                setButtonEnable(mGetCodeTextView);
+                ToastUtil.showToast(mContext, R.string.error_service);
+            }
+        });
     }
 
     public void goVerification() {
@@ -259,5 +260,11 @@ public class ForgetPasswordPhoneActivity extends BaseBackActionBarActivity {
                 .toString());
         startActivity(intent);
         this.finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        handler.removeCallbacks(runnable);
+        super.onDestroy();
     }
 }

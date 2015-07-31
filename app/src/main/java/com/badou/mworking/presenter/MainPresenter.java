@@ -1,10 +1,8 @@
 package com.badou.mworking.presenter;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
@@ -19,11 +17,8 @@ import com.badou.mworking.AskActivity;
 import com.badou.mworking.BackWebActivity;
 import com.badou.mworking.ChatterActivity;
 import com.badou.mworking.LoginActivity;
-import com.badou.mworking.MainGridActivity;
-import com.badou.mworking.MessageCenterActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.UserCenterActivity;
-import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.CategoryListActivity;
 import com.badou.mworking.database.MessageCenterResManager;
 import com.badou.mworking.domain.CheckUpdateUseCase;
@@ -32,14 +27,10 @@ import com.badou.mworking.entity.emchat.EMChatEntity;
 import com.badou.mworking.entity.main.MainBanner;
 import com.badou.mworking.entity.main.MainData;
 import com.badou.mworking.entity.main.MainIcon;
-import com.badou.mworking.entity.main.NewVersion;
 import com.badou.mworking.entity.main.Shuffle;
 import com.badou.mworking.entity.user.UserInfo;
-import com.badou.mworking.fragment.MainSearchFragment;
 import com.badou.mworking.net.BaseSubscriber;
 import com.badou.mworking.net.Net;
-import com.badou.mworking.net.RequestParameters;
-import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.util.AlarmUtil;
 import com.badou.mworking.util.AppManager;
 import com.badou.mworking.util.DialogUtil;
@@ -55,11 +46,7 @@ import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMGroupManager;
 import com.easemob.chatuidemo.DemoHXSDKHelper;
 import com.easemob.chatuidemo.activity.MainActivity;
-import com.loopj.android.http.RangeFileAsyncHttpResponseHandler;
 
-import org.apache.http.Header;
-
-import java.io.File;
 import java.util.List;
 
 import cn.jpush.android.api.JPushInterface;

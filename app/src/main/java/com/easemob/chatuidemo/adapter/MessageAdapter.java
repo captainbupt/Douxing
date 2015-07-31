@@ -15,7 +15,6 @@ package com.easemob.chatuidemo.adapter;
 
 import java.io.File;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Timer;
@@ -31,10 +30,6 @@ import android.net.Uri;
 import android.os.Handler;
 import android.text.Spannable;
 import android.text.TextUtils;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
-import android.text.TextUtils;
-import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,13 +45,9 @@ import android.widget.TextView;
 import android.widget.TextView.BufferType;
 import android.widget.Toast;
 
-import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.entity.emchat.EMChatEntity;
 import com.easemob.EMCallBack;
 import com.easemob.EMError;
-import com.easemob.EMCallBack;
-import com.easemob.EMError;
-import com.easemob.chat.EMChat;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMMessage;
@@ -79,7 +70,7 @@ import com.easemob.chatuidemo.activity.ContextMenu;
 import com.easemob.chatuidemo.activity.ShowBigImage;
 import com.easemob.chatuidemo.activity.ShowNormalFileActivity;
 import com.easemob.chatuidemo.activity.ShowVideoActivity;
-import com.easemob.chatuidemo.domain.User;
+import com.badou.mworking.entity.emchat.User;
 import com.easemob.chatuidemo.task.LoadImageTask;
 import com.easemob.chatuidemo.task.LoadVideoImageTask;
 import com.easemob.chatuidemo.utils.DateUtils;
@@ -91,7 +82,6 @@ import com.easemob.util.EMLog;
 import com.easemob.util.FileUtils;
 import com.easemob.util.LatLng;
 import com.easemob.util.TextFormater;
-import com.umeng.analytics.MobclickAgent;
 
 public class MessageAdapter extends BaseAdapter {
 

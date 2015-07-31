@@ -2,18 +2,20 @@ package com.badou.mworking.entity.emchat;
 
 import android.text.TextUtils;
 
-public class Department {
-    private long id;
-    private String name;
-    private long parent;
-    private long[] sons;
+import com.google.gson.annotations.SerializedName;
 
-    public Department(long id, String name, long parent, long[] sons) {
-        this.id = id;
-        this.name = name;
-        this.parent = parent;
-        this.sons = sons;
-    }
+import java.util.List;
+
+public class Department {
+    @SerializedName("dpt")
+    long id;
+    @SerializedName("name")
+    String name;
+    @SerializedName("son")
+    List<Department> sonList;
+
+    transient long parent;
+    transient long[] sons;
 
     public Department(long id, String name, long parent, String sons) {
         this.id = id;
@@ -44,11 +46,25 @@ public class Department {
     }
 
     public long[] getSons() {
+        if (sons == null) {
+            sons = new long[sonList.size()];
+            for (int ii = 0; ii < sonList.size(); ii++) {
+                sons[ii] = sonList.get(ii).getId();
+            }
+        }
         return sons;
     }
 
+    public void setParent(long parent) {
+        this.parent = parent;
+    }
+
+    public List<Department> getSonList() {
+        return sonList;
+    }
+
     public String getSonString() {
-        return longArray2String(sons);
+        return longArray2String(getSons());
     }
 
     private static long[] string2LongArray(String string) {

@@ -2,22 +2,15 @@ package com.badou.mworking.presenter.ask;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.text.TextUtils;
 
-import com.badou.mworking.AskActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.domain.ask.AskPublishUseCase;
 import com.badou.mworking.net.BaseSubscriber;
-import com.badou.mworking.net.ServiceProvider;
-import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.presenter.Presenter;
-import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.view.BaseView;
 import com.badou.mworking.view.ask.AskSubmitView;
-
-import org.json.JSONObject;
 
 import java.util.List;
 

@@ -1,12 +1,11 @@
 package com.badou.mworking.presenter;
 
 import android.app.Activity;
-import android.content.ComponentName;
 import android.content.Context;
 import android.os.Handler;
 
 import com.badou.mworking.R;
-import com.badou.mworking.net.ServiceProvider;
+import com.badou.mworking.net.HttpClientRepository;
 import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.FileUtils;
 import com.badou.mworking.util.NetUtils;
@@ -57,7 +56,7 @@ public class DownloadPresenter extends Presenter {
             return;
         }
         mDownloadView.statusDownloading();
-        ServiceProvider.doDownloadTrainingFile(mContext, mUrl, mSaveFilePath, new ServiceProvider.DownloadListener() {
+        HttpClientRepository.doDownloadTrainingFile(mContext, mUrl, mSaveFilePath, new HttpClientRepository.DownloadListener() {
 
             @Override
             public void onProgress(long bytesWritten, long totalSize) {
@@ -190,6 +189,6 @@ public class DownloadPresenter extends Presenter {
 
     public void destroy() {
         pausePlayer();
-        ServiceProvider.cancelRequest(mContext);
+        HttpClientRepository.cancelRequest(mContext);
     }
 }

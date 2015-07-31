@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.badou.mworking.entity.emchat.Department;
 import com.badou.mworking.entity.emchat.Role;
 import com.badou.mworking.entity.user.UserInfo;
-import com.easemob.chatuidemo.domain.User;
+import com.badou.mworking.entity.emchat.User;
 
 import java.util.ArrayList;
 import java.util.List;

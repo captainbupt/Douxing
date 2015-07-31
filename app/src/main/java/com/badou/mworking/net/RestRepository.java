@@ -4,6 +4,8 @@ package com.badou.mworking.net;
 import android.text.TextUtils;
 
 import com.badou.mworking.base.AppApplication;
+import com.badou.mworking.domain.ResetPasswordUseCase;
+import com.badou.mworking.domain.VerificationMessageUseCase;
 import com.badou.mworking.domain.ask.AskDeleteUseCase;
 import com.badou.mworking.domain.ask.AskListUseCase;
 import com.badou.mworking.domain.ask.AskPublishUseCase;
@@ -27,6 +29,8 @@ import com.badou.mworking.domain.chatter.ChatterPublishUseCase;
 import com.badou.mworking.domain.StoreUseCase;
 import com.badou.mworking.domain.category.TaskSignUseCase;
 import com.badou.mworking.domain.chatter.UrlContentUseCase;
+import com.badou.mworking.domain.emchat.EmchatListGetUseCase;
+import com.badou.mworking.domain.emchat.EmchatRegisterUseCase;
 import com.badou.mworking.entity.Ask;
 import com.badou.mworking.entity.Store;
 import com.badou.mworking.entity.chatter.Chatter;
@@ -41,6 +45,7 @@ import com.badou.mworking.entity.chatter.UrlContent;
 import com.badou.mworking.entity.comment.CategoryComment;
 import com.badou.mworking.entity.comment.ChatterComment;
 import com.badou.mworking.entity.comment.CommentOverall;
+import com.badou.mworking.entity.emchat.ContactList;
 import com.badou.mworking.entity.main.MainData;
 import com.badou.mworking.entity.user.UserDetail;
 import com.badou.mworking.entity.user.UserInfo;
@@ -287,5 +292,21 @@ public class RestRepository {
 
     public Observable<BaseNetEntity> sendAskReply(AskReplySendUseCase.Body body) {
         return restApi.replyAsk(AppApplication.SYSPARAM, AppApplication.appVersion, body);
+    }
+
+    public Observable<BaseNetEntity> requestVerificationCode(VerificationMessageUseCase.Body body) {
+        return restApi.requestVerificationCode(AppApplication.SYSPARAM, AppApplication.appVersion, body);
+    }
+
+    public Observable<BaseNetEntity<UserInfo>> resetPassword(ResetPasswordUseCase.Body body) {
+        return restApi.resetPassword(AppApplication.SYSPARAM, AppApplication.appVersion, body);
+    }
+
+    public Observable<BaseNetEntity<EmchatRegisterUseCase.Response>> registerEmchat(EmchatRegisterUseCase.Body body) {
+        return restApi.registerEmchat(AppApplication.SYSPARAM, AppApplication.appVersion, body);
+    }
+
+    public Observable<BaseNetEntity<ContactList>> getContactList(EmchatListGetUseCase.Body body) {
+        return restApi.getEmchatList(AppApplication.SYSPARAM, AppApplication.appVersion, body);
     }
 }

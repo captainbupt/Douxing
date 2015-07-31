@@ -30,8 +30,7 @@ import android.widget.TextView;
 import com.badou.mworking.R;
 import com.badou.mworking.entity.emchat.Department;
 import com.badou.mworking.entity.emchat.EMChatEntity;
-import com.easemob.chatuidemo.Constant;
-import com.easemob.chatuidemo.domain.User;
+import com.badou.mworking.entity.emchat.User;
 import com.easemob.util.EMLog;
 
 import java.util.ArrayList;

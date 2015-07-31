@@ -1,5 +1,8 @@
 package com.badou.mworking.net;
 
+import com.badou.mworking.ForgetPasswordVerificationActivity;
+import com.badou.mworking.domain.ResetPasswordUseCase;
+import com.badou.mworking.domain.VerificationMessageUseCase;
 import com.badou.mworking.domain.ask.AskDeleteUseCase;
 import com.badou.mworking.domain.ask.AskListUseCase;
 import com.badou.mworking.domain.ask.AskPublishUseCase;
@@ -22,6 +25,8 @@ import com.badou.mworking.domain.chatter.ChatterPublishUseCase;
 import com.badou.mworking.domain.StoreUseCase;
 import com.badou.mworking.domain.category.TaskSignUseCase;
 import com.badou.mworking.domain.chatter.UrlContentUseCase;
+import com.badou.mworking.domain.emchat.EmchatListGetUseCase;
+import com.badou.mworking.domain.emchat.EmchatRegisterUseCase;
 import com.badou.mworking.entity.Ask;
 import com.badou.mworking.entity.Store;
 import com.badou.mworking.entity.chatter.Chatter;
@@ -35,6 +40,7 @@ import com.badou.mworking.entity.chatter.UrlContent;
 import com.badou.mworking.entity.comment.CategoryComment;
 import com.badou.mworking.entity.comment.ChatterComment;
 import com.badou.mworking.entity.comment.CommentOverall;
+import com.badou.mworking.entity.emchat.ContactList;
 import com.badou.mworking.entity.main.MainData;
 import com.badou.mworking.entity.user.UserDetail;
 import com.badou.mworking.entity.user.UserInfo;
@@ -199,4 +205,16 @@ public interface RestApi {
 
     @POST("/pubanswer")
     Observable<BaseNetEntity> replyAsk(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Body AskReplySendUseCase.Body body);
+
+    @POST("/sendsms")
+    Observable<BaseNetEntity> requestVerificationCode(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Body VerificationMessageUseCase.Body body);
+
+    @POST("/rstpwd")
+    Observable<BaseNetEntity<UserInfo>> resetPassword(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Body ResetPasswordUseCase.Body body);
+
+    @POST("/reghxusr")
+    Observable<BaseNetEntity<EmchatRegisterUseCase.Response>> registerEmchat(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Body EmchatRegisterUseCase.Body body);
+
+    @POST("/gethxtxl")
+    Observable<BaseNetEntity<ContactList>> getEmchatList(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Body EmchatListGetUseCase.Body body);
 }

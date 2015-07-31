@@ -23,10 +23,6 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.badou.mworking.R;
-import com.badou.mworking.net.ServiceProvider;
-import com.badou.mworking.net.volley.VolleyListener;
-
-import org.json.JSONObject;
 
 /**
  * 功能描述: 课件评分Dialog

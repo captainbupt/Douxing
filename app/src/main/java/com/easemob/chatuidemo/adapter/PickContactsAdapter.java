@@ -17,7 +17,7 @@ import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.entity.emchat.Department;
 import com.badou.mworking.entity.emchat.EMChatEntity;
 import com.badou.mworking.entity.emchat.Role;
-import com.easemob.chatuidemo.domain.User;
+import com.badou.mworking.entity.emchat.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;

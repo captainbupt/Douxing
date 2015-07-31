@@ -4,23 +4,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.badou.mworking.base.BaseBackActionBarActivity;
-import com.badou.mworking.net.ServiceProvider;
-import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.presenter.Presenter;
 import com.badou.mworking.presenter.ask.AskReplyPresenter;
 import com.badou.mworking.util.ImageChooser;
-import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.view.ask.AskReplyView;
 import com.badou.mworking.widget.MultiImageEditGridView;
-
-import org.json.JSONObject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

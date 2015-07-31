@@ -36,11 +36,9 @@ import com.badou.mworking.R.color;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.entity.main.Shuffle;
 import com.badou.mworking.entity.user.UserInfo;
-import com.badou.mworking.net.RequestParameters;
-import com.badou.mworking.net.ServiceProvider;
+import com.badou.mworking.net.HttpClientRepository;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.FullScreenVideoView;
-import com.loopj.android.http.RangeFileAsyncHttpResponseHandler;
 
 import org.apache.http.Header;
 
@@ -145,7 +143,7 @@ public class VideoPlayActivity extends BaseBackActionBarActivity {
 
     private void downloadFile() {
         mProgressDialog.show();
-        ServiceProvider.doDownloadTrainingFile(mContext, videoURl, videoPath, new ServiceProvider.DownloadListener() {
+        HttpClientRepository.doDownloadTrainingFile(mContext, videoURl, videoPath, new HttpClientRepository.DownloadListener() {
 
             @Override
             public void onProgress(long bytesWritten, long totalSize) {
@@ -287,7 +285,7 @@ public class VideoPlayActivity extends BaseBackActionBarActivity {
     @Override
     protected void onDestroy() {
         mProgressDialog.dismiss();
-        ServiceProvider.cancelRequest(mContext);
+        HttpClientRepository.cancelRequest(mContext);
         super.onDestroy();
     }
 

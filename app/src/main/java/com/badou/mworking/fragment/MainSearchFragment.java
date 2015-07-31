@@ -13,29 +13,19 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.badou.mworking.MainGridActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.adapter.MainSearchAdapter;
 import com.badou.mworking.base.BaseFragment;
-import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.CategorySearch;
-import com.badou.mworking.net.Net;
-import com.badou.mworking.net.ServiceProvider;
-import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.presenter.SearchPresenter;
 import com.badou.mworking.view.MainSearchView;
 import com.badou.mworking.widget.NoneResultView;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.OnItemClick;
 import butterknife.OnTextChanged;
 import butterknife.OnTouch;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;

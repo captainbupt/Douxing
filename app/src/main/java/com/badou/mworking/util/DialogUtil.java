@@ -5,12 +5,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.ActionBarActivity;
 import android.text.ClipboardManager;
 
 import com.badou.mworking.R;
 import com.badou.mworking.entity.main.NewVersion;
-import com.badou.mworking.net.ServiceProvider;
+import com.badou.mworking.net.HttpClientRepository;
 import com.badou.mworking.view.BaseView;
 import com.loopj.android.http.RangeFileAsyncHttpResponseHandler;
 
@@ -35,7 +34,7 @@ public class DialogUtil {
                                 public void onClick(DialogInterface dialog,
                                                     int which) {
                                     baseView.showProgressDialog(R.string.action_update_download_ing);
-                                    ServiceProvider.doUpdateMTraning(context, newVersion.getUrl(), new RangeFileAsyncHttpResponseHandler(new File("update.apk")) { // 仅仅是借用该接口
+                                    HttpClientRepository.doUpdateMTraning(context, newVersion.getUrl(), new RangeFileAsyncHttpResponseHandler(new File("update.apk")) { // 仅仅是借用该接口
 
                                         @Override
                                         public void onSuccess(int statusCode, Header[] headers, File file) {

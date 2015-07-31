@@ -17,7 +17,7 @@ import android.content.Context;
 
 import com.badou.mworking.database.EMChatResManager;
 import com.easemob.applib.model.DefaultHXSDKModel;
-import com.easemob.chatuidemo.domain.User;
+import com.badou.mworking.entity.emchat.User;
 
 import java.util.HashMap;
 import java.util.List;
