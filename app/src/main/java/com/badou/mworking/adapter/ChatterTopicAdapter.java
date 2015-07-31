@@ -8,12 +8,12 @@ import android.widget.TextView;
 
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
-import com.badou.mworking.entity.ChatterTopic;
+import com.badou.mworking.entity.chatter.ChatterTopic;
 
 /**
  * Created by Administrator on 2015/6/11.
  */
-public class ChatterTopicAdapter extends MyBaseAdapter {
+public class ChatterTopicAdapter extends MyBaseAdapter<ChatterTopic> {
 
     public ChatterTopicAdapter(Context context) {
         super(context);
@@ -29,7 +29,7 @@ public class ChatterTopicAdapter extends MyBaseAdapter {
             ((TextView) view).setTextSize(TypedValue.COMPLEX_UNIT_PX, mContext.getResources().getDimensionPixelSize(R.dimen.text_size_medium));
             ((TextView) view).setTextColor(mContext.getResources().getColor(R.color.color_text_black));
         }
-        ((TextView) view).setText("#" + ((ChatterTopic) getItem(i)).key + "#");
+        ((TextView) view).setText("#" + getItem(i).getKey() + "#");
         return view;
     }
 }

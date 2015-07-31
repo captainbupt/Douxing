@@ -11,16 +11,13 @@ public class AskResManager {
 
     /**
      * 数据库中添加一条已经点赞过的qid数据
-     *
-     * @param context
      */
-    public static void insertItem(Context context, String aid, long createTime) {
-        MTrainingDBHelper mTrainingDBHelper = MTrainingDBHelper
-                .getMTrainingDBHelper();
+    public static void insertItem(String aid, long createTime) {
+        MTrainingDBHelper mTrainingDBHelper = MTrainingDBHelper.getMTrainingDBHelper();
         SQLiteDatabase dbReader = mTrainingDBHelper.getDatabase();
         String userNum = UserInfo.getUserInfo().getAccount();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(MTrainingDBHelper.WENDA_QID, aid + (createTime / 1000));
+        contentValues.put(MTrainingDBHelper.WENDA_QID, aid.trim() + createTime / 1000l);
 
         try {
             dbReader.insert(MTrainingDBHelper.TBL_NAME_WENDADIANZAN + userNum.replace("@", ""), null, contentValues);
@@ -35,21 +32,19 @@ public class AskResManager {
     /**
      * 查询数据库中是否有此条数据
      *
-     * @param context
      * @param qid
      * @return 有(true) 无(false)
      */
-    public static boolean isSelect(Context context, String qid, String create_ts) {
+    public static boolean isSelect(String qid, long create_ts) {
         boolean flag = false;
-        MTrainingDBHelper mTrainingDBHelper = MTrainingDBHelper
-                .getMTrainingDBHelper();
+        MTrainingDBHelper mTrainingDBHelper = MTrainingDBHelper.getMTrainingDBHelper();
         SQLiteDatabase dbReader = mTrainingDBHelper.getDatabase();
         String userNum = UserInfo.getUserInfo().getAccount();
         try {
             Cursor c1 = dbReader.query(MTrainingDBHelper.TBL_NAME_WENDADIANZAN + userNum.replace("@", ""),
                     null,
                     MTrainingDBHelper.WENDA_QID + " = ? ",
-                    new String[]{qid.trim() + create_ts.trim()},
+                    new String[]{qid.trim() + create_ts / 1000l},
                     null,
                     null,
                     null);

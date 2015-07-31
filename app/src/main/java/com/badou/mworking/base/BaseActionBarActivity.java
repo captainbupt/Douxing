@@ -29,8 +29,6 @@ import org.json.JSONObject;
 
 public class BaseActionBarActivity extends BaseNoTitleActivity {
 
-    public final static String KEY_TITLE = "title";
-
     protected View actionBarView;
     protected TextView mTitleTextView;
     protected ImageView mTitleLeftImageView;
@@ -43,7 +41,6 @@ public class BaseActionBarActivity extends BaseNoTitleActivity {
         super.onCreate(savedInstanceState);
         initActionBarView();
         initActionBarListener();
-        initActionBarData();
     }
 
     /**
@@ -77,16 +74,6 @@ public class BaseActionBarActivity extends BaseNoTitleActivity {
                 clickLeft();
             }
         });
-    }
-
-    private void initActionBarData() {
-        mReceivedIntent = getIntent();
-        if (mReceivedIntent != null) {
-            String title = mReceivedIntent.getStringExtra(KEY_TITLE);
-            if (!TextUtils.isEmpty(title)) {
-                setActionbarTitle(title);
-            }
-        }
     }
 
     public void setLeft(int resId) {
@@ -167,69 +154,4 @@ public class BaseActionBarActivity extends BaseNoTitleActivity {
         ImageViewLoader.setImageViewResource(logoImage, R.drawable.logo, url);
         return logoImage;
     }
-
-    protected void addStatisticalImageView(final String sid) {
-        ImageView imageView = getDefaultImageView(mContext, R.drawable.button_title_admin_statistical);
-        addTitleRightView(imageView, new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String titleStr = getResources().getString(R.string.statistical_data);
-                String uid = UserInfo.getUserInfo().getUid();
-                String url = Net.getRunHost() + Net.getTongji(uid, sid);
-                Intent intent = new Intent(mContext, BackWebActivity.class);
-                intent.putExtra(BackWebActivity.KEY_URL, url);
-                intent.putExtra(BackWebActivity.KEY_TITLE, titleStr);
-                startActivity(intent);
-            }
-        });
-    }
-
-    protected void addStoreImageView(boolean isStored, final String type, final String sid) {
-        final ImageView imageView = getDefaultImageView(mContext, isStored ? R.drawable.button_title_store_checked : R.drawable.button_title_store_unchecked);
-        imageView.setTag(isStored);
-        addTitleRightView(imageView, new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                boolean isStored = (boolean) imageView.getTag();
-                if (isStored) {
-                    mProgressDialog.setContent(R.string.progress_tips_delete_store_ing);
-                    mProgressDialog.show();
-                    ServiceProvider.deleteStore(mContext, sid, type, new VolleyListener(mContext) {
-                        @Override
-                        public void onResponseSuccess(JSONObject response) {
-                            imageView.setImageResource(R.drawable.button_title_store_unchecked);
-                            imageView.setTag(false);
-                            onStoreChanged(false);
-                        }
-
-                        @Override
-                        public void onCompleted() {
-                            mProgressDialog.dismiss();
-                        }
-                    });
-                } else {
-                    mProgressDialog.setContent(R.string.progress_tips_store_ing);
-                    mProgressDialog.show();
-                    ServiceProvider.addStore(mContext, sid, type, new VolleyListener(mContext) {
-                        @Override
-                        public void onResponseSuccess(JSONObject response) {
-                            imageView.setImageResource(R.drawable.button_title_store_checked);
-                            imageView.setTag(true);
-                            onStoreChanged(true);
-                        }
-
-                        @Override
-                        public void onCompleted() {
-                            mProgressDialog.dismiss();
-                        }
-                    });
-                }
-            }
-        });
-    }
-
-    protected void onStoreChanged(boolean isStore) {
-
-    }
-
 }

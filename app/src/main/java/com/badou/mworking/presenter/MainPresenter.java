@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.badou.mworking.AskActivity;
 import com.badou.mworking.BackWebActivity;
 import com.badou.mworking.ChatterActivity;
+import com.badou.mworking.LoginActivity;
 import com.badou.mworking.MainGridActivity;
 import com.badou.mworking.MessageCenterActivity;
 import com.badou.mworking.R;
@@ -83,6 +84,10 @@ public class MainPresenter extends Presenter {
     }
 
     private void initialize() {
+        if (UserInfo.getUserInfo() == null) {
+            mContext.startActivity(LoginActivity.getIntent(mContext));
+            return;
+        }
         if (UserInfo.ANONYMOUS_ACCOUNT.equals(UserInfo.getUserInfo().getAccount())) {
             mMainView.showExperienceDialog();
         }
@@ -255,8 +260,7 @@ public class MainPresenter extends Presenter {
             case Shuffle.BUTTON_SURVEY: // 培训调研
                 String uid = UserInfo.getUserInfo().getUid();
                 String url = Net.getWeiDiaoYanURl() + uid;
-                intent.setClass(mContext, BackWebActivity.class);
-                intent.putExtra(BackWebActivity.KEY_URL, url);
+                intent = BackWebActivity.getIntent(mContext, mainIcon.getName(), url);
                 break;
             case Shuffle.BUTTON_TASK: // 任务签到
                 intent = CategoryListActivity.getIntent(mContext, Category.CATEGORY_TASK, false);
@@ -277,21 +281,25 @@ public class MainPresenter extends Presenter {
                 intent = CategoryListActivity.getIntent(mContext, Category.CATEGORY_PLAN, false);
                 break;
         }
-        intent.putExtra(BaseActionBarActivity.KEY_TITLE, mainIcon.getName());//标题  ？？？
         mContext.startActivity(intent);
     }
 
     public void onBannerClick(AdapterView<?> parent, View view, int position, long id) {
         MainBanner mainBanner = (MainBanner) parent.getAdapter().getItem(position);
         if (mainBanner != null) {
-            Intent intent = new Intent(mContext, BackWebActivity.class);
-            intent.putExtra(BackWebActivity.KEY_URL, mainBanner.getUrl());
-            if (TextUtils.isEmpty(mLogoUrl)) {
-                intent.putExtra(BackWebActivity.KEY_LOGO_URL, "invalid"); // 非法值
+            String url = mainBanner.getUrl();
+            if (url.endsWith(".mp4") || url.endsWith(".mp3")) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                Uri uri = Uri.parse(url);
+                if (url.endsWith(".mp4"))
+                    intent.setDataAndType(uri, "video/*");
+                else
+                    intent.setDataAndType(uri, "audio/*");
+                mContext.startActivity(intent);
             } else {
-                intent.putExtra(BackWebActivity.KEY_LOGO_URL, mLogoUrl);
+                Intent intent = BackWebActivity.getIntentBanner(mContext, mainBanner.getUrl(), TextUtils.isEmpty(mLogoUrl) ? "invalid" : mLogoUrl);
+                mContext.startActivity(intent);
             }
-            mContext.startActivity(intent);
         }
     }
 

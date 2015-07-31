@@ -34,6 +34,12 @@ import java.net.URL;
  */
 public class BitmapUtil {
 
+    public static void recycleBitmap(Bitmap bitmap) {
+        if (bitmap != null && !bitmap.isRecycled()) {
+            bitmap.recycle();
+        }
+    }
+
     public static int getBitmapSize(Bitmap bitmap) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {    //API 19
             return bitmap.getAllocationByteCount();
@@ -226,8 +232,7 @@ public class BitmapUtil {
      * @param reqHeight
      * @return
      */
-    public static Bitmap decodeSampledBitmapFromFile(String path, int reqWidth,
-                                                     int reqHeight) {
+    public static Bitmap decodeSampledBitmapFromFile(String path, int reqWidth, int reqHeight) {
         File file = new File(path);
         if (!file.exists())
             return null;

@@ -5,6 +5,7 @@
     android:orientation="vertical"
     android:paddingTop="@dimen/offset_less">
 
+    <!-- 必须要加，不然会出现事件传递混乱-->
     <!-- SwipeLayout对事件传递做了特殊处理？可以使得点击事件被ListView处理-->
     <com.swipe.delete.SwipeLayout
         android:id="@+id/swipe_layout"

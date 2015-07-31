@@ -1,42 +1,59 @@
 package com.badou.mworking.net;
 
 
-import android.graphics.Bitmap;
 import android.text.TextUtils;
-import android.webkit.MimeTypeMap;
 
 import com.badou.mworking.base.AppApplication;
-import com.badou.mworking.domain.CategoryCommentGetUseCase;
-import com.badou.mworking.domain.CategoryDetailUseCase;
-import com.badou.mworking.domain.CategoryUseCase;
+import com.badou.mworking.domain.ask.AskDeleteUseCase;
+import com.badou.mworking.domain.ask.AskListUseCase;
+import com.badou.mworking.domain.ask.AskPublishUseCase;
+import com.badou.mworking.domain.ask.AskReplyGetUseCase;
+import com.badou.mworking.domain.ask.AskReplyPraiseUseCase;
+import com.badou.mworking.domain.ask.AskReplySendUseCase;
+import com.badou.mworking.domain.ask.AskUseCase;
+import com.badou.mworking.domain.category.CategoryCommentGetUseCase;
+import com.badou.mworking.domain.category.CategoryDetailUseCase;
+import com.badou.mworking.domain.category.CategoryUseCase;
 import com.badou.mworking.domain.ChangePasswordUseCase;
+import com.badou.mworking.domain.chatter.ChatterListUseCase;
+import com.badou.mworking.domain.chatter.ChatterReplyDeleteUseCase;
+import com.badou.mworking.domain.chatter.ChatterReplyGetUseCase;
+import com.badou.mworking.domain.chatter.ChatterReplySendUseCase;
 import com.badou.mworking.domain.CheckUpdateUseCase;
 import com.badou.mworking.domain.EMChatCreateGroupUseCase;
-import com.badou.mworking.domain.EnrollUseCase;
+import com.badou.mworking.domain.category.EnrollUseCase;
 import com.badou.mworking.domain.LoginUseCase;
+import com.badou.mworking.domain.chatter.ChatterPublishUseCase;
 import com.badou.mworking.domain.StoreUseCase;
-import com.badou.mworking.domain.TaskSignUseCase;
+import com.badou.mworking.domain.category.TaskSignUseCase;
+import com.badou.mworking.domain.chatter.UrlContentUseCase;
+import com.badou.mworking.entity.Ask;
+import com.badou.mworking.entity.chatter.Chatter;
+import com.badou.mworking.entity.chatter.ChatterHotOverall;
+import com.badou.mworking.entity.chatter.ChatterTopic;
 import com.badou.mworking.entity.category.CategoryDetail;
 import com.badou.mworking.entity.category.CategoryOverall;
 import com.badou.mworking.entity.category.CategorySearchOverall;
 import com.badou.mworking.entity.category.Classification;
 import com.badou.mworking.entity.category.Train;
+import com.badou.mworking.entity.chatter.UrlContent;
 import com.badou.mworking.entity.comment.CategoryComment;
+import com.badou.mworking.entity.comment.ChatterComment;
 import com.badou.mworking.entity.comment.CommentOverall;
 import com.badou.mworking.entity.main.MainData;
 import com.badou.mworking.entity.user.UserDetail;
 import com.badou.mworking.entity.user.UserInfo;
-import com.badou.mworking.util.FileUtils;
-import com.google.gson.Gson;
+import com.google.gson.internal.LinkedTreeMap;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit.RestAdapter;
-import retrofit.converter.GsonConverter;
 import retrofit.mime.TypedFile;
 import retrofit.mime.TypedString;
 import rx.Observable;
+import rx.functions.Func1;
 
 public class RestRepository {
 
@@ -53,7 +70,6 @@ public class RestRepository {
         RestAdapter restApiAdapter = new RestAdapter.Builder()
                 .setEndpoint("http://115.28.138.79/badou")
                 .setLogLevel(RestAdapter.LogLevel.FULL)
-                        //.setConverter(new StringConverter())
                 .build();
         restApi = restApiAdapter.create(RestApi.class);
     }
@@ -70,7 +86,7 @@ public class RestRepository {
         return restApi.checkUpdate(AppApplication.SYSPARAM, AppApplication.appVersion, uid, screen, updateInfo);
     }
 
-    public Observable<BaseNetListEntity<Classification>> getClassification(String uid, String type) {
+    public Observable<BaseNetEntity<List<Classification>>> getClassification(String uid, String type) {
         return restApi.getClassification(AppApplication.SYSPARAM, AppApplication.appVersion, uid, type, "nest");
     }
 
@@ -82,12 +98,16 @@ public class RestRepository {
         }
     }
 
-    public Observable<BaseNetListEntity<Train.TrainingCommentInfo>> getTrainCommentInfo(String uid, List<String> rids) {
+    public Observable<BaseNetEntity<List<Train.TrainingCommentInfo>>> getTrainCommentInfo(String uid, List<String> rids) {
         return restApi.getTrainCommentInfo(AppApplication.SYSPARAM, AppApplication.appVersion, uid, rids);
     }
 
     public Observable<BaseNetEntity<CommentOverall<CategoryComment>>> getCategoryComment(CategoryCommentGetUseCase.Body body) {
         return restApi.getCategoryComment(AppApplication.SYSPARAM, AppApplication.appVersion, body);
+    }
+
+    public Observable<BaseNetEntity> rateCategory(String uid, String rid, int credit) {
+        return restApi.rateCategory(AppApplication.SYSPARAM, AppApplication.appVersion, uid, rid, credit);
     }
 
     public Observable<BaseNetEntity> sendCategoryComment(String uid, String rid, String whom, String comment) {
@@ -146,4 +166,121 @@ public class RestRepository {
         return restApi.setUserHead(AppApplication.SYSPARAM, AppApplication.appVersion, uid, new TypedFile("image/jpg", file));
     }
 
+    public Observable<BaseNetEntity<ChatterPublishUseCase.Response>> publishChatter(ChatterPublishUseCase.Body body) {
+        return restApi.publishChatter(AppApplication.SYSPARAM, AppApplication.appVersion, body);
+    }
+
+    public Observable<BaseNetEntity<List<ChatterTopic>>> getTopicList(String uid) {
+        return restApi.getTopicList(AppApplication.SYSPARAM, AppApplication.appVersion, uid).map(new Func1<BaseNetEntity<LinkedTreeMap>, BaseNetEntity<List<ChatterTopic>>>() {
+            @Override
+            public BaseNetEntity<List<ChatterTopic>> call(BaseNetEntity<LinkedTreeMap> linkedTreeMapBaseNetEntity) {
+                List<ChatterTopic> topicList = new ArrayList<>();
+                LinkedTreeMap<String, String> data = linkedTreeMapBaseNetEntity.getData();
+                for (String key : data.keySet()) {
+                    topicList.add(new ChatterTopic(key, Long.parseLong(data.get(key))));
+                }
+                return new BaseNetEntity<List<ChatterTopic>>(linkedTreeMapBaseNetEntity.getErrcode(), topicList);
+            }
+        });
+    }
+
+    public Observable<BaseNetEntity> publishChatterImage(String uid, String qid, int index, File imgFile) {
+        return restApi.publicChatterImage(AppApplication.SYSPARAM, AppApplication.appVersion, uid, qid, index, new TypedFile("image/jpg", imgFile));
+    }
+
+    public Observable<BaseNetEntity> publishChatterVideo(String uid, String qid, File imgFile) {
+        return restApi.publicChatterVideo(AppApplication.SYSPARAM, AppApplication.appVersion, uid, qid, new TypedFile("image/jpg", imgFile));
+    }
+
+    public Observable<BaseNetEntity> publicChatterUrl(String uid, String qid, String url) {
+        return restApi.publicChatterUrl(AppApplication.SYSPARAM, AppApplication.appVersion, uid, qid, new TypedString(url));
+    }
+
+    public Observable<BaseNetEntity<List<Chatter>>> getChatterList(ChatterListUseCase.Body body, String topic, boolean isUser) {
+        Observable<BaseNetEntity<ChatterListUseCase.Response>> responseObservable;
+        if (isUser) {
+            responseObservable = restApi.getChatterListUser(AppApplication.SYSPARAM, AppApplication.appVersion, body);
+        } else if (TextUtils.isEmpty(topic)) {
+            responseObservable = restApi.getChatterList(AppApplication.SYSPARAM, AppApplication.appVersion, body);
+        } else {
+            responseObservable = restApi.getChatterList(AppApplication.SYSPARAM, AppApplication.appVersion, body.getUid(), topic, body.getPageNum(), body.getItemNum());
+        }
+        return responseObservable.map(new Func1<BaseNetEntity<ChatterListUseCase.Response>, BaseNetEntity<List<Chatter>>>() {
+            @Override
+            public BaseNetEntity<List<Chatter>> call(BaseNetEntity<ChatterListUseCase.Response> responseBaseNetEntity) {
+                return new BaseNetEntity<List<Chatter>>(responseBaseNetEntity.getErrcode(), responseBaseNetEntity.getData().getChatterList());
+            }
+        });
+    }
+
+    public Observable<BaseNetEntity<UrlContent>> parseUrlContent(UrlContentUseCase.Body body, final String url) {
+        return restApi.parseUrlContent(AppApplication.SYSPARAM, AppApplication.appVersion, body).map(new Func1<BaseNetEntity<UrlContent>, BaseNetEntity<UrlContent>>() {
+            @Override
+            public BaseNetEntity<UrlContent> call(BaseNetEntity<UrlContent> urlContentBaseNetEntity) {
+                if (urlContentBaseNetEntity.getData() != null)
+                    urlContentBaseNetEntity.getData().setUrl(url);
+                return urlContentBaseNetEntity;
+            }
+        });
+    }
+
+    public Observable<BaseNetEntity<Chatter>> getChatter(String uid, String qid) {
+        return restApi.getChatter(AppApplication.SYSPARAM, AppApplication.appVersion, uid, qid);
+    }
+
+    public Observable<BaseNetEntity<CommentOverall<ChatterComment>>> getChatterReply(ChatterReplyGetUseCase.Body body) {
+        return restApi.getChatterReply(AppApplication.SYSPARAM, AppApplication.appVersion, body);
+    }
+
+    public Observable<BaseNetEntity> deleteChatter(String uid, String qid) {
+        return restApi.deleteChatter(AppApplication.SYSPARAM, AppApplication.appVersion, uid, qid);
+    }
+
+    public Observable<BaseNetEntity> sendChatterReply(ChatterReplySendUseCase.Body body) {
+        return restApi.replyChatter(AppApplication.SYSPARAM, AppApplication.appVersion, body);
+    }
+
+    public Observable<BaseNetEntity> sendChatterReplyAt(ChatterReplySendUseCase.Body body) {
+        return restApi.replyChatterAt(AppApplication.SYSPARAM, AppApplication.appVersion, body);
+    }
+
+    public Observable<BaseNetEntity> deleteChatterReply(ChatterReplyDeleteUseCase.Body body) {
+        return restApi.deleteChatterReply(AppApplication.SYSPARAM, AppApplication.appVersion, body);
+    }
+
+    public Observable<BaseNetEntity> praiseChatter(String uid, String qid) {
+        return restApi.praiseChatter(AppApplication.SYSPARAM, AppApplication.appVersion, uid, qid);
+    }
+
+    public Observable<BaseNetEntity<ChatterHotOverall>> getChatterHotList(String uid, int pageNum, int itemNum) {
+        return restApi.getChatterHotList(AppApplication.SYSPARAM, AppApplication.appVersion, uid, pageNum, itemNum);
+    }
+
+    public Observable<BaseNetEntity<List<Ask>>> getAskList(AskListUseCase.Body body) {
+        return restApi.getAskList(AppApplication.SYSPARAM, AppApplication.appVersion, body);
+    }
+
+    public Observable<BaseNetEntity<Ask>> getAsk(AskUseCase.Body body) {
+        return restApi.getAsk(AppApplication.SYSPARAM, AppApplication.appVersion, body);
+    }
+
+    public Observable<BaseNetEntity<AskPublishUseCase.Response>> publishAsk(AskPublishUseCase.Body body) {
+        return restApi.publishAsk(AppApplication.SYSPARAM, AppApplication.appVersion, body);
+    }
+
+    public Observable<BaseNetEntity<List<Ask>>> getAskReply(AskReplyGetUseCase.Body body) {
+        return restApi.getAskReply(AppApplication.SYSPARAM, AppApplication.appVersion, body);
+    }
+
+    public Observable<BaseNetEntity> deleteAsk(AskDeleteUseCase.Body body) {
+        return restApi.deleteAsk(AppApplication.SYSPARAM, AppApplication.appVersion, body);
+    }
+
+    public Observable<BaseNetEntity> praiseAskReply(AskReplyPraiseUseCase.Body body) {
+        return restApi.praiseAnswer(AppApplication.SYSPARAM, AppApplication.appVersion, body);
+    }
+
+    public Observable<BaseNetEntity> sendAskReply(AskReplySendUseCase.Body body) {
+        return restApi.replyAsk(AppApplication.SYSPARAM, AppApplication.appVersion, body);
+    }
 }

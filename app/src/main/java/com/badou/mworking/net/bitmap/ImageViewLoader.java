@@ -6,14 +6,15 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
 import com.badou.mworking.R;
 import com.badou.mworking.net.volley.MyVolley;
 import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.SPHelper;
 
-/**
- * Created by Administrator on 2015/6/8.
- */
+import uk.co.senab.photoview.PhotoView;
+
 public class ImageViewLoader {
 
     public static void setCircleImageViewResource(ImageView imageView, String url, int size) {
@@ -23,10 +24,8 @@ public class ImageViewLoader {
         }
         Bitmap headBmp = BitmapLruCache.getBitmapLruCache().getCircleBitmap(url);
         if (headBmp != null && !headBmp.isRecycled()) {
-            System.out.println("get image from cache");
             imageView.setImageBitmap(headBmp);
         } else {
-            System.out.println("get image from server");
             MyVolley.getImageLoader().get(url, new CircleImageListener(url, imageView, size, size), size, size);
         }
     }
@@ -36,7 +35,7 @@ public class ImageViewLoader {
         if (headBmp != null && !headBmp.isRecycled()) {
             imageView.setImageBitmap(headBmp);
         } else {
-            MyVolley.getImageLoader().get(url, new NormalImageListener(imageView, url, R.drawable.icon_image_default), size, size);
+            MyVolley.getImageLoader().get(url, new NormalImageListener(imageView, url, defaultResId), size, size);
         }
     }
 
@@ -71,6 +70,26 @@ public class ImageViewLoader {
             imageView.setImageBitmap(headBmp);
         } else {
             MyVolley.getImageLoader().get(url, new NormalImageListener(imageView, url, defaultRes));
+        }
+    }
+
+    public static void setPhotoView(final PhotoView photoView, String url, ImageLoader.ImageListener imageListener) {
+        if (TextUtils.isEmpty(url)) {
+            photoView.setImageResource(R.drawable.icon_image_default);
+            photoView.setZoomable(false);
+            return;
+        }
+        Bitmap originBitmap = BitmapLruCache.getBitmapLruCache().getOriginBitmap(url);
+        if (originBitmap != null && !originBitmap.isRecycled()) {
+            photoView.setImageBitmap(originBitmap);
+            photoView.setZoomable(true);
+        } else {
+            Bitmap smallBitmap = BitmapLruCache.getBitmapLruCache().getBitmap(url);
+            if (smallBitmap != null && !smallBitmap.isRecycled()) {
+                photoView.setImageBitmap(smallBitmap);
+                photoView.setZoomable(false);
+            }
+            MyVolley.getImageLoader().get(url, imageListener);
         }
     }
 }

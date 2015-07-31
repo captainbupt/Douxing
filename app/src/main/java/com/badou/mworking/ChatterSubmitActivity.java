@@ -1,225 +1,321 @@
 package com.badou.mworking;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.android.volley.VolleyError;
 import com.badou.mworking.adapter.ChatterTopicAdapter;
 import com.badou.mworking.base.BaseBackActionBarActivity;
-import com.badou.mworking.entity.ChatterTopic;
-import com.badou.mworking.net.Net;
-import com.badou.mworking.net.ServiceProvider;
-import com.badou.mworking.net.volley.VolleyListener;
-import com.badou.mworking.util.FileUtils;
+import com.badou.mworking.entity.chatter.ChatterTopic;
+import com.badou.mworking.entity.chatter.UrlContent;
+import com.badou.mworking.presenter.chatter.ChatterSubmitPresenter;
+import com.badou.mworking.presenter.Presenter;
 import com.badou.mworking.util.ImageChooser;
-import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.ToastUtil;
+import com.badou.mworking.view.chatter.ChatterSubmitView;
+import com.badou.mworking.widget.ChatterUrlView;
 import com.badou.mworking.widget.MultiImageEditGridView;
-import com.badou.mworking.widget.NoScrollListView;
 import com.badou.mworking.widget.VideoImageView;
 
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * 功能描述: 同事圈发送消息界面
  */
-public class ChatterSubmitActivity extends BaseBackActionBarActivity {
+public class ChatterSubmitActivity extends BaseBackActionBarActivity implements ChatterSubmitView {
 
-    private EditText mContentEditText;
-    private MultiImageEditGridView mImageGridView;
-    private VideoImageView mVideoImageView;
-    private LinearLayout mBottomTopicLayout;
-    private LinearLayout mBottomAnonymousLayout;
-    private LinearLayout mBottomPhotoLayout;
-    private CheckBox mAnonymousCheckBox;
-    private ScrollView mTopicScrollView;
-    private NoScrollListView mTopicListView;
-    private ChatterTopicAdapter mTopicAdapter;
-    private TextView mTopicCustomConfirmTextView;
-    private EditText mTopicCustomEditText;
+    private static final String KEY_URL = "url";
 
-    private int mImageType = -1;
-    private ImageChooser mImageChooser;
+
+    ChatterTopicAdapter mTopicAdapter;
+    TextView mTopicConfirmTextView;
+    EditText mTopicEditText;
+
+    ImageChooser mImageChooser;
+    ChatterSubmitPresenter mPresenter;
+    @Bind(R.id.content_edit_text)
+    EditText mContentEditText;
+    @Bind(R.id.url_left_text_view)
+    TextView mUrlLeftTextView;
+    @Bind(R.id.url_right_image_view)
+    ImageView mUrlRightImageView;
+    @Bind(R.id.url_content_layout)
+    ChatterUrlView mUrlContentLayout;
+    @Bind(R.id.url_layout)
+    RelativeLayout mUrlLayout;
+    @Bind(R.id.image_grid_view)
+    MultiImageEditGridView mImageGridView;
+    @Bind(R.id.video_image_view)
+    VideoImageView mVideoImageView;
+    @Bind(R.id.bottom_topic_layout)
+    LinearLayout mBottomTopicLayout;
+    @Bind(R.id.anonymous_check_box)
+    CheckBox mAnonymousCheckBox;
+    @Bind(R.id.bottom_anonymous_layout)
+    LinearLayout mBottomAnonymousLayout;
+    @Bind(R.id.bottom_photo_image_view)
+    ImageView mBottomPhotoImageView;
+    @Bind(R.id.bottom_photo_text_view)
+    TextView mBottomPhotoTextView;
+    @Bind(R.id.bottom_photo_layout)
+    LinearLayout mBottomPhotoLayout;
+    @Bind(R.id.topic_list_view)
+    ListView mTopicListView;
+
+    public static Intent getIntent(Context context, String url) {
+        Intent intent = new Intent(context, ChatterSubmitActivity.class);
+        intent.putExtra(KEY_URL, url);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatter_submit);
+        ButterKnife.bind(this);
         initView();
         initListener();
+        this.mPresenter = (ChatterSubmitPresenter) super.mPresenter;
+        mPresenter.attachView(this);
+        mPresenter.setUrl(mReceivedIntent.getStringExtra(KEY_URL));
+    }
+
+    @Override
+    public Presenter getPresenter() {
+        return new ChatterSubmitPresenter(mContext);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        if (intent.hasExtra(KEY_URL) && mPresenter != null) {
+            mPresenter.setUrl(intent.getStringExtra(KEY_URL));
+        }
+        mReceivedIntent = intent;
+    }
+
+    private void initView() {
+        setActionbarTitle(R.string.chatter_submit_title_share);
+        View header = LayoutInflater.from(mContext).inflate(R.layout.layout_chatter_topic_header, mTopicListView, false);
+        mTopicConfirmTextView = (TextView) header.findViewById(R.id.topic_confirm_text_view);
+        mTopicEditText = (EditText) header.findViewById(R.id.topic_edit_text);
+        mTopicListView.addHeaderView(header);
+        mTopicAdapter = new ChatterTopicAdapter(mContext);
+        mTopicListView.setAdapter(mTopicAdapter);
+
+    }
+
+    @OnClick(R.id.bottom_topic_layout)
+    void onTopicClicked() {
+        mPresenter.showTopic();
+    }
+
+    @OnClick(R.id.bottom_anonymous_layout)
+    void onAnonymousClicked() {
+        mPresenter.setAnonymous();
+    }
+
+    @OnClick(R.id.bottom_photo_layout)
+    void onPhotoClicked() {
+        mPresenter.takeImage();
+    }
+
+    @OnClick(R.id.url_layout)
+    void onUrlLayoutClicked() {
+        mPresenter.showUrlTip();
+    }
+
+    private void initListener() {
         // 设置图片
         setRightImage(R.drawable.button_title_send, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                send();
+                mPresenter.send(mContentEditText.getText().toString());
             }
         });
-        setActionbarTitle("分享");
-    }
 
-    private void initView() {
-        mContentEditText = (EditText) findViewById(R.id.et_activity_chatter_submit_content);
-        mImageGridView = (MultiImageEditGridView) findViewById(R.id.miegv_activity_chatter_submit);
-        mBottomTopicLayout = (LinearLayout) findViewById(R.id.ll_activity_chatter_submit_bottom_topic);
-        mBottomAnonymousLayout = (LinearLayout) findViewById(R.id.ll_activity_chatter_submit_bottom_anonymous);
-        mBottomPhotoLayout = (LinearLayout) findViewById(R.id.ll_activity_chatter_submit_bottom_photo);
-        mAnonymousCheckBox = (CheckBox) findViewById(R.id.cb_activity_chatter_bottom_anonymous);
-        mVideoImageView = (VideoImageView) findViewById(R.id.viv_activity_chatter_submit);
-        mTopicScrollView = (ScrollView) findViewById(R.id.sv_activity_chatter_submit_topic);
-        mTopicListView = (NoScrollListView) findViewById(R.id.nslv_activity_chatter_submit_topic);
-        mTopicCustomConfirmTextView = (TextView) findViewById(R.id.tv_activity_chatter_submit_confirm);
-        mTopicCustomEditText = (EditText) findViewById(R.id.et_activity_chatter_submit_topic_edit);
-    }
-
-    private void initListener() {
-        mBottomTopicLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mTopicScrollView.getVisibility() == View.VISIBLE) {
-                    mTopicScrollView.setVisibility(View.GONE);
-                    mContentEditText.setEnabled(true);
-                } else {
-                    mTopicScrollView.setVisibility(View.VISIBLE);
-                    mContentEditText.setEnabled(false);
-                }
-            }
-        });
-        mBottomAnonymousLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mAnonymousCheckBox.setChecked(!mAnonymousCheckBox.isChecked());
-            }
-        });
-        mBottomPhotoLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addImage();
-            }
-        });
         mImageGridView.setAddOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addImage();
+                mPresenter.takeImage();
             }
         });
-        mImageChooser = new ImageChooser(mContext, true, true, false, true);
-        mImageChooser.setOnImageChosenListener(new ImageChooser.OnImageChosenListener() {
-            @Override
-            public void onImageChosen(Bitmap bitmap, int type) {
-                if (type == ImageChooser.TYPE_VIDEO) {
-                    mVideoImageView.setVisibility(View.VISIBLE);
-                    mVideoImageView.setData(bitmap, null, null);
-                    mImageGridView.clear();
-                    mImageGridView.setVisibility(View.GONE);
-                } else {
-                    mImageGridView.setVisibility(View.VISIBLE);
-                    mImageGridView.addImage(bitmap);
-                    mVideoImageView.clear();
-                    mVideoImageView.setVisibility(View.GONE);
-                }
-                mImageType = type;
-            }
-        });
-        mImageChooser.setOnOperationClickListener(new ImageChooser.OnOperationClickListener() {
-            @Override
-            public boolean onOperationClick(int type) {
-                if (type == ImageChooser.TYPE_IMAGE && mImageGridView.isMax()) {
-                    ToastUtil.showToast(mContext, R.string.chatter_submit_max_image);
-                }
-                return true;
-            }
-        });
-        mTopicAdapter = new ChatterTopicAdapter(mContext);
-        mTopicCustomConfirmTextView.setOnClickListener(new View.OnClickListener() {
+        mTopicConfirmTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String topic = mTopicCustomEditText.getText().toString().replace("#", "").replace(" ", "").trim();
-                onTopicSelected(topic);
+                String topic = mTopicEditText.getText().toString().replace("#", "").replace(" ", "").trim();
+                mPresenter.onTopicConfirmed(topic);
             }
         });
-        mTopicListView.setOnItemClickListener(new NoScrollListView.OnNoScrollItemClickListener() {
+        mTopicListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(View v, int position, long id) {
-                ChatterTopic chatterTopic = (ChatterTopic) mTopicAdapter.getItem(position);
-                onTopicSelected(chatterTopic.key);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ChatterTopic chatterTopic = (ChatterTopic) parent.getAdapter().getItem(position);
+                mPresenter.onTopicClicked(chatterTopic);
             }
         });
-        mTopicListView.setAdapter(mTopicAdapter);
         mVideoImageView.setOnImageDeleteListener(new VideoImageView.OnImageDeleteListener() {
             @Override
             public void onDelete() {
-                mImageGridView.setVisibility(View.VISIBLE);
-                mVideoImageView.clear();
-                mVideoImageView.setVisibility(View.GONE);
-                mImageType = -1;
+                mPresenter.onVideoDeleted();
             }
         });
-        getTopicList();
     }
 
-    private void addImage() {
-        mTopicListView.setVisibility(View.GONE);
+    @Override
+    public void setTopicListVisibility(boolean isVisible) {
+        if (!isVisible) {
+            mTopicListView.setVisibility(View.GONE);
+            mContentEditText.setEnabled(true);
+        } else {
+            mTopicListView.setVisibility(View.VISIBLE);
+            mContentEditText.setEnabled(false); // 防止点击到后面的EditText上
+        }
+    }
+
+    @Override
+    public void setAnonymousCheckBox(boolean isChecked) {
+        mAnonymousCheckBox.setChecked(isChecked);
+    }
+
+    @Override
+    public void takeImage() {
+        if (mImageChooser == null) {
+            mImageChooser = new ImageChooser(mContext, true, true, false, true);
+            mImageChooser.setOnImageChosenListener(new ImageChooser.OnImageChosenListener() {
+                @Override
+                public void onImageChosen(Bitmap bitmap, int type) {
+                    mPresenter.onImageSelected(bitmap, type == ImageChooser.TYPE_VIDEO);
+                }
+            });
+            mImageChooser.setOnOperationClickListener(new ImageChooser.OnOperationClickListener() {
+                @Override
+                public boolean onOperationClick(int type) {
+                    if (type == ImageChooser.TYPE_IMAGE && mImageGridView.isMax()) {
+                        ToastUtil.showToast(mContext, R.string.chatter_submit_max_image);
+                    }
+                    return true;
+                }
+            });
+        }
         mImageChooser.takeImage(getResources().getString(R.string.add_picture));
     }
 
-    private void onTopicSelected(String content) {
+    @Override
+    public void addImage(Bitmap bitmap) {
+        mImageGridView.addImage(bitmap);
+    }
+
+    @Override
+    public void addVideo(Bitmap bitmap, String path) {
+        mVideoImageView.setData(bitmap, null);
+    }
+
+    @Override
+    public int getMaxImageCount() {
+        return mImageGridView.getMaxImageCount();
+    }
+
+    @Override
+    public List<Bitmap> getCurrentBitmap() {
+        if (mImageGridView.getVisibility() == View.VISIBLE) {
+            return mImageGridView.getImages();
+        } else if (mVideoImageView.getVisibility() == View.VISIBLE) {
+            return new ArrayList<Bitmap>() {{
+                add(mVideoImageView.getBitmap());
+            }};
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public void clearBitmap() {
+        mImageGridView.clear();
+        mVideoImageView.clear();
+    }
+
+    public void onTopicSelected(String content) {
         String temp = mContentEditText.getText().toString();
-/*        Pattern pattern = Pattern.compile("#[\\s\\S]*#");
-        Matcher matcher = pattern.matcher(temp);
-        matcher.replaceFirst("");*/
         mContentEditText.setText("#" + content + "#" + temp.replaceFirst("#[\\s\\S]*#", ""));
-        mTopicScrollView.setVisibility(View.GONE);
-        mContentEditText.setEnabled(true);
+    }
+
+    @Override
+    public void setImageMode(boolean isVideo) {
+        if (isVideo) {
+            mVideoImageView.setVisibility(View.VISIBLE);
+            mImageGridView.clear();
+            mImageGridView.setVisibility(View.GONE);
+        } else {
+            mImageGridView.setVisibility(View.VISIBLE);
+            mVideoImageView.clear();
+            mVideoImageView.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onTopicSynchronized(List<ChatterTopic> topics) {
+        mTopicAdapter.setList(topics);
+    }
+
+    @Override
+    public void setUrlContent(UrlContent urlContent) {
+        mUrlContentLayout.setData(urlContent);
+    }
+
+    @Override
+    public void setModeUrl() {
+        mImageGridView.setVisibility(View.INVISIBLE);
+        mBottomPhotoLayout.setEnabled(false);
+        mUrlContentLayout.setVisibility(View.VISIBLE);
+        mBottomPhotoTextView.setTextColor(0xffc6c6c6);
+        mBottomPhotoImageView.setImageResource(R.drawable.icon_bottom_photo_disable);
+        mUrlRightImageView.setEnabled(true);
+        mUrlRightImageView.setImageResource(R.drawable.button_chatter_submit_url_cancel);
+        mUrlRightImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.cancelUrlSharing();
+            }
+        });
+    }
+
+    @Override
+    public void setModeNormal() {
+        clearBitmap();
+        mImageGridView.setVisibility(View.VISIBLE);
+        mBottomPhotoLayout.setEnabled(true);
+        mUrlRightImageView.setImageResource(R.drawable.chatter_submit_arrow_url);
+        mBottomPhotoTextView.setTextColor(getResources().getColor(R.color.color_text_black));
+        mBottomPhotoImageView.setImageResource(R.drawable.icon_bottom_photo);
+        mUrlContentLayout.setVisibility(View.GONE);
+        mUrlRightImageView.setEnabled(false);
     }
 
     @Override
     public void onBackPressed() {
-        if (mTopicListView.getVisibility() == View.VISIBLE) {
-            mTopicScrollView.setVisibility(View.GONE);
-            mContentEditText.setEnabled(true);
-            return;
+        if (!mPresenter.onBackPressed()) {
+            super.onBackPressed();
         }
-        super.onBackPressed();
     }
 
     public void send() {
-        // 断网判断
-        if (!NetUtils.isNetConnected(this)) {
-            ToastUtil.showToast(mContext, R.string.error_service);
-            return;
-        }
-        String content = mContentEditText.getText().toString().replaceAll("\\n", "")
-                .trim();
-
-        if (TextUtils.isEmpty(content)) {
-            ToastUtil.showToast(mContext, R.string.question_content_null);
-            return;
-        }
-        if (content.length() < 5) {
-            ToastUtil.showToast(mContext, R.string.comment_tips_length);
-            return;
-        }
-        if (mImageType == ImageChooser.TYPE_IMAGE && mImageGridView.getCount() > 1) {
-            publishQuestionShare(content, mImageGridView.getImages(), mImageType);
-        } else if (mImageType == ImageChooser.TYPE_VIDEO) {
-            List<Object> tmpList = new ArrayList<>();
-            tmpList.add(mVideoImageView.getBitmap());
-            publishQuestionShare(content, tmpList, mImageType);
-        } else {
-            publishQuestionShare(content, null, mImageType);
-        }
+        mPresenter.send(mContentEditText.getText().toString());
     }
 
 
@@ -227,124 +323,6 @@ public class ChatterSubmitActivity extends BaseBackActionBarActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         mImageChooser.onActivityResult(requestCode, resultCode, data);
-    }
-
-    /**
-     * 发布问题/分享 内容
-     *
-     * @param content
-     */
-    private void publishQuestionShare(String content, final List<Object> bitmapList, final int type) {
-        mProgressDialog.setContent(R.string.progress_tips_send_ing);
-        mProgressDialog.show();
-        Bitmap bitmap = null;
-        if (bitmapList != null && bitmapList.size() == 1)
-            bitmap = (Bitmap) bitmapList.get(0);
-        // 提交提问内容
-        ServiceProvider.doPublishQuestionShare(mContext, "share", content, bitmap, mAnonymousCheckBox.isChecked() ? 1 : 0,
-                new VolleyListener(mContext) {
-
-                    @Override
-                    public void onResponseSuccess(JSONObject response) {
-                        // 获取questionid
-                        String qid = response.optJSONObject(Net.DATA).optString("qid");
-                        if (TextUtils.isEmpty(qid)) {
-                            ToastUtil.showToast(mContext, R.string.tongShiQuan_submit_fail);
-                            return;
-                        }
-                        if (type == ImageChooser.TYPE_VIDEO) {
-                            publishVideo(qid);
-                        } else if (type == ImageChooser.TYPE_IMAGE) {
-                            publicImage(qid, 0, bitmapList);
-                        } else {
-                            ToastUtil.showToast(mContext, R.string.tongShiQuan_submit_success);
-                            toChatterActivity();
-                        }
-                    }
-
-                    @Override
-                    public void onErrorCode(int code) {
-                        ToastUtil.showToast(mContext, R.string.tongShiQuan_submit_fail);
-                        mProgressDialog.dismiss();
-                    }
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        super.onErrorResponse(error);
-                    }
-                });
-    }
-
-    private void publicImage(final String qid, final int index, final List<Object> bitmapList) {
-        ServiceProvider.doUploadImage(mContext, qid, index + 1, (Bitmap) bitmapList.get(index), new VolleyListener(mContext) {
-
-            @Override
-            public void onResponseSuccess(JSONObject response) {
-                if (index == bitmapList.size() - 1) {
-                    mProgressDialog.dismiss();
-                    ToastUtil.showToast(mContext, R.string.tongShiQuan_submit_success);
-                    toChatterActivity();
-                } else {
-                    publicImage(qid, index + 1, bitmapList);
-                }
-            }
-
-            @Override
-            public void onErrorCode(int code) {
-                ToastUtil.showToast(mContext, R.string.tongShiQuan_submit_fail);
-            }
-        });
-    }
-
-    /**
-     * 功能描述: 上传视屏
-     */
-    private void publishVideo(String qid) {
-
-        ServiceProvider.doUploadVideo(mContext, qid, FileUtils.getChatterVideoDir(mContext), new VolleyListener(mContext) {
-            @Override
-            public void onResponseSuccess(JSONObject response) {
-                ToastUtil.showToast(mContext, R.string.tongShiQuan_submit_success);
-                toChatterActivity();
-            }
-
-            @Override
-            public void onErrorCode(int code) {
-                ToastUtil.showToast(mContext, R.string.tongShiQuan_submit_fail);
-            }
-
-            @Override
-            public void onCompleted() {
-                mProgressDialog.dismiss();
-            }
-        });
-
-    }
-
-    private void toChatterActivity() {
-        setResult(RESULT_OK);
-        finish();
-    }
-
-    private void getTopicList() {
-        ServiceProvider.doGetTopicList(mContext, new VolleyListener(mContext) {
-
-            @Override
-            public void onResponseSuccess(JSONObject response) {
-                JSONObject datas = response.optJSONObject(Net.DATA);
-                if (datas == null) {
-                    return;
-                }
-                List<Object> topicList = new ArrayList<>();
-                Iterator it = datas.keys();
-                while (it.hasNext()) {
-                    String key = (String) it.next();
-                    String value = datas.optString(key);
-                    topicList.add(new ChatterTopic(key, Long.parseLong(value) * 1000));
-                }
-                mTopicAdapter.setList(topicList);
-            }
-        });
     }
 
 }

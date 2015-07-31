@@ -7,16 +7,11 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.badou.mworking.base.BaseBackActionBarActivity;
-import com.badou.mworking.entity.Store;
 import com.badou.mworking.entity.category.CategoryDetail;
 import com.badou.mworking.entity.user.UserInfo;
-import com.badou.mworking.net.ServiceProvider;
-import com.badou.mworking.net.volley.VolleyListener;
-import com.badou.mworking.presenter.CategoryBasePresenter;
+import com.badou.mworking.presenter.category.CategoryBasePresenter;
 import com.badou.mworking.presenter.ListPresenter;
-import com.badou.mworking.view.CategoryBaseView;
-
-import org.json.JSONObject;
+import com.badou.mworking.view.category.CategoryBaseView;
 
 public abstract class CategoryBaseActivity extends BaseBackActionBarActivity implements CategoryBaseView {
 

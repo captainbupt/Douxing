@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:myattrs="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_layout_bg">
 
     <com.handmark.pulltorefresh.library.PullToRefreshListView
-        android:id="@+id/ptrlv_fragment_chatter_list"
+        android:id="@+id/content_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/transparent"
@@ -13,9 +14,11 @@
         android:dividerPadding="@dimen/offset_small" />
 
     <com.badou.mworking.widget.NoneResultView
-        android:id="@+id/nrv_fragment_chatter_list_none_result"
+        android:id="@+id/none_result_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        myattrs:tipText="@string/none_result_chatter"
+        myattrs:imgSrc="@drawable/background_none_result_chatter"
         android:layout_gravity="center"
         android:visibility="gone" />
 

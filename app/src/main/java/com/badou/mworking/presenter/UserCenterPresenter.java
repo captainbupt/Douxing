@@ -11,7 +11,6 @@ import android.text.TextUtils;
 import com.badou.mworking.AboutUsActivity;
 import com.badou.mworking.AccountManageActivity;
 import com.badou.mworking.BackWebActivity;
-import com.badou.mworking.ChatListActivity;
 import com.badou.mworking.ChatterUserActivity;
 import com.badou.mworking.MyExamActivity;
 import com.badou.mworking.MyStudyActivity;
@@ -72,7 +71,7 @@ public class UserCenterPresenter extends Presenter {
     // 获取用户详情
     private void updateData() {
         if (mUserDetailUseCase == null)
-            mUserDetailUseCase = new UserDetailUseCase();
+            mUserDetailUseCase = new UserDetailUseCase(UserInfo.getUserInfo().getUid());
         mUserDetailUseCase.execute(new BaseSubscriber<UserDetail>(mContext) {
             @Override
             public void onResponseSuccess(UserDetail data) {
@@ -137,9 +136,7 @@ public class UserCenterPresenter extends Presenter {
 
     public void checkLevel() {
         String userId = UserInfo.getUserInfo().getUid();
-        Intent intent = new Intent(mContext, BackWebActivity.class);
-        intent.putExtra("title", "等级介绍");
-        intent.putExtra(BackWebActivity.KEY_URL, Constant.LV_URL + userId);
+        Intent intent = BackWebActivity.getIntent(mContext, "等级介绍", Constant.LV_URL + userId);
         mContext.startActivity(intent);
     }
 
@@ -153,18 +150,16 @@ public class UserCenterPresenter extends Presenter {
 
     public void toMyChatter() {
         // 缺省UID的情况下，默认进入我的圈
-        Intent intent = new Intent(mContext, ChatterUserActivity.class);
-        intent.putExtra(ChatterUserActivity.KEY_USER_CHATTER, new UserChatterInfo(mUserDetail));
-        intent.putExtra(ChatterUserActivity.KEY_UID, UserInfo.getUserInfo().getUid());
+        Intent intent = ChatterUserActivity.getIntent(mContext, new UserChatterInfo(UserInfo.getUserInfo().getUid(), mUserDetail));
         mContext.startActivity(intent);
 
     }
-
+/*
     public void toMyChat() {
         Intent intent = new Intent(mContext, ChatListActivity.class);
         intent.putExtra(ChatListActivity.KEY_HEAD_URL, mUserDetail.getHeadimg());
         mContext.startActivity(intent);
-    }
+    }*/
 
     public void toMyAccount() {
         mContext.startActivity(new Intent(mContext, AccountManageActivity.class));

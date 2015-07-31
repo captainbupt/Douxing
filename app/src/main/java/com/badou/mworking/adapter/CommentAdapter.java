@@ -1,8 +1,6 @@
 package com.badou.mworking.adapter;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,51 +9,34 @@ import android.widget.TextView;
 
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
-import com.badou.mworking.entity.comment.ChatterComment;
 import com.badou.mworking.entity.comment.Comment;
-import com.badou.mworking.net.ServiceProvider;
+import com.badou.mworking.listener.AdapterItemClickListener;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
-import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.TimeTransfer;
-import com.badou.mworking.util.ToastUtil;
-import com.badou.mworking.widget.WaitProgressDialog;
-
-import org.json.JSONObject;
-
-import java.util.List;
 
 /**
  * 功能描述:评论adapter
  */
 public class CommentAdapter extends MyBaseAdapter<Comment> {
 
+    boolean isChatter;
+
     private int mAllCount = 0;
     private String mQid;
-    private int mType;
     private boolean mDeletable;
-    private WaitProgressDialog mProgressDialog;
+    private AdapterItemClickListener mDeleteClickListener;
 
     public CommentAdapter(Context context) {
         super(context);
+        isChatter = false;
     }
 
-    public CommentAdapter(Context context, String qid, boolean deletable, WaitProgressDialog progressDialog) {
+    public CommentAdapter(Context context, String qid, boolean deletable, AdapterItemClickListener deleteClickListener) {
         super(context);
+        isChatter = true;
         mQid = qid;
-        mProgressDialog = progressDialog;
         mDeletable = deletable;
-    }
-
-    public void setList(List<Comment> list, int AllCount) {
-        super.setList(list);
-        this.mAllCount = AllCount;
-        notifyDataSetChanged();
-    }
-
-    public void addList(List<Comment> list, int AllCount) {
-        super.addList(list);
-        this.mAllCount = AllCount;
-        notifyDataSetChanged();
+        mDeleteClickListener = deleteClickListener;
     }
 
     public void setAllCount(int allCount) {
@@ -76,11 +57,15 @@ public class CommentAdapter extends MyBaseAdapter<Comment> {
         } else {
             convertView = mInflater.inflate(R.layout.adapter_comment,
                     parent, false);
-            if (comment instanceof ChatterComment) {
-                convertView.setBackgroundColor(0x00000000);
-            }
-            holder = new ViewHolder(convertView);
+            holder = new ViewHolder(convertView, mDeleteClickListener);
             convertView.setTag(holder);
+        }
+        if (isChatter) {
+            if (position == 0) {
+                convertView.setBackgroundResource(R.drawable.bg_around_detail);
+            } else {
+                convertView.setBackgroundColor(0xffdde7ec);
+            }
         }
         /*获取员工号*/
         String name = comment.getName();
@@ -96,8 +81,6 @@ public class CommentAdapter extends MyBaseAdapter<Comment> {
         String pubTime = TimeTransfer.long2StringDetailDate(mContext, comment.getTime());
         holder.mDateTextView.setText(pubTime);
 
-        System.out.println("img url: " + comment.getImgUrl());
-
         /**设置头像**/
         ImageViewLoader.setCircleImageViewResource(holder.mHeadImageView, comment.getImgUrl(), mContext.getResources().getDimensionPixelSize(R.dimen.icon_head_size_middle));
 
@@ -111,10 +94,13 @@ public class CommentAdapter extends MyBaseAdapter<Comment> {
         }
         if (!TextUtils.isEmpty(mQid) && (mDeletable || comment.getName().equals("我"))) {
             holder.mDeleteTextView.setVisibility(View.VISIBLE);
-            holder.mDeleteConfirmListener.floor = floorNum;
         } else {
             holder.mDeleteTextView.setVisibility(View.GONE);
         }
+        if (mDeleteClickListener != null) {
+            mDeleteClickListener.setPosition(position);
+        }
+        holder.mDeleteTextView.setTag(position);
         return convertView;
     }
 
@@ -126,9 +112,8 @@ public class CommentAdapter extends MyBaseAdapter<Comment> {
         TextView mFloorNumTextView;
         TextView mDeleteTextView;
         View mDividerView;
-        DeleteConfirmListener mDeleteConfirmListener;
 
-        public ViewHolder(View view) {
+        public ViewHolder(View view, AdapterItemClickListener deleteClickListener) {
             mHeadImageView = (ImageView) view
                     .findViewById(R.id.iv_adapter_comment_head);
             mNameTextView = (TextView) view
@@ -140,42 +125,12 @@ public class CommentAdapter extends MyBaseAdapter<Comment> {
             mFloorNumTextView = (TextView) view.findViewById(R.id.tv_adapter_comment_floor);
             mDividerView = view.findViewById(R.id.view_adapter_comment_divider);
             mDeleteTextView = (TextView) view.findViewById(R.id.tv_adapter_comment_delete);
-            mDeleteConfirmListener = new DeleteConfirmListener();
-            /*if (mType == Comment.TYPE_CHATTER) {
-                mDeleteTextView.setOnClickListener(new DeleteClickListener(mContext, mDeleteConfirmListener));
-                view.setBackgroundColor(0x00000000);
+            mDeleteTextView.setOnClickListener(deleteClickListener);
+            if (isChatter) {
                 mDeleteTextView.setVisibility(View.VISIBLE);
             } else {
                 mDeleteTextView.setVisibility(View.GONE);
-            }*/
-        }
-    }
-
-    class DeleteConfirmListener implements DialogInterface.OnClickListener {
-
-        public int floor;
-
-        @Override
-        public void onClick(DialogInterface dialogInterface, int i) {
-            mProgressDialog.setContent(R.string.progress_tips_delete_ing);
-            ServiceProvider.deleteReplyComment(mContext, mQid, floor,
-                    new VolleyListener(mContext) {
-
-                        @Override
-                        public void onResponseSuccess(JSONObject response) {
-                            ToastUtil.showToast(mContext, "删除评论成功！");
-                            int position = mAllCount - floor;
-                            mAllCount--;
-                            remove(position);
-                        }
-
-                        @Override
-                        public void onCompleted() {
-                            if (!((Activity) mContext).isFinishing()) {
-                                mProgressDialog.dismiss();
-                            }
-                        }
-                    });
+            }
         }
     }
 }

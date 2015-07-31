@@ -13,15 +13,13 @@ import com.badou.mworking.R;
 import com.badou.mworking.adapter.EntryOperationAdapter;
 import com.badou.mworking.base.BaseFragment;
 import com.badou.mworking.entity.category.EntryOperation;
-import com.badou.mworking.presenter.EntryOperationPresenter;
+import com.badou.mworking.presenter.category.EntryOperationPresenter;
 import com.badou.mworking.util.DensityUtil;
-import com.badou.mworking.view.BaseListView;
-import com.badou.mworking.view.EntryOperationView;
+import com.badou.mworking.view.category.EntryOperationView;
 import com.badou.mworking.widget.CategoryTabContent;
 import com.captainhwz.layout.DefaultContentHandler;
 import com.captainhwz.layout.MaterialHeaderLayout;
 
-import java.io.Serializable;
 import java.util.List;
 
 import butterknife.Bind;

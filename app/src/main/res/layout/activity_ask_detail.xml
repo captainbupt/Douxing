@@ -5,145 +5,15 @@
     android:layout_height="match_parent"
     android:background="@color/color_layout_bg">
 
-    <com.handmark.pulltorefresh.library.PullToRefreshScrollView
-        android:id="@+id/ptrsv_activity_ask_detail"
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        android:id="@+id/content_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/ll_activity_ask_detail_bottom_comment"
-        android:scrollbars="none"
-        myattr:ptrMode="both">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/offset_less"
-            android:paddingTop="@dimen/offset_less">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/color_white"
-                android:orientation="vertical"
-                android:paddingLeft="@dimen/offset_medium"
-                android:paddingRight="@dimen/offset_medium">
-
-                <TextView
-                    android:id="@+id/tv_activity_ask_detail_subject"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/offset_less"
-                    android:paddingTop="@dimen/offset_less"
-                    android:textColor="@color/color_text_black"
-                    android:textSize="@dimen/text_size_large" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/color_border_grey" />
-
-                <TextView
-                    android:id="@+id/tv_activity_ask_detail_time"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/offset_small"
-                    android:text="@string/ask_detail_time"
-                    android:textColor="@color/color_text_grey"
-                    android:textSize="@dimen/text_size_medium" />
-
-                <TextView
-                    android:id="@+id/tv_activity_ask_detail_content"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/offset_small"
-                    android:textColor="@color/color_text_grey"
-                    android:textSize="@dimen/text_size_medium" />
-
-                <ImageView
-                    android:id="@+id/iv_activity_ask_detail_content"
-                    android:layout_width="@dimen/icon_size_xlarge"
-                    android:layout_height="@dimen/icon_size_xlarge"
-                    android:layout_marginTop="@dimen/offset_small"
-                    android:horizontalSpacing="@dimen/offset_less"
-                    android:scaleType="centerCrop"
-                    android:verticalSpacing="@dimen/offset_less" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="@dimen/offset_small"
-                    android:background="@color/color_border_grey" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingBottom="@dimen/offset_less"
-                    android:paddingTop="@dimen/offset_less">
-
-                    <ImageView
-                        android:id="@+id/iv_activity_ask_detail_user_head"
-                        android:layout_width="@dimen/icon_head_size_small"
-                        android:layout_height="@dimen/icon_head_size_small"
-                        android:scaleType="centerInside"
-                        android:src="@drawable/icon_user_detail_default_head" />
-
-                    <TextView
-                        android:id="@+id/tv_activity_ask_detail_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/offset_less"
-                        android:layout_weight="1"
-                        android:textColor="@color/color_text_grey"
-                        android:textSize="@dimen/text_size_medium" />
-
-                    <TextView
-                        android:id="@+id/tv_activity_ask_detail_message"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="@dimen/offset_small"
-                        android:text="@string/operation_message"
-                        android:textColor="@color/color_blue"
-                        android:textSize="@dimen/text_size_small" />
-
-                    <TextView
-                        android:id="@+id/tv_activity_ask_detail_delete"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="@dimen/offset_small"
-                        android:text="@string/operation_delete"
-                        android:textColor="@color/color_blue"
-                        android:textSize="@dimen/text_size_small" />
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <com.badou.mworking.widget.NoneResultView
-                android:id="@+id/nrv_activity_ask_detail_none"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="80dp"
-                android:visibility="gone" />
-
-            <com.badou.mworking.widget.NoScrollListView
-                android:id="@+id/nslv_activity_ask_detail_answer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/offset_less"
-                android:layout_marginTop="@dimen/offset_less"
-                android:background="@color/color_white"
-                android:paddingLeft="@dimen/offset_medium"
-                android:paddingRight="@dimen/offset_medium"
-                myattr:dividerColor="@color/color_border_grey"
-                myattr:dividerHeight="1dp" />
-
-        </LinearLayout>
-    </com.handmark.pulltorefresh.library.PullToRefreshScrollView>
+        android:layout_above="@+id/reply_layout"
+        android:scrollbars="none" />
 
     <LinearLayout
-        android:id="@+id/ll_activity_ask_detail_bottom_comment"
+        android:id="@+id/reply_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

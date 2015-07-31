@@ -69,7 +69,7 @@ public class MessageCenterActivity extends BaseBackActionBarActivity {
         };
         if (messageCenter.type.equals(MessageCenter.TYPE_NOTICE) || messageCenter.type.equals(MessageCenter.TYPE_EXAM)
                 || messageCenter.type.equals(MessageCenter.TYPE_TRAINING) || messageCenter.type.equals(MessageCenter.TYPE_TASK)
-                || messageCenter.type.equals(MessageCenter.TYPE_SHELF)) {
+                || messageCenter.type.equals(MessageCenter.TYPE_SHELF) || messageCenter.type.equals(MessageCenter.TYPE_ENTRY)) {
             mProgressDialog.dismiss();
             mContentAdapter.deleteItem(position);
             startActivity(CategoryIntentFactory.getIntent(context, messageCenter.getCategoryType(), messageCenter.add, true));
@@ -77,9 +77,9 @@ public class MessageCenterActivity extends BaseBackActionBarActivity {
             ResourceClickHandler.toChatterPage(context, messageCenter.add, onCompleteListener);
         } else if (messageCenter.type.equals(MessageCenter.TYPE_ASK)) {
             ResourceClickHandler.toAskPage(context, messageCenter.add, onCompleteListener);
-        } else if (messageCenter.type.equals(MessageCenter.TYPE_CHAT)) {
+        } /*else if (messageCenter.type.equals(MessageCenter.TYPE_CHAT)) {
             ResourceClickHandler.toChatPage(context, onCompleteListener);
-        } else {
+        }*/ else {
             ToastUtil.showToast(mContext, R.string.category_unsupport_type);
             mProgressDialog.dismiss();
         }

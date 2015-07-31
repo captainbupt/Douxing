@@ -2,7 +2,7 @@ package com.badou.mworking.presenter;
 
 import android.content.Context;
 
-import com.badou.mworking.domain.EnrollUseCase;
+import com.badou.mworking.domain.category.EnrollUseCase;
 import com.badou.mworking.entity.category.CategoryDetail;
 import com.badou.mworking.view.BaseView;
 import com.badou.mworking.view.PlanIntroductionView;

@@ -1,5 +1,6 @@
 package com.badou.mworking;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -12,75 +13,77 @@ import android.widget.TextView;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.volley.VolleyListener;
+import com.badou.mworking.presenter.Presenter;
+import com.badou.mworking.presenter.ask.AskReplyPresenter;
 import com.badou.mworking.util.ImageChooser;
 import com.badou.mworking.util.ToastUtil;
+import com.badou.mworking.view.ask.AskReplyView;
 import com.badou.mworking.widget.MultiImageEditGridView;
 
 import org.json.JSONObject;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * 问答页面
  */
-public class AskAnswerSubmitActivity extends BaseBackActionBarActivity {
+public class AskAnswerSubmitActivity extends BaseBackActionBarActivity implements AskReplyView {
 
-    public static final String KEY_AID = "aid";
+    private static final String KEY_AID = "aid";
 
-    private String mAid = "";
-    private EditText mContentEditText;
-    private MultiImageEditGridView mImageGridView;
-    private TextView mPhotoLinearTextView;
-    private ImageChooser mImageChooser;
+    @Bind(R.id.content_edit_text)
+    EditText mContentEditText;
+    @Bind(R.id.image_grid_view)
+    MultiImageEditGridView mImageGridView;
+    @Bind(R.id.photo_text_view)
+    TextView mPhotoTextView;
+
+    ImageChooser mImageChooser;
+
+    AskReplyPresenter mPresenter;
+
+    public static Intent getIntent(Context context, String aid) {
+        Intent intent = new Intent(context, AskAnswerSubmitActivity.class);
+        intent.putExtra(KEY_AID, aid);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setActionbarTitle(R.string.ask_title_reply);
         setContentView(R.layout.activity_ask_answer_submit);
-        initView();
+        ButterKnife.bind(this);
         initListener();
-        initData();
+        mPresenter = (AskReplyPresenter) super.mPresenter;
+        mPresenter.attachView(this);
     }
 
-    /**
-     * 初始化
-     */
-    private void initView() {
-        mContentEditText = (EditText) findViewById(R.id.et_activity_ask_answer_submit_content);
-        mImageGridView = (MultiImageEditGridView) findViewById(R.id.miegv_activity_ask_answer_submit);
-        mPhotoLinearTextView = (TextView) findViewById(R.id.tv_activity_ask_answer_photo);
+    @Override
+    public Presenter getPresenter() {
+        return new AskReplyPresenter(mContext, mReceivedIntent.getStringExtra(KEY_AID));
     }
 
     private void initListener() {
-        mPhotoLinearTextView.setOnClickListener(new OnClickListener() {
+        mPhotoTextView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                mImageChooser.takeImage(getResources().getString(R.string.add_picture));
+                mPresenter.takeImage();
             }
         });
         mImageGridView.setAddOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                mImageChooser.takeImage(getResources().getString(R.string.add_picture));
+                mPresenter.takeImage();
             }
         });
-        mImageChooser = new ImageChooser(mContext, true, true, false);
-        mImageChooser.setOnImageChosenListener(new ImageChooser.OnImageChosenListener() {
-            @Override
-            public void onImageChosen(Bitmap bitmap, int type) {
-                mImageGridView.addImage(bitmap);
-            }
-        });
-    }
-
-    private void initData() {
-        mProgressDialog.setContent(R.string.progress_tips_submit_ing);
-        mAid = mReceivedIntent.getStringExtra(KEY_AID);
         setRightImage(R.drawable.button_title_send, new OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendReply();
+                mPresenter.sendReply(mContentEditText.getText().toString(), mImageGridView.getImages());
             }
         });
-        setActionbarTitle("回答");
     }
 
     @Override
@@ -89,36 +92,23 @@ public class AskAnswerSubmitActivity extends BaseBackActionBarActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void sendReply() {
-        String content = mContentEditText.getText().toString();
-        if (TextUtils.isEmpty(content)) {
-            ToastUtil.showToast(mContext, R.string.ask_answer_tip_empty);
-            return;
-        } else if (content.replace(" ", "").length() < 5) {
-            ToastUtil.showToast(mContext, R.string.ask_answer_tip_little);
-            return;
-        }
-        mProgressDialog.show();
-        Bitmap bitmap = null;
-        if (mImageGridView.getImages() != null && mImageGridView.getImages().size() >= 1)
-            bitmap = (Bitmap) mImageGridView.getImages().get(0);
-        // 提交提问内容
-        ServiceProvider.doPublishAnswer(mContext, content, mAid, bitmap,
-                new VolleyListener(mContext) {
-
-                    @Override
-                    public void onResponseSuccess(JSONObject response) {
-                        setResult(RESULT_OK);
-                        mProgressDialog.dismiss();
-                        finish();
-                    }
-
-                    @Override
-                    public void onCompleted() {
-                        mProgressDialog.dismiss();
-                    }
-                });
+    @Override
+    public void addImage(Bitmap bitmap) {
+        mImageGridView.setImage(0, bitmap);
     }
 
+    @Override
+    public void takeImage() {
+        if (mImageChooser == null) {
+            mImageChooser = new ImageChooser(mContext, true, true, false);
+            mImageChooser.setOnImageChosenListener(new ImageChooser.OnImageChosenListener() {
+                @Override
+                public void onImageChosen(Bitmap bitmap, int type) {
+                    mPresenter.onImageSelected(bitmap);
+                }
+            });
+        }
+        mImageChooser.takeImage(getResources().getString(R.string.add_picture));
+    }
 }
 

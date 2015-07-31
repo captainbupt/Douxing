@@ -2,102 +2,100 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/color_white"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/offset_less"
-    android:paddingTop="@dimen/offset_less">
+    android:padding="@dimen/offset_less">
 
     <!-- 垂直的父控件用于在adapter中手动添加分割线-->
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:paddingRight="@dimen/offset_less">
 
         <ImageView
-            android:id="@+id/iv_adapter_ask_answer_head"
+            android:id="@+id/head_image_view"
             android:layout_width="@dimen/icon_head_size_middle"
             android:layout_height="@dimen/icon_head_size_middle"
-            android:scaleType="centerInside"
+            android:layout_marginRight="@dimen/offset_medium"
+            android:scaleType="centerCrop"
             android:src="@drawable/icon_user_detail_default_head" />
+
+        <TextView
+            android:id="@+id/name_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/head_image_view"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textColor="@color/color_text_grey"
+            android:textSize="@dimen/text_size_medium" />
+
+        <TextView
+            android:id="@+id/content_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/name_text_view"
+            android:layout_marginTop="@dimen/offset_small"
+            android:layout_toRightOf="@id/head_image_view"
+            android:textColor="@color/color_text_black"
+            android:textSize="@dimen/text_size_medium" />
+
+        <ImageView
+            android:id="@+id/content_image_view"
+            android:layout_width="@dimen/icon_size_xlarge"
+            android:layout_height="@dimen/icon_size_xlarge"
+            android:layout_below="@id/content_text_view"
+            android:layout_marginTop="@dimen/offset_small"
+            android:layout_toRightOf="@id/head_image_view"
+            android:horizontalSpacing="@dimen/offset_less"
+            android:scaleType="centerCrop"
+            android:verticalSpacing="@dimen/offset_less" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/offset_medium"
-            android:gravity="left"
-            android:orientation="vertical">
+            android:layout_below="@id/content_image_view"
+            android:layout_marginTop="@dimen/offset_small"
+            android:layout_toRightOf="@id/head_image_view"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/tv_adapter_ask_answer_name"
-                android:layout_width="match_parent"
+                android:id="@+id/tv_adapter_ask_answer_floor"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:singleLine="true"
+                android:layout_marginRight="@dimen/offset_less"
                 android:textColor="@color/color_text_grey"
-                android:textSize="@dimen/text_size_medium" />
+                android:textSize="@dimen/text_size_less" />
 
             <TextView
-                android:id="@+id/tv_adapter_ask_answer_content"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/offset_small"
-                android:textColor="@color/color_text_black"
-                android:textSize="@dimen/text_size_medium" />
+                android:layout_marginRight="@dimen/offset_less"
+                android:text="·"
+                android:textColor="@color/color_text_grey"
+                android:textSize="@dimen/text_size_less" />
+
+            <TextView
+                android:id="@+id/tv_adapter_ask_answer_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/color_text_grey"
+                android:textSize="@dimen/text_size_less" />
 
             <ImageView
-                android:id="@+id/iv_adapter_ask_answer"
-                android:layout_width="@dimen/icon_size_xlarge"
-                android:layout_height="@dimen/icon_size_xlarge"
-                android:layout_marginTop="@dimen/offset_small"
-                android:horizontalSpacing="@dimen/offset_less"
-                android:scaleType="centerCrop"
-                android:verticalSpacing="@dimen/offset_less" />
+                android:id="@+id/iv_adapter_ask_answer_praise"
+                android:layout_width="@dimen/around_icon_reply_width"
+                android:layout_height="@dimen/around_icon_reply_width"
+                android:src="@drawable/icon_praise_unchecked" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/tv_adapter_ask_answer_praise_count"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/offset_small"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tv_adapter_ask_answer_floor"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/offset_less"
-                    android:textColor="@color/color_text_grey"
-                    android:textSize="@dimen/text_size_less" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/offset_less"
-                    android:text="·"
-                    android:textColor="@color/color_text_grey"
-                    android:textSize="@dimen/text_size_less" />
-
-                <TextView
-                    android:id="@+id/tv_adapter_ask_answer_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textColor="@color/color_text_grey"
-                    android:textSize="@dimen/text_size_less" />
-
-                <CheckBox
-                    android:id="@+id/cb_adapter_ask_answer_praise"
-                    android:layout_width="@dimen/around_icon_reply_width"
-                    android:layout_height="@dimen/around_icon_reply_width"
-                    android:button="@null"
-                    android:background="@drawable/icon_praise" />
-
-                <TextView
-                    android:id="@+id/tv_adapter_ask_answer_praise_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/color_text_blue"
-                    android:textSize="@dimen/text_size_less" />
-            </LinearLayout>
+                android:textColor="@color/color_text_blue"
+                android:textSize="@dimen/text_size_less" />
         </LinearLayout>
-    </LinearLayout>
+    </RelativeLayout>
 </LinearLayout>

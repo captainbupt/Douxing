@@ -11,16 +11,13 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.badou.mworking.PhotoActivity;
+import com.badou.mworking.MultiPhotoActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
 
 import java.util.List;
 
-/**
- * Created by Administrator on 2015/6/8.
- */
 public class MultiImageShowGridView extends GridView {
 
     private MultiImageShowAdapter mAdapter;
@@ -32,8 +29,7 @@ public class MultiImageShowGridView extends GridView {
         setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(context, PhotoActivity.class);
-                intent.putExtra(PhotoActivity.KEY_URL, (String) mAdapter.getItem(i));
+                Intent intent = MultiPhotoActivity.getIntentFromWeb(context, mAdapter.getItemList(), i);
                 context.startActivity(intent);
             }
         });
@@ -47,7 +43,7 @@ public class MultiImageShowGridView extends GridView {
         super.onMeasure(widthMeasureSpec, expandSpec);
     }
 
-    public void setList(List<Object> imgUrlList) {
+    public void setList(List<String> imgUrlList) {
         LinearLayout.LayoutParams layoutParams;
         if (imgUrlList != null) {
             int paddingSide = getPaddingLeft();
@@ -64,7 +60,7 @@ public class MultiImageShowGridView extends GridView {
     }
 
 
-    static class MultiImageShowAdapter extends MyBaseAdapter {
+    static class MultiImageShowAdapter extends MyBaseAdapter<String> {
 
         public MultiImageShowAdapter(Context context) {
             super(context);

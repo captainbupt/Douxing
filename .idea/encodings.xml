@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+<<<<<<< HEAD
   <component name="Encoding" useUTFGuessing="false" native2AsciiForPropertiesFiles="false">
     <file url="file://$PROJECT_DIR$/QRCodeScan" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/badou/mworking/MyExamActivity.java" charset="UTF-8" />
@@ -14,6 +15,13 @@
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/badou/mworking/presenter/CategoryBasePresenter.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/badou/mworking/presenter/UserCenterPresenter.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/badou/mworking/util/DialogUtil.java" charset="UTF-8" />
+=======
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/badou/mworking/net/bitmap/BitmapLruCache.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/badou/mworking/presenter/MultiPhotoPresenter.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/badou/mworking/presenter/ask/AskDetailPresenter.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/badou/mworking/presenter/ask/AskPresenter.java" charset="UTF-8" />
+>>>>>>> b1bdbc451037569ae25517b5bb57df1e37002b04
   </component>
 </project>
 

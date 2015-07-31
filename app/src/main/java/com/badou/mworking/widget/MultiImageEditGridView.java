@@ -15,6 +15,7 @@ import android.widget.ImageView;
 
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
+import com.badou.mworking.util.BitmapUtil;
 
 import java.util.List;
 
@@ -59,12 +60,21 @@ public class MultiImageEditGridView extends GridView {
         modifyLayout();
     }
 
+    public void setImage(int position, Bitmap bmp) {
+        if (position >= mAdapter.getListCount()) {
+            addImage(bmp);
+            return;
+        }
+        mAdapter.setItem(position, bmp);
+        modifyLayout();
+    }
+
     public void clear() {
-        List<Object> bitmaps = getImages();
+        List<Bitmap> bitmaps = getImages();
         mAdapter.setList(null);
         if (bitmaps != null && bitmaps.size() > 0) {
-            for (Object o : bitmaps) {
-                ((Bitmap) o).recycle();
+            for (Bitmap o : bitmaps) {
+                BitmapUtil.recycleBitmap(o);
             }
             bitmaps.clear();
         }
@@ -74,7 +84,11 @@ public class MultiImageEditGridView extends GridView {
         return mAdapter.getListCount() >= mMaxImage;
     }
 
-    public List<Object> getImages() {
+    public int getMaxImageCount() {
+        return mMaxImage;
+    }
+
+    public List<Bitmap> getImages() {
         return mAdapter.getItemList();
     }
 
@@ -91,7 +105,7 @@ public class MultiImageEditGridView extends GridView {
         setLayoutParams(layoutParams);
     }
 
-    static class MultiImageEditAdapter extends MyBaseAdapter {
+    static class MultiImageEditAdapter extends MyBaseAdapter<Bitmap> {
 
         private OnClickListener mAddOnClickListener;
         private int mMaxImage;
@@ -117,7 +131,7 @@ public class MultiImageEditGridView extends GridView {
         }
 
         @Override
-        public void addItem(Object object) {
+        public void addItem(Bitmap object) {
             Bitmap bitmap = (Bitmap) object;
             if (getListCount() < mMaxImage) {
                 super.addItem(object);
@@ -125,10 +139,15 @@ public class MultiImageEditGridView extends GridView {
                 Bitmap old = (Bitmap) mItemList.get(mMaxImage - 1);
                 mItemList.set(mMaxImage - 1, bitmap);
                 notifyDataSetChanged();
-                if (old != null && !old.isRecycled()) {
-                    old.recycle();
-                }
+                BitmapUtil.recycleBitmap(old);
             }
+        }
+
+        @Override
+        public void setItem(int position, Bitmap item) {
+            Bitmap bitmap = getItem(position);
+            super.setItem(position, item);
+            BitmapUtil.recycleBitmap(bitmap);
         }
 
         @Override

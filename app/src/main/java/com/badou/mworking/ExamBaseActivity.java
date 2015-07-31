@@ -7,16 +7,12 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.badou.mworking.base.BaseBackActionBarActivity;
-import com.badou.mworking.entity.Store;
 import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.CategoryDetail;
-import com.badou.mworking.entity.category.Exam;
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.fragment.WebViewFragment;
 import com.badou.mworking.net.Net;
-import com.badou.mworking.net.RequestParameters;
-import com.badou.mworking.presenter.CategoryBasePresenter;
+import com.badou.mworking.presenter.category.CategoryBasePresenter;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

@@ -87,7 +87,7 @@ public class AboutUsPresenter extends Presenter {
     // 常见问题
     public void frequentQuestion() {
         Intent intent1 = new Intent(mContext, TipsWebView.class);
-        intent1.putExtra(BackWebActivity.KEY_URL, Net.getRunHost() + Net.FAQ);
+        intent1.putExtra(TipsWebView.KEY_URL, Net.getRunHost() + Net.FAQ);
         intent1.putExtra(TipsWebView.KEY_TITLE, mContext.getResources().getString(R.string.about_us_frequent_question));
         mContext.startActivity(intent1);
     }
