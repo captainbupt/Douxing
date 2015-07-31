@@ -12,13 +12,10 @@ import android.widget.TextView;
 
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseBackActionBarActivity;
+import com.badou.mworking.domain.ResetPasswordUseCase;
 import com.badou.mworking.entity.user.UserInfo;
-import com.badou.mworking.net.Net;
-import com.badou.mworking.net.ServiceProvider;
-import com.badou.mworking.net.volley.VolleyListener;
+import com.badou.mworking.net.BaseSubscriber;
 import com.badou.mworking.util.ToastUtil;
-
-import org.json.JSONObject;
 
 import java.util.regex.Pattern;
 
@@ -122,38 +119,26 @@ public class ForgetPasswordVerificationActivity extends BaseBackActionBarActivit
      */
     private void ChangePass(final String phoneNum, String vcode, String newpwd) {
         mProgressDialog.show();
-        ServiceProvider.doForgetPassword(mContext, phoneNum, vcode, newpwd, new VolleyListener(mContext) {
-
+        new ResetPasswordUseCase(phoneNum, vcode, newpwd).execute(new BaseSubscriber<UserInfo>(mContext) {
             @Override
-            public void onCompleted() {
-                if (!mActivity.isFinishing()) {
-                    mProgressDialog.dismiss();
-                }
+            public void onResponseSuccess(UserInfo data) {
+                // 返回码正确时 调用
+                ToastUtil.showToast(mContext, R.string.password_success);
+                chaSuccess(phoneNum, data);
+                finish();
             }
 
             @Override
-            public void onResponseSuccess(JSONObject response) {
-                // 返回码正确时 调用
-                chaSuccess(phoneNum,
-                        response.optJSONObject(Net.DATA));
-                finish();
+            public void onCompleted() {
+                mProgressDialog.dismiss();
             }
         });
     }
 
-    private void chaSuccess(String phone, JSONObject json) {
-        ToastUtil.showToast(mContext, R.string.password_success);
-        loginSuccess(phone, json);
-    }
-
     /**
      * 登录成功 保存信息
-     *
-     * @param jsonObject 登录成功返回的json
      */
-    private void loginSuccess(String acount,
-                              JSONObject jsonObject) {
-        UserInfo userInfo = new UserInfo();
+    private void chaSuccess(String acount,UserInfo userInfo) {
         // 保存用户登录成功返回的信息 到sharePreferncers
         UserInfo.setUserInfo((AppApplication) mContext.getApplicationContext(), acount, userInfo);
         goMainGrid();

@@ -13,40 +13,27 @@
  */
 package com.easemob.chatuidemo.activity;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View;
-import android.widget.Toast;
 
-import com.android.volley.VolleyError;
 import com.badou.mworking.LoginActivity;
+import com.badou.mworking.R;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.database.EMChatResManager;
+import com.badou.mworking.domain.emchat.EmchatListGetUseCase;
+import com.badou.mworking.entity.emchat.ContactList;
 import com.badou.mworking.entity.emchat.Department;
 import com.badou.mworking.entity.emchat.EMChatEntity;
-import com.badou.mworking.entity.emchat.Role;
 import com.badou.mworking.entity.user.UserInfo;
-import com.badou.mworking.net.Net;
-import com.badou.mworking.net.ServiceProvider;
-import com.badou.mworking.net.volley.VolleyListener;
+import com.badou.mworking.net.BaseSubscriber;
 import com.badou.mworking.util.SPHelper;
 import com.badou.mworking.util.ToastUtil;
 import com.easemob.EMCallBack;
@@ -58,10 +45,6 @@ import com.easemob.EMNotifierEvent;
 import com.easemob.EMValueCallBack;
 import com.easemob.applib.controller.HXSDKHelper;
 import com.easemob.chat.EMChatManager;
-import com.easemob.chat.EMContactListener;
-import com.easemob.chat.EMContactManager;
-import com.easemob.chat.EMConversation;
-import com.easemob.chat.EMConversation.EMConversationType;
 import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupManager;
 import com.easemob.chat.EMMessage;
@@ -70,15 +53,12 @@ import com.easemob.chat.EMMessage.Type;
 import com.easemob.chat.TextMessageBody;
 import com.easemob.chatuidemo.Constant;
 import com.easemob.chatuidemo.DemoHXSDKHelper;
-import com.badou.mworking.R;
-import com.easemob.chatuidemo.domain.User;
-import com.easemob.chatuidemo.utils.CommonUtils;
 import com.easemob.util.EMLog;
-import com.easemob.util.HanziToPinyin;
 import com.easemob.util.NetUtils;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+import java.util.Calendar;
+import java.util.List;
+import java.util.UUID;
 
 public class MainActivity extends BaseBackActionBarActivity implements EMEventListener {
 
@@ -177,81 +157,24 @@ public class MainActivity extends BaseBackActionBarActivity implements EMEventLi
 
     public static void initContactsFromServer(final Context context, final OnUpdatingListener onUpdatingListener) {
         onUpdatingListener.onStart();
-        ServiceProvider.getContacts(context, new VolleyListener(context) {
+        new EmchatListGetUseCase().execute(new BaseSubscriber<ContactList>(context) {
             @Override
-            public void onResponseSuccess(final JSONObject response) {
-                new Thread() {
-
-                    @Override
-                    public void run() {
-                        JSONObject data = response.optJSONObject(Net.DATA);
-                        JSONObject roleJsonObject = data.optJSONObject("rolecfg");
-                        JSONArray userArray = data.optJSONArray("usrlst");
-                        List<Department> departments = new ArrayList<Department>();
-                        List<Role> roles = new ArrayList<Role>();
-                        List<User> contacts = new ArrayList<User>();
-                        getDepartmentInfo(departments, data.optJSONArray("dptcfg"), -1l);
-                        Iterator<String> iterator = roleJsonObject.keys();
-                        while (iterator.hasNext()) {
-                            String name = iterator.next();
-                            int id = Integer.parseInt(roleJsonObject.optString(name));
-                            roles.add(new Role(id, name));
-                        }
-                        for (int ii = 0; ii < userArray.length(); ii++) {
-                            JSONObject userObject = userArray.optJSONObject(ii);
-                            String username = userObject.optString("employee_id");
-                            String nick = userObject.optString("name");
-                            long department = Long.parseLong(userObject.optString("department"));
-                            int role = Integer.parseInt(userObject.optString("role"));
-                            String avatar = userObject.optString("imgurl");
-                            User user = new User(username, nick, avatar, department, role);
-                            contacts.add(user);
-                        }
-                        EMChatResManager.insertContacts(contacts);
-                        EMChatResManager.insertDepartments(departments);
-                        EMChatResManager.insertRoles(roles);
-                        EMChatEntity.getInstance().setContactList(null);
-                        EMChatEntity.getInstance().getContactList();
-                        ((Activity) context).runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                SPHelper.setContactLastUpdateTime(context, Calendar.getInstance().getTimeInMillis());
-                                onUpdatingListener.onComplete();
-                            }
-                        });
-                    }
-                }.start();
+            public void onResponseSuccess(ContactList data) {
+                SPHelper.setContactLastUpdateTime(context, Calendar.getInstance().getTimeInMillis());
+                onUpdatingListener.onComplete();
             }
 
             @Override
-            public void onErrorResponse(VolleyError error) {
-                super.onErrorResponse(error);
+            public void onCompleted() {
                 onUpdatingListener.onComplete();
             }
         });
     }
 
-    private static void getDepartmentInfo(List<Department> departments, JSONArray departmentArray, long parent) {
-        if (departmentArray == null || departmentArray.length() == 0) {
-            return;
-        }
-        for (int ii = 0; ii < departmentArray.length(); ii++) {
-            JSONObject jsonObject = departmentArray.optJSONObject(ii);
-            String name = jsonObject.optString("name");
-            long id = jsonObject.optLong("dpt");
-            JSONArray sonArray = jsonObject.optJSONArray("son");
-            long[] sons;
-            if (sonArray == null || sonArray.length() == 0) {
-                sons = new long[0];
-            } else {
-                sons = new long[sonArray.length()];
-                for (int jj = 0; jj < sonArray.length(); jj++) {
-                    sons[jj] = sonArray.optJSONObject(jj).optLong("dpt");
-                }
-                getDepartmentInfo(departments, sonArray, id);
-            }
-            Department department = new Department(id, name, parent, sons);
-            departments.add(department);
+    public static void setParent(Department parent) {
+        for (Department son : parent.getSonList()) {
+            son.setParent(parent.getParent());
+            setParent(son);
         }
     }
 

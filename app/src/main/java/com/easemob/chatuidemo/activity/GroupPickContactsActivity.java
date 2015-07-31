@@ -57,7 +57,7 @@ import com.easemob.chat.TextMessageBody;
 import com.easemob.chatuidemo.adapter.MessageAdapter;
 import com.easemob.chatuidemo.adapter.PickContactsAdapter;
 import com.easemob.chatuidemo.adapter.PickContactsAutoCompleteAdapter;
-import com.easemob.chatuidemo.domain.User;
+import com.badou.mworking.entity.emchat.User;
 import com.easemob.chatuidemo.widget.Sidebar;
 import com.easemob.exceptions.EaseMobException;
 
@@ -334,7 +334,12 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
         Collections.sort(contacts, new Comparator<User>() {
             @Override
             public int compare(User lhs, User rhs) {
-                return (lhs.getNick().compareTo(rhs.getNick()));
+                int headerResult = lhs.getHeader().compareTo(rhs.getHeader());
+                if(headerResult == 0) { // 先按首字母比较，若相同，则按nick比较
+                    return (lhs.getNick().compareTo(rhs.getNick()));
+                }else{
+                    return headerResult;
+                }
             }
         });
 

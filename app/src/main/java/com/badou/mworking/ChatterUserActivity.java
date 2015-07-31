@@ -1,6 +1,5 @@
 package com.badou.mworking;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,31 +7,14 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.badou.mworking.adapter.ChatterListAdapter;
 import com.badou.mworking.base.BaseNoTitleActivity;
-import com.badou.mworking.entity.chatter.Chatter;
 import com.badou.mworking.entity.user.UserChatterInfo;
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.fragment.ChatterListFragment;
-import com.badou.mworking.net.Net;
-import com.badou.mworking.net.ServiceProvider;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
-import com.badou.mworking.net.volley.VolleyListener;
-import com.badou.mworking.util.Constant;
-import com.badou.mworking.util.GsonUtil;
-import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.LevelTextView;
-import com.badou.mworking.widget.NoScrollListView;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

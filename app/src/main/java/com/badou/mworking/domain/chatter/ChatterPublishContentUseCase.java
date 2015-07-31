@@ -3,7 +3,6 @@ package com.badou.mworking.domain.chatter;
 import com.badou.mworking.domain.UseCase;
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.RestRepository;
-import com.easemob.chatuidemo.domain.User;
 
 import java.io.File;
 

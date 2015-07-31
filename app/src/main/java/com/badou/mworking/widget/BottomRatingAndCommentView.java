@@ -1,27 +1,14 @@
 package com.badou.mworking.widget;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.res.TypedArray;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.badou.mworking.CommentActivity;
 import com.badou.mworking.R;
-import com.badou.mworking.base.BaseActionBarActivity;
-import com.badou.mworking.entity.category.CategoryDetail;
-import com.badou.mworking.net.Net;
-import com.badou.mworking.net.ServiceProvider;
-import com.badou.mworking.net.volley.VolleyListener;
-import com.badou.mworking.presenter.CommentPresenter;
-
-import org.json.JSONObject;
 
 public class BottomRatingAndCommentView extends LinearLayout {
 

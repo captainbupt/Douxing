@@ -6,12 +6,10 @@ import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.badou.mworking.R;
-import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.easemob.EMCallBack;
 import com.easemob.chatuidemo.DemoHXSDKHelper;
 import com.easemob.chatuidemo.activity.ChatActivity;
-import com.easemob.chatuidemo.domain.User;
 
 import java.util.Map;
 

@@ -76,8 +76,4 @@ public class Net {
     public static String getContactList() {
         return "/gethxtxl?sys=android" + AppApplication.SYSVERSION + "&ver=" + AppApplication.appVersion;
     }
-
-    public static String registerAccount() {
-        return "/reghxusr?sys=android" + AppApplication.SYSVERSION + "&ver=" + AppApplication.appVersion;
-    }
 }
