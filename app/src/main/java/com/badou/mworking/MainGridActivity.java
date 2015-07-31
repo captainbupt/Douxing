@@ -92,12 +92,15 @@ public class MainGridActivity extends BaseNoTitleActivity implements MainGridVie
     private void initialize() {
         mTopFadeScrollView.setTopViewId(R.id.banner_container);
         disableSwipeBack();
+
         mBannerAdapter = new BannerAdapter(mContext);
         mBannerGallery.setAdapter(mBannerAdapter);
+
         mMainGridAdapter = new MainGridAdapter(mContext);
         mContentGridView.setAdapter(mMainGridAdapter);
+
         mMainPresenter = new MainPresenter(mContext);
-        mMainPresenter.attachView(this);
+        mMainPresenter.attachView(this);//
     }
 
 

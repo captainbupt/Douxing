@@ -65,8 +65,10 @@ public class CommentFragment extends BaseFragment implements CommentView, Catego
         final View view = inflater.inflate(R.layout.fragment_comment, container, false);
         ButterKnife.bind(this, view);
         Bundle bundle = getArguments();
+
         mPresenter = new CommentPresenter(mContext, bundle.getString(KEY_RID));
         mPresenter.attachView(this);
+
         mCommentAdapter = new CommentAdapter(mContext);
         mContentListView.setAdapter(mCommentAdapter);
         initListener();

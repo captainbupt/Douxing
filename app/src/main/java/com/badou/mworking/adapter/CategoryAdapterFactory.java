@@ -21,6 +21,8 @@ public class CategoryAdapterFactory {
                 return new TrainAdapter(context);
             case Category.CATEGORY_ENTRY:
                 return new EntryAdapter(context);
+            case Category.CATEGORY_PLAN:    //学习计划适配器
+            return new PlanAdapter(context);
             default:
                 return new NoticeAdapter(context);
         }

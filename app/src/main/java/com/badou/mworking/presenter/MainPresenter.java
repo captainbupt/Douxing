@@ -32,6 +32,7 @@ import com.badou.mworking.entity.main.MainBanner;
 import com.badou.mworking.entity.main.MainData;
 import com.badou.mworking.entity.main.MainIcon;
 import com.badou.mworking.entity.main.NewVersion;
+import com.badou.mworking.entity.main.Shuffle;
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.fragment.MainSearchFragment;
 import com.badou.mworking.net.BaseSubscriber;
@@ -65,7 +66,6 @@ import cn.jpush.android.api.JPushInterface;
 public class MainPresenter extends Presenter {
 
     public static final String ACTION_RECEIVER_MESSAGE = "message";
-
     private boolean isSearching = false;
     private long mExitTime = 0;
     private String mLogoUrl;
@@ -92,6 +92,7 @@ public class MainPresenter extends Presenter {
         }
         mLogoUrl = SPHelper.getLogoUrl();
         mMainView.setLogoImage(mLogoUrl);
+
         updateMainIcon();
         AlarmUtil alarmUtil = new AlarmUtil();
         alarmUtil.OpenTimer(mContext.getApplicationContext());
@@ -106,6 +107,9 @@ public class MainPresenter extends Presenter {
         registerListener();
     }
 
+    /**
+     * 更新显示主界面icon
+     */
     private void updateMainIcon() {
         if (mMainIconList == null) {
             UserInfo userInfo = UserInfo.getUserInfo();
@@ -113,23 +117,27 @@ public class MainPresenter extends Presenter {
         }
         for (MainIcon mainIcon : mMainIconList) {
             switch (mainIcon.getKey()) {
-                case RequestParameters.CHK_UPDATA_PIC_NOTICE: // 通知公告
+                case Shuffle.BUTTON_NOTICE: // 通知公告
                     mainIcon.setUnreadNumber(SPHelper.getUnreadNumber(Category.CATEGORY_NOTICE));
                     break;
-                case RequestParameters.CHK_UPDATA_PIC_TRAINING: // 微培训
+                case Shuffle.BUTTON_TRAINING: // 微培训
                     mainIcon.setUnreadNumber(SPHelper.getUnreadNumber(Category.CATEGORY_TRAINING));
                     break;
-                case RequestParameters.CHK_UPDATA_PIC_EXAM: // 在线考试
+                case Shuffle.BUTTON_EXAM: // 在线考试
                     mainIcon.setUnreadNumber(SPHelper.getUnreadNumber(Category.CATEGORY_EXAM));
                     break;
-                case RequestParameters.CHK_UPDATA_PIC_TASK: // 任务签到
+                case Shuffle.BUTTON_TASK: // 任务签到
                     mainIcon.setUnreadNumber(SPHelper.getUnreadNumber(Category.CATEGORY_TASK));
                     break;
-                case RequestParameters.CHK_UPDATA_PIC_SHELF: //橱窗
+                case Shuffle.BUTTON_SHELF: //橱窗
                     mainIcon.setUnreadNumber(SPHelper.getUnreadNumber(Category.CATEGORY_SHELF));
                     break;
-                case RequestParameters.CHK_UPDATA_PIC_ENTRY: //报名
+                case Shuffle.BUTTON_ENTRY: //报名
                     mainIcon.setUnreadNumber(SPHelper.getUnreadNumber(Category.CATEGORY_ENTRY));
+                    break;
+
+                case Shuffle.BUTTON_PLAN: //学习计划
+                    mainIcon.setUnreadNumber(SPHelper.getUnreadNumber(Category.CATEGORY_PLAN));
                     break;
             }
         }
@@ -235,38 +243,41 @@ public class MainPresenter extends Presenter {
     public void onItemClick(MainIcon mainIcon) {
         Intent intent = new Intent();
         switch (mainIcon.getKey()) {
-            case RequestParameters.CHK_UPDATA_PIC_NOTICE: // 通知公告
+            case Shuffle.BUTTON_NOTICE: // 通知公告
                 intent = CategoryListActivity.getIntent(mContext, Category.CATEGORY_NOTICE, false);
                 break;
-            case RequestParameters.CHK_UPDATA_PIC_TRAINING: // 微培训
+            case Shuffle.BUTTON_TRAINING: // 微培训
                 intent = CategoryListActivity.getIntent(mContext, Category.CATEGORY_TRAINING, false);
                 break;
-            case RequestParameters.CHK_UPDATA_PIC_EXAM: // 在线考试
+            case Shuffle.BUTTON_EXAM: // 在线考试
                 intent = CategoryListActivity.getIntent(mContext, Category.CATEGORY_EXAM, false);
                 break;
-            case RequestParameters.CHK_UPDATA_PIC_SURVEY: // 培训调研
+            case Shuffle.BUTTON_SURVEY: // 培训调研
                 String uid = UserInfo.getUserInfo().getUid();
                 String url = Net.getWeiDiaoYanURl() + uid;
                 intent.setClass(mContext, BackWebActivity.class);
                 intent.putExtra(BackWebActivity.KEY_URL, url);
                 break;
-            case RequestParameters.CHK_UPDATA_PIC_TASK: // 任务签到
+            case Shuffle.BUTTON_TASK: // 任务签到
                 intent = CategoryListActivity.getIntent(mContext, Category.CATEGORY_TASK, false);
                 break;
-            case RequestParameters.CHK_UPDATA_PIC_CHATTER: // 同事圈
+            case Shuffle.BUTTON_CHATTER: // 同事圈
                 intent.setClass(mContext, ChatterActivity.class);
                 break;
-            case RequestParameters.CHK_UPDATA_PIC_ASK: //问答
+            case Shuffle.BUTTON_ASK: //问答
                 intent.setClass(mContext, AskActivity.class);
                 break;
-            case RequestParameters.CHK_UPDATA_PIC_SHELF: //橱窗
+            case Shuffle.BUTTON_SHELF: //橱窗
                 intent = CategoryListActivity.getIntent(mContext, Category.CATEGORY_SHELF, false);
                 break;
-            case RequestParameters.CHK_UPDATA_PIC_ENTRY: //报名
+            case Shuffle.BUTTON_ENTRY: //报名
                 intent = CategoryListActivity.getIntent(mContext, Category.CATEGORY_ENTRY, false);
                 break;
+            case Shuffle.BUTTON_PLAN: //学习地图
+                intent = CategoryListActivity.getIntent(mContext, Category.CATEGORY_PLAN, false);
+                break;
         }
-        intent.putExtra(BaseActionBarActivity.KEY_TITLE, mainIcon.getName());
+        intent.putExtra(BaseActionBarActivity.KEY_TITLE, mainIcon.getName());//标题  ？？？
         mContext.startActivity(intent);
     }
 

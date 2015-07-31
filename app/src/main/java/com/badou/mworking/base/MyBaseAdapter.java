@@ -115,6 +115,11 @@ public abstract class MyBaseAdapter<T> extends BaseAdapter {
         return getListCount();
     }
 
+    /**
+     * 返回这个list对应位置
+     * @param i
+     * @return
+     */
     @Override
     public T getItem(int i) {
         if (mItemList == null || i < 0 || i >= mItemList.size())

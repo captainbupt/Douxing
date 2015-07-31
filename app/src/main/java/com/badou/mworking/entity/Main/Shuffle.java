@@ -26,13 +26,15 @@ public class Shuffle {
     public static final String BUTTON_CENTER = "button_center";// 个人中心
     public static final String BUTTON_CHAT = "button_chat";// 聊天
     public static final String BUTTON_ENTRY = "button_entry";// 报名
+    public static final String BUTTON_PLAN = "button_plan";//学习地图
+
 
     // 所有的MainIcon都应该是通过Key来进行访问的，所以通过给Key来定义顺序，实现主界面的排序效果
-    private static final String[] MAP_ACCESS_KEY = new String[]{BUTTON_NOTICE, BUTTON_TRAINING, BUTTON_EXAM, BUTTON_TASK, BUTTON_SURVEY, BUTTON_CHATTER, BUTTON_SHELF, BUTTON_ASK, BUTTON_ENTRY};
+    private static final String[] MAP_ACCESS_KEY = new String[]{BUTTON_NOTICE, BUTTON_TRAINING, BUTTON_EXAM, BUTTON_TASK, BUTTON_SURVEY, BUTTON_CHATTER, BUTTON_SHELF, BUTTON_ASK, BUTTON_ENTRY,BUTTON_PLAN};
     private final Map<String, MainIcon> MAP_ACCESS;
 
     public Shuffle() {
-        MAP_ACCESS = new HashMap<String, MainIcon>(9) {{
+        MAP_ACCESS = new HashMap<String, MainIcon>(10) {{
             put(BUTTON_NOTICE, buttonNotice);
             put(BUTTON_TRAINING, buttonTraining);
             put(BUTTON_EXAM, buttonExam);
@@ -42,6 +44,7 @@ public class Shuffle {
             put(BUTTON_SHELF, buttonShelf);
             put(BUTTON_ASK, buttonAsk);
             put(BUTTON_ENTRY, buttonEntry);
+            put(BUTTON_PLAN, buttonPlan);//
         }};
     }
 
@@ -129,21 +132,32 @@ public class Shuffle {
             buttonEntry.setKey(BUTTON_ENTRY);
             return buttonEntry;
         }
+        else if (BUTTON_PLAN.equals(key)) {
+            if (buttonPlan == null)
+                buttonPlan = new MainIcon("1", context.getString(R.string.module_default_title_plan));
+            buttonPlan.setResId(R.drawable.button_plan);//换图标
+            buttonPlan.setKey(BUTTON_PLAN);//换
+            return buttonPlan;
+        }
         return new MainIcon();
     }
 
     @SerializedName(BUTTON_SHELF)
     @Expose
     private MainIcon buttonShelf;
+
     @SerializedName(BUTTON_CENTER)
     @Expose
     private MainIcon buttonCenter;
+
     @SerializedName(BUTTON_TRAINING)
     @Expose
     private MainIcon buttonTraining;
+
     @SerializedName(BUTTON_CHATTER)
     @Expose
     private MainIcon buttonChatter;
+
     @SerializedName(BUTTON_CHAT)
     @Expose
     private MainIcon buttonChat;
@@ -162,9 +176,17 @@ public class Shuffle {
     @SerializedName(BUTTON_SURVEY)
     @Expose
     private MainIcon buttonSurvey;
+
     @SerializedName(BUTTON_ENTRY)
     @Expose
     private MainIcon buttonEntry;
+
+    /**
+     * 学习计划
+     */
+    @SerializedName(BUTTON_PLAN)
+    @Expose
+    private MainIcon buttonPlan;
 
 }
 

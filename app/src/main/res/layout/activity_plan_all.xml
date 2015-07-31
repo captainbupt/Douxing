@@ -1,0 +1,160 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+
+    <RelativeLayout
+
+        android:id="@+id/ll_top"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="@drawable/beijing_1"
+        >
+        <ImageButton
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/select_btn_back"
+            />
+
+<!--圖標沒有更改  加一個狀態選擇器-->
+        <ImageButton
+            android:id="@+id/candan"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/shoucang"
+            />
+        <ImageButton
+            android:layout_toLeftOf="@id/candan"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="70dp"
+            android:layout_marginTop="15dp"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/select_btn_shoucang"
+            />
+        <ImageButton
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="120dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/select_btn_tongji"
+            />
+
+    <RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_marginBottom="10dp">
+    <TextView
+    android:id="@+id/tv_01"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="學習計劃學習計劃學習計"
+    android:textSize="25dp"
+    />
+        <TextView
+           android:layout_below="@+id/tv_01"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="|學習階段名稱|"
+            android:textSize="15dp"
+            />
+</RelativeLayout>
+
+    </RelativeLayout>
+
+    <!-- 中部部四个导航按钮 -->
+    <LinearLayout
+        android:layout_below="@+id/ll_top"
+        android:id="@+id/ll_tabs"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+
+        android:orientation="horizontal"
+        >
+
+        <Button
+            android:id="@+id/btn_one"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="简介"
+            android:background="#009eff"
+            android:textColor="#fff"
+            />
+        <Button
+            android:id="@+id/btn_two"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="课程列表"
+            android:background="#009eff"
+            android:textColor="#fff"
+            />
+        <Button
+            android:id="@+id/btn_three"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="评论"
+            android:background="#009eff"
+            android:textColor="#fff"
+            />
+
+
+    </LinearLayout>
+
+
+    <!-- 导航和视图的分割线 -->
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#555"
+        android:layout_below="@id/ll_tabs"
+        />
+    <!-- 在导航按钮下的导航條，代碼自定義-->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/view">
+        <ImageView
+            android:id="@+id/imgv_overtab"
+            android:layout_width="100dp"
+            android:layout_height="5dp"
+            android:background="#00ffff"
+
+            />
+    </RelativeLayout>
+
+
+    <!-- 
+    <RelativeLayout
+        android:id="@+id/fragment_content_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/ll_tabs"
+        android:layout_marginBottom="2dp"
+        android:background="#fff"
+        />
+     -->
+
+    <!-- VIewPager 主要是加载内容的 -->
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_below="@id/ll_tabs"
+        android:layout_marginBottom="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+</RelativeLayout>

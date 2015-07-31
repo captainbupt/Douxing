@@ -52,6 +52,7 @@ public class EntryOperationFragment extends BaseFragment implements EntryOperati
         ButterKnife.bind(this, view);
         initView();
         Bundle argument = getArguments();
+
         mPresenter = new EntryOperationPresenter(mContext, this, argument.getString(KEY_RID));
         mPresenter.attachView(this);
         return view;
@@ -67,6 +68,7 @@ public class EntryOperationFragment extends BaseFragment implements EntryOperati
         divider.setBackgroundColor(getResources().getColor(R.color.color_border_grey));
         header.addView(divider);
         mContentListView.addHeaderView(header);
+
         mEntryOperationAdapter = new EntryOperationAdapter(mContext);
         mContentListView.setAdapter(mEntryOperationAdapter);
     }

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+<LinearLayout
+    android:id="@+id/plan_detail_top"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:background="@drawable/background_button_grey_light"
+    android:orientation="vertical"
+    >
+    <view
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        />
+    <TextView
+        android:text="標題標題標題標題"
+        android:textSize="20dp"
+        android:layout_marginRight="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_below="@id/plan_detail_top"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="標題標題標題標題標題標題標題標題標題標題標題標題標題標
+        題標題標題標題標題標題標題標題標題標題標題標題標題標題標題內容內容內容"
+        />
+
+    </LinearLayout>
+
+
+
+    <ListView
+        android:id="@+id/plan_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        </ListView>
+
+
+</LinearLayout>

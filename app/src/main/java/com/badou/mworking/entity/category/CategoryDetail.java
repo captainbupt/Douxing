@@ -52,6 +52,9 @@ public class CategoryDetail implements Serializable {
     @SerializedName("task")
     Task task;
 
+    @SerializedName("plan")//
+    Plan plan;
+
     // 为了保证在传递categoryDetail的过程中，对content的修改不丢失，所以给他添加一个字段。
     // 主要是由于contentStr的格式错误才会有现在这个麻烦
     @SerializedName("contentclass")
@@ -150,6 +153,31 @@ public class CategoryDetail implements Serializable {
         }
     }
 
+
+    /**
+     * 学习计划
+     */
+    public static class Plan implements Serializable {
+
+        @SerializedName("content")
+        PlanContent content;
+    public PlanContent getContent() {
+        return content;
+    }
+}
+    public static class PlanContent implements Serializable {
+    @SerializedName("0")
+    String description;//计划简介
+    public String getDescription() {
+        return new String(Base64.decodeBase64(description.getBytes()), Charset.forName("UTF-8"));
+    }
+}
+
+
+
+
+
+
     public static class Task implements Serializable {
         @SerializedName("offline")
         int offline;
@@ -233,6 +261,10 @@ public class CategoryDetail implements Serializable {
 
     public Entry getEntry() {
         return entry;
+    }
+
+    public Plan getPlan() {
+        return plan;
     }
 
     public int getRating() {

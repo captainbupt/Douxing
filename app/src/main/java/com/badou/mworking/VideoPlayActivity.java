@@ -34,6 +34,7 @@ import android.widget.TextView;
 
 import com.badou.mworking.R.color;
 import com.badou.mworking.base.BaseBackActionBarActivity;
+import com.badou.mworking.entity.main.Shuffle;
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.RequestParameters;
 import com.badou.mworking.net.ServiceProvider;
@@ -91,7 +92,7 @@ public class VideoPlayActivity extends BaseBackActionBarActivity {
         chkStartPlay = (CheckBox) this.findViewById(R.id.play_btn);
         tvCurrentTime = (TextView) this.findViewById(R.id.currentTime);
         mSeekBar = (SeekBar) this.findViewById(R.id.sb_activity_music_player);
-        setActionbarTitle(UserInfo.getUserInfo().getShuffle().getMainIcon(mContext, RequestParameters.CHK_UPDATA_PIC_CHATTER).getName());
+        setActionbarTitle(UserInfo.getUserInfo().getShuffle().getMainIcon(mContext, Shuffle.BUTTON_CHATTER).getName());
         videoURl = mReceivedIntent.getStringExtra(KEY_VIDEOURL);
         videoPath = mReceivedIntent.getStringExtra(KEY_VIDEOPATH);
         fileMedia = new File(videoPath);

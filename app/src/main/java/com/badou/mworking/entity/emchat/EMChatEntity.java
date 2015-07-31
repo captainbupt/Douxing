@@ -25,7 +25,7 @@ public class EMChatEntity {
 
     // login user name
     public final String PREF_USERNAME = "username";
-
+ 
     /**
      * 当前用户nickname,为了苹果推送不是userid而是昵称
      */

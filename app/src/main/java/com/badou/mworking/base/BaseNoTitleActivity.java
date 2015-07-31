@@ -75,7 +75,6 @@ public class BaseNoTitleActivity extends ActionBarActivity implements SwipeBackA
     protected void onResume() {
         mPresenter.resume();
         MobclickAgent.onResume(this);
-
         // onresume时，取消notification显示
         HXSDKHelper.getInstance().getNotifier().reset();
         super.onResume();
