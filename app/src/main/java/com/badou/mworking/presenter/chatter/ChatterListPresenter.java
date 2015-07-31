@@ -6,6 +6,7 @@ import android.text.TextUtils;
 
 import com.badou.mworking.ChatterDetailActivity;
 import com.badou.mworking.ChatterUserActivity;
+import com.badou.mworking.R;
 import com.badou.mworking.database.ChatterResManager;
 import com.badou.mworking.domain.chatter.ChatterListUseCase;
 import com.badou.mworking.domain.UseCase;
@@ -79,10 +80,6 @@ public class ChatterListPresenter extends ListPresenter<Chatter> {
         mFragment.startActivityForResult(intent, REQUEST_DETAIL);
     }
 
-    public void toTopicList() {
-
-    }
-
     public void toUserList(Chatter chatter) {
         if (chatter.getName().equals("神秘的TA")) {
             return;
@@ -91,12 +88,18 @@ public class ChatterListPresenter extends ListPresenter<Chatter> {
     }
 
     public void praise(final Chatter chatter, final int position) {
+        mBaseListView.showProgressDialog(R.string.progress_tips_praise_ing);
         new ChatterPraiseUseCase(chatter.getQid()).execute(new BaseSubscriber(mContext) {
             @Override
             public void onResponseSuccess(Object data) {
                 ChatterResManager.insertItem(mContext, chatter);
                 chatter.increasePraise();
                 mBaseListView.setItem(position, chatter);
+            }
+
+            @Override
+            public void onCompleted() {
+                mBaseListView.hideProgressDialog();
             }
         });
     }

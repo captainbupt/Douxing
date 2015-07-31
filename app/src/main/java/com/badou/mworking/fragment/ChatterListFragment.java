@@ -13,7 +13,6 @@ import com.badou.mworking.R;
 import com.badou.mworking.adapter.ChatterListAdapter;
 import com.badou.mworking.base.BaseFragment;
 import com.badou.mworking.entity.chatter.Chatter;
-import com.badou.mworking.listener.AdapterItemClickListener;
 import com.badou.mworking.presenter.chatter.ChatterListPresenter;
 import com.badou.mworking.view.chatter.ChatterListView;
 import com.badou.mworking.widget.NoneResultView;
@@ -86,12 +85,12 @@ public class ChatterListFragment extends BaseFragment implements ChatterListView
                 mPresenter.onItemClick((Chatter) adapterView.getAdapter().getItem(i), i - 1);
             }
         });
-        mChatterAdapter = new ChatterListAdapter(mContext, new AdapterItemClickListener(mContext) {
+        mChatterAdapter = new ChatterListAdapter(mContext, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mPresenter.toUserList(getItem((int) v.getTag()));
             }
-        }, new AdapterItemClickListener(mContext) {
+        }, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mPresenter.praise(getItem((int) v.getTag()), (int) v.getTag());

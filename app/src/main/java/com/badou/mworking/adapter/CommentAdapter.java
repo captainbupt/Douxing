@@ -4,13 +4,13 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.entity.comment.Comment;
-import com.badou.mworking.listener.AdapterItemClickListener;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.util.TimeTransfer;
 
@@ -24,14 +24,14 @@ public class CommentAdapter extends MyBaseAdapter<Comment> {
     private int mAllCount = 0;
     private String mQid;
     private boolean mDeletable;
-    private AdapterItemClickListener mDeleteClickListener;
+    private OnClickListener mDeleteClickListener;
 
     public CommentAdapter(Context context) {
         super(context);
         isChatter = false;
     }
 
-    public CommentAdapter(Context context, String qid, boolean deletable, AdapterItemClickListener deleteClickListener) {
+    public CommentAdapter(Context context, String qid, boolean deletable, OnClickListener deleteClickListener) {
         super(context);
         isChatter = true;
         mQid = qid;
@@ -97,9 +97,6 @@ public class CommentAdapter extends MyBaseAdapter<Comment> {
         } else {
             holder.mDeleteTextView.setVisibility(View.GONE);
         }
-        if (mDeleteClickListener != null) {
-            mDeleteClickListener.setPosition(position);
-        }
         holder.mDeleteTextView.setTag(position);
         return convertView;
     }
@@ -113,7 +110,7 @@ public class CommentAdapter extends MyBaseAdapter<Comment> {
         TextView mDeleteTextView;
         View mDividerView;
 
-        public ViewHolder(View view, AdapterItemClickListener deleteClickListener) {
+        public ViewHolder(View view, OnClickListener deleteClickListener) {
             mHeadImageView = (ImageView) view
                     .findViewById(R.id.iv_adapter_comment_head);
             mNameTextView = (TextView) view

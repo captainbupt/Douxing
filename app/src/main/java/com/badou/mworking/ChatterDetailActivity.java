@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -15,7 +16,6 @@ import com.badou.mworking.entity.Store;
 import com.badou.mworking.entity.chatter.Chatter;
 import com.badou.mworking.entity.comment.ChatterComment;
 import com.badou.mworking.entity.comment.Comment;
-import com.badou.mworking.listener.AdapterItemClickListener;
 import com.badou.mworking.presenter.chatter.ChatterDetailPresenter;
 import com.badou.mworking.presenter.ListPresenter;
 import com.badou.mworking.presenter.Presenter;
@@ -91,13 +91,13 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity implements 
      * 功能描述:发送回复TextView设置监听,pullToRefreshScrollView设置下拉刷新监听
      */
     protected void initListener() {
-        mChatterItemView.setMessageListener(new AdapterItemClickListener(mContext) {
+        mChatterItemView.setMessageListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 mPresenter.toMessage();
             }
         });
-        mChatterItemView.setDeleteListener(new AdapterItemClickListener(mContext) {
+        mChatterItemView.setDeleteListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 mPresenter.deleteChatter();
@@ -152,7 +152,7 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity implements 
                 mPresenter.onStoreClicked();
             }
         });
-        mReplyAdapter = new CommentAdapter(mContext, chatter.getQid(), chatter.isDeletable(), new AdapterItemClickListener(mContext) {
+        mReplyAdapter = new CommentAdapter(mContext, chatter.getQid(), chatter.isDeletable(), new OnClickListener() {
             @Override
             public void onClick(View v) {
                 mPresenter.deleteChatterReply((int) v.getTag());

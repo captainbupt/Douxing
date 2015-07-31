@@ -10,7 +10,7 @@ import com.badou.mworking.entity.category.CategoryDetail;
 import com.badou.mworking.entity.category.EntryOperation;
 import com.badou.mworking.entity.category.PlanOperation;
 import com.badou.mworking.net.BaseSubscriber;
-import com.badou.mworking.util.CategoryIntentFactory;
+import com.badou.mworking.factory.CategoryIntentFactory;
 import com.badou.mworking.view.BaseView;
 import com.badou.mworking.view.PlanOperationView;
 import com.google.gson.reflect.TypeToken;

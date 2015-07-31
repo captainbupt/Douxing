@@ -5,38 +5,22 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.ActionBarActivity;
-import android.widget.CompoundButton;
 
-import com.badou.mworking.BackWebActivity;
 import com.badou.mworking.ClearCacheActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.TipsWebView;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.domain.CheckUpdateUseCase;
 import com.badou.mworking.entity.main.MainData;
-import com.badou.mworking.entity.main.NewVersion;
 import com.badou.mworking.net.BaseSubscriber;
 import com.badou.mworking.net.Net;
-import com.badou.mworking.net.RequestParameters;
-import com.badou.mworking.net.ResponseParameters;
-import com.badou.mworking.net.ServiceProvider;
-import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.AlarmUtil;
 import com.badou.mworking.util.DialogUtil;
 import com.badou.mworking.util.SPHelper;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.view.AboutUsView;
 import com.badou.mworking.view.BaseView;
-import com.loopj.android.http.RangeFileAsyncHttpResponseHandler;
 
-import org.apache.http.Header;
-import org.json.JSONObject;
-
-import java.io.File;
-
-import butterknife.OnCheckedChanged;
-import butterknife.OnClick;
 import cn.jpush.android.api.JPushInterface;
 
 public class AboutUsPresenter extends Presenter {

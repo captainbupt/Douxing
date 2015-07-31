@@ -2,16 +2,9 @@ package com.badou.mworking.entity.category;
 
 import android.content.Context;
 
-import com.badou.mworking.entity.main.MainIcon;
 import com.badou.mworking.entity.main.Shuffle;
 import com.badou.mworking.entity.user.UserInfo;
-import com.badou.mworking.base.AppApplication;
-import com.badou.mworking.net.RequestParameters;
-import com.badou.mworking.net.ResponseParameters;
-import com.badou.mworking.util.Constant;
-import com.badou.mworking.util.SP;
 import com.badou.mworking.util.SPHelper;
-import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.internal.LinkedTreeMap;
@@ -20,8 +13,8 @@ import com.google.gson.reflect.TypeToken;
 import org.json.JSONObject;
 
 import java.io.Serializable;
-import java.util.List;
 import java.lang.reflect.Type;
+import java.util.List;
 
 /**
  * 功能描述:  通知公告，在线考试，微培训，任务签到分类信息

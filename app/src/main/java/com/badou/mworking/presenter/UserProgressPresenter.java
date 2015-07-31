@@ -8,7 +8,7 @@ import com.badou.mworking.domain.category.CategoryUseCase;
 import com.badou.mworking.domain.UseCase;
 import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.CategoryOverall;
-import com.badou.mworking.util.CategoryIntentFactory;
+import com.badou.mworking.factory.CategoryIntentFactory;
 import com.badou.mworking.util.SPHelper;
 import com.badou.mworking.view.category.CategoryListView;
 

@@ -1,52 +1,36 @@
 package com.easemob.chatuidemo.activity;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Hashtable;
-import java.util.List;
-
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Pair;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.badou.mworking.MessageCenterActivity;
-import com.badou.mworking.base.AppApplication;
+import com.badou.mworking.R;
 import com.badou.mworking.database.MessageCenterResManager;
 import com.badou.mworking.entity.MessageCenter;
 import com.badou.mworking.util.TimeTransfer;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
-import com.easemob.chat.EMConversation.EMConversationType;
 import com.easemob.chatuidemo.Constant;
-import com.badou.mworking.R;
 import com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter;
 import com.swipe.delete.SwipeLayout;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Hashtable;
+import java.util.List;
 
 /**
  * 显示所有会话记录，比较简单的实现，更好的可能是把陌生人存入本地，这样取到的聊天记录是可控的
@@ -113,11 +97,11 @@ public class ChatAllHistoryFragment extends Fragment {
     }
 
     private void updateHeadView() {
-        List<Object> messageCenters = MessageCenterResManager.getAllItem(getActivity());
+        List<MessageCenter> messageCenters = MessageCenterResManager.getAllItem();
         if (messageCenters.size() > 0) {
             ((ImageView) headView.findViewById(R.id.avatar)).setImageResource(R.drawable.icon_emchat_message_center_unread);
             ((TextView) headView.findViewById(R.id.message)).setText(String.format("你有%d条未读消息", messageCenters.size()));
-            ((TextView) headView.findViewById(R.id.time)).setText(TimeTransfer.long2StringDetailDate(getActivity(), ((MessageCenter) messageCenters.get(0)).ts));
+            ((TextView) headView.findViewById(R.id.time)).setText(TimeTransfer.long2StringDetailDate(getActivity(), (messageCenters.get(0)).getTs()));
         } else {
             ((ImageView) headView.findViewById(R.id.avatar)).setImageResource(R.drawable.icon_emchat_message_center_read);
             ((TextView) headView.findViewById(R.id.message)).setText("暂无未读消息");

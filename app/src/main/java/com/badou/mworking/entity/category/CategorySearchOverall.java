@@ -1,9 +1,6 @@
 package com.badou.mworking.entity.category;
 
-import com.badou.mworking.net.ResponseParameters;
 import com.google.gson.annotations.SerializedName;
-
-import org.json.JSONObject;
 
 import java.util.List;
 

@@ -7,10 +7,14 @@ import com.badou.mworking.R;
 import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.chatter.Chatter;
 import com.badou.mworking.util.GsonUtil;
+import com.google.gson.annotations.SerializedName;
+import com.google.gson.internal.LinkedTreeMap;
 
 import org.json.JSONObject;
 
-public class Store {
+import java.io.Serializable;
+
+public class Store implements Serializable {
 
     public static final int TYPE_ASK = 5;
     public static final int TYPE_NOTICE = 1;
@@ -30,27 +34,58 @@ public class Store {
     public static final String TYPE_STRING_CHATTER = "qas";
     public static final String TYPE_STRING_ENTRY = "entry";
 
-    public String id;
-    public String sid;
-    public int type;
-    public long ts;
-    public String employee_id;
-    public String subject;
-    public Chatter chatter;
+    @SerializedName("id")
+    String id;
+    @SerializedName("sid")
+    String sid;
+    @SerializedName("type")
+    int type;
+    @SerializedName("ts")
+    long ts;
+    @SerializedName("employee_id")
+    String employee_id;
+    @SerializedName("subject")
+    String subject;
+    @SerializedName("qas")
+    LinkedTreeMap chatterMap;
 
-    public Store(Context context, JSONObject jsonObject) {
-        id = jsonObject.optString("id");
-        sid = jsonObject.optString("sid");
-        type = Integer.parseInt(jsonObject.optString("type"));
-        ts = Long.parseLong(jsonObject.optString("ts"));
-        employee_id = jsonObject.optString("employee_id");
-        subject = jsonObject.optString("subject");
-        if (TextUtils.isEmpty(subject)) {
-            subject = context.getString(R.string.tip_message_center_resource_gone);
+    Chatter chatter;
+
+    public String getId() {
+        return id;
+    }
+
+    public String getSid() {
+        return sid;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public long getTs() {
+        return ts * 1000l;
+    }
+
+    public String getEmployee_id() {
+        return employee_id;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setDeleted() {
+        subject = null;
+        chatterMap = null;
+        chatter = null;
+    }
+
+    public Chatter getChatter() {
+        if (chatter == null && chatterMap != null && chatterMap.containsKey("qid")) {
+            chatter = GsonUtil.fromJson(GsonUtil.toJson(chatterMap), Chatter.class);
         }
-        JSONObject chatterJsonObject = jsonObject.optJSONObject("qas");
-        if (chatterJsonObject != null)
-            chatter = GsonUtil.fromJson(chatterJsonObject.toString(), Chatter.class);
+        return chatter;
     }
 
     public static int getIconRes(int type) {

@@ -1,6 +1,7 @@
 package com.badou.mworking;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -10,78 +11,124 @@ import com.badou.mworking.adapter.MessageCenterAdapter;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.database.MessageCenterResManager;
 import com.badou.mworking.entity.MessageCenter;
-import com.badou.mworking.util.CategoryIntentFactory;
-import com.badou.mworking.util.ResourceClickHandler;
+import com.badou.mworking.factory.ResourceIntentFactory;
+import com.badou.mworking.presenter.MessageCenterPresenter;
+import com.badou.mworking.presenter.Presenter;
 import com.badou.mworking.util.ToastUtil;
+import com.badou.mworking.view.MessageCenterView;
 import com.badou.mworking.widget.NoneResultView;
 
-public class MessageCenterActivity extends BaseBackActionBarActivity {
+import java.util.List;
 
-    private ListView mContentListView;
-    private MessageCenterAdapter mContentAdapter;
-    private NoneResultView mNoneResultView;
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
+public class MessageCenterActivity extends BaseBackActionBarActivity implements MessageCenterView {
+
+    @Bind(R.id.content_list_view)
+    ListView mContentListView;
+    @Bind(R.id.none_result_view)
+    NoneResultView mNoneResultView;
+    MessageCenterAdapter mContentAdapter;
+
+    MessageCenterPresenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message_center);
         setActionbarTitle(R.string.title_name_message_center);
+        ButterKnife.bind(this);
         initData();
+        mPresenter = (MessageCenterPresenter) super.mPresenter;
+        mPresenter.attachView(this);
+    }
+
+    @Override
+    public Presenter getPresenter() {
+        return new MessageCenterPresenter(mContext);
     }
 
     private void initData() {
-        mContentListView = (ListView) findViewById(R.id.lv_activity_message_center);
-        mNoneResultView = (NoneResultView) findViewById(R.id.nrv_activity_message_center);
         // 点击事件已经集成到adapter中
-        mContentAdapter = new MessageCenterAdapter(mContext);
-        mContentAdapter.setList(MessageCenterResManager.getAllItem(mContext));
+        mContentAdapter = new MessageCenterAdapter(mContext, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.deleteItem((Integer) v.getTag(), mContentAdapter.getItem((Integer) v.getTag()));
+            }
+        });
         mContentListView.setAdapter(mContentAdapter);
         mContentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                toDetailPage(mContext, i, (MessageCenter) mContentAdapter.getItem(i));
-            }
-        });
-        if (mContentAdapter.getCount() <= 0) {
-            mNoneResultView.setVisibility(View.VISIBLE);
-        } else {
-            mNoneResultView.setVisibility(View.GONE);
-        }
-        mContentAdapter.setOnEmptyListener(new MessageCenterAdapter.OnEmptyListener() {
-            @Override
-            public void onEmpty() {
-                mNoneResultView.setVisibility(View.VISIBLE);
+                mPresenter.toDetailPage(i, (MessageCenter) adapterView.getAdapter().getItem(i));
             }
         });
     }
 
-    private void toDetailPage(final Context context, final int position, final MessageCenter messageCenter) {
-        mProgressDialog.show();
-        ResourceClickHandler.OnCompleteListener onCompleteListener = new ResourceClickHandler.OnCompleteListener() {
-            @Override
-            public void onComplete(boolean isSuccess) {
-                mProgressDialog.dismiss();
-                mContentAdapter.deleteItem(position);
-                if (!isSuccess) {
-                    ToastUtil.showToast(mContext, R.string.tip_message_center_resource_gone);
-                }
-            }
-        };
-        if (messageCenter.type.equals(MessageCenter.TYPE_NOTICE) || messageCenter.type.equals(MessageCenter.TYPE_EXAM)
-                || messageCenter.type.equals(MessageCenter.TYPE_TRAINING) || messageCenter.type.equals(MessageCenter.TYPE_TASK)
-                || messageCenter.type.equals(MessageCenter.TYPE_SHELF) || messageCenter.type.equals(MessageCenter.TYPE_ENTRY)) {
-            mProgressDialog.dismiss();
-            mContentAdapter.deleteItem(position);
-            startActivity(CategoryIntentFactory.getIntent(context, messageCenter.getCategoryType(), messageCenter.add, true));
-        } else if (messageCenter.type.equals(MessageCenter.TYPE_CHATTER)) {
-            ResourceClickHandler.toChatterPage(context, messageCenter.add, onCompleteListener);
-        } else if (messageCenter.type.equals(MessageCenter.TYPE_ASK)) {
-            ResourceClickHandler.toAskPage(context, messageCenter.add, onCompleteListener);
-        } /*else if (messageCenter.type.equals(MessageCenter.TYPE_CHAT)) {
-            ResourceClickHandler.toChatPage(context, onCompleteListener);
-        }*/ else {
-            ToastUtil.showToast(mContext, R.string.category_unsupport_type);
-            mProgressDialog.dismiss();
-        }
+
+    @Override
+    public void showNoneResult() {
+        mNoneResultView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideNoneResult() {
+        mNoneResultView.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void disablePullUp() {
+
+    }
+
+    @Override
+    public void enablePullUp() {
+
+    }
+
+    @Override
+    public void startRefreshing() {
+
+    }
+
+    @Override
+    public boolean isRefreshing() {
+        return false;
+    }
+
+    @Override
+    public void refreshComplete() {
+
+    }
+
+    @Override
+    public void setData(List<MessageCenter> data) {
+        mContentAdapter.setList(data);
+    }
+
+    @Override
+    public void addData(List<MessageCenter> data) {
+        mContentAdapter.addList(data);
+    }
+
+    @Override
+    public int getDataCount() {
+        return mContentAdapter.getCount();
+    }
+
+    @Override
+    public void setItem(int index, MessageCenter item) {
+        mContentAdapter.setItem(index, item);
+    }
+
+    @Override
+    public MessageCenter getItem(int index) {
+        return mContentAdapter.getItem(index);
+    }
+
+    @Override
+    public void removeItem(int index) {
+        mContentAdapter.remove(index);
     }
 }

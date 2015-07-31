@@ -28,14 +28,14 @@ public class MessageCenterResManager {
         mTrainingDBHelper.closeDatabase();
     }
 
-    public static List<Object> getAllItem(Context context) {
+    public static List<MessageCenter> getAllItem() {
         MTrainingDBHelper mTrainingDBHelper = MTrainingDBHelper.getMTrainingDBHelper();
         SQLiteDatabase dbReader = mTrainingDBHelper.getDatabase();
         UserInfo userInfo = UserInfo.getUserInfo();
         if (userInfo == null || TextUtils.isEmpty(userInfo.getAccount()))
             return new ArrayList<>();
         String userNum = userInfo.getAccount();
-        List<Object> messageCenterList = new ArrayList<>();
+        List<MessageCenter> messageCenterList = new ArrayList<>();
         Cursor cursor = dbReader.query(MTrainingDBHelper.TBL_NAME_MESSAGE_CENTER + userNum.replace("@", ""),
                 null, null, null, null, null, MTrainingDBHelper.MESSAGE_CENTER_TS + " DESC");
         while (cursor.moveToNext()) {
@@ -51,7 +51,7 @@ public class MessageCenterResManager {
                 .getMTrainingDBHelper();
         SQLiteDatabase dbWriter = mTrainingDBHelper.getDatabase();
         String userNum = UserInfo.getUserInfo().getAccount();
-        dbWriter.delete(MTrainingDBHelper.TBL_NAME_MESSAGE_CENTER + userNum.replace("@", ""), MTrainingDBHelper.PRIMARY_ID + "= ?", new String[]{message.id + ""});
+        dbWriter.delete(MTrainingDBHelper.TBL_NAME_MESSAGE_CENTER + userNum.replace("@", ""), MTrainingDBHelper.PRIMARY_ID + "= ?", new String[]{message.getId() + ""});
         mTrainingDBHelper.closeDatabase();
     }
 }

@@ -9,6 +9,7 @@ import com.badou.mworking.MainGridActivity;
 import com.badou.mworking.database.MessageCenterResManager;
 import com.badou.mworking.entity.MessageCenter;
 import com.badou.mworking.presenter.MainPresenter;
+import com.badou.mworking.util.GsonUtil;
 
 import org.json.JSONException;
 
@@ -100,17 +101,11 @@ public class JPushReceiver extends BroadcastReceiver {
 
     // send msg to MainActivity
     private void processCustomMessage(Context context, Bundle bundle) {
-        MessageCenter messageCenter = null;
-        try {
-            messageCenter = new MessageCenter(bundle, Calendar.getInstance().getTimeInMillis());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        if (messageCenter != null) {
-            MessageCenterResManager.insertItem(context, messageCenter);
-            Intent intent = new Intent(MainPresenter.ACTION_RECEIVER_MESSAGE);
-            context.sendBroadcast(intent);
-        }
+        MessageCenter messageCenter = GsonUtil.fromJson(bundle.getString(JPushInterface.EXTRA_EXTRA), MessageCenter.class);
+        messageCenter.setTs(System.currentTimeMillis());
+        MessageCenterResManager.insertItem(context, messageCenter);
+        Intent intent = new Intent(MainPresenter.ACTION_RECEIVER_MESSAGE);
+        context.sendBroadcast(intent);
     }
 
     private void toMessageCenter(Context context, Bundle bundle) {

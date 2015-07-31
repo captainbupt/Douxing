@@ -1,10 +1,6 @@
 package com.badou.mworking.entity.user;
 
-import com.badou.mworking.net.RequestParameters;
-import com.badou.mworking.net.ResponseParameters;
 import com.google.gson.annotations.SerializedName;
-
-import org.json.JSONObject;
 
 import java.io.Serializable;
 

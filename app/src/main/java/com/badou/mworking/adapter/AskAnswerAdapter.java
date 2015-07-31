@@ -12,7 +12,7 @@ import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.database.AskResManager;
 import com.badou.mworking.domain.ask.AskReplyPraiseUseCase;
 import com.badou.mworking.entity.Ask;
-import com.badou.mworking.listener.AdapterItemClickListener;
+ import android.view.View.OnClickListener;
 import com.badou.mworking.net.BaseSubscriber;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.util.TimeTransfer;
@@ -24,11 +24,11 @@ public class AskAnswerAdapter extends MyBaseAdapter<Ask> {
 
     private String mAid;
     private int mReplyCount;
-    AdapterItemClickListener mCopyListener;
-    AdapterItemClickListener mPraiseListener;
-    AdapterItemClickListener mFullImageListener;
+    OnClickListener mCopyListener;
+    OnClickListener mPraiseListener;
+    OnClickListener mFullImageListener;
 
-    public AskAnswerAdapter(Context context, String aid, int count, AdapterItemClickListener copyListener, AdapterItemClickListener praiseListener, AdapterItemClickListener fullImageListener) {
+    public AskAnswerAdapter(Context context, String aid, int count, OnClickListener copyListener, OnClickListener praiseListener, OnClickListener fullImageListener) {
         super(context);
         this.mAid = aid;
         this.mReplyCount = count;

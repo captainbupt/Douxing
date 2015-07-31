@@ -23,6 +23,7 @@ import com.badou.mworking.domain.StoreUseCase;
 import com.badou.mworking.domain.category.TaskSignUseCase;
 import com.badou.mworking.domain.chatter.UrlContentUseCase;
 import com.badou.mworking.entity.Ask;
+import com.badou.mworking.entity.Store;
 import com.badou.mworking.entity.chatter.Chatter;
 import com.badou.mworking.entity.category.CategoryDetail;
 import com.badou.mworking.entity.category.CategoryOverall;
@@ -96,6 +97,9 @@ public interface RestApi {
 
     @GET("/markread")
     Observable<BaseNetEntity> markRead(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("rid") String rid);
+
+    @GET("/getstore")
+    Observable<BaseNetEntity<List<Store>>> getStoreList(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Query("page_no") int pageNum, @Query("item_per_page") int itemNum);
 
     @POST("/delstore")
     Observable<BaseNetEntity> deleteStore(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @retrofit.http.Body StoreUseCase.Body body);
