@@ -170,7 +170,9 @@ public class CategoryListActivity extends BaseBackActionBarActivity implements C
     }
 
     private void initListView() {
+
         mCategoryAdapter = CategoryAdapterFactory.getAdapter(mContext, mCategoryIndex);
+
         mContentListView.setAdapter(mCategoryAdapter);
         mContentListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override

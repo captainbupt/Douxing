@@ -11,6 +11,7 @@ public class MainIcon {
     @Expose
     @SerializedName("priority")
     private String priority; // 模块的优先级，级别越高，在主页面中显示的越前面，该字段在登录时返回，默认最后一个是更多，倒数第二个是个人中心，所以没有这两个的级别返回
+
     @Expose
     @SerializedName("name")
     private String name;//item显示的名称

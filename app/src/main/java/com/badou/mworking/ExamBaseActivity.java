@@ -26,6 +26,7 @@ public class ExamBaseActivity extends CategoryBaseActivity {
     @Bind(R.id.content_container)
     FrameLayout mContentContainer;
 
+
     public static Intent getIntent(Context context, String rid) {
         return CategoryBaseActivity.getIntent(context, ExamBaseActivity.class, rid);
     }

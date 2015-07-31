@@ -6,6 +6,7 @@ import android.content.Intent;
 import com.badou.mworking.EntryActivity;
 import com.badou.mworking.ExamBaseActivity;
 import com.badou.mworking.NoticeBaseActivity;
+import com.badou.mworking.PlanActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.TaskSignActivity;
 import com.badou.mworking.TrainBaseActivity;
@@ -13,6 +14,7 @@ import com.badou.mworking.domain.MarkReadUseCase;
 import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.Exam;
 import com.badou.mworking.entity.category.Notice;
+import com.badou.mworking.entity.category.Plan;
 import com.badou.mworking.entity.category.Task;
 import com.badou.mworking.entity.category.Train;
 import com.badou.mworking.net.BaseSubscriber;
@@ -48,6 +50,8 @@ public class CategoryIntentFactory {
             return TaskSignActivity.getIntent(context, rid);
         } else if (type == Category.CATEGORY_ENTRY) {
             return EntryActivity.getIntent(context, rid);
+        }  else if (type == Category.CATEGORY_PLAN) {//学习计划跳转
+                return PlanActivity.getIntent(context, rid);
         } else {
             ToastUtil.showToast(context, R.string.category_unsupport_type);
             return null;

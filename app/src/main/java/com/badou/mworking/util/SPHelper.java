@@ -81,7 +81,7 @@ public class SPHelper {
     }
 
     // 更新1.6.2，舍弃之前保存的信息
-    private static final String USER_INFO = "userinfo162";
+        private static final String USER_INFO = "userinfo162";
 
     public static void setUserInfo(UserInfo userInfo) {
         if (userInfo != null) {

@@ -15,8 +15,6 @@ import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.BaseNetEntity;
 import com.badou.mworking.net.BaseSubscriber;
 import com.badou.mworking.net.Net;
-import com.badou.mworking.net.ServiceProvider;
-import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.view.BaseView;
 import com.badou.mworking.view.CategoryBaseView;
 import com.badou.mworking.widget.RatingDilog;
@@ -80,18 +78,28 @@ public class CategoryBasePresenter extends Presenter {
         this.mCategoryDetail = categoryDetail;
     }
 
+    /**
+     * 统计按钮跳转
+     */
     public void onStatisticalClicked() {
         String titleStr = mContext.getResources().getString(R.string.statistical_data);
         String uid = UserInfo.getUserInfo().getUid();
         String url = Net.getRunHost() + Net.getTongji(uid, mRid);
-        Intent intent = new Intent(mContext, BackWebActivity.class);
+        Intent intent = new Intent(mContext, BackWebActivity.class);//
         intent.putExtra(BackWebActivity.KEY_URL, url);
         intent.putExtra(BackWebActivity.KEY_TITLE, titleStr);
         mContext.startActivity(intent);
     }
 
+    public void onPlanDatile() {
+        mCategoryBaseView.showToast("跳转计划转详情面");
+    }
+
+    /**
+     * 点击收藏实现
+     */
     public void onStoreClicked() {
-        if (mCategoryDetail == null) {
+                if (mCategoryDetail == null) {
             mCategoryBaseView.showToast(R.string.message_wait);
             return;
         }

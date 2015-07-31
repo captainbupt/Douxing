@@ -225,6 +225,10 @@
     <string name="entry_tip_enroll_cancel_success">取消报名成功</string>
     <string name="scan_tips">将二维码图片对准扫描框即可自动扫描</string>
 
+    <string name="plan_introduction">简介</string>
+    <string name="plan_operation">课程列表</string>
+    <string name="plan_comment">评论</string>
+
     <string name="ask_title_right">提问</string>
     <string name="ask_submit_subject_tip">标题</string>
     <string name="ask_submit_subject_hint">输入问题的标题(40字以内)</string>
@@ -267,6 +271,7 @@
     <string name="module_default_title_center">个人中心</string>
     <string name="module_default_title_chat">聊天</string>
     <string name="module_default_title_entry">报名</string>
+    <string name="module_default_title_plan">学习地图</string>
 
     <string name="none_result_category">暂时没有新的内容了\n不妨去看看其他栏目</string>
     <string name="none_result_comment">你是第一个来这里的人\n写下独到见解让其它人膜拜吧！</string>

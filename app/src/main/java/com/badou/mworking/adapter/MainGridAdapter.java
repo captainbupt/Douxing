@@ -36,9 +36,12 @@ public class MainGridAdapter extends MyBaseAdapter<MainIcon> {
             int margin = mContext.getResources().getDimensionPixelOffset(R.dimen.offset_small);
             convertView.setLayoutParams(new AbsListView.LayoutParams(DensityUtil.getInstance().getScreenWidth() / 2 - margin, AbsListView.LayoutParams.WRAP_CONTENT));
         }
-        MainIcon mainIcon = getItem(position);
+        MainIcon mainIcon = getItem(position);//  传递 接收数据
+
+
         holder.iconImageView.setImageResource(mainIcon.getResId());
         holder.nameTextView.setText(mainIcon.getName());
+
         if (mainIcon.getUnreadNumber() == 0) {
             holder.unreadTextView.setVisibility(View.GONE);
         } else {

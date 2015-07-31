@@ -13,7 +13,7 @@ import com.badou.mworking.entity.category.Entry;
 import com.badou.mworking.util.TimeTransfer;
 
 /**
- * 功能描述:  在线考试列表页适配器
+ * 功能描述:  报名列表页适配器
  */
 public class EntryAdapter extends MyBaseAdapter<Category> {
 

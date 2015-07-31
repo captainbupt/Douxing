@@ -35,6 +35,7 @@ public class EntryActivity extends BaseNoTitleActivity implements EntryView {
 
     EntryPresenter mPresenter;
     ImageView mStoreImageView;
+    ImageView statisticalImageView;
 
     public static Intent getIntent(Context context, String rid) {
         return CategoryBaseActivity.getIntent(context, EntryActivity.class, rid);
@@ -73,14 +74,14 @@ public class EntryActivity extends BaseNoTitleActivity implements EntryView {
     }
 
     public void initView() {
-        ImageView statisticalImageView = BaseActionBarActivity.getDefaultImageView(mContext, R.drawable.button_title_statistical_round);
+        statisticalImageView = BaseActionBarActivity.getDefaultImageView(mContext, R.drawable.button_title_statistical_round);
         statisticalImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mPresenter.onStatisticalClicked();
             }
         });
-        mHeader.addRightImage(statisticalImageView);
+        mHeader.addRightImage(statisticalImageView);//添加右侧图标1
 
         mStoreImageView = BaseActionBarActivity.getDefaultImageView(mContext, R.drawable.button_title_store_round_checked);
         mStoreImageView.setOnClickListener(new View.OnClickListener() {
@@ -89,7 +90,8 @@ public class EntryActivity extends BaseNoTitleActivity implements EntryView {
                 mPresenter.onStoreClicked();
             }
         });
-        mHeader.addRightImage(mStoreImageView);
+        mHeader.addRightImage(mStoreImageView);//添加右侧图标2
+
         mHeader.setLeftClick(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

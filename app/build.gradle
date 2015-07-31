@@ -10,7 +10,7 @@ android {
         }
     }
     compileSdkVersion 19
-    buildToolsVersion '19.1.0'
+    buildToolsVersion '22.0.1'
     defaultConfig {
         applicationId "com.badou.mworking"
         minSdkVersion 9
@@ -39,7 +39,7 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:19.0.+'
-    // 不要使用更新的v7，会导致actionbar显示不全
+    // 锟斤拷要使锟矫革拷锟铰碉拷v7锟斤拷锟结导锟斤拷actionbar锟斤拷示锟斤拷全
     compile 'com.android.support:support-v4:19.0.+'
     compile files('libs/nineoldandroids-2.4.0.jar')
     compile files('libs/baidumapapi_v3_3_0.jar')

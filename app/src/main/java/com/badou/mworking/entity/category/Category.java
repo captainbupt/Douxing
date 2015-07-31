@@ -31,19 +31,23 @@ public abstract class Category implements Serializable {
     public static final int CATEGORY_EXAM = 2;        //在线考试
     public static final int CATEGORY_TASK = 3;        //任务签到
     public static final int CATEGORY_SHELF = 4;   //橱窗
-    public static final int CATEGORY_ENTRY = 5;   //橱窗
+    public static final int CATEGORY_ENTRY = 5;   //报名
 
-    public static final String[] CATEGORY_KEY_NAMES = new String[]{"notice", "training", "exam", "task", "shelf", "entry"};
-    public static final String[] CATEGORY_KEY_UNREADS = new String[]{"noticeUnreadNum", "trainUnreadNum", "examUnreadNum", "taskUnreadNum", "shelfUnreadNum", "entryUnreadNum"};
-    public static final String[] CATEGORY_KEY_ICONS = new String[]{RequestParameters.CHK_UPDATA_PIC_NOTICE, RequestParameters.CHK_UPDATA_PIC_TRAINING, RequestParameters.CHK_UPDATA_PIC_EXAM, RequestParameters.CHK_UPDATA_PIC_TASK, RequestParameters.CHK_UPDATA_PIC_SHELF, RequestParameters.CHK_UPDATA_PIC_ENTRY};
-    public static final Class[] CATEGORY_KEY_CLASSES = new Class[]{Notice.class, Train.class, Exam.class, Task.class, Train.class, Entry.class};
-    public static final Type[] CATEGORY_KEY_TYPES = new Type[]{new TypeToken<List<Notice>>() {
-    }.getType(), new TypeToken<List<Train>>() {
-    }.getType(), new TypeToken<List<Exam>>() {
-    }.getType(), new TypeToken<List<Task>>() {
-    }.getType(), new TypeToken<List<Train>>() {
-    }.getType(), new TypeToken<List<Entry>>() {
-    }.getType()};
+    public static final int CATEGORY_PLAN= 6;//学习计划
+
+    public static final String[] CATEGORY_KEY_NAMES = new String[]{"notice", "training", "exam", "task", "shelf", "entry","plan"};
+    public static final String[] CATEGORY_KEY_UNREADS = new String[]{"noticeUnreadNum", "trainUnreadNum", "examUnreadNum", "taskUnreadNum", "shelfUnreadNum", "entryUnreadNum","planUnreadNum"};
+    public static final String[] CATEGORY_KEY_ICONS = new String[]{Shuffle.BUTTON_NOTICE,Shuffle.BUTTON_TRAINING, Shuffle.BUTTON_EXAM, Shuffle.BUTTON_TASK,Shuffle.BUTTON_SHELF,Shuffle.BUTTON_ENTRY,Shuffle.BUTTON_PLAN};
+    public static final Class[] CATEGORY_KEY_CLASSES = new Class[]{Notice.class, Train.class, Exam.class, Task.class, Train.class, Entry.class,Plan.class};
+    public static final Type[] CATEGORY_KEY_TYPES = new Type[]{
+            new TypeToken<List<Notice>>() {}.getType(),
+            new TypeToken<List<Train>>() {}.getType(),
+            new TypeToken<List<Exam>>() {}.getType(),
+            new TypeToken<List<Task>>() {}.getType(),
+            new TypeToken<List<Train>>() {}.getType(),
+            new TypeToken<List<Entry>>() {}.getType(),
+            new TypeToken<List<Plan>>() {}.getType()
+    };
 
     @SerializedName("offline")
     @Expose
@@ -84,9 +88,12 @@ public abstract class Category implements Serializable {
     @Expose
     @SerializedName("img")
     String img;  // 图片地址
+
     @Expose
     @SerializedName("store")
     boolean store;  // 是否收藏
+
+
 
     public Category() {
     }
@@ -125,6 +132,7 @@ public abstract class Category implements Serializable {
     public String getSubject() {
         return subject;
     }
+
 
     public String getUrl() {
         return url;

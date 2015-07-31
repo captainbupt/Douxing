@@ -78,18 +78,7 @@ public class RequestParameters {
     public static final String PUBLISH_QUSETION_SHARE_PICTURE = "picture";
     public static final String PUBLISH_QUSETION_SHARE_SELF_UID = "meid";
 
-    /**
-     * 本地资源更新
-     */
-    public static final String CHK_UPDATA_PIC_NOTICE = "button_notice";//通知公告icon
-    public static final String CHK_UPDATA_PIC_TRAINING = "button_training";//微培训
-    public static final String CHK_UPDATA_PIC_SHELF = "button_shelf";//微培训
-    public static final String CHK_UPDATA_PIC_EXAM = "button_exam";//考试
-    public static final String CHK_UPDATA_PIC_SURVEY = "button_survey";//培训调研
-    public static final String CHK_UPDATA_PIC_TASK = "button_task";//任务签到
-    public static final String CHK_UPDATA_PIC_CHATTER = "button_chatter";//同事圈
-    public static final String CHK_UPDATA_PIC_ASK = "button_ask";// 问答
-    public static final String CHK_UPDATA_PIC_ENTRY = "button_entry";// 报名
+
     public static final String CHK_UPDATA_PIC_COMPANY_LOGO = "button_vlogo";//主页logo
     public static final String CHK_UPDATA_PIC_NEWVER = "newver";//是否有更新
     public static final String CHK_UPDATA_BANNER = "banner";//首页轮播图信息
