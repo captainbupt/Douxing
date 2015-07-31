@@ -175,30 +175,6 @@ public class ServiceProvider {
         client.getHttpClient().getParams().setParameter(ClientPNames.ALLOW_CIRCULAR_REDIRECTS, true);
     }
 
-    public static void deleteStore(Context context, String sid, String type, VolleyListener volleyListener) {
-        String uid = UserInfo.getUserInfo().getUid();
-        JSONObject json = new JSONObject();
-        try {
-            json.put("uid", uid);
-            json.put("sid", sid);
-            json.put("type", type);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        MyVolley.getRequestQueue().add(
-                new JsonObjectRequest(Request.Method.POST, Net.getRunHost() + Net.deleteStore(),
-                        json, volleyListener, volleyListener));
-        MyVolley.getRequestQueue().start();
-    }
-
-    public static void getStore(Context context, int pageNum, int itemNum, VolleyListener volleyListener) {
-        String uid = UserInfo.getUserInfo().getUid();
-        MyVolley.getRequestQueue().add(
-                new JsonObjectRequest(Request.Method.GET, Net.getRunHost() + Net.getStore(uid, pageNum, itemNum),
-                        null, volleyListener, volleyListener));
-        MyVolley.getRequestQueue().start();
-    }
-
     public static void getContacts(Context context, VolleyListener volleyListener) {
         String uid = UserInfo.getUserInfo().getUid();
         JSONObject jsonObject = new JSONObject();

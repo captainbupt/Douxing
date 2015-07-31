@@ -3,11 +3,11 @@ package com.badou.mworking.adapter;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.entity.chatter.Chatter;
-import com.badou.mworking.listener.AdapterItemClickListener;
 import com.badou.mworking.widget.ChatterItemView;
 import com.swipe.delete.SwipeLayout;
 
@@ -19,10 +19,10 @@ import butterknife.ButterKnife;
  */
 public class ChatterListAdapter extends MyBaseAdapter<Chatter> {
 
-    AdapterItemClickListener mHeadClickListener;
-    AdapterItemClickListener mPraiseClickListener;
+    OnClickListener mHeadClickListener;
+    OnClickListener mPraiseClickListener;
 
-    public ChatterListAdapter(Context context, AdapterItemClickListener headClickListener, AdapterItemClickListener praiseClickListener) {
+    public ChatterListAdapter(Context context, OnClickListener headClickListener, OnClickListener praiseClickListener) {
         super(context);
         mHeadClickListener = headClickListener;
         mPraiseClickListener = praiseClickListener;

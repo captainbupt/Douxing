@@ -13,6 +13,7 @@ public class SP {
     public static final String CHATTER = "tongshiquan";  // 同事圈缓存
     public static final String CHATTERHOT = "tongshiquanhot";  // 同事圈缓存
     public static final String ASK = "wenda";  // 问答缓存
+    public static final String STORE = "store";  // 问答缓存
 
     public static void removeSP(Context context, String fileName, String key) {
         SharedPreferences sp = context.getSharedPreferences(fileName, Context.MODE_PRIVATE);

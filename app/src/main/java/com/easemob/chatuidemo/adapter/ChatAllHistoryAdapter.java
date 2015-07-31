@@ -13,38 +13,33 @@
  */
 package com.easemob.chatuidemo.adapter;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TextView.BufferType;
 
+import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.entity.emchat.EMChatEntity;
-import com.badou.mworking.listener.AdapterItemClickListener;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
+import com.easemob.chat.EMConversation.EMConversationType;
 import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupManager;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.ImageMessageBody;
 import com.easemob.chat.TextMessageBody;
-import com.easemob.chat.EMConversation.EMConversationType;
 import com.easemob.chatuidemo.Constant;
-import com.badou.mworking.R;
 import com.easemob.chatuidemo.activity.ChatAllHistoryFragment;
 import com.easemob.chatuidemo.utils.DateUtils;
 import com.easemob.chatuidemo.utils.SmileUtils;
 import com.easemob.util.EMLog;
 import com.swipe.delete.SwipeLayout;
+
+import java.util.Date;
 
 /**
  * 显示所有聊天记录adpater
@@ -60,7 +55,7 @@ public class ChatAllHistoryAdapter extends MyBaseAdapter<EMConversation> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.row_chat_history, parent, false);
         }
@@ -75,18 +70,16 @@ public class ChatAllHistoryAdapter extends MyBaseAdapter<EMConversation> {
             holder.msgState = convertView.findViewById(R.id.msg_state);
             holder.swipeLayout = (SwipeLayout) convertView.findViewById(R.id.sl_adapter_message_center);
             holder.deleteImageView = (ImageView) convertView.findViewById(R.id.iv_delete);
-            final ViewHolder finalHolder = holder;
-            holder.deleteListener = new AdapterItemClickListener(mContext) {
-                @Override
-                public void onClick(View view) {
-                    deleteItem(getPosition());
-                    finalHolder.swipeLayout.close();
-                }
-            };
-            holder.deleteImageView.setOnClickListener(holder.deleteListener);
             convertView.setTag(holder);
         }
-        holder.deleteListener.setPosition(position);
+        final ViewHolder finalHolder = holder;
+        holder.deleteImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteItem(position);
+                finalHolder.swipeLayout.close();
+            }
+        });
         // 获取与此用户/群组的会话
         EMConversation conversation = getItem(position);
         // 获取用户username或者群组groupid
@@ -219,8 +212,6 @@ public class ChatAllHistoryAdapter extends MyBaseAdapter<EMConversation> {
          * 整个list中每一行总布局
          */
         RelativeLayout list_item_layout;
-
-        AdapterItemClickListener deleteListener;
 
         SwipeLayout swipeLayout;
 

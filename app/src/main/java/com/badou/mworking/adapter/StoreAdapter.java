@@ -1,6 +1,7 @@
 package com.badou.mworking.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -9,34 +10,26 @@ import android.widget.TextView;
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.entity.Store;
-import com.badou.mworking.listener.AdapterItemClickListener;
-import com.badou.mworking.net.ServiceProvider;
-import com.badou.mworking.net.volley.VolleyListener;
 import com.badou.mworking.util.TimeTransfer;
 import com.badou.mworking.widget.ChatterItemView;
-import com.badou.mworking.widget.WaitProgressDialog;
 import com.swipe.delete.SwipeLayout;
-
-import org.json.JSONObject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 
-public class StoreAdapter extends MyBaseAdapter {
+public class StoreAdapter extends MyBaseAdapter<Store> {
 
     private final int TYPE_NORMAL = 1;
     private final int TYPE_CHATTER = 2;
-    @Bind(R.id.delete_text_view)
-    TextView mDeleteTextView;
-    @Bind(R.id.chatter_item_view)
-    ChatterItemView mChatterItemView;
-    @Bind(R.id.swipe_layout)
-    SwipeLayout mSwipeLayout;
 
+    View.OnClickListener mDeleteClickListener;
+    View.OnClickListener mPraiseClickListener;
 
-    public StoreAdapter(Context context) {
+    public StoreAdapter(Context context, View.OnClickListener deleteClickListener, View.OnClickListener praiseClickListener) {
         super(context);
+        this.mDeleteClickListener = deleteClickListener;
+        this.mPraiseClickListener = praiseClickListener;
     }
 
     // 通过type来优化
@@ -47,7 +40,7 @@ public class StoreAdapter extends MyBaseAdapter {
 
     @Override
     public int getItemViewType(int position) {
-        return ((Store) mItemList.get(position)).chatter == null ? TYPE_NORMAL : TYPE_CHATTER;
+        return mItemList.get(position).getChatter() == null ? TYPE_NORMAL : TYPE_CHATTER;
     }
 
     @Override
@@ -65,16 +58,21 @@ public class StoreAdapter extends MyBaseAdapter {
             view = mInflater.inflate(R.layout.adapter_store_normal, viewGroup, false);
             holder = new NormalViewHolder(view);
             view.setTag(holder);
+            holder.deleteTextView.setOnClickListener(mDeleteClickListener);
+            ((ViewGroup) view).setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
         } else {
             holder = (NormalViewHolder) view.getTag();
         }
-        holder.itemClickListener.setPosition(i);
-        Store store = (Store) getItem(i);
-        holder.store = store;
-        holder.typeImageView.setImageResource(Store.getIconRes(store.type));
-        holder.subjectTextView.setText(store.subject);
-        holder.timeTextView.setText(TimeTransfer.long2StringDetailDate(mContext, store.ts));
-        ((ViewGroup) view).setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
+        Store store = getItem(i);
+        holder.typeImageView.setImageResource(Store.getIconRes(store.getType()));
+        if (TextUtils.isEmpty(store.getSubject())) {
+            holder.subjectTextView.setText(R.string.tip_message_center_resource_gone);
+        } else {
+            holder.subjectTextView.setText(store.getSubject());
+        }
+        holder.timeTextView.setText(TimeTransfer.long2StringDetailDate(mContext, store.getTs()));
+        holder.deleteTextView.setTag(i);
+        holder.swipeLayout.close(true);
         return view;
     }
 
@@ -99,14 +97,16 @@ public class StoreAdapter extends MyBaseAdapter {
             view = mInflater.inflate(R.layout.adapter_store_chatter, viewGroup, false);
             holder = new ChatterViewHolder(view);
             view.setTag(holder);
+            holder.deleteTextView.setOnClickListener(mDeleteClickListener);
+            ((ViewGroup) view).setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
         } else {
             holder = (ChatterViewHolder) view.getTag();
         }
-        holder.itemClickListener.setPosition(i);
-        Store store = (Store) getItem(i);
-        holder.store = store;
-        holder.chatterItemView.setData(store.chatter, true, i);
-        ((ViewGroup) view).setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
+        Store store = getItem(i);
+        holder.chatterItemView.setData(store.getChatter(), false, i);
+        holder.chatterItemView.setPraiseListener(mPraiseClickListener);
+        holder.deleteTextView.setTag(i);
+        holder.swipeLayout.close(true);
         return view;
     }
 
@@ -125,31 +125,9 @@ public class StoreAdapter extends MyBaseAdapter {
         TextView deleteTextView;
         @Bind(R.id.swipe_layout)
         SwipeLayout swipeLayout;
-        Store store;
-        AdapterItemClickListener itemClickListener;
 
         BaseSwipeViewHolder(View view) {
             ButterKnife.bind(this, view);
-            itemClickListener = new AdapterItemClickListener(mContext) {
-                @Override
-                public void onClick(View view) {
-                    final WaitProgressDialog progressDialog = new WaitProgressDialog(mContext, R.string.progress_tips_delete_ing);
-                    progressDialog.show();
-                    ServiceProvider.deleteStore(mContext, store.sid, Store.getTypeString(store.type), new VolleyListener(mContext) {
-                        @Override
-                        public void onResponseSuccess(JSONObject response) {
-                            swipeLayout.close();
-                            remove(getPosition());
-                        }
-
-                        @Override
-                        public void onCompleted() {
-                            progressDialog.dismiss();
-                        }
-                    });
-                }
-            };
-            deleteTextView.setOnClickListener(itemClickListener);
         }
     }
 }

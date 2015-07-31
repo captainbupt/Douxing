@@ -180,7 +180,7 @@ public class MainPresenter extends Presenter {
     }
 
     private void updateMessageCenter() {
-        mMainView.setMessageCenterStatus(MessageCenterResManager.getAllItem(mContext).size() > 0 || getUnreadMsgCountTotal() > 0);
+        mMainView.setMessageCenterStatus(MessageCenterResManager.getAllItem().size() > 0 || getUnreadMsgCountTotal() > 0);
     }
 
     /**

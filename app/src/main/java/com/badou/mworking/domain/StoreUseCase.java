@@ -25,6 +25,15 @@ public class StoreUseCase extends UseCase {
         this.type = type;
     }
 
+    public StoreUseCase() {
+    }
+
+    public void setData(Store store) {
+        this.sid = store.getSid();
+        this.type = Store.getTypeString(store.getType());
+        this.isAdd = false;
+    }
+
     public void setIsAdd(boolean isAdd) {
         this.isAdd = isAdd;
     }

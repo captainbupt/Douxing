@@ -75,8 +75,7 @@ public class ForgetPasswordActivity extends BaseBackActionBarActivity {
 
     @OnClick(R.id.call_text_view)
     void call() {
-        Intent phoneIntent = new Intent("android.intent.action.CALL",
-                Uri.parse("tel:" + "4008233773"));
+        Intent phoneIntent = new Intent("android.intent.action.CALL",Uri.parse("tel:" + "4008233773"));
         startActivity(phoneIntent);
     }
 }

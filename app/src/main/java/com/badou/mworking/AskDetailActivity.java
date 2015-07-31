@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -18,7 +19,6 @@ import com.badou.mworking.adapter.AskAnswerAdapter;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.entity.Ask;
 import com.badou.mworking.entity.Store;
-import com.badou.mworking.listener.AdapterItemClickListener;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.presenter.Presenter;
 import com.badou.mworking.presenter.ask.AskDetailPresenter;
@@ -143,17 +143,17 @@ public class AskDetailActivity extends BaseBackActionBarActivity implements AskD
             }
         });
         ImageViewLoader.setSquareImageViewResource(mContentImageView, R.drawable.icon_image_default, ask.getContentImageUrl(), getResources().getDimensionPixelSize(R.dimen.icon_size_xlarge));
-        mAnswerAdapter = new AskAnswerAdapter(AskDetailActivity.this, ask.getAid(), ask.getCount(), new AdapterItemClickListener(mContext) {
+        mAnswerAdapter = new AskAnswerAdapter(AskDetailActivity.this, ask.getAid(), ask.getCount(), new OnClickListener() {
             @Override
             public void onClick(View v) {
                 mPresenter.copy(getItem((int) v.getTag()));
             }
-        }, new AdapterItemClickListener(mContext) {
+        }, new OnClickListener() {
             @Override
             public void onClick(View v) {
                 mPresenter.praise(getItem((int) v.getTag()), (int) v.getTag());
             }
-        }, new AdapterItemClickListener(mContext) {
+        }, new OnClickListener() {
             @Override
             public void onClick(View v) {
                 mPresenter.showFullImage(getItem((int) v.getTag()).getContentImageUrl());

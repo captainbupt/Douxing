@@ -28,6 +28,7 @@ import com.badou.mworking.domain.StoreUseCase;
 import com.badou.mworking.domain.category.TaskSignUseCase;
 import com.badou.mworking.domain.chatter.UrlContentUseCase;
 import com.badou.mworking.entity.Ask;
+import com.badou.mworking.entity.Store;
 import com.badou.mworking.entity.chatter.Chatter;
 import com.badou.mworking.entity.chatter.ChatterHotOverall;
 import com.badou.mworking.entity.chatter.ChatterTopic;
@@ -136,6 +137,10 @@ public class RestRepository {
         } else {
             return restApi.deleteStore(AppApplication.SYSPARAM, AppApplication.appVersion, body);
         }
+    }
+
+    public Observable<BaseNetEntity<List<Store>>> getStoreList(String uid, int pageNum, int itemNum) {
+        return restApi.getStoreList(AppApplication.SYSPARAM, AppApplication.appVersion, uid, pageNum, itemNum);
     }
 
     public Observable<BaseNetEntity> taskSign(String uid, String rid, double latitude, double longitude, File file) {

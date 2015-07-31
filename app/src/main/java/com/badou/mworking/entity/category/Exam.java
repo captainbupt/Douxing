@@ -1,21 +1,12 @@
 package com.badou.mworking.entity.category;
 
-import android.content.Context;
 import android.text.TextUtils;
 
-import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.Net;
-import com.badou.mworking.net.ResponseParameters;
-import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.GsonUtil;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.Serializable;
 
 /**
  * 功能描述: 考试实体类

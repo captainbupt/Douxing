@@ -1,7 +1,6 @@
 package com.badou.mworking.presenter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Handler;
 import android.text.TextUtils;
 
@@ -9,7 +8,7 @@ import com.badou.mworking.domain.SearchUseCase;
 import com.badou.mworking.domain.UseCase;
 import com.badou.mworking.entity.category.CategorySearch;
 import com.badou.mworking.entity.category.CategorySearchOverall;
-import com.badou.mworking.util.CategoryIntentFactory;
+import com.badou.mworking.factory.CategoryIntentFactory;
 import com.badou.mworking.view.BaseView;
 import com.badou.mworking.view.MainSearchView;
 import com.google.gson.reflect.TypeToken;

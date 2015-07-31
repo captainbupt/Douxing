@@ -107,18 +107,32 @@ public class ChatterDetailPresenter extends CommentPresenter {
 
     public Intent getResult() {
         if (mChatter == null) {
+            System.out.println("null");
             return ListPresenter.getResultIntent(null, true);
         } else {
             mChatter.setReplyNumber(mDetailView.getDataCount());
+            System.out.println("count: " + mChatter.getReplyNumber());
             return ListPresenter.getResultIntent(GsonUtil.toJson(mChatter, Chatter.class));
         }
     }
 
     public void deleteChatter() {
-        new ChatterDeleteUseCase(mQid).execute(new BaseSubscriber(mContext) {
+        DialogUtil.showDeleteDialog(mContext, new DialogUtil.OnConfirmListener() {
             @Override
-            public void onResponseSuccess(Object data) {
-                ((Activity) mContext).finish();
+            public void onConfirm() {
+                mDetailView.showProgressDialog(R.string.progress_tips_delete_ing);
+                new ChatterDeleteUseCase(mQid).execute(new BaseSubscriber(mContext) {
+                    @Override
+                    public void onResponseSuccess(Object data) {
+                        mChatter = null;
+                        ((Activity) mContext).finish();
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        mDetailView.hideProgressDialog();
+                    }
+                });
             }
         });
     }
@@ -150,8 +164,8 @@ public class ChatterDetailPresenter extends CommentPresenter {
     }
 
     public void onStoreClicked() {
-        if(mStoreUseCase == null)
-            mStoreUseCase = new StoreUseCase(mQid,Store.TYPE_STRING_CHATTER);
+        if (mStoreUseCase == null)
+            mStoreUseCase = new StoreUseCase(mQid, Store.TYPE_STRING_CHATTER);
         mStoreUseCase.onStoreClicked(mContext, mDetailView, mChatter);
     }
 }

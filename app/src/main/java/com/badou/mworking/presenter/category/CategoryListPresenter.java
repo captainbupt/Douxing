@@ -12,7 +12,7 @@ import com.badou.mworking.entity.category.CategoryOverall;
 import com.badou.mworking.entity.category.Classification;
 import com.badou.mworking.net.BaseSubscriber;
 import com.badou.mworking.presenter.ListPresenter;
-import com.badou.mworking.util.CategoryIntentFactory;
+import com.badou.mworking.factory.CategoryIntentFactory;
 import com.badou.mworking.util.SPHelper;
 import com.badou.mworking.view.BaseView;
 import com.badou.mworking.view.category.CategoryListView;

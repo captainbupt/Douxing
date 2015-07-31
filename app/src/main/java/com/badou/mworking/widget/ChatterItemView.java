@@ -13,8 +13,6 @@ import com.badou.mworking.R;
 import com.badou.mworking.database.ChatterResManager;
 import com.badou.mworking.entity.chatter.Chatter;
 import com.badou.mworking.entity.user.UserInfo;
-import com.badou.mworking.listener.AdapterItemClickListener;
-import com.badou.mworking.listener.TopicClickableSpan;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.SPHelper;
@@ -59,10 +57,10 @@ public class ChatterItemView extends LinearLayout {
     TextView mDeleteTextView;
 
     Context mContext;
-    AdapterItemClickListener mDeletedClickListener;
-    AdapterItemClickListener mPraiseClickListener;
-    AdapterItemClickListener mHeadClickListener;
-    AdapterItemClickListener mMessageClickListener;
+    OnClickListener mDeletedClickListener;
+    OnClickListener mPraiseClickListener;
+    OnClickListener mHeadClickListener;
+    OnClickListener mMessageClickListener;
 
     public ChatterItemView(Context context) {
         super(context);
@@ -81,23 +79,23 @@ public class ChatterItemView extends LinearLayout {
         ButterKnife.bind(this, this);
     }
 
-    public void setDeleteListener(AdapterItemClickListener deletedClickListener) {
+    public void setDeleteListener(OnClickListener deletedClickListener) {
         mDeletedClickListener = deletedClickListener;
         mDeleteTextView.setOnClickListener(deletedClickListener);
     }
 
-    public void setPraiseListener(AdapterItemClickListener praiseClickListener) {
+    public void setPraiseListener(OnClickListener praiseClickListener) {
         mPraiseClickListener = praiseClickListener;
         mPraiseImageView.setOnClickListener(mPraiseClickListener);
         mPraiseTextView.setOnClickListener(mPraiseClickListener);
     }
 
-    public void setHeadListener(AdapterItemClickListener headClickListener) {
+    public void setHeadListener(OnClickListener headClickListener) {
         mHeadClickListener = headClickListener;
         mHeadImageView.setOnClickListener(mHeadClickListener);
     }
 
-    public void setMessageListener(AdapterItemClickListener messageClickListener) {
+    public void setMessageListener(OnClickListener messageClickListener) {
         mMessageClickListener = messageClickListener;
         mMessageTextView.setOnClickListener(mMessageClickListener);
     }
@@ -196,18 +194,10 @@ public class ChatterItemView extends LinearLayout {
                 mDeleteTextView.setVisibility(View.GONE);
             }
         }
-        if (mDeletedClickListener != null)
-            mDeletedClickListener.setPosition(position);
         mDeleteTextView.setTag(position);
-        if (mPraiseClickListener != null)
-            mPraiseClickListener.setPosition(position);
         mPraiseTextView.setTag(position);
         mPraiseImageView.setTag(position);
-        if (mHeadClickListener != null)
-            mHeadClickListener.setPosition(position);
         mHeadImageView.setTag(position);
-        if (mMessageClickListener != null)
-            mMessageClickListener.setPosition(position);
         mMessageTextView.setTag(position);
     }
 }

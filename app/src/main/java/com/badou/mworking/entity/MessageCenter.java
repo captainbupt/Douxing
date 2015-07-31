@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import com.badou.mworking.database.MTrainingDBHelper;
 import com.badou.mworking.entity.category.Category;
-import com.badou.mworking.net.ResponseParameters;
+import com.google.gson.annotations.SerializedName;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,11 +25,14 @@ public class MessageCenter {
     public static final String TYPE_CHAT = "chat";
     public static final String TYPE_ENTRY = "entry";
 
-    public int id;
-    public long ts;
-    public String type;
-    public String description;
-    public String add;
+    transient int id;
+    transient long ts;
+    @SerializedName("type")
+    String type;
+    @SerializedName("desc")
+    String description;
+    @SerializedName("add")
+    String add;
 
     public MessageCenter(Cursor cursor) {
         id = cursor.getInt(cursor.getColumnIndex(MTrainingDBHelper.PRIMARY_ID));
@@ -37,15 +40,6 @@ public class MessageCenter {
         type = cursor.getString(cursor.getColumnIndex(MTrainingDBHelper.MESSAGE_CENTER_TYPE));
         description = cursor.getString(cursor.getColumnIndex(MTrainingDBHelper.MESSAGE_CENTER_DESCRIPTION));
         add = cursor.getString(cursor.getColumnIndex(MTrainingDBHelper.MESSAGE_CENTER_ADD));
-    }
-
-    public MessageCenter(Bundle bundle, long time) throws JSONException {
-        String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
-        ts = time;
-        JSONObject extraJson = new JSONObject(extras);
-        type = extraJson.optString(ResponseParameters.MESSAGE_CENTER_TYPE);
-        description = extraJson.optString(ResponseParameters.MESSAGE_CENTER_DESCRIPTION);
-        add = extraJson.optString(ResponseParameters.MESSAGE_CENTER_ADD);
     }
 
     public ContentValues getContentValue() {
@@ -71,5 +65,29 @@ public class MessageCenter {
         if (type.equals(TYPE_ENTRY))
             return Category.CATEGORY_ENTRY;
         return -1;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public long getTs() {
+        return ts;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getAdd() {
+        return add;
+    }
+
+    public void setTs(long ts) {
+        this.ts = ts;
     }
 }

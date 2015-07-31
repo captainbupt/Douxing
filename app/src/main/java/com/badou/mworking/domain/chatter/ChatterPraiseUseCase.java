@@ -14,6 +14,13 @@ public class ChatterPraiseUseCase extends UseCase {
         this.mQid = qid;
     }
 
+    public ChatterPraiseUseCase() {
+    }
+
+    public void setQid(String qid) {
+        this.mQid = qid;
+    }
+
     @Override
     protected Observable buildUseCaseObservable() {
         return RestRepository.getInstance().praiseChatter(UserInfo.getUserInfo().getUid(), mQid);

@@ -3,14 +3,14 @@ package com.badou.mworking.adapter;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.entity.Ask;
-import com.badou.mworking.listener.AdapterItemClickListener;
-import com.badou.mworking.listener.AdapterItemLongClickListener;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.util.TimeTransfer;
 
@@ -22,10 +22,10 @@ import butterknife.ButterKnife;
  */
 public class AskAdapter extends MyBaseAdapter<Ask> {
 
-    AdapterItemClickListener mOnItemClickListener;
-    AdapterItemLongClickListener mOnLongClickListener;
+    OnClickListener mOnItemClickListener;
+    OnLongClickListener mOnLongClickListener;
 
-    public AskAdapter(Context context, AdapterItemClickListener onItemClickListener, AdapterItemLongClickListener onLongClickListener) {
+    public AskAdapter(Context context, OnClickListener onItemClickListener, OnLongClickListener onLongClickListener) {
         super(context);
         mOnItemClickListener = onItemClickListener;
         mOnLongClickListener = onLongClickListener;
@@ -49,8 +49,6 @@ public class AskAdapter extends MyBaseAdapter<Ask> {
         holder.dateTextView.setText(TimeTransfer.long2StringDetailDate(mContext, ask.getCreateTime()));
         holder.replyTextView.setText(ask.getCount() + "");
         holder.contentTextView.setText(ask.getSubject());
-        mOnItemClickListener.setPosition(position);
-        mOnLongClickListener.setPosition(position);
         convertView.setTag(R.id.tag_position, position);
         return convertView;
     }

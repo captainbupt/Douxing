@@ -17,7 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.badou.mworking.adapter.CategoryAdapterFactory;
+import com.badou.mworking.factory.CategoryAdapterFactory;
 import com.badou.mworking.adapter.ClassificationAdapter;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.base.MyBaseAdapter;
