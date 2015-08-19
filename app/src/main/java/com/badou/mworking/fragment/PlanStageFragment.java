@@ -10,12 +10,13 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.badou.mworking.R;
-import com.badou.mworking.adapter.PlanOperationAdapter;
+import com.badou.mworking.adapter.PlanStageAdapter;
 import com.badou.mworking.base.BaseFragment;
-import com.badou.mworking.entity.category.PlanOperation;
-import com.badou.mworking.presenter.PlanOperationPresenter;
+import com.badou.mworking.entity.category.CategoryBase;
+import com.badou.mworking.entity.category.PlanIndex;
+import com.badou.mworking.presenter.PlanStagePresenter;
 import com.badou.mworking.util.DensityUtil;
-import com.badou.mworking.view.PlanOperationView;
+import com.badou.mworking.view.PlanStageView;
 import com.badou.mworking.widget.CategoryTabContent;
 import com.captainhwz.layout.DefaultContentHandler;
 import com.captainhwz.layout.MaterialHeaderLayout;
@@ -26,15 +27,12 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnItemClick;
 
-/**
- * Created by badou1 on 2015/7/30.
- */
-public class PlanOperationFragment extends BaseFragment implements PlanOperationView, CategoryTabContent.ScrollableContent {
+public class PlanStageFragment extends BaseFragment implements PlanStageView, CategoryTabContent.ScrollableContent {
 
     private static final String KEY_RID = "rid";
 
-    public static PlanOperationFragment getFragment(String rid) {
-        PlanOperationFragment fragment = new PlanOperationFragment();
+    public static PlanStageFragment getFragment(String rid) {
+        PlanStageFragment fragment = new PlanStageFragment();
         Bundle argument = new Bundle();
         argument.putString(KEY_RID, rid);
         fragment.setArguments(argument);
@@ -44,8 +42,8 @@ public class PlanOperationFragment extends BaseFragment implements PlanOperation
     @Bind(R.id.content_list_view)
     ListView mContentListView;
 
-    PlanOperationPresenter mPresenter;
-   PlanOperationAdapter mPlanOperationAdapter;
+    PlanStagePresenter mPresenter;
+    PlanStageAdapter mPlanStageAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -54,34 +52,28 @@ public class PlanOperationFragment extends BaseFragment implements PlanOperation
         initView();
         Bundle argument = getArguments();
 
-        mPresenter = new PlanOperationPresenter(mContext, this, argument.getString(KEY_RID));
+        mPresenter = new PlanStagePresenter(mContext, this, argument.getString(KEY_RID));
         mPresenter.attachView(this);
         return view;
     }
 
     private void initView() {
-        LinearLayout header = new LinearLayout(mContext);
-        header.setLayoutParams(new ListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        View divider = new View(mContext);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DensityUtil.dip2px(mContext, 1));
-        lp.setMargins(0, DensityUtil.getInstance().getOffsetLess(), 0, 0);
-        divider.setLayoutParams(lp);
-        divider.setBackgroundColor(getResources().getColor(R.color.color_border_grey));
-        header.addView(divider);
+        View header = new View(mContext);
+        header.setLayoutParams(new ListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DensityUtil.getInstance().getOffsetLess()));
         mContentListView.addHeaderView(header);
 
-        mPlanOperationAdapter = new PlanOperationAdapter(mContext);
-        mContentListView.setAdapter(mPlanOperationAdapter);
+        mPlanStageAdapter = new PlanStageAdapter(mContext);
+        mContentListView.setAdapter(mPlanStageAdapter);
     }
 
-    public PlanOperationPresenter getPresenter() {
+    public PlanStagePresenter getPresenter() {
         return mPresenter;
     }
 
     @OnItemClick(R.id.content_list_view)
     void onItemClicked(AdapterView<?> parent, View view, int position, long id) {
         if (position >= 1)
-            mPresenter.onItemClick((PlanOperation) parent.getAdapter().getItem(position), position - 1);
+            mPresenter.onItemClick((CategoryBase) parent.getAdapter().getItem(position), position - 1);
     }
 
     @Override
@@ -127,32 +119,32 @@ public class PlanOperationFragment extends BaseFragment implements PlanOperation
 
     @Override
     public void setData(List data) {
-        mPlanOperationAdapter.setList(data);
+        mPlanStageAdapter.setList(data);
     }
 
     @Override
     public void addData(List data) {
-        mPlanOperationAdapter.addList(data);
+        mPlanStageAdapter.addList(data);
     }
 
     @Override
     public int getDataCount() {
-        return mPlanOperationAdapter.getCount();
+        return mPlanStageAdapter.getCount();
     }
 
     @Override
-    public void setItem(int index, PlanOperation item) {
-        mPlanOperationAdapter.setItem(index, item);
+    public void setItem(int index, CategoryBase item) {
+        mPlanStageAdapter.setItem(index, item);
     }
 
     @Override
-    public PlanOperation getItem(int index) {
-        return mPlanOperationAdapter.getItem(index);
+    public CategoryBase getItem(int index) {
+        return mPlanStageAdapter.getItem(index);
     }
 
     @Override
     public void removeItem(int index) {
-        mPlanOperationAdapter.remove(index);
+        mPlanStageAdapter.remove(index);
     }
 
     @Override
@@ -178,7 +170,7 @@ public class PlanOperationFragment extends BaseFragment implements PlanOperation
 
     @Override
     public String getTitle() {
-        return getString(R.string.entry_operation);
+        return getString(R.string.plan_operation);
     }
 
     @Override
@@ -189,5 +181,15 @@ public class PlanOperationFragment extends BaseFragment implements PlanOperation
     @Override
     public void onChange(float ratio, float offsetY) {
 
+    }
+
+    @Override
+    public void setStageIndex(int index) {
+        mPlanStageAdapter.setStageIndex(index);
+    }
+
+    @Override
+    public void setCurrentIndex(PlanIndex planIndex) {
+        mPlanStageAdapter.setCurrentIndex(planIndex);
     }
 }

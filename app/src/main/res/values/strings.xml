@@ -79,6 +79,7 @@
     <string name="login_error_empty_password">密码不能为空</string>
     <string name="category_unread">未读</string>
     <string name="category_expired">已过期</string>
+    <string name="category_finished">已完成</string>
     <string name="category_unsign">未签到</string>
     <string name="category_unexam">未考试</string>
     <string name="category_ungraded">待批阅</string>

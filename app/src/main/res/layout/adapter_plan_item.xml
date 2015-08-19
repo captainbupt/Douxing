@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_white_grey"
+        android:padding="@dimen/offset_less">
+
+        <ImageView
+            android:id="@+id/icon_image_view"
+            android:layout_width="@dimen/icon_size_plan_item_width"
+            android:layout_height="@dimen/icon_size_plan_item_height"
+            android:scaleType="centerCrop"
+            android:src="@drawable/icon_plan_item"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/offset_less"
+            android:layout_toRightOf="@id/icon_image_view"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/subject_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_text_black"
+                android:textSize="@dimen/text_size_less"/>
+
+            <TextView
+                android:id="@+id/stage_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/offset_less"
+                android:textColor="@color/color_text_grey"
+                android:textSize="@dimen/text_size_small"/>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/top_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/flag_category_top"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_border_grey"/>
+</LinearLayout>

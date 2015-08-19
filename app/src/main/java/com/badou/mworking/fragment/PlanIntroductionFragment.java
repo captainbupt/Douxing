@@ -23,10 +23,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-/**
- * Created by badou1 on 2015/7/30.
- */
-public class PlanIntroductionFragment  extends BaseFragment implements PlanIntroductionView, CategoryTabContent.ScrollableContent {
+public class PlanIntroductionFragment extends BaseFragment implements PlanIntroductionView, CategoryTabContent.ScrollableContent {
 
     private static final String KEY_RID = "rid";
 
@@ -62,7 +59,6 @@ public class PlanIntroductionFragment  extends BaseFragment implements PlanIntro
     }
 
 
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -71,12 +67,14 @@ public class PlanIntroductionFragment  extends BaseFragment implements PlanIntro
 
     /**
      * 学习计划简介
+     *
      * @param categoryDetail
      */
     @Override
     public void setData(CategoryDetail categoryDetail) {
-        mIntroductionTextView.setText(categoryDetail.getPlan().getContent().getDescription());
+        mIntroductionTextView.setText(categoryDetail.getPlan().getDescription());
     }
+
     @Override
     public boolean checkCanDoRefresh(MaterialHeaderLayout frame, View content, View header) {
         return DefaultContentHandler.checkContentCanBePulledDown(frame, mParentScrollView, header);
@@ -84,7 +82,7 @@ public class PlanIntroductionFragment  extends BaseFragment implements PlanIntro
 
     @Override
     public String getTitle() {
-        return getString(R.string.entry_introduction);
+        return getString(R.string.plan_introduction);
     }
 
     @Override

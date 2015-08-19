@@ -27,7 +27,6 @@ public abstract class Category implements Serializable {
     public static final int CATEGORY_TASK = 3;        //任务签到
     public static final int CATEGORY_SHELF = 4;   //橱窗
     public static final int CATEGORY_ENTRY = 5;   //报名
-
     public static final int CATEGORY_PLAN= 6;//学习计划
 
     public static final String[] CATEGORY_KEY_NAMES = new String[]{"notice", "training", "exam", "task", "shelf", "entry","plan"};
@@ -87,15 +86,6 @@ public abstract class Category implements Serializable {
     @Expose
     @SerializedName("store")
     boolean store;  // 是否收藏
-
-
-
-    public Category() {
-    }
-
-    public Category(Context context, JSONObject jsonObject) {
-
-    }
 
     public abstract int getCategoryType();
 

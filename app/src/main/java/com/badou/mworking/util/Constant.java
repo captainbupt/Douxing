@@ -35,16 +35,6 @@ public class Constant {
     public static final int MWKG_FORAMT_TYPE_MPEG = 4;  	//mpeg4格式，调系统播放器
     public static final int MWKG_FORAMT_TYPE_RAW = 5;		//自定义格式，程序解析处理
     public static final int MWKG_FORAMT_TYPE_MP3 = 6;		//MP3格式，程序解析处理
-
-	public static final int READ_YES = 1;
-	public static final int READ_NO = 0;
-	public static final int TOP_YES=1;
-	public static final int LIKED_YES=1;
-	public static final int LIKED_NO=0;
-	public static final int FINISH_YES =1;
-	public static final int OVERDUE_YES =1;
-	public static final int UPLOAD_PHOTO_YES=1;
-	public static final int FINISH_NO =0;
 	
 	public static final String TRAIN_IMG_SHOW = "http://mworking.cn/Uploads/training/badou/";
 	public static final String TRAIN_IMG_FORMAT = ".png";
