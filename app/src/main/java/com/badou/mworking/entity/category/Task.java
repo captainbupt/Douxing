@@ -46,10 +46,6 @@ public class Task extends Category {
 
     transient Content content;
 
-    public Task(Context context, JSONObject jsonObject) {
-        super(context, jsonObject);
-    }
-
     @Override
     public void updateData(CategoryDetail categoryDetail) {
         this.store = categoryDetail.store;

@@ -5,32 +5,30 @@ import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 
 import com.badou.mworking.domain.UseCase;
-import com.badou.mworking.domain.category.CategoryDetailUseCase;
+import com.badou.mworking.domain.category.CategoryBaseUseCase;
+import com.badou.mworking.entity.category.CategoryBase;
 import com.badou.mworking.entity.category.CategoryDetail;
 import com.badou.mworking.entity.category.EntryOperation;
-import com.badou.mworking.entity.category.PlanOperation;
+import com.badou.mworking.entity.category.PlanDetail;
 import com.badou.mworking.net.BaseSubscriber;
 import com.badou.mworking.factory.CategoryIntentFactory;
+import com.badou.mworking.util.GsonUtil;
 import com.badou.mworking.view.BaseView;
-import com.badou.mworking.view.PlanOperationView;
+import com.badou.mworking.view.PlanStageView;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.Serializable;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by badou1 on 2015/7/30.
- */
-public class PlanOperationPresenter  extends ListPresenter<PlanOperation> {
+public class PlanStagePresenter extends ListPresenter<CategoryBase> {
 
     String mRid;
     CategoryDetail mCategoryDetail;
-    PlanOperationView mPlanOperationView;
+    PlanStageView mPlanStageView;
     Fragment mFragment;
 
-    public PlanOperationPresenter(Context context, Fragment fragment, String rid) {
+    public PlanStagePresenter(Context context, Fragment fragment, String rid) {
         super(context);
         this.mFragment = fragment;
         this.mRid = rid;
@@ -39,7 +37,7 @@ public class PlanOperationPresenter  extends ListPresenter<PlanOperation> {
     @Override
     public void attachView(BaseView v) {
         super.attachView(v);
-        mPlanOperationView = (PlanOperationView) v;
+        mPlanStageView = (PlanStageView) v;
     }
 
     @Override
@@ -60,26 +58,24 @@ public class PlanOperationPresenter  extends ListPresenter<PlanOperation> {
 
     @Override
     public void onResponseItem(int position, Serializable item) {
-        PlanOperation operation = mPlanOperationView.getItem(position);
-        operation.setCategoryDetail((CategoryDetail) item);
-        mPlanOperationView.setItem(position, operation);
+
     }
 
     @Override
-    public void toDetailPage(PlanOperation data) {
-        mFragment.startActivityForResult(CategoryIntentFactory.getIntent(mContext, data.getCategoryDetail().getFmt(), data.getRid()), REQUEST_DETAIL);
+    public void toDetailPage(CategoryBase data) {
+        mFragment.startActivityForResult(CategoryIntentFactory.getIntent(mContext, data.getType(), data.getRid()), REQUEST_DETAIL);
     }
 
     public void setData(CategoryDetail categoryDetail) {
-        if (TextUtils.isEmpty(categoryDetail.getLink_to()))
-            return;
         this.mCategoryDetail = categoryDetail;
-        new CategoryDetailUseCase(mCategoryDetail.getLink_to()).execute(new BaseSubscriber<CategoryDetail>(mContext) {
+        final PlanDetail planDetail = mCategoryDetail.getPlan();
+        System.out.println("plan detail: " + GsonUtil.toJson(planDetail));
+        new CategoryBaseUseCase(planDetail.getStages().get(planDetail.getNow().getStageIndex() - 1).getLink()).execute(new BaseSubscriber<List<CategoryBase>>(mContext) {
             @Override
-            public void onResponseSuccess(final CategoryDetail data) {
-                mPlanOperationView.addData(new ArrayList<PlanOperation>() {{
-                    add(new PlanOperation(mCategoryDetail.getLink_to(), data));
-                }});
+            public void onResponseSuccess(List<CategoryBase> data) {
+                mPlanStageView.setStageIndex(planDetail.getNow().getStageIndex());
+                mPlanStageView.setCurrentIndex(planDetail.getNow());
+                mPlanStageView.setData(data);
             }
         });
     }

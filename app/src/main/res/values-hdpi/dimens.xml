@@ -25,6 +25,11 @@
     <dimen name="radius_medium">6dp</dimen>
     <dimen name="dialog_min_width">220dp</dimen>
 
+    <!-- icon_size_medium * 4/3-->
+    <dimen name="icon_size_plan_item_height">56dp</dimen>
+    <!-- icon_size_medium * 2-->
+    <dimen name="icon_size_plan_item_width">86dp</dimen>
+
     <dimen name="icon_size_main_grid_rb">6dp</dimen>
     <dimen name="welcome_btn_marginB">230dp</dimen>
 

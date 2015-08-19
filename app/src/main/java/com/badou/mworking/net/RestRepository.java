@@ -33,6 +33,7 @@ import com.badou.mworking.domain.emchat.EmchatListGetUseCase;
 import com.badou.mworking.domain.emchat.EmchatRegisterUseCase;
 import com.badou.mworking.entity.Ask;
 import com.badou.mworking.entity.Store;
+import com.badou.mworking.entity.category.CategoryBase;
 import com.badou.mworking.entity.chatter.Chatter;
 import com.badou.mworking.entity.chatter.ChatterHotOverall;
 import com.badou.mworking.entity.chatter.ChatterTopic;
@@ -49,7 +50,9 @@ import com.badou.mworking.entity.emchat.ContactList;
 import com.badou.mworking.entity.main.MainData;
 import com.badou.mworking.entity.user.UserDetail;
 import com.badou.mworking.entity.user.UserInfo;
+import com.badou.mworking.util.GsonUtil;
 import com.google.gson.internal.LinkedTreeMap;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -126,6 +129,20 @@ public class RestRepository {
 
     public Observable<BaseNetEntity<CategoryDetail>> getCategoryDetail(CategoryDetailUseCase.Body body) {
         return restApi.getCategoryDetail(AppApplication.SYSPARAM, AppApplication.appVersion, body);
+    }
+
+    public Observable<BaseNetEntity<List<CategoryBase>>> getCategoryBase(String uid, final List<String> rids) {
+        return restApi.getCategoryBase(AppApplication.SYSPARAM, AppApplication.appVersion, uid, new TypedString(GsonUtil.toJson(rids, new TypeToken<List<String>>() {
+        }.getType()))).map(new Func1<BaseNetEntity<List<CategoryBase>>, BaseNetEntity<List<CategoryBase>>>() {
+            @Override
+            public BaseNetEntity<List<CategoryBase>> call(BaseNetEntity<List<CategoryBase>> listBaseNetEntity) {
+                // 返回的信息中不会带上rid，这里手动添加一下，方便使用
+                for (int ii = 0; ii < listBaseNetEntity.getData().size(); ii++) {
+                    listBaseNetEntity.getData().get(ii).setRid(rids.get(ii));
+                }
+                return listBaseNetEntity;
+            }
+        });
     }
 
     public Observable<BaseNetEntity<CategorySearchOverall>> getSearchResult(String uid, String key) {

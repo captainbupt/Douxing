@@ -1,6 +1,7 @@
 package com.badou.mworking.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -10,77 +11,53 @@ import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.Plan;
-import com.badou.mworking.util.TimeTransfer;
+import com.badou.mworking.net.bitmap.ImageViewLoader;
 
-/**
- * Created by badou1 on 2015/7/29.
- */
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 public class PlanAdapter extends MyBaseAdapter<Category> {
 
-
-public PlanAdapter(Context context){
+    public PlanAdapter(Context context) {
         super(context);
-        }
-
-@Override
-public View getView(int position,View convertView,ViewGroup parent){
-        ViewHolder holder;
-        Plan plan=(Plan)getItem(position);
-        if(convertView==null){
-        convertView=mInflater.inflate(R.layout.adapter_notice_item,parent,false);
-        holder=new ViewHolder(convertView);
-        convertView.setTag(holder);
-        }else{
-        holder=(ViewHolder)convertView.getTag();
-        }
-        int size=mContext.getResources().getDimensionPixelSize(R.dimen.offset_lless);
-        if(position==0){
-        convertView.setPadding(0,size,0,0);
-        }else{
-        convertView.setPadding(0,0,0,0);
-        }
-
-        // 图标资源，默认为已读
-        int iconResId=R.drawable.plan_default;
-        holder.iconImageView.setImageResource(iconResId);
-
-        holder.unreadTextView.setTextColor(mContext.getResources().getColor(R.color.color_text_grey));
-        holder.unreadTextView.setBackgroundColor(mContext.getResources().getColor(R.color.transparent));
-        switch (plan.getRead()) {
-            case 0:
-                 holder.unreadTextView.setText(R.string.category_expired);
-                break;
-             case 1:
-                holder.unreadTextView.setText("已完成");
-        }
-
-        if(plan.isTop()){
-        holder.topImageView.setVisibility(View.VISIBLE);
-        }else{
-        holder.topImageView.setVisibility(View.INVISIBLE);
-        }
-        holder.subjectTextView.setText(plan.getSubject());
-
-        holder.dateTextView.setText(plan.getDesc());//階段計劃描述
-        holder.unreadTextView.setText(plan.getPlanDeadline());//顯示過期時間
-
-        //holder.dateTextView.setText(TimeTransfer.long2StringDetailDate(mContext, plan.getTime()));
-        return convertView;
-        }
-
-static class ViewHolder {
-    TextView subjectTextView;
-    TextView dateTextView;
-    ImageView iconImageView;
-    TextView unreadTextView;
-    ImageView topImageView;
-
-  public ViewHolder(View view) {
-        topImageView = (ImageView) view.findViewById(R.id.iv_adapter_notice_top);
-        subjectTextView = (TextView) view.findViewById(R.id.tv_adapter_notice_subject);//大標題
-        dateTextView = (TextView) view.findViewById(R.id.tv_adapter_notice_date);//小標題
-        iconImageView = (ImageView) view.findViewById(R.id.iv_adapter_notice_icon);//圖標
-        unreadTextView = (TextView) view.findViewById(R.id.tv_adapter_notice_unread);//狀態
     }
-}
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder holder;
+        if (convertView == null) {
+            convertView = mInflater.inflate(R.layout.adapter_plan_item, parent, false);
+            holder = new ViewHolder(convertView);
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
+        }
+        Plan plan = (Plan) getItem(position);
+        holder.topImageView.setVisibility(plan.isTop() ? View.VISIBLE : View.INVISIBLE);
+        // 图标资源，默认为已读
+        ImageViewLoader.setImageViewResource(holder.iconImageView, R.drawable.icon_plan_item, plan.getImg());
+
+        holder.subjectTextView.setText(plan.getSubject());
+        if (plan.isOffline()) {
+            holder.stageTextView.setText(R.string.category_expired);
+        } else {
+            holder.stageTextView.setText(plan.getStage());
+        }
+        return convertView;
+    }
+
+    static class ViewHolder {
+        @Bind(R.id.icon_image_view)
+        ImageView iconImageView;
+        @Bind(R.id.subject_text_view)
+        TextView subjectTextView;
+        @Bind(R.id.stage_text_view)
+        TextView stageTextView;
+        @Bind(R.id.top_image_view)
+        ImageView topImageView;
+
+        ViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
+    }
 }

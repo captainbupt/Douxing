@@ -8,13 +8,10 @@ import com.badou.mworking.presenter.category.CategoryBasePresenter;
 import com.badou.mworking.view.BaseView;
 import com.badou.mworking.view.PlanView;
 
-/**
- * Created by badou1 on 2015/7/30.
- */
-public class PlanPresenter  extends CategoryBasePresenter {
+public class PlanPresenter extends CategoryBasePresenter {
 
     PlanIntroductionPresenter mPlanIntroductionPresenter;
-    PlanOperationPresenter mPlanOperationPresenter;
+    PlanStagePresenter mPlanStagePresenter;
     CommentPresenter mCommentPresenter;
     PlanView mPlanView;
 
@@ -29,9 +26,9 @@ public class PlanPresenter  extends CategoryBasePresenter {
         mPlanView = (PlanView) v;
     }
 
-    public void setChildPresenters(PlanIntroductionPresenter planIntroductionPresenter, PlanOperationPresenter planOperationPresenter, CommentPresenter commentPresenter) {
-        this.mPlanIntroductionPresenter =planIntroductionPresenter;
-        this.mPlanOperationPresenter = planOperationPresenter;
+    public void setChildPresenters(PlanIntroductionPresenter planIntroductionPresenter, PlanStagePresenter planOperationPresenter, CommentPresenter commentPresenter) {
+        this.mPlanIntroductionPresenter = planIntroductionPresenter;
+        this.mPlanStagePresenter = planOperationPresenter;
         this.mCommentPresenter = commentPresenter;
     }
 
@@ -39,12 +36,8 @@ public class PlanPresenter  extends CategoryBasePresenter {
     public void setData(CategoryDetail categoryDetail) {
         super.setData(categoryDetail);
         mPlanIntroductionPresenter.setData(categoryDetail);
-        mPlanIntroductionPresenter.setData(categoryDetail);
-        if (categoryDetail.getEntry().getIn() == 2) {
-            mPlanView.setSwipeEnable(true);
-        } else {
-            mPlanView.setSwipeEnable(false);
-        }
+        mPlanStagePresenter.setData(categoryDetail);
+        mPlanView.setSwipeEnable(true);
     }
 
     @Override

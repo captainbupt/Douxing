@@ -29,6 +29,7 @@ import com.badou.mworking.domain.emchat.EmchatListGetUseCase;
 import com.badou.mworking.domain.emchat.EmchatRegisterUseCase;
 import com.badou.mworking.entity.Ask;
 import com.badou.mworking.entity.Store;
+import com.badou.mworking.entity.category.CategoryBase;
 import com.badou.mworking.entity.chatter.Chatter;
 import com.badou.mworking.entity.category.CategoryDetail;
 import com.badou.mworking.entity.category.CategoryOverall;
@@ -97,6 +98,9 @@ public interface RestApi {
 
     @POST("/viewres")
     Observable<BaseNetEntity<CategoryDetail>> getCategoryDetail(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @retrofit.http.Body CategoryDetailUseCase.Body body);
+
+    @POST("/getresinfo")
+    Observable<BaseNetEntity<List<CategoryBase>>> getCategoryBase(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query(PARAMS_UID) String uid, @Body TypedString rids);
 
     @GET("/search")
     Observable<BaseNetEntity<CategorySearchOverall>> getSearchResult(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Query("uid") String uid, @Query("key") String key);

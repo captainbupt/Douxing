@@ -57,14 +57,8 @@ public class EntryOperationFragment extends BaseFragment implements EntryOperati
     }
 
     private void initView() {
-        LinearLayout header = new LinearLayout(mContext);
-        header.setLayoutParams(new ListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        View divider = new View(mContext);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DensityUtil.dip2px(mContext, 1));
-        lp.setMargins(0, DensityUtil.getInstance().getOffsetLess(), 0, 0);
-        divider.setLayoutParams(lp);
-        divider.setBackgroundColor(getResources().getColor(R.color.color_border_grey));
-        header.addView(divider);
+        View header = new View(mContext);
+        header.setLayoutParams(new ListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DensityUtil.getInstance().getOffsetLess()));
         mContentListView.addHeaderView(header);
 
         mEntryOperationAdapter = new EntryOperationAdapter(mContext);

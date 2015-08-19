@@ -98,7 +98,7 @@ public class CategoryBasePresenter extends Presenter {
         mContext.startActivity(intent);
     }
 
-    public void onPlanDatile() {
+    public void onSettingClicked() {
         mCategoryBaseView.showToast("跳转计划转详情面");
     }
 

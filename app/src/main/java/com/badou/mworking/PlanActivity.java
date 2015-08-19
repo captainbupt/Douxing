@@ -11,7 +11,7 @@ import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.entity.category.CategoryDetail;
 import com.badou.mworking.fragment.CommentFragment;
 import com.badou.mworking.fragment.PlanIntroductionFragment;
-import com.badou.mworking.fragment.PlanOperationFragment;
+import com.badou.mworking.fragment.PlanStageFragment;
 import com.badou.mworking.presenter.ListPresenter;
 import com.badou.mworking.presenter.PlanPresenter;
 import com.badou.mworking.presenter.Presenter;
@@ -25,20 +25,17 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-/**
- * Created by badou1 on 2015/7/29.
- */
 public class PlanActivity extends BaseNoTitleActivity implements PlanView {
 
-        @Bind(R.id.header)
-        CategoryHeader mHeader;
-        @Bind(R.id.content)
-        CategoryTabContent mContent;
+    @Bind(R.id.header)
+    CategoryHeader mHeader;
+    @Bind(R.id.content)
+    CategoryTabContent mContent;
 
-        PlanPresenter mPresenter;
-        ImageView mStoreImageView;
-        ImageView statisticalImageView;
-        ImageView mCaidanImageView;
+    PlanPresenter mPresenter;
+    ImageView mStoreImageView;
+    ImageView mStatisticalImageView;
+    ImageView mSettingImageView;
 
     public static Intent getIntent(Context context, String rid) {
         return CategoryBaseActivity.getIntent(context, PlanActivity.class, rid);
@@ -52,7 +49,7 @@ public class PlanActivity extends BaseNoTitleActivity implements PlanView {
         initView();
         String rid = mReceivedIntent.getStringExtra(CategoryBaseActivity.KEY_RID);
         final PlanIntroductionFragment planIntroductionFragment = PlanIntroductionFragment.getFragment(rid);
-        final PlanOperationFragment operationFragment = PlanOperationFragment.getFragment(rid);
+        final PlanStageFragment operationFragment = PlanStageFragment.getFragment(rid);
         final CommentFragment commentFragment = CommentFragment.getFragment(rid);
         commentFragment.setOnCommentCountChangedListener(new CommentFragment.OnCommentCountChangedListener() {
             @Override
@@ -79,14 +76,14 @@ public class PlanActivity extends BaseNoTitleActivity implements PlanView {
     }
 
     public void initView() {
-        statisticalImageView = BaseActionBarActivity.getDefaultImageView(mContext, R.drawable.button_title_statistical_round);
-        statisticalImageView.setOnClickListener(new View.OnClickListener() {
+        mStatisticalImageView = BaseActionBarActivity.getDefaultImageView(mContext, R.drawable.button_title_statistical_round);
+        mStatisticalImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mPresenter.onStatisticalClicked();
             }
         });
-        mHeader.addRightImage(statisticalImageView);//添加右侧图标1
+        mHeader.addRightImage(mStatisticalImageView);//添加右侧图标1
 
         mStoreImageView = BaseActionBarActivity.getDefaultImageView(mContext, R.drawable.button_title_store_round_checked);
         mStoreImageView.setOnClickListener(new View.OnClickListener() {
@@ -98,16 +95,15 @@ public class PlanActivity extends BaseNoTitleActivity implements PlanView {
         mHeader.addRightImage(mStoreImageView);//添加右侧图标2
 
 
-        mCaidanImageView = BaseActionBarActivity.getDefaultImageView(mContext, R.drawable.button_title_menu_round );
+        mSettingImageView = BaseActionBarActivity.getDefaultImageView(mContext, R.drawable.button_title_menu_round);
 
-        mCaidanImageView.setOnClickListener(new View.OnClickListener() {
+        mSettingImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.onPlanDatile();//修改 CategoryBasePresenter中添加方法
-             }
+                mPresenter.onSettingClicked();//修改 CategoryBasePresenter中添加方法
+            }
         });
-        mHeader.addRightImage(mCaidanImageView);//添加右侧图标3
-
+        mHeader.addRightImage(mSettingImageView);//添加右侧图标3
         mHeader.setLeftClick(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
