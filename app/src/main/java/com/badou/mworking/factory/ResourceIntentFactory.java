@@ -28,7 +28,7 @@ public class ResourceIntentFactory {
         if (message.getType().equals(MessageCenter.TYPE_NOTICE) || message.getType().equals(MessageCenter.TYPE_EXAM)
                 || message.getType().equals(MessageCenter.TYPE_TRAINING) || message.getType().equals(MessageCenter.TYPE_TASK)
                 || message.getType().equals(MessageCenter.TYPE_SHELF) || message.getType().equals(MessageCenter.TYPE_ENTRY)) {
-            return CategoryIntentFactory.getIntent(context, message.getCategoryType(), message.getAdd(), true);
+            return CategoryIntentFactory.getIntent(context, message.getCategoryType(), message.getAdd(), true, true);
         } else if (message.getType().equals(MessageCenter.TYPE_CHATTER)) {
             return ChatterDetailActivity.getIntent(context, message.getAdd());
         } else if (message.getType().equals(MessageCenter.TYPE_ASK)) {

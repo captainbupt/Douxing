@@ -25,8 +25,8 @@ public class NoticeBaseActivity extends CategoryBaseActivity {
     @Bind(R.id.bottom_view)
     BottomRatingAndCommentView mBottomView;
 
-    public static Intent getIntent(Context context, String rid) {
-        return CategoryBaseActivity.getIntent(context, NoticeBaseActivity.class, rid);
+    public static Intent getIntent(Context context, String rid, boolean isShowComment) {
+        return CategoryBaseActivity.getIntent(context, NoticeBaseActivity.class, rid, isShowComment);
     }
 
     @Override
@@ -41,7 +41,7 @@ public class NoticeBaseActivity extends CategoryBaseActivity {
 
     @Override
     public CategoryBasePresenter getPresenter() {
-        return new CategoryBasePresenter(mContext, Category.CATEGORY_NOTICE, mReceivedIntent.getStringExtra(KEY_RID));
+        return new CategoryBasePresenter(mContext, Category.CATEGORY_NOTICE, mReceivedIntent.getStringExtra(KEY_RID), mReceivedIntent.getBooleanExtra(KEY_SHOW_COMMENT, true));
     }
 
     private void initListener() {
@@ -106,5 +106,10 @@ public class NoticeBaseActivity extends CategoryBaseActivity {
     @Override
     public void setRatingNumber(int number) {
 
+    }
+
+    @Override
+    public void hideCommentView() {
+        mBottomView.setVisibility(View.GONE);
     }
 }

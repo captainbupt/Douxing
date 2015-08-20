@@ -38,7 +38,7 @@ public class ExamBaseActivity extends CategoryBaseActivity {
 
     @Override
     public CategoryBasePresenter getPresenter() {
-        return new CategoryBasePresenter(mContext, Category.CATEGORY_EXAM, mReceivedIntent.getStringExtra(KEY_RID));
+        return new CategoryBasePresenter(mContext, Category.CATEGORY_EXAM, mReceivedIntent.getStringExtra(KEY_RID), false);
     }
 
     @Override
@@ -62,6 +62,11 @@ public class ExamBaseActivity extends CategoryBaseActivity {
 
     @Override
     public void setRatingNumber(int number) {
+
+    }
+
+    @Override
+    public void hideCommentView() {
 
     }
 }

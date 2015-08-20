@@ -32,22 +32,31 @@ public class CategoryBasePresenter extends Presenter {
     StoreUseCase mStoreUseCase;
     RatingDialog mRatingDialog;
     boolean isPaused;
+    boolean isShowComment;
 
-    public CategoryBasePresenter(Context context, int type, String rid) {
+    public CategoryBasePresenter(Context context, int type, String rid, boolean showComment) {
         super(context);
         this.mCategoryType = type;
         this.mRid = rid;
+        this.isShowComment = showComment;
     }
 
     @Override
     public void attachView(BaseView v) {
         mCategoryBaseView = (CategoryBaseView) v;
+        getCategoryDetail(mRid);
+        if (!isShowComment) {
+            mCategoryBaseView.hideCommentView();
+        }
+    }
+
+    protected void getCategoryDetail(final String rid) {
         mCategoryBaseView.showProgressDialog();
-        new CategoryDetailUseCase(mRid).execute(new BaseSubscriber<CategoryDetail>(mContext) {
+        new CategoryDetailUseCase(rid).execute(new BaseSubscriber<CategoryDetail>(mContext) {
             @Override
             public void onResponseSuccess(CategoryDetail data) {
                 if (!isPaused)
-                    mCategoryBaseView.setData(mRid, data);
+                    mCategoryBaseView.setData(rid, data);
                 setData(data);
             }
 
@@ -96,10 +105,6 @@ public class CategoryBasePresenter extends Presenter {
         String url = Net.getRunHost() + Net.getTongji(uid, mRid);
         Intent intent = BackWebActivity.getIntent(mContext, titleStr, url);
         mContext.startActivity(intent);
-    }
-
-    public void onSettingClicked() {
-        mCategoryBaseView.showToast("跳转计划转详情面");
     }
 
     /**

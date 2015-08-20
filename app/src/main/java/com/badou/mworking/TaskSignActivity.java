@@ -215,4 +215,9 @@ public class TaskSignActivity extends CategoryBaseActivity implements TaskSignVi
     public void setRatingNumber(int number) {
 
     }
+
+    @Override
+    public void hideCommentView() {
+
+    }
 }

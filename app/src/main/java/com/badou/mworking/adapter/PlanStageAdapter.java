@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.entity.category.CategoryBase;
+import com.badou.mworking.entity.category.PlanDetail;
 import com.badou.mworking.entity.category.PlanIndex;
 
 import butterknife.Bind;
@@ -35,20 +36,22 @@ public class PlanStageAdapter extends MyBaseAdapter<CategoryBase> {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.adapter_entry_operation_item, parent, false);
+            convertView = mInflater.inflate(R.layout.adapter_plan_stage_item, parent, false);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
-            holder.mContentTextView.setVisibility(View.GONE);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
         CategoryBase categoryBase = getItem(position);
-        boolean isRead = isRead(position);
-        holder.mIndexTextView.setText((position + 1) + "");
-        holder.mSubjectTextView.setText(categoryBase.getSubject());
-        holder.mCheckImageView.setImageResource(getResource(categoryBase.getFormat(), isRead));
-        holder.mSubjectTextView.setTextColor(mContext.getResources().getColor(isRead ? R.color.color_text_black : R.color.color_text_grey));
-        holder.mIndexTextView.setBackgroundResource(isRead ? R.drawable.background_circle_black : R.drawable.background_circle_grey);
+        boolean isReadable = PlanDetail.isReadable(mCurrentIndex, mStageIndex, position);
+        holder.indexTextView.setText((position + 1) + "");
+        holder.subjectTextView.setText(categoryBase.getSubject());
+        holder.checkImageView.setImageResource(getResource(categoryBase.getFormat(), isReadable));
+        holder.subjectTextView.setTextColor(mContext.getResources().getColor(isReadable ? R.color.color_text_black : R.color.color_text_grey));
+        holder.indexTextView.setTextColor(mContext.getResources().getColor(isReadable ? R.color.color_text_black : R.color.color_text_grey));
+        holder.indexTextView.setBackgroundResource(isReadable ? R.drawable.background_circle_black : R.drawable.background_circle_grey);
+        // 为当前学习完成的课程
+        holder.statusTextView.setVisibility(PlanDetail.isFinish(mCurrentIndex, mStageIndex, position) ? View.VISIBLE : View.INVISIBLE);
         return convertView;
     }
 
@@ -70,26 +73,15 @@ public class PlanStageAdapter extends MyBaseAdapter<CategoryBase> {
         return R.drawable.plan_icon_format_text_unread;
     }
 
-    private boolean isRead(int index) {
-        if (mStageIndex < mCurrentIndex.getStageIndex()) {
-            return true;
-        } else if (mStageIndex == mCurrentIndex.getStageIndex()) {
-            return index < mCurrentIndex.getResourceIndex();
-        } else {
-            return false;
-        }
-
-    }
-
     static class ViewHolder {
         @Bind(R.id.index_text_view)
-        TextView mIndexTextView;
+        TextView indexTextView;
         @Bind(R.id.subject_text_view)
-        TextView mSubjectTextView;
-        @Bind(R.id.content_text_view)
-        TextView mContentTextView;
+        TextView subjectTextView;
         @Bind(R.id.check_image_view)
-        ImageView mCheckImageView;
+        ImageView checkImageView;
+        @Bind(R.id.status_text_view)
+        TextView statusTextView;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);

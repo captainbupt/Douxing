@@ -32,8 +32,8 @@ public class TrainBaseActivity extends CategoryBaseActivity {
 
     private Bundle mSavedInstanceState;
 
-    public static Intent getIntent(Context context, String rid, boolean isTraining) {
-        Intent intent = CategoryBaseActivity.getIntent(context, TrainBaseActivity.class, rid);
+    public static Intent getIntent(Context context, String rid, boolean isTraining, boolean isShowComment) {
+        Intent intent = CategoryBaseActivity.getIntent(context, TrainBaseActivity.class, rid, isShowComment);
         intent.putExtra(KEY_TRAINING, isTraining);
         return intent;
     }
@@ -68,7 +68,7 @@ public class TrainBaseActivity extends CategoryBaseActivity {
     @Override
     public CategoryBasePresenter getPresenter() {
         boolean isTraining = mReceivedIntent.getBooleanExtra(KEY_TRAINING, true);
-        return new CategoryBasePresenter(mContext, isTraining ? Category.CATEGORY_TRAINING : Category.CATEGORY_SHELF, mReceivedIntent.getStringExtra(KEY_RID));
+        return new CategoryBasePresenter(mContext, isTraining ? Category.CATEGORY_TRAINING : Category.CATEGORY_SHELF, mReceivedIntent.getStringExtra(KEY_RID), mReceivedIntent.getBooleanExtra(KEY_SHOW_COMMENT, true));
     }
 
     @Override
@@ -143,6 +143,11 @@ public class TrainBaseActivity extends CategoryBaseActivity {
     @Override
     public void setRatingNumber(int number) {
         mBottomView.setRatingData(number);
+    }
+
+    @Override
+    public void hideCommentView() {
+        mBottomView.setVisibility(View.GONE);
     }
 
     @Override

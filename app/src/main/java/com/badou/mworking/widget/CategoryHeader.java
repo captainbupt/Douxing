@@ -1,7 +1,6 @@
 package com.badou.mworking.widget;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +10,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.badou.mworking.R;
-import com.badou.mworking.base.BaseActionBarActivity;
 import com.captainhwz.layout.HeaderHandler;
 import com.nineoldandroids.view.ViewHelper;
 
@@ -29,6 +27,10 @@ public class CategoryHeader extends RelativeLayout implements HeaderHandler {
     RelativeLayout mActionBarContainer;
     @Bind(R.id.title_text_view)
     TextView mTitleTextView;
+    @Bind(R.id.subtitle_text_view)
+    TextView mSubtitleTextView;
+    @Bind(R.id.title_container)
+    LinearLayout mTitleContainer;
 
     Context mContext;
     final int leftOffset;
@@ -36,7 +38,7 @@ public class CategoryHeader extends RelativeLayout implements HeaderHandler {
     public CategoryHeader(Context context, AttributeSet attrs) {
         super(context, attrs);
         LayoutInflater inflater = LayoutInflater.from(context);
-        inflater.inflate(R.layout.layout_category_header, this, true);
+        inflater.inflate(R.layout.header_category, this, true);
         ButterKnife.bind(this, this);
         ViewHelper.setAlpha(mActionBarBackgroundView, 0);
         leftOffset = context.getResources().getDimensionPixelOffset(R.dimen.width_title_bar);
@@ -45,7 +47,7 @@ public class CategoryHeader extends RelativeLayout implements HeaderHandler {
     @Override
     public void onChange(float ratio, float offsetY) {
         ViewHelper.setAlpha(mActionBarBackgroundView, (1 - ratio));
-        ViewHelper.setTranslationX(mTitleTextView, (float) leftOffset * (1 - ratio));
+        ViewHelper.setTranslationX(mTitleContainer, (float) leftOffset * (1 - ratio));
         ViewHelper.setTranslationY(mActionBarContainer, ViewHelper.getTranslationY(mActionBarContainer) - offsetY);
     }
 
@@ -59,5 +61,9 @@ public class CategoryHeader extends RelativeLayout implements HeaderHandler {
 
     public void setTitle(String title) {
         mTitleTextView.setText(title);
+    }
+
+    public void setSubTitle(String subtitle) {
+        mSubtitleTextView.setText(subtitle);
     }
 }

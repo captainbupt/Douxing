@@ -16,13 +16,19 @@ import com.badou.mworking.view.category.CategoryBaseView;
 public abstract class CategoryBaseActivity extends BaseBackActionBarActivity implements CategoryBaseView {
 
     protected static final String KEY_RID = "rid";
+    protected static final String KEY_SHOW_COMMENT = "showcomment";
 
     CategoryBasePresenter mPresenter;
     ImageView mStoreImageView;
 
     public static Intent getIntent(Context context, Class clz, String rid) {
+        return getIntent(context, clz, rid, false);
+    }
+
+    public static Intent getIntent(Context context, Class clz, String rid, boolean showComment) {
         Intent intent = new Intent(context, clz);
         intent.putExtra(KEY_RID, rid);
+        intent.putExtra(KEY_SHOW_COMMENT, showComment);
         return intent;
     }
 

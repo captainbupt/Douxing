@@ -111,7 +111,7 @@ public class ChatterSubmitActivity extends BaseBackActionBarActivity implements 
 
     private void initView() {
         setActionbarTitle(R.string.chatter_submit_title_share);
-        View header = LayoutInflater.from(mContext).inflate(R.layout.layout_chatter_topic_header, mTopicListView, false);
+        View header = LayoutInflater.from(mContext).inflate(R.layout.header_chatter_topic, mTopicListView, false);
         mTopicConfirmTextView = (TextView) header.findViewById(R.id.topic_confirm_text_view);
         mTopicEditText = (EditText) header.findViewById(R.id.topic_edit_text);
         mTopicListView.addHeaderView(header);
