@@ -1,11 +1,12 @@
-package com.badou.mworking.presenter;
+package com.badou.mworking.presenter.category;
 
 import android.content.Context;
 
 import com.badou.mworking.domain.category.EnrollUseCase;
 import com.badou.mworking.entity.category.CategoryDetail;
+import com.badou.mworking.presenter.Presenter;
 import com.badou.mworking.view.BaseView;
-import com.badou.mworking.view.PlanIntroductionView;
+import com.badou.mworking.view.category.PlanIntroductionView;
 
 /**
  * Created by badou1 on 2015/7/30.

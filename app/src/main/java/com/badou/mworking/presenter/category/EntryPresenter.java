@@ -17,7 +17,7 @@ public class EntryPresenter extends CategoryBasePresenter {
 
 
     public EntryPresenter(Context context, String rid) {
-        super(context, Category.CATEGORY_ENTRY, rid);
+        super(context, Category.CATEGORY_ENTRY, rid, false);
     }
 
     @Override

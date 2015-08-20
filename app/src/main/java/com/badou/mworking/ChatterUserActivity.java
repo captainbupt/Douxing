@@ -61,7 +61,7 @@ public class ChatterUserActivity extends BaseNoTitleActivity {
     }
 
     private View getHeaderView(UserChatterInfo userInfo) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.layout_user_center_header, null);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.header_user_center, null);
         ButterKnife.bind(this, view);
         mAboutImageView.setVisibility(View.GONE);
         String selfUid = UserInfo.getUserInfo().getUid();

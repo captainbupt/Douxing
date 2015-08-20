@@ -12,5 +12,7 @@ public interface CategoryBaseView extends BaseView, StoreItemView {
 
     void setRatingNumber(int number);
 
+    void hideCommentView();
+
     void setStore(boolean isStore);
 }

@@ -10,18 +10,14 @@ import android.widget.TextView;
 import com.badou.mworking.R;
 import com.badou.mworking.base.BaseFragment;
 import com.badou.mworking.entity.category.CategoryDetail;
-import com.badou.mworking.presenter.PlanIntroductionPresenter;
-import com.badou.mworking.view.PlanIntroductionView;
+import com.badou.mworking.presenter.category.PlanIntroductionPresenter;
+import com.badou.mworking.view.category.PlanIntroductionView;
 import com.badou.mworking.widget.CategoryTabContent;
 import com.captainhwz.layout.DefaultContentHandler;
 import com.captainhwz.layout.MaterialHeaderLayout;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class PlanIntroductionFragment extends BaseFragment implements PlanIntroductionView, CategoryTabContent.ScrollableContent {
 

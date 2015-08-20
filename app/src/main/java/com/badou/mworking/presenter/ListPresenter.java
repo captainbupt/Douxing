@@ -28,7 +28,7 @@ public abstract class ListPresenter<T> extends Presenter {
 
     protected static final String RESULT_DATA = "data";
     protected static final String RESULT_DELETED = "deleted";
-    protected static final int REQUEST_DETAIL = 5;
+    public static final int REQUEST_DETAIL = 5;
 
     protected BaseListView<T> mBaseListView;
 

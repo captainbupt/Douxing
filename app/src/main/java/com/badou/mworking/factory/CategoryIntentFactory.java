@@ -19,11 +19,14 @@ import com.badou.mworking.util.ToastUtil;
 public class CategoryIntentFactory {
 
     public static Intent getIntent(Context context, int type, String rid) {
-        return getIntent(context, type, rid, false);
+        return getIntent(context, type, rid, false, true);
     }
 
+    public static Intent getIntentWithoutComment(Context context, int type, String rid) {
+        return getIntent(context, type, rid, false, false);
+    }
 
-    public static Intent getIntent(Context context, int type, String rid, boolean isUnread) {
+    public static Intent getIntent(Context context, int type, String rid, boolean isUnread, boolean isComment) {
         if (type == Category.CATEGORY_NOTICE || type == Category.CATEGORY_TRAINING || type == Category.CATEGORY_SHELF) {
             if (isUnread) {
                 SPHelper.reduceUnreadNumberByOne(type);
@@ -35,17 +38,17 @@ public class CategoryIntentFactory {
             });
         }
         if (type == Category.CATEGORY_NOTICE) {
-            return NoticeBaseActivity.getIntent(context, rid);
+            return NoticeBaseActivity.getIntent(context, rid, isComment);
         } else if (type == Category.CATEGORY_TRAINING || type == Category.CATEGORY_SHELF) {
-            return TrainBaseActivity.getIntent(context, rid, type == Category.CATEGORY_TRAINING);
+            return TrainBaseActivity.getIntent(context, rid, type == Category.CATEGORY_TRAINING, isComment);
         } else if (type == Category.CATEGORY_EXAM) {
             return ExamBaseActivity.getIntent(context, rid);
         } else if (type == Category.CATEGORY_TASK) {
             return TaskSignActivity.getIntent(context, rid);
         } else if (type == Category.CATEGORY_ENTRY) {
             return EntryActivity.getIntent(context, rid);
-        }  else if (type == Category.CATEGORY_PLAN) {//学习计划跳转
-                return PlanActivity.getIntent(context, rid);
+        } else if (type == Category.CATEGORY_PLAN) {//学习计划跳转
+            return PlanActivity.getIntent(context, rid);
         } else {
             ToastUtil.showToast(context, R.string.category_unsupport_type);
             return null;

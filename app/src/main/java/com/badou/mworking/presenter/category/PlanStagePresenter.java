@@ -1,20 +1,21 @@
-package com.badou.mworking.presenter;
+package com.badou.mworking.presenter.category;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 
+import com.badou.mworking.R;
 import com.badou.mworking.domain.UseCase;
 import com.badou.mworking.domain.category.CategoryBaseUseCase;
 import com.badou.mworking.entity.category.CategoryBase;
 import com.badou.mworking.entity.category.CategoryDetail;
 import com.badou.mworking.entity.category.EntryOperation;
 import com.badou.mworking.entity.category.PlanDetail;
-import com.badou.mworking.net.BaseSubscriber;
+import com.badou.mworking.entity.category.PlanStage;
 import com.badou.mworking.factory.CategoryIntentFactory;
-import com.badou.mworking.util.GsonUtil;
+import com.badou.mworking.net.BaseSubscriber;
+import com.badou.mworking.presenter.ListPresenter;
 import com.badou.mworking.view.BaseView;
-import com.badou.mworking.view.PlanStageView;
+import com.badou.mworking.view.category.PlanStageView;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.Serializable;
@@ -25,6 +26,8 @@ public class PlanStagePresenter extends ListPresenter<CategoryBase> {
 
     String mRid;
     CategoryDetail mCategoryDetail;
+    int mStageIndex;
+    PlanStage mPlanStage;
     PlanStageView mPlanStageView;
     Fragment mFragment;
 
@@ -62,22 +65,39 @@ public class PlanStagePresenter extends ListPresenter<CategoryBase> {
     }
 
     @Override
-    public void toDetailPage(CategoryBase data) {
-        mFragment.startActivityForResult(CategoryIntentFactory.getIntent(mContext, data.getType(), data.getRid()), REQUEST_DETAIL);
+    public void onItemClick(CategoryBase data, int position) {
+        super.onItemClick(data, position);
+        if (PlanDetail.isReadable(mCategoryDetail.getPlan().getNow(), mStageIndex, position)) {
+            mFragment.startActivityForResult(CategoryIntentFactory.getIntentWithoutComment(mContext, data.getType(), data.getRid()), REQUEST_DETAIL);
+        } else {
+            mPlanStageView.showToast(R.string.plan_resource_unreadable);
+        }
     }
 
-    public void setData(CategoryDetail categoryDetail) {
+    @Override
+    public void toDetailPage(CategoryBase data) {
+    }
+
+    public void setData(CategoryDetail categoryDetail, final int stageIndex) {
         this.mCategoryDetail = categoryDetail;
-        final PlanDetail planDetail = mCategoryDetail.getPlan();
-        System.out.println("plan detail: " + GsonUtil.toJson(planDetail));
-        new CategoryBaseUseCase(planDetail.getStages().get(planDetail.getNow().getStageIndex() - 1).getLink()).execute(new BaseSubscriber<List<CategoryBase>>(mContext) {
+        this.mPlanStage = mCategoryDetail.getPlan().getStage(stageIndex);
+        this.mStageIndex = stageIndex;
+        if (mPlanStage == null) {
+            mPlanStageView.showNoneResult();
+            return;
+        }
+        new CategoryBaseUseCase(mPlanStage.getLink()).execute(new BaseSubscriber<List<CategoryBase>>(mContext) {
             @Override
             public void onResponseSuccess(List<CategoryBase> data) {
-                mPlanStageView.setStageIndex(planDetail.getNow().getStageIndex());
-                mPlanStageView.setCurrentIndex(planDetail.getNow());
+                mPlanStageView.setStageIndex(stageIndex);
+                mPlanStageView.setCurrentIndex(mCategoryDetail.getPlan().getNow());
                 mPlanStageView.setData(data);
             }
         });
+    }
+
+    public int getStageIndex(){
+        return mStageIndex;
     }
 }
 

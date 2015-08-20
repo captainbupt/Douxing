@@ -13,9 +13,9 @@ import com.badou.mworking.fragment.CommentFragment;
 import com.badou.mworking.fragment.PlanIntroductionFragment;
 import com.badou.mworking.fragment.PlanStageFragment;
 import com.badou.mworking.presenter.ListPresenter;
-import com.badou.mworking.presenter.PlanPresenter;
+import com.badou.mworking.presenter.category.PlanPresenter;
 import com.badou.mworking.presenter.Presenter;
-import com.badou.mworking.view.PlanView;
+import com.badou.mworking.view.category.PlanView;
 import com.badou.mworking.widget.CategoryHeader;
 import com.badou.mworking.widget.CategoryTabContent;
 
@@ -113,6 +113,12 @@ public class PlanActivity extends BaseNoTitleActivity implements PlanView {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mPresenter.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
     public Presenter getPresenter() {
         String rid = mReceivedIntent.getStringExtra(CategoryBaseActivity.KEY_RID);
         return new PlanPresenter(mContext, rid);
@@ -122,7 +128,7 @@ public class PlanActivity extends BaseNoTitleActivity implements PlanView {
     public void setData(String rid, CategoryDetail categoryDetail) {
         setStore(categoryDetail.isStore());
         mHeader.setTitle(categoryDetail.getSubject());
-
+        setStageTitle(categoryDetail.getPlan().getCurrentStage().getSubject());
     }
 
     @Override
@@ -148,13 +154,18 @@ public class PlanActivity extends BaseNoTitleActivity implements PlanView {
     }
 
     @Override
+    public void hideCommentView() {
+
+    }
+
+    @Override
     public void setStore(boolean isStore) {
         mStoreImageView.setImageResource(isStore ? R.drawable.button_title_store_round_checked : R.drawable.button_title_store_round_unchecked);
     }
 
     @Override
-    public void setSwipeEnable(boolean isEnable) {
-        mContent.setSwipeEnabled(isEnable);
+    public void setStageTitle(String stageTitle) {
+        mHeader.setSubTitle("| " + stageTitle + " |");
     }
 }
 

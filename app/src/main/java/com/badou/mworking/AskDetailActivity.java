@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -18,7 +17,6 @@ import android.widget.TextView;
 import com.badou.mworking.adapter.AskAnswerAdapter;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.entity.Ask;
-import com.badou.mworking.entity.Store;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.presenter.Presenter;
 import com.badou.mworking.presenter.ask.AskDetailPresenter;
@@ -128,7 +126,7 @@ public class AskDetailActivity extends BaseBackActionBarActivity implements AskD
      * 功能描述:发送回复TextView设置监听,pullToRefreshScrollView设置下拉刷新监听
      */
     private View getHeaderView(ViewGroup parentView) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.layout_ask_detail_header, parentView, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.header_ask_detail, parentView, false);
         ButterKnife.bind(this, view);
         return view;
     }

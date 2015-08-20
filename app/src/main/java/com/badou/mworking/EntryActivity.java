@@ -135,6 +135,11 @@ public class EntryActivity extends BaseNoTitleActivity implements EntryView {
     }
 
     @Override
+    public void hideCommentView() {
+
+    }
+
+    @Override
     public void setStore(boolean isStore) {
         mStoreImageView.setImageResource(isStore ? R.drawable.button_title_store_round_checked : R.drawable.button_title_store_round_unchecked);
     }
