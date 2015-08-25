@@ -54,16 +54,10 @@ public class UserCenterActivity extends BaseNoTitleActivity implements UserCente
     LinearLayout mMyChatterLayout;
     @Bind(R.id.store_number_text_view)
     TextView mStoreNumberTextView;
-    @Bind(R.id.my_store_layout)
-    LinearLayout mMyStoreLayout;
-    @Bind(R.id.my_account_layout)
-    LinearLayout mMyAccountLayout;
-    @Bind(R.id.service_layout)
-    LinearLayout mServiceLayout;
-    @Bind(R.id.user_center_linear)
-    LinearLayout mUserCenterLinear;
     @Bind(R.id.title_text_view)
     TextView mTitleTextView;
+    @Bind(R.id.credit_text_view)
+    TextView mCreditTextView;
 
     ImageChooser mImageChooser;
     UserCenterPresenter mPresenter;
@@ -119,11 +113,11 @@ public class UserCenterActivity extends BaseNoTitleActivity implements UserCente
     void onChatterClicked() {
         mPresenter.toMyChatter();
     }
-/*
-    @OnClick(R.id.my_message_layout)
-    void onMessageClicked() {
-        mPresenter.toMyChat();
-    }*/
+
+    @OnClick(R.id.survey_layout)
+    void onSurveyClicked() {
+        mPresenter.toSurvey();
+    }
 
     @OnClick(R.id.my_store_layout)
     void onStoreClicked() {
@@ -176,15 +170,9 @@ public class UserCenterActivity extends BaseNoTitleActivity implements UserCente
         // 同事圈
         mChatterNumberTextView.setText(userDetail.getAsk() + getResources().getString(R.string.chatter_num));
         mLevelTextView.setLevel(userDetail.getLevel());
-/*        int nmsg = userDetail.getNmsg();
-        if (nmsg > 0) {
-            mMessageNumberTextView.setVisibility(View.VISIBLE);
-            mMessageNumberTextView.setText(nmsg + "");
-        } else {
-            mMessageNumberTextView.setVisibility(View.GONE);
-        }*/
         int storeNumber = userDetail.getStore();
         mStoreNumberTextView.setText(storeNumber + getResources().getString(R.string.chatter_num));
+        mCreditTextView.setText(userDetail.getCredit() + "");
 
     }
 

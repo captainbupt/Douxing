@@ -22,6 +22,8 @@ public class UserDetail implements Serializable {
     int nmsg; //聊天未读数
     @SerializedName("circle_lv")
     int circle_lv; //等级
+    @SerializedName("circle_rp")
+    int circle_rp; //等级
     @SerializedName("training_total")
     int training_total;//培训总
     @SerializedName("training_week")
@@ -71,6 +73,10 @@ public class UserDetail implements Serializable {
 
     public int getLevel() {
         return circle_lv;
+    }
+
+    public int getCredit() {
+        return circle_rp;
     }
 
     public int getTrainingTotal() {

@@ -17,14 +17,14 @@ import com.badou.mworking.presenter.category.CategoryBasePresenter;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ExamBaseActivity extends CategoryBaseActivity {
+public class SurveyBaseActivity extends CategoryBaseActivity {
 
     @Bind(R.id.content_container)
     FrameLayout mContentContainer;
 
 
     public static Intent getIntent(Context context, String rid, boolean isPlan) {
-        return CategoryBaseActivity.getIntent(context, ExamBaseActivity.class, rid, isPlan);
+        return CategoryBaseActivity.getIntent(context, SurveyBaseActivity.class, rid, isPlan);
     }
 
     @Override
@@ -32,13 +32,13 @@ public class ExamBaseActivity extends CategoryBaseActivity {
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.activity_base_exam);
         ButterKnife.bind(this);
-        setActionbarTitle(Category.getCategoryName(mContext, Category.CATEGORY_EXAM));
+        setActionbarTitle(Category.getCategoryName(mContext, Category.CATEGORY_SURVEY));
         mPresenter.attachView(this);
     }
 
     @Override
     public CategoryBasePresenter getPresenter() {
-        return new CategoryBasePresenter(mContext, Category.CATEGORY_EXAM, mReceivedIntent.getStringExtra(KEY_RID), mReceivedIntent.getBooleanExtra(KEY_IS_PLAN, true));
+        return new CategoryBasePresenter(mContext, Category.CATEGORY_SURVEY, mReceivedIntent.getStringExtra(KEY_RID), mReceivedIntent.getBooleanExtra(KEY_IS_PLAN, true));
     }
 
     @Override
@@ -50,7 +50,7 @@ public class ExamBaseActivity extends CategoryBaseActivity {
     @Override
     public void setData(String rid, CategoryDetail categoryDetail, boolean isPlan) {
         super.setData(rid, categoryDetail, isPlan);
-        WebViewFragment mWebViewFragment = (WebViewFragment) WebViewFragment.getFragment(Net.getRunHost() + Net.EXAM_ITEM(UserInfo.getUserInfo().getUid(), rid));
+        WebViewFragment mWebViewFragment = (WebViewFragment) WebViewFragment.getFragment(categoryDetail.getUrl());
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.content_container, mWebViewFragment);
         transaction.commit();

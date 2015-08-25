@@ -23,6 +23,7 @@ import com.badou.mworking.entity.user.UserChatterInfo;
 import com.badou.mworking.entity.user.UserDetail;
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.BaseSubscriber;
+import com.badou.mworking.net.Net;
 import com.badou.mworking.net.bitmap.BitmapLruCache;
 import com.badou.mworking.net.volley.MyVolley;
 import com.badou.mworking.util.BitmapUtil;
@@ -154,12 +155,13 @@ public class UserCenterPresenter extends Presenter {
         mContext.startActivity(intent);
 
     }
-/*
-    public void toMyChat() {
-        Intent intent = new Intent(mContext, ChatListActivity.class);
-        intent.putExtra(ChatListActivity.KEY_HEAD_URL, mUserDetail.getHeadimg());
+
+    public void toSurvey() {
+        String uid = UserInfo.getUserInfo().getUid();
+        String url = Net.getWeiDiaoYanURl() + uid;
+        Intent intent = BackWebActivity.getIntent(mContext, mContext.getString(R.string.user_center_survey), url);
         mContext.startActivity(intent);
-    }*/
+    }
 
     public void toMyAccount() {
         mContext.startActivity(new Intent(mContext, AccountManageActivity.class));

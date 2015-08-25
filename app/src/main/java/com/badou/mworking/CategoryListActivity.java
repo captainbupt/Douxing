@@ -100,6 +100,8 @@ public class CategoryListActivity extends BaseBackActionBarActivity implements C
                 return new TrainingListPresenter(mContext, mCategoryIndex);
             case Category.CATEGORY_EXAM:
                 return new ExamListPresenter(mContext, mCategoryIndex);
+            case Category.CATEGORY_SURVEY:
+                return new ExamListPresenter(mContext, mCategoryIndex);
             default:
                 return new CategoryListPresenter(mContext, mCategoryIndex);
         }
@@ -115,7 +117,8 @@ public class CategoryListActivity extends BaseBackActionBarActivity implements C
      * 初始化action 布局
      */
     private void initTitleView() {
-        if (!mReceivedIntent.getBooleanExtra(KEY_IS_DONE, true) && mCategoryIndex != Category.CATEGORY_ENTRY) {
+        // 从个人中心进入，或者报名和学习计划，不予显示已读未读
+        if (!mReceivedIntent.getBooleanExtra(KEY_IS_DONE, true) && mCategoryIndex != Category.CATEGORY_ENTRY && mCategoryIndex != Category.CATEGORY_PLAN) {
             mTitleReadTextView = new TextView(mContext);
             mTitleReadTextView.setText(R.string.category_unread);
             mTitleReadTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, DensityUtil.getInstance().getTextSizeSmall());
@@ -157,6 +160,9 @@ public class CategoryListActivity extends BaseBackActionBarActivity implements C
                 break;
             case Category.CATEGORY_TASK:
                 mNoneResultView.setImageResource(R.drawable.background_none_result_task);
+                break;
+            case Category.CATEGORY_SURVEY:
+                mNoneResultView.setImageResource(R.drawable.background_none_result_survey);
                 break;
             default:
                 mNoneResultView.setImageResource(R.drawable.background_none_result_task);

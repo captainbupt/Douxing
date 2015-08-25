@@ -35,9 +35,13 @@ import java.net.URL;
 public class BitmapUtil {
 
     public static void recycleBitmap(Bitmap bitmap) {
-        if (bitmap != null && !bitmap.isRecycled()) {
+        if (!isEmpty(bitmap)) {
             bitmap.recycle();
         }
+    }
+
+    public static boolean isEmpty(Bitmap bitmap) {
+        return bitmap == null || bitmap.isRecycled();
     }
 
     public static int getBitmapSize(Bitmap bitmap) {

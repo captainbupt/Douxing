@@ -24,6 +24,8 @@ public class Store implements Serializable {
     public static final int TYPE_SHELF = 9;
     public static final int TYPE_CHATTER = 7;
     public static final int TYPE_ENTRY = 10;
+    public static final int TYPE_PLAN = 11;
+    public static final int TYPE_SURVEY = 12;
 
     public static final String TYPE_STRING_ASK = "ask";
     public static final String TYPE_STRING_NOTICE = "notice";
@@ -33,6 +35,8 @@ public class Store implements Serializable {
     public static final String TYPE_STRING_SHELF = "shelf";
     public static final String TYPE_STRING_CHATTER = "qas";
     public static final String TYPE_STRING_ENTRY = "entry";
+    public static final String TYPE_STRING_PLAN = "plan";
+    public static final String TYPE_STRING_SURVEY = "survey";
 
     @SerializedName("id")
     String id;
@@ -106,6 +110,10 @@ public class Store implements Serializable {
                 return R.drawable.button_training;
             case TYPE_ENTRY:
                 return R.drawable.button_entry;
+            case TYPE_PLAN:
+                return R.drawable.button_plan;
+            case TYPE_SURVEY:
+                return R.drawable.button_survey;
             default:
                 return R.drawable.button_notice;
         }
@@ -129,6 +137,10 @@ public class Store implements Serializable {
                 return TYPE_STRING_TRAINING;
             case TYPE_ENTRY:
                 return TYPE_STRING_ENTRY;
+            case TYPE_PLAN:
+                return TYPE_STRING_PLAN;
+            case TYPE_SURVEY:
+                return TYPE_STRING_SURVEY;
             default:
                 return TYPE_STRING_NOTICE;
         }
@@ -152,6 +164,10 @@ public class Store implements Serializable {
                 return TYPE_SHELF;
             case Category.CATEGORY_ENTRY:
                 return TYPE_ENTRY;
+            case Category.CATEGORY_PLAN:
+                return TYPE_PLAN;
+            case Category.CATEGORY_SURVEY:
+                return TYPE_SURVEY;
             default:
                 return Category.CATEGORY_NOTICE;
         }
@@ -171,6 +187,10 @@ public class Store implements Serializable {
                 return Category.CATEGORY_TRAINING;
             case TYPE_ENTRY:
                 return Category.CATEGORY_ENTRY;
+            case TYPE_PLAN:
+                return Category.CATEGORY_PLAN;
+            case TYPE_SURVEY:
+                return Category.CATEGORY_SURVEY;
             default:
                 return Category.CATEGORY_NOTICE;
         }

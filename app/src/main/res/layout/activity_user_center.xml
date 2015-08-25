@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
     android:id="@+id/user_center_linear"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_bg_grey"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
-    <include layout="@layout/header_user_center" />
+    <include layout="@layout/header_user_center"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -43,7 +44,7 @@
                     <ImageView
                         android:layout_width="@dimen/user_center_icon_content"
                         android:layout_height="@dimen/user_center_icon_content"
-                        android:src="@drawable/icon_user_center_study_progress" />
+                        android:src="@drawable/icon_user_center_study_progress"/>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -63,7 +64,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="@string/user_center_my_study_progress"
                                 android:textColor="@color/color_text_black"
-                                android:textSize="@dimen/text_size_medium" />
+                                android:textSize="@dimen/text_size_medium"/>
 
                             <TextView
                                 android:id="@+id/study_percent_text_view"
@@ -72,7 +73,7 @@
                                 android:gravity="right"
                                 android:text="0/0"
                                 android:textColor="@color/color_text_black"
-                                android:textSize="@dimen/text_size_medium" />
+                                android:textSize="@dimen/text_size_medium"/>
                         </LinearLayout>
 
                         <ProgressBar
@@ -81,19 +82,19 @@
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/user_center_progress_height"
                             android:layout_marginTop="@dimen/offset_micro"
-                            android:max="100" />
+                            android:max="100"/>
                     </LinearLayout>
 
                     <ImageView
                         android:layout_width="@dimen/user_center_icon_forward_width"
                         android:layout_height="@dimen/user_center_icon_forward_height"
-                        android:src="@drawable/icon_user_center_forward" />
+                        android:src="@drawable/icon_user_center_forward"/>
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/color_bg_grey" />
+                    android:background="@color/color_bg_grey"/>
 
                 <LinearLayout
                     android:id="@+id/my_exam_layout"
@@ -109,7 +110,7 @@
                     <ImageView
                         android:layout_width="@dimen/user_center_icon_content"
                         android:layout_height="@dimen/user_center_icon_content"
-                        android:src="@drawable/icon_user_center_exam" />
+                        android:src="@drawable/icon_user_center_exam"/>
 
 
                     <TextView
@@ -119,7 +120,7 @@
                         android:layout_weight="1"
                         android:text="@string/user_center_my_exam"
                         android:textColor="@color/color_text_black"
-                        android:textSize="@dimen/text_size_medium" />
+                        android:textSize="@dimen/text_size_medium"/>
 
                     <TextView
                         android:id="@+id/exam_score_text_view"
@@ -128,12 +129,12 @@
                         android:layout_marginRight="@dimen/offset_less"
                         android:text="@string/user_center_exam_average"
                         android:textColor="@color/color_text_black"
-                        android:textSize="@dimen/text_size_medium" />
+                        android:textSize="@dimen/text_size_medium"/>
 
                     <ImageView
                         android:layout_width="@dimen/user_center_icon_forward_width"
                         android:layout_height="@dimen/user_center_icon_forward_height"
-                        android:src="@drawable/icon_user_center_forward" />
+                        android:src="@drawable/icon_user_center_forward"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -162,7 +163,7 @@
                     <ImageView
                         android:layout_width="@dimen/user_center_icon_content"
                         android:layout_height="@dimen/user_center_icon_content"
-                        android:src="@drawable/icon_user_center_group" />
+                        android:src="@drawable/icon_user_center_group"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -171,7 +172,7 @@
                         android:layout_weight="1"
                         android:text="@string/user_center_my_group"
                         android:textColor="@color/color_text_black"
-                        android:textSize="@dimen/text_size_medium" />
+                        android:textSize="@dimen/text_size_medium"/>
 
                     <TextView
                         android:id="@+id/chatter_number_text_view"
@@ -179,71 +180,71 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="@dimen/offset_less"
                         android:textColor="@color/color_text_black"
-                        android:textSize="@dimen/text_size_medium" />
+                        android:textSize="@dimen/text_size_medium"/>
 
                     <ImageView
                         android:layout_width="@dimen/user_center_icon_forward_width"
                         android:layout_height="@dimen/user_center_icon_forward_height"
-                        android:src="@drawable/icon_user_center_forward" />
+                        android:src="@drawable/icon_user_center_forward"/>
                 </LinearLayout>
 
-<!--
+                <!--
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/color_bg_grey" />
+
+                                <LinearLayout
+                                    android:id="@+id/my_message_layout"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/background_white_grey"
+                                    android:gravity="center_vertical"
+                                    android:orientation="horizontal"
+                                    android:paddingBottom="@dimen/offset_lless"
+                                    android:paddingLeft="@dimen/offset_small"
+                                    android:paddingTop="@dimen/offset_lless">
+
+                                    <ImageView
+                                        android:layout_width="@dimen/user_center_icon_content"
+                                        android:layout_height="@dimen/user_center_icon_content"
+                                        android:src="@drawable/icon_user_center_message" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="@dimen/offset_less"
+                                        android:layout_weight="1.0"
+                                        android:text="@string/user_center_message"
+                                        android:textColor="@color/color_text_black"
+                                        android:textSize="@dimen/text_size_medium" />
+
+                                    <TextView
+                                        android:id="@+id/message_number_text_view"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginRight="@dimen/offset_less"
+                                        android:background="@drawable/icon_chat_unread"
+                                        android:gravity="center"
+                                        android:paddingBottom="1dp"
+                                        android:paddingLeft="5dp"
+                                        android:paddingRight="5dp"
+                                        android:paddingTop="1dp"
+                                        android:textColor="@color/color_white"
+                                        android:textSize="@dimen/text_size_less"
+                                        android:visibility="gone" />
+
+                                    <ImageView
+                                        android:layout_width="@dimen/user_center_icon_forward_width"
+                                        android:layout_height="@dimen/user_center_icon_forward_height"
+                                        android:src="@drawable/icon_user_center_forward" />
+                                </LinearLayout>
+                -->
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/color_bg_grey" />
-
-                <LinearLayout
-                    android:id="@+id/my_message_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/background_white_grey"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingBottom="@dimen/offset_lless"
-                    android:paddingLeft="@dimen/offset_small"
-                    android:paddingTop="@dimen/offset_lless">
-
-                    <ImageView
-                        android:layout_width="@dimen/user_center_icon_content"
-                        android:layout_height="@dimen/user_center_icon_content"
-                        android:src="@drawable/icon_user_center_message" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/offset_less"
-                        android:layout_weight="1.0"
-                        android:text="@string/user_center_message"
-                        android:textColor="@color/color_text_black"
-                        android:textSize="@dimen/text_size_medium" />
-
-                    <TextView
-                        android:id="@+id/message_number_text_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="@dimen/offset_less"
-                        android:background="@drawable/icon_chat_unread"
-                        android:gravity="center"
-                        android:paddingBottom="1dp"
-                        android:paddingLeft="5dp"
-                        android:paddingRight="5dp"
-                        android:paddingTop="1dp"
-                        android:textColor="@color/color_white"
-                        android:textSize="@dimen/text_size_less"
-                        android:visibility="gone" />
-
-                    <ImageView
-                        android:layout_width="@dimen/user_center_icon_forward_width"
-                        android:layout_height="@dimen/user_center_icon_forward_height"
-                        android:src="@drawable/icon_user_center_forward" />
-                </LinearLayout>
--->
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/color_bg_grey" />
+                    android:background="@color/color_bg_grey"/>
 
                 <LinearLayout
                     android:id="@+id/my_store_layout"
@@ -259,7 +260,7 @@
                     <ImageView
                         android:layout_width="@dimen/user_center_icon_content"
                         android:layout_height="@dimen/user_center_icon_content"
-                        android:src="@drawable/icon_user_center_store" />
+                        android:src="@drawable/icon_user_center_store"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -268,7 +269,7 @@
                         android:layout_weight="1.0"
                         android:text="@string/user_center_my_store"
                         android:textColor="@color/color_text_black"
-                        android:textSize="@dimen/text_size_medium" />
+                        android:textSize="@dimen/text_size_medium"/>
 
                     <TextView
                         android:id="@+id/store_number_text_view"
@@ -276,12 +277,92 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="@dimen/offset_less"
                         android:textColor="@color/color_text_black"
-                        android:textSize="@dimen/text_size_medium" />
+                        android:textSize="@dimen/text_size_medium"/>
 
                     <ImageView
                         android:layout_width="@dimen/user_center_icon_forward_width"
                         android:layout_height="@dimen/user_center_icon_forward_height"
-                        android:src="@drawable/icon_user_center_forward" />
+                        android:src="@drawable/icon_user_center_forward"/>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/color_bg_grey"/>
+
+                <LinearLayout
+                    android:id="@+id/credit_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_white_grey"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/offset_lless"
+                    android:paddingLeft="@dimen/offset_small"
+                    android:paddingTop="@dimen/offset_lless">
+
+                    <ImageView
+                        android:layout_width="@dimen/user_center_icon_content"
+                        android:layout_height="@dimen/user_center_icon_content"
+                        android:src="@drawable/icon_user_center_credit"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/offset_less"
+                        android:layout_weight="1"
+                        android:text="@string/user_center_credit"
+                        android:textColor="@color/color_text_black"
+                        android:textSize="@dimen/text_size_medium"/>
+
+                    <TextView
+                        android:id="@+id/credit_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/offset_less"
+                        android:textColor="@color/color_text_black"
+                        android:textSize="@dimen/text_size_medium"/>
+
+                    <ImageView
+                        android:layout_width="@dimen/user_center_icon_forward_width"
+                        android:layout_height="@dimen/user_center_icon_forward_height"
+                        android:src="@drawable/icon_user_center_forward"/>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/color_bg_grey"/>
+
+                <LinearLayout
+                    android:id="@+id/service_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_white_grey"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/offset_lless"
+                    android:paddingLeft="@dimen/offset_small"
+                    android:paddingTop="@dimen/offset_lless">
+
+                    <ImageView
+                        android:layout_width="@dimen/user_center_icon_content"
+                        android:layout_height="@dimen/user_center_icon_content"
+                        android:src="@drawable/icon_user_center_service"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/offset_less"
+                        android:layout_weight="1"
+                        android:text="@string/user_center_service"
+                        android:textColor="@color/color_text_black"
+                        android:textSize="@dimen/text_size_medium"/>
+
+                    <ImageView
+                        android:layout_width="@dimen/user_center_icon_forward_width"
+                        android:layout_height="@dimen/user_center_icon_forward_height"
+                        android:src="@drawable/icon_user_center_forward"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -289,7 +370,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/offset_less"
-                android:background="@color/color_white"
                 android:orientation="vertical"
                 android:paddingLeft="@dimen/offset_medium"
                 android:paddingRight="@dimen/offset_medium">
@@ -308,7 +388,7 @@
                     <ImageView
                         android:layout_width="@dimen/user_center_icon_content"
                         android:layout_height="@dimen/user_center_icon_content"
-                        android:src="@drawable/icon_user_center_my_account" />
+                        android:src="@drawable/icon_user_center_my_account"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -317,21 +397,26 @@
                         android:layout_weight="1"
                         android:text="@string/user_center_my_account"
                         android:textColor="@color/color_text_black"
-                        android:textSize="@dimen/text_size_medium" />
+                        android:textSize="@dimen/text_size_medium"/>
 
                     <ImageView
                         android:layout_width="@dimen/user_center_icon_forward_width"
                         android:layout_height="@dimen/user_center_icon_forward_height"
-                        android:src="@drawable/icon_user_center_forward" />
+                        android:src="@drawable/icon_user_center_forward"/>
                 </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/color_bg_grey" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/offset_less"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/offset_medium"
+                android:paddingRight="@dimen/offset_medium">
 
                 <LinearLayout
-                    android:id="@+id/service_layout"
+                    android:id="@+id/survey_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/background_white_grey"
@@ -344,21 +429,21 @@
                     <ImageView
                         android:layout_width="@dimen/user_center_icon_content"
                         android:layout_height="@dimen/user_center_icon_content"
-                        android:src="@drawable/icon_user_center_service" />
+                        android:src="@drawable/icon_user_center_survey"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/offset_less"
                         android:layout_weight="1"
-                        android:text="@string/user_center_service"
+                        android:text="@string/user_center_survey"
                         android:textColor="@color/color_text_black"
-                        android:textSize="@dimen/text_size_medium" />
+                        android:textSize="@dimen/text_size_medium"/>
 
                     <ImageView
                         android:layout_width="@dimen/user_center_icon_forward_width"
                         android:layout_height="@dimen/user_center_icon_forward_height"
-                        android:src="@drawable/icon_user_center_forward" />
+                        android:src="@drawable/icon_user_center_forward"/>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

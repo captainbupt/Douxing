@@ -16,7 +16,7 @@ import com.badou.mworking.view.category.CategoryBaseView;
 public abstract class CategoryBaseActivity extends BaseBackActionBarActivity implements CategoryBaseView {
 
     protected static final String KEY_RID = "rid";
-    protected static final String KEY_SHOW_COMMENT = "showcomment";
+    protected static final String KEY_IS_PLAN = "isplan";
 
     CategoryBasePresenter mPresenter;
     ImageView mStoreImageView;
@@ -25,10 +25,10 @@ public abstract class CategoryBaseActivity extends BaseBackActionBarActivity imp
         return getIntent(context, clz, rid, false);
     }
 
-    public static Intent getIntent(Context context, Class clz, String rid, boolean showComment) {
+    public static Intent getIntent(Context context, Class clz, String rid, boolean isPlan) {
         Intent intent = new Intent(context, clz);
         intent.putExtra(KEY_RID, rid);
-        intent.putExtra(KEY_SHOW_COMMENT, showComment);
+        intent.putExtra(KEY_IS_PLAN, isPlan);
         return intent;
     }
 
@@ -39,14 +39,18 @@ public abstract class CategoryBaseActivity extends BaseBackActionBarActivity imp
     }
 
     @Override
-    public void setData(String rid, CategoryDetail categoryDetail) {
+    public void setData(String rid, CategoryDetail categoryDetail, boolean isPlan) {
         mStoreImageView = getDefaultImageView(mContext, categoryDetail.isStore() ? R.drawable.button_title_store_checked : R.drawable.button_title_store_unchecked);
-        addTitleRightView(mStoreImageView, new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mPresenter.onStoreClicked();
-            }
-        });
+        if (!isPlan) { // 学习计划内的课程不需要添加收藏
+            addTitleRightView(mStoreImageView, new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mPresenter.onStoreClicked();
+                }
+            });
+        }else{
+            hideCommentView();
+        }
         if (UserInfo.getUserInfo().isAdmin()) {
             addTitleRightView(getDefaultImageView(mContext, R.drawable.button_title_admin_statistical), new View.OnClickListener() {
                 @Override

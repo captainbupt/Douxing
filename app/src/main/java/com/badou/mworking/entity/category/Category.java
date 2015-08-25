@@ -27,20 +27,30 @@ public abstract class Category implements Serializable {
     public static final int CATEGORY_TASK = 3;        //任务签到
     public static final int CATEGORY_SHELF = 4;   //橱窗
     public static final int CATEGORY_ENTRY = 5;   //报名
-    public static final int CATEGORY_PLAN= 6;//学习计划
+    public static final int CATEGORY_PLAN = 6;   //学习计划
+    public static final int CATEGORY_SURVEY = 7;  //调研
 
-    public static final String[] CATEGORY_KEY_NAMES = new String[]{"notice", "training", "exam", "task", "shelf", "entry","plan"};
-    public static final String[] CATEGORY_KEY_UNREADS = new String[]{"noticeUnreadNum", "trainUnreadNum", "examUnreadNum", "taskUnreadNum", "shelfUnreadNum", "entryUnreadNum","planUnreadNum"};
-    public static final String[] CATEGORY_KEY_ICONS = new String[]{Shuffle.BUTTON_NOTICE,Shuffle.BUTTON_TRAINING, Shuffle.BUTTON_EXAM, Shuffle.BUTTON_TASK,Shuffle.BUTTON_SHELF,Shuffle.BUTTON_ENTRY,Shuffle.BUTTON_PLAN};
-    public static final Class[] CATEGORY_KEY_CLASSES = new Class[]{Notice.class, Train.class, Exam.class, Task.class, Train.class, Entry.class,Plan.class};
+    public static final String[] CATEGORY_KEY_NAMES = new String[]{"notice", "training", "exam", "task", "shelf", "entry", "plan", "survey"};
+    public static final String[] CATEGORY_KEY_UNREADS = new String[]{"noticeUnreadNum", "trainUnreadNum", "examUnreadNum", "taskUnreadNum", "shelfUnreadNum", "entryUnreadNum", "planUnreadNum", "surveyUnreadNum"};
+    public static final String[] CATEGORY_KEY_ICONS = new String[]{Shuffle.BUTTON_NOTICE, Shuffle.BUTTON_TRAINING, Shuffle.BUTTON_EXAM, Shuffle.BUTTON_TASK, Shuffle.BUTTON_SHELF, Shuffle.BUTTON_ENTRY, Shuffle.BUTTON_PLAN, Shuffle.BUTTON_SURVEY};
+    public static final Class[] CATEGORY_KEY_CLASSES = new Class[]{Notice.class, Train.class, Exam.class, Task.class, Train.class, Entry.class, Plan.class, Survey.class};
     public static final Type[] CATEGORY_KEY_TYPES = new Type[]{
-            new TypeToken<List<Notice>>() {}.getType(),
-            new TypeToken<List<Train>>() {}.getType(),
-            new TypeToken<List<Exam>>() {}.getType(),
-            new TypeToken<List<Task>>() {}.getType(),
-            new TypeToken<List<Train>>() {}.getType(),
-            new TypeToken<List<Entry>>() {}.getType(),
-            new TypeToken<List<Plan>>() {}.getType()
+            new TypeToken<List<Notice>>() {
+            }.getType(),
+            new TypeToken<List<Train>>() {
+            }.getType(),
+            new TypeToken<List<Exam>>() {
+            }.getType(),
+            new TypeToken<List<Task>>() {
+            }.getType(),
+            new TypeToken<List<Train>>() {
+            }.getType(),
+            new TypeToken<List<Entry>>() {
+            }.getType(),
+            new TypeToken<List<Plan>>() {
+            }.getType(),
+            new TypeToken<List<Survey>>() {
+            }.getType()
     };
 
     @SerializedName("offline")

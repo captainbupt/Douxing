@@ -64,7 +64,7 @@ public class PlanIntroductionActivity extends BaseBackActionBarActivity {
         mStageListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position - 1 > categoryDetail.getPlan().getNow().getStageIndex()) { // ÉÐÎ´¿ªÊ¼
+                if (position - 1 > categoryDetail.getPlan().getNow().getStageIndex()) { // å°šæœªå¼€å§‹
                     showToast(R.string.plan_stage_unreadable);
                 } else {
                     setResult(RESULT_OK, PlanPresenter.getResultForStage(position - 1));

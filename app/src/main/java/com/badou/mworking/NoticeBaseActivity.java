@@ -25,8 +25,8 @@ public class NoticeBaseActivity extends CategoryBaseActivity {
     @Bind(R.id.bottom_view)
     BottomRatingAndCommentView mBottomView;
 
-    public static Intent getIntent(Context context, String rid, boolean isShowComment) {
-        return CategoryBaseActivity.getIntent(context, NoticeBaseActivity.class, rid, isShowComment);
+    public static Intent getIntent(Context context, String rid, boolean isPlan) {
+        return CategoryBaseActivity.getIntent(context, NoticeBaseActivity.class, rid, isPlan);
     }
 
     @Override
@@ -41,7 +41,7 @@ public class NoticeBaseActivity extends CategoryBaseActivity {
 
     @Override
     public CategoryBasePresenter getPresenter() {
-        return new CategoryBasePresenter(mContext, Category.CATEGORY_NOTICE, mReceivedIntent.getStringExtra(KEY_RID), mReceivedIntent.getBooleanExtra(KEY_SHOW_COMMENT, true));
+        return new CategoryBasePresenter(mContext, Category.CATEGORY_NOTICE, mReceivedIntent.getStringExtra(KEY_RID), mReceivedIntent.getBooleanExtra(KEY_IS_PLAN, true));
     }
 
     private void initListener() {
@@ -60,8 +60,8 @@ public class NoticeBaseActivity extends CategoryBaseActivity {
     }
 
     @Override
-    public void setData(String rid, CategoryDetail categoryDetail) {
-        super.setData(rid, categoryDetail);
+    public void setData(String rid, CategoryDetail categoryDetail, boolean isPlan) {
+        super.setData(rid, categoryDetail, isPlan);
         if (categoryDetail.getFmt() == Constant.MWKG_FORAMT_TYPE_PDF) {
             // 判断api,太小用web
             if (android.os.Build.VERSION.SDK_INT >= 11) {// pdf

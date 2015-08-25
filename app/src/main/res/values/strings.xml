@@ -77,6 +77,7 @@
     <string name="user_detail_icon_upload_success">头像上传成功</string>
     <string name="user_detail_icon_upload_failed">头像上传失败</string>
     <string name="login_error_empty_password">密码不能为空</string>
+    <string name="category_unresponse">未答</string>
     <string name="category_unread">未读</string>
     <string name="category_expired">已过期</string>
     <string name="category_finished">已完成</string>
@@ -153,6 +154,8 @@
     <string name="text_oldPass">旧&#160;密&#160;码:</string>
     <string name="text_newPass">新&#160;密&#160;码:</string>
     <string name="accountManger_logout">退 出 登 录</string>
+    <string name="user_center_credit">我的积分</string>
+    <string name="user_center_survey">意见反馈</string>
     <string name="user_center_my_account">我的账号</string>
     <string name="user_center_service">在线客服中心</string>
     <string name="text_downLoadFile">正在下载文件&#8230;</string>
@@ -244,6 +247,7 @@
     <string name="plan_resource_unreadable">学完上一课程才能查看</string>
     <string name="plan_stage_unreadable">学完上一阶段才能查看</string>
     <string name="plan_stage_finished">您已完成“%s”的学习</string>
+    <string name="plan_all_finished">您已完成该计划的全部课程！</string>
     <string name="plan_stage_index">第%d阶段</string>
 
     <string name="ask_title_right">提问</string>
