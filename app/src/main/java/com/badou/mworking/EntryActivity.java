@@ -36,8 +36,8 @@ public class EntryActivity extends BaseNoTitleActivity implements EntryView {
     ImageView mStoreImageView;
     ImageView statisticalImageView;
 
-    public static Intent getIntent(Context context, String rid) {
-        return CategoryBaseActivity.getIntent(context, EntryActivity.class, rid);
+    public static Intent getIntent(Context context, String rid, boolean isPlan) {
+        return CategoryBaseActivity.getIntent(context, EntryActivity.class, rid, isPlan);
     }
 
     @Override
@@ -102,14 +102,17 @@ public class EntryActivity extends BaseNoTitleActivity implements EntryView {
     @Override
     public Presenter getPresenter() {
         String rid = mReceivedIntent.getStringExtra(CategoryBaseActivity.KEY_RID);
-        return new EntryPresenter(mContext, rid);
+        return new EntryPresenter(mContext, rid, mReceivedIntent.getBooleanExtra(CategoryBaseActivity.KEY_IS_PLAN, true));
     }
 
     @Override
-    public void setData(String rid, CategoryDetail categoryDetail) {
-        setStore(categoryDetail.isStore());
+    public void setData(String rid, CategoryDetail categoryDetail, boolean isPlan) {
+        if (isPlan) {
+            mStoreImageView.setVisibility(View.GONE);
+        } else {
+            setStore(categoryDetail.isStore());
+        }
         mHeader.setTitle(categoryDetail.getSubject());
-
     }
 
     @Override

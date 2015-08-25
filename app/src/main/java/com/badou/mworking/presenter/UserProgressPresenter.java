@@ -55,7 +55,7 @@ public class UserProgressPresenter extends ListPresenter<Category> {
 
     @Override
     public void toDetailPage(Category category) {
-        ((Activity) mContext).startActivityForResult(CategoryIntentFactory.getIntent(mContext, category.getCategoryType(), category.getRid(), category.isUnread(),true), REQUEST_DETAIL);
+        ((Activity) mContext).startActivityForResult(CategoryIntentFactory.getIntent(mContext, category.getCategoryType(), category.getRid(), category.isUnread(), false), REQUEST_DETAIL);
     }
 
     public void toCategoryListPage() {

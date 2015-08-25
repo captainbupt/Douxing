@@ -18,6 +18,11 @@ public class Plan extends Category {
 
     @Override
     public void updateData(CategoryDetail categoryDetail) {
-
+        int stageIndex = categoryDetail.getPlan().getNow().getStageIndex();
+        if (stageIndex >= categoryDetail.getPlan().getStages().size()) {
+            stage = "全部完成";
+        } else {
+            stage = categoryDetail.getPlan().getStage(stageIndex).getSubject();
+        }
     }
 }

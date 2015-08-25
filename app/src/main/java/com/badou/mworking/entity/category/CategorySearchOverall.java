@@ -17,6 +17,10 @@ public class CategorySearchOverall {
     List<CategorySearch> shelf;
     @SerializedName("entry")
     List<CategorySearch> entry;
+    @SerializedName("plan")
+    List<CategorySearch> plan;
+    @SerializedName("survey")
+    List<CategorySearch> survey;
 
     public List<CategorySearch> getNotice() {
         initType(Category.CATEGORY_NOTICE, notice);
@@ -46,6 +50,16 @@ public class CategorySearchOverall {
     public List<CategorySearch> getEntry() {
         initType(Category.CATEGORY_ENTRY, entry);
         return entry;
+    }
+
+    public List<CategorySearch> getPlan() {
+        initType(Category.CATEGORY_PLAN, plan);
+        return plan;
+    }
+
+    public List<CategorySearch> getSurvey() {
+        initType(Category.CATEGORY_SURVEY, survey);
+        return survey;
     }
 
     private void initType(int type, List<CategorySearch> list) {

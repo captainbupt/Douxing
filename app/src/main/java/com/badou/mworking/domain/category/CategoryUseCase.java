@@ -18,10 +18,17 @@ public class CategoryUseCase extends UseCase {
     private int type;
     private int pageNum;
     private int tag;
+    private int itemNum;
 
     public CategoryUseCase(int type) {
         this.type = type;
         this.done = TYPE_ALL;
+        this.itemNum = Constant.LIST_ITEM_NUM;
+        this.tag = 0;
+    }
+
+    public void setItemNum(int itemNum) {
+        this.itemNum = itemNum;
     }
 
     public void setDone(int done) {
@@ -38,6 +45,6 @@ public class CategoryUseCase extends UseCase {
 
     @Override
     protected Observable buildUseCaseObservable() {
-        return RestRepository.getInstance().getCategory(UserInfo.getUserInfo().getUid(), Category.CATEGORY_KEY_NAMES[type], tag, (pageNum - 1) * Constant.LIST_ITEM_NUM, Constant.LIST_ITEM_NUM, done);
+        return RestRepository.getInstance().getCategory(UserInfo.getUserInfo().getUid(), Category.CATEGORY_KEY_NAMES[type], tag, (pageNum - 1) * itemNum, itemNum, done);
     }
 }

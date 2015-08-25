@@ -1,6 +1,7 @@
 package com.badou.mworking.widget;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +32,8 @@ public class CategoryHeader extends RelativeLayout implements HeaderHandler {
     TextView mSubtitleTextView;
     @Bind(R.id.title_container)
     LinearLayout mTitleContainer;
+    @Bind(R.id.background_image_view)
+    ImageView mBackgroundImageView;
 
     Context mContext;
     final int leftOffset;
@@ -66,4 +69,13 @@ public class CategoryHeader extends RelativeLayout implements HeaderHandler {
     public void setSubTitle(String subtitle) {
         mSubtitleTextView.setText(subtitle);
     }
+
+    public void setBackgroundImageView(int resId) {
+        mBackgroundImageView.setImageResource(resId);
+    }
+
+    public void setBackgroundImageView(Bitmap bitmap) {
+        mBackgroundImageView.setImageBitmap(bitmap);
+    }
+
 }

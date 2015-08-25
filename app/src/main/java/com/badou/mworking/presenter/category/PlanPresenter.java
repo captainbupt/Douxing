@@ -23,8 +23,8 @@ public class PlanPresenter extends CategoryBasePresenter {
     PlanView mPlanView;
     int mStageIndex = -1;
 
-    public PlanPresenter(Context context, String rid) {
-        super(context, Category.CATEGORY_ENTRY, rid, false);
+    public PlanPresenter(Context context, String rid, boolean isPlan) {
+        super(context, Category.CATEGORY_PLAN, rid, isPlan);
     }
 
     @Override
@@ -46,6 +46,9 @@ public class PlanPresenter extends CategoryBasePresenter {
         // 如果刷新后的index不一致，说明前一阶段已完成，可以显示提示
         if (mStageIndex < categoryDetail.getPlan().getNow().getStageIndex() && mStageIndex != -1) {
             mPlanView.showToast(String.format(mContext.getString(R.string.plan_stage_finished), categoryDetail.getPlan().getStage(mStageIndex).getSubject()));
+            if (mStageIndex >= categoryDetail.getPlan().getStages().size()) {
+                mPlanView.showToast(R.string.plan_all_finished);
+            }
         }
         mStageIndex = categoryDetail.getPlan().getNow().getStageIndex();
         // 如果已经学完，则设置mStageIndex为0

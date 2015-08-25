@@ -6,6 +6,7 @@ import com.badou.mworking.adapter.EntryAdapter;
 import com.badou.mworking.adapter.ExamAdapter;
 import com.badou.mworking.adapter.NoticeAdapter;
 import com.badou.mworking.adapter.PlanAdapter;
+import com.badou.mworking.adapter.SurveyAdapter;
 import com.badou.mworking.adapter.TaskAdapter;
 import com.badou.mworking.adapter.TrainAdapter;
 import com.badou.mworking.base.MyBaseAdapter;
@@ -28,7 +29,9 @@ public class CategoryAdapterFactory {
             case Category.CATEGORY_ENTRY:
                 return new EntryAdapter(context);
             case Category.CATEGORY_PLAN:    //学习计划适配器
-            return new PlanAdapter(context);
+                return new PlanAdapter(context);
+            case Category.CATEGORY_SURVEY:
+                return new SurveyAdapter(context);
             default:
                 return new NoticeAdapter(context);
         }

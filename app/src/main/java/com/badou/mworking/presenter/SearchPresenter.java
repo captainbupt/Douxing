@@ -69,6 +69,8 @@ public class SearchPresenter extends ListPresenter<CategorySearch> {
         list.addAll(overall.getTask());
         list.addAll(overall.getShelf());
         list.addAll(overall.getEntry());
+        list.addAll(overall.getPlan());
+        list.addAll(overall.getSurvey());
         return super.setData(list, index);
     }
 

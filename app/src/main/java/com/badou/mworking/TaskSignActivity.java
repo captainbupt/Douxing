@@ -59,8 +59,8 @@ public class TaskSignActivity extends CategoryBaseActivity implements TaskSignVi
     // 初始化全局 bitmap 信息，不用时及时 recycle
     BitmapDescriptor bdA = BitmapDescriptorFactory.fromResource(R.drawable.icon_gcoding);
 
-    public static Intent getIntent(Context context, String rid) {
-        return CategoryBaseActivity.getIntent(context, TaskSignActivity.class, rid);
+    public static Intent getIntent(Context context, String rid, boolean isPlan) {
+        return CategoryBaseActivity.getIntent(context, TaskSignActivity.class, rid, isPlan);
     }
 
     @Override
@@ -77,7 +77,7 @@ public class TaskSignActivity extends CategoryBaseActivity implements TaskSignVi
 
     @Override
     public Presenter getPresenter() {
-        return new TaskSignPresenter(mContext, mReceivedIntent.getStringExtra(KEY_RID));
+        return new TaskSignPresenter(mContext, mReceivedIntent.getStringExtra(KEY_RID), mReceivedIntent.getBooleanExtra(KEY_IS_PLAN, true));
     }
 
     @OnClick(R.id.sign_text_view)
@@ -101,8 +101,8 @@ public class TaskSignActivity extends CategoryBaseActivity implements TaskSignVi
     }
 
     @Override
-    public void setData(String rid, CategoryDetail categoryDetail) {
-        super.setData(rid, categoryDetail);
+    public void setData(String rid, CategoryDetail categoryDetail, boolean isPlan) {
+        super.setData(rid, categoryDetail, isPlan);
         initData(categoryDetail);
         initMap(categoryDetail.getTask().getLatitude(), categoryDetail.getTask().getLongitude());
     }

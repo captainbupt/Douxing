@@ -68,7 +68,7 @@ public class TrainBaseActivity extends CategoryBaseActivity {
     @Override
     public CategoryBasePresenter getPresenter() {
         boolean isTraining = mReceivedIntent.getBooleanExtra(KEY_TRAINING, true);
-        return new CategoryBasePresenter(mContext, isTraining ? Category.CATEGORY_TRAINING : Category.CATEGORY_SHELF, mReceivedIntent.getStringExtra(KEY_RID), mReceivedIntent.getBooleanExtra(KEY_SHOW_COMMENT, true));
+        return new CategoryBasePresenter(mContext, isTraining ? Category.CATEGORY_TRAINING : Category.CATEGORY_SHELF, mReceivedIntent.getStringExtra(KEY_RID), mReceivedIntent.getBooleanExtra(KEY_IS_PLAN, true));
     }
 
     @Override
@@ -78,8 +78,8 @@ public class TrainBaseActivity extends CategoryBaseActivity {
     }
 
     @Override
-    public void setData(String rid, CategoryDetail categoryDetail) {
-        super.setData(rid, categoryDetail);
+    public void setData(String rid, CategoryDetail categoryDetail, boolean isPlan) {
+        super.setData(rid, categoryDetail, isPlan);
         if (mSavedInstanceState == null) { // 旋转情况下，android自动回保存fragment实例，不必重新添加
             if (categoryDetail.getFmt() == Constant.MWKG_FORAMT_TYPE_PDF) {
                 // 判断api,太小用web

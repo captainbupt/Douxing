@@ -22,8 +22,9 @@ public class MessageCenter {
     public static final String TYPE_SHELF = "shelf";
     public static final String TYPE_CHATTER = "post";
     public static final String TYPE_ASK = "ask";
-    public static final String TYPE_CHAT = "chat";
     public static final String TYPE_ENTRY = "entry";
+    public static final String TYPE_PLAN = "plan";
+    public static final String TYPE_SURVEY = "survey";
 
     transient int id;
     transient long ts;
@@ -64,6 +65,10 @@ public class MessageCenter {
             return Category.CATEGORY_SHELF;
         if (type.equals(TYPE_ENTRY))
             return Category.CATEGORY_ENTRY;
+        if (type.equals(TYPE_PLAN))
+            return Category.CATEGORY_PLAN;
+        if (type.equals(TYPE_SURVEY))
+            return Category.CATEGORY_SURVEY;
         return -1;
     }
 

@@ -32,22 +32,19 @@ public class CategoryBasePresenter extends Presenter {
     StoreUseCase mStoreUseCase;
     RatingDialog mRatingDialog;
     boolean isPaused;
-    boolean isShowComment;
+    boolean isPlan;
 
-    public CategoryBasePresenter(Context context, int type, String rid, boolean showComment) {
+    public CategoryBasePresenter(Context context, int type, String rid, boolean isPlan) {
         super(context);
         this.mCategoryType = type;
         this.mRid = rid;
-        this.isShowComment = showComment;
+        this.isPlan = isPlan;
     }
 
     @Override
     public void attachView(BaseView v) {
         mCategoryBaseView = (CategoryBaseView) v;
         getCategoryDetail(mRid);
-        if (!isShowComment) {
-            mCategoryBaseView.hideCommentView();
-        }
     }
 
     protected void getCategoryDetail(final String rid) {
@@ -56,7 +53,7 @@ public class CategoryBasePresenter extends Presenter {
             @Override
             public void onResponseSuccess(CategoryDetail data) {
                 if (!isPaused)
-                    mCategoryBaseView.setData(rid, data);
+                    mCategoryBaseView.setData(rid, data, isPlan);
                 setData(data);
             }
 
@@ -169,7 +166,7 @@ public class CategoryBasePresenter extends Presenter {
     @Override
     public void resume() {
         if (isPaused && mCategoryBaseView != null && mCategoryDetail != null) {
-            mCategoryBaseView.setData(mRid, mCategoryDetail);
+            mCategoryBaseView.setData(mRid, mCategoryDetail, isPlan);
         }
         isPaused = false;
     }

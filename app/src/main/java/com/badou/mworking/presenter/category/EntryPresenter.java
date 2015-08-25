@@ -16,8 +16,8 @@ public class EntryPresenter extends CategoryBasePresenter {
     EntryView mEntryView;
 
 
-    public EntryPresenter(Context context, String rid) {
-        super(context, Category.CATEGORY_ENTRY, rid, false);
+    public EntryPresenter(Context context, String rid, boolean isPlan) {
+        super(context, Category.CATEGORY_ENTRY, rid, isPlan);
     }
 
     @Override

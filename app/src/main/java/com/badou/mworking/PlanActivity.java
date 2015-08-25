@@ -2,19 +2,29 @@ package com.badou.mworking;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
 import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.entity.category.CategoryDetail;
 import com.badou.mworking.fragment.CommentFragment;
 import com.badou.mworking.fragment.PlanIntroductionFragment;
 import com.badou.mworking.fragment.PlanStageFragment;
+import com.badou.mworking.net.bitmap.BitmapLruCache;
+import com.badou.mworking.net.bitmap.ImageViewLoader;
+import com.badou.mworking.net.bitmap.NormalImageListener;
+import com.badou.mworking.net.volley.MyVolley;
 import com.badou.mworking.presenter.ListPresenter;
 import com.badou.mworking.presenter.category.PlanPresenter;
 import com.badou.mworking.presenter.Presenter;
+import com.badou.mworking.util.BitmapUtil;
+import com.badou.mworking.util.DensityUtil;
 import com.badou.mworking.view.category.PlanView;
 import com.badou.mworking.widget.CategoryHeader;
 import com.badou.mworking.widget.CategoryTabContent;
@@ -37,8 +47,8 @@ public class PlanActivity extends BaseNoTitleActivity implements PlanView {
     ImageView mStatisticalImageView;
     ImageView mSettingImageView;
 
-    public static Intent getIntent(Context context, String rid) {
-        return CategoryBaseActivity.getIntent(context, PlanActivity.class, rid);
+    public static Intent getIntent(Context context, String rid, boolean isPlan) {
+        return CategoryBaseActivity.getIntent(context, PlanActivity.class, rid, isPlan);
     }
 
     @Override
@@ -121,14 +131,46 @@ public class PlanActivity extends BaseNoTitleActivity implements PlanView {
     @Override
     public Presenter getPresenter() {
         String rid = mReceivedIntent.getStringExtra(CategoryBaseActivity.KEY_RID);
-        return new PlanPresenter(mContext, rid);
+        return new PlanPresenter(mContext, rid, mReceivedIntent.getBooleanExtra(CategoryBaseActivity.KEY_IS_PLAN, true));
     }
 
     @Override
-    public void setData(String rid, CategoryDetail categoryDetail) {
+    public void setData(String rid, CategoryDetail categoryDetail, boolean isPlan) {
+        if (isPlan) {
+            mStoreImageView.setVisibility(View.GONE);
+        } else {
+            setStore(categoryDetail.isStore());
+        }
         setStore(categoryDetail.isStore());
         mHeader.setTitle(categoryDetail.getSubject());
         setStageTitle(categoryDetail.getPlan().getCurrentStage().getSubject());
+        setBackground(categoryDetail.getImg());
+    }
+
+    public void setBackground(final String url) {
+        if (TextUtils.isEmpty(url)) {
+            return;
+        }
+        Bitmap bitmap = BitmapLruCache.getBitmapLruCache().getOriginBitmap(url);
+        if (!BitmapUtil.isEmpty(bitmap)) {
+            mHeader.setBackgroundImageView(bitmap);
+        } else {
+            MyVolley.getImageLoader().get(url, new ImageLoader.ImageListener() {
+                @Override
+                public void onResponse(ImageLoader.ImageContainer imageContainer, boolean b) {
+                    Bitmap bitmap = imageContainer.getBitmap();
+                    if (!BitmapUtil.isEmpty(bitmap)) {
+                        BitmapLruCache.getBitmapLruCache().putOriginBitmap(url, bitmap);
+                        mHeader.setBackgroundImageView(bitmap);
+                    }
+                }
+
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+
+                }
+            }, DensityUtil.getInstance().getScreenWidth(), getResources().getDimensionPixelSize(R.dimen.category_header_height));
+        }
     }
 
     @Override

@@ -127,10 +127,6 @@ public class MainPresenter extends Presenter {
                 case Shuffle.BUTTON_ENTRY: //报名
                     mainIcon.setUnreadNumber(SPHelper.getUnreadNumber(Category.CATEGORY_ENTRY));
                     break;
-
-                case Shuffle.BUTTON_PLAN: //学习计划
-                    mainIcon.setUnreadNumber(SPHelper.getUnreadNumber(Category.CATEGORY_PLAN));
-                    break;
             }
         }
         mMainView.setMainIconData(mMainIconList);
@@ -245,9 +241,7 @@ public class MainPresenter extends Presenter {
                 intent = CategoryListActivity.getIntent(mContext, Category.CATEGORY_EXAM, false);
                 break;
             case Shuffle.BUTTON_SURVEY: // 培训调研
-                String uid = UserInfo.getUserInfo().getUid();
-                String url = Net.getWeiDiaoYanURl() + uid;
-                intent = BackWebActivity.getIntent(mContext, mainIcon.getName(), url);
+                intent = CategoryListActivity.getIntent(mContext, Category.CATEGORY_SURVEY, false);
                 break;
             case Shuffle.BUTTON_TASK: // 任务签到
                 intent = CategoryListActivity.getIntent(mContext, Category.CATEGORY_TASK, false);
