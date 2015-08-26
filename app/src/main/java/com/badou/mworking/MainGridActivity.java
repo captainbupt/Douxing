@@ -23,6 +23,7 @@ import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.presenter.MainPresenter;
 import com.badou.mworking.view.MainGridView;
 import com.badou.mworking.widget.BannerGallery;
+import com.badou.mworking.widget.CreditRewardDialog;
 import com.badou.mworking.widget.LineGridView;
 import com.badou.mworking.widget.TopFadeScrollView;
 import com.easemob.chat.EMMessage;
@@ -205,6 +206,11 @@ public class MainGridActivity extends BaseNoTitleActivity implements MainGridVie
             transaction.commit();
         }
         return mMainSearchFragment;
+    }
+
+    @Override
+    public void showCreditReward(int credit) {
+        new CreditRewardDialog(mContext, credit).show();
     }
 
     @OnItemClick(R.id.content_grid_view)

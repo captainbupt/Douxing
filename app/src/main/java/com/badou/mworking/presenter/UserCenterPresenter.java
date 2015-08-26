@@ -137,7 +137,13 @@ public class UserCenterPresenter extends Presenter {
 
     public void checkLevel() {
         String userId = UserInfo.getUserInfo().getUid();
-        Intent intent = BackWebActivity.getIntent(mContext, "等级介绍", Constant.LV_URL + userId);
+        Intent intent = BackWebActivity.getIntent(mContext, mContext.getString(R.string.user_center_level_introduction), Net.getMyCreditUrl(userId));
+        mContext.startActivity(intent);
+    }
+
+    public void toMyCredit() {
+        String userId = UserInfo.getUserInfo().getUid();
+        Intent intent = BackWebActivity.getIntent(mContext, mContext.getString(R.string.user_center_credit), Net.getMyCreditUrl(userId, mUserDetail.getCredit()));
         mContext.startActivity(intent);
     }
 
@@ -153,7 +159,6 @@ public class UserCenterPresenter extends Presenter {
         // 缺省UID的情况下，默认进入我的圈
         Intent intent = ChatterUserActivity.getIntent(mContext, new UserChatterInfo(UserInfo.getUserInfo().getUid(), mUserDetail));
         mContext.startActivity(intent);
-
     }
 
     public void toSurvey() {

@@ -9,8 +9,8 @@
     <dimen name="height_title_bar">@dimen/icon_size_medium</dimen>
     <dimen name="width_title_bar">@dimen/icon_size_small</dimen>
     <!-- login error dialog -->
-    <dimen name="text_size_login_error_tip">@dimen/text_size_medium</dimen>
-    <dimen name="text_size_login_error_button">@dimen/text_size_medium</dimen>
+    <dimen name="text_size_login_error_tip">@dimen/text_size_large</dimen>
+    <dimen name="text_size_login_error_button">@dimen/text_size_large</dimen>
 
     <!-- user center -->
     <dimen name="user_center_image_head_size">@dimen/icon_size_xlarge</dimen>

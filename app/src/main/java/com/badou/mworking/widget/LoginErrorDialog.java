@@ -11,9 +11,6 @@ import com.badou.mworking.R;
 
 public class LoginErrorDialog extends Dialog {
 
-    private TextView tipTextView;
-    private Button confirmButton;
-
 
     public LoginErrorDialog(Context context, String tips) {
         super(context);
@@ -23,8 +20,8 @@ public class LoginErrorDialog extends Dialog {
     private void initView(String tips) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.dialog_login_error);
-        tipTextView = (TextView) findViewById(R.id.tv_dialog_login_error);
-        confirmButton = (Button) findViewById(R.id.btn_dialog_login_error);
+        TextView tipTextView = (TextView) findViewById(R.id.tv_dialog_login_error);
+        Button confirmButton = (Button) findViewById(R.id.btn_dialog_login_error);
         tipTextView.setText(tips);
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override

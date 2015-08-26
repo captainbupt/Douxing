@@ -13,6 +13,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -50,6 +51,22 @@ public class SPHelper {
         return SP.getBooleanSP(applicationContext, SP.DEFAULTCACHE, PUSH_NOTIFICATIONS, false);
     }
 
+    private static final String CREDIT_REWARD = "creditreward";
+
+    public static void setCreditRewarded() {
+        String uid = UserInfo.getUserInfo().getUid();
+        SP.putLongSP(applicationContext, SP.DEFAULTCACHE, CREDIT_REWARD + uid, Calendar.getInstance().getTimeInMillis());
+    }
+
+    public static boolean isCreditRewarded() {
+        String uid = UserInfo.getUserInfo().getUid();
+        long lastRewardedTime = SP.getLongSP(applicationContext, SP.DEFAULTCACHE, CREDIT_REWARD + uid, 0);
+        Calendar current = Calendar.getInstance();
+        current.set(current.get(Calendar.YEAR), current.get(Calendar.MONTH), current.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
+        long todayBeginningTime = current.getTimeInMillis();
+        return lastRewardedTime >= todayBeginningTime;
+    }
+
     private static final String PDF_PAGE = "pdfpage";
 
     public static void setPdfPage(String rid, int page) {
@@ -81,7 +98,7 @@ public class SPHelper {
     }
 
     // 更新1.6.2，舍弃之前保存的信息
-        private static final String USER_INFO = "userinfo162";
+    private static final String USER_INFO = "userinfo162";
 
     public static void setUserInfo(UserInfo userInfo) {
         if (userInfo != null) {

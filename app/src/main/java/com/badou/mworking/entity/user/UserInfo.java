@@ -21,42 +21,32 @@ public class UserInfo {
     private static UserInfo userInfo;
     private String account;
 
-    @Expose
     @SerializedName("uid")
-    private String uid;
-    @Expose
+    String uid;
     @SerializedName("newuser")
-    private Integer newuser;
-    @Expose
+    Integer newuser;
     @SerializedName("host")
-    private String host;
-    @Expose
+    String host;
     @SerializedName("desc")
-    private String desc;
-    @Expose
+    String desc;
     @SerializedName("tag")
-    private String tag;
-    @Expose
+    String tag;
     @SerializedName("admin")
-    private Integer admin;
-    @Expose
+    Integer admin;
     @SerializedName("shuffle")
-    private Shuffle shuffle;
-    @Expose
+    Shuffle shuffle;
     @SerializedName("name")
-    private String name;
-    @Expose
+    String name;
     @SerializedName("company")
-    private String company;
-    @Expose
+    String company;
     @SerializedName("access")
-    private Integer access;
-    @Expose
+    Integer access;
     @SerializedName("lang")
-    private String lang;
-    @Expose
+    String lang;
     @SerializedName("hxpwd")
-    private String hxpwd;
+    String hxpwd;
+    @SerializedName("credit")
+    Credit credit;
 
     public static void setUserInfo(AppApplication appApplication, String account, UserInfo userInfo) {
         UserInfo.userInfo = userInfo;
@@ -150,6 +140,21 @@ public class UserInfo {
 
     public String getLang() {
         return lang;
+    }
+
+    public int getCredit(){
+        if(credit == null)
+            return 0;
+        return credit.dayact;
+    }
+
+    public void setCredit(int credit){
+        this.credit.dayact = credit;
+    }
+
+    static class Credit{
+        @SerializedName("dayact")
+        int dayact;
     }
 
 }

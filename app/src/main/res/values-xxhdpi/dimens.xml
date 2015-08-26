@@ -23,7 +23,7 @@
     <dimen name="icon_size_xlarge">95dp</dimen>
     <dimen name="radius_small">3dp</dimen>
     <dimen name="radius_medium">6dp</dimen>
-    <dimen name="dialog_min_width">220dp</dimen>
+    <dimen name="dialog_min_width">260dp</dimen>
 
     <!-- icon_size_medium * 4/3-->
     <dimen name="icon_size_plan_item_height">68dp</dimen>

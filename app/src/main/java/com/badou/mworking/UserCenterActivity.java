@@ -139,6 +139,11 @@ public class UserCenterActivity extends BaseNoTitleActivity implements UserCente
         mPresenter.toAboutUs();
     }
 
+    @OnClick(R.id.credit_layout)
+    void onCreditClicked(){
+        mPresenter.toMyCredit();
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         mImageChooser.onActivityResult(requestCode, resultCode, data);

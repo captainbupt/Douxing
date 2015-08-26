@@ -24,11 +24,6 @@ public class Constant {
 	public final static int LIST_ITEM_NUM = 10;
 	public final static int LIST_AROUND_NUM = 100;
 
-	
-	public static final String LANGUAGE = "language";
-	public static final String COMPANY = "company";
-    public static final String LV_URL = "http://ops.mworking.cn/webview/userTitle.html?uid="; // 访问等级页面的url
-
     public static final int MWKG_FORAMT_TYPE_HTML = 1;      //html格式，用webview
     public static final int MWKG_FORAMT_TYPE_PDF = 2; 	    //pdf格式，安卓调pdf阅读器，ios调webview
     public static final int MWKG_FORAMT_TYPE_XML = 3;	    //xml格式

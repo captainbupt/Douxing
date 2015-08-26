@@ -12,6 +12,8 @@
     <string name="tip_anonymous_cancel">我知道了</string>
     <string name="tip_anonymous_logout">你是游客，请退出登录</string>
 
+    <string name="dialog_credit_reward_title">登录奖励</string>
+    <string name="dialog_credit_reward_confirm">我知道了</string>
     <string name="introduction_tips">开始体验</string>
     <string name="forget_password_button_next">下一步</string>
     <string name="forget_passwrod_bottom_cannot_receive">未收到短信？点击这里</string>
@@ -154,6 +156,7 @@
     <string name="text_oldPass">旧&#160;密&#160;码:</string>
     <string name="text_newPass">新&#160;密&#160;码:</string>
     <string name="accountManger_logout">退 出 登 录</string>
+    <string name="user_center_level_introduction">等级介绍</string>
     <string name="user_center_credit">我的积分</string>
     <string name="user_center_survey">意见反馈</string>
     <string name="user_center_my_account">我的账号</string>
