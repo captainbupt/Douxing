@@ -26,4 +26,6 @@ public interface MainGridView extends BaseView {
     void setIndicator(int index);
 
     MainSearchFragment getSearchFragment();
+
+    void showCreditReward(int credit);
 }

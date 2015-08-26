@@ -20,6 +20,7 @@ import com.badou.mworking.LoginActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.UserCenterActivity;
 import com.badou.mworking.CategoryListActivity;
+import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.database.MessageCenterResManager;
 import com.badou.mworking.domain.CheckUpdateUseCase;
 import com.badou.mworking.entity.category.Category;
@@ -159,6 +160,10 @@ public class MainPresenter extends Presenter {
                     loginEMChat(userInfo.getAccount(), userInfo.getHxpwd());
                 }
             }).start();
+        }
+        if (userInfo.getCredit() > 0 && !SPHelper.isCreditRewarded()) {
+            mMainView.showCreditReward(userInfo.getCredit());
+            SPHelper.setCreditRewarded();
         }
     }
 

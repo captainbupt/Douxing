@@ -16,37 +16,12 @@ public class Net {
 
     public static final String FAQ = "/faq.html";
 
-    public static String MARK_READ(String rid, String uid) {
-        return "/markread?sys=android" + AppApplication.SYSVERSION + "&ver="
-                + AppApplication.appVersion + "&uid=" + uid + "&rid=" + rid;
-    }
-
     public static final String Http_Host_ip = "http://115.28.138.79";
 
     public static String getRunHost() {
         return Http_Host_ip + "/badou";
     }
 
-
-    /**
-     * 功能描述: 2. 发送短信获取验证码
-     *
-     * @return
-     */
-    public static String VERIFICATION_CODE() {
-        return "/sendsms?sys=android" + AppApplication.SYSVERSION + "&ver="
-                + AppApplication.appVersion;
-    }
-
-    /**
-     * 3.忘记密码重置
-     *
-     * @return
-     */
-    public static String FORGET_PASS() {
-        return "/rstpwd?sys=android" + AppApplication.SYSVERSION + "&ver="
-                + AppApplication.appVersion;
-    }
 
     /**
      * 功能描述:考试item 点击调取的web
@@ -73,7 +48,11 @@ public class Net {
                 + "&uid=" + uid + "&rid=" + rid;
     }
 
-    public static String getContactList() {
-        return "/gethxtxl?sys=android" + AppApplication.SYSVERSION + "&ver=" + AppApplication.appVersion;
+    public static String getMyCreditUrl(String uid) {
+        return "http://ops.mworking.cn/webview/creditTitle.html?uid=" + uid;
+    }
+
+    public static String getMyCreditUrl(String uid, int credit) {
+        return "http://ops.mworking.cn/webview/creditTitle.html?uid=" + uid + "&credit=" + credit;
     }
 }
