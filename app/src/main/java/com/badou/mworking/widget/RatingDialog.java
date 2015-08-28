@@ -59,19 +59,6 @@ public class RatingDialog extends Dialog {
 
     public void setCurrentScore(int score) {
         this.mCurrentScore = score;
-    }
-
-    /**
-     * 功能描述: 布局初始化
-     */
-    private void initView() {
-        mScoreRatingBar = (RatingBar) findViewById(R.id.rb_dialog_rating);
-        mConfirmTextView = (TextView) findViewById(R.id.btn_dialog_rating_confirm);
-        mCancelTextView = (TextView) findViewById(R.id.tv_dialog_rating_cancel);
-        mTipsTextView = (TextView) findViewById(R.id.tv_dialog_rating_tips);
-        mTitleTextView = (TextView) findViewById(R.id.tv_dialog_rating_title);
-        mNotRatedLayout = (LinearLayout) findViewById(R.id.ll_dialog_rating_not_rated);
-        mRatedLayout = (LinearLayout) findViewById(R.id.ll_dialog_rating_rated);
         if (mCurrentScore > 0) {
             mNotRatedLayout.setVisibility(View.GONE);
             mRatedLayout.setVisibility(View.VISIBLE);
@@ -86,6 +73,19 @@ public class RatingDialog extends Dialog {
                 }
             });
         }
+    }
+
+    /**
+     * 功能描述: 布局初始化
+     */
+    private void initView() {
+        mScoreRatingBar = (RatingBar) findViewById(R.id.rb_dialog_rating);
+        mConfirmTextView = (TextView) findViewById(R.id.btn_dialog_rating_confirm);
+        mCancelTextView = (TextView) findViewById(R.id.tv_dialog_rating_cancel);
+        mTipsTextView = (TextView) findViewById(R.id.tv_dialog_rating_tips);
+        mTitleTextView = (TextView) findViewById(R.id.tv_dialog_rating_title);
+        mNotRatedLayout = (LinearLayout) findViewById(R.id.ll_dialog_rating_not_rated);
+        mRatedLayout = (LinearLayout) findViewById(R.id.ll_dialog_rating_rated);
     }
 
     private void initListener() {

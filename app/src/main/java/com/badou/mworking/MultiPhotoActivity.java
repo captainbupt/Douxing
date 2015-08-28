@@ -56,7 +56,7 @@ public class MultiPhotoActivity extends BaseNoTitleActivity implements MultiPhot
 
     public static Intent getIntentFromLocal(Context context, List<String> localPathList, int targetPosition) {
         Intent intent = new Intent(context, MultiPhotoActivity.class);
-        intent.putExtra(KEY_URL, localPathList.toArray(new String[localPathList.size()]));
+        intent.putExtra(KEY_PATH, localPathList.toArray(new String[localPathList.size()]));
         intent.putExtra(KEY_POSITION, targetPosition);
         return intent;
     }
@@ -72,6 +72,7 @@ public class MultiPhotoActivity extends BaseNoTitleActivity implements MultiPhot
     }
 
     private void initialize() {
+        mImageViewPager.setOffscreenPageLimit(6);
         if (mReceivedIntent.hasExtra(KEY_URL)) {
             String[] urls = mReceivedIntent.getStringArrayExtra(KEY_URL);
             if (urls == null || urls.length == 0) {
@@ -161,5 +162,11 @@ public class MultiPhotoActivity extends BaseNoTitleActivity implements MultiPhot
         public boolean isViewFromObject(View view, Object object) {
             return view == object;
         }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            container.removeView(photoViews[position]);
+        }
     }
+
 }

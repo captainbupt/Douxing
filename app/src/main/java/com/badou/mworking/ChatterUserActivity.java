@@ -13,6 +13,7 @@ import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.entity.user.UserChatterInfo;
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.fragment.ChatterListFragment;
+import com.badou.mworking.net.Net;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.widget.LevelTextView;
 
@@ -50,14 +51,14 @@ public class ChatterUserActivity extends BaseNoTitleActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatter_user);
         final UserChatterInfo userInfo = (UserChatterInfo) mReceivedIntent.getSerializableExtra(KEY_USER_CHATTER);
-        final ChatterListFragment chatterListFragment = ChatterListFragment.getFragment(null, userInfo.getUid());
+        final ChatterListFragment chatterListFragment = ChatterListFragment.getUserFragment(userInfo.getUid(), userInfo.getHeadUrl(), userInfo.getLevel());
         getSupportFragmentManager().beginTransaction().replace(R.id.base_container, chatterListFragment).commit();
         new Handler().postDelayed(new Runnable() {  // 等待fragment渲染完成
             @Override
             public void run() {
                 chatterListFragment.setHeaderView(getHeaderView(userInfo));
             }
-        },200);
+        }, 200);
     }
 
     private View getHeaderView(UserChatterInfo userInfo) {
@@ -73,6 +74,14 @@ public class ChatterUserActivity extends BaseNoTitleActivity {
         ImageViewLoader.setCircleImageViewResource(mHeadImageView, userInfo.getHeadUrl(), getResources().getDimensionPixelSize(R.dimen.user_center_image_head_size));
         mNameTextView.setText(userInfo.getName() + "\n" + userInfo.getDepartment());
         mLevelTextView.setLevel(userInfo.getLevel());
+        mLevelTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String userId = UserInfo.getUserInfo().getUid();
+                Intent intent = BackWebActivity.getIntent(mContext, mContext.getString(R.string.user_center_level_introduction), Net.getLevelUrl(userId));
+                mContext.startActivity(intent);
+            }
+        });
         mBackImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

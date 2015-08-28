@@ -12,6 +12,13 @@
     <string name="tip_anonymous_cancel">我知道了</string>
     <string name="tip_anonymous_logout">你是游客，请退出登录</string>
 
+    <string name="experience_information_cancel">不了，谢谢</string>
+    <string name="experience_information_title">高级账户体验</string>
+    <string name="experience_information_name">请输入你的姓名</string>
+    <string name="experience_information_phone">请输入你的电话</string>
+    <string name="experience_information_company">请输入你的公司名称</string>
+    <string name="experience_information_job">请输入你的职位</string>
+    <string name="experience_information_confirm">马上体验</string>
     <string name="dialog_credit_reward_title">登录奖励</string>
     <string name="dialog_credit_reward_confirm">我知道了</string>
     <string name="introduction_tips">开始体验</string>
@@ -27,7 +34,7 @@
     <string name="change_button_confirm">修改密码</string>
     <string name="app_name">兜行</string>
     <string name="login_tip_username">用户名</string>
-    <string name="login_tip_password">密　码</string>
+    <string name="login_tip_password">密　码（请区分大小写）</string>
     <string name="login_name_experience">快速体验</string>
     <string name="login_button_forget_password">忘记密码?</string>
     <string name="sign_in_task_address_empty">自由签到</string>
@@ -215,6 +222,7 @@
     <string name="chatter_tip_share_url_confirm">我知道了</string>
     <string name="chatter_parse_url_fail">url解析失败</string>
     <string name="chatter_title_right">分享</string>
+    <string name="chatter_submit_share_url">分享链接</string>
     <string name="chatter_submit_title_share">分享</string>
     <string name="chatter_submit_title_url">分享</string>
     <string name="chatter_submit_title_url_detail">链接详情</string>
@@ -267,7 +275,6 @@
     <string name="ask_answer_hint">写下你的答案(大于5个字)…</string>
     <string name="ask_detail_time">发布时间: </string>
     <string name="ask_detail_bottom">参与讨论</string>
-
     <string name="bottom_submit_photo">图片</string>
     <string name="bottom_submit_anonymous">匿名</string>
     <string name="bottom_submit_topic">话题</string>
@@ -277,6 +284,7 @@
     <string name="dialog_operation_copy_success">内容已复制到剪切板</string>
     <string name="operation_delete">删除</string>
     <string name="operation_message">私信</string>
+    <string name="operation_reply">回复</string>
 
     <string name="progress_tips_praise_ing">点赞中，请稍后…</string>
     <string name="progress_tips_send_ing">发布中，请稍后…</string>

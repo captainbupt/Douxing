@@ -148,6 +148,10 @@ public class AskDetailPresenter extends ListPresenter<Ask> {
         DialogUtil.showCopyDialog(mContext, ask.getContent());
     }
 
+    public void submitReply(Ask ask) {
+        ((Activity) mContext).startActivityForResult(AskAnswerSubmitActivity.getIntent(mContext, mAid, ask.getUid(), ask.getUserName()), REQUEST_REPLY);
+    }
+
     public void praise(final Ask ask, final int position) {
         if (mAskReplyPraiseUseCase == null) {
             mAskReplyPraiseUseCase = new AskReplyPraiseUseCase(mAid);
@@ -163,12 +167,12 @@ public class AskDetailPresenter extends ListPresenter<Ask> {
         });
     }
 
-    public void toMessage(){
+    public void toMessage() {
         mContext.startActivity(ChatActivity.getSingleIntent(mContext, mAsk.getWhom()));
     }
 
     public void onStoreClicked() {
-        if(mStoreUseCase == null)
+        if (mStoreUseCase == null)
             mStoreUseCase = new StoreUseCase(mAid, Store.TYPE_STRING_ASK);
         mStoreUseCase.onStoreClicked(mContext, mDetailView, mAsk);
     }

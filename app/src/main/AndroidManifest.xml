@@ -105,6 +105,9 @@
             android:screenOrientation="portrait"
             android:theme="@style/NoTranslucentTheme"/>
         <activity
+            android:name=".ExperienceInformationActivity"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".VideoTakeActivity"
             android:screenOrientation="portrait"/>
         <activity

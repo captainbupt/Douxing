@@ -50,11 +50,9 @@ public class CategoryDetail implements Serializable, StoreItem {
         @SerializedName("e")
         int e = -1;
         @SerializedName("c")
-        int c;
-
-        public int getScore() {
-            return e;
-        }
+        int c; // 是否签到
+        @SerializedName("p")
+        String p; // 签到图片
 
         public boolean isSigned() {
             return c == 1;
@@ -62,6 +60,10 @@ public class CategoryDetail implements Serializable, StoreItem {
 
         public void setSigned(boolean isSigned) {
             this.c = isSigned ? 1 : 0;
+        }
+
+        public String getImgUrl() {
+            return p;
         }
     }
 

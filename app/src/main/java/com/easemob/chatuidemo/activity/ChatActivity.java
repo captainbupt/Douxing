@@ -392,8 +392,7 @@ public class ChatActivity extends BaseBackActionBarActivity implements OnClickLi
         clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
         manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        wakeLock = ((PowerManager) getSystemService(Context.POWER_SERVICE)).newWakeLock(
-                PowerManager.SCREEN_DIM_WAKE_LOCK, "demo");
+        wakeLock = ((PowerManager) getSystemService(Context.POWER_SERVICE)).newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "demo");
         // 判断单聊还是群聊
         chatType = getIntent().getIntExtra("chatType", CHATTYPE_SINGLE);
 

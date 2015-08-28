@@ -48,11 +48,11 @@ public class Net {
                 + "&uid=" + uid + "&rid=" + rid;
     }
 
-    public static String getMyCreditUrl(String uid) {
-        return "http://ops.mworking.cn/webview/creditTitle.html?uid=" + uid;
+    public static String getLevelUrl(String uid) {
+        return "http://ops.mworking.cn/webview/userTitle.html?uid=" + uid;
     }
 
-    public static String getMyCreditUrl(String uid, int credit) {
+    public static String getCreditUrl(String uid, int credit) {
         return "http://ops.mworking.cn/webview/creditTitle.html?uid=" + uid + "&credit=" + credit;
     }
 }

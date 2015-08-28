@@ -1,35 +1,34 @@
 package com.badou.mworking.net;
 
 import com.google.gson.Gson;
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
-public class BaseNetEntity<T> {
-    @SerializedName(Net.CODE)
+public class BaseOpenNetEntity<T> {
+    @SerializedName("code")
     int errcode;
     @SerializedName(Net.DATA)
     T data;
 
-    public BaseNetEntity() {
+    public BaseOpenNetEntity() {
     }
 
-    public BaseNetEntity(int errcode, T data) {
+    public BaseOpenNetEntity(int errcode, T data) {
         this.errcode = errcode;
         this.data = data;
     }
 
-    public static BaseNetEntity fromJson(String json, Class clazz) {
+    public static BaseOpenNetEntity fromJson(String json, Class clazz) {
         Gson gson = new Gson();
-        Type objectType = type(BaseNetEntity.class, clazz);
+        Type objectType = type(BaseOpenNetEntity.class, clazz);
         return gson.fromJson(json, objectType);
     }
 
     public String toJson(Class<T> clazz) {
         Gson gson = new Gson();
-        Type objectType = type(BaseNetEntity.class, clazz);
+        Type objectType = type(BaseOpenNetEntity.class, clazz);
         return gson.toJson(this, objectType);
     }
 

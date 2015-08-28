@@ -22,9 +22,15 @@ public class ChatterListAdapter extends MyBaseAdapter<Chatter> {
     OnClickListener mHeadClickListener;
     OnClickListener mPraiseClickListener;
 
-    public ChatterListAdapter(Context context, OnClickListener headClickListener, OnClickListener praiseClickListener) {
+    public ChatterListAdapter(Context context) {
         super(context);
+    }
+
+    public void setHeadClickListener(OnClickListener headClickListener) {
         mHeadClickListener = headClickListener;
+    }
+
+    public void setPraiseClickListener(OnClickListener praiseClickListener) {
         mPraiseClickListener = praiseClickListener;
     }
 
@@ -38,7 +44,8 @@ public class ChatterListAdapter extends MyBaseAdapter<Chatter> {
                     parent, false);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
-            holder.chatterItemView.setHeadListener(mHeadClickListener);
+            if (mHeadClickListener != null)
+                holder.chatterItemView.setHeadListener(mHeadClickListener);
             holder.chatterItemView.setPraiseListener(mPraiseClickListener);
         }
         final Chatter chatter = mItemList.get(position);

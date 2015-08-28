@@ -91,7 +91,7 @@ public class ChatAllHistoryAdapter extends MyBaseAdapter<EMConversation> {
             holder.name.setText(group != null ? group.getGroupName() : username);
         } else if (conversation.getType() == EMConversationType.Chat) {
             EMChatEntity.setUserAvatar(mContext, username, holder.avatar);
-            holder.name.setText(EMChatEntity.getInstance().getContactList().get(username).getNick());
+            holder.name.setText(EMChatEntity.getUserNick(username));
         }
 
         if (conversation.getUnreadMsgCount() > 0) {

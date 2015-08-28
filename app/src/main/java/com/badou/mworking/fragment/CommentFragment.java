@@ -85,7 +85,7 @@ public class CommentFragment extends BaseFragment implements CommentView, Catego
         mBottomView.setOnSubmitListener(new BottomSendMessageView.OnSubmitListener() {
             @Override
             public void onSubmit(String content) {
-                mPresenter.submitComment(content);
+                mPresenter.onSubmitClicked(content);
             }
         });
         mContentListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {

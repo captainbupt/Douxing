@@ -4,6 +4,7 @@ package com.badou.mworking.net;
 import android.text.TextUtils;
 
 import com.badou.mworking.base.AppApplication;
+import com.badou.mworking.domain.ExperienceInfoUseCase;
 import com.badou.mworking.domain.ResetPasswordUseCase;
 import com.badou.mworking.domain.VerificationMessageUseCase;
 import com.badou.mworking.domain.ask.AskDeleteUseCase;
@@ -17,6 +18,7 @@ import com.badou.mworking.domain.category.CategoryCommentGetUseCase;
 import com.badou.mworking.domain.category.CategoryDetailUseCase;
 import com.badou.mworking.domain.category.CategoryUseCase;
 import com.badou.mworking.domain.ChangePasswordUseCase;
+import com.badou.mworking.domain.category.SurveyStatusUseCase;
 import com.badou.mworking.domain.chatter.ChatterListUseCase;
 import com.badou.mworking.domain.chatter.ChatterReplyDeleteUseCase;
 import com.badou.mworking.domain.chatter.ChatterReplyGetUseCase;
@@ -67,6 +69,7 @@ import rx.functions.Func1;
 public class RestRepository {
 
     public RestApi restApi;
+    public OpenRestApi openRestApi; // open.mworking.cn
     private static RestRepository restRepository;
 
     public static RestRepository getInstance() {
@@ -81,6 +84,11 @@ public class RestRepository {
                 .setLogLevel(RestAdapter.LogLevel.FULL)
                 .build();
         restApi = restApiAdapter.create(RestApi.class);
+        RestAdapter openRestApiAdapter = new RestAdapter.Builder()
+                .setEndpoint("http://open.mworking.cn")
+                .setLogLevel(RestAdapter.LogLevel.FULL)
+                .build();
+        openRestApi = openRestApiAdapter.create(OpenRestApi.class);
     }
 
     public Observable<BaseNetEntity> changePassword(ChangePasswordUseCase.Body body) {
@@ -325,5 +333,13 @@ public class RestRepository {
 
     public Observable<BaseNetEntity<ContactList>> getContactList(EmchatListGetUseCase.Body body) {
         return restApi.getEmchatList(AppApplication.SYSPARAM, AppApplication.appVersion, body);
+    }
+
+    public Observable<BaseNetEntity> sendExperienceInfo(ExperienceInfoUseCase.Body body) {
+        return openRestApi.sendExperienceInfo(body);
+    }
+
+    public Observable<BaseNetEntity<LinkedTreeMap<String, Integer>>> getSurveyStatus(SurveyStatusUseCase.Body body) {
+        return openRestApi.getSurveyStatus(body);
     }
 }

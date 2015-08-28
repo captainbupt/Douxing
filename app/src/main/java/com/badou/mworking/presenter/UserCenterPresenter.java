@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Bundle;
 import android.os.Environment;
 import android.text.TextUtils;
 
@@ -18,16 +17,13 @@ import com.badou.mworking.R;
 import com.badou.mworking.StoreActivity;
 import com.badou.mworking.domain.SetHeadUseCase;
 import com.badou.mworking.domain.UserDetailUseCase;
-import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.user.UserChatterInfo;
 import com.badou.mworking.entity.user.UserDetail;
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.BaseSubscriber;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.net.bitmap.BitmapLruCache;
-import com.badou.mworking.net.volley.MyVolley;
 import com.badou.mworking.util.BitmapUtil;
-import com.badou.mworking.util.Constant;
 import com.badou.mworking.util.FileUtils;
 import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.SPHelper;
@@ -107,22 +103,18 @@ public class UserCenterPresenter extends Presenter {
                         BitmapLruCache.getBitmapLruCache().putCircleBitmap(mImgCacheUrl, headBmp);
                         mUserCenterView.setHeadImage(mImgCacheUrl);
                     }
+                    mUserCenterView.hideProgressDialog();
                     mUserCenterView.showToast(R.string.user_detail_icon_upload_success);
                 }
 
                 @Override
                 public void onErrorCode(int code) {
-                    super.onErrorCode(code);
-                }
-
-                @Override
-                public void onCompleted() {
                     mUserCenterView.hideProgressDialog();
+                    super.onErrorCode(code);
                 }
             });
         } else {
-            ToastUtil.showToast(mContext,
-                    R.string.user_detail_icon_upload_failed);
+            ToastUtil.showToast(mContext, R.string.user_detail_icon_upload_failed);
         }
     }
 
@@ -137,13 +129,13 @@ public class UserCenterPresenter extends Presenter {
 
     public void checkLevel() {
         String userId = UserInfo.getUserInfo().getUid();
-        Intent intent = BackWebActivity.getIntent(mContext, mContext.getString(R.string.user_center_level_introduction), Net.getMyCreditUrl(userId));
+        Intent intent = BackWebActivity.getIntent(mContext, mContext.getString(R.string.user_center_level_introduction), Net.getLevelUrl(userId));
         mContext.startActivity(intent);
     }
 
     public void toMyCredit() {
         String userId = UserInfo.getUserInfo().getUid();
-        Intent intent = BackWebActivity.getIntent(mContext, mContext.getString(R.string.user_center_credit), Net.getMyCreditUrl(userId, mUserDetail.getCredit()));
+        Intent intent = BackWebActivity.getIntent(mContext, mContext.getString(R.string.user_center_credit), Net.getCreditUrl(userId, mUserDetail.getCredit()));
         mContext.startActivity(intent);
     }
 

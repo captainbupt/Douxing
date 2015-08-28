@@ -107,11 +107,9 @@ public class ChatterDetailPresenter extends CommentPresenter {
 
     public Intent getResult() {
         if (mChatter == null) {
-            System.out.println("null");
             return ListPresenter.getResultIntent(null, true);
         } else {
             mChatter.setReplyNumber(mDetailView.getDataCount());
-            System.out.println("count: " + mChatter.getReplyNumber());
             return ListPresenter.getResultIntent(GsonUtil.toJson(mChatter, Chatter.class));
         }
     }

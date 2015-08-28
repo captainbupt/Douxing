@@ -67,6 +67,7 @@ public class CategoryHeader extends RelativeLayout implements HeaderHandler {
     }
 
     public void setSubTitle(String subtitle) {
+        mSubtitleTextView.setVisibility(View.VISIBLE);
         mSubtitleTextView.setText(subtitle);
     }
 

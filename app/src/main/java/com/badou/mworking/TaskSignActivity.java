@@ -5,13 +5,17 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.CategoryDetail;
+import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.presenter.Presenter;
 import com.badou.mworking.presenter.category.TaskSignPresenter;
+import com.badou.mworking.util.DensityUtil;
 import com.badou.mworking.util.ImageChooser;
 import com.badou.mworking.util.TimeTransfer;
 import com.badou.mworking.view.category.TaskSignView;
@@ -52,6 +56,8 @@ public class TaskSignActivity extends CategoryBaseActivity implements TaskSignVi
     TextView mSignTextView;
     @Bind(R.id.self_position_layout)
     LinearLayout mSelfPositionLayout;
+    @Bind(R.id.signed_image_view)
+    ImageView mSignedImageView;
 
     TaskSignPresenter mPresenter;
     ImageChooser mImageChooser;
@@ -88,6 +94,11 @@ public class TaskSignActivity extends CategoryBaseActivity implements TaskSignVi
     @OnClick(R.id.self_position_layout)
     void onPositionClicked() {
         mPresenter.toMyPosition();
+    }
+
+    @OnClick(R.id.signed_image_view)
+    void onImageClicked() {
+        mPresenter.showFullImage();
     }
 
     private void initListener() {
@@ -137,6 +148,10 @@ public class TaskSignActivity extends CategoryBaseActivity implements TaskSignVi
             status = STATUS_UNSIGN;
         }
         setStatus(status);
+        if (!TextUtils.isEmpty(categoryDetail.getContent().getImgUrl())) {
+            mSignedImageView.setVisibility(View.VISIBLE);
+            ImageViewLoader.setSquareImageViewResource(mSignedImageView, -1, categoryDetail.getContent().getImgUrl(), DensityUtil.getInstance().getIconSizeXlarge());
+        }
     }
 
     private void initMap(double latitude, double longitude) {
@@ -204,6 +219,12 @@ public class TaskSignActivity extends CategoryBaseActivity implements TaskSignVi
     @Override
     public void takeImage() {
         mImageChooser.takeImage(null);
+    }
+
+    @Override
+    public void setSignedImage(Bitmap bitmap) {
+        mSignedImageView.setVisibility(View.VISIBLE);
+        mSignedImageView.setImageBitmap(bitmap);
     }
 
     @Override

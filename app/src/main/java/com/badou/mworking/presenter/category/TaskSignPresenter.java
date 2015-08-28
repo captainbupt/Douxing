@@ -7,11 +7,14 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.text.TextUtils;
 
+import com.android.volley.toolbox.ImageLoader;
+import com.badou.mworking.MultiPhotoActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.domain.category.TaskSignUseCase;
 import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.CategoryDetail;
 import com.badou.mworking.net.BaseSubscriber;
+import com.badou.mworking.util.BitmapUtil;
 import com.badou.mworking.util.FileUtils;
 import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.ToastUtil;
@@ -22,6 +25,8 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.zbar.qrscan.CaptureActivity;
+
+import java.util.ArrayList;
 
 public class TaskSignPresenter extends CategoryBasePresenter implements BDLocationListener {
 
@@ -158,9 +163,7 @@ public class TaskSignPresenter extends CategoryBasePresenter implements BDLocati
         taskSignUseCase.execute(new BaseSubscriber(mContext) {
             @Override
             public void onResponseSuccess(Object data) {
-                if (mPhoto != null && mPhoto.isRecycled()) {
-                    mPhoto.recycle();
-                }
+                mTaskSignView.setSignedImage(mPhoto);
                 mTaskSignView.setStatus(TaskSignView.STATUS_SIGN);
                 mTaskSignView.showToast(R.string.task_sign_success);
                 mCategoryDetail.getContent().setSigned(true);
@@ -190,4 +193,18 @@ public class TaskSignPresenter extends CategoryBasePresenter implements BDLocati
     public void onReceivePoi(BDLocation arg0) {
     }
 
+    public void showFullImage() {
+        Intent intent;
+        if (!BitmapUtil.isEmpty(mPhoto)) {
+            FileUtils.writeBitmap2TmpFile(mContext, mPhoto);
+            intent = MultiPhotoActivity.getIntentFromLocal(mContext, new ArrayList<String>() {{
+                add(FileUtils.getTempImgPath(mContext));
+            }}, 0);
+        } else {
+            intent = MultiPhotoActivity.getIntentFromWeb(mContext, new ArrayList<String>() {{
+                add(mCategoryDetail.getContent().getImgUrl());
+            }}, 0);
+        }
+        mContext.startActivity(intent);
+    }
 }

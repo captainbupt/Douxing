@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -25,6 +26,8 @@ import butterknife.ButterKnife;
 public class AskAnswerSubmitActivity extends BaseBackActionBarActivity implements AskReplyView {
 
     private static final String KEY_AID = "aid";
+    private static final String KEY_WHOM = "whom";
+    private static final String KEY_NAME = "name";
 
     @Bind(R.id.content_edit_text)
     EditText mContentEditText;
@@ -37,10 +40,18 @@ public class AskAnswerSubmitActivity extends BaseBackActionBarActivity implement
 
     AskReplyPresenter mPresenter;
 
-    public static Intent getIntent(Context context, String aid) {
+    public static Intent getIntent(Context context, String aid, String whom, String username) {
         Intent intent = new Intent(context, AskAnswerSubmitActivity.class);
         intent.putExtra(KEY_AID, aid);
+        if (!TextUtils.isEmpty(whom)) {
+            intent.putExtra(KEY_WHOM, whom);
+            intent.putExtra(KEY_NAME, username);
+        }
         return intent;
+    }
+
+    public static Intent getIntent(Context context, String aid) {
+        return getIntent(context, aid, null, null);
     }
 
     @Override
@@ -49,17 +60,22 @@ public class AskAnswerSubmitActivity extends BaseBackActionBarActivity implement
         setActionbarTitle(R.string.ask_title_reply);
         setContentView(R.layout.activity_ask_answer_submit);
         ButterKnife.bind(this);
-        initListener();
+        initView();
         mPresenter = (AskReplyPresenter) super.mPresenter;
         mPresenter.attachView(this);
     }
 
     @Override
     public Presenter getPresenter() {
-        return new AskReplyPresenter(mContext, mReceivedIntent.getStringExtra(KEY_AID));
+        return new AskReplyPresenter(mContext, mReceivedIntent.getStringExtra(KEY_AID), mReceivedIntent.getStringExtra(KEY_WHOM));
     }
 
-    private void initListener() {
+    private void initView() {
+        if (!TextUtils.isEmpty(mReceivedIntent.getStringExtra(KEY_WHOM))) {
+            String name = mReceivedIntent.getStringExtra(KEY_NAME);
+            mContentEditText.setHint(getResources().getString(R.string.button_reply) + ": " + name);
+            setActionbarTitle(R.string.operation_reply);
+        }
         mPhotoTextView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {

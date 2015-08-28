@@ -11,6 +11,11 @@
         android:scaleType="centerCrop"
         android:src="@drawable/background_entry_1"/>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#4c000000"/>
+
     <RelativeLayout
         android:id="@+id/action_bar_container"
         android:layout_width="match_parent"
@@ -68,7 +73,8 @@
             android:paddingLeft="@dimen/offset_less"
             android:singleLine="true"
             android:textColor="@color/color_white"
-            android:textSize="@dimen/text_size_less"/>
+            android:textSize="@dimen/text_size_less"
+            android:visibility="gone"/>
     </LinearLayout>
 
 </RelativeLayout>

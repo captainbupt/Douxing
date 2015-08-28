@@ -19,10 +19,12 @@ public class AskReplyPresenter extends Presenter {
 
     AskReplyView mAskReplyView;
     String mAid;
+    String mWhom;
 
-    public AskReplyPresenter(Context context, String aid) {
+    public AskReplyPresenter(Context context, String aid, String whom) {
         super(context);
-        this.mAid = aid;
+        mAid = aid;
+        mWhom = whom;
     }
 
     @Override
@@ -50,7 +52,7 @@ public class AskReplyPresenter extends Presenter {
         Bitmap bitmap = null;
         if (bitmaps != null && bitmaps.size() >= 1)
             bitmap = bitmaps.get(0);
-        new AskReplySendUseCase(mAid, content, bitmap).execute(new BaseSubscriber(mContext) {
+        new AskReplySendUseCase(mAid, content, bitmap, mWhom).execute(new BaseSubscriber(mContext) {
             @Override
             public void onResponseSuccess(Object data) {
                 ((Activity) mContext).setResult(Activity.RESULT_OK);

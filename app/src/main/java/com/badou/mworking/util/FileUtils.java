@@ -220,9 +220,17 @@ public class FileUtils {
     public static File writeBitmap2TmpFile(Context context, Bitmap bitmap) {
         if (bitmap == null || bitmap.isRecycled())
             return null;
-        String filePath = context.getExternalCacheDir().getPath() + File.separator + "tmp.jpg";
+        String filePath = getTempImgPath(context);
         FileUtils.writeBitmap2SDcard(bitmap, filePath);
         return new File(filePath);
+    }
+
+    public static String getTempImgPath(Context context) {
+        return getTempDirectory(context) + File.separator + "tmp.jpg";
+    }
+
+    public static String getTempDirectory(Context context) {
+        return context.getExternalCacheDir().getPath();
     }
 
     public static void writeBitmap2SDcard(Bitmap bitmap, String path) {

@@ -35,6 +35,12 @@ public class Ask implements Serializable, StoreItem {
     String subject; // 标题
     @SerializedName("store")
     boolean isStore;
+    @SerializedName("uid")
+    String uid;
+
+    public String getUid() {
+        return uid;
+    }
 
     public String getAid() {
         return aid;

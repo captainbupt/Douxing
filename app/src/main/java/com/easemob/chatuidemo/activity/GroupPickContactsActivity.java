@@ -129,7 +129,9 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
                 final List<String> members = contactAdapter.getToBeAddMembers();
                 if (exitingMembers.size() > 0) {
                     save(members.toArray(new String[members.size()]));
-                } else if (members.size() > 0) {
+                } else if (members.size() == 1) {
+                    createSingleChat(members.get(0));
+                } else if (members.size() > 1) {
                     createGroup(members);
                 } else {
                     ToastUtil.showToast(mContext, R.string.group_member_empty);
@@ -335,9 +337,9 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
             @Override
             public int compare(User lhs, User rhs) {
                 int headerResult = lhs.getHeader().compareTo(rhs.getHeader());
-                if(headerResult == 0) { // 先按首字母比较，若相同，则按nick比较
+                if (headerResult == 0) { // 先按首字母比较，若相同，则按nick比较
                     return (lhs.getNick().compareTo(rhs.getNick()));
-                }else{
+                } else {
                     return headerResult;
                 }
             }
@@ -395,6 +397,11 @@ public class GroupPickContactsActivity extends BaseBackActionBarActivity {
 
     public void save(final String[] members) {
         setResult(RESULT_OK, new Intent().putExtra("newmembers", members));
+        finish();
+    }
+
+    private void createSingleChat(String member) {
+        startActivity(ChatActivity.getSingleIntent(mContext, member));
         finish();
     }
 

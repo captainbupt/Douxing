@@ -20,6 +20,8 @@ import com.badou.mworking.util.GsonUtil;
 import com.badou.mworking.util.SP;
 import com.google.gson.reflect.TypeToken;
 
+import junit.framework.Test;
+
 import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.List;
@@ -30,19 +32,26 @@ public class ChatterListPresenter extends ListPresenter<Chatter> {
     ChatterListFragment mFragment;
     String mTopic;
     String mUid;
+    String mHead;
+    int mLevel;
 
-    public ChatterListPresenter(Context context, ChatterListFragment fragment, String info, boolean isTopic) {
+    public ChatterListPresenter(Context context, ChatterListFragment fragment, String topic) {
         super(context);
         this.mFragment = fragment;
-        if (isTopic) {
-            this.mTopic = info;
-        } else {
-            this.mUid = info;
-        }
+        this.mTopic = topic;
+    }
+
+    public ChatterListPresenter(Context context, ChatterListFragment fragment, String uid, String head, int level) {
+        super(context);
+        mFragment = fragment;
+        mUid = uid;
+        mHead = head;
+        mLevel = level;
     }
 
     public ChatterListPresenter(Context context, ChatterListFragment fragment) {
-        this(context, fragment, null, false);
+        super(context);
+        this.mFragment = fragment;
     }
 
     @Override
@@ -71,6 +80,17 @@ public class ChatterListPresenter extends ListPresenter<Chatter> {
         }
         mChatterListUseCase.setPageNum(pageIndex);
         return mChatterListUseCase;
+    }
+
+    @Override
+    protected boolean setList(List<Chatter> data, int index) {
+        if (!TextUtils.isEmpty(mUid)) { // 获取某一用户同事圈的时候，没有头像和等级，需要手动写入
+            for (Chatter chatter : data) {
+                chatter.setHeadUrl(mHead);
+                chatter.setLevel(mLevel);
+            }
+        }
+        return super.setList(data, index);
     }
 
     @Override

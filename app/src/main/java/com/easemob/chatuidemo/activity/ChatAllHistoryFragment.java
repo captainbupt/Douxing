@@ -26,6 +26,8 @@ import com.easemob.chatuidemo.Constant;
 import com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter;
 import com.swipe.delete.SwipeLayout;
 
+import org.jivesoftware.smack.Chat;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -86,10 +88,12 @@ public class ChatAllHistoryFragment extends Fragment {
                 refresh();
                 String username = conversation.getUserName();
                 // 进入聊天页面
-                Intent intent = new Intent(getActivity(), ChatActivity.class);
-                // it is group chat
-                intent.putExtra("chatType", ChatActivity.CHATTYPE_GROUP);
-                intent.putExtra("groupId", username);
+                Intent intent;
+                if (conversation.isGroup()) {
+                    intent = ChatActivity.getGroupIntent(getActivity(), username);
+                } else {
+                    intent = ChatActivity.getSingleIntent(getActivity(), username);
+                }
                 startActivity(intent);
             }
         });
@@ -140,7 +144,8 @@ public class ChatAllHistoryFragment extends Fragment {
         List<String> illegalKey = new ArrayList<>();
         for (String key : conversations.keySet()) {
             EMConversation conversation = conversations.get(key);
-            if (!conversation.isGroup() || EMChatManager.getInstance().getGroup(conversation.getUserName()) == null) {
+            // 可能会出现不存在的群组对话，这里过滤一下
+            if (conversation.isGroup() && EMChatManager.getInstance().getGroup(conversation.getUserName()) == null) {
                 illegalKey.add(key);
             }
         }

@@ -144,6 +144,7 @@ public class CategoryBasePresenter extends Presenter {
     private void uploadRating(int rating) {
         mCategoryBaseView.hideProgressDialog();
         CategoryRateUseCase categoryRateUseCase = new CategoryRateUseCase(mRid);
+        categoryRateUseCase.setCredit(rating);
         categoryRateUseCase.execute(new BaseSubscriber(mContext) {
             @Override
             public void onResponseSuccess(Object data) {
