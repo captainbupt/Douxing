@@ -43,10 +43,10 @@ public class TrainingListPresenter extends CategoryListPresenter {
                     for (Category category : trainingList) {
                         if (category.getRid().equals(commentInfo.getRid())) {
                             ((Train) category).setCommentInfo(commentInfo);
-                            TrainingListPresenter.super.setList(trainingList, index);
                         }
                     }
                 }
+                TrainingListPresenter.super.setList(trainingList, index);
             }
 
             @Override

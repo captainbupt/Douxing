@@ -70,6 +70,9 @@ public class BaseNoTitleActivity extends ActionBarActivity implements SwipeBackA
     @Override
     protected void onDestroy() {
         mPresenter.destroy();
+        mProgressDialog.dismiss();
+        //将当前Activity移除掉
+        AppManager.getAppManager().removeActivity(this);
         super.onDestroy();
     }
 
@@ -91,9 +94,6 @@ public class BaseNoTitleActivity extends ActionBarActivity implements SwipeBackA
 
     @Override
     public void finish() {
-        mProgressDialog.dismiss();
-        //将当前Activity移除掉
-        AppManager.getAppManager().removeActivity(this);
         super.finish();
         overridePendingTransition(R.anim.in_from_left, R.anim.out_to_right);
     }

@@ -170,6 +170,8 @@ public abstract class ListPresenter<T> extends Presenter {
         if (requestCode == REQUEST_DETAIL && resultCode == Activity.RESULT_OK && mClickPosition >= 0 && mClickPosition < mBaseListView.getDataCount()) {
             if (data.getBooleanExtra(RESULT_DELETED, false)) {
                 mBaseListView.removeItem(mClickPosition);
+                if (mBaseListView.getDataCount() == 0)
+                    mBaseListView.showNoneResult();
             } else {
                 Serializable item = data.getSerializableExtra(RESULT_DATA);
                 if (item != null) {

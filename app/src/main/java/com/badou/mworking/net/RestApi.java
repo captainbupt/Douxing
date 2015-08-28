@@ -1,6 +1,7 @@
 package com.badou.mworking.net;
 
 import com.badou.mworking.ForgetPasswordVerificationActivity;
+import com.badou.mworking.domain.ExperienceInfoUseCase;
 import com.badou.mworking.domain.ResetPasswordUseCase;
 import com.badou.mworking.domain.VerificationMessageUseCase;
 import com.badou.mworking.domain.ask.AskDeleteUseCase;
@@ -221,4 +222,7 @@ public interface RestApi {
 
     @POST("/gethxtxl")
     Observable<BaseNetEntity<ContactList>> getEmchatList(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Body EmchatListGetUseCase.Body body);
+
+    @POST("/eapi")
+    Observable<BaseNetEntity> sendExperienceInfo(@Body ExperienceInfoUseCase.Body body);
 }

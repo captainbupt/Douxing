@@ -141,10 +141,11 @@ public class AskDetailActivity extends BaseBackActionBarActivity implements AskD
             }
         });
         ImageViewLoader.setSquareImageViewResource(mContentImageView, R.drawable.icon_image_default, ask.getContentImageUrl(), getResources().getDimensionPixelSize(R.dimen.icon_size_xlarge));
-        mAnswerAdapter = new AskAnswerAdapter(AskDetailActivity.this, ask.getAid(), ask.getCount(), new OnClickListener() {
+        mAnswerAdapter = new AskAnswerAdapter(AskDetailActivity.this, ask.getAid(), ask.getCount(), new View.OnLongClickListener() {
             @Override
-            public void onClick(View v) {
-                mPresenter.copy(getItem((int) v.getTag()));
+            public boolean onLongClick(View v) {
+                mPresenter.copy(getItem((int) v.getTag(R.id.tag_position)));
+                return true;
             }
         }, new OnClickListener() {
             @Override
@@ -155,6 +156,11 @@ public class AskDetailActivity extends BaseBackActionBarActivity implements AskD
             @Override
             public void onClick(View v) {
                 mPresenter.showFullImage(getItem((int) v.getTag()).getContentImageUrl());
+            }
+        }, new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.submitReply(getItem((int) v.getTag(R.id.tag_position)));
             }
         });
         mContentListView.setAdapter(mAnswerAdapter);

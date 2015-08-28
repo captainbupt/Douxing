@@ -103,8 +103,8 @@ public class ChatterItemView extends LinearLayout {
     public void setData(final Chatter chatter, boolean isDetail, int position) {
         mNameTextView.setText(chatter.getName());
         String content = chatter.getContent();
-        TopicClickableSpan.setClickTopic(mContext, mContentTextView, content, 100);
-        if (mContentTextView.getText().length() > 100) {
+        TopicClickableSpan.setClickTopic(mContext, mContentTextView, content, isDetail ? Integer.MAX_VALUE : 100);
+        if (!isDetail && mContentTextView.getText().length() > 100) {
             mFullContentTextView.setVisibility(View.VISIBLE);
         } else {
             mFullContentTextView.setVisibility(View.GONE);

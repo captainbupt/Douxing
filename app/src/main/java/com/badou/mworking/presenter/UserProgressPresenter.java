@@ -47,8 +47,10 @@ public class UserProgressPresenter extends ListPresenter<Category> {
 
     @Override
     protected UseCase getRefreshUseCase(int pageNum) {
-        if (mCategoryUseCase == null)
+        if (mCategoryUseCase == null) {
             mCategoryUseCase = new CategoryUseCase(mCategoryIndex);
+            mCategoryUseCase.setDone(CategoryUseCase.TYPE_READ);
+        }
         mCategoryUseCase.setPageNum(pageNum);
         return mCategoryUseCase;
     }

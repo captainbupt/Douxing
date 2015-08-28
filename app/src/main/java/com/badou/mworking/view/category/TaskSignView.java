@@ -1,5 +1,7 @@
 package com.badou.mworking.view.category;
 
+import android.graphics.Bitmap;
+
 import com.badou.mworking.view.category.CategoryBaseView;
 import com.baidu.location.BDLocation;
 
@@ -14,4 +16,6 @@ public interface TaskSignView extends CategoryBaseView {
     void setLocation(BDLocation location);
 
     void takeImage();
+
+    void setSignedImage(Bitmap bitmap);
 }

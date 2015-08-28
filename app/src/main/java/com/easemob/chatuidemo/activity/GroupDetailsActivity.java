@@ -18,6 +18,7 @@ import java.util.List;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -38,6 +40,7 @@ import android.widget.Toast;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.entity.emchat.EMChatEntity;
 import com.badou.mworking.entity.user.UserInfo;
+import com.badou.mworking.util.DensityUtil;
 import com.easemob.applib.controller.HXSDKHelper;
 import com.easemob.applib.model.DefaultHXSDKModel;
 import com.easemob.chat.EMChatManager;
@@ -213,9 +216,6 @@ public class GroupDetailsActivity extends BaseBackActionBarActivity implements O
         String st2 = getResources().getString(R.string.is_quit_the_group_chat);
         String st3 = getResources().getString(R.string.chatting_is_dissolution);
         String st4 = getResources().getString(R.string.are_empty_group_of_news);
-        String st5 = getResources().getString(R.string.is_modify_the_group_name);
-        final String st6 = getResources().getString(R.string.Modify_the_group_name_successful);
-        final String st7 = getResources().getString(R.string.change_the_group_name_failed_please);
         String st8 = getResources().getString(R.string.Are_moving_to_blacklist);
         final String st9 = getResources().getString(R.string.failed_to_move_into);
 
@@ -246,41 +246,6 @@ public class GroupDetailsActivity extends BaseBackActionBarActivity implements O
                     clearGroupHistory();
                     break;
 
-                case REQUEST_CODE_EDIT_GROUPNAME: //修改群名称
-                    final String returnData = data.getStringExtra("data");
-                    if (!TextUtils.isEmpty(returnData)) {
-                        mProgressDialog.setMessage(st5);
-                        mProgressDialog.show();
-
-                        new Thread(new Runnable() {
-                            public void run() {
-                                try {
-                                    EMGroupManager.getInstance().changeGroupName(groupId, returnData);
-                                    StringBuilder body = new StringBuilder();
-                                    body.append("群主将群名称改为 " + returnData);
-                                    sendTipMessage(groupId, body.toString(), "groupname", returnData);
-                                    runOnUiThread(new Runnable() {
-                                        public void run() {
-                                            group.setGroupName(returnData);
-                                            setGroupTitle(group);
-                                            mProgressDialog.dismiss();
-                                            Toast.makeText(getApplicationContext(), st6, Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-
-                                } catch (EaseMobException e) {
-                                    e.printStackTrace();
-                                    runOnUiThread(new Runnable() {
-                                        public void run() {
-                                            mProgressDialog.dismiss();
-                                            Toast.makeText(getApplicationContext(), st7, Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                                }
-                            }
-                        }).start();
-                    }
-                    break;
                 case REQUEST_CODE_ADD_TO_BALCKLIST:
                     mProgressDialog.setMessage(st8);
                     mProgressDialog.show();
@@ -311,6 +276,44 @@ public class GroupDetailsActivity extends BaseBackActionBarActivity implements O
                     break;
             }
         }
+    }
+
+    private void changeGroupName(final String groupName) {
+        if (!TextUtils.isEmpty(groupName)) {
+            mProgressDialog.setMessage(getResources().getString(R.string.is_modify_the_group_name));
+            mProgressDialog.show();
+
+            new Thread(new Runnable() {
+                public void run() {
+                    try {
+                        EMGroupManager.getInstance().changeGroupName(groupId, groupName);
+                        StringBuilder body = new StringBuilder();
+                        body.append("群主将群名称改为 " + groupName);
+                        sendTipMessage(groupId, body.toString(), "groupname", groupName);
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                group.setGroupName(groupName);
+                                setGroupTitle(group);
+                                mProgressDialog.dismiss();
+                                Toast.makeText(getApplicationContext(), R.string.Modify_the_group_name_successful, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                    } catch (EaseMobException e) {
+                        e.printStackTrace();
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                mProgressDialog.dismiss();
+                                Toast.makeText(getApplicationContext(), R.string.change_the_group_name_failed_please, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }
+            }).start();
+        } else {
+            showToast("群名称不能为空");
+        }
+
     }
 
     @Override
@@ -571,9 +574,17 @@ public class GroupDetailsActivity extends BaseBackActionBarActivity implements O
                 startActivity(new Intent(GroupDetailsActivity.this, GroupBlacklistActivity.class).putExtra("groupId", groupId));
                 break;*/
 
-/*            case R.id.rl_change_group_name: // 修改群名称
-                startActivityForResult(new Intent(this, EditActivity.class).putExtra("data", group.getGroupName()), REQUEST_CODE_EDIT_GROUPNAME);
-                break;*/
+            case R.id.rl_change_group_name: // 修改群名称
+                final EditText editText = new EditText(mContext);
+                editText.setHint("请输入群名称");
+                editText.setText(group.getGroupName());
+                new android.app.AlertDialog.Builder(mContext).setView(editText).setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        changeGroupName(editText.getText().toString());
+                    }
+                }).setNegativeButton("取消", null).create().show();
+                break;
 
             default:
                 break;

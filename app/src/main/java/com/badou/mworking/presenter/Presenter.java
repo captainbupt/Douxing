@@ -6,6 +6,7 @@ import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 
 import com.badou.mworking.util.AppManager;
 import com.badou.mworking.view.BaseView;
@@ -69,9 +70,10 @@ public abstract class Presenter {
             android.text.ClipboardManager clipboardManager = (android.text.ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
             if (clipboardManager.hasText()) {
                 content = clipboardManager.getText();
+                clipboardManager.setText("");
             }
         }
-        if (content == null)
+        if (TextUtils.isEmpty(content))
             return;
         Matcher matcher = pattern.matcher(content);
         if (matcher.find()) {

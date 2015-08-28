@@ -93,7 +93,12 @@ public class TipsWebView extends BaseNoTitleActivity {
 
             }
         });
-
+        findViewById(R.id.iv_actionbar_left).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     @Override

@@ -60,6 +60,12 @@ public abstract class CommentPresenter extends ListPresenter<Comment> {
         return false;
     }
 
+    public void onSubmitClicked(String comment){
+        mWhom = "";
+        mCommentView.setBottomSend();
+        submitComment(comment);
+    }
+
     public abstract void submitComment(String comment);
 
     // 将评论数返回

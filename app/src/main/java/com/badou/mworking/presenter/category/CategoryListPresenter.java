@@ -30,7 +30,8 @@ public class CategoryListPresenter extends ListPresenter<Category> {
 
     protected final int mCategoryIndex;
     protected boolean isUnread = false;
-    protected boolean status_menu_show = false;
+    protected boolean isMenuShow = false;
+    protected boolean isDone = false;
 
     public CategoryListPresenter(Context context, int category) {
         super(context);
@@ -43,6 +44,13 @@ public class CategoryListPresenter extends ListPresenter<Category> {
         mCategoryListView = (CategoryListView) v;
         getClassifications();
         super.attachView(v);
+    }
+
+    public void setIsDone(boolean isDone) {
+        this.isDone = isDone;
+        if (isDone) {
+            mCategoryUseCase.setDone(CategoryUseCase.TYPE_READ);
+        }
     }
 
     @Override
@@ -102,19 +110,19 @@ public class CategoryListPresenter extends ListPresenter<Category> {
     }
 
     public void onClassificationStatusChanged() {
-        if (status_menu_show) {
+        if (isMenuShow) {
             mCategoryListView.hideMenu();
         } else {
             mCategoryListView.showMenu();
         }
-        status_menu_show = !status_menu_show;
+        isMenuShow = !isMenuShow;
     }
 
     public void onClassificationMainClicked(Classification classification) {
         mCategoryListView.setMoreClassification(classification.getSon());
         if (classification.getSon() == null || classification.getSon().size() == 0) {
             mCategoryListView.hideMenu();
-            status_menu_show = false;
+            isMenuShow = false;
             mCategoryUseCase.setTag(classification.getTag());
             mCategoryListView.refreshComplete();
             mCategoryListView.showProgressBar();
@@ -125,7 +133,7 @@ public class CategoryListPresenter extends ListPresenter<Category> {
 
     public void onClassificationMoreClicked(Classification classification) {
         mCategoryListView.hideMenu();
-        status_menu_show = false;
+        isMenuShow = false;
         mCategoryUseCase.setTag(classification.getTag());
         mCategoryListView.refreshComplete();
         mCategoryListView.startRefreshing();
@@ -138,7 +146,7 @@ public class CategoryListPresenter extends ListPresenter<Category> {
         mCategoryUseCase.setDone(isUnread ? CategoryUseCase.TYPE_UNREAD : CategoryUseCase.TYPE_ALL);
         mCategoryListView.refreshComplete();
         mCategoryListView.hideMenu();
-        status_menu_show = false;
+        isMenuShow = false;
         mCategoryListView.startRefreshing();
     }
 }

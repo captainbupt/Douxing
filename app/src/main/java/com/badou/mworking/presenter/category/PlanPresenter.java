@@ -45,9 +45,10 @@ public class PlanPresenter extends CategoryBasePresenter {
         mPlanIntroductionPresenter.setData(categoryDetail);
         // 如果刷新后的index不一致，说明前一阶段已完成，可以显示提示
         if (mStageIndex < categoryDetail.getPlan().getNow().getStageIndex() && mStageIndex != -1) {
-            mPlanView.showToast(String.format(mContext.getString(R.string.plan_stage_finished), categoryDetail.getPlan().getStage(mStageIndex).getSubject()));
             if (mStageIndex >= categoryDetail.getPlan().getStages().size()) {
                 mPlanView.showToast(R.string.plan_all_finished);
+            } else {
+                mPlanView.showToast(String.format(mContext.getString(R.string.plan_stage_finished), categoryDetail.getPlan().getStage(mStageIndex).getSubject()));
             }
         }
         mStageIndex = categoryDetail.getPlan().getNow().getStageIndex();

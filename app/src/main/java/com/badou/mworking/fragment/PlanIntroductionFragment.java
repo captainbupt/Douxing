@@ -68,7 +68,7 @@ public class PlanIntroductionFragment extends BaseFragment implements PlanIntrod
      */
     @Override
     public void setData(CategoryDetail categoryDetail) {
-        mIntroductionTextView.setText(categoryDetail.getPlan().getDescription());
+        mIntroductionTextView.setText(categoryDetail.getPlan().getCurrentStage().getDescription());
     }
 
     @Override

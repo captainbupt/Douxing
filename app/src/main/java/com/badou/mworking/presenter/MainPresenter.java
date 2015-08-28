@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.badou.mworking.AskActivity;
 import com.badou.mworking.BackWebActivity;
 import com.badou.mworking.ChatterActivity;
+import com.badou.mworking.ExperienceInformationActivity;
 import com.badou.mworking.LoginActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.UserCenterActivity;
@@ -160,7 +161,10 @@ public class MainPresenter extends Presenter {
                     loginEMChat(userInfo.getAccount(), userInfo.getHxpwd());
                 }
             }).start();
+        } else {
+            mContext.startActivity(new Intent(mContext, ExperienceInformationActivity.class));
         }
+
         if (userInfo.getCredit() > 0 && !SPHelper.isCreditRewarded()) {
             mMainView.showCreditReward(userInfo.getCredit());
             SPHelper.setCreditRewarded();

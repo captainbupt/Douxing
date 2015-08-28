@@ -73,7 +73,7 @@ public class ClearCacheActivity extends BaseBackActionBarActivity {
             @Override
             public void onClick(View view) {
                 File tongSHQFile = new File(FileUtils.getChatterDir(mContext));
-                showClearCacheDilog("确定清除吗？清除之后，同事圈视屏需要重新下载", tongSHQFile, "t");
+                showClearCacheDilog("确定清除吗？清除之后，同事圈视频需要重新下载", tongSHQFile, "t");
             }
         });
     }
