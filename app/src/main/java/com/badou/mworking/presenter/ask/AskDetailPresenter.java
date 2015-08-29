@@ -16,6 +16,7 @@ import com.badou.mworking.domain.ask.AskReplyPraiseUseCase;
 import com.badou.mworking.domain.ask.AskUseCase;
 import com.badou.mworking.entity.Ask;
 import com.badou.mworking.entity.Store;
+import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.BaseSubscriber;
 import com.badou.mworking.presenter.ListPresenter;
 import com.badou.mworking.util.DialogUtil;
@@ -149,7 +150,8 @@ public class AskDetailPresenter extends ListPresenter<Ask> {
     }
 
     public void submitReply(Ask ask) {
-        ((Activity) mContext).startActivityForResult(AskAnswerSubmitActivity.getIntent(mContext, mAid, ask.getUid(), ask.getUserName()), REQUEST_REPLY);
+        if (!ask.getUid().equals(UserInfo.getUserInfo().getUid()))
+            ((Activity) mContext).startActivityForResult(AskAnswerSubmitActivity.getIntent(mContext, mAid, ask.getUid(), ask.getUserName()), REQUEST_REPLY);
     }
 
     public void praise(final Ask ask, final int position) {

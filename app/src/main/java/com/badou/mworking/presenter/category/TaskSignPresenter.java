@@ -40,8 +40,8 @@ public class TaskSignPresenter extends CategoryBasePresenter implements BDLocati
 
     TaskSignView mTaskSignView;
 
-    public TaskSignPresenter(Context context, String rid, boolean isPlan) {
-        super(context, Category.CATEGORY_TASK, rid, isPlan);
+    public TaskSignPresenter(Context context, String rid, String planTitle) {
+        super(context, Category.CATEGORY_TASK, rid, planTitle);
     }
 
     @Override

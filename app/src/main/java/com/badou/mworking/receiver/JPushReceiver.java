@@ -103,7 +103,7 @@ public class JPushReceiver extends BroadcastReceiver {
     private void processCustomMessage(Context context, Bundle bundle) {
         MessageCenter messageCenter = GsonUtil.fromJson(bundle.getString(JPushInterface.EXTRA_EXTRA), MessageCenter.class);
         messageCenter.setTs(System.currentTimeMillis());
-        MessageCenterResManager.insertItem(context, messageCenter);
+        MessageCenterResManager.insertItem(messageCenter);
         Intent intent = new Intent(MainPresenter.ACTION_RECEIVER_MESSAGE);
         context.sendBroadcast(intent);
     }

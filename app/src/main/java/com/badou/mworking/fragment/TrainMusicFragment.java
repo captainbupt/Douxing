@@ -209,14 +209,18 @@ public class TrainMusicFragment extends BaseFragment implements DownloadView {
 
     @Override
     public void startPlay() {
-        mPlayerControlImageView.setImageResource(R.drawable.button_media_stop);
-        mMusicPlayer.start();// 开始
+        if (mMusicPlayer != null && !mMusicPlayer.isPlaying()) {
+            mPlayerControlImageView.setImageResource(R.drawable.button_media_stop);
+            mMusicPlayer.start();// 开始
+        }
     }
 
     @Override
     public void stopPlay() {
-        mPlayerControlImageView.setImageResource(R.drawable.button_media_start);
-        mMusicPlayer.pause();
+        if (mMusicPlayer != null && mMusicPlayer.isPlaying()) {
+            mMusicPlayer.pause();
+            mPlayerControlImageView.setImageResource(R.drawable.button_media_start);
+        }
     }
 
     @Override
@@ -249,7 +253,8 @@ public class TrainMusicFragment extends BaseFragment implements DownloadView {
     @Override
     public void onDestroy() {
         mPresenter.destroy();
-        mMusicPlayer.release();
+        if (mMusicPlayer != null)
+            mMusicPlayer.release();
         ButterKnife.unbind(this);
         super.onDestroy();
     }

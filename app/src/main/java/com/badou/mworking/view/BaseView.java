@@ -2,7 +2,6 @@ package com.badou.mworking.view;
 
 public interface BaseView {
 
-
     void showProgressDialog(String msg);
 
     void showProgressDialog(int resId);

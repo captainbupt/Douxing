@@ -32,7 +32,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -575,10 +577,15 @@ public class GroupDetailsActivity extends BaseBackActionBarActivity implements O
                 break;*/
 
             case R.id.rl_change_group_name: // 修改群名称
+                FrameLayout parent = new FrameLayout(mContext);
                 final EditText editText = new EditText(mContext);
+                FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                lp.setMargins(0, DensityUtil.getInstance().getOffsetLess(), 0, DensityUtil.getInstance().getOffsetLess());
+                editText.setLayoutParams(lp);
                 editText.setHint("请输入群名称");
                 editText.setText(group.getGroupName());
-                new android.app.AlertDialog.Builder(mContext).setView(editText).setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                parent.addView(editText);
+                new android.app.AlertDialog.Builder(mContext).setView(parent).setPositiveButton("确认", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         changeGroupName(editText.getText().toString());

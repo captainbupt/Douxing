@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import com.badou.mworking.entity.comment.CategoryComment;
 import com.badou.mworking.entity.comment.Comment;
 import com.badou.mworking.entity.comment.CommentOverall;
+import com.badou.mworking.util.GsonUtil;
 import com.badou.mworking.view.BaseView;
 import com.badou.mworking.view.CommentView;
 
@@ -60,10 +61,10 @@ public abstract class CommentPresenter extends ListPresenter<Comment> {
         return false;
     }
 
-    public void onSubmitClicked(String comment){
+    public void onSubmitClicked(String comment) {
+        submitComment(comment);
         mWhom = "";
         mCommentView.setBottomSend();
-        submitComment(comment);
     }
 
     public abstract void submitComment(String comment);

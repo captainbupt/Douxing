@@ -63,8 +63,9 @@ public abstract class Presenter {
         CharSequence content = null;
         if (android.os.Build.VERSION.SDK_INT > 11) {
             android.content.ClipboardManager clipboardManager = (android.content.ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
-            if (clipboardManager.hasPrimaryClip()) {
+            if (clipboardManager.hasPrimaryClip() && clipboardManager.getPrimaryClip().getItemCount() > 0) {
                 content = clipboardManager.getPrimaryClip().getItemAt(0).getText();
+                clipboardManager.setText("");
             }
         } else {
             android.text.ClipboardManager clipboardManager = (android.text.ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);

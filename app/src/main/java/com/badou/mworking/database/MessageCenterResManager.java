@@ -16,9 +16,8 @@ public class MessageCenterResManager {
     /**
      * 数据库中添加一条消息
      */
-    public static void insertItem(Context context, MessageCenter message) {
-        MTrainingDBHelper mTrainingDBHelper = MTrainingDBHelper
-                .getMTrainingDBHelper();
+    public static void insertItem(MessageCenter message) {
+        MTrainingDBHelper mTrainingDBHelper = MTrainingDBHelper.getMTrainingDBHelper();
         SQLiteDatabase dbWriter = mTrainingDBHelper.getDatabase();
         UserInfo userInfo = UserInfo.getUserInfo();
         if (userInfo == null || TextUtils.isEmpty(userInfo.getAccount()))
@@ -46,12 +45,18 @@ public class MessageCenterResManager {
         return messageCenterList;
     }
 
-    public static void deleteItem(Context context, MessageCenter message) {
-        MTrainingDBHelper mTrainingDBHelper = MTrainingDBHelper
-                .getMTrainingDBHelper();
+    public static void deleteItem(MessageCenter message) {
+        MTrainingDBHelper mTrainingDBHelper = MTrainingDBHelper.getMTrainingDBHelper();
         SQLiteDatabase dbWriter = mTrainingDBHelper.getDatabase();
         String userNum = UserInfo.getUserInfo().getAccount();
         dbWriter.delete(MTrainingDBHelper.TBL_NAME_MESSAGE_CENTER + userNum.replace("@", ""), MTrainingDBHelper.PRIMARY_ID + "= ?", new String[]{message.getId() + ""});
+        mTrainingDBHelper.closeDatabase();
+    }
+
+    public static void deleteAll() {
+        MTrainingDBHelper mTrainingDBHelper = MTrainingDBHelper.getMTrainingDBHelper();
+        String userNum = UserInfo.getUserInfo().getAccount();
+        mTrainingDBHelper.clear(MTrainingDBHelper.TBL_NAME_MESSAGE_CENTER + userNum.replace("@", ""));
         mTrainingDBHelper.closeDatabase();
     }
 }

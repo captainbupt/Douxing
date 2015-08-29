@@ -7,8 +7,6 @@ import com.badou.mworking.fragment.MainSearchFragment;
 import java.util.List;
 
 public interface MainGridView extends BaseView {
-    void showExperienceDialog();
-
     void showGuideFragment();
 
     void setMessageCenterStatus(boolean isUnread);

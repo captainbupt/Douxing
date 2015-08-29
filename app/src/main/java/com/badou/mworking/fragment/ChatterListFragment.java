@@ -3,6 +3,7 @@ package com.badou.mworking.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,9 +91,18 @@ public class ChatterListFragment extends BaseFragment implements ChatterListView
         return view;
     }
 
+    public void setFooterViewNone() {
+        mNoneResultView.setVisibility(View.GONE);
+        mNoneResultView = new NoneResultView(mContext);
+        mNoneResultView.setLayoutParams(new ListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        mNoneResultView.setGravity(Gravity.CENTER_HORIZONTAL);
+        mNoneResultView.setContent(R.drawable.background_none_result_chatter, R.string.none_result_chatter);
+        mNoneResultView.setPadding(0, DensityUtil.getInstance().getOffsetXlarge(), 0, DensityUtil.getInstance().getOffsetXlarge());
+        mContentListView.getRefreshableView().addFooterView(mNoneResultView, null, false);
+    }
+
     public void setHeaderView(View view) {
         mContentListView.getRefreshableView().addHeaderView(view, null, false);
-        mNoneResultView.setPadding(0, DensityUtil.getInstance().getOffsetXlarge(), 0, 0);
         mHeaderCount++;
     }
 

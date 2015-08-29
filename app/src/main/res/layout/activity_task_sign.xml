@@ -131,6 +131,23 @@
             android:layout_gravity="bottom"
             android:background="@color/color_white"/>
 
+        <FrameLayout
+            android:layout_width="@dimen/layout_size_activity_task_sign_bottom"
+            android:layout_height="@dimen/layout_size_activity_task_sign_bottom"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/offset_small"
+            android:paddingBottom="@dimen/offset_small"
+            android:paddingTop="@dimen/offset_small">
+
+            <ImageView
+                android:id="@+id/signed_image_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:visibility="gone"/>
+        </FrameLayout>
+
         <TextView
             android:id="@+id/sign_text_view"
             android:layout_width="@dimen/button_size_activity_task_sign_bottom"
@@ -165,17 +182,6 @@
                 android:textColor="@color/color_text_black"
                 android:textSize="@dimen/text_size_small"/>
         </LinearLayout>
-
-        <ImageView
-            android:id="@+id/signed_image_view"
-            android:layout_width="@dimen/icon_size_xlarge"
-            android:layout_height="@dimen/icon_size_xlarge"
-            android:layout_above="@id/bottom_layout"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="@dimen/offset_small"
-            android:layout_marginRight="@dimen/offset_medium"
-            android:scaleType="centerCrop"
-            android:visibility="gone"/>
     </RelativeLayout>
 
 </FrameLayout>

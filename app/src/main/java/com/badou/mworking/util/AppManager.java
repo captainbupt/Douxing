@@ -91,9 +91,11 @@ public class AppManager {
 			// 保存友盟数据
 			MobclickAgent.onKillProcess(context);
 			finishAllActivity();
+/*
 			ActivityManager activityMgr = (ActivityManager) context
 					.getSystemService(Context.ACTIVITY_SERVICE);
 			activityMgr.killBackgroundProcesses(context.getPackageName());
+*/
 //			android.os.Process.killProcess(android.os.Process.myPid());
 		} catch (Exception e){
 			e.printStackTrace();

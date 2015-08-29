@@ -77,9 +77,6 @@ public class MainPresenter extends Presenter {
             mContext.startActivity(LoginActivity.getIntent(mContext));
             return;
         }
-        if (UserInfo.ANONYMOUS_ACCOUNT.equals(UserInfo.getUserInfo().getAccount())) {
-            mMainView.showExperienceDialog();
-        }
         if (SPHelper.getIsMainFirst()) {
             mMainView.showGuideFragment();
             SPHelper.setIsMainFirst(false);

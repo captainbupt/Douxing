@@ -3,6 +3,7 @@ package com.badou.mworking.presenter.category;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 
 import com.badou.mworking.BackWebActivity;
 import com.badou.mworking.CommentActivity;
@@ -33,17 +34,20 @@ public class CategoryBasePresenter extends Presenter {
     RatingDialog mRatingDialog;
     boolean isPaused;
     boolean isPlan;
+    String mPlanTitle;
 
-    public CategoryBasePresenter(Context context, int type, String rid, boolean isPlan) {
+    public CategoryBasePresenter(Context context, int type, String rid, String planTitle) {
         super(context);
         this.mCategoryType = type;
         this.mRid = rid;
-        this.isPlan = isPlan;
+        this.isPlan = !TextUtils.isEmpty(planTitle);
+        this.mPlanTitle = planTitle;
     }
 
     @Override
     public void attachView(BaseView v) {
         mCategoryBaseView = (CategoryBaseView) v;
+        mCategoryBaseView.setActionbarTitle(mPlanTitle);
         getCategoryDetail(mRid);
     }
 

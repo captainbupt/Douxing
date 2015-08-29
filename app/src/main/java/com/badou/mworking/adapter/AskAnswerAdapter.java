@@ -11,6 +11,7 @@ import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.database.AskResManager;
 import com.badou.mworking.entity.Ask;
+import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.util.TimeTransfer;
 
@@ -80,6 +81,12 @@ public class AskAnswerAdapter extends MyBaseAdapter<Ask> {
         }
         holder.praiseCountTextView.setText(ask.getCount() + "");
 
+        if (ask.getUid().equals(UserInfo.getUserInfo().getUid())) {
+            holder.replyImageView.setVisibility(View.GONE);
+        } else {
+            holder.replyImageView.setVisibility(View.VISIBLE);
+        }
+
         final int floorNum = mReplyCount - position;
         holder.floorTextView.setText(floorNum + mContext.getResources().getString(R.string.floor_num));
         holder.praiseCountTextView.setTag(position);
@@ -106,8 +113,8 @@ public class AskAnswerAdapter extends MyBaseAdapter<Ask> {
         ImageView praiseImageView;
         @Bind(R.id.praise_count_text_view)
         TextView praiseCountTextView;
-        @Bind(R.id.reply_text_view)
-        TextView replyTextView;
+        @Bind(R.id.reply_image_view)
+        ImageView replyImageView;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);

@@ -54,7 +54,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/offset_medium"
                 android:layout_marginRight="@dimen/offset_medium"
-                android:layout_marginTop="@dimen/offset_less"
                 android:background="@drawable/background_border_radius_small_grey_transparent"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
@@ -209,10 +208,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/offset_large"
+                android:layout_marginBottom="@dimen/offset_medium"
                 android:layout_marginLeft="@dimen/offset_medium"
                 android:layout_marginRight="@dimen/offset_medium"
-                android:layout_marginTop="@dimen/offset_large"
+                android:layout_marginTop="@dimen/offset_medium"
                 android:orientation="horizontal">
 
                 <TextView
@@ -223,7 +222,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/background_button_disable"
                     android:gravity="center"
-                    android:padding="@dimen/offset_lless"
+                    android:padding="@dimen/offset_less"
                     android:text="&lt;"
                     android:textColor="@color/color_white"
                     android:textSize="@dimen/text_size_medium"/>
@@ -235,7 +234,7 @@
                     android:layout_weight="4"
                     android:background="@drawable/background_button_disable"
                     android:gravity="center"
-                    android:padding="@dimen/offset_lless"
+                    android:padding="@dimen/offset_less"
                     android:text="@string/experience_information_confirm"
                     android:textColor="@color/color_white"
                     android:textSize="@dimen/text_size_medium"/>
@@ -248,6 +247,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/offset_medium"
             android:gravity="center"
+            android:textColor="@color/color_white"
             android:textSize="@dimen/text_size_medium"/>
 
     </LinearLayout>

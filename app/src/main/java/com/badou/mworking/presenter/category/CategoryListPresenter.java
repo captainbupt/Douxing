@@ -81,7 +81,7 @@ public class CategoryListPresenter extends ListPresenter<Category> {
 
     @Override
     public void toDetailPage(Category category) {
-        ((Activity) mContext).startActivityForResult(CategoryIntentFactory.getIntent(mContext, category.getCategoryType(), category.getRid(), category.isUnread(), false), REQUEST_DETAIL);
+        ((Activity) mContext).startActivityForResult(CategoryIntentFactory.getIntent(mContext, category.getCategoryType(), category.getRid(), category.isUnread(), null), REQUEST_DETAIL);
     }
 
     @Override

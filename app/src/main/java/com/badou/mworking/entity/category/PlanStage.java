@@ -1,5 +1,7 @@
 package com.badou.mworking.entity.category;
 
+import android.text.TextUtils;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -24,6 +26,8 @@ public class PlanStage implements Serializable {
     }
 
     public String getDescription() {
+        if (TextUtils.isEmpty(description))
+            return "暂无描述";
         return description;
     }
 

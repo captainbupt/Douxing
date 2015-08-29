@@ -20,7 +20,7 @@ public class HttpClientRepository {
 
     private static AsyncHttpClient client = new AsyncHttpClient();
 
-    public static void doUpdateMTraning(final Context context, final String url, final RangeFileAsyncHttpResponseHandler httpResponseHandler) {
+    public static void doUpdateMTraning(final Context context, final String url, final DownloadListener httpResponseHandler) {
         File file;
         try {
             file = File.createTempFile("update.apk", "tmp");

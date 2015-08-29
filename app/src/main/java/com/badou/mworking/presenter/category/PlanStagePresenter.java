@@ -6,11 +6,13 @@ import android.support.v4.app.Fragment;
 import com.badou.mworking.R;
 import com.badou.mworking.domain.UseCase;
 import com.badou.mworking.domain.category.CategoryBaseUseCase;
+import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.CategoryBase;
 import com.badou.mworking.entity.category.CategoryDetail;
 import com.badou.mworking.entity.category.EntryOperation;
 import com.badou.mworking.entity.category.PlanDetail;
 import com.badou.mworking.entity.category.PlanStage;
+import com.badou.mworking.entity.main.Shuffle;
 import com.badou.mworking.factory.CategoryIntentFactory;
 import com.badou.mworking.net.BaseSubscriber;
 import com.badou.mworking.presenter.ListPresenter;
@@ -68,7 +70,7 @@ public class PlanStagePresenter extends ListPresenter<CategoryBase> {
     public void onItemClick(CategoryBase data, int position) {
         super.onItemClick(data, position);
         if (PlanDetail.isReadable(mCategoryDetail.getPlan().getNow(), mStageIndex, position)) {
-            mFragment.startActivityForResult(CategoryIntentFactory.getIntentWithoutComment(mContext, data.getType(), data.getRid()), REQUEST_DETAIL);
+            mFragment.startActivityForResult(CategoryIntentFactory.getIntentForPlan(mContext, data.getType(), data.getRid(), mCategoryDetail.getTag()), REQUEST_DETAIL);
         } else {
             mPlanStageView.showToast(R.string.plan_resource_unreadable);
         }
@@ -96,7 +98,7 @@ public class PlanStagePresenter extends ListPresenter<CategoryBase> {
         });
     }
 
-    public int getStageIndex(){
+    public int getStageIndex() {
         return mStageIndex;
     }
 }
