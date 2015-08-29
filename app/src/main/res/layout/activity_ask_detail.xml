@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:myattr="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/reply_layout"
-        android:scrollbars="none" />
+        android:divider="@null"
+        android:scrollbars="none"/>
 
     <LinearLayout
         android:id="@+id/reply_layout"
@@ -26,7 +28,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/icon_bottom_comment" />
+            android:src="@drawable/icon_bottom_comment"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -34,7 +36,7 @@
             android:layout_marginLeft="@dimen/offset_less"
             android:text="@string/tips_bottom_comment"
             android:textColor="@color/color_text_black"
-            android:textSize="@dimen/text_size_medium" />
+            android:textSize="@dimen/text_size_medium"/>
     </LinearLayout>
 
 </RelativeLayout>

@@ -50,6 +50,8 @@ public class SurveyListPresenter extends CategoryListPresenter {
     }
 
     private void updateCommentInfo(final List<Category> surveyList, final int index) {
+        if (surveyList == null || surveyList.size() == 0)
+            return;
         List<String> surveyIds = new ArrayList<>();
         for (Category category : surveyList) {
             surveyIds.add(((Survey) category).getSurveyId());

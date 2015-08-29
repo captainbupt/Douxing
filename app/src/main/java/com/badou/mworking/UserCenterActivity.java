@@ -140,7 +140,7 @@ public class UserCenterActivity extends BaseNoTitleActivity implements UserCente
     }
 
     @OnClick(R.id.credit_layout)
-    void onCreditClicked(){
+    void onCreditClicked() {
         mPresenter.toMyCredit();
     }
 
@@ -177,7 +177,7 @@ public class UserCenterActivity extends BaseNoTitleActivity implements UserCente
         mLevelTextView.setLevel(userDetail.getLevel());
         int storeNumber = userDetail.getStore();
         mStoreNumberTextView.setText(storeNumber + getResources().getString(R.string.chatter_num));
-        mCreditTextView.setText(userDetail.getCredit() + "");
+        mCreditTextView.setText(userDetail.getCredit() + getResources().getString(R.string.credit_num));
 
     }
 

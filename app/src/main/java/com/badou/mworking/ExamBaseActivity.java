@@ -23,8 +23,8 @@ public class ExamBaseActivity extends CategoryBaseActivity {
     FrameLayout mContentContainer;
 
 
-    public static Intent getIntent(Context context, String rid, boolean isPlan) {
-        return CategoryBaseActivity.getIntent(context, ExamBaseActivity.class, rid, isPlan);
+    public static Intent getIntent(Context context, String rid, String planTitle) {
+        return CategoryBaseActivity.getIntent(context, ExamBaseActivity.class, rid, planTitle);
     }
 
     @Override
@@ -38,7 +38,7 @@ public class ExamBaseActivity extends CategoryBaseActivity {
 
     @Override
     public CategoryBasePresenter getPresenter() {
-        return new CategoryBasePresenter(mContext, Category.CATEGORY_EXAM, mReceivedIntent.getStringExtra(KEY_RID), mReceivedIntent.getBooleanExtra(KEY_IS_PLAN, true));
+        return new CategoryBasePresenter(mContext, Category.CATEGORY_EXAM, mReceivedIntent.getStringExtra(KEY_RID), mReceivedIntent.getStringExtra(KEY_PLAN_TITLE));
     }
 
     @Override

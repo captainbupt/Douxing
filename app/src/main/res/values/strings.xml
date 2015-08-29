@@ -102,7 +102,8 @@
     <string name="store_cancel_success">取消收藏成功</string>
     <string name="task_my_location">我的位置</string>
     <string name="floor_num">楼</string>
-    <string name="chatter_num">条</string>
+    <string name="chatter_num">个</string>
+    <string name="credit_num">分</string>
     <string name="time_text_jinTian">今天</string>
     <string name="text_cancel">取消</string>
     <string name="tips_pdf_view_open_error">打开PDF文件异常，请重新下载</string>

@@ -3,6 +3,7 @@ package com.badou.mworking;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -16,19 +17,20 @@ import com.badou.mworking.view.category.CategoryBaseView;
 public abstract class CategoryBaseActivity extends BaseBackActionBarActivity implements CategoryBaseView {
 
     protected static final String KEY_RID = "rid";
-    protected static final String KEY_IS_PLAN = "isplan";
+    protected static final String KEY_PLAN_TITLE = "isplan";
 
     CategoryBasePresenter mPresenter;
     ImageView mStoreImageView;
 
     public static Intent getIntent(Context context, Class clz, String rid) {
-        return getIntent(context, clz, rid, false);
+        return getIntent(context, clz, rid, "");
     }
 
-    public static Intent getIntent(Context context, Class clz, String rid, boolean isPlan) {
+    public static Intent getIntent(Context context, Class clz, String rid, String planTitle) {
         Intent intent = new Intent(context, clz);
         intent.putExtra(KEY_RID, rid);
-        intent.putExtra(KEY_IS_PLAN, isPlan);
+        if (!TextUtils.isEmpty(planTitle))
+            intent.putExtra(KEY_PLAN_TITLE, planTitle);
         return intent;
     }
 
@@ -48,7 +50,7 @@ public abstract class CategoryBaseActivity extends BaseBackActionBarActivity imp
                     mPresenter.onStoreClicked();
                 }
             });
-        }else{
+        } else {
             hideCommentView();
         }
         if (UserInfo.getUserInfo().isAdmin()) {

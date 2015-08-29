@@ -138,17 +138,6 @@ public class MainGridActivity extends BaseNoTitleActivity implements MainGridVie
     }
 
     @Override
-    public void showExperienceDialog() {
-        new AlertDialog.Builder(mContext).setTitle(R.string.tip_anonymous_title).setMessage(R.string.tip_anonymous_content).setPositiveButton(R.string.tip_anonymous_confirm, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                startActivity(LoginActivity.getIntent(mContext));
-                mActivity.finish();
-            }
-        }).setNegativeButton(R.string.tip_anonymous_cancel, null).show();
-    }
-
-    @Override
     public void showGuideFragment() {
         getSupportFragmentManager().beginTransaction().replace(R.id.search_container, new MainGuideFragment()).commit();
     }

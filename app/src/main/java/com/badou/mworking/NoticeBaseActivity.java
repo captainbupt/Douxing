@@ -25,8 +25,8 @@ public class NoticeBaseActivity extends CategoryBaseActivity {
     @Bind(R.id.bottom_view)
     BottomRatingAndCommentView mBottomView;
 
-    public static Intent getIntent(Context context, String rid, boolean isPlan) {
-        return CategoryBaseActivity.getIntent(context, NoticeBaseActivity.class, rid, isPlan);
+    public static Intent getIntent(Context context, String rid, String planTitle) {
+        return CategoryBaseActivity.getIntent(context, NoticeBaseActivity.class, rid, planTitle);
     }
 
     @Override
@@ -41,7 +41,7 @@ public class NoticeBaseActivity extends CategoryBaseActivity {
 
     @Override
     public CategoryBasePresenter getPresenter() {
-        return new CategoryBasePresenter(mContext, Category.CATEGORY_NOTICE, mReceivedIntent.getStringExtra(KEY_RID), mReceivedIntent.getBooleanExtra(KEY_IS_PLAN, true));
+        return new CategoryBasePresenter(mContext, Category.CATEGORY_NOTICE, mReceivedIntent.getStringExtra(KEY_RID), mReceivedIntent.getStringExtra(KEY_PLAN_TITLE));
     }
 
     private void initListener() {

@@ -428,9 +428,9 @@ public class ChatActivity extends BaseBackActionBarActivity implements OnClickLi
             }
         }
 
-        if ((chatType == CHATTYPE_SINGLE && toChatUsername.equals(SERVICE_ACCOUNT)) || chatType == CHATTYPE_GROUP) {
-            findViewById(R.id.ll_bottom_option).setVisibility(View.GONE);
-        }
+        //if ((chatType == CHATTYPE_SINGLE && toChatUsername.equals(SERVICE_ACCOUNT)) || chatType == CHATTYPE_GROUP) {
+        findViewById(R.id.ll_bottom_option).setVisibility(View.GONE);
+        //}
     }
 
     protected void onConversationInit() {

@@ -64,6 +64,12 @@ public class MessageCenterActivity extends BaseBackActionBarActivity implements 
                 mPresenter.toDetailPage(i, (MessageCenter) adapterView.getAdapter().getItem(i));
             }
         });
+        setRightImage(R.drawable.button_title_bar_delete, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.clear();
+            }
+        });
     }
 
 

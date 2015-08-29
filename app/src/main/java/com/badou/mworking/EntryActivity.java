@@ -36,8 +36,8 @@ public class EntryActivity extends BaseNoTitleActivity implements EntryView {
     ImageView mStoreImageView;
     ImageView statisticalImageView;
 
-    public static Intent getIntent(Context context, String rid, boolean isPlan) {
-        return CategoryBaseActivity.getIntent(context, EntryActivity.class, rid, isPlan);
+    public static Intent getIntent(Context context, String rid, String planTitle) {
+        return CategoryBaseActivity.getIntent(context, EntryActivity.class, rid, planTitle);
     }
 
     @Override
@@ -102,7 +102,7 @@ public class EntryActivity extends BaseNoTitleActivity implements EntryView {
     @Override
     public Presenter getPresenter() {
         String rid = mReceivedIntent.getStringExtra(CategoryBaseActivity.KEY_RID);
-        return new EntryPresenter(mContext, rid, mReceivedIntent.getBooleanExtra(CategoryBaseActivity.KEY_IS_PLAN, true));
+        return new EntryPresenter(mContext, rid, mReceivedIntent.getStringExtra(CategoryBaseActivity.KEY_PLAN_TITLE));
     }
 
     @Override
@@ -150,5 +150,10 @@ public class EntryActivity extends BaseNoTitleActivity implements EntryView {
     @Override
     public void setSwipeEnable(boolean isEnable) {
         mContent.setSwipeEnabled(isEnable);
+    }
+
+    @Override
+    public void setActionbarTitle(String title) {
+        mHeader.setTitle(title);
     }
 }

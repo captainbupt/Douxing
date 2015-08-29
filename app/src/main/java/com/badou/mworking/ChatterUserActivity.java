@@ -57,6 +57,7 @@ public class ChatterUserActivity extends BaseNoTitleActivity {
             @Override
             public void run() {
                 chatterListFragment.setHeaderView(getHeaderView(userInfo));
+                chatterListFragment.setFooterViewNone();
             }
         }, 200);
     }

@@ -32,8 +32,8 @@ public class TrainBaseActivity extends CategoryBaseActivity {
 
     private Bundle mSavedInstanceState;
 
-    public static Intent getIntent(Context context, String rid, boolean isTraining, boolean isShowComment) {
-        Intent intent = CategoryBaseActivity.getIntent(context, TrainBaseActivity.class, rid, isShowComment);
+    public static Intent getIntent(Context context, String rid, boolean isTraining, String planTitle) {
+        Intent intent = CategoryBaseActivity.getIntent(context, TrainBaseActivity.class, rid, planTitle);
         intent.putExtra(KEY_TRAINING, isTraining);
         return intent;
     }
@@ -43,14 +43,14 @@ public class TrainBaseActivity extends CategoryBaseActivity {
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.activity_base_training);
         mSavedInstanceState = savedInstanceState;
-        ButterKnife.bind(this);
-        mPresenter.attachView(this);
         boolean isTraining = getIntent().getBooleanExtra(KEY_TRAINING, true);
         if (isTraining) {
             setActionbarTitle(Category.getCategoryName(mContext, Category.CATEGORY_TRAINING));
         } else {
             setActionbarTitle(Category.getCategoryName(mContext, Category.CATEGORY_SHELF));
         }
+        ButterKnife.bind(this);
+        mPresenter.attachView(this);
         mBottomView.setCommentClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -68,7 +68,7 @@ public class TrainBaseActivity extends CategoryBaseActivity {
     @Override
     public CategoryBasePresenter getPresenter() {
         boolean isTraining = mReceivedIntent.getBooleanExtra(KEY_TRAINING, true);
-        return new CategoryBasePresenter(mContext, isTraining ? Category.CATEGORY_TRAINING : Category.CATEGORY_SHELF, mReceivedIntent.getStringExtra(KEY_RID), mReceivedIntent.getBooleanExtra(KEY_IS_PLAN, true));
+        return new CategoryBasePresenter(mContext, isTraining ? Category.CATEGORY_TRAINING : Category.CATEGORY_SHELF, mReceivedIntent.getStringExtra(KEY_RID), mReceivedIntent.getStringExtra(KEY_PLAN_TITLE));
     }
 
     @Override

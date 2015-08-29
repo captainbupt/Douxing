@@ -9,9 +9,7 @@ import android.widget.FrameLayout;
 
 import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.CategoryDetail;
-import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.fragment.WebViewFragment;
-import com.badou.mworking.net.Net;
 import com.badou.mworking.presenter.category.CategoryBasePresenter;
 
 import butterknife.Bind;
@@ -23,8 +21,8 @@ public class SurveyBaseActivity extends CategoryBaseActivity {
     FrameLayout mContentContainer;
 
 
-    public static Intent getIntent(Context context, String rid, boolean isPlan) {
-        return CategoryBaseActivity.getIntent(context, SurveyBaseActivity.class, rid, isPlan);
+    public static Intent getIntent(Context context, String rid, String planTitle) {
+        return CategoryBaseActivity.getIntent(context, SurveyBaseActivity.class, rid, planTitle);
     }
 
     @Override
@@ -38,7 +36,7 @@ public class SurveyBaseActivity extends CategoryBaseActivity {
 
     @Override
     public CategoryBasePresenter getPresenter() {
-        return new CategoryBasePresenter(mContext, Category.CATEGORY_SURVEY, mReceivedIntent.getStringExtra(KEY_RID), mReceivedIntent.getBooleanExtra(KEY_IS_PLAN, true));
+        return new CategoryBasePresenter(mContext, Category.CATEGORY_SURVEY, mReceivedIntent.getStringExtra(KEY_RID), mReceivedIntent.getStringExtra(KEY_PLAN_TITLE));
     }
 
     @Override

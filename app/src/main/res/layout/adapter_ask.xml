@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingTop="@dimen/offset_less">
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:paddingTop="@dimen/offset_less">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/color_white"
+        android:background="@drawable/background_white_grey"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingBottom="@dimen/offset_less"
@@ -21,7 +21,7 @@
             android:layout_height="@dimen/icon_head_size_middle"
             android:layout_centerVertical="true"
             android:scaleType="centerInside"
-            android:src="@drawable/icon_user_detail_default_head" />
+            android:src="@drawable/icon_user_detail_default_head"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -37,7 +37,7 @@
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:textColor="@color/color_text_black"
-                android:textSize="@dimen/text_size_medium" />
+                android:textSize="@dimen/text_size_medium"/>
 
             <TextView
                 android:id="@+id/date_text_view"
@@ -46,7 +46,7 @@
                 android:layout_below="@id/content_text_view"
                 android:layout_marginTop="@dimen/offset_less"
                 android:textColor="@color/color_text_grey"
-                android:textSize="@dimen/text_size_less" />
+                android:textSize="@dimen/text_size_less"/>
 
             <ImageView
                 android:id="@+id/reply_image_view"
@@ -55,10 +55,10 @@
                 android:layout_below="@id/content_text_view"
                 android:layout_centerHorizontal="true"
                 android:layout_marginRight="@dimen/offset_small"
-                android:paddingTop="1dp"
                 android:layout_marginTop="@dimen/offset_less"
+                android:paddingTop="1dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/icon_bottom_comment" />
+                android:src="@drawable/icon_bottom_comment"/>
 
             <TextView
                 android:id="@+id/reply_text_view"
@@ -68,7 +68,7 @@
                 android:layout_marginTop="@dimen/offset_less"
                 android:layout_toRightOf="@id/reply_image_view"
                 android:textColor="@color/color_text_grey"
-                android:textSize="@dimen/text_size_less" />
+                android:textSize="@dimen/text_size_less"/>
         </RelativeLayout>
     </RelativeLayout>
 </FrameLayout>

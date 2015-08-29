@@ -47,7 +47,7 @@ public class ExperienceInformationActivity extends BaseNoTitleActivity implement
 
     public void initView() {
         SpannableString spannableString = new SpannableString("录入您的相关信息，\n即可获得高级体验账号服务！");
-        spannableString.setSpan(new ForegroundColorSpan(0xffffd800), 14, 19, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new ForegroundColorSpan(0xffffd800), 14, 20, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         mTipTextView.setText(spannableString);
     }
 

@@ -11,6 +11,7 @@ import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.view.BaseView;
 import com.badou.mworking.view.MessageCenterView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MessageCenterPresenter extends Presenter {
@@ -44,10 +45,15 @@ public class MessageCenterPresenter extends Presenter {
     }
 
     public void deleteItem(int position, MessageCenter messageCenter) {
-        MessageCenterResManager.deleteItem(mContext, messageCenter);
+        MessageCenterResManager.deleteItem(messageCenter);
         mMessageCenterView.removeItem(position);
         if (mMessageCenterView.getDataCount() == 0) {
             mMessageCenterView.showNoneResult();
         }
+    }
+
+    public void clear() {
+        MessageCenterResManager.deleteAll();
+        mMessageCenterView.setData(new ArrayList<MessageCenter>());
     }
 }

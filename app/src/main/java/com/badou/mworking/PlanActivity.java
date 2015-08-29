@@ -17,8 +17,6 @@ import com.badou.mworking.fragment.CommentFragment;
 import com.badou.mworking.fragment.PlanIntroductionFragment;
 import com.badou.mworking.fragment.PlanStageFragment;
 import com.badou.mworking.net.bitmap.BitmapLruCache;
-import com.badou.mworking.net.bitmap.ImageViewLoader;
-import com.badou.mworking.net.bitmap.NormalImageListener;
 import com.badou.mworking.net.volley.MyVolley;
 import com.badou.mworking.presenter.ListPresenter;
 import com.badou.mworking.presenter.category.PlanPresenter;
@@ -47,8 +45,8 @@ public class PlanActivity extends BaseNoTitleActivity implements PlanView {
     ImageView mStatisticalImageView;
     ImageView mSettingImageView;
 
-    public static Intent getIntent(Context context, String rid, boolean isPlan) {
-        return CategoryBaseActivity.getIntent(context, PlanActivity.class, rid, isPlan);
+    public static Intent getIntent(Context context, String rid, String planTitle) {
+        return CategoryBaseActivity.getIntent(context, PlanActivity.class, rid, planTitle);
     }
 
     @Override
@@ -131,7 +129,7 @@ public class PlanActivity extends BaseNoTitleActivity implements PlanView {
     @Override
     public Presenter getPresenter() {
         String rid = mReceivedIntent.getStringExtra(CategoryBaseActivity.KEY_RID);
-        return new PlanPresenter(mContext, rid, mReceivedIntent.getBooleanExtra(CategoryBaseActivity.KEY_IS_PLAN, true));
+        return new PlanPresenter(mContext, rid, mReceivedIntent.getStringExtra(CategoryBaseActivity.KEY_PLAN_TITLE));
     }
 
     @Override
@@ -208,6 +206,11 @@ public class PlanActivity extends BaseNoTitleActivity implements PlanView {
     @Override
     public void setStageTitle(String stageTitle) {
         mHeader.setSubTitle("| " + stageTitle + " |");
+    }
+
+    @Override
+    public void setActionbarTitle(String title) {
+        mHeader.setTitle(title);
     }
 }
 

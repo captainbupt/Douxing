@@ -34,7 +34,7 @@ public class DialogUtil {
                                 public void onClick(DialogInterface dialog,
                                                     int which) {
                                     baseView.showProgressDialog(R.string.action_update_download_ing);
-                                    HttpClientRepository.doUpdateMTraning(context, newVersion.getUrl(), new RangeFileAsyncHttpResponseHandler(new File("update.apk")) { // 仅仅是借用该接口
+                                    HttpClientRepository.doUpdateMTraning(context, newVersion.getUrl(), new HttpClientRepository.DownloadListener() { // 仅仅是借用该接口
 
                                         @Override
                                         public void onSuccess(int statusCode, Header[] headers, File file) {
@@ -44,6 +44,11 @@ public class DialogUtil {
                                             intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
                                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                             context.startActivity(intent);
+                                        }
+
+                                        @Override
+                                        public void onProgress(long current, long total) {
+
                                         }
 
                                         @Override

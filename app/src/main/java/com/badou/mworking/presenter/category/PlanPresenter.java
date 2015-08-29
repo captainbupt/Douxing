@@ -23,8 +23,8 @@ public class PlanPresenter extends CategoryBasePresenter {
     PlanView mPlanView;
     int mStageIndex = -1;
 
-    public PlanPresenter(Context context, String rid, boolean isPlan) {
-        super(context, Category.CATEGORY_PLAN, rid, isPlan);
+    public PlanPresenter(Context context, String rid, String planTitle) {
+        super(context, Category.CATEGORY_PLAN, rid, planTitle);
     }
 
     @Override
@@ -42,10 +42,10 @@ public class PlanPresenter extends CategoryBasePresenter {
     @Override
     public void setData(CategoryDetail categoryDetail) {
         super.setData(categoryDetail);
-        mPlanIntroductionPresenter.setData(categoryDetail);
         // 如果刷新后的index不一致，说明前一阶段已完成，可以显示提示
+        System.out.println(mStageIndex + " : " + categoryDetail.getPlan().getNow().getStageIndex() + " : " + categoryDetail.getPlan().getStages().size());
         if (mStageIndex < categoryDetail.getPlan().getNow().getStageIndex() && mStageIndex != -1) {
-            if (mStageIndex >= categoryDetail.getPlan().getStages().size()) {
+            if (categoryDetail.getPlan().getNow().getStageIndex() >= categoryDetail.getPlan().getStages().size()) {
                 mPlanView.showToast(R.string.plan_all_finished);
             } else {
                 mPlanView.showToast(String.format(mContext.getString(R.string.plan_stage_finished), categoryDetail.getPlan().getStage(mStageIndex).getSubject()));
@@ -55,8 +55,10 @@ public class PlanPresenter extends CategoryBasePresenter {
         // 如果已经学完，则设置mStageIndex为0
         if (mStageIndex >= categoryDetail.getPlan().getStages().size()) {
             mPlanStagePresenter.setData(categoryDetail, 0);
+            mPlanIntroductionPresenter.setData(categoryDetail, 0);
         } else {
             mPlanStagePresenter.setData(categoryDetail, mStageIndex);
+            mPlanIntroductionPresenter.setData(categoryDetail, mStageIndex);
         }
     }
 
@@ -74,7 +76,12 @@ public class PlanPresenter extends CategoryBasePresenter {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_PLAN_INTRODUCTION && resultCode == Activity.RESULT_OK && data != null) {
-            mPlanStagePresenter.setData(mCategoryDetail, data.getIntExtra(RESULT_STAGE_INDEX, -1));
+            int stageIndex = data.getIntExtra(RESULT_STAGE_INDEX, -1);
+            if (stageIndex >= 0) {
+                mPlanView.setStageTitle(mCategoryDetail.getPlan().getStage(stageIndex).getSubject());
+                mPlanIntroductionPresenter.setData(mCategoryDetail, stageIndex);
+                mPlanStagePresenter.setData(mCategoryDetail, stageIndex);
+            }
         } else {
             // 这里会接收到打开其他页面的返回信息，如果课程列表显示的是当前阶段，则可能涉及到刷新操作
             if (mPlanStagePresenter.getStageIndex() == mCategoryDetail.getPlan().getNow().getStageIndex())

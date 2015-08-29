@@ -6,6 +6,8 @@ import com.badou.mworking.view.StoreItemView;
 
 public interface CategoryBaseView extends BaseView, StoreItemView {
 
+    void setActionbarTitle(String title);
+
     void setData(String rid, CategoryDetail categoryDetail, boolean isPlan);
 
     void setCommentNumber(int number);
