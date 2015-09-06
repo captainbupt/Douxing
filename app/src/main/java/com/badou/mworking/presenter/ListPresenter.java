@@ -102,7 +102,9 @@ public abstract class ListPresenter<T> extends Presenter {
     }
 
     protected boolean setData(Object data, int index) {
+        System.out.println("1111--------------------------------");
         if (data instanceof List) {
+            System.out.println("2222--------------------------------");
             return setList((List<T>) data, index);
         }
         return false;
@@ -131,7 +133,9 @@ public abstract class ListPresenter<T> extends Presenter {
                 int begin = (index - 1) * Constant.LIST_ITEM_NUM;
                 if (mBaseListView.getDataCount() <= begin) {
                     mBaseListView.addData(data);
+                    System.out.println("3333--------------------------------");
                 } else {
+                    System.out.println("4444--------------------------------");
                     List<T> tmp = new ArrayList<>();
                     for (int ii = 0; ii < data.size(); ii++) {
                         if (ii < mBaseListView.getDataCount() - begin) {

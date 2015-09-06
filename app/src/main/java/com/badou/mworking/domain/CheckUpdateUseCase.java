@@ -12,21 +12,15 @@ import rx.Observable;
 
 public class CheckUpdateUseCase extends UseCase {
 
-    private Context mContext;
-
-    public CheckUpdateUseCase(Context context) {
-        this.mContext = context;
-    }
-
     @Override
     protected Observable buildUseCaseObservable() {
-        return RestRepository.getInstance().checkUpdate(UserInfo.getUserInfo().getUid(), getScreenLevel(mContext), new Body());
+        return RestRepository.getInstance().checkUpdate(UserInfo.getUserInfo().getUid(), getScreenLevel(), new Body());
     }
 
     /**
      * 功能描述: 获取屏幕级别
      */
-    public String getScreenLevel(Context context) {
+    public String getScreenLevel() {
         int screenWidthPx = DensityUtil.getInstance().getScreenWidth();
         //适配240 320 480 屏幕
         if (screenWidthPx >= 240 && screenWidthPx < 720 - 100) {

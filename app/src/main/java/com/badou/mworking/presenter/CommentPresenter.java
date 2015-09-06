@@ -2,6 +2,7 @@ package com.badou.mworking.presenter;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.view.inputmethod.InputMethodManager;
 
 import com.badou.mworking.entity.comment.CategoryComment;
 import com.badou.mworking.entity.comment.Comment;

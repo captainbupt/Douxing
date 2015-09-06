@@ -35,8 +35,8 @@ public class MessageCenterPresenter extends Presenter {
     }
 
     public void toDetailPage(int position, MessageCenter messageCenter) {
+        deleteItem(position, messageCenter);
         Intent intent = ResourceIntentFactory.getIntentFromMessage(mContext, messageCenter);
-        mMessageCenterView.removeItem(position);
         if (intent == null) {
             ToastUtil.showToast(mContext, R.string.category_unsupport_type);
         } else {
@@ -45,8 +45,8 @@ public class MessageCenterPresenter extends Presenter {
     }
 
     public void deleteItem(int position, MessageCenter messageCenter) {
-        MessageCenterResManager.deleteItem(messageCenter);
         mMessageCenterView.removeItem(position);
+        MessageCenterResManager.deleteItem(messageCenter);
         if (mMessageCenterView.getDataCount() == 0) {
             mMessageCenterView.showNoneResult();
         }

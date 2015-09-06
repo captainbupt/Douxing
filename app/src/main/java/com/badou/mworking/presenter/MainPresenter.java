@@ -29,12 +29,14 @@ import com.badou.mworking.entity.emchat.EMChatEntity;
 import com.badou.mworking.entity.main.MainBanner;
 import com.badou.mworking.entity.main.MainData;
 import com.badou.mworking.entity.main.MainIcon;
+import com.badou.mworking.entity.main.NewVersion;
 import com.badou.mworking.entity.main.Shuffle;
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.BaseSubscriber;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.util.AlarmUtil;
 import com.badou.mworking.util.AppManager;
+import com.badou.mworking.util.DensityUtil;
 import com.badou.mworking.util.DialogUtil;
 import com.badou.mworking.util.SPHelper;
 import com.badou.mworking.util.ToastUtil;
@@ -61,6 +63,7 @@ public class MainPresenter extends Presenter {
     private String mLogoUrl;
     MainGridView mMainView;
     List<MainIcon> mMainIconList;
+    UserInfo mUserInfo;
 
     public MainPresenter(Context context) {
         super(context);
@@ -73,7 +76,12 @@ public class MainPresenter extends Presenter {
     }
 
     private void initialize() {
-        if (UserInfo.getUserInfo() == null) {
+        if (!AppApplication.isInitialized) {
+            AppApplication.initial((AppApplication) mContext.getApplicationContext());
+        }
+        DensityUtil.init((Activity) mContext);
+        mUserInfo = UserInfo.getUserInfo();
+        if (mUserInfo == null) {
             mContext.startActivity(LoginActivity.getIntent(mContext));
             return;
         }
@@ -103,8 +111,7 @@ public class MainPresenter extends Presenter {
      */
     private void updateMainIcon() {
         if (mMainIconList == null) {
-            UserInfo userInfo = UserInfo.getUserInfo();
-            mMainIconList = userInfo.getShuffle().getMainIconList(mContext, userInfo.getAccess());
+            mMainIconList = mUserInfo.getShuffle().getMainIconList(mContext, mUserInfo.getAccess());
         }
         for (MainIcon mainIcon : mMainIconList) {
             switch (mainIcon.getKey()) {
@@ -148,23 +155,22 @@ public class MainPresenter extends Presenter {
         mMainView.setBannerData(SPHelper.getMainBanner());
         updateMessageCenter();
         //mScrollView.scrollTo(0, 0);
-        final UserInfo userInfo = UserInfo.getUserInfo();
         updateMessageCenter();
         checkUpdate();
-        if (!userInfo.isAnonymous()) {
+        if (!mUserInfo.isAnonymous()) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    loginEMChat(userInfo.getAccount(), userInfo.getHxpwd());
+                    loginEMChat(mUserInfo.getAccount(), mUserInfo.getHxpwd());
                 }
             }).start();
         } else {
             mContext.startActivity(new Intent(mContext, ExperienceInformationActivity.class));
         }
 
-        if (userInfo.getCredit() > 0 && !SPHelper.isCreditRewarded()) {
-            mMainView.showCreditReward(userInfo.getCredit());
-            SPHelper.setCreditRewarded();
+        if (mUserInfo.getCredit() > 0 && SPHelper.getCreditRewarded() == 0) {
+            mMainView.showCreditReward(mUserInfo.getCredit());
+            SPHelper.setCreditRewarded(mUserInfo.getCredit());
         }
     }
 
@@ -331,13 +337,13 @@ public class MainPresenter extends Presenter {
      * 如果url匹配，不会再下载图片内容
      */
     private void checkUpdate() {
-        CheckUpdateUseCase useCase = new CheckUpdateUseCase(mContext);
+        CheckUpdateUseCase useCase = new CheckUpdateUseCase();
         useCase.execute(new BaseSubscriber<MainData>(mContext) {
             @Override
             public void onResponseSuccess(MainData data) {
                 // 有遮罩则不提示更新
                 if (data.getNewVersion().hasNewVersion() && ((ActionBarActivity) mContext).getSupportFragmentManager().getFragments() == null) {
-                    DialogUtil.apkUpdate(mContext, mMainView, data.getNewVersion());
+                    firstTimeLogin(data.getNewVersion());
                 }
                 String logoUrl = data.getButton_vlogo().getUrl();
                 if (data.getButton_vlogo().hasNewVersion()) {
@@ -350,6 +356,14 @@ public class MainPresenter extends Presenter {
                 SPHelper.setMainBanner(data.getBanner());
             }
         });
+    }
+
+    private void firstTimeLogin(NewVersion newVersion) {
+        if (SPHelper.isFirstLoginToday()) {
+            if (newVersion != null)
+                DialogUtil.apkUpdate(mContext, mMainView, newVersion);
+        }
+        SPHelper.setIsFirstLoginToday();
     }
 
     public int getUnreadMsgCountTotal() {

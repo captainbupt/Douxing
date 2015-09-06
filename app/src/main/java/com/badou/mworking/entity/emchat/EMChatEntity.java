@@ -7,6 +7,8 @@ import android.widget.ImageView;
 
 import com.badou.mworking.R;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
+import com.badou.mworking.util.BitmapUtil;
+import com.badou.mworking.util.DensityUtil;
 import com.easemob.EMCallBack;
 import com.easemob.chatuidemo.DemoHXSDKHelper;
 import com.easemob.chatuidemo.activity.ChatActivity;
@@ -106,11 +108,16 @@ public class EMChatEntity {
      * @param username
      */
     public static void setUserAvatar(Context context, String username, ImageView imageView) {
+        int iconSize = DensityUtil.getInstance().getIconSizeMedium();
+        if (username.equals(ChatActivity.SERVICE_ACCOUNT)) {
+            imageView.setImageBitmap(BitmapUtil.decodeSampledBitmapFromResource(context.getResources(), com.badou.mworking.R.drawable.ic_launcher, iconSize, iconSize));
+            return;
+        }
         try {
             User user = getInstance().getContactList().get(username);
             if (user != null && !TextUtils.isEmpty(user.getAvatar())) {
                 String imgUrl = user.getAvatar();
-                ImageViewLoader.setSquareImageViewResource(imageView, R.drawable.icon_emchat_single, imgUrl, context.getResources().getDimensionPixelSize(R.dimen.icon_size_medium));
+                ImageViewLoader.setSquareImageViewResource(imageView, R.drawable.icon_emchat_single, imgUrl, iconSize);
             } else {
                 imageView.setImageResource(R.drawable.icon_emchat_single);
             }

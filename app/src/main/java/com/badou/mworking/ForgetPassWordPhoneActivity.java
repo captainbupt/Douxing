@@ -64,33 +64,6 @@ public class ForgetPasswordPhoneActivity extends BaseBackActionBarActivity {
         setButtonDisable(mGetCodeTextView);
     }
 
-    //未指定位置添加点击事件， 捕获到电话，然后直接拨打
-    public class URLSpanNoUnderline extends ClickableSpan {
-        private final String mURL;
-
-        public URLSpanNoUnderline(String url) {
-            mURL = url;
-        }
-
-        public String getURL() {
-            return mURL;
-        }
-
-        @Override
-        public void onClick(View widget) {
-            Intent phoneIntent = new Intent("android.intent.action.CALL",
-                    Uri.parse("tel:" + "4008233773"));
-            startActivity(phoneIntent);
-        }
-
-        @Override
-        public void updateDrawState(TextPaint ds) {
-            super.updateDrawState(ds);
-            ds.setUnderlineText(true); // 取消下划线
-            ds.setColor(getResources().getColor(R.color.color_blue)); // 指定文字颜色
-        }
-    }
-
     /**
      * 功能描述: 设置控件的监听
      */

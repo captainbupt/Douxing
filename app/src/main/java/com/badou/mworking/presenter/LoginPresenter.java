@@ -42,7 +42,10 @@ public class LoginPresenter extends Presenter implements BDLocationListener {
     public void attachView(BaseView v) {
         mLoginView = (LoginView) v;
         mLoginView.showNormalLayout();
-        mLoginView.setAccount(SPHelper.getUserAccount());
+        String account = SPHelper.getUserAccount();
+        if (!TextUtils.isEmpty(account) && !account.equals(UserInfo.ANONYMOUS_ACCOUNT)) {
+            mLoginView.setAccount(account);
+        }
         initLocation();
     }
 

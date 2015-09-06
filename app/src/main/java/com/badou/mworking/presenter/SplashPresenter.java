@@ -38,7 +38,7 @@ public class SplashPresenter extends Presenter {
         @Override
         public void run() {
             //判断是否是第一次启动程序
-            if (!SPHelper.getIsFirst()) {
+            if (!SPHelper.isFirstNewVersion()) {
                 //查看shareprefernces中是否保存的UserInfo(登录时保存的)
                 UserInfo userInfo = SPHelper.getUserInfo();
                 if (userInfo == null) {
@@ -49,7 +49,7 @@ public class SplashPresenter extends Presenter {
             } else {
                 SPHelper.clearSP();
                 //软件运行过sp中记录
-                SPHelper.setIsFirst(false);
+                SPHelper.setIsFirstNewVersion(false);
                 goIntroduction();
             }
         }

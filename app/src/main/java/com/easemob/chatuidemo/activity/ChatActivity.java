@@ -400,6 +400,13 @@ public class ChatActivity extends BaseBackActionBarActivity implements OnClickLi
         if (chatType == CHATTYPE_SINGLE) { // 单聊
             toChatUsername = getIntent().getStringExtra("userId");
             setActionbarTitle(EMChatEntity.getUserNick(toChatUsername));
+            // 群聊
+            setRightImage(R.drawable.button_title_bar_delete, new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    emptyHistory(v);
+                }
+            });
         } else {
             // 群聊
             setRightImage(R.drawable.button_title_bar_group, new OnClickListener() {

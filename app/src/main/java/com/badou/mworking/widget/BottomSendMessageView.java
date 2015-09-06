@@ -1,5 +1,6 @@
 package com.badou.mworking.widget;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.text.Editable;
@@ -9,6 +10,7 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -16,10 +18,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.badou.mworking.R;
+import com.badou.mworking.util.ToastUtil;
 
-/**
- * Created by Administrator on 2015/6/3.
- */
 public class BottomSendMessageView extends LinearLayout {
 
     private Context mContext;
@@ -141,11 +141,18 @@ public class BottomSendMessageView extends LinearLayout {
      * 显示键盘
      */
     public void showKeyboard() {
-        imm.showSoftInput(mContentEditText, 0);
+        if (mContentEditText.requestFocus()) {
+            imm.showSoftInput(mContentEditText, InputMethodManager.SHOW_IMPLICIT);
+        }
     }
 
     public void hideKeyboard() {
-        imm.hideSoftInputFromWindow(mContentEditText.getWindowToken(), 0);
+        // 隐藏软键盘
+        if (((Activity) mContext).getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN) {
+            if (((Activity) mContext).getCurrentFocus() != null) {
+                imm.hideSoftInputFromWindow(((Activity) mContext).getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        }
     }
 
 }
