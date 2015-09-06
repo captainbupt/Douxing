@@ -12,4 +12,5 @@ public interface ChatterDetailView extends CommentView, StoreItemView {
 
     void setStore(boolean isStore);
 
+    int getAllCount();
 }

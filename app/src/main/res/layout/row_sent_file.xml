@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_horizontal"
-    android:orientation="vertical"
-    android:paddingTop="13dp">
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center_horizontal"
+              android:orientation="vertical"
+              android:paddingTop="13dp">
 
     <TextView
         android:id="@+id/timestamp"
         style="@style/chat_text_date_style"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -41,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:src="@drawable/chat_item_file" />
+                android:src="@drawable/chat_item_file"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -60,7 +60,7 @@
                     android:singleLine="true"
                     android:text=""
                     android:textColor="@color/color_text_black"
-                    android:textSize="@dimen/text_size_less" />
+                    android:textSize="@dimen/text_size_less"/>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -73,7 +73,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:textColor="@color/color_text_grey"
-                        android:textSize="@dimen/text_size_small" />
+                        android:textSize="@dimen/text_size_small"/>
 
                     <TextView
                         android:id="@+id/tv_file_state"
@@ -82,7 +82,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_gravity="center_vertical"
                         android:textColor="@color/color_text_grey"
-                        android:textSize="@dimen/text_size_small" />
+                        android:textSize="@dimen/text_size_small"/>
                 </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
@@ -95,7 +95,7 @@
             android:layout_toLeftOf="@id/ll_file_container"
             android:clickable="true"
             android:src="@drawable/msg_state_failed_resend"
-            android:visibility="gone" />
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/tv_ack"
@@ -103,9 +103,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/tv_chatcontent"
+            android:layout_toLeftOf="@id/ll_file_container"
             android:text="@string/text_ack_msg"
-            android:visibility="invisible" />
+            android:visibility="invisible"/>
 
         <TextView
             android:id="@+id/tv_delivered"
@@ -113,10 +113,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/tv_chatcontent"
+            android:layout_toLeftOf="@id/ll_file_container"
             android:text="@string/text_delivered_msg"
             android:textSize="@dimen/text_size_micro"
-            android:visibility="invisible" />
+            android:visibility="invisible"/>
 
         <LinearLayout
             android:id="@+id/ll_loading"
@@ -131,7 +131,7 @@
                 android:id="@+id/pb_sending"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:visibility="visible" />
+                android:visibility="visible"/>
 
             <TextView
                 android:id="@+id/percentage"
@@ -139,7 +139,7 @@
                 android:layout_height="wrap_content"
                 android:text="0%"
                 android:textColor="@android:color/black"
-                android:visibility="visible" />
+                android:visibility="visible"/>
         </LinearLayout>
     </RelativeLayout>
 

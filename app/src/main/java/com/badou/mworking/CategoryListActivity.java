@@ -100,6 +100,8 @@ public class CategoryListActivity extends BaseBackActionBarActivity implements C
         switch (mCategoryIndex) {
             case Category.CATEGORY_TRAINING:
                 return new TrainingListPresenter(mContext, mCategoryIndex);
+            case Category.CATEGORY_SHELF:
+                return new TrainingListPresenter(mContext, mCategoryIndex);
             case Category.CATEGORY_EXAM:
                 return new ExamListPresenter(mContext, mCategoryIndex);
             case Category.CATEGORY_SURVEY:

@@ -70,7 +70,7 @@ public class PlanStagePresenter extends ListPresenter<CategoryBase> {
     public void onItemClick(CategoryBase data, int position) {
         super.onItemClick(data, position);
         if (PlanDetail.isReadable(mCategoryDetail.getPlan().getNow(), mStageIndex, position)) {
-            mFragment.startActivityForResult(CategoryIntentFactory.getIntentForPlan(mContext, data.getType(), data.getRid(), mCategoryDetail.getTag()), REQUEST_DETAIL);
+            mFragment.startActivityForResult(CategoryIntentFactory.getIntentForPlan(mContext, data.getType(), data.getRid(), mPlanStage.getSubject()), REQUEST_DETAIL);
         } else {
             mPlanStageView.showToast(R.string.plan_resource_unreadable);
         }

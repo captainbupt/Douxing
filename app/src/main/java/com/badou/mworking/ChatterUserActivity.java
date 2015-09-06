@@ -62,7 +62,7 @@ public class ChatterUserActivity extends BaseNoTitleActivity {
         }, 200);
     }
 
-    private View getHeaderView(UserChatterInfo userInfo) {
+    private View getHeaderView(final UserChatterInfo userInfo) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.header_user_center, null);
         ButterKnife.bind(this, view);
         mAboutImageView.setVisibility(View.GONE);
@@ -78,8 +78,7 @@ public class ChatterUserActivity extends BaseNoTitleActivity {
         mLevelTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String userId = UserInfo.getUserInfo().getUid();
-                Intent intent = BackWebActivity.getIntent(mContext, mContext.getString(R.string.user_center_level_introduction), Net.getLevelUrl(userId));
+                Intent intent = BackWebActivity.getIntent(mContext, mContext.getString(R.string.user_center_level_introduction), Net.getLevelUrl(userInfo.getUid()));
                 mContext.startActivity(intent);
             }
         });

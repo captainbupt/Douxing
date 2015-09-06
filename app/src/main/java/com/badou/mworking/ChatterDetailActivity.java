@@ -237,6 +237,11 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity implements 
 
     @Override
     public int getDataCount() {
+        return mReplyAdapter.getCount();
+    }
+
+    @Override
+    public int getAllCount() {
         return mReplyAdapter.getAllCount();
     }
 

@@ -77,6 +77,11 @@ public class ExperienceInformationActivity extends BaseNoTitleActivity implement
     }
 
     @Override
+    public void onBackPressed() {
+        mExperienceInformationPresenter.onBack();
+    }
+
+    @Override
     public void enableConfirmButton() {
         mConfirmTextView.setTextColor(getResources().getColorStateList(R.color.color_button_text_blue));
         mConfirmTextView.setBackgroundResource(R.drawable.background_button_enable_blue);

@@ -45,7 +45,7 @@ public class AboutUsPresenter extends Presenter {
 
     public void checkUpdate() {
         mAboutUsView.showProgressDialog(R.string.action_update_check_ing);
-        CheckUpdateUseCase useCase = new CheckUpdateUseCase(mContext);
+        CheckUpdateUseCase useCase = new CheckUpdateUseCase();
         useCase.execute(new BaseSubscriber<MainData>(mContext) {
             @Override
             public void onResponseSuccess(MainData data) {

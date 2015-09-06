@@ -83,6 +83,13 @@ public class UserInfo {
     }
 
     public static UserInfo getUserInfo() {
+        if (userInfo == null) {
+            try {
+                userInfo = SPHelper.getUserInfo();
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
+        }
         return userInfo;
     }
 
@@ -142,17 +149,17 @@ public class UserInfo {
         return lang;
     }
 
-    public int getCredit(){
-        if(credit == null)
+    public int getCredit() {
+        if (credit == null)
             return 0;
         return credit.dayact;
     }
 
-    public void setCredit(int credit){
+    public void setCredit(int credit) {
         this.credit.dayact = credit;
     }
 
-    static class Credit{
+    static class Credit {
         @SerializedName("dayact")
         int dayact;
     }

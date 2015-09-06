@@ -61,6 +61,6 @@ public class UserProgressPresenter extends ListPresenter<Category> {
     }
 
     public void toCategoryListPage() {
-        mContext.startActivity(CategoryListActivity.getIntent(mContext, mCategoryIndex, true));
+        mContext.startActivity(CategoryListActivity.getIntent(mContext, mCategoryIndex, false));
     }
 }

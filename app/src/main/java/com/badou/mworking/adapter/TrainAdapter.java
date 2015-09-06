@@ -14,6 +14,7 @@ import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.Train;
 import com.badou.mworking.net.bitmap.BitmapLruCache;
+import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.net.bitmap.NormalImageListener;
 import com.badou.mworking.net.volley.MyVolley;
 import com.badou.mworking.util.TimeTransfer;
@@ -23,6 +24,9 @@ import com.badou.mworking.util.TimeTransfer;
  */
 public class TrainAdapter extends MyBaseAdapter<Category> {
 
+    private int mIconWidth;
+    private int mIconHeight;
+
     /**
      * 微培训/我的学习
      *
@@ -30,6 +34,8 @@ public class TrainAdapter extends MyBaseAdapter<Category> {
      */
     public TrainAdapter(Context mContext) {
         super(mContext);
+        mIconWidth = mContext.getResources().getDimensionPixelSize(R.dimen.list_item_train_pic_width);
+        mIconHeight = mContext.getResources().getDimensionPixelSize(R.dimen.list_item_train_pic_height);
     }
 
     @Override
@@ -39,8 +45,7 @@ public class TrainAdapter extends MyBaseAdapter<Category> {
         if (convertView != null) {
             holder = (ViewHolder) convertView.getTag();
         } else {
-            convertView = mInflater.inflate(R.layout.adapter_training_item,
-                    parent, false);
+            convertView = mInflater.inflate(R.layout.adapter_training_item, parent, false);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         }
@@ -48,20 +53,7 @@ public class TrainAdapter extends MyBaseAdapter<Category> {
         if (TextUtils.isEmpty(train.getImg())) {
             holder.logoImageView.setImageResource(R.drawable.icon_training_item_default);
         } else {
-            holder.logoImageView.setTag(train.getImg());
-            /** 加载图片 **/
-            Bitmap bm = BitmapLruCache.getBitmapLruCache().getBitmap(
-                    train.getImg());
-            if (bm != null
-                    && holder.logoImageView.getTag().equals(train.getImg())) {
-                holder.logoImageView.setImageBitmap(bm);
-                bm = null;
-            } else {
-                /** 设置默认图在IconLoadListener 中 **/
-                MyVolley.getImageLoader().get(
-                        train.getImg(),
-                        new NormalImageListener(holder.logoImageView, train.getImg(), R.drawable.icon_training_item_default));
-            }
+            ImageViewLoader.setImageViewResource(holder.logoImageView, R.drawable.icon_training_item_default, train.getImg(), mIconWidth, mIconHeight);
         }
 
         // 显示标题

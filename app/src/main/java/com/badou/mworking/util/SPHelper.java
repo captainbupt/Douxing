@@ -51,20 +51,32 @@ public class SPHelper {
         return SP.getBooleanSP(applicationContext, SP.DEFAULTCACHE, PUSH_NOTIFICATIONS, false);
     }
 
-    private static final String CREDIT_REWARD = "creditreward";
+    private static final String IS_FIRST_LOGIN_TODAY = "isfirsttoday";
 
-    public static void setCreditRewarded() {
+    public static void setIsFirstLoginToday() {
         String uid = UserInfo.getUserInfo().getUid();
-        SP.putLongSP(applicationContext, SP.DEFAULTCACHE, CREDIT_REWARD + uid, Calendar.getInstance().getTimeInMillis());
+        SP.putLongSP(applicationContext, SP.DEFAULTCACHE, IS_FIRST_LOGIN_TODAY + uid, Calendar.getInstance().getTimeInMillis());
     }
 
-    public static boolean isCreditRewarded() {
+    public static boolean isFirstLoginToday() {
         String uid = UserInfo.getUserInfo().getUid();
-        long lastRewardedTime = SP.getLongSP(applicationContext, SP.DEFAULTCACHE, CREDIT_REWARD + uid, 0);
+        long lastRewardedTime = SP.getLongSP(applicationContext, SP.DEFAULTCACHE, IS_FIRST_LOGIN_TODAY + uid, 0);
         Calendar current = Calendar.getInstance();
         current.set(current.get(Calendar.YEAR), current.get(Calendar.MONTH), current.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
         long todayBeginningTime = current.getTimeInMillis();
-        return lastRewardedTime >= todayBeginningTime;
+        return lastRewardedTime < todayBeginningTime;
+    }
+
+    private static final String CREDIT_REWARD = "creditreward";
+
+    public static void setCreditRewarded(int credit) {
+        String uid = UserInfo.getUserInfo().getUid();
+        SP.putIntSP(applicationContext, SP.DEFAULTCACHE, CREDIT_REWARD + uid, credit);
+    }
+
+    public static int getCreditRewarded() {
+        String uid = UserInfo.getUserInfo().getUid();
+        return SP.getIntSP(applicationContext, SP.DEFAULTCACHE, CREDIT_REWARD + uid, 0);
     }
 
     private static final String PDF_PAGE = "pdfpage";
@@ -120,11 +132,11 @@ public class SPHelper {
 
     private static final String KEY_IS_FIRST = AppApplication.appVersion;
 
-    public static void setIsFirst(boolean isFirst) {
+    public static void setIsFirstNewVersion(boolean isFirst) {
         SP.putBooleanSP(applicationContext, SP.DEFAULTCACHE, KEY_IS_FIRST, isFirst);
     }
 
-    public static boolean getIsFirst() {
+    public static boolean isFirstNewVersion() {
         return SP.getBooleanSP(applicationContext, SP.DEFAULTCACHE, KEY_IS_FIRST, true);
     }
 

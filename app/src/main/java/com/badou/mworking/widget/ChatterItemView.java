@@ -1,6 +1,7 @@
 package com.badou.mworking.widget;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -9,10 +10,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.badou.mworking.BackWebActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.database.ChatterResManager;
 import com.badou.mworking.entity.chatter.Chatter;
 import com.badou.mworking.entity.user.UserInfo;
+import com.badou.mworking.net.Net;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.SPHelper;
@@ -153,6 +156,13 @@ public class ChatterItemView extends LinearLayout {
             mLevelTextView.setVisibility(View.VISIBLE);
             mLevelTextView.setLevel(chatter.getLevel());
         }
+        mLevelTextView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = BackWebActivity.getIntent(mContext, mContext.getString(R.string.user_center_level_introduction), Net.getLevelUrl(chatter.getUid()));
+                mContext.startActivity(intent);
+            }
+        });
 
         if (!isDetail) {
             /** 设置点赞数和监听 **/

@@ -227,12 +227,12 @@ public class AskDetailActivity extends BaseBackActionBarActivity implements AskD
 
     @Override
     public void showNoneResult() {
-        mNoneResultView.setVisibility(View.VISIBLE);
+        mContentListView.getRefreshableView().addFooterView(mNoneResultView, null, false);
     }
 
     @Override
     public void hideNoneResult() {
-        mNoneResultView.setVisibility(View.GONE);
+        mContentListView.getRefreshableView().removeFooterView(mNoneResultView);
     }
 
     @Override
@@ -276,6 +276,11 @@ public class AskDetailActivity extends BaseBackActionBarActivity implements AskD
 
     @Override
     public int getDataCount() {
+        return mAnswerAdapter.getCount();
+    }
+
+    @Override
+    public int getAllCount() {
         return mAnswerAdapter.getRelyCount();
     }
 

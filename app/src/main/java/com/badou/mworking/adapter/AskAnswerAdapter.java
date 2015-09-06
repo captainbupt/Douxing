@@ -82,7 +82,7 @@ public class AskAnswerAdapter extends MyBaseAdapter<Ask> {
         holder.praiseCountTextView.setText(ask.getCount() + "");
 
         if (ask.getUid().equals(UserInfo.getUserInfo().getUid())) {
-            holder.replyImageView.setVisibility(View.GONE);
+            holder.replyImageView.setVisibility(View.INVISIBLE);
         } else {
             holder.replyImageView.setVisibility(View.VISIBLE);
         }

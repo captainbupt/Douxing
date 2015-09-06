@@ -8,4 +8,6 @@ public interface AskDetailView extends BaseListView<Ask>,StoreItemView {
     void setData(Ask ask);
 
     void setReplyCount(int count);
+
+    int getAllCount();
 }

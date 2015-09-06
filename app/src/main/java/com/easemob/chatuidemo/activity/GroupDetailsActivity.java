@@ -580,12 +580,14 @@ public class GroupDetailsActivity extends BaseBackActionBarActivity implements O
                 FrameLayout parent = new FrameLayout(mContext);
                 final EditText editText = new EditText(mContext);
                 FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                lp.setMargins(0, DensityUtil.getInstance().getOffsetLess(), 0, DensityUtil.getInstance().getOffsetLess());
+                lp.setMargins(0, DensityUtil.getInstance().getOffsetMedium(), 0, DensityUtil.getInstance().getOffsetMedium());
                 editText.setLayoutParams(lp);
                 editText.setHint("请输入群名称");
                 editText.setText(group.getGroupName());
+                int padding = DensityUtil.getInstance().getOffsetLless();
+                editText.setPadding(padding, padding, padding, padding);
                 parent.addView(editText);
-                new android.app.AlertDialog.Builder(mContext).setView(parent).setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                new android.app.AlertDialog.Builder(mContext).setTitle("修改群名称").setView(parent).setPositiveButton("确认", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         changeGroupName(editText.getText().toString());

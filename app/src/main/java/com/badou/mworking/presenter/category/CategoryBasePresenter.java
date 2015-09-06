@@ -47,7 +47,8 @@ public class CategoryBasePresenter extends Presenter {
     @Override
     public void attachView(BaseView v) {
         mCategoryBaseView = (CategoryBaseView) v;
-        mCategoryBaseView.setActionbarTitle(mPlanTitle);
+        if (isPlan)
+            mCategoryBaseView.setActionbarTitle(mPlanTitle);
         getCategoryDetail(mRid);
     }
 

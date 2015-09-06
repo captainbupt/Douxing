@@ -43,36 +43,41 @@ public class AppApplication extends Application {
     public static final String SYSTYPE = "android";
     public static final String SYSVERSION = android.os.Build.VERSION.RELEASE;
     public static final String SYSPARAM = SYSTYPE + SYSVERSION;
+    public static boolean isInitialized = false;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        initial(this);
+        isInitialized = true;
+    }
 
+    public static void initial(AppApplication appApplication) {
         // Bitmap初始化必须在MyVolley之前，否则会丢出异常
-        BitmapLruCache.init(getApplicationContext());
-        MyVolley.init(getApplicationContext());
+        BitmapLruCache.init(appApplication);
+        MyVolley.init(appApplication);
         //获取程序版本
         try {
-            appVersion = getVersionName();
+            appVersion = getVersionName(appApplication);
         } catch (Exception e) {
             appVersion = "1.0";
             e.printStackTrace();
         }
 
-        ResourceHelper.init(this);
-        SPHelper.initialize(this);
+        ResourceHelper.init(appApplication);
+        SPHelper.initialize(appApplication);
 
-        MTrainingDBHelper.init(getApplicationContext());
+        MTrainingDBHelper.init(appApplication);
         JPushInterface.setDebugMode(false);
-        JPushInterface.init(this);
+        JPushInterface.init(appApplication);
         // 在使用 SDK 各组间之前初始化 context 信息，传入 ApplicationContext
-        SDKInitializer.initialize(this);
-        initEMChat(true);
+        SDKInitializer.initialize(appApplication);
+        initEMChat(appApplication, true);
     }
 
-    private void initEMChat(boolean isDebug) {
+    private static void initEMChat(AppApplication appApplication, boolean isDebug) {
         int pid = android.os.Process.myPid();
-        String processAppName = getAppName(pid);
+        String processAppName = getAppName(appApplication, pid);
         // 如果app启用了远程的service，此application:onCreate会被调用2次
         // 为了防止环信SDK被初始化2次，加此判断会保证SDK被初始化1次
         // 默认的app会在以包名为默认的process name下运行，如果查到的process name不是app的process name就立即返回
@@ -82,22 +87,22 @@ public class AppApplication extends Application {
             return;
         }
 
-        EMChat.getInstance().init(this);
+        EMChat.getInstance().init(appApplication);
         /**
          * debugMode == true 时为打开，sdk 会在log里输入调试信息
          * @param debugMode
          * 在做代码混淆的时候需要设置成false
          */
         EMChat.getInstance().setDebugMode(isDebug);//在做打包混淆时，要关闭debug模式，如果未被关闭，则会出现程序无法运行问题
-        EMChatEntity.init(this);
+        EMChatEntity.init(appApplication);
     }
 
-    private String getAppName(int pID) {
+    private static String getAppName(AppApplication appApplication, int pID) {
         String processName = null;
-        ActivityManager am = (ActivityManager) this.getSystemService(ACTIVITY_SERVICE);
+        ActivityManager am = (ActivityManager) appApplication.getSystemService(ACTIVITY_SERVICE);
         List l = am.getRunningAppProcesses();
         Iterator i = l.iterator();
-        PackageManager pm = this.getPackageManager();
+        PackageManager pm = appApplication.getPackageManager();
         while (i.hasNext()) {
             ActivityManager.RunningAppProcessInfo info = (ActivityManager.RunningAppProcessInfo) (i.next());
             try {
@@ -116,12 +121,11 @@ public class AppApplication extends Application {
         return processName;
     }
 
-    private String getVersionName() throws Exception {
+    private static String getVersionName(AppApplication appApplication) throws Exception {
         // 获取packagemanager的实例
-        PackageManager packageManager = getPackageManager();
+        PackageManager packageManager = appApplication.getPackageManager();
         // getPackageName()是你当前类的包名，0代表是获取版本信息
-        PackageInfo packInfo = packageManager.getPackageInfo(getPackageName(),
-                0);
+        PackageInfo packInfo = packageManager.getPackageInfo(appApplication.getPackageName(), 0);
         String version = packInfo.versionName;
         return version;
     }
