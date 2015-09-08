@@ -142,33 +142,7 @@ public class PlanActivity extends BaseNoTitleActivity implements PlanView {
         setStore(categoryDetail.isStore());
         mHeader.setTitle(categoryDetail.getSubject());
         setStageTitle(categoryDetail.getPlan().getCurrentStage().getSubject());
-        setBackground(categoryDetail.getImg());
-    }
-
-    public void setBackground(final String url) {
-        if (TextUtils.isEmpty(url)) {
-            return;
-        }
-        Bitmap bitmap = BitmapLruCache.getBitmapLruCache().getOriginBitmap(url);
-        if (!BitmapUtil.isEmpty(bitmap)) {
-            mHeader.setBackgroundImageView(bitmap);
-        } else {
-            MyVolley.getImageLoader().get(url, new ImageLoader.ImageListener() {
-                @Override
-                public void onResponse(ImageLoader.ImageContainer imageContainer, boolean b) {
-                    Bitmap bitmap = imageContainer.getBitmap();
-                    if (!BitmapUtil.isEmpty(bitmap)) {
-                        BitmapLruCache.getBitmapLruCache().putOriginBitmap(url, bitmap);
-                        mHeader.setBackgroundImageView(bitmap);
-                    }
-                }
-
-                @Override
-                public void onErrorResponse(VolleyError volleyError) {
-
-                }
-            }, DensityUtil.getInstance().getScreenWidth(), getResources().getDimensionPixelSize(R.dimen.category_header_height));
-        }
+        mHeader.setBackgroundImageView(categoryDetail.getImg());
     }
 
     @Override

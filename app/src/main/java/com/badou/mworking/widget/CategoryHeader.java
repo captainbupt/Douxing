@@ -2,6 +2,7 @@ package com.badou.mworking.widget;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +11,13 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
 import com.badou.mworking.R;
+import com.badou.mworking.net.bitmap.BitmapLruCache;
+import com.badou.mworking.net.volley.MyVolley;
+import com.badou.mworking.util.BitmapUtil;
+import com.badou.mworking.util.DensityUtil;
 import com.captainhwz.layout.HeaderHandler;
 import com.nineoldandroids.view.ViewHelper;
 
@@ -77,6 +84,32 @@ public class CategoryHeader extends RelativeLayout implements HeaderHandler {
 
     public void setBackgroundImageView(Bitmap bitmap) {
         mBackgroundImageView.setImageBitmap(bitmap);
+    }
+
+    public void setBackgroundImageView(final String url){
+        if (TextUtils.isEmpty(url)) {
+            return;
+        }
+        Bitmap bitmap = BitmapLruCache.getBitmapLruCache().getOriginBitmap(url);
+        if (!BitmapUtil.isEmpty(bitmap)) {
+            setBackgroundImageView(bitmap);
+        } else {
+            MyVolley.getImageLoader().get(url, new ImageLoader.ImageListener() {
+                @Override
+                public void onResponse(ImageLoader.ImageContainer imageContainer, boolean b) {
+                    Bitmap bitmap = imageContainer.getBitmap();
+                    if (!BitmapUtil.isEmpty(bitmap)) {
+                        BitmapLruCache.getBitmapLruCache().putOriginBitmap(url, bitmap);
+                        setBackgroundImageView(bitmap);
+                    }
+                }
+
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+
+                }
+            }, DensityUtil.getInstance().getScreenWidth(), getResources().getDimensionPixelSize(R.dimen.category_header_height));
+        }
     }
 
 }

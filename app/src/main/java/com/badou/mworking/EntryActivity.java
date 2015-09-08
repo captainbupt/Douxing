@@ -113,6 +113,7 @@ public class EntryActivity extends BaseNoTitleActivity implements EntryView {
             setStore(categoryDetail.isStore());
         }
         mHeader.setTitle(categoryDetail.getSubject());
+        mHeader.setBackgroundImageView(categoryDetail.getImg());
     }
 
     @Override
