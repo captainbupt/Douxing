@@ -3,10 +3,12 @@ package com.badou.mworking.util;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.badou.mworking.R;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.Classification;
 import com.badou.mworking.entity.main.MainBanner;
+import com.badou.mworking.entity.main.MainData;
 import com.badou.mworking.entity.user.UserDetail;
 import com.badou.mworking.entity.user.UserInfo;
 import com.google.gson.reflect.TypeToken;
@@ -65,18 +67,6 @@ public class SPHelper {
         current.set(current.get(Calendar.YEAR), current.get(Calendar.MONTH), current.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
         long todayBeginningTime = current.getTimeInMillis();
         return lastRewardedTime < todayBeginningTime;
-    }
-
-    private static final String CREDIT_REWARD = "creditreward";
-
-    public static void setCreditRewarded(int credit) {
-        String uid = UserInfo.getUserInfo().getUid();
-        SP.putIntSP(applicationContext, SP.DEFAULTCACHE, CREDIT_REWARD + uid, credit);
-    }
-
-    public static int getCreditRewarded() {
-        String uid = UserInfo.getUserInfo().getUid();
-        return SP.getIntSP(applicationContext, SP.DEFAULTCACHE, CREDIT_REWARD + uid, 0);
     }
 
     private static final String PDF_PAGE = "pdfpage";
@@ -151,13 +141,55 @@ public class SPHelper {
     }
 
     private static final String LOGO_URL = "logoUrl";
-
-    public static void setLogoUrl(String logoUrl) {
-        SP.putStringSP(applicationContext, SP.DEFAULTCACHE, LOGO_URL, logoUrl);
-    }
+    private static final String LOGO_MD5 = "logoMD5";
+    private static final String LOGIN_URL = "loginUrl";
+    private static final String LOGIN_MD5 = "loginMD5";
+    private static final String LOGIN_CONTENT = "loginContent";
+    private static final String FLASH_URL = "flashUrl";
+    private static final String FLASH_MD5 = "flashMD5";
 
     public static String getLogoUrl() {
         return SP.getStringSP(applicationContext, SP.DEFAULTCACHE, LOGO_URL, "");
+    }
+
+    public static String getLogoMd5() {
+        return SP.getStringSP(applicationContext, SP.DEFAULTCACHE, LOGO_MD5, "");
+    }
+
+    public static String getLoginUrl() {
+        return SP.getStringSP(applicationContext, SP.DEFAULTCACHE, LOGIN_URL, "");
+    }
+
+    public static String getLoginContent() {
+        return SP.getStringSP(applicationContext, SP.DEFAULTCACHE, LOGIN_CONTENT, applicationContext.getResources().getString(R.string.app_name));
+    }
+
+    public static String getLoginMd5() {
+        return SP.getStringSP(applicationContext, SP.DEFAULTCACHE, LOGIN_MD5, "");
+    }
+
+    public static String getFlashUrl() {
+        return SP.getStringSP(applicationContext, SP.DEFAULTCACHE, FLASH_URL, "");
+    }
+
+    public static String getFlashMd5() {
+        return SP.getStringSP(applicationContext, SP.DEFAULTCACHE, FLASH_MD5, "");
+    }
+
+    public static void setCheckUpdate(MainData mainData) {
+        if (mainData.getButton_vlogo().hasNewVersion()) {
+            SP.putStringSP(applicationContext, SP.DEFAULTCACHE, LOGO_URL, mainData.getButton_vlogo().getUrl());
+            SP.putStringSP(applicationContext, SP.DEFAULTCACHE, LOGO_MD5, mainData.getButton_vlogo().getMd5());
+        }
+        if (mainData.getButton_vlogin().hasNewVersion()) {
+            SP.putStringSP(applicationContext, SP.DEFAULTCACHE, LOGIN_URL, mainData.getButton_vlogin().getUrl());
+            SP.putStringSP(applicationContext, SP.DEFAULTCACHE, LOGIN_MD5, mainData.getButton_vlogin().getMd5());
+            SP.putStringSP(applicationContext, SP.DEFAULTCACHE, LOGIN_CONTENT, mainData.getButton_vlogin().getContent());
+        }
+        if (mainData.getButton_vflash().hasNewVersion()) {
+            SP.putStringSP(applicationContext, SP.DEFAULTCACHE, FLASH_URL, mainData.getButton_vflash().getUrl());
+            SP.putStringSP(applicationContext, SP.DEFAULTCACHE, FLASH_MD5, mainData.getButton_vflash().getMd5());
+        }
     }
 
     // private static final String MAIN_BANNER = "banner";  1.6.0之前banner缓存的key，存储方式不一致，不要轻易使用

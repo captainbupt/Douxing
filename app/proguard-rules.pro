@@ -109,17 +109,14 @@
 }
 
 # 百度地图
-#-libraryjars libs/baidumapapi_v3_3_0.jar
--keep class com.baidu.** { *; }
--keep class vi.com.gdi.bgl.android.**{*;}
+-keep class com.baidu.** {*;}
+-keep class vi.com.** {*;}
+-dontwarn com.baidu.**
 
 # 极光推送
+-libraryjars libs/jpush-sdk-release1.8.1.jar
 -dontwarn cn.jpush.**
 -keep class cn.jpush.** { *; }
-
-# XUtils
--keep class * extends java.lang.annotation.Annotation { *; }
-
 
 # 友盟
 -keepclassmembers class * {
@@ -223,3 +220,22 @@ public static final int *;
 -keep class org.apache.commons.codec.**
 -keep interface org.apache.commons.codec.**
 -keep enum org.apache.commons.codec.**
+
+# Fresco
+# Keep our interfaces so they can be used by other ProGuard rules.
+# See http://sourceforge.net/p/proguard/bugs/466/
+-keep,allowobfuscation @interface com.facebook.common.internal.DoNotStrip
+
+# Do not strip any method/class that is annotated with @DoNotStrip
+-keep @com.facebook.common.internal.DoNotStrip class *
+-keepclassmembers class * {
+    @com.facebook.common.internal.DoNotStrip *;
+}
+
+# Keep native methods
+-keepclassmembers class * {
+    native <methods>;
+}
+
+-dontwarn okio.**
+-dontwarn javax.annotation.**

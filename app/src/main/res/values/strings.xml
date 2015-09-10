@@ -104,6 +104,7 @@
     <string name="floor_num">楼</string>
     <string name="chatter_num">条</string>
     <string name="credit_num">分</string>
+    <string name="audit_num">人</string>
     <string name="time_text_jinTian">今天</string>
     <string name="text_cancel">取消</string>
     <string name="tips_pdf_view_open_error">打开PDF文件异常，请重新下载</string>
@@ -166,6 +167,7 @@
     <string name="accountManger_logout">退 出 登 录</string>
     <string name="user_center_level_introduction">等级介绍</string>
     <string name="user_center_credit">我的积分</string>
+    <string name="user_center_approval">用户导入/审批</string>
     <string name="user_center_survey">意见反馈</string>
     <string name="user_center_my_account">我的账号</string>
     <string name="user_center_service">在线客服中心</string>
@@ -251,6 +253,16 @@
     <string name="entry_tip_enroll_success">报名成功</string>
     <string name="entry_tip_enroll_cancel_success">取消报名成功</string>
     <string name="scan_tips">将二维码图片对准扫描框即可自动扫描</string>
+
+    <string name="audit_title">审批</string>
+    <string name="audit_item_content">来自“%s”的加入申请</string>
+    <string name="audit_status">待审核</string>
+    <string name="audit_confirm">同意</string>
+    <string name="audit_refuse">拒绝</string>
+    <string name="audit_info_name">姓名：</string>
+    <string name="audit_info_department">部门：</string>
+    <string name="audit_info_title">岗位：</string>
+    <string name="audit_info_phone">电话：</string>
 
     <string name="plan_introduction_title">计划简介</string>
     <string name="plan_introduction">简介</string>

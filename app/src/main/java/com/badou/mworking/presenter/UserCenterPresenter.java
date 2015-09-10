@@ -139,6 +139,12 @@ public class UserCenterPresenter extends Presenter {
         mContext.startActivity(intent);
     }
 
+    public void toMyAudit() {
+        String userId = UserInfo.getUserInfo().getUid();
+        Intent intent = BackWebActivity.getIntent(mContext, mContext.getString(R.string.user_center_credit), Net.getCreditUrl(userId, mUserDetail.getCredit()));
+        mContext.startActivity(intent);
+    }
+
     public void toMyStudy() {
         mContext.startActivity(MyStudyActivity.getIntent(mContext, mUserDetail));
     }

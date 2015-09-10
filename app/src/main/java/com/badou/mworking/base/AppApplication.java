@@ -26,6 +26,7 @@ import com.badou.mworking.util.ResourceHelper;
 import com.badou.mworking.util.SPHelper;
 import com.baidu.mapapi.SDKInitializer;
 import com.easemob.chat.EMChat;
+import com.facebook.drawee.backends.pipeline.Fresco;
 
 import java.util.Iterator;
 import java.util.List;
@@ -44,6 +45,7 @@ public class AppApplication extends Application {
     public static final String SYSVERSION = android.os.Build.VERSION.RELEASE;
     public static final String SYSPARAM = SYSTYPE + SYSVERSION;
     public static boolean isInitialized = false;
+    public static final boolean DEBUG = true;
 
     @Override
     public void onCreate() {
@@ -56,6 +58,7 @@ public class AppApplication extends Application {
         // Bitmap初始化必须在MyVolley之前，否则会丢出异常
         BitmapLruCache.init(appApplication);
         MyVolley.init(appApplication);
+        Fresco.initialize(appApplication);
         //获取程序版本
         try {
             appVersion = getVersionName(appApplication);
@@ -68,11 +71,11 @@ public class AppApplication extends Application {
         SPHelper.initialize(appApplication);
 
         MTrainingDBHelper.init(appApplication);
-        JPushInterface.setDebugMode(false);
+        JPushInterface.setDebugMode(DEBUG);
         JPushInterface.init(appApplication);
         // 在使用 SDK 各组间之前初始化 context 信息，传入 ApplicationContext
         SDKInitializer.initialize(appApplication);
-        initEMChat(appApplication, true);
+        initEMChat(appApplication, DEBUG);
     }
 
     private static void initEMChat(AppApplication appApplication, boolean isDebug) {

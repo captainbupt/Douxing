@@ -154,9 +154,10 @@ public class MainPresenter extends Presenter {
     private void initData() {
         mMainView.setBannerData(SPHelper.getMainBanner());
         updateMessageCenter();
-        //mScrollView.scrollTo(0, 0);
-        updateMessageCenter();
-        checkUpdate();
+        if (SPHelper.isFirstLoginToday()) {
+            checkUpdate();
+        }
+        SPHelper.setIsFirstLoginToday();
         if (!mUserInfo.isAnonymous()) {
             new Thread(new Runnable() {
                 @Override
@@ -166,11 +167,6 @@ public class MainPresenter extends Presenter {
             }).start();
         } else {
             mContext.startActivity(new Intent(mContext, ExperienceInformationActivity.class));
-        }
-
-        if (mUserInfo.getCredit() > 0 && SPHelper.getCreditRewarded() == 0) {
-            mMainView.showCreditReward(mUserInfo.getCredit());
-            SPHelper.setCreditRewarded(mUserInfo.getCredit());
         }
     }
 
@@ -342,28 +338,22 @@ public class MainPresenter extends Presenter {
             @Override
             public void onResponseSuccess(MainData data) {
                 // 有遮罩则不提示更新
-                if (data.getNewVersion().hasNewVersion() && ((ActionBarActivity) mContext).getSupportFragmentManager().getFragments() == null) {
-                    firstTimeLogin(data.getNewVersion());
+                if (((ActionBarActivity) mContext).getSupportFragmentManager().getFragments() == null) {
+                    if (data.getNewVersion() != null && data.getNewVersion().hasNewVersion()) {
+                        DialogUtil.apkUpdate(mContext, mMainView, data.getNewVersion());
+                    }
+                    if (data.getDayAct() > 0) {
+                        mMainView.showCreditReward(data.getDayAct());
+                    }
                 }
-                String logoUrl = data.getButton_vlogo().getUrl();
-                if (data.getButton_vlogo().hasNewVersion()) {
-                    SPHelper.setLogoUrl(logoUrl);
-                    mMainView.setLogoImage(logoUrl);
-                    mLogoUrl = logoUrl;
-                }
+                SPHelper.setCheckUpdate(data);
+                mLogoUrl = SPHelper.getLogoUrl();
+                mMainView.setLogoImage(mLogoUrl);
                 mMainView.setBannerData(data.getBanner());
                 // 保存banner信息数据到sp
                 SPHelper.setMainBanner(data.getBanner());
             }
         });
-    }
-
-    private void firstTimeLogin(NewVersion newVersion) {
-        if (SPHelper.isFirstLoginToday()) {
-            if (newVersion != null)
-                DialogUtil.apkUpdate(mContext, mMainView, newVersion);
-        }
-        SPHelper.setIsFirstLoginToday();
     }
 
     public int getUnreadMsgCountTotal() {

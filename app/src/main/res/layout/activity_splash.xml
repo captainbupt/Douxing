@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.facebook.drawee.view.SimpleDraweeView
+    android:id="@+id/background_image_view"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scaleType="centerCrop"
-    android:src="@drawable/background_splash" />
+    fresco:actualImageScaleType="centerCrop"
+    fresco:placeholderImage="@drawable/background_splash"
+    fresco:placeholderImageScaleType="centerCrop"/>

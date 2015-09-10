@@ -42,6 +42,8 @@ public class UserDetail implements Serializable {
     int score_over; //考试战胜了多少人
     @SerializedName("store")
     int store;
+    @SerializedName("audit")
+    int audit;
 
     public String getName() {
         return name;
@@ -113,5 +115,9 @@ public class UserDetail implements Serializable {
 
     public int getStore() {
         return store;
+    }
+
+    public int getAudit() {
+        return audit;
     }
 }

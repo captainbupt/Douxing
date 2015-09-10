@@ -282,6 +282,51 @@
                     android:background="@color/color_bg_grey"/>
 
                 <LinearLayout
+                    android:id="@+id/audit_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_white_grey"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/offset_lless"
+                    android:paddingLeft="@dimen/offset_small"
+                    android:paddingTop="@dimen/offset_lless">
+
+                    <ImageView
+                        android:layout_width="@dimen/user_center_icon_content"
+                        android:layout_height="@dimen/user_center_icon_content"
+                        android:src="@drawable/icon_user_center_credit"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/offset_less"
+                        android:layout_weight="1"
+                        android:text="@string/user_center_credit"
+                        android:textColor="@color/color_text_black"
+                        android:textSize="@dimen/text_size_medium"/>
+
+                    <TextView
+                        android:id="@+id/audit_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/offset_less"
+                        android:textColor="@color/color_text_black"
+                        android:textSize="@dimen/text_size_medium"/>
+
+                    <ImageView
+                        android:layout_width="@dimen/user_center_icon_forward_width"
+                        android:layout_height="@dimen/user_center_icon_forward_height"
+                        android:src="@drawable/icon_user_center_forward"/>
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/audit_layout_divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/color_bg_grey"/>
+
+                <LinearLayout
                     android:id="@+id/service_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

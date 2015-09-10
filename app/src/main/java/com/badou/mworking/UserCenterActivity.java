@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.entity.user.UserDetail;
+import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.presenter.Presenter;
 import com.badou.mworking.presenter.UserCenterPresenter;
@@ -58,6 +59,14 @@ public class UserCenterActivity extends BaseNoTitleActivity implements UserCente
     TextView mTitleTextView;
     @Bind(R.id.credit_text_view)
     TextView mCreditTextView;
+    @Bind(R.id.my_store_layout)
+    LinearLayout mMyStoreLayout;
+    @Bind(R.id.audit_text_view)
+    TextView mAuditTextView;
+    @Bind(R.id.audit_layout)
+    LinearLayout mAuditLayout;
+    @Bind(R.id.audit_layout_divider)
+    View mAuditDivider;
 
     ImageChooser mImageChooser;
     UserCenterPresenter mPresenter;
@@ -68,6 +77,10 @@ public class UserCenterActivity extends BaseNoTitleActivity implements UserCente
         setContentView(R.layout.activity_user_center);
         ButterKnife.bind(this);
         mTitleTextView.setVisibility(View.INVISIBLE);
+        if (!UserInfo.getUserInfo().getAccount().startsWith("admin@")) {
+            mAuditLayout.setVisibility(View.GONE);
+            mAuditDivider.setVisibility(View.GONE);
+        }
         disableSwipeBack();
         mPresenter = (UserCenterPresenter) super.mPresenter;
         mPresenter.attachView(this);
@@ -144,6 +157,11 @@ public class UserCenterActivity extends BaseNoTitleActivity implements UserCente
         mPresenter.toMyCredit();
     }
 
+    @OnClick(R.id.audit_layout)
+    void onAuditClicked() {
+        mPresenter.toMyAudit();
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         mImageChooser.onActivityResult(requestCode, resultCode, data);
@@ -178,7 +196,7 @@ public class UserCenterActivity extends BaseNoTitleActivity implements UserCente
         int storeNumber = userDetail.getStore();
         mStoreNumberTextView.setText(storeNumber + getResources().getString(R.string.chatter_num));
         mCreditTextView.setText(userDetail.getCredit() + getResources().getString(R.string.credit_num));
-
+        mAuditTextView.setText(userDetail.getAudit() + getResources().getString(R.string.audit_num));
     }
 
     @Override

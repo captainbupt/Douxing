@@ -48,7 +48,6 @@ import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationConfiguration.LocationMode;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
-import com.baidu.mapapi.utils.CoordinateConverter;
 import com.badou.mworking.R;
 
 public class BaiduMapActivity extends BaseBackActionBarActivity {
@@ -140,15 +139,11 @@ public class BaiduMapActivity extends BaseBackActionBarActivity {
 	private void showMap(double latitude, double longtitude, String address) {
 		mTitleRightContainer.setVisibility(View.GONE);
 		LatLng llA = new LatLng(latitude, longtitude);
-		CoordinateConverter converter= new CoordinateConverter();
-		converter.coord(llA);
-		converter.from(CoordinateConverter.CoordType.COMMON);
-		LatLng convertLatLng = converter.convert();
-		OverlayOptions ooA = new MarkerOptions().position(convertLatLng).icon(BitmapDescriptorFactory
+		OverlayOptions ooA = new MarkerOptions().position(llA).icon(BitmapDescriptorFactory
 				.fromResource(R.drawable.icon_marka))
 				.zIndex(4).draggable(true);
 		mBaiduMap.addOverlay(ooA);
-		MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(convertLatLng, 17.0f);
+		MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(llA, 17.0f);
 		mBaiduMap.animateMapStatus(u);
 	}
 
@@ -243,15 +238,11 @@ public class BaiduMapActivity extends BaseBackActionBarActivity {
 			lastLocation = location;
 			mBaiduMap.clear();
 			LatLng llA = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
-			CoordinateConverter converter= new CoordinateConverter();
-			converter.coord(llA);
-			converter.from(CoordinateConverter.CoordType.COMMON);
-			LatLng convertLatLng = converter.convert();
-			OverlayOptions ooA = new MarkerOptions().position(convertLatLng).icon(BitmapDescriptorFactory
+			OverlayOptions ooA = new MarkerOptions().position(llA).icon(BitmapDescriptorFactory
 					.fromResource(R.drawable.icon_marka))
                     .zIndex(4).draggable(true);
 			mBaiduMap.addOverlay(ooA);
-			MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(convertLatLng, 17.0f);
+			MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(llA, 17.0f);
 			mBaiduMap.animateMapStatus(u);
 		}
 

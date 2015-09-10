@@ -1,11 +1,9 @@
 package com.badou.mworking.domain;
 
-import android.content.Context;
-
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.RestRepository;
 import com.badou.mworking.util.DensityUtil;
-import com.google.gson.annotations.Expose;
+import com.badou.mworking.util.SPHelper;
 import com.google.gson.annotations.SerializedName;
 
 import rx.Observable;
@@ -39,10 +37,22 @@ public class CheckUpdateUseCase extends UseCase {
 
     public static class Body {
         @SerializedName("button_vlogo")
-        String button_vlogo = "";
+        String button_vlogo;
+        @SerializedName("button_vlogin")
+        String button_vlogin;
+        @SerializedName("button_vflash")
+        String button_vflash = "";
         @SerializedName("banner")
         String banner = "";
         @SerializedName("newver")
         String newver = "";
+        @SerializedName("credit")
+        String credit = "";
+
+        public Body() {
+            button_vlogin = SPHelper.getLoginMd5();
+            button_vlogo = SPHelper.getLogoMd5();
+            button_vflash = SPHelper.getFlashMd5();
+        }
     }
 }

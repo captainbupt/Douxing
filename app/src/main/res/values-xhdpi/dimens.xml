@@ -35,6 +35,7 @@
     <!-- 登录 8-11  -->
     <dimen name="login_logo_pic_large_size">120dp</dimen>
     <dimen name="login_logo_pic_small_size">42dp</dimen>
+    <dimen name="login_logo_text_height">25dp</dimen>
     <dimen name="login_input_icon_size">24dp</dimen>
 
     <!-- user center -->

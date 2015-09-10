@@ -81,12 +81,12 @@ public class RestRepository {
     public RestRepository() {
         RestAdapter restApiAdapter = new RestAdapter.Builder()
                 .setEndpoint("http://115.28.138.79/badou")
-                .setLogLevel(RestAdapter.LogLevel.FULL)
+                .setLogLevel(AppApplication.DEBUG ? RestAdapter.LogLevel.FULL : RestAdapter.LogLevel.NONE)
                 .build();
         restApi = restApiAdapter.create(RestApi.class);
         RestAdapter openRestApiAdapter = new RestAdapter.Builder()
                 .setEndpoint("http://open.mworking.cn")
-                .setLogLevel(RestAdapter.LogLevel.FULL)
+                .setLogLevel(AppApplication.DEBUG ? RestAdapter.LogLevel.FULL : RestAdapter.LogLevel.NONE)
                 .build();
         openRestApi = openRestApiAdapter.create(OpenRestApi.class);
     }

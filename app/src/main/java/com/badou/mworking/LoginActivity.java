@@ -2,22 +2,28 @@ package com.badou.mworking;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.presenter.LoginPresenter;
+import com.badou.mworking.util.SPHelper;
+import com.badou.mworking.util.UriUtil;
 import com.badou.mworking.view.LoginView;
 import com.badou.mworking.widget.InputMethodRelativeLayout;
 import com.badou.mworking.widget.InputMethodRelativeLayout.OnSizeChangedListenner;
 import com.badou.mworking.widget.LoginErrorDialog;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -43,6 +49,14 @@ public class LoginActivity extends BaseNoTitleActivity implements LoginView, OnS
     RelativeLayout mBottomContainer;
     @Bind(R.id.base_container)
     InputMethodRelativeLayout mBaseContainer;
+    @Bind(R.id.large_logo_image_view)
+    SimpleDraweeView mLargeLogoImageView;
+    @Bind(R.id.large_logo_text_view)
+    TextView mLargeLogoTextView;
+    @Bind(R.id.small_logo_image_view)
+    SimpleDraweeView mSmallLogoImageView;
+    @Bind(R.id.small_logo_text_view)
+    TextView mSmallLogoTextView;
 
     LoginPresenter mLoginPresenter;
 
@@ -69,6 +83,15 @@ public class LoginActivity extends BaseNoTitleActivity implements LoginView, OnS
         // 设置监听事件
         mBaseContainer.setOnSizeChangedListenner(this);
         disableSwipeBack();
+        String logoUrl = SPHelper.getLoginUrl();
+        if (!TextUtils.isEmpty(logoUrl)) {
+            Uri uri = UriUtil.getHttpUri(logoUrl);
+            mLargeLogoImageView.setImageURI(uri);
+            mSmallLogoImageView.setImageURI(uri);
+        }
+        String title = SPHelper.getLoginContent();
+        mLargeLogoTextView.setText(title);
+        mSmallLogoTextView.setText(title);
     }
 
     // 功能描述: 用户名 密码输入框 文本改变监听

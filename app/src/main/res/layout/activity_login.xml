@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.badou.mworking.widget.InputMethodRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.badou.mworking.widget.InputMethodRelativeLayout
     android:id="@+id/base_container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/color_bg_grey"
@@ -27,22 +29,23 @@
             android:orientation="vertical"
             android:visibility="visible">
 
-            <ImageView
-                android:layout_width="wrap_content"
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/large_logo_image_view"
+                android:layout_width="@dimen/login_logo_pic_large_size"
                 android:layout_height="@dimen/login_logo_pic_large_size"
-                android:adjustViewBounds="true"
-                android:gravity="center"
-                android:scaleType="centerInside"
-                android:src="@drawable/login_logo" />
+                fresco:actualImageScaleType="centerInside"
+                fresco:placeholderImage="@drawable/login_logo"
+                fresco:placeholderImageScaleType="centerInside"/>
 
-            <ImageView
+            <TextView
+                android:id="@+id/large_logo_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/offset_medium"
-                android:adjustViewBounds="true"
                 android:gravity="center"
-                android:scaleType="centerInside"
-                android:src="@drawable/logo_text_zh" />
+                android:text="@string/app_name"
+                android:textColor="@color/color_blue"
+                android:textSize="@dimen/text_size_xxlarge"
+                android:textStyle="bold"/>
 
         </LinearLayout>
         <!-- 小LOGO -->
@@ -58,19 +61,23 @@
             android:orientation="horizontal"
             android:visibility="gone">
 
-            <ImageView
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/small_logo_image_view"
                 android:layout_width="@dimen/login_logo_pic_small_size"
                 android:layout_height="@dimen/login_logo_pic_small_size"
-                android:adjustViewBounds="true"
-                android:gravity="center"
-                android:src="@drawable/login_logo" />
+                fresco:actualImageScaleType="centerInside"
+                fresco:placeholderImage="@drawable/login_logo"
+                fresco:placeholderImageScaleType="centerInside"/>
 
-            <ImageView
+            <TextView
+                android:id="@+id/small_logo_text_view"
                 android:layout_width="wrap_content"
-                android:layout_height="24dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/offset_small"
-                android:adjustViewBounds="true"
-                android:src="@drawable/logo_text_zh" />
+                android:text="@string/app_name"
+                android:textColor="@color/color_blue"
+                android:textSize="@dimen/text_size_xxlarge"
+                android:textStyle="bold"/>
 
         </LinearLayout>
 
@@ -89,7 +96,7 @@
                     android:layout_width="@dimen/login_input_icon_size"
                     android:layout_height="@dimen/login_input_icon_size"
                     android:scaleType="fitEnd"
-                    android:src="@drawable/icon_activity_login_username" />
+                    android:src="@drawable/icon_activity_login_username"/>
 
                 <EditText
                     android:id="@+id/username_edit_text"
@@ -104,7 +111,7 @@
                     android:singleLine="true"
                     android:textColor="@color/color_text_black"
                     android:textColorHint="@color/color_grey"
-                    android:textSize="@dimen/text_size_medium" />
+                    android:textSize="@dimen/text_size_medium"/>
             </LinearLayout>
 
             <LinearLayout
@@ -118,7 +125,7 @@
                     android:layout_width="@dimen/login_input_icon_size"
                     android:layout_height="@dimen/login_input_icon_size"
                     android:scaleType="fitEnd"
-                    android:src="@drawable/icon_activity_login_password" />
+                    android:src="@drawable/icon_activity_login_password"/>
 
                 <EditText
                     android:id="@+id/password_edit_text"
@@ -132,7 +139,7 @@
                     android:singleLine="true"
                     android:textColor="@color/color_text_black"
                     android:textColorHint="@color/color_grey"
-                    android:textSize="@dimen/text_size_medium" />
+                    android:textSize="@dimen/text_size_medium"/>
             </LinearLayout>
         </LinearLayout>
         <!-- 登录按钮在java中修改的背景色 -->
@@ -147,7 +154,7 @@
             android:padding="@dimen/offset_small"
             android:text="@string/login"
             android:textColor="@color/color_white"
-            android:textSize="@dimen/text_size_large" />
+            android:textSize="@dimen/text_size_large"/>
     </LinearLayout>
 
     <RelativeLayout
@@ -167,7 +174,7 @@
             android:paddingTop="@dimen/offset_small"
             android:text="@string/login_name_experience"
             android:textColor="@color/color_text_black"
-            android:textSize="@dimen/text_size_less" />
+            android:textSize="@dimen/text_size_less"/>
 
         <TextView
             android:id="@+id/forget_text_view"
@@ -179,6 +186,6 @@
             android:paddingTop="@dimen/offset_small"
             android:text="@string/login_button_forget_password"
             android:textColor="@color/color_text_black"
-            android:textSize="@dimen/text_size_less" />
+            android:textSize="@dimen/text_size_less"/>
     </RelativeLayout>
 </com.badou.mworking.widget.InputMethodRelativeLayout>
