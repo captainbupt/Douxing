@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -338,7 +339,7 @@ public class MainPresenter extends Presenter {
             @Override
             public void onResponseSuccess(MainData data) {
                 // 有遮罩则不提示更新
-                if (((ActionBarActivity) mContext).getSupportFragmentManager().getFragments() == null) {
+                if (((AppCompatActivity) mContext).getSupportFragmentManager().getFragments() == null) {
                     if (data.getNewVersion() != null && data.getNewVersion().hasNewVersion()) {
                         DialogUtil.apkUpdate(mContext, mMainView, data.getNewVersion());
                     }

@@ -38,6 +38,7 @@ public abstract class BaseSubscriber<T> extends Subscriber<BaseNetEntity<T>> {
             return;
         }
         if (baseNetEntity.getErrcode() != Net.SUCCESS) {
+            onCompleted();
             onErrorCode(baseNetEntity.getErrcode());
             return;
         }
@@ -52,8 +53,7 @@ public abstract class BaseSubscriber<T> extends Subscriber<BaseNetEntity<T>> {
             int i = field.getInt(new R.string());
             ToastUtil.showToast(mContext, i);
         } catch (Exception e) {
-            e.printStackTrace();
-            ToastUtil.showToast(mContext, R.string.error_service);
+            onError(e);
         }
     }
 

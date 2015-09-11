@@ -1,6 +1,9 @@
 package com.badou.mworking.net;
 
 import com.badou.mworking.ForgetPasswordVerificationActivity;
+import com.badou.mworking.domain.AuditGetUrlUseCase;
+import com.badou.mworking.domain.AuditGetUseCase;
+import com.badou.mworking.domain.AuditSetUseCase;
 import com.badou.mworking.domain.ExperienceInfoUseCase;
 import com.badou.mworking.domain.ResetPasswordUseCase;
 import com.badou.mworking.domain.VerificationMessageUseCase;
@@ -29,6 +32,7 @@ import com.badou.mworking.domain.chatter.UrlContentUseCase;
 import com.badou.mworking.domain.emchat.EmchatListGetUseCase;
 import com.badou.mworking.domain.emchat.EmchatRegisterUseCase;
 import com.badou.mworking.entity.Ask;
+import com.badou.mworking.entity.Audit;
 import com.badou.mworking.entity.Store;
 import com.badou.mworking.entity.category.CategoryBase;
 import com.badou.mworking.entity.chatter.Chatter;
@@ -225,4 +229,13 @@ public interface RestApi {
 
     @POST("/eapi")
     Observable<BaseNetEntity> sendExperienceInfo(@Body ExperienceInfoUseCase.Body body);
+
+    @POST("/getAudit")
+    Observable<BaseNetEntity<List<Audit>>> getAuditList(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Body AuditGetUseCase.Body body);
+
+    @POST("/setAudit")
+    Observable<BaseNetEntity> setAudit(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Body AuditSetUseCase.Body body);
+
+    @POST("/genRegUrl")
+    Observable<BaseNetEntity<AuditGetUrlUseCase.Response>> getAuditUrl(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Body AuditGetUrlUseCase.Body body);
 }

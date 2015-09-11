@@ -130,7 +130,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name in.srain.cube.views.ptr:ptr_rotate_ani_time
         */
-        public static final int PtrClassicHeader_ptr_rotate_ani_time = 0;
+        public static int PtrClassicHeader_ptr_rotate_ani_time = 0;
         /** Attributes that can be used with a PtrFrameLayout.
            <p>Includes the following attributes:</p>
            <table>
@@ -171,7 +171,7 @@ containing a value of this type.
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           @attr name in.srain.cube.views.ptr:ptr_content
         */
-        public static final int PtrFrameLayout_ptr_content = 1;
+        public static int PtrFrameLayout_ptr_content = 1;
         /**
           <p>This symbol is the offset where the {@link in.srain.cube.views.ptr.R.attr#ptr_duration_to_close}
           attribute's value can be found in the {@link #PtrFrameLayout} array.
@@ -185,7 +185,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name in.srain.cube.views.ptr:ptr_duration_to_close
         */
-        public static final int PtrFrameLayout_ptr_duration_to_close = 5;
+        public static int PtrFrameLayout_ptr_duration_to_close = 5;
         /**
           <p>This symbol is the offset where the {@link in.srain.cube.views.ptr.R.attr#ptr_duration_to_close_header}
           attribute's value can be found in the {@link #PtrFrameLayout} array.
@@ -199,7 +199,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name in.srain.cube.views.ptr:ptr_duration_to_close_header
         */
-        public static final int PtrFrameLayout_ptr_duration_to_close_header = 6;
+        public static int PtrFrameLayout_ptr_duration_to_close_header = 6;
         /**
           <p>This symbol is the offset where the {@link in.srain.cube.views.ptr.R.attr#ptr_footer}
           attribute's value can be found in the {@link #PtrFrameLayout} array.
@@ -209,7 +209,7 @@ containing a value of this type.
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           @attr name in.srain.cube.views.ptr:ptr_footer
         */
-        public static final int PtrFrameLayout_ptr_footer = 2;
+        public static int PtrFrameLayout_ptr_footer = 2;
         /**
           <p>This symbol is the offset where the {@link in.srain.cube.views.ptr.R.attr#ptr_header}
           attribute's value can be found in the {@link #PtrFrameLayout} array.
@@ -219,7 +219,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           @attr name in.srain.cube.views.ptr:ptr_header
         */
-        public static final int PtrFrameLayout_ptr_header = 0;
+        public static int PtrFrameLayout_ptr_header = 0;
         /**
           <p>This symbol is the offset where the {@link in.srain.cube.views.ptr.R.attr#ptr_keep_header_when_refresh}
           attribute's value can be found in the {@link #PtrFrameLayout} array.
@@ -233,7 +233,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name in.srain.cube.views.ptr:ptr_keep_header_when_refresh
         */
-        public static final int PtrFrameLayout_ptr_keep_header_when_refresh = 8;
+        public static int PtrFrameLayout_ptr_keep_header_when_refresh = 8;
         /**
           <p>This symbol is the offset where the {@link in.srain.cube.views.ptr.R.attr#ptr_pull_to_fresh}
           attribute's value can be found in the {@link #PtrFrameLayout} array.
@@ -247,7 +247,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name in.srain.cube.views.ptr:ptr_pull_to_fresh
         */
-        public static final int PtrFrameLayout_ptr_pull_to_fresh = 7;
+        public static int PtrFrameLayout_ptr_pull_to_fresh = 7;
         /**
           <p>This symbol is the offset where the {@link in.srain.cube.views.ptr.R.attr#ptr_ratio_of_header_height_to_refresh}
           attribute's value can be found in the {@link #PtrFrameLayout} array.
@@ -261,7 +261,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name in.srain.cube.views.ptr:ptr_ratio_of_header_height_to_refresh
         */
-        public static final int PtrFrameLayout_ptr_ratio_of_header_height_to_refresh = 4;
+        public static int PtrFrameLayout_ptr_ratio_of_header_height_to_refresh = 4;
         /**
           <p>This symbol is the offset where the {@link in.srain.cube.views.ptr.R.attr#ptr_resistance}
           attribute's value can be found in the {@link #PtrFrameLayout} array.
@@ -275,6 +275,6 @@ theme attribute (in the form
 containing a value of this type.
           @attr name in.srain.cube.views.ptr:ptr_resistance
         */
-        public static final int PtrFrameLayout_ptr_resistance = 3;
+        public static int PtrFrameLayout_ptr_resistance = 3;
     };
 }

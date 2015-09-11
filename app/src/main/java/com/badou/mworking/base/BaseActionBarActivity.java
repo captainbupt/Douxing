@@ -2,7 +2,6 @@ package com.badou.mworking.base;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -20,7 +19,8 @@ import com.badou.mworking.widget.WaitProgressDialog;
 
 public class BaseActionBarActivity extends BaseNoTitleActivity {
 
-    protected View actionBarView;
+    protected View mActionBarView;
+    protected LinearLayout mBaseContainer;
     protected TextView mTitleTextView;
     protected ImageView mTitleLeftImageView;
     protected FrameLayout mTitleContainerLayout;
@@ -30,28 +30,29 @@ public class BaseActionBarActivity extends BaseNoTitleActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        super.setContentView(R.layout.activity_base);
+        mBaseContainer = (LinearLayout) findViewById(R.id.activity_base_container);
         initActionBarView();
         initActionBarListener();
+    }
+
+    @Override
+    public void setContentView(int layoutResID) {
+        View view = LayoutInflater.from(mContext).inflate(layoutResID, mBaseContainer, false);
+        mBaseContainer.addView(view);
     }
 
     /**
      * 功能描述:初始化view
      */
     private void initActionBarView() {
-        actionBarView = LayoutInflater.from(this).inflate(R.layout.actionbar, new LinearLayout(mContext), false);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.show();
-        //actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        actionBar.setDisplayShowHomeEnabled(false);
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setCustomView(actionBarView);
-        mTitleTextView = (TextView) actionBarView.findViewById(R.id.tv_actionbar_title);
-        mTitleLeftImageView = (ImageView) actionBarView.findViewById(R.id.iv_actionbar_left);
+        mActionBarView = findViewById(R.id.action_bar);
+        mTitleTextView = (TextView) mActionBarView.findViewById(R.id.tv_actionbar_title);
+        mTitleLeftImageView = (ImageView) mActionBarView.findViewById(R.id.iv_actionbar_left);
         mProgressDialog = new WaitProgressDialog(mContext);
-        mTitleContainerLayout = (FrameLayout) actionBarView.findViewById(R.id.fl_actionbar_title_container);
-        mTitleProgressBar = (ProgressBar) actionBarView.findViewById(R.id.pb_actionbar);
-        mTitleRightContainer = (LinearLayout) actionBarView.findViewById(R.id.ll_actionbar_right);
+        mTitleContainerLayout = (FrameLayout) mActionBarView.findViewById(R.id.fl_actionbar_title_container);
+        mTitleProgressBar = (ProgressBar) mActionBarView.findViewById(R.id.pb_actionbar);
+        mTitleRightContainer = (LinearLayout) mActionBarView.findViewById(R.id.ll_actionbar_right);
     }
 
     /**

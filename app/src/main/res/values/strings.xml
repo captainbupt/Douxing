@@ -167,7 +167,7 @@
     <string name="accountManger_logout">退 出 登 录</string>
     <string name="user_center_level_introduction">等级介绍</string>
     <string name="user_center_credit">我的积分</string>
-    <string name="user_center_approval">用户导入/审批</string>
+    <string name="user_center_audit">用户导入/审批</string>
     <string name="user_center_survey">意见反馈</string>
     <string name="user_center_my_account">我的账号</string>
     <string name="user_center_service">在线客服中心</string>
@@ -263,6 +263,7 @@
     <string name="audit_info_department">部门：</string>
     <string name="audit_info_title">岗位：</string>
     <string name="audit_info_phone">电话：</string>
+    <string name="audit_add">通过微信邀请</string>
 
     <string name="plan_introduction_title">计划简介</string>
     <string name="plan_introduction">简介</string>
@@ -327,6 +328,7 @@
     <string name="none_result_ask">有问题问兜行\n好多同事来帮你</string>
     <string name="none_result_message_center">暂无未读消息</string>
     <string name="none_result_store">快去添加我的收藏吧</string>
+    <string name="none_result_audit">暂时没有待审批人员</string>
 
     <string name="error_code_10002">手机号码不符合规范</string>
     <string name="error_code_40001">参数格式非法</string>

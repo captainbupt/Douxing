@@ -4,6 +4,9 @@ package com.badou.mworking.net;
 import android.text.TextUtils;
 
 import com.badou.mworking.base.AppApplication;
+import com.badou.mworking.domain.AuditGetUrlUseCase;
+import com.badou.mworking.domain.AuditGetUseCase;
+import com.badou.mworking.domain.AuditSetUseCase;
 import com.badou.mworking.domain.ExperienceInfoUseCase;
 import com.badou.mworking.domain.ResetPasswordUseCase;
 import com.badou.mworking.domain.VerificationMessageUseCase;
@@ -34,6 +37,7 @@ import com.badou.mworking.domain.chatter.UrlContentUseCase;
 import com.badou.mworking.domain.emchat.EmchatListGetUseCase;
 import com.badou.mworking.domain.emchat.EmchatRegisterUseCase;
 import com.badou.mworking.entity.Ask;
+import com.badou.mworking.entity.Audit;
 import com.badou.mworking.entity.Store;
 import com.badou.mworking.entity.category.CategoryBase;
 import com.badou.mworking.entity.chatter.Chatter;
@@ -61,6 +65,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import retrofit.RestAdapter;
+import retrofit.http.Body;
+import retrofit.http.POST;
+import retrofit.http.Query;
 import retrofit.mime.TypedFile;
 import retrofit.mime.TypedString;
 import rx.Observable;
@@ -341,5 +348,17 @@ public class RestRepository {
 
     public Observable<BaseNetEntity<LinkedTreeMap<String, Integer>>> getSurveyStatus(SurveyStatusUseCase.Body body) {
         return openRestApi.getSurveyStatus(body);
+    }
+
+    public Observable<BaseNetEntity<List<Audit>>> getAuditList(AuditGetUseCase.Body body) {
+        return restApi.getAuditList(AppApplication.SYSPARAM, AppApplication.appVersion, body);
+    }
+
+    public Observable<BaseNetEntity> setAudit(@Body AuditSetUseCase.Body body) {
+        return restApi.setAudit(AppApplication.SYSPARAM, AppApplication.appVersion, body);
+    }
+
+    public Observable<BaseNetEntity<AuditGetUrlUseCase.Response>> getAuditUrl(@Body AuditGetUrlUseCase.Body body){
+        return restApi.getAuditUrl(AppApplication.SYSPARAM, AppApplication.appVersion, body);
     }
 }

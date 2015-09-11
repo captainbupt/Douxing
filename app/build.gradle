@@ -8,8 +8,8 @@ android {
         config {
             keyAlias 'mworking'
             keyPassword '123498765'
-            storeFile file('C:/Users/Administrator/Desktop/mwoking_norm_key')
             storePassword '123498765'
+            storeFile file('E:/AndroidstudioProjects/Douxing/mwoking_norm_key')
         }
     }
 
@@ -20,11 +20,14 @@ android {
         versionCode 22
         versionName '1.6.6'
     }
-    
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+        }
+        debug {
             signingConfig signingConfigs.config
         }
     }
@@ -40,32 +43,39 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:19.0.+'
-    compile 'com.android.support:support-v4:19.0.+'
-    compile files('libs/nineoldandroids-2.4.0.jar')
-    compile files('libs/locSDK_3.1.jar')
+    compile 'com.android.support:appcompat-v7:22.2.1'
+    compile 'com.android.support:support-v4:22.2.1'
     compile project(':Pulltorefresh')
-    compile files('libs/android-support-v4.jar')
     compile project(':SwipeBackLayout')
     compile 'com.jakewharton:butterknife:7.0.1'
-    compile files('libs/umeng-analytics-v5.5.3.jar')
     compile 'com.google.code.gson:gson:2.3'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.0.0'
     compile 'com.squareup.okhttp:okhttp:2.0.0'
-    compile files('libs/volley.jar')
     compile 'io.reactivex:rxjava:1.0.12'
     compile 'io.reactivex:rxandroid:0.25.0'
-    compile files('libs/easemobchat_2.2.0.jar')
     compile 'se.emilsjolander:stickylistheaders:2.7.0'
     compile 'com.loopj.android:android-async-http:1.4.7'
     compile project(':PseudoMaterialHeader')
-    compile files('libs/commons-codec-1.10.jar')
     compile project(':QRCodeScan')
     compile 'com.github.chrisbanes.photoview:library:1.2.3'
     compile 'com.facebook.fresco:fresco:0.7.0+'
-    compile files('libs/jpush-sdk-release1.8.1.jar')
-    compile files('libs/baidumapapi_v3_5_0.jar')
     compile 'com.android.support:recyclerview-v7:22.2.1'
     compile 'com.bignerdranch.android:expandablerecyclerview:1.0.3'
+    compile project(':UltraPullToRefreshWithLoadMore')
+    compile files('src/main/libs/baidumapapi_v3_5_0.jar')
+    compile files('src/main/libs/commons-codec-1.10.jar')
+    compile files('src/main/libs/easemobchat_2.2.0.jar')
+    compile files('src/main/libs/jpush-sdk-release1.8.1.jar')
+    compile files('src/main/libs/locSDK_3.1.jar')
+    compile files('src/main/libs/MobLogCollector.jar')
+    compile files('src/main/libs/MobTools.jar')
+    compile files('src/main/libs/nineoldandroids-2.4.0.jar')
+    compile files('src/main/libs/ShareSDK-Core-2.6.3.jar')
+    compile files('src/main/libs/ShareSDK-SinaWeibo-2.6.3.jar')
+    compile files('src/main/libs/ShareSDK-Wechat-2.6.3.jar')
+    compile files('src/main/libs/ShareSDK-Wechat-Core-2.6.3.jar')
+    compile files('src/main/libs/ShareSDK-Wechat-Moments-2.6.3.jar')
+    compile files('src/main/libs/umeng-analytics-v5.5.3.jar')
+    compile files('src/main/libs/volley.jar')
 }

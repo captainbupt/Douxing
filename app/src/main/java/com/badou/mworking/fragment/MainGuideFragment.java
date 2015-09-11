@@ -2,6 +2,7 @@ package com.badou.mworking.fragment;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -43,7 +44,7 @@ public class MainGuideFragment extends BaseFragment {
 
     @OnClick(R.id.finish)
     void finish() {
-        ((ActionBarActivity) mActivity).getSupportFragmentManager().beginTransaction().hide(this).commit();
+        ((AppCompatActivity) mActivity).getSupportFragmentManager().beginTransaction().hide(this).commit();
     }
 
     @Override

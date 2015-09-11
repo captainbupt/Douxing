@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -25,7 +26,7 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivityBase;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivityHelper;
 
 
-public class BaseNoTitleActivity extends ActionBarActivity implements SwipeBackActivityBase {
+public class BaseNoTitleActivity extends AppCompatActivity implements SwipeBackActivityBase {
 
     protected Context mContext;
     protected Activity mActivity;
@@ -43,7 +44,6 @@ public class BaseNoTitleActivity extends ActionBarActivity implements SwipeBackA
         mReceivedIntent = getIntent();
         AppManager.getAppManager().addActivity(this);
         mProgressDialog = new WaitProgressDialog(mActivity);
-        getSupportActionBar().hide();
         mHelper = new SwipeBackActivityHelper(this);
         mHelper.onActivityCreate();
         mSwipeBackLayout = getSwipeBackLayout();

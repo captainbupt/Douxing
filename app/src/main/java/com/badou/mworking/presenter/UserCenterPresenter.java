@@ -9,6 +9,7 @@ import android.text.TextUtils;
 
 import com.badou.mworking.AboutUsActivity;
 import com.badou.mworking.AccountManageActivity;
+import com.badou.mworking.AuditListActivity;
 import com.badou.mworking.BackWebActivity;
 import com.badou.mworking.ChatterUserActivity;
 import com.badou.mworking.MyExamActivity;
@@ -140,8 +141,7 @@ public class UserCenterPresenter extends Presenter {
     }
 
     public void toMyAudit() {
-        String userId = UserInfo.getUserInfo().getUid();
-        Intent intent = BackWebActivity.getIntent(mContext, mContext.getString(R.string.user_center_credit), Net.getCreditUrl(userId, mUserDetail.getCredit()));
+        Intent intent = AuditListActivity.getIntent(mContext);
         mContext.startActivity(intent);
     }
 

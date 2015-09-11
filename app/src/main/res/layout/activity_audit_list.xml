@@ -1,15 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<in.srain.cube.views.ptr.PtrClassicFrameLayout
-    android:id="@+id/pull_to_refresh_layout"
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:myattr="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:background="@color/color_layout_bg">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/content_recycler_view"
+    <com.badou.mworking.widget.NoneResultView
+        android:id="@+id/none_result_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="invisible"
+        myattr:tipText="@string/none_result_audit"/>
+
+    <in.srain.cube.views.ptr.PtrClassicFrameLayout
+        android:id="@+id/pull_to_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="vertical"/>
+        android:orientation="vertical">
 
-</in.srain.cube.views.ptr.PtrClassicFrameLayout>
+        <com.idunnololz.widgets.AnimatedExpandableListView
+            android:id="@+id/content_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@null"
+            android:groupIndicator="@null"
+            android:scrollbars="vertical"/>
+
+    </in.srain.cube.views.ptr.PtrClassicFrameLayout>
+</FrameLayout>

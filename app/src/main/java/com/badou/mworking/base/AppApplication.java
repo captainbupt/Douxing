@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Locale;
 
 import cn.jpush.android.api.JPushInterface;
+import cn.sharesdk.framework.ShareSDK;
 
 /**
  * 功能描述: 程序入口application类
@@ -76,6 +77,7 @@ public class AppApplication extends Application {
         // 在使用 SDK 各组间之前初始化 context 信息，传入 ApplicationContext
         SDKInitializer.initialize(appApplication);
         initEMChat(appApplication, DEBUG);
+        ShareSDK.initSDK(appApplication);
     }
 
     private static void initEMChat(AppApplication appApplication, boolean isDebug) {

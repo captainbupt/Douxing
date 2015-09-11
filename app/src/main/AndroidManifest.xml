@@ -117,7 +117,9 @@
             android:windowSoftInputMode="adjustResize|stateHidden"/>
         <activity
             android:name="com.badou.mworking.AboutUsActivity"
-            android:exported="true"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.badou.mworking.AuditListActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".MessageCenterActivity"
@@ -419,6 +421,13 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
     </application>
 

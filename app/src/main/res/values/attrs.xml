@@ -41,8 +41,9 @@
         <attr name="showComment" format="boolean" />
     </declare-styleable>
 
-
-
+    <declare-styleable name="CornerRadiusButton">
+        <attr name="backgroundColor" format="color"/>
+    </declare-styleable>
 
     <declare-styleable name="Emojicon">
         <attr name="emojiconSize" format="dimension"/>
