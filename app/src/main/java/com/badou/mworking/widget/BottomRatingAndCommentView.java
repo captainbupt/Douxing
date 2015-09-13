@@ -6,23 +6,36 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.badou.mworking.R;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 public class BottomRatingAndCommentView extends LinearLayout {
 
-    private LinearLayout mRatingLayout;
-    private LinearLayout mCommentLayout;
-    private TextView mRatingNumberTextView;
-    private TextView mCommentNumberTextView;
-    private View mDividerView;
+    @Bind(R.id.comment_number_text_view)
+    TextView mCommentNumberTextView;
+    @Bind(R.id.rating_number_text_view)
+    TextView mRatingNumberTextView;
+    @Bind(R.id.comment_layout)
+    RelativeLayout mCommentLayout;
+    @Bind(R.id.view_bottom_center_divider_1)
+    View mDividerView1;
+    @Bind(R.id.view_bottom_center_divider_2)
+    View mDividerView2;
+    @Bind(R.id.rating_layout)
+    RelativeLayout mRatingLayout;
+    @Bind(R.id.share_layout)
+    RelativeLayout mShareLayout;
 
     public BottomRatingAndCommentView(Context context, AttributeSet attrs) {
         super(context, attrs);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.view_bottom_comment_and_rating, this);
-        initView();
+        ButterKnife.bind(this);
         // initListener();
         initAttr(context, attrs);
     }
@@ -32,32 +45,38 @@ public class BottomRatingAndCommentView extends LinearLayout {
             TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.BottomRatingAndCommentView);
             boolean showRating = typedArray.getBoolean(R.styleable.BottomRatingAndCommentView_showRating, true);
             boolean showComment = typedArray.getBoolean(R.styleable.BottomRatingAndCommentView_showComment, true);
+            boolean showShare = typedArray.getBoolean(R.styleable.BottomRatingAndCommentView_showShare, true);
             typedArray.recycle();
-            setContent(showRating, showComment);
+            setContent(showRating, showComment, showShare);
         }
     }
 
-    public void setContent(boolean isRating, boolean isComment) {
+    public void setContent(boolean isRating, boolean isComment, boolean isShare) {
+        int count = 0;
         if (isRating) {
+            count++;
             mRatingLayout.setVisibility(VISIBLE);
         } else {
             mRatingLayout.setVisibility(GONE);
-            mDividerView.setVisibility(GONE);
         }
         if (isComment) {
+            count++;
             mCommentLayout.setVisibility(VISIBLE);
         } else {
             mCommentLayout.setVisibility(GONE);
-            mDividerView.setVisibility(GONE);
         }
-    }
-
-    private void initView() {
-        mRatingLayout = (LinearLayout) findViewById(R.id.ll_bottom_rating);
-        mCommentLayout = (LinearLayout) findViewById(R.id.ll_bottom_comment);
-        mRatingNumberTextView = (TextView) findViewById(R.id.tv_bottom_rating_number);
-        mCommentNumberTextView = (TextView) findViewById(R.id.tv_bottom_comment_number);
-        mDividerView = findViewById(R.id.view_bottom_center_divider);
+        if (isShare) {
+            count++;
+            mShareLayout.setVisibility(VISIBLE);
+        } else {
+            mShareLayout.setVisibility(GONE);
+        }
+        if (count == 2) {
+            mDividerView1.setVisibility(GONE);
+        } else if (count == 1) {
+            mDividerView1.setVisibility(GONE);
+            mDividerView2.setVisibility(GONE);
+        }
     }
 
     public void setRatingClickListener(OnClickListener listener) {
@@ -66,6 +85,10 @@ public class BottomRatingAndCommentView extends LinearLayout {
 
     public void setCommentClickListener(OnClickListener listener) {
         mCommentLayout.setOnClickListener(listener);
+    }
+
+    public void setShareClickListener(OnClickListener listener) {
+        mShareLayout.setOnClickListener(listener);
     }
 
     public void setData(int ratingNumber, int commentNumber) {

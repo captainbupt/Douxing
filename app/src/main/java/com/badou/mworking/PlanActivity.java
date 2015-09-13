@@ -2,27 +2,19 @@ package com.badou.mworking;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
 import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.entity.category.CategoryDetail;
 import com.badou.mworking.fragment.CommentFragment;
 import com.badou.mworking.fragment.PlanIntroductionFragment;
 import com.badou.mworking.fragment.PlanStageFragment;
-import com.badou.mworking.net.bitmap.BitmapLruCache;
-import com.badou.mworking.net.volley.MyVolley;
 import com.badou.mworking.presenter.ListPresenter;
 import com.badou.mworking.presenter.category.PlanPresenter;
 import com.badou.mworking.presenter.Presenter;
-import com.badou.mworking.util.BitmapUtil;
-import com.badou.mworking.util.DensityUtil;
 import com.badou.mworking.view.category.PlanView;
 import com.badou.mworking.widget.CategoryHeader;
 import com.badou.mworking.widget.CategoryTabContent;

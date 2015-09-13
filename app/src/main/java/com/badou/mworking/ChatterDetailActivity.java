@@ -12,12 +12,10 @@ import android.widget.ListView;
 
 import com.badou.mworking.adapter.CommentAdapter;
 import com.badou.mworking.base.BaseBackActionBarActivity;
-import com.badou.mworking.entity.Store;
 import com.badou.mworking.entity.chatter.Chatter;
 import com.badou.mworking.entity.comment.ChatterComment;
 import com.badou.mworking.entity.comment.Comment;
 import com.badou.mworking.presenter.chatter.ChatterDetailPresenter;
-import com.badou.mworking.presenter.ListPresenter;
 import com.badou.mworking.presenter.Presenter;
 import com.badou.mworking.util.DensityUtil;
 import com.badou.mworking.view.chatter.ChatterDetailView;

@@ -1,7 +1,6 @@
 package com.badou.mworking;
 
 import android.annotation.SuppressLint;
-import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +8,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.fragment.WebViewFragment;

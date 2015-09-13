@@ -2,7 +2,6 @@ package com.badou.mworking;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
@@ -20,10 +19,8 @@ import com.badou.mworking.presenter.Presenter;
 import com.badou.mworking.util.DensityUtil;
 import com.badou.mworking.view.AuditListView;
 import com.badou.mworking.widget.NoneResultView;
-import com.bignerdranch.expandablerecyclerview.Model.ParentObject;
 import com.idunnololz.widgets.AnimatedExpandableListView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;

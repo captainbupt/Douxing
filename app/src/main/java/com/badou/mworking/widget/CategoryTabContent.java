@@ -6,7 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -50,7 +50,7 @@ public class CategoryTabContent extends LinearLayout implements ContentHandler {
         layoutInflater.inflate(R.layout.layout_category_content, this, true);
         ButterKnife.bind(this, this);
         mContext = context;
-        mAdapter = new MyViewPagerAdapter(((ActionBarActivity) context).getSupportFragmentManager());
+        mAdapter = new MyViewPagerAdapter(((AppCompatActivity) context).getSupportFragmentManager());
         mViewpager.setAdapter(mAdapter);
         mViewpager.setOffscreenPageLimit(3);
         mRadioButtonList = new ArrayList<>();

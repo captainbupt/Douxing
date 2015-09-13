@@ -63,6 +63,12 @@ public class TrainBaseActivity extends CategoryBaseActivity {
                 mPresenter.onRatingClicked();
             }
         });
+        mBottomView.setShareClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.onShareClicked();
+            }
+        });
     }
 
     @Override

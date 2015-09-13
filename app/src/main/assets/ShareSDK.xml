@@ -59,9 +59,9 @@
     <SinaWeibo
         Id="1"
         SortId="1"
-        AppKey="568898243"
-        AppSecret="38a4f8204cc784f81f9f0daaf31e02e3"
-        RedirectUrl="http://www.sharesdk.cn"
+        AppKey="1602755774"
+        AppSecret="7f6c011fbe0de8cbb945d3caf7b45ed5"
+        RedirectUrl="http://www.mworking.cn"
         ShareByAppClient="false"
         Enable="true" />
 
@@ -70,7 +70,7 @@
         SortId="2"
         AppKey="801307650"
         AppSecret="ae36f4ee3946e1cbb98d6965b0b2ff5c"
-        RedirectUri="http://sharesdk.cn"
+        RedirectUri="http://www.mworking.cn"
         Enable="true" />
 
     <!-- ShareByAppClient标识是否使用微博客户端分享，默认是false -->
@@ -190,7 +190,7 @@
         SortId="18"
         AppKey="e16680a815134504b746c86e08a19db0"
         AppSecret="b8eec53707c3976efc91614dd16ef81c"
-        RedirectUri="http://sharesdk.cn"
+        RedirectUri="http://www.mworking.cn"
         Enable="true" />
         
     <!-- 
@@ -217,7 +217,7 @@
         SortId="20"
         ApiKey="ejo5ibkye3vo"
         SecretKey="cC7B2jpxITqPLZ5M" 
-        RedirectUrl="http://sharesdk.cn"
+        RedirectUrl="http://www.mworking.cn"
         Enable="true" />
     
      <GooglePlus
@@ -252,7 +252,7 @@
         SortId="25"
         OAuthConsumerKey="2QUXqO9fcgGdtGG1FcvML6ZunIQzAEL8xY6hIaxdJnDti2DYwM"
 		SecretKey="3Rt0sPFj7u2g39mEVB3IBpOzKnM3JnTtxX2bao2JKk4VV1gtNo"
-		CallbackUrl="http://sharesdk.cn"
+		CallbackUrl="http://www.mworking.cn"
         Enable="true" />
  
 	<Dropbox
@@ -274,7 +274,7 @@
         SortId="28"
         ClientId="ff68e3216b4f4f989121aa1c2962d058"
 		ClientSecret="1b2e82f110264869b3505c3fe34e31a1"
-		RedirectUri="http://sharesdk.cn"
+		RedirectUri="http://www.mworking.cn"
         Enable="true" />
     
     <!-- 
@@ -308,7 +308,7 @@
         SortId="31"
         AppKey="EEEE9578D1D431D3215D8C21BF5357E3"
         AppSecret="5EDE59F37B3EFA8F65EEFB9976A4E933"
-        RedirectUri="http://sharesdk.cn"
+        RedirectUri="http://www.mworking.cn"
         Enable="true" />
 	
 	<Line

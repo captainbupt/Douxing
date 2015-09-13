@@ -34,6 +34,8 @@ public class CategoryDetail implements Serializable, StoreItem {
     String img;
     @SerializedName("link_to")
     String link_to;
+    @SerializedName("share_url")
+    String shareUrl;
     @SerializedName("entry")
     EntryDetail entry;
     @SerializedName("task")
@@ -65,6 +67,10 @@ public class CategoryDetail implements Serializable, StoreItem {
         public String getImgUrl() {
             return p;
         }
+    }
+
+    public String getShareUrl() {
+        return shareUrl;
     }
 
     public void setCcnt(int ccnt) {

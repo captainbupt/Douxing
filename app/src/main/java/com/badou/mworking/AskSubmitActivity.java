@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.presenter.Presenter;
-import com.badou.mworking.presenter.ask.AskPresenter;
 import com.badou.mworking.presenter.ask.AskSubmitPresenter;
 import com.badou.mworking.util.ImageChooser;
 import com.badou.mworking.view.ask.AskSubmitView;

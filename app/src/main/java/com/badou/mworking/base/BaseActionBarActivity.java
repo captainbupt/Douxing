@@ -85,6 +85,14 @@ public class BaseActionBarActivity extends BaseNoTitleActivity {
         mTitleTextView.setText(resId);
     }
 
+    public void showActionbar() {
+        mActionBarView.setVisibility(View.VISIBLE);
+    }
+
+    public void hideActionbar() {
+        mActionBarView.setVisibility(View.GONE);
+    }
+
     public void clickLeft() {
     }
 

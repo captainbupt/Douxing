@@ -1,81 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="@dimen/height_title_bar"
     android:background="@drawable/background_border_white"
     android:gravity="center_vertical"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingTop="1dp">
 
-    <!-- 点赞 -->
-    <LinearLayout
-        android:id="@+id/ll_bottom_rating"
+    <!-- 评论 -->
+    <RelativeLayout
+        android:id="@+id/comment_layout"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingBottom="@dimen/offset_medium"
-        android:paddingTop="@dimen/offset_medium">
+        android:background="@drawable/background_white_grey">
 
         <ImageView
+            android:id="@+id/comment_image_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/icon_bottom_rating" />
+            android:layout_centerInParent="true"
+            android:src="@drawable/icon_bottom_comment"/>
 
         <TextView
+            android:id="@+id/comment_number_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/offset_less"
-            android:text="@string/tips_bottom_rating"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="@dimen/offset_less"
+            android:layout_toRightOf="@id/comment_image_view"
             android:textColor="@color/color_text_black"
-            android:textSize="@dimen/text_size_medium" />
-
-        <TextView
-            android:id="@+id/tv_bottom_rating_number"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/color_text_black"
-            android:textSize="@dimen/text_size_medium" />
-    </LinearLayout>
+            android:textSize="@dimen/text_size_less"/>
+    </RelativeLayout>
 
     <View
-        android:id="@+id/view_bottom_center_divider"
+        android:id="@+id/view_bottom_center_divider_1"
         android:layout_width="1dp"
         android:layout_height="match_parent"
         android:layout_marginBottom="@dimen/offset_small"
         android:layout_marginTop="@dimen/offset_small"
-        android:background="@color/color_border_grey" />
+        android:background="@color/color_border_grey"/>
 
-    <!-- 评论 -->
-    <LinearLayout
-        android:id="@+id/ll_bottom_comment"
+    <!-- 点赞 -->
+    <RelativeLayout
+        android:id="@+id/rating_layout"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingBottom="@dimen/offset_medium"
-        android:paddingTop="@dimen/offset_medium">
+        android:background="@drawable/background_white_grey">
 
         <ImageView
+            android:id="@+id/rating_image_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/icon_bottom_comment" />
+            android:layout_centerInParent="true"
+            android:src="@drawable/icon_bottom_rating"/>
 
         <TextView
+            android:id="@+id/rating_number_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/offset_less"
-            android:text="@string/tips_bottom_comment"
+            android:layout_marginTop="@dimen/offset_less"
+            android:layout_toRightOf="@id/rating_image_view"
             android:textColor="@color/color_text_black"
-            android:textSize="@dimen/text_size_medium" />
+            android:textSize="@dimen/text_size_less"/>
+    </RelativeLayout>
 
-        <TextView
-            android:id="@+id/tv_bottom_comment_number"
+    <View
+        android:id="@+id/view_bottom_center_divider_2"
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/offset_small"
+        android:layout_marginTop="@dimen/offset_small"
+        android:background="@color/color_border_grey"/>
+
+    <!-- 分享 -->
+    <RelativeLayout
+        android:id="@+id/share_layout"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <ImageView
+            android:id="@+id/share_image_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/color_text_black"
-            android:textSize="@dimen/text_size_medium" />
-    </LinearLayout>
+            android:layout_centerInParent="true"
+            android:src="@drawable/icon_bottom_rating"/>
+    </RelativeLayout>
 
 </LinearLayout>

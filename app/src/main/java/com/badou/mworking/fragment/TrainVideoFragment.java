@@ -6,7 +6,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.badou.mworking.R;
 import com.badou.mworking.TrainBaseActivity;
+import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.base.BaseFragment;
 import com.badou.mworking.presenter.DownloadPresenter;
 import com.badou.mworking.util.Constant;
@@ -225,7 +226,7 @@ public class TrainVideoFragment extends BaseFragment implements DownloadView {
     public void showVerticalView() {
         ((TrainBaseActivity) mActivity).setBottomViewVisible(true);
         mTopContainerLayout.setVisibility(View.VISIBLE);
-        ((ActionBarActivity) mActivity).getSupportActionBar().show();
+        ((BaseActionBarActivity) mActivity).showActionbar();
         int height = getResources().getDimensionPixelSize(R.dimen.media_play_height);
         int screenWidth = DensityUtil.getWidthInPx(mActivity);
         int marginLR = getResources().getDimensionPixelOffset(R.dimen.offset_lless);
@@ -251,7 +252,7 @@ public class TrainVideoFragment extends BaseFragment implements DownloadView {
     public void showHorizontalView() {
         ((TrainBaseActivity) mActivity).setBottomViewVisible(false);
         mTopContainerLayout.setVisibility(View.GONE);
-        ((ActionBarActivity) mActivity).getSupportActionBar().hide();
+        ((BaseActionBarActivity) mActivity).hideActionbar();
         int screenHeight = DensityUtil.getInstance().getScreenHeight();
         int screenWidth = DensityUtil.getInstance().getScreenWidth();
         mContainerLayout.setPadding(0, 0, 0, 0);

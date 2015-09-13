@@ -62,6 +62,7 @@
     <string name="action_update_check_ing">检测更新中&#8230;</string>
     <string name="action_update_download_ing">下载更新中&#8230;</string>
     <string name="message_wait">加载中&#8230;</string>
+    <string name="share_forbid">管理员限制了分享</string>
     <string name="action_comment_update_ing">发布中&#8230;</string>
     <string name="result_update_check_noneed">恭喜您，您的应用已经是最新版本</string>
     <string name="change_action_change_passwrod">修改密码中&#8230;</string>

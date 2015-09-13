@@ -21,6 +21,9 @@ import com.badou.mworking.view.BaseView;
 import com.badou.mworking.view.category.CategoryBaseView;
 import com.badou.mworking.widget.RatingDialog;
 
+import cn.sharesdk.onekeyshare.OnekeyShare;
+import cn.sharesdk.onekeyshare.OnekeyShareTheme;
+
 public class CategoryBasePresenter extends Presenter {
 
     public static final String KEY_RID = "rid";
@@ -163,6 +166,26 @@ public class CategoryBasePresenter extends Presenter {
                 mCategoryBaseView.hideProgressDialog();
             }
         });
+    }
+
+    public void onShareClicked() {
+        if (mCategoryDetail == null) {
+            mCategoryBaseView.showToast(R.string.message_wait);
+            return;
+        }
+        if (TextUtils.isEmpty(mCategoryDetail.getShareUrl())) {
+            mCategoryBaseView.showToast(R.string.share_forbid);
+            return;
+        }
+        OnekeyShare oks = new OnekeyShare();
+
+        oks.setTitle(mCategoryDetail.getSubject());
+        oks.setText(mCategoryDetail.getSubject());
+        oks.setImageUrl("http://115.28.138.79/headimg/badoutest/4db0e6970a496e398d2ddaeeee6d04fc.1441518287.lnk.png");
+        oks.setUrl(mCategoryDetail.getShareUrl());
+
+        // 启动分享GUI
+        oks.show(mContext);
     }
 
     public CategoryDetail getData() {

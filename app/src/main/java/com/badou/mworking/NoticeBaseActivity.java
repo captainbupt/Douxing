@@ -51,6 +51,12 @@ public class NoticeBaseActivity extends CategoryBaseActivity {
                 mPresenter.onCommentClicked();
             }
         });
+        mBottomView.setShareClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.onShareClicked();
+            }
+        });
     }
 
     @Override

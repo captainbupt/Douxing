@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import com.badou.mworking.R;
 
-public class BaseBackActionBarActivity extends BaseActionBarActivity{
+public class BaseBackActionBarActivity extends BaseActionBarActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

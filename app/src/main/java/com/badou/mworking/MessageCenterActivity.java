@@ -1,7 +1,5 @@
 package com.badou.mworking;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -9,12 +7,9 @@ import android.widget.ListView;
 
 import com.badou.mworking.adapter.MessageCenterAdapter;
 import com.badou.mworking.base.BaseBackActionBarActivity;
-import com.badou.mworking.database.MessageCenterResManager;
 import com.badou.mworking.entity.MessageCenter;
-import com.badou.mworking.factory.ResourceIntentFactory;
 import com.badou.mworking.presenter.MessageCenterPresenter;
 import com.badou.mworking.presenter.Presenter;
-import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.view.MessageCenterView;
 import com.badou.mworking.widget.NoneResultView;
 
