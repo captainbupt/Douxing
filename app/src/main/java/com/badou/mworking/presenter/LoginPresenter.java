@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 
+import com.badou.mworking.ExperienceBusinessActivity;
 import com.badou.mworking.ForgetPasswordActivity;
 import com.badou.mworking.MainGridActivity;
 import com.badou.mworking.R;
@@ -43,7 +44,7 @@ public class LoginPresenter extends Presenter implements BDLocationListener {
         mLoginView = (LoginView) v;
         mLoginView.showNormalLayout();
         String account = SPHelper.getUserAccount();
-        if (!TextUtils.isEmpty(account) && !account.equals(UserInfo.ANONYMOUS_ACCOUNT)) {
+        if (!TextUtils.isEmpty(account) && !UserInfo.isAnonymous(account)) {
             mLoginView.setAccount(account);
         }
         initLocation();
@@ -52,7 +53,7 @@ public class LoginPresenter extends Presenter implements BDLocationListener {
     /**
      * 功能描述: 初始化定位数据
      */
-    private void initLocation() {
+    protected void initLocation() {
         LocationClientOption option = new LocationClientOption();
         mLocationClient = new LocationClient(mContext);
         mLocationClient.registerLocationListener(this);
@@ -136,7 +137,7 @@ public class LoginPresenter extends Presenter implements BDLocationListener {
     }
 
     public void experience() {
-        login(UserInfo.ANONYMOUS_ACCOUNT, UserInfo.ANONYMOUS_PASSWORD);
+        mContext.startActivity(ExperienceBusinessActivity.getIntent(mContext));
     }
 
     /**

@@ -12,6 +12,17 @@
     <string name="tip_anonymous_cancel">我知道了</string>
     <string name="tip_anonymous_logout">你是游客，请退出登录</string>
 
+
+    <string name="experience_business_tip">请选择你的行业</string>
+    <string name="experience_business_all">全部</string>
+    <string name="experience_business_vehicle">汽车机械制造</string>
+    <string name="experience_business_advertisement">广告传媒</string>
+    <string name="experience_business_o2o">O2O</string>
+    <string name="experience_business_consumption">消费品</string>
+    <string name="experience_business_economic">金融保险</string>
+    <string name="experience_business_next">下一步</string>
+    <string name="experience_business_empty">请选择你所在的行业</string>
+
     <string name="experience_information_cancel">不了，谢谢</string>
     <string name="experience_information_title">高级账户体验</string>
     <string name="experience_information_name">请输入你的姓名</string>

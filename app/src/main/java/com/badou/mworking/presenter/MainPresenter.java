@@ -166,8 +166,6 @@ public class MainPresenter extends Presenter {
                     loginEMChat(mUserInfo.getAccount(), mUserInfo.getHxpwd());
                 }
             }).start();
-        } else {
-            mContext.startActivity(new Intent(mContext, ExperienceInformationActivity.class));
         }
     }
 

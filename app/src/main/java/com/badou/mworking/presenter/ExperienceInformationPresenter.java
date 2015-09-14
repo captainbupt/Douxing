@@ -16,18 +16,24 @@ import java.lang.reflect.Field;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ExperienceInformationPresenter extends Presenter {
+public class ExperienceInformationPresenter extends LoginPresenter {
 
     ExperienceInformationView mExperienceInformationView;
+    String mUsername;
+    String mPassword;
 
-    public ExperienceInformationPresenter(Context context) {
+    public ExperienceInformationPresenter(Context context, String username, String password) {
         super(context);
+        this.mUsername = username;
+        this.mPassword = password;
     }
 
     @Override
     public void attachView(BaseView v) {
+        super.attachView(v);
         mExperienceInformationView = (ExperienceInformationView) v;
         mExperienceInformationView.disableConfirmButton();
+        initLocation();
     }
 
     Pattern p = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
@@ -53,17 +59,12 @@ public class ExperienceInformationPresenter extends Presenter {
         new ExperienceInfoUseCase(name, phone, company, job).execute(new BaseSubscriber(mContext) {
             @Override
             public void onResponseSuccess(Object data) {
-                ((Activity) mContext).finish();
-            }
-
-            @Override
-            public void onCompleted() {
-                mExperienceInformationView.hideProgressDialog();
-                super.onCompleted();
+                login(mUsername, mPassword);
             }
 
             @Override
             public void onErrorCode(int code) {
+                mExperienceInformationView.hideProgressDialog();
                 try {
                     Field field = R.string.class.getField("error_code_" + code);
                     int i = field.getInt(new R.string());
@@ -77,10 +78,10 @@ public class ExperienceInformationPresenter extends Presenter {
     }
 
     public void onCancel() {
-        ((Activity) mContext).finish();
+        mContext.startActivity(LoginActivity.getIntent(mContext));
     }
 
     public void onBack() {
-        mContext.startActivity(LoginActivity.getIntent(mContext));
+        ((Activity) mContext).finish();
     }
 }

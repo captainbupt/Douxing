@@ -30,7 +30,7 @@ public class AccountManagerPresenter extends Presenter {
         this.userInfo = UserInfo.getUserInfo();
         accountManageActivity.setAccount(userInfo.getAccount());
         accountManageActivity.setActionbarTitle(accountManageActivity.getResources().getString(R.string.title_name_Myzhanghao));
-        if (UserInfo.ANONYMOUS_ACCOUNT.equals(userInfo.getAccount())) {
+        if (userInfo.isAnonymous()) {
             accountManageActivity.anonymousMode();
         } else {
             accountManageActivity.normalMode();

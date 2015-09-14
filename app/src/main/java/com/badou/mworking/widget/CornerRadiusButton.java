@@ -3,6 +3,7 @@ package com.badou.mworking.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -17,9 +18,11 @@ public class CornerRadiusButton extends TextView {
 
     GradientDrawable mPressedDrawable = new GradientDrawable();
     GradientDrawable mNormalDrawable = new GradientDrawable();
+    GradientDrawable mDisableDrawable = new GradientDrawable();
     int mTextColor;
     int mBackgroundColor;
 
+    private boolean isEnable;
 
     public CornerRadiusButton(Context context) {
         super(context);
@@ -52,33 +55,50 @@ public class CornerRadiusButton extends TextView {
         mNormalDrawable.setCornerRadius(mContext.getResources().getDimension(R.dimen.radius_small));
         mNormalDrawable.setColor(mBackgroundColor);
 
+        mDisableDrawable.setShape(GradientDrawable.RECTANGLE);
+        mDisableDrawable.setCornerRadius(mContext.getResources().getDimension(R.dimen.radius_small));
+        mDisableDrawable.setColor(context.getResources().getColor(R.color.color_grey));
+
         onRelease();
     }
 
     public void onPressed() {
-        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-            setBackgroundDrawable(mPressedDrawable);
-        } else {
-            setBackground(mPressedDrawable);
-        }
+        setBackground(mPressedDrawable);
         setTextColor(mBackgroundColor);
     }
 
     public void onRelease() {
-        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-            setBackgroundDrawable(mNormalDrawable);
-        } else {
-            setBackground(mNormalDrawable);
-        }
+        setBackground(mNormalDrawable);
         setTextColor(mTextColor);
+    }
+
+    public void setEnableMode() {
+        onRelease();
+        isEnable = true;
+    }
+
+    public void setDisableMode() {
+        setBackground(mDisableDrawable);
+        setTextColor(0xffffffff);
+        isEnable = false;
+    }
+
+    public void setBackground(Drawable drawable) {
+        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+            super.setBackgroundDrawable(drawable);
+        } else {
+            super.setBackground(drawable);
+        }
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            onPressed();
-        } else {
-            onRelease();
+        if (isEnable) {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                onPressed();
+            } else {
+                onRelease();
+            }
         }
         return super.onTouchEvent(event);
     }

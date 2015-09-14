@@ -115,6 +115,11 @@ public class NoticeBaseActivity extends CategoryBaseActivity {
     }
 
     @Override
+    public void setRated(boolean rated) {
+
+    }
+
+    @Override
     public void hideCommentView() {
         mBottomView.setVisibility(View.GONE);
     }

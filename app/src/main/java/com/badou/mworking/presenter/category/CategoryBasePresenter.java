@@ -99,6 +99,7 @@ public class CategoryBasePresenter extends Presenter {
 
     public void setData(CategoryDetail categoryDetail) {
         this.mCategoryDetail = categoryDetail;
+        mCategoryBaseView.setRated(categoryDetail.getRating() > 0);
     }
 
     /**
@@ -159,6 +160,7 @@ public class CategoryBasePresenter extends Presenter {
                 if (mRatingDialog != null) {
                     mRatingDialog.dismiss();
                 }
+                mCategoryBaseView.setRated(true);
             }
 
             @Override
@@ -181,7 +183,7 @@ public class CategoryBasePresenter extends Presenter {
 
         oks.setTitle(mCategoryDetail.getSubject());
         oks.setText(mCategoryDetail.getSubject());
-        oks.setImageUrl("http://115.28.138.79/headimg/badoutest/4db0e6970a496e398d2ddaeeee6d04fc.1441518287.lnk.png");
+        oks.setImageUrl("http://ops.mworking.cn/webview/public/img/app_wxshare_icon.png");
         oks.setUrl(mCategoryDetail.getShareUrl());
 
         // 启动分享GUI

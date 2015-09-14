@@ -50,7 +50,7 @@ public class AccountManageActivity extends BaseBackActionBarActivity {
         presenter = new AccountManagerPresenter(this);
         String account = UserInfo.getUserInfo().getAccount();
         tvUsername.setText(account);
-        if (UserInfo.ANONYMOUS_ACCOUNT.equals(account)) {
+        if (UserInfo.getUserInfo().isAnonymous()) {
             anonymousMode();
         } else {
             disableButton();

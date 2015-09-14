@@ -105,7 +105,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/NoTranslucentTheme"/>
         <activity
+            android:name=".ExperienceBusinessActivity"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".ExperienceInformationActivity"
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".VideoTakeActivity"

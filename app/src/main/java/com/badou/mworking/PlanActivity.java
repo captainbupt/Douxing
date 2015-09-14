@@ -160,6 +160,11 @@ public class PlanActivity extends BaseNoTitleActivity implements PlanView {
     }
 
     @Override
+    public void setRated(boolean rated) {
+
+    }
+
+    @Override
     public void hideCommentView() {
 
     }

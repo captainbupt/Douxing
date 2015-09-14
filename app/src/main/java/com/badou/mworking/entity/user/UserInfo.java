@@ -1,5 +1,6 @@
 package com.badou.mworking.entity.user;
 
+import com.badou.mworking.R;
 import com.badou.mworking.base.AppApplication;
 import com.badou.mworking.database.MTrainingDBHelper;
 import com.badou.mworking.entity.emchat.EMChatEntity;
@@ -8,15 +9,23 @@ import com.badou.mworking.util.SPHelper;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import cn.jpush.android.api.JPushInterface;
 
 public class UserInfo {
 
-    public static final String ANONYMOUS_ACCOUNT = "anonymous";
-    public static final String ANONYMOUS_PASSWORD = "anonymous";
+    public static final List<Business> ANONYMOUS_BUSINESS = new ArrayList<Business>() {{
+        add(new Business(R.string.experience_business_all, "anonymous", "anonymous"));
+        add(new Business(R.string.experience_business_vehicle, "vistor_QCTY", "123456"));
+        add(new Business(R.string.experience_business_advertisement, "vistor_CMTY", "123456"));
+        add(new Business(R.string.experience_business_o2o, "vistor_O2OTY", "123456"));
+        add(new Business(R.string.experience_business_consumption, "vistor_XFTY", "123456"));
+        add(new Business(R.string.experience_business_economic, "vistor_BXTY", "123456"));
+    }};
 
     private static UserInfo userInfo;
     private String account;
@@ -93,8 +102,16 @@ public class UserInfo {
         return userInfo;
     }
 
+    public static boolean isAnonymous(String account) {
+        for (Business business : ANONYMOUS_BUSINESS) {
+            if (business.getAccount().equals(account))
+                return true;
+        }
+        return false;
+    }
+
     public boolean isAnonymous() {
-        return account.equals(ANONYMOUS_ACCOUNT);
+        return isAnonymous(account);
     }
 
     public void setUid(String uid) {

@@ -215,25 +215,23 @@
                 android:layout_marginTop="@dimen/offset_medium"
                 android:orientation="horizontal">
 
-                <TextView
+                <com.badou.mworking.widget.CornerRadiusButton
                     android:id="@+id/back_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/offset_medium"
                     android:layout_weight="1"
-                    android:background="@drawable/background_button_disable"
                     android:gravity="center"
                     android:padding="@dimen/offset_less"
                     android:text="&lt;"
                     android:textColor="@color/color_white"
                     android:textSize="@dimen/text_size_medium"/>
 
-                <TextView
+                <com.badou.mworking.widget.CornerRadiusButton
                     android:id="@+id/confirm_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
-                    android:background="@drawable/background_button_disable"
                     android:gravity="center"
                     android:padding="@dimen/offset_less"
                     android:text="@string/experience_information_confirm"

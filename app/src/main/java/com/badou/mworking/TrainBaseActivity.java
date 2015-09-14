@@ -152,6 +152,11 @@ public class TrainBaseActivity extends CategoryBaseActivity {
     }
 
     @Override
+    public void setRated(boolean rated) {
+        mBottomView.setIsRated(rated);
+    }
+
+    @Override
     public void hideCommentView() {
         mBottomView.setVisibility(View.GONE);
     }

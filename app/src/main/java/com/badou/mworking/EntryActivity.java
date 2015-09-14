@@ -139,6 +139,11 @@ public class EntryActivity extends BaseNoTitleActivity implements EntryView {
     }
 
     @Override
+    public void setRated(boolean rated) {
+
+    }
+
+    @Override
     public void hideCommentView() {
 
     }

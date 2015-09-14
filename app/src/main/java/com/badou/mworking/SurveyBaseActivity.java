@@ -64,6 +64,11 @@ public class SurveyBaseActivity extends CategoryBaseActivity {
     }
 
     @Override
+    public void setRated(boolean rated) {
+
+    }
+
+    @Override
     public void hideCommentView() {
 
     }

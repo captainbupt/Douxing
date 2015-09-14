@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -30,6 +31,8 @@ public class BottomRatingAndCommentView extends LinearLayout {
     RelativeLayout mRatingLayout;
     @Bind(R.id.share_layout)
     RelativeLayout mShareLayout;
+    @Bind(R.id.rating_image_view)
+    ImageView mRatingImageView;
 
     public BottomRatingAndCommentView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -98,6 +101,14 @@ public class BottomRatingAndCommentView extends LinearLayout {
 
     public void setRatingData(int ratingNumber) {
         mRatingNumberTextView.setText(String.format("(%d)", ratingNumber));
+    }
+
+    public void setIsRated(boolean isRated) {
+        if (!isRated) {
+            mRatingImageView.setImageResource(R.drawable.icon_bottom_rating);
+        } else {
+            mRatingImageView.setImageResource(R.drawable.icon_bottom_rated);
+        }
     }
 
     public void setCommentData(int commentNumber) {
