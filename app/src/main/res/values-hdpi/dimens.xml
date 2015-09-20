@@ -7,6 +7,7 @@
     <dimen name="text_size_large">17sp</dimen>
     <dimen name="text_size_xlarge">19sp</dimen>
     <dimen name="text_size_xxlarge">21sp</dimen>
+    <dimen name="text_size_xxxlarge">23sp</dimen>
     <dimen name="offset_micro">2dp</dimen>
     <dimen name="offset_small">3dp</dimen>
     <dimen name="offset_less">5dp</dimen>

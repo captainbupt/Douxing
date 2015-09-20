@@ -44,6 +44,7 @@
     <string name="change_hint_password_confirm">确认新密码</string>
     <string name="change_button_confirm">修改密码</string>
     <string name="app_name">兜行</string>
+    <string name="company_name">北京八斗互动网络有限公司</string>
     <string name="login_tip_username">用户名</string>
     <string name="login_tip_password">密　码（请区分大小写）</string>
     <string name="login_name_experience">快速体验</string>

@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
+import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.CategoryBase;
 import com.badou.mworking.entity.category.PlanDetail;
 import com.badou.mworking.entity.category.PlanIndex;
@@ -19,6 +20,7 @@ public class PlanStageAdapter extends MyBaseAdapter<CategoryBase> {
 
     int mStageIndex;
     PlanIndex mCurrentIndex;
+    int mCurrentCoursePeriod;
 
     public PlanStageAdapter(Context context) {
         super(context);
@@ -28,8 +30,9 @@ public class PlanStageAdapter extends MyBaseAdapter<CategoryBase> {
         mStageIndex = stageIndex;
     }
 
-    public void setCurrentIndex(PlanIndex currentIndex) {
+    public void setCurrentIndex(PlanIndex currentIndex, int currentCoursePeriod) {
         mCurrentIndex = currentIndex;
+        mCurrentCoursePeriod = currentCoursePeriod;
     }
 
     @Override
@@ -51,7 +54,22 @@ public class PlanStageAdapter extends MyBaseAdapter<CategoryBase> {
         holder.indexTextView.setTextColor(mContext.getResources().getColor(isReadable ? R.color.color_text_black : R.color.color_text_grey));
         holder.indexTextView.setBackgroundResource(isReadable ? R.drawable.background_circle_black : R.drawable.background_circle_grey);
         // 为当前学习完成的课程
-        holder.statusTextView.setVisibility(PlanDetail.isFinish(mCurrentIndex, mStageIndex, position) ? View.VISIBLE : View.INVISIBLE);
+        if (PlanDetail.isFinish(mCurrentIndex, mStageIndex, position)) {
+            holder.statusTextView.setText(R.string.category_finished);
+            holder.statusTextView.setVisibility(View.VISIBLE);
+        } else {
+            // 为当前课程
+            if (isReadable) {
+                if (categoryBase.getType() == Category.CATEGORY_TRAINING || categoryBase.getType() == Category.CATEGORY_SHELF) {
+                    holder.statusTextView.setText(String.format("%d/%d分钟", mCurrentCoursePeriod, categoryBase.getPeriod()));
+                    holder.statusTextView.setVisibility(View.VISIBLE);
+                } else {
+                    holder.statusTextView.setVisibility(View.INVISIBLE);
+                }
+            } else {
+                holder.statusTextView.setVisibility(View.INVISIBLE);
+            }
+        }
         return convertView;
     }
 

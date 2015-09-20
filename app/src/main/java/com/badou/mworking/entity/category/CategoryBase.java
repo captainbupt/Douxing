@@ -9,8 +9,19 @@ public class CategoryBase {
     int format;
     @SerializedName("type")
     String type;
+    @SerializedName("pass")
+    String pass;
 
+    transient int period;
     transient String rid;
+
+    public int getPeriod() {
+        return period;
+    }
+
+    public void setPeriod(int period) {
+        this.period = period;
+    }
 
     public void setRid(String rid) {
         this.rid = rid;
@@ -26,6 +37,10 @@ public class CategoryBase {
 
     public int getFormat() {
         return format;
+    }
+
+    public int getPass() {
+        return Integer.parseInt(pass);
     }
 
     public int getType() {

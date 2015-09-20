@@ -188,7 +188,7 @@ public class PlanStageFragment extends BaseFragment implements PlanStageView, Ca
     }
 
     @Override
-    public void setCurrentIndex(PlanIndex planIndex) {
-        mPlanStageAdapter.setCurrentIndex(planIndex);
+    public void setCurrentIndex(PlanIndex planIndex, int currentCoursePeriod) {
+        mPlanStageAdapter.setCurrentIndex(planIndex, currentCoursePeriod);
     }
 }

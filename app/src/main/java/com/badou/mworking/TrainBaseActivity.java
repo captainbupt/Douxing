@@ -2,13 +2,18 @@ package com.badou.mworking;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 
 import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.CategoryDetail;
+import com.badou.mworking.entity.category.PlanInfo;
 import com.badou.mworking.fragment.PDFViewFragment;
 import com.badou.mworking.fragment.TrainMusicFragment;
 import com.badou.mworking.fragment.TrainVideoFragment;
@@ -16,6 +21,7 @@ import com.badou.mworking.fragment.WebViewFragment;
 import com.badou.mworking.presenter.category.CategoryBasePresenter;
 import com.badou.mworking.util.Constant;
 import com.badou.mworking.widget.BottomRatingAndCommentView;
+import com.badou.mworking.widget.BottomTimingView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -28,9 +34,11 @@ public class TrainBaseActivity extends CategoryBaseActivity {
     BottomRatingAndCommentView mBottomView;
     @Bind(R.id.content_container)
     FrameLayout mContentContainer;
-
+    @Bind(R.id.bottom_timing_view)
+    BottomTimingView mBottomTimingView;
 
     private Bundle mSavedInstanceState;
+    private boolean isTraining = true;
 
     public static Intent getIntent(Context context, String rid, boolean isTraining, String planTitle) {
         Intent intent = CategoryBaseActivity.getIntent(context, TrainBaseActivity.class, rid, planTitle);
@@ -43,14 +51,20 @@ public class TrainBaseActivity extends CategoryBaseActivity {
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.activity_base_training);
         mSavedInstanceState = savedInstanceState;
-        boolean isTraining = getIntent().getBooleanExtra(KEY_TRAINING, true);
-        if (isTraining) {
-            setActionbarTitle(Category.getCategoryName(mContext, Category.CATEGORY_TRAINING));
-        } else {
-            setActionbarTitle(Category.getCategoryName(mContext, Category.CATEGORY_SHELF));
-        }
         ButterKnife.bind(this);
+        initView();
         mPresenter.attachView(this);
+    }
+
+    private void initView() {
+        isTraining = mReceivedIntent.getBooleanExtra(KEY_TRAINING, true);
+        if (mPlanInfo == null) {
+            if (isTraining) {
+                setActionbarTitle(Category.getCategoryName(mContext, Category.CATEGORY_TRAINING));
+            } else {
+                setActionbarTitle(Category.getCategoryName(mContext, Category.CATEGORY_SHELF));
+            }
+        }
         mBottomView.setCommentClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -69,13 +83,15 @@ public class TrainBaseActivity extends CategoryBaseActivity {
                 mPresenter.onShareClicked();
             }
         });
+        mBottomTimingView.setTotalTime(2);
+        mBottomTimingView.setCurrentTime(65);
     }
 
     @Override
     public CategoryBasePresenter getPresenter() {
-        boolean isTraining = mReceivedIntent.getBooleanExtra(KEY_TRAINING, true);
-        return new CategoryBasePresenter(mContext, isTraining ? Category.CATEGORY_TRAINING : Category.CATEGORY_SHELF, mReceivedIntent.getStringExtra(KEY_RID), mReceivedIntent.getStringExtra(KEY_PLAN_TITLE));
+        return new CategoryBasePresenter(mContext, isTraining ? Category.CATEGORY_TRAINING : Category.CATEGORY_SHELF, mReceivedIntent.getStringExtra(KEY_RID), mPlanInfo);
     }
+
 
     @Override
     public void setContentView(int layoutResID) {
@@ -84,12 +100,12 @@ public class TrainBaseActivity extends CategoryBaseActivity {
     }
 
     @Override
-    public void setData(String rid, CategoryDetail categoryDetail, boolean isPlan) {
-        super.setData(rid, categoryDetail, isPlan);
+    public void setData(String rid, CategoryDetail categoryDetail, PlanInfo planInfo) {
+        super.setData(rid, categoryDetail, planInfo);
         if (mSavedInstanceState == null) { // 旋转情况下，android自动回保存fragment实例，不必重新添加
             if (categoryDetail.getFmt() == Constant.MWKG_FORAMT_TYPE_PDF) {
                 // 判断api,太小用web
-                if (android.os.Build.VERSION.SDK_INT >= 11) {// pdf
+                if (Build.VERSION.SDK_INT >= 11) {// pdf
                     // pdf文件已存在 调用
                     showPdf(rid, categoryDetail.getUrl());
                 } else {// web
@@ -138,7 +154,11 @@ public class TrainBaseActivity extends CategoryBaseActivity {
     }
 
     public void setBottomViewVisible(boolean visible) {
-        mBottomView.setVisibility(visible ? View.VISIBLE : View.GONE);
+        if (mPlanInfo == null) {
+            mBottomView.setVisibility(visible ? View.VISIBLE : View.GONE);
+        } else {
+            mBottomTimingView.setVisibility(visible ? View.VISIBLE : View.GONE);
+        }
     }
 
     @Override
@@ -157,8 +177,22 @@ public class TrainBaseActivity extends CategoryBaseActivity {
     }
 
     @Override
-    public void hideCommentView() {
+    public void showTimingView() {
         mBottomView.setVisibility(View.GONE);
+        mBottomTimingView.setVisibility(View.VISIBLE);
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        lp.addRule(RelativeLayout.ABOVE, R.id.bottom_timing_view);
+        mContentContainer.setLayoutParams(lp);
+    }
+
+    @Override
+    public void setMaxPeriod(int minute) {
+        mBottomTimingView.setTotalTime(minute);
+    }
+
+    @Override
+    public void setCurrentPeriod(int currentSecond) {
+        mBottomTimingView.setCurrentTime(currentSecond);
     }
 
     @Override

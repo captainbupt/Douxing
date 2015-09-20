@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.CategoryDetail;
+import com.badou.mworking.entity.category.PlanInfo;
 import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.presenter.Presenter;
 import com.badou.mworking.presenter.category.TaskSignPresenter;
@@ -73,7 +74,9 @@ public class TaskSignActivity extends CategoryBaseActivity implements TaskSignVi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_sign);
-        setActionbarTitle(Category.getCategoryName(mContext, Category.CATEGORY_TASK));
+        if (mPlanInfo == null) {
+            setActionbarTitle(Category.getCategoryName(mContext, Category.CATEGORY_TASK));
+        }
         ButterKnife.bind(this);
         mPresenter = (TaskSignPresenter) super.mPresenter;
         mPresenter.attachView(this);
@@ -83,7 +86,7 @@ public class TaskSignActivity extends CategoryBaseActivity implements TaskSignVi
 
     @Override
     public Presenter getPresenter() {
-        return new TaskSignPresenter(mContext, mReceivedIntent.getStringExtra(KEY_RID), mReceivedIntent.getStringExtra(KEY_PLAN_TITLE));
+        return new TaskSignPresenter(mContext, mReceivedIntent.getStringExtra(KEY_RID), mPlanInfo);
     }
 
     @OnClick(R.id.sign_text_view)
@@ -112,8 +115,8 @@ public class TaskSignActivity extends CategoryBaseActivity implements TaskSignVi
     }
 
     @Override
-    public void setData(String rid, CategoryDetail categoryDetail, boolean isPlan) {
-        super.setData(rid, categoryDetail, isPlan);
+    public void setData(String rid, CategoryDetail categoryDetail, PlanInfo planInfo) {
+        super.setData(rid, categoryDetail, planInfo);
         initData(categoryDetail);
         initMap(categoryDetail.getTask().getLatitude(), categoryDetail.getTask().getLongitude());
     }
@@ -243,7 +246,17 @@ public class TaskSignActivity extends CategoryBaseActivity implements TaskSignVi
     }
 
     @Override
-    public void hideCommentView() {
+    public void showTimingView() {
+
+    }
+
+    @Override
+    public void setMaxPeriod(int minute) {
+
+    }
+
+    @Override
+    public void setCurrentPeriod(int currentSecond) {
 
     }
 }

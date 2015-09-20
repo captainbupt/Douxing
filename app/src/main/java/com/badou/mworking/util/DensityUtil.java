@@ -17,6 +17,7 @@ public class DensityUtil {
     private int offsetLarge;
     private int offsetXlarge;
     private int offsetXxlarge;
+    private int textSizeMicro;
     private int textSizeSmall;
     private int textSizeLess;
     private int textSizeMedium;
@@ -46,6 +47,7 @@ public class DensityUtil {
         densityUtil.offsetLarge = resources.getDimensionPixelOffset(R.dimen.offset_large);
         densityUtil.offsetXlarge = resources.getDimensionPixelOffset(R.dimen.offset_xlarge);
         densityUtil.offsetXxlarge = resources.getDimensionPixelOffset(R.dimen.offset_xxlarge);
+        densityUtil.textSizeMicro = resources.getDimensionPixelSize(R.dimen.text_size_micro);
         densityUtil.textSizeSmall = resources.getDimensionPixelSize(R.dimen.text_size_small);
         densityUtil.textSizeLess = resources.getDimensionPixelSize(R.dimen.text_size_less);
         densityUtil.textSizeMedium = resources.getDimensionPixelSize(R.dimen.text_size_medium);
@@ -116,6 +118,10 @@ public class DensityUtil {
 
     public int getOffsetXxlarge() {
         return offsetXxlarge;
+    }
+
+    public int getTextSizeMicro() {
+        return textSizeMicro;
     }
 
     public int getTextSizeSmall() {

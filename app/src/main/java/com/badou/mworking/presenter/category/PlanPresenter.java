@@ -8,6 +8,7 @@ import com.badou.mworking.PlanIntroductionActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.CategoryDetail;
+import com.badou.mworking.entity.category.PlanInfo;
 import com.badou.mworking.presenter.CommentPresenter;
 import com.badou.mworking.view.BaseView;
 import com.badou.mworking.view.category.PlanView;
@@ -23,8 +24,8 @@ public class PlanPresenter extends CategoryBasePresenter {
     PlanView mPlanView;
     int mStageIndex = -1;
 
-    public PlanPresenter(Context context, String rid, String planTitle) {
-        super(context, Category.CATEGORY_PLAN, rid, planTitle);
+    public PlanPresenter(Context context, String rid, PlanInfo planInfo) {
+        super(context, Category.CATEGORY_PLAN, rid, planInfo);
     }
 
     @Override

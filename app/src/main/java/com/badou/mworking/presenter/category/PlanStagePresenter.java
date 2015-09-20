@@ -11,11 +11,13 @@ import com.badou.mworking.entity.category.CategoryBase;
 import com.badou.mworking.entity.category.CategoryDetail;
 import com.badou.mworking.entity.category.EntryOperation;
 import com.badou.mworking.entity.category.PlanDetail;
+import com.badou.mworking.entity.category.PlanInfo;
 import com.badou.mworking.entity.category.PlanStage;
 import com.badou.mworking.entity.main.Shuffle;
 import com.badou.mworking.factory.CategoryIntentFactory;
 import com.badou.mworking.net.BaseSubscriber;
 import com.badou.mworking.presenter.ListPresenter;
+import com.badou.mworking.util.GsonUtil;
 import com.badou.mworking.view.BaseView;
 import com.badou.mworking.view.category.PlanStageView;
 import com.google.gson.reflect.TypeToken;
@@ -70,7 +72,8 @@ public class PlanStagePresenter extends ListPresenter<CategoryBase> {
     public void onItemClick(CategoryBase data, int position) {
         super.onItemClick(data, position);
         if (PlanDetail.isReadable(mCategoryDetail.getPlan().getNow(), mStageIndex, position)) {
-            mFragment.startActivityForResult(CategoryIntentFactory.getIntentForPlan(mContext, data.getType(), data.getRid(), mPlanStage.getSubject()), REQUEST_DETAIL);
+            PlanInfo planInfo = new PlanInfo(mPlanStage.getSubject(), mCategoryDetail.getPlan().getCurrentCoursePeriod() * 60, mPlanStage.getPeriod().get(mCategoryDetail.getPlan().getNow().getResourceIndex()));
+            mFragment.startActivityForResult(CategoryIntentFactory.getIntentForPlan(mContext, data.getType(), data.getRid(), GsonUtil.toJson(planInfo)), REQUEST_DETAIL);
         } else {
             mPlanStageView.showToast(R.string.plan_resource_unreadable);
         }
@@ -80,7 +83,7 @@ public class PlanStagePresenter extends ListPresenter<CategoryBase> {
     public void toDetailPage(CategoryBase data) {
     }
 
-    public void setData(CategoryDetail categoryDetail, final int stageIndex) {
+    public void setData(final CategoryDetail categoryDetail, final int stageIndex) {
         this.mCategoryDetail = categoryDetail;
         this.mPlanStage = mCategoryDetail.getPlan().getStage(stageIndex);
         this.mStageIndex = stageIndex;
@@ -88,11 +91,11 @@ public class PlanStagePresenter extends ListPresenter<CategoryBase> {
             mPlanStageView.showNoneResult();
             return;
         }
-        new CategoryBaseUseCase(mPlanStage.getLink()).execute(new BaseSubscriber<List<CategoryBase>>(mContext) {
+        new CategoryBaseUseCase(mPlanStage.getLink(), mPlanStage.getPeriod()).execute(new BaseSubscriber<List<CategoryBase>>(mContext) {
             @Override
             public void onResponseSuccess(List<CategoryBase> data) {
                 mPlanStageView.setStageIndex(stageIndex);
-                mPlanStageView.setCurrentIndex(mCategoryDetail.getPlan().getNow());
+                mPlanStageView.setCurrentIndex(mCategoryDetail.getPlan().getNow(), mCategoryDetail.getPlan().getCurrentCoursePeriod());
                 mPlanStageView.setData(data);
             }
         });

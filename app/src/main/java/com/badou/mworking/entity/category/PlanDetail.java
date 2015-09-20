@@ -13,6 +13,10 @@ public class PlanDetail implements Serializable {
     PlanConfiguration config;
     @SerializedName("now")
     String now;
+    @SerializedName("tm_upnow")
+    int currentPlanPeriod;
+    @SerializedName("tm_now")
+    int currentCoursePeriod;
 
     transient PlanIndex planIndex;
 
@@ -26,6 +30,14 @@ public class PlanDetail implements Serializable {
             }
         }
         return planIndex;
+    }
+
+    public int getCurrentPlanPeriod() {
+        return currentPlanPeriod;
+    }
+
+    public int getCurrentCoursePeriod() {
+        return currentCoursePeriod;
     }
 
     public void setNow(int stageIndex, int resourceIndex) {

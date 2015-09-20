@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import com.badou.mworking.base.BaseActionBarActivity;
 import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.entity.category.CategoryDetail;
+import com.badou.mworking.entity.category.PlanInfo;
 import com.badou.mworking.fragment.CommentFragment;
 import com.badou.mworking.fragment.PlanIntroductionFragment;
 import com.badou.mworking.fragment.PlanStageFragment;
@@ -121,12 +122,12 @@ public class PlanActivity extends BaseNoTitleActivity implements PlanView {
     @Override
     public Presenter getPresenter() {
         String rid = mReceivedIntent.getStringExtra(CategoryBaseActivity.KEY_RID);
-        return new PlanPresenter(mContext, rid, mReceivedIntent.getStringExtra(CategoryBaseActivity.KEY_PLAN_TITLE));
+        return new PlanPresenter(mContext, rid, null);
     }
 
     @Override
-    public void setData(String rid, CategoryDetail categoryDetail, boolean isPlan) {
-        if (isPlan) {
+    public void setData(String rid, CategoryDetail categoryDetail,  PlanInfo planInfo) {
+        if (planInfo != null) {
             mStoreImageView.setVisibility(View.GONE);
         } else {
             setStore(categoryDetail.isStore());
@@ -165,13 +166,23 @@ public class PlanActivity extends BaseNoTitleActivity implements PlanView {
     }
 
     @Override
-    public void hideCommentView() {
+    public void showTimingView() {
 
     }
 
     @Override
     public void setStore(boolean isStore) {
         mStoreImageView.setImageResource(isStore ? R.drawable.button_title_store_round_checked : R.drawable.button_title_store_round_unchecked);
+    }
+
+    @Override
+    public void setMaxPeriod(int minute) {
+
+    }
+
+    @Override
+    public void setCurrentPeriod(int currentSecond) {
+
     }
 
     @Override

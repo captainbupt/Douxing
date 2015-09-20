@@ -17,6 +17,7 @@ import com.badou.mworking.domain.ask.AskUseCase;
 import com.badou.mworking.domain.category.CategoryCommentGetUseCase;
 import com.badou.mworking.domain.category.CategoryDetailUseCase;
 import com.badou.mworking.domain.ChangePasswordUseCase;
+import com.badou.mworking.domain.category.PeriodUpdateUseCase;
 import com.badou.mworking.domain.chatter.ChatterListUseCase;
 import com.badou.mworking.domain.chatter.ChatterReplyDeleteUseCase;
 import com.badou.mworking.domain.chatter.ChatterReplyGetUseCase;
@@ -238,4 +239,7 @@ public interface RestApi {
 
     @POST("/genRegUrl")
     Observable<BaseNetEntity<AuditGetUrlUseCase.Response>> getAuditUrl(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Body AuditGetUrlUseCase.Body body);
+
+    @POST("/updPeroid")
+    Observable<BaseNetEntity> updatePeriod(@Query(PARAMS_SYSTEM) String system, @Query(PARAMS_VERSION) String version, @Body PeriodUpdateUseCase.Body body);
 }

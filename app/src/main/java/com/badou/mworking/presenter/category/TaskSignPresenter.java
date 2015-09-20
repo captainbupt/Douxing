@@ -13,6 +13,7 @@ import com.badou.mworking.R;
 import com.badou.mworking.domain.category.TaskSignUseCase;
 import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.CategoryDetail;
+import com.badou.mworking.entity.category.PlanInfo;
 import com.badou.mworking.net.BaseSubscriber;
 import com.badou.mworking.util.BitmapUtil;
 import com.badou.mworking.util.FileUtils;
@@ -40,8 +41,8 @@ public class TaskSignPresenter extends CategoryBasePresenter implements BDLocati
 
     TaskSignView mTaskSignView;
 
-    public TaskSignPresenter(Context context, String rid, String planTitle) {
-        super(context, Category.CATEGORY_TASK, rid, planTitle);
+    public TaskSignPresenter(Context context, String rid, PlanInfo planInfo) {
+        super(context, Category.CATEGORY_TASK, rid, planInfo);
     }
 
     @Override

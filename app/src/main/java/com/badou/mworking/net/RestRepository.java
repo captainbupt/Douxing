@@ -21,6 +21,7 @@ import com.badou.mworking.domain.category.CategoryCommentGetUseCase;
 import com.badou.mworking.domain.category.CategoryDetailUseCase;
 import com.badou.mworking.domain.category.CategoryUseCase;
 import com.badou.mworking.domain.ChangePasswordUseCase;
+import com.badou.mworking.domain.category.PeriodUpdateUseCase;
 import com.badou.mworking.domain.category.SurveyStatusUseCase;
 import com.badou.mworking.domain.chatter.ChatterListUseCase;
 import com.badou.mworking.domain.chatter.ChatterReplyDeleteUseCase;
@@ -146,14 +147,16 @@ public class RestRepository {
         return restApi.getCategoryDetail(AppApplication.SYSPARAM, AppApplication.appVersion, body);
     }
 
-    public Observable<BaseNetEntity<List<CategoryBase>>> getCategoryBase(String uid, final List<String> rids) {
+    public Observable<BaseNetEntity<List<CategoryBase>>> getCategoryBase(String uid, final List<String> rids, final List<Integer> periodList) {
         return restApi.getCategoryBase(AppApplication.SYSPARAM, AppApplication.appVersion, uid, new TypedString(GsonUtil.toJson(rids, new TypeToken<List<String>>() {
         }.getType()))).map(new Func1<BaseNetEntity<List<CategoryBase>>, BaseNetEntity<List<CategoryBase>>>() {
             @Override
             public BaseNetEntity<List<CategoryBase>> call(BaseNetEntity<List<CategoryBase>> listBaseNetEntity) {
                 // 返回的信息中不会带上rid，这里手动添加一下，方便使用
                 for (int ii = 0; ii < listBaseNetEntity.getData().size(); ii++) {
-                    listBaseNetEntity.getData().get(ii).setRid(rids.get(ii));
+                    CategoryBase categoryBase = listBaseNetEntity.getData().get(ii);
+                    categoryBase.setRid(rids.get(ii));
+                    categoryBase.setPeriod(periodList.get(ii));
                 }
                 return listBaseNetEntity;
             }
@@ -354,11 +357,16 @@ public class RestRepository {
         return restApi.getAuditList(AppApplication.SYSPARAM, AppApplication.appVersion, body);
     }
 
-    public Observable<BaseNetEntity> setAudit(@Body AuditSetUseCase.Body body) {
+    public Observable<BaseNetEntity> setAudit(AuditSetUseCase.Body body) {
         return restApi.setAudit(AppApplication.SYSPARAM, AppApplication.appVersion, body);
     }
 
-    public Observable<BaseNetEntity<AuditGetUrlUseCase.Response>> getAuditUrl(@Body AuditGetUrlUseCase.Body body){
+    public Observable<BaseNetEntity<AuditGetUrlUseCase.Response>> getAuditUrl(AuditGetUrlUseCase.Body body) {
         return restApi.getAuditUrl(AppApplication.SYSPARAM, AppApplication.appVersion, body);
     }
+
+    public Observable<BaseNetEntity> updatePeriod(PeriodUpdateUseCase.Body body) {
+        return restApi.updatePeriod(AppApplication.SYSPARAM, AppApplication.appVersion, body);
+    }
+
 }

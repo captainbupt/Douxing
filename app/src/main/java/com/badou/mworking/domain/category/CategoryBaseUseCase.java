@@ -11,13 +11,15 @@ import rx.Observable;
 public class CategoryBaseUseCase extends UseCase{
 
     List<String> mRidList;
+    List<Integer> mPeriodList;
 
-    public CategoryBaseUseCase(List<String> ridList) {
+    public CategoryBaseUseCase(List<String> ridList, List<Integer> periodList) {
         mRidList = ridList;
+        mPeriodList = periodList;
     }
 
     @Override
     protected Observable buildUseCaseObservable() {
-        return RestRepository.getInstance().getCategoryBase(UserInfo.getUserInfo().getUid(), mRidList);
+        return RestRepository.getInstance().getCategoryBase(UserInfo.getUserInfo().getUid(), mRidList,mPeriodList);
     }
 }

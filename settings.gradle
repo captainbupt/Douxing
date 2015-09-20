@@ -1,1 +1,1 @@
-include ':app', 'Pulltorefresh', 'SwipeBackLayout', 'PseudoMaterialHeader', 'QRCodeScan', 'UltraPullToRefreshWithLoadMore'
+include ':app', 'Pulltorefresh', 'SwipeBackLayout', 'PseudoMaterialHeader', 'QRCodeScan', 'UltraPullToRefreshWithLoadMore', ':CircleProgressView'

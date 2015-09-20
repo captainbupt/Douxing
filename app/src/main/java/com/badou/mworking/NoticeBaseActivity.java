@@ -9,6 +9,7 @@ import android.widget.FrameLayout;
 
 import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.CategoryDetail;
+import com.badou.mworking.entity.category.PlanInfo;
 import com.badou.mworking.fragment.PDFViewFragment;
 import com.badou.mworking.fragment.WebViewFragment;
 import com.badou.mworking.presenter.category.CategoryBasePresenter;
@@ -34,14 +35,16 @@ public class NoticeBaseActivity extends CategoryBaseActivity {
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.activity_base_notice);
         ButterKnife.bind(this);
-        setActionbarTitle(Category.getCategoryName(mContext, Category.CATEGORY_NOTICE));
+        if (mPlanInfo == null) {
+            setActionbarTitle(Category.getCategoryName(mContext, Category.CATEGORY_NOTICE));
+        }
         initListener();
         mPresenter.attachView(this);
     }
 
     @Override
     public CategoryBasePresenter getPresenter() {
-        return new CategoryBasePresenter(mContext, Category.CATEGORY_NOTICE, mReceivedIntent.getStringExtra(KEY_RID), mReceivedIntent.getStringExtra(KEY_PLAN_TITLE));
+        return new CategoryBasePresenter(mContext, Category.CATEGORY_NOTICE, mReceivedIntent.getStringExtra(KEY_RID), mPlanInfo);
     }
 
     private void initListener() {
@@ -66,8 +69,8 @@ public class NoticeBaseActivity extends CategoryBaseActivity {
     }
 
     @Override
-    public void setData(String rid, CategoryDetail categoryDetail, boolean isPlan) {
-        super.setData(rid, categoryDetail, isPlan);
+    public void setData(String rid, CategoryDetail categoryDetail, PlanInfo planInfo) {
+        super.setData(rid, categoryDetail, planInfo);
         if (categoryDetail.getFmt() == Constant.MWKG_FORAMT_TYPE_PDF) {
             // 判断api,太小用web
             if (android.os.Build.VERSION.SDK_INT >= 11) {// pdf
@@ -120,7 +123,17 @@ public class NoticeBaseActivity extends CategoryBaseActivity {
     }
 
     @Override
-    public void hideCommentView() {
+    public void showTimingView() {
         mBottomView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void setMaxPeriod(int minute) {
+
+    }
+
+    @Override
+    public void setCurrentPeriod(int currentSecond) {
+
     }
 }

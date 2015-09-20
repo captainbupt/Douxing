@@ -7,7 +7,7 @@ import com.badou.mworking.view.BaseListView;
 
 public interface PlanStageView extends BaseListView<CategoryBase> {
     void setStageIndex(int index);
-    void setCurrentIndex(PlanIndex planIndex);
+    void setCurrentIndex(PlanIndex planIndex, int currentCoursePeriod);
 }
 
 

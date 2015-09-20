@@ -6,9 +6,27 @@ public class Plan extends Category {
 
     @SerializedName("stage")
     String stage;
+    @SerializedName("tm_plan")
+    int totalTime;
+    @SerializedName("tm_upnow")
+    int currentTime;
+    @SerializedName("stage_num")
+    int stageNumber;
 
     public String getStage() {
         return stage;
+    }
+
+    public int getPercent() {
+        return (int) (((float) currentTime / (float) totalTime) * 100);
+    }
+
+    public int getTotalTime() {
+        return totalTime;
+    }
+
+    public int getStageNumber() {
+        return stageNumber;
     }
 
     @Override

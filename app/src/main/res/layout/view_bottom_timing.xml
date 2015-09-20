@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:myattr="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#676568">
+
+    <TextView
+        android:id="@+id/current_time_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="@dimen/offset_medium"
+        android:textColor="@color/color_white"
+        android:textSize="@dimen/text_size_medium"/>
+
+    <TextView
+        android:id="@+id/total_time_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="@dimen/offset_medium"
+        android:textColor="@color/color_white"
+        android:textSize="@dimen/text_size_medium"/>
+
+    <at.grabner.circleprogress.CircleProgressView
+        android:id="@+id/circle_progress_view"
+        android:layout_width="@dimen/icon_size_medium"
+        android:layout_height="@dimen/icon_size_medium"
+        android:layout_centerInParent="true"
+        myattr:barColor="#f79355"
+        myattr:barWidth="@dimen/offset_small"
+        myattr:blockCount="16"
+        myattr:blockScale="0.75"
+        myattr:contourColor="#676568"
+        myattr:contourSize="@dimen/offset_micro"
+        myattr:rimColor="#777578"
+        myattr:rimWidth="@dimen/offset_small"
+        myattr:showUnit="true"
+        myattr:solidColor="@color/color_white"
+        myattr:textColor="#f79355"
+        myattr:unit="%"
+        myattr:unitColor="#f79355"/>
+</RelativeLayout>
