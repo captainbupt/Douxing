@@ -51,6 +51,8 @@ public class TrainMusicFragment extends BaseFragment implements DownloadView {
 
     DownloadPresenter mPresenter;
 
+    DownloadPresenter.OnStatusChangedListener mOnStatusChangedListener;
+
     public static TrainMusicFragment getFragment(String rid, String url, String subject) {
         TrainMusicFragment trainMusicFragment = new TrainMusicFragment();
         Bundle argument = new Bundle();
@@ -70,6 +72,9 @@ public class TrainMusicFragment extends BaseFragment implements DownloadView {
         mMusicTitleTextView.setText(argument.getString(KEY_SUBJECT));
         mPresenter = new DownloadPresenter(mContext, argument.getString(KEY_RID), argument.getString(KEY_URL), Constant.MWKG_FORAMT_TYPE_MP3);
         mPresenter.attachView(this);
+        if(mOnStatusChangedListener != null){
+            mPresenter.setOnStatusChangedListener(mOnStatusChangedListener);
+        }
         return view;
     }
 
@@ -102,6 +107,14 @@ public class TrainMusicFragment extends BaseFragment implements DownloadView {
     @OnClick(R.id.player_control_image_view)
     void onControlClicked() {
         mPresenter.statusChange(mMusicPlayer.isPlaying());
+    }
+
+    public void setOnStatusChangedListener(DownloadPresenter.OnStatusChangedListener onStatusChangedListener) {
+        if(mPresenter != null) {
+            mPresenter.setOnStatusChangedListener(onStatusChangedListener);
+        }else{
+            mOnStatusChangedListener = onStatusChangedListener;
+        }
     }
 
     /**

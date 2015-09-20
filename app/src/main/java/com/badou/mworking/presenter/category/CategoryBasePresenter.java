@@ -9,17 +9,20 @@ import android.text.TextUtils;
 import com.badou.mworking.BackWebActivity;
 import com.badou.mworking.CommentActivity;
 import com.badou.mworking.R;
+import com.badou.mworking.TrainBaseActivity;
 import com.badou.mworking.domain.category.CategoryDetailUseCase;
 import com.badou.mworking.domain.StoreUseCase;
 import com.badou.mworking.domain.category.CategoryRateUseCase;
 import com.badou.mworking.domain.category.PeriodUpdateUseCase;
 import com.badou.mworking.entity.Store;
+import com.badou.mworking.entity.category.CategoryBase;
 import com.badou.mworking.entity.category.CategoryDetail;
 import com.badou.mworking.entity.category.PlanInfo;
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.BaseSubscriber;
 import com.badou.mworking.net.Net;
 import com.badou.mworking.presenter.Presenter;
+import com.badou.mworking.util.Constant;
 import com.badou.mworking.view.BaseView;
 import com.badou.mworking.view.category.CategoryBaseView;
 import com.badou.mworking.widget.RatingDialog;
@@ -39,11 +42,10 @@ public class CategoryBasePresenter extends Presenter {
     int mCategoryType;
     CategoryDetail mCategoryDetail;
     StoreUseCase mStoreUseCase;
-    PeriodUpdateUseCase mPeriodUpdateUseCase;
     RatingDialog mRatingDialog;
     boolean isPaused;
     PlanInfo mPlanInfo;
-    Handler mPeriodHandler;
+    static Handler mPeriodHandler = new Handler();
 
     public CategoryBasePresenter(Context context, int type, String rid, PlanInfo planInfo) {
         super(context);
@@ -103,16 +105,51 @@ public class CategoryBasePresenter extends Presenter {
     public void setData(CategoryDetail categoryDetail) {
         this.mCategoryDetail = categoryDetail;
         mCategoryBaseView.setRated(categoryDetail.getRating() > 0);
-        if (mPlanInfo != null && mPlanInfo.currentTimeSecond / 60 < mPlanInfo.maxTimeMinute) {
+        if (mPlanInfo != null) {
             mCategoryBaseView.setMaxPeriod(mPlanInfo.maxTimeMinute);
             mCategoryBaseView.setCurrentPeriod(mPlanInfo.currentTimeSecond);
-            mPeriodHandler = new Handler();
-            mPeriodUpdateUseCase = new PeriodUpdateUseCase(mRid);
-            mPeriodHandler.postDelayed(mSecondTimerTask, 1000);
+            // 音频和视频不要自动开始
+            if (mCategoryDetail.getFmt() != Constant.MWKG_FORAMT_TYPE_MPEG && mCategoryDetail.getFmt() != Constant.MWKG_FORAMT_TYPE_MP3)
+                setTimingEnable(true);
         }
     }
 
-    Runnable mSecondTimerTask = new Runnable() {
+    public void setTimingEnable(boolean isEnable) {
+        if (mPlanInfo == null) {
+            return;
+        }
+        if (mPlanInfo.currentTimeSecond / 60 > mPlanInfo.maxTimeMinute) {
+            mPeriodHandler.removeCallbacks(mSecondRunnable);
+            mCategoryBaseView.setCurrentPeriod(mPlanInfo.maxTimeMinute * 60);
+            return;
+        }
+        if (isEnable) {
+            if (mSecondRunnable == null) {
+                mSecondRunnable = new SecondRunnable(new PeriodUpdateUseCase(mRid), mContext, mPlanInfo, mCategoryBaseView);
+            }
+            mCategoryBaseView.setCurrentPeriod(mPlanInfo.currentTimeSecond);
+            mPeriodHandler.postDelayed(mSecondRunnable, 1000);
+        } else {
+            mPeriodHandler.removeCallbacks(mSecondRunnable);
+        }
+    }
+
+    static SecondRunnable mSecondRunnable;
+
+    static class SecondRunnable implements Runnable {
+
+        PeriodUpdateUseCase mPeriodUpdateUseCase;
+        private Context mContext;
+        private PlanInfo mPlanInfo;
+        private CategoryBaseView mCategoryBaseView;
+
+        public SecondRunnable(PeriodUpdateUseCase periodUpdateUseCase, Context context, PlanInfo planInfo, CategoryBaseView categoryBaseView) {
+            mPeriodUpdateUseCase = periodUpdateUseCase;
+            mContext = context;
+            mPlanInfo = planInfo;
+            mCategoryBaseView = categoryBaseView;
+        }
+
         @Override
         public void run() {
             if (((Activity) mContext).isFinishing()) {
@@ -130,10 +167,10 @@ public class CategoryBasePresenter extends Presenter {
                 });
             }
             if (mPlanInfo.currentTimeSecond / 60 < mPlanInfo.maxTimeMinute) {
-                mPeriodHandler.postDelayed(mSecondTimerTask, 1000);
+                mPeriodHandler.postDelayed(this, 1000);
             }
         }
-    };
+    }
 
     /**
      * 统计按钮跳转
@@ -229,16 +266,14 @@ public class CategoryBasePresenter extends Presenter {
 
     @Override
     public void destroy() {
-        if (mPeriodHandler != null) {
-            mPeriodHandler.removeCallbacks(mSecondTimerTask);
-        }
+        setTimingEnable(false);
+        mPeriodHandler.removeCallbacks(mSecondRunnable);
+        mSecondRunnable = null;
     }
 
     @Override
     public void pause() {
-        if (mPeriodHandler != null) {
-            mPeriodHandler.postDelayed(mSecondTimerTask, 1000);
-        }
+        mPeriodHandler.removeCallbacks(mSecondRunnable);
     }
 
     @Override
@@ -246,9 +281,8 @@ public class CategoryBasePresenter extends Presenter {
         if (isPaused && mCategoryBaseView != null && mCategoryDetail != null) {
             mCategoryBaseView.setData(mRid, mCategoryDetail, mPlanInfo);
         }
-        if (mPeriodHandler != null) {
-            mPeriodHandler.removeCallbacks(mSecondTimerTask);
-        }
+        if (mSecondRunnable != null)
+            mPeriodHandler.postDelayed(mSecondRunnable, 1000);
         isPaused = false;
     }
 }

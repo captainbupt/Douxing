@@ -38,7 +38,7 @@ public class BottomTimingView extends RelativeLayout {
         init(context);
     }
 
-    private void init(Context context){
+    private void init(Context context) {
         LayoutInflater.from(context).inflate(R.layout.view_bottom_timing, this, true);
         ButterKnife.bind(this);
         mCircleProgressView.setTextSize((int) (DensityUtil.getInstance().getTextSizeMicro() * 0.7f));
@@ -53,7 +53,7 @@ public class BottomTimingView extends RelativeLayout {
 
     public void setCurrentTime(int totalSecond) {
         if (totalSecond >= mMaxTime) {
-            mCircleProgressView.setValue(mMaxTime);
+            mCircleProgressView.setValue(mMaxTime - 0.001f);
             SpannableString spannableString = new SpannableString("学习进度:已完成");
             spannableString.setSpan(new ForegroundColorSpan(0xfff79355), 5, spannableString.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
             mCurrentTimeTextView.setText(spannableString);

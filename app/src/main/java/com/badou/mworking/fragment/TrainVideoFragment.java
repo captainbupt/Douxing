@@ -165,6 +165,10 @@ public class TrainVideoFragment extends BaseFragment implements DownloadView {
         setProgressBar(mProgressContainerLayout.getVisibility() == View.GONE);
     }
 
+    public void setOnStatusChangedListener(DownloadPresenter.OnStatusChangedListener onStatusChangedListener) {
+        mPresenter.setOnStatusChangedListener(onStatusChangedListener);
+    }
+
     /**
      * 没下载的状态 *
      */

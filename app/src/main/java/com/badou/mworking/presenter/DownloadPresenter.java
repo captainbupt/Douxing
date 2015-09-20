@@ -27,6 +27,7 @@ public class DownloadPresenter extends Presenter {
     String mUrl;
     String mRid;
     Handler mHandler;
+    OnStatusChangedListener mOnStatusChangedListener;
 
     // 自动隐藏顶部和底部View的时间
     private static final int HIDE_TIME = 5000;
@@ -91,6 +92,14 @@ public class DownloadPresenter extends Presenter {
         } else {
             startPlay();
         }
+    }
+
+    public interface OnStatusChangedListener {
+        void onStatusChanged(boolean isPlaying);
+    }
+
+    public void setOnStatusChangedListener(OnStatusChangedListener onStatusChangedListener) {
+        mOnStatusChangedListener = onStatusChangedListener;
     }
 
     public void onProgressChanged(int progress, boolean fromUser) {
@@ -173,6 +182,9 @@ public class DownloadPresenter extends Presenter {
         mHandler.postDelayed(hideRunnable, HIDE_TIME);
         mHandler.post(changeStatusRunnable);
         mDownloadView.startPlay();
+        if (mOnStatusChangedListener != null) {
+            mOnStatusChangedListener.onStatusChanged(true);
+        }
     }
 
     private void pausePlayer() {
@@ -181,6 +193,9 @@ public class DownloadPresenter extends Presenter {
         mHandler.removeCallbacks(hideRunnable);
         mHandler.removeCallbacks(changeStatusRunnable);
         mDownloadView.stopPlay();
+        if (mOnStatusChangedListener != null) {
+            mOnStatusChangedListener.onStatusChanged(false);
+        }
     }
 
     public void pause() {

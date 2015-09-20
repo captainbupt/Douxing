@@ -18,6 +18,7 @@ import com.badou.mworking.fragment.PDFViewFragment;
 import com.badou.mworking.fragment.TrainMusicFragment;
 import com.badou.mworking.fragment.TrainVideoFragment;
 import com.badou.mworking.fragment.WebViewFragment;
+import com.badou.mworking.presenter.DownloadPresenter;
 import com.badou.mworking.presenter.category.CategoryBasePresenter;
 import com.badou.mworking.util.Constant;
 import com.badou.mworking.widget.BottomRatingAndCommentView;
@@ -83,8 +84,6 @@ public class TrainBaseActivity extends CategoryBaseActivity {
                 mPresenter.onShareClicked();
             }
         });
-        mBottomTimingView.setTotalTime(2);
-        mBottomTimingView.setCurrentTime(65);
     }
 
     @Override
@@ -144,6 +143,9 @@ public class TrainBaseActivity extends CategoryBaseActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.content_container, trainMusicFragment);
         transaction.commit();
+        if (mPlanInfo != null) {
+            trainMusicFragment.setOnStatusChangedListener(mOnStatusChangedListener);
+        }
     }
 
     public void showVideo(String rid, String url, String subject) {
@@ -151,7 +153,17 @@ public class TrainBaseActivity extends CategoryBaseActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.content_container, trainVideoFragment);
         transaction.commit();
+        if (mPlanInfo != null) {
+            trainVideoFragment.setOnStatusChangedListener(mOnStatusChangedListener);
+        }
     }
+
+    DownloadPresenter.OnStatusChangedListener mOnStatusChangedListener = new DownloadPresenter.OnStatusChangedListener() {
+        @Override
+        public void onStatusChanged(boolean isPlaying) {
+            mPresenter.setTimingEnable(isPlaying);
+        }
+    };
 
     public void setBottomViewVisible(boolean visible) {
         if (mPlanInfo == null) {

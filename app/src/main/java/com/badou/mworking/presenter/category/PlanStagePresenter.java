@@ -72,7 +72,13 @@ public class PlanStagePresenter extends ListPresenter<CategoryBase> {
     public void onItemClick(CategoryBase data, int position) {
         super.onItemClick(data, position);
         if (PlanDetail.isReadable(mCategoryDetail.getPlan().getNow(), mStageIndex, position)) {
-            PlanInfo planInfo = new PlanInfo(mPlanStage.getSubject(), mCategoryDetail.getPlan().getCurrentCoursePeriod() * 60, mPlanStage.getPeriod().get(mCategoryDetail.getPlan().getNow().getResourceIndex()));
+            PlanInfo planInfo;
+            if (PlanDetail.isFinish(mCategoryDetail.getPlan().getNow(), mStageIndex, position)) {
+                int totalMinute = mPlanStage.getPeriod().get(mCategoryDetail.getPlan().getNow().getResourceIndex());
+                planInfo = new PlanInfo(mPlanStage.getSubject(), totalMinute * 60, totalMinute);
+            } else {
+                planInfo = new PlanInfo(mPlanStage.getSubject(), mCategoryDetail.getPlan().getCurrentCoursePeriod() * 60, mPlanStage.getPeriod().get(mCategoryDetail.getPlan().getNow().getResourceIndex()));
+            }
             mFragment.startActivityForResult(CategoryIntentFactory.getIntentForPlan(mContext, data.getType(), data.getRid(), GsonUtil.toJson(planInfo)), REQUEST_DETAIL);
         } else {
             mPlanStageView.showToast(R.string.plan_resource_unreadable);
