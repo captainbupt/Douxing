@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:paddingTop="@dimen/offset_less">
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:myattr="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/offset_less">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -15,13 +17,15 @@
         android:paddingRight="@dimen/offset_medium"
         android:paddingTop="@dimen/offset_less">
 
-        <ImageView
+        <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/head_image_view"
             android:layout_width="@dimen/icon_head_size_middle"
             android:layout_height="@dimen/icon_head_size_middle"
             android:layout_centerVertical="true"
-            android:scaleType="centerInside"
-            android:src="@drawable/icon_user_detail_default_head"/>
+            myattr:actualImageScaleType="centerInside"
+            myattr:placeholderImage="@drawable/icon_user_detail_default_head"
+            myattr:placeholderImageScaleType="centerInside"
+            myattr:roundAsCircle="true"/>
 
         <RelativeLayout
             android:layout_width="match_parent"

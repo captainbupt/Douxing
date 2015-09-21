@@ -13,11 +13,9 @@ import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.Train;
-import com.badou.mworking.net.bitmap.BitmapLruCache;
-import com.badou.mworking.net.bitmap.ImageViewLoader;
-import com.badou.mworking.net.bitmap.NormalImageListener;
-import com.badou.mworking.net.volley.MyVolley;
 import com.badou.mworking.util.TimeTransfer;
+import com.badou.mworking.util.UriUtil;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 /**
  * 功能描述: 微培训adapter
@@ -50,10 +48,10 @@ public class TrainAdapter extends MyBaseAdapter<Category> {
             convertView.setTag(holder);
         }
         final Train train = (Train) getItem(position);
-        if (TextUtils.isEmpty(train.getImg())) {
-            holder.logoImageView.setImageResource(R.drawable.icon_training_item_default);
-        } else {
-            ImageViewLoader.setImageViewResource(holder.logoImageView, R.drawable.icon_training_item_default, train.getImg(), mIconWidth, mIconHeight);
+        if (!TextUtils.isEmpty(train.getImg())) {
+            holder.logoImageView.setImageURI(UriUtil.getHttpUri(train.getImg()));
+        }else{
+            holder.logoImageView.setImageURI(UriUtil.getResourceUri(R.drawable.icon_training_item_default));
         }
 
         // 显示标题
@@ -88,14 +86,14 @@ public class TrainAdapter extends MyBaseAdapter<Category> {
         TextView dateTextView;   //显示部门和时间
         TextView ratingNumberTextView;  //显示评分人数
         ImageView topImageView;
-        ImageView logoImageView;
+        SimpleDraweeView logoImageView;
         RatingBar ratingbar; // 星星显示
         TextView commentNumberTextView;
         TextView unreadTextView;
 
         public ViewHolder(View view) {
             topImageView = (ImageView) view.findViewById(R.id.iv_adapter_training_item_top);
-            logoImageView = (ImageView) view.findViewById(R.id.iv_adapter_training_item_logo);
+            logoImageView = (SimpleDraweeView) view.findViewById(R.id.iv_adapter_training_item_logo);
             subjectTextView = (TextView) view
                     .findViewById(R.id.tv_adapter_training_item_subject);
             dateTextView = (TextView) view.findViewById(R.id.tv_adapter_trainng_item_date);

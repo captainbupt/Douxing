@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:myattr="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -10,7 +12,7 @@
         style="@style/chat_text_date_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -18,15 +20,16 @@
         android:layout_marginTop="@dimen/margin_chat_activity"
         android:paddingRight="20dp">
 
-        <ImageView
+        <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/iv_userhead"
             android:layout_width="@dimen/size_avatar"
             android:layout_height="@dimen/size_avatar"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="@dimen/margin_chat_activity"
-            android:scaleType="centerCrop"
-            android:src="@drawable/icon_emchat_single" />
+            myattr:actualImageScaleType="centerCrop"
+            myattr:placeholderImage="@drawable/icon_emchat_single"
+            myattr:placeholderImageScaleType="centerCrop"/>
 
         <TextView
             android:id="@+id/tv_userid"
@@ -35,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="@dimen/offset_small"
-            android:layout_toRightOf="@id/iv_userhead" />
+            android:layout_toRightOf="@id/iv_userhead"/>
 
         <LinearLayout
             android:id="@+id/ll_file_container"
@@ -51,7 +54,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:src="@drawable/chat_item_file" />
+                android:src="@drawable/chat_item_file"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -68,7 +71,7 @@
                     android:layout_gravity="center_vertical"
                     android:text=""
                     android:textColor="@color/color_text_black"
-                    android:textSize="@dimen/text_size_less" />
+                    android:textSize="@dimen/text_size_less"/>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -81,7 +84,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:textColor="@color/color_text_grey"
-                        android:textSize="@dimen/text_size_small" />
+                        android:textSize="@dimen/text_size_small"/>
 
                     <TextView
                         android:id="@+id/tv_file_state"
@@ -91,7 +94,7 @@
                         android:layout_gravity="center_vertical"
                         android:text="@string/not_download"
                         android:textColor="@color/color_text_black"
-                        android:textSize="@dimen/text_size_small" />
+                        android:textSize="@dimen/text_size_small"/>
                 </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
@@ -103,7 +106,7 @@
             android:layout_height="30dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:visibility="invisible" />
+            android:visibility="invisible"/>
     </RelativeLayout>
 
 </LinearLayout>

@@ -18,6 +18,7 @@ import com.badou.mworking.entity.emchat.Department;
 import com.badou.mworking.entity.emchat.EMChatEntity;
 import com.badou.mworking.entity.emchat.Role;
 import com.badou.mworking.entity.emchat.User;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -128,7 +129,7 @@ public class PickContactsAdapter extends MyBaseAdapter<User> implements SectionI
         Department department = user.getDepartment();
         holder.department.setText(department == null ? "暂无" : department.getName());
         //设置用户头像
-        EMChatEntity.setUserAvatar(mContext, username, holder.avatar);
+        EMChatEntity.setUserAvatar(username, holder.avatar);
         // 选择框checkbox
         if (mExitingMembers != null && mExitingMembers.contains(username)) {
             holder.checkbox.setButtonDrawable(R.drawable.checkbox_bg_selector);
@@ -302,7 +303,7 @@ public class PickContactsAdapter extends MyBaseAdapter<User> implements SectionI
         @Bind(R.id.checkbox)
         CheckBox checkbox;
         @Bind(R.id.avatar)
-        ImageView avatar;
+        SimpleDraweeView avatar;
         @Bind(R.id.name)
         TextView name;
         @Bind(R.id.department)

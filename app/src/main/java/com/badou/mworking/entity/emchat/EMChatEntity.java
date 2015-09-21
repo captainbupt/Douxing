@@ -2,16 +2,18 @@ package com.badou.mworking.entity.emchat;
 
 import android.app.Application;
 import android.content.Context;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.badou.mworking.R;
-import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.util.BitmapUtil;
 import com.badou.mworking.util.DensityUtil;
+import com.badou.mworking.util.UriUtil;
 import com.easemob.EMCallBack;
 import com.easemob.chatuidemo.DemoHXSDKHelper;
 import com.easemob.chatuidemo.activity.ChatActivity;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.Map;
 
@@ -107,22 +109,20 @@ public class EMChatEntity {
      *
      * @param username
      */
-    public static void setUserAvatar(Context context, String username, ImageView imageView) {
-        int iconSize = DensityUtil.getInstance().getIconSizeMedium();
+    public static void setUserAvatar(String username, SimpleDraweeView imageView) {
         if (username.equals(ChatActivity.SERVICE_ACCOUNT)) {
-            imageView.setImageBitmap(BitmapUtil.decodeSampledBitmapFromResource(context.getResources(), com.badou.mworking.R.drawable.ic_launcher, iconSize, iconSize));
+            imageView.setImageURI(UriUtil.getResourceUri(R.drawable.login_logo));
             return;
         }
         try {
             User user = getInstance().getContactList().get(username);
             if (user != null && !TextUtils.isEmpty(user.getAvatar())) {
-                String imgUrl = user.getAvatar();
-                ImageViewLoader.setSquareImageViewResource(imageView, R.drawable.icon_emchat_single, imgUrl, iconSize);
+                imageView.setImageURI(UriUtil.getHttpUri(user.getAvatar()));
             } else {
-                imageView.setImageResource(R.drawable.icon_emchat_single);
+                imageView.setImageURI(UriUtil.getResourceUri(R.drawable.icon_emchat_single));
             }
         } catch (Exception e) {
-            imageView.setImageResource(R.drawable.icon_emchat_single);
+            imageView.setImageURI(UriUtil.getResourceUri(R.drawable.icon_emchat_single));
         }
     }
 

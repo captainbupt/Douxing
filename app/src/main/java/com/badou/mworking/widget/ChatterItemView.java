@@ -16,10 +16,11 @@ import com.badou.mworking.database.ChatterResManager;
 import com.badou.mworking.entity.chatter.Chatter;
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.Net;
-import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.util.SPHelper;
 import com.badou.mworking.util.TimeTransfer;
+import com.badou.mworking.util.UriUtil;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -27,7 +28,7 @@ import butterknife.ButterKnife;
 public class ChatterItemView extends LinearLayout {
 
     @Bind(R.id.head_image_view)
-    ImageView mHeadImageView;
+    SimpleDraweeView mHeadImageView;
     @Bind(R.id.name_text_view)
     TextView mNameTextView;
     @Bind(R.id.level_text_view)
@@ -113,7 +114,7 @@ public class ChatterItemView extends LinearLayout {
             mFullContentTextView.setVisibility(View.GONE);
         }
         mTimeTextView.setText(TimeTransfer.long2ChatterDetailData(mContext, chatter.getPublishTime()));
-        ImageViewLoader.setCircleImageViewResource(mHeadImageView, chatter.getHeadUrl(), mContext.getResources().getDimensionPixelSize(R.dimen.icon_head_size_middle));
+        mHeadImageView.setImageURI(UriUtil.getHttpUri(chatter.getHeadUrl()));
 
         // 有Url则直接显示url
         if (chatter.getUrlContent() != null && !TextUtils.isEmpty(chatter.getUrlContent().getUrl())) {

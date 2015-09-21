@@ -7,10 +7,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 
 import com.badou.mworking.adapter.BannerAdapter;
 import com.badou.mworking.adapter.MainGridAdapter;
@@ -19,14 +21,14 @@ import com.badou.mworking.entity.main.MainBanner;
 import com.badou.mworking.entity.main.MainIcon;
 import com.badou.mworking.fragment.MainGuideFragment;
 import com.badou.mworking.fragment.MainSearchFragment;
-import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.presenter.MainPresenter;
+import com.badou.mworking.util.DensityUtil;
+import com.badou.mworking.util.UriUtil;
 import com.badou.mworking.view.MainGridView;
 import com.badou.mworking.widget.BannerGallery;
 import com.badou.mworking.widget.CreditRewardDialog;
 import com.badou.mworking.widget.LineGridView;
 import com.badou.mworking.widget.TopFadeScrollView;
-import com.easemob.chat.EMMessage;
 import com.easemob.chatuidemo.activity.ChatActivity;
 
 import java.util.ArrayList;
@@ -128,7 +130,7 @@ public class MainGridActivity extends BaseNoTitleActivity implements MainGridVie
 
     @Override
     public void setLogoImage(String url) {
-        ImageViewLoader.setImageViewResource(mLogoImageView, R.drawable.logo, url);
+        mLogoImageView.setImageURI(UriUtil.getHttpUri(url));
     }
 
     @Override

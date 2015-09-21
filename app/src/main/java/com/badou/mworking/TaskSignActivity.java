@@ -6,19 +6,16 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.CategoryDetail;
 import com.badou.mworking.entity.category.PlanInfo;
-import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.presenter.Presenter;
 import com.badou.mworking.presenter.category.TaskSignPresenter;
-import com.badou.mworking.util.DensityUtil;
 import com.badou.mworking.util.ImageChooser;
 import com.badou.mworking.util.TimeTransfer;
+import com.badou.mworking.util.UriUtil;
 import com.badou.mworking.view.category.TaskSignView;
 import com.baidu.location.BDLocation;
 import com.baidu.mapapi.map.BaiduMap;
@@ -31,6 +28,7 @@ import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.SupportMapFragment;
 import com.baidu.mapapi.model.LatLng;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -55,10 +53,8 @@ public class TaskSignActivity extends CategoryBaseActivity implements TaskSignVi
     TextView mLocationTextView;
     @Bind(R.id.sign_text_view)
     TextView mSignTextView;
-    @Bind(R.id.self_position_layout)
-    LinearLayout mSelfPositionLayout;
     @Bind(R.id.signed_image_view)
-    ImageView mSignedImageView;
+    SimpleDraweeView mSignedImageView;
 
     TaskSignPresenter mPresenter;
     ImageChooser mImageChooser;
@@ -153,7 +149,7 @@ public class TaskSignActivity extends CategoryBaseActivity implements TaskSignVi
         setStatus(status);
         if (!TextUtils.isEmpty(categoryDetail.getContent().getImgUrl())) {
             mSignedImageView.setVisibility(View.VISIBLE);
-            ImageViewLoader.setSquareImageViewResource(mSignedImageView, -1, categoryDetail.getContent().getImgUrl(), DensityUtil.getInstance().getIconSizeXlarge());
+            mSignedImageView.setImageURI(UriUtil.getHttpUri(categoryDetail.getContent().getImgUrl()));
         }
     }
 

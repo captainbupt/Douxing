@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Environment;
-import android.text.TextUtils;
 
 import com.badou.mworking.AboutUsActivity;
 import com.badou.mworking.AccountManageActivity;
@@ -23,7 +22,6 @@ import com.badou.mworking.entity.user.UserDetail;
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.BaseSubscriber;
 import com.badou.mworking.net.Net;
-import com.badou.mworking.net.bitmap.BitmapLruCache;
 import com.badou.mworking.util.BitmapUtil;
 import com.badou.mworking.util.FileUtils;
 import com.badou.mworking.util.NetUtils;
@@ -97,13 +95,8 @@ public class UserCenterPresenter extends Presenter {
                 public void onResponseSuccess(Object data) {
                     int size = mContext.getResources().getDimensionPixelSize(R.dimen.user_center_image_head_size);
                     Bitmap headBmp = BitmapUtil.getCirlBitmp(bitmap, size, size);
-                    if (TextUtils.isEmpty(mImgCacheUrl)) {
-                        mUserCenterView.setHeadImage(headBmp);
-                    } else {
-                        BitmapLruCache.getBitmapLruCache().putBitmap(mImgCacheUrl, bitmap);
-                        BitmapLruCache.getBitmapLruCache().putCircleBitmap(mImgCacheUrl, headBmp);
-                        mUserCenterView.setHeadImage(mImgCacheUrl);
-                    }
+                    mUserCenterView.setHeadImage(headBmp);
+                    mUserCenterView.setHeadImage(mImgCacheUrl);
                     mUserCenterView.hideProgressDialog();
                     mUserCenterView.showToast(R.string.user_detail_icon_upload_success);
                 }

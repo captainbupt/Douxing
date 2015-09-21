@@ -3,16 +3,16 @@ package com.badou.mworking.adapter;
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.widget.ImageView;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.entity.comment.Comment;
-import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.util.TimeTransfer;
+import com.badou.mworking.util.UriUtil;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 /**
  * 功能描述:评论adapter
@@ -82,7 +82,7 @@ public class CommentAdapter extends MyBaseAdapter<Comment> {
         holder.mDateTextView.setText(pubTime);
 
         /**设置头像**/
-        ImageViewLoader.setCircleImageViewResource(holder.mHeadImageView, comment.getImgUrl(), mContext.getResources().getDimensionPixelSize(R.dimen.icon_head_size_middle));
+        holder.mHeadImageView.setImageURI(UriUtil.getHttpUri(comment.getImgUrl()));
 
 		/*设置楼数*/
         int floorNum = mAllCount - position;
@@ -102,7 +102,7 @@ public class CommentAdapter extends MyBaseAdapter<Comment> {
     }
 
     class ViewHolder {
-        ImageView mHeadImageView;
+        SimpleDraweeView mHeadImageView;
         TextView mNameTextView;
         TextView mContentTextView;
         TextView mDateTextView;
@@ -111,7 +111,7 @@ public class CommentAdapter extends MyBaseAdapter<Comment> {
         View mDividerView;
 
         public ViewHolder(View view, OnClickListener deleteClickListener) {
-            mHeadImageView = (ImageView) view
+            mHeadImageView = (SimpleDraweeView) view
                     .findViewById(R.id.iv_adapter_comment_head);
             mNameTextView = (TextView) view
                     .findViewById(R.id.tv_adapter_comment_name);

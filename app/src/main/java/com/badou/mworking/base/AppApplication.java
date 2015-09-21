@@ -19,9 +19,6 @@ import com.badou.mworking.R;
 import com.badou.mworking.database.MTrainingDBHelper;
 import com.badou.mworking.entity.emchat.EMChatEntity;
 import com.badou.mworking.entity.user.UserInfo;
-import com.badou.mworking.net.bitmap.BitmapLruCache;
-import com.badou.mworking.net.volley.MyVolley;
-import com.badou.mworking.util.GsonUtil;
 import com.badou.mworking.util.ResourceHelper;
 import com.badou.mworking.util.SPHelper;
 import com.baidu.mapapi.SDKInitializer;
@@ -56,9 +53,6 @@ public class AppApplication extends Application {
     }
 
     public static void initial(AppApplication appApplication) {
-        // Bitmap初始化必须在MyVolley之前，否则会丢出异常
-        BitmapLruCache.init(appApplication);
-        MyVolley.init(appApplication);
         Fresco.initialize(appApplication);
         //获取程序版本
         try {

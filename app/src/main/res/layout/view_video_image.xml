@@ -1,24 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:myattr="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <ImageView
+    <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/iv_view_video_image_content"
         android:layout_width="@dimen/image_size_content"
-        android:layout_height="@dimen/image_size_content" />
+        android:layout_height="@dimen/image_size_content"
+        myattr:actualImageScaleType="centerCrop"
+        myattr:placeholderImage="@drawable/icon_image_default"
+        myattr:placeholderImageScaleType="centerCrop"/>
 
     <ImageView
         android:id="@+id/iv_view_video_image_show"
         android:layout_width="@dimen/image_size_content"
         android:layout_height="@dimen/image_size_content"
         android:scaleType="centerInside"
-        android:src="@drawable/icon_video_image" />
+        android:src="@drawable/icon_video_image"/>
 
     <ImageView
         android:id="@+id/iv_view_video_image_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/icon_multi_image_edit_delete"
-        android:visibility="gone" />
+        android:visibility="gone"/>
 </FrameLayout>

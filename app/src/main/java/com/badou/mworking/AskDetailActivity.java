@@ -17,13 +17,14 @@ import android.widget.TextView;
 import com.badou.mworking.adapter.AskAnswerAdapter;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.entity.Ask;
-import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.presenter.Presenter;
 import com.badou.mworking.presenter.ask.AskDetailPresenter;
 import com.badou.mworking.util.DensityUtil;
 import com.badou.mworking.util.TimeTransfer;
+import com.badou.mworking.util.UriUtil;
 import com.badou.mworking.view.ask.AskDetailView;
 import com.badou.mworking.widget.NoneResultView;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
@@ -53,9 +54,9 @@ public class AskDetailActivity extends BaseBackActionBarActivity implements AskD
     @Bind(R.id.content_text_view)
     TextView mContentTextView;
     @Bind(R.id.content_image_view)
-    ImageView mContentImageView;
+    SimpleDraweeView mContentImageView;
     @Bind(R.id.head_image_view)
-    ImageView mHeadImageView;
+    SimpleDraweeView mHeadImageView;
     @Bind(R.id.name_text_view)
     TextView mNameTextView;
     @Bind(R.id.message_text_view)
@@ -140,7 +141,6 @@ public class AskDetailActivity extends BaseBackActionBarActivity implements AskD
                 mPresenter.onStoreClicked();
             }
         });
-        ImageViewLoader.setSquareImageViewResource(mContentImageView, R.drawable.icon_image_default, ask.getContentImageUrl(), getResources().getDimensionPixelSize(R.dimen.icon_size_xlarge));
         mAnswerAdapter = new AskAnswerAdapter(AskDetailActivity.this, ask.getAid(), ask.getCount(), new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -169,8 +169,7 @@ public class AskDetailActivity extends BaseBackActionBarActivity implements AskD
         mContentTextView.setText(ask.getContent());
         mTimeTextView.append(TimeTransfer.long2StringDetailDate(mContext, ask.getCreateTime()));
         mNameTextView.setText(ask.getUserName());
-
-        ImageViewLoader.setCircleImageViewResource(mHeadImageView, ask.getUserHeadUrl(), getResources().getDimensionPixelSize(R.dimen.icon_head_size_small));
+        mHeadImageView.setImageURI(UriUtil.getHttpUri(ask.getUserHeadUrl()));
 
         // 点击图片放大显示
         mContentImageView.setOnClickListener(new OnClickListener() {
@@ -195,7 +194,7 @@ public class AskDetailActivity extends BaseBackActionBarActivity implements AskD
         });
 
         if (!TextUtils.isEmpty(ask.getContentImageUrl()))
-            ImageViewLoader.setSquareImageViewResource(mContentImageView, R.drawable.icon_image_default, ask.getContentImageUrl(), getResources().getDimensionPixelSize(R.dimen.icon_size_xlarge));
+            mContentImageView.setImageURI(UriUtil.getHttpUri(ask.getContentImageUrl()));
         else
             mContentImageView.setVisibility(View.GONE);
         if (ask.getUserName().equals("我")) {

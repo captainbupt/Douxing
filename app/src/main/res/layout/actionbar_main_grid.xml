@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:myattr="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="@dimen/height_title_bar"
     android:background="@color/color_bg_grey">
@@ -12,16 +14,18 @@
         android:layout_centerVertical="true"
         android:padding="@dimen/offset_less"
         android:scaleType="centerInside"
-        android:src="@drawable/button_title_main_user" />
+        android:src="@drawable/button_title_main_user"/>
 
-    <ImageView
+    <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/logo_image_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_title_bar"
         android:layout_centerInParent="true"
         android:paddingBottom="@dimen/offset_lless"
         android:paddingTop="@dimen/offset_lless"
-        android:scaleType="fitCenter" />
+        myattr:actualImageScaleType="fitCenter"
+        myattr:placeholderImage="@drawable/logo"
+        myattr:placeholderImageScaleType="fitCenter"/>
 
     <ImageView
         android:id="@+id/message_center_image_view"
@@ -31,7 +35,7 @@
         android:layout_centerVertical="true"
         android:padding="@dimen/offset_less"
         android:scaleType="centerInside"
-        android:src="@drawable/button_title_main_message_unchecked" />
+        android:src="@drawable/button_title_main_message_unchecked"/>
 
     <ImageView
         android:id="@+id/search_image_view"
@@ -44,6 +48,6 @@
         android:paddingRight="@dimen/offset_small"
         android:paddingTop="@dimen/offset_lless"
         android:scaleType="centerInside"
-        android:src="@drawable/button_title_main_search" />
+        android:src="@drawable/button_title_main_search"/>
 
 </RelativeLayout>

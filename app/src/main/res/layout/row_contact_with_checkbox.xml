@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:myattr="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/background_white_grey"
@@ -19,15 +21,16 @@
         android:button="@null"
         android:focusable="false" />
 
-    <ImageView
+    <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/avatar"
         android:layout_width="@dimen/icon_size_small"
         android:layout_height="@dimen/icon_size_small"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="@dimen/offset_less"
         android:layout_marginRight="@dimen/offset_less"
-        android:scaleType="centerCrop"
-        android:src="@drawable/icon_emchat_single" />
+        myattr:actualImageScaleType="centerCrop"
+        myattr:placeholderImage="@drawable/icon_emchat_single"
+        myattr:placeholderImageScaleType="centerCrop" />
 
     <LinearLayout
         android:layout_width="match_parent"

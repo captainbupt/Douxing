@@ -6,11 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
-import com.badou.mworking.MultiPhotoActivity;
 import com.badou.mworking.R;
-import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.util.FileUtils;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.view.BaseView;

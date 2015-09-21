@@ -2,7 +2,10 @@ package com.badou.mworking;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -13,12 +16,18 @@ import android.widget.TextView;
 import com.badou.mworking.base.BaseNoTitleActivity;
 import com.badou.mworking.entity.user.UserDetail;
 import com.badou.mworking.entity.user.UserInfo;
-import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.presenter.Presenter;
 import com.badou.mworking.presenter.UserCenterPresenter;
 import com.badou.mworking.util.ImageChooser;
+import com.badou.mworking.util.UriUtil;
 import com.badou.mworking.view.UserCenterView;
 import com.badou.mworking.widget.LevelTextView;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.drawable.ScalingUtils;
+import com.facebook.drawee.generic.GenericDraweeHierarchy;
+import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.core.ImagePipeline;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -30,7 +39,7 @@ import butterknife.OnClick;
 public class UserCenterActivity extends BaseNoTitleActivity implements UserCenterView {
 
     @Bind(R.id.head_image_view)
-    ImageView mHeadImageView;
+    SimpleDraweeView mHeadImageView;
     @Bind(R.id.level_text_view)
     LevelTextView mLevelTextView;
     @Bind(R.id.name_text_view)
@@ -215,11 +224,15 @@ public class UserCenterActivity extends BaseNoTitleActivity implements UserCente
 
     @Override
     public void setHeadImage(String url) {
-        ImageViewLoader.setCircleImageViewResource(mHeadImageView, url, getResources().getDimensionPixelSize(R.dimen.user_center_image_head_size));
+        ImagePipeline imagePipeline = Fresco.getImagePipeline();
+        imagePipeline.evictFromCache(UriUtil.getHttpUri(url));
+        mHeadImageView.setImageURI(UriUtil.getHttpUri(url));
     }
 
     @Override
     public void setHeadImage(Bitmap bitmap) {
-        mHeadImageView.setImageBitmap(bitmap);
+        GenericDraweeHierarchy hierarchy = mHeadImageView.getHierarchy();
+        hierarchy.setPlaceholderImage(new BitmapDrawable(mContext.getResources(), bitmap));
+        mHeadImageView.setHierarchy(hierarchy);
     }
 }

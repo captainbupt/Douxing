@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:myattr="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -21,12 +23,12 @@
             android:paddingBottom="@dimen/offset_less"
             android:paddingTop="@dimen/offset_less"
             android:textColor="@color/color_text_black"
-            android:textSize="@dimen/text_size_large" />
+            android:textSize="@dimen/text_size_large"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/color_border_grey" />
+            android:background="@color/color_border_grey"/>
 
         <TextView
             android:id="@+id/time_text_view"
@@ -35,7 +37,7 @@
             android:layout_marginTop="@dimen/offset_small"
             android:text="@string/ask_detail_time"
             android:textColor="@color/color_text_grey"
-            android:textSize="@dimen/text_size_medium" />
+            android:textSize="@dimen/text_size_medium"/>
 
         <TextView
             android:id="@+id/content_text_view"
@@ -43,22 +45,24 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/offset_small"
             android:textColor="@color/color_text_grey"
-            android:textSize="@dimen/text_size_medium" />
+            android:textSize="@dimen/text_size_medium"/>
 
-        <ImageView
+        <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/content_image_view"
             android:layout_width="@dimen/icon_size_xlarge"
             android:layout_height="@dimen/icon_size_xlarge"
             android:layout_marginTop="@dimen/offset_small"
             android:horizontalSpacing="@dimen/offset_less"
-            android:scaleType="centerCrop"
-            android:verticalSpacing="@dimen/offset_less" />
+            android:verticalSpacing="@dimen/offset_less"
+            myattr:actualImageScaleType="centerCrop"
+            myattr:placeholderImage="@drawable/icon_image_default"
+            myattr:placeholderImageScaleType="centerCrop"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="@dimen/offset_small"
-            android:background="@color/color_border_grey" />
+            android:background="@color/color_border_grey"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -68,12 +72,14 @@
             android:paddingBottom="@dimen/offset_less"
             android:paddingTop="@dimen/offset_less">
 
-            <ImageView
+            <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/head_image_view"
                 android:layout_width="@dimen/icon_head_size_small"
                 android:layout_height="@dimen/icon_head_size_small"
-                android:scaleType="centerInside"
-                android:src="@drawable/icon_user_detail_default_head" />
+                myattr:actualImageScaleType="centerInside"
+                myattr:placeholderImage="@drawable/icon_user_detail_default_head"
+                myattr:placeholderImageScaleType="centerInside"
+                myattr:roundAsCircle="true"/>
 
             <TextView
                 android:id="@+id/name_text_view"
@@ -82,7 +88,7 @@
                 android:layout_marginLeft="@dimen/offset_less"
                 android:layout_weight="1"
                 android:textColor="@color/color_text_grey"
-                android:textSize="@dimen/text_size_medium" />
+                android:textSize="@dimen/text_size_medium"/>
 
             <TextView
                 android:id="@+id/message_text_view"
@@ -91,7 +97,7 @@
                 android:padding="@dimen/offset_small"
                 android:text="@string/operation_message"
                 android:textColor="@color/color_blue"
-                android:textSize="@dimen/text_size_small" />
+                android:textSize="@dimen/text_size_small"/>
 
             <TextView
                 android:id="@+id/delete_text_view"
@@ -100,7 +106,7 @@
                 android:padding="@dimen/offset_small"
                 android:text="@string/operation_delete"
                 android:textColor="@color/color_blue"
-                android:textSize="@dimen/text_size_small" />
+                android:textSize="@dimen/text_size_small"/>
         </LinearLayout>
 
     </LinearLayout>

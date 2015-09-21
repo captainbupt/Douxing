@@ -59,6 +59,7 @@ import com.easemob.chatuidemo.widget.ExpandGridView;
 import com.easemob.exceptions.EaseMobException;
 import com.easemob.util.EMLog;
 import com.easemob.util.NetUtils;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 public class GroupDetailsActivity extends BaseBackActionBarActivity implements OnClickListener {
     private static final String TAG = "GroupDetailsActivity";
@@ -629,7 +630,7 @@ public class GroupDetailsActivity extends BaseBackActionBarActivity implements O
             if (convertView == null) {
                 holder = new ViewHolder();
                 convertView = LayoutInflater.from(getContext()).inflate(res, null);
-                holder.imageView = (ImageView) convertView.findViewById(R.id.iv_avatar);
+                holder.imageView = (SimpleDraweeView) convertView.findViewById(R.id.iv_avatar);
                 holder.textView = (TextView) convertView.findViewById(R.id.tv_name);
                 holder.badgeDeleteView = (ImageView) convertView.findViewById(R.id.badge_delete);
                 convertView.setTag(holder);
@@ -700,7 +701,7 @@ public class GroupDetailsActivity extends BaseBackActionBarActivity implements O
                 } else {
                     holder.textView.setText(user.getNick());
                 }
-                EMChatEntity.setUserAvatar(getContext(), username, holder.imageView);
+                EMChatEntity.setUserAvatar(username, holder.imageView);
                 // demo群组成员的头像都用默认头像，需由开发者自己去设置头像
                 if (isInDeleteMode) {
                     // 如果是删除模式下，显示减人图标
@@ -873,7 +874,7 @@ public class GroupDetailsActivity extends BaseBackActionBarActivity implements O
     }
 
     private static class ViewHolder {
-        ImageView imageView;
+        SimpleDraweeView imageView;
         TextView textView;
         ImageView badgeDeleteView;
     }

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.swipe.delete.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.swipe.delete.SwipeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:myattr="http://schemas.android.com/apk/res-auto"
     android:id="@+id/sl_adapter_message_center"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -34,12 +36,14 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/offset_small">
 
-            <ImageView
+            <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/avatar"
                 android:layout_width="@dimen/icon_size_medium"
                 android:layout_height="@dimen/icon_size_medium"
                 android:layout_centerInParent="true"
-                android:scaleType="fitCenter" />
+                myattr:actualImageScaleType="centerCrop"
+                myattr:placeholderImage="@drawable/icon_emchat_single"
+                myattr:placeholderImageScaleType="centerCrop" />
 
             <TextView
                 android:id="@+id/unread_msg_number"

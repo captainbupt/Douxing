@@ -9,8 +9,9 @@ import android.widget.TextView;
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.entity.chatter.ChatterHot;
-import com.badou.mworking.net.bitmap.ImageViewLoader;
+import com.badou.mworking.util.UriUtil;
 import com.badou.mworking.widget.LevelTextView;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -34,7 +35,7 @@ public class ChatterHotAdapter extends MyBaseAdapter<ChatterHot> {
         }
         ChatterHot hot = getItem(i);
         holder.nameTextView.setText(hot.getName());
-        ImageViewLoader.setCircleImageViewResource(holder.headImageView, hot.getHeadUrl(), mContext.getResources().getDimensionPixelSize(R.dimen.icon_head_size_middle));
+        holder.headImageView.setImageURI(UriUtil.getHttpUri(hot.getHeadUrl()));
         holder.dataTextView.setText("发帖 " + hot.getTopicNumber() + "\t获赞 " + hot.getPraiseNumber() + "\t获评 " + hot.getCommentNumber());
         holder.rankTextView.setText((i + 1) + "");
         holder.levelTextView.setLevel(hot.getLevel());
@@ -67,7 +68,7 @@ public class ChatterHotAdapter extends MyBaseAdapter<ChatterHot> {
 
     class ViewHolder {
         @Bind(R.id.head_image_view)
-        ImageView headImageView;
+        SimpleDraweeView headImageView;
         @Bind(R.id.name_text_view)
         TextView nameTextView;
         @Bind(R.id.data_text_view)

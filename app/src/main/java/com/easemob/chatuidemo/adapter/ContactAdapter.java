@@ -32,6 +32,7 @@ import com.badou.mworking.entity.emchat.Department;
 import com.badou.mworking.entity.emchat.EMChatEntity;
 import com.badou.mworking.entity.emchat.User;
 import com.easemob.util.EMLog;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,7 +90,7 @@ public class ContactAdapter extends ArrayAdapter<User> implements SectionIndexer
     }
 
     private static class ViewHolder {
-        ImageView avatar;
+        SimpleDraweeView avatar;
         TextView unreadMsgView;
         TextView nameTextview;
         TextView tvDepartment;
@@ -101,7 +102,7 @@ public class ContactAdapter extends ArrayAdapter<User> implements SectionIndexer
         if (convertView == null) {
             holder = new ViewHolder();
             convertView = layoutInflater.inflate(res, null);
-            holder.avatar = (ImageView) convertView.findViewById(R.id.avatar);
+            holder.avatar = (SimpleDraweeView) convertView.findViewById(R.id.avatar);
             holder.unreadMsgView = (TextView) convertView.findViewById(R.id.unread_msg_number);
             holder.nameTextview = (TextView) convertView.findViewById(R.id.name);
             holder.tvDepartment = (TextView) convertView.findViewById(R.id.department);
@@ -131,7 +132,7 @@ public class ContactAdapter extends ArrayAdapter<User> implements SectionIndexer
         Department department = user.getDepartment();
         holder.tvDepartment.setText(department == null ? "暂无" : department.getName());
         //设置用户头像
-        EMChatEntity.setUserAvatar(getContext(), username, holder.avatar);
+        EMChatEntity.setUserAvatar( username, holder.avatar);
         if (holder.unreadMsgView != null)
             holder.unreadMsgView.setVisibility(View.INVISIBLE);
 

@@ -14,7 +14,7 @@ import com.badou.mworking.entity.user.UserChatterInfo;
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.fragment.ChatterListFragment;
 import com.badou.mworking.net.Net;
-import com.badou.mworking.net.bitmap.ImageViewLoader;
+import com.badou.mworking.util.UriUtil;
 import com.badou.mworking.widget.LevelTextView;
 
 import butterknife.Bind;
@@ -72,7 +72,7 @@ public class ChatterUserActivity extends BaseNoTitleActivity {
         } else {
             mTitleTextView.setText(R.string.chatter_user_title_other);
         }
-        ImageViewLoader.setCircleImageViewResource(mHeadImageView, userInfo.getHeadUrl(), getResources().getDimensionPixelSize(R.dimen.user_center_image_head_size));
+        mHeadImageView.setImageURI(UriUtil.getHttpUri(userInfo.getHeadUrl()));
         mNameTextView.setText(userInfo.getName() + "\n" + userInfo.getDepartment());
         mLevelTextView.setLevel(userInfo.getLevel());
         mLevelTextView.setOnClickListener(new View.OnClickListener() {

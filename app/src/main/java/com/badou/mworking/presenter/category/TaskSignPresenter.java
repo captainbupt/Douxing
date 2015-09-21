@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.text.TextUtils;
 
-import com.android.volley.toolbox.ImageLoader;
 import com.badou.mworking.MultiPhotoActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.domain.category.TaskSignUseCase;

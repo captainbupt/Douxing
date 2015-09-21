@@ -11,8 +11,9 @@ import android.widget.TextView;
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.entity.Ask;
-import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.util.TimeTransfer;
+import com.badou.mworking.util.UriUtil;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -44,8 +45,7 @@ public class AskAdapter extends MyBaseAdapter<Ask> {
             convertView.setOnLongClickListener(mOnLongClickListener);
         }
         final Ask ask = getItem(position);
-        ImageViewLoader.setCircleImageViewResource(holder.headImageView, ask.getUserHeadUrl(), mContext.getResources().getDimensionPixelSize(R.dimen.icon_head_size_middle));
-
+        holder.headImageView.setImageURI(UriUtil.getHttpUri(ask.getUserHeadUrl()));
         holder.dateTextView.setText(TimeTransfer.long2StringDetailDate(mContext, ask.getCreateTime()));
         holder.replyTextView.setText(ask.getCount() + "");
         holder.contentTextView.setText(ask.getSubject());
@@ -55,7 +55,7 @@ public class AskAdapter extends MyBaseAdapter<Ask> {
 
     static class ViewHolder {
         @Bind(R.id.head_image_view)
-        ImageView headImageView;
+        SimpleDraweeView headImageView;
         @Bind(R.id.content_text_view)
         TextView contentTextView;
         @Bind(R.id.date_text_view)

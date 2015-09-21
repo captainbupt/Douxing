@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
     android:id="@+id/layout_action_bg"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/color_white"
@@ -14,7 +15,7 @@
         android:layout_centerVertical="true"
         android:padding="@dimen/offset_less"
         android:scaleType="centerInside"
-        android:src="@drawable/button_title_bar_back_black" />
+        android:src="@drawable/button_title_bar_back_black"/>
 
     <FrameLayout
         android:id="@+id/fl_actionbar_title_container"
@@ -37,7 +38,7 @@
             android:maxEms="7"
             android:singleLine="true"
             android:textColor="@color/color_title_bar_text"
-            android:textSize="@dimen/text_size_title_bar_title" />
+            android:textSize="@dimen/text_size_title_bar_title"/>
 
     </FrameLayout>
 
@@ -49,7 +50,7 @@
         android:layout_centerVertical="true"
         android:layout_marginRight="@dimen/offset_small"
         android:layout_toLeftOf="@id/fl_actionbar_title_container"
-        android:visibility="gone" />
+        android:visibility="gone"/>
 
     <LinearLayout
         android:id="@+id/ll_actionbar_right"
@@ -61,8 +62,8 @@
         android:orientation="horizontal"></LinearLayout>
 
     <View
-android:layout_width="match_parent"
-android:layout_height="1dp"
-android:layout_below="@id/iv_actionbar_left"
-android:background="@color/color_border_grey" />
-    </RelativeLayout>
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/iv_actionbar_left"
+        android:background="@color/color_border_grey"/>
+</RelativeLayout>

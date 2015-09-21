@@ -3,6 +3,8 @@ package com.badou.mworking.widget;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -12,9 +14,13 @@ import android.widget.ImageView;
 
 import com.badou.mworking.R;
 import com.badou.mworking.VideoPlayActivity;
-import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.util.BitmapUtil;
 import com.badou.mworking.util.FileUtils;
+import com.badou.mworking.util.UriUtil;
+import com.facebook.drawee.drawable.ScalingUtils;
+import com.facebook.drawee.generic.GenericDraweeHierarchy;
+import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.io.File;
 
@@ -23,7 +29,7 @@ public class VideoImageView extends FrameLayout {
     private String mLocalPath;
     private String mUrl;
     private String mQid;
-    private ImageView mContentImageView;
+    private SimpleDraweeView mContentImageView;
     private ImageView mShowImageView;
     private ImageView mDeleteImageView;
     private Bitmap mBitmap;
@@ -34,7 +40,7 @@ public class VideoImageView extends FrameLayout {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.view_video_image, this);
-        mContentImageView = (ImageView) findViewById(R.id.iv_view_video_image_content);
+        mContentImageView = (SimpleDraweeView) findViewById(R.id.iv_view_video_image_content);
         mDeleteImageView = (ImageView) findViewById(R.id.iv_view_video_image_delete);
         mShowImageView = (ImageView) findViewById(R.id.iv_view_video_image_show);
         setOnClickListener(new OnClickListener() {
@@ -74,7 +80,11 @@ public class VideoImageView extends FrameLayout {
         if (mBitmap != null && !mBitmap.isRecycled())
             mBitmap.recycle();
         mBitmap = bitmap;
-        mContentImageView.setImageBitmap(bitmap);
+        GenericDraweeHierarchyBuilder builder = new GenericDraweeHierarchyBuilder(getResources());
+        GenericDraweeHierarchy hierarchy = builder
+                .setPlaceholderImage(new BitmapDrawable(mContext.getResources(), bitmap), ScalingUtils.ScaleType.CENTER_CROP)
+                .build();
+        mContentImageView.setHierarchy(hierarchy);
         mLocalPath = localPath;
         mQid = null;
     }
@@ -82,7 +92,7 @@ public class VideoImageView extends FrameLayout {
     public void setData(String imgUrl, String videoUrl, String qid) {
         if (mBitmap != null && !mBitmap.isRecycled())
             mBitmap.recycle();
-        ImageViewLoader.setSquareImageViewResource(mContentImageView, R.drawable.icon_image_default, imgUrl, mContext.getResources().getDimensionPixelSize(R.dimen.image_size_content));
+        mContentImageView.setImageURI(UriUtil.getHttpUri(videoUrl));
         mUrl = videoUrl;
         mQid = qid;
     }

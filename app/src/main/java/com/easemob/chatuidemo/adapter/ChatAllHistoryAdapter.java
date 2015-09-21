@@ -37,6 +37,7 @@ import com.easemob.chatuidemo.activity.ChatAllHistoryFragment;
 import com.easemob.chatuidemo.utils.DateUtils;
 import com.easemob.chatuidemo.utils.SmileUtils;
 import com.easemob.util.EMLog;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.swipe.delete.SwipeLayout;
 
 import java.util.Date;
@@ -66,7 +67,7 @@ public class ChatAllHistoryAdapter extends MyBaseAdapter<EMConversation> {
             holder.unreadLabel = (TextView) convertView.findViewById(R.id.unread_msg_number);
             holder.message = (TextView) convertView.findViewById(R.id.message);
             holder.time = (TextView) convertView.findViewById(R.id.time);
-            holder.avatar = (ImageView) convertView.findViewById(R.id.avatar);
+            holder.avatar = (SimpleDraweeView) convertView.findViewById(R.id.avatar);
             holder.msgState = convertView.findViewById(R.id.msg_state);
             holder.swipeLayout = (SwipeLayout) convertView.findViewById(R.id.sl_adapter_message_center);
             holder.deleteImageView = (ImageView) convertView.findViewById(R.id.iv_delete);
@@ -90,7 +91,7 @@ public class ChatAllHistoryAdapter extends MyBaseAdapter<EMConversation> {
             EMGroup group = EMGroupManager.getInstance().getGroup(username);
             holder.name.setText(group != null ? group.getGroupName() : username);
         } else if (conversation.getType() == EMConversationType.Chat) {
-            EMChatEntity.setUserAvatar(mContext, username, holder.avatar);
+            EMChatEntity.setUserAvatar(username, holder.avatar);
             holder.name.setText(EMChatEntity.getUserNick(username));
         }
 
@@ -203,7 +204,7 @@ public class ChatAllHistoryAdapter extends MyBaseAdapter<EMConversation> {
         /**
          * 用户头像
          */
-        ImageView avatar;
+        SimpleDraweeView avatar;
         /**
          * 最后一条消息的发送状态
          */

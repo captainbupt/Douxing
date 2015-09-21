@@ -12,8 +12,9 @@ import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.database.AskResManager;
 import com.badou.mworking.entity.Ask;
 import com.badou.mworking.entity.user.UserInfo;
-import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.util.TimeTransfer;
+import com.badou.mworking.util.UriUtil;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -68,8 +69,8 @@ public class AskAnswerAdapter extends MyBaseAdapter<Ask> {
         holder.contentTextView.setText(ask.getContent());
         holder.dateTextView.setText(TimeTransfer.long2StringDetailDate(mContext, ask.getCreateTime()));
 
-        ImageViewLoader.setCircleImageViewResource(holder.headImageView, ask.getUserHeadUrl(), mContext.getResources().getDimensionPixelSize(R.dimen.icon_head_size_middle));
-        ImageViewLoader.setSquareImageViewResourceOnWifi(mContext, holder.contentImageView, R.drawable.icon_image_default, ask.getContentImageUrl(), mContext.getResources().getDimensionPixelSize(R.dimen.icon_size_xlarge));
+        holder.headImageView.setImageURI(UriUtil.getHttpUri(ask.getUserHeadUrl()));
+        holder.contentImageView.setImageURI(UriUtil.getHttpUri(ask.getContentImageUrl()));
 
         /** 设置点赞的check **/
         if (AskResManager.isSelect(mAid, ask.getCreateTime())) {
@@ -98,13 +99,13 @@ public class AskAnswerAdapter extends MyBaseAdapter<Ask> {
 
     class ViewHolder {
         @Bind(R.id.head_image_view)
-        ImageView headImageView;
+        SimpleDraweeView headImageView;
         @Bind(R.id.name_text_view)
         TextView nameTextView;
         @Bind(R.id.content_text_view)
         TextView contentTextView;
         @Bind(R.id.content_image_view)
-        ImageView contentImageView;
+        SimpleDraweeView contentImageView;
         @Bind(R.id.floor_text_view)
         TextView floorTextView;
         @Bind(R.id.date_text_view)

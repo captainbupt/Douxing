@@ -82,6 +82,7 @@ import com.easemob.util.EMLog;
 import com.easemob.util.FileUtils;
 import com.easemob.util.LatLng;
 import com.easemob.util.TextFormater;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 public class MessageAdapter extends BaseAdapter {
 
@@ -307,7 +308,7 @@ public class MessageAdapter extends BaseAdapter {
             if (message.getType() == EMMessage.Type.IMAGE) {
                 try {
                     holder.iv = ((ImageView) convertView.findViewById(R.id.iv_sendPicture));
-                    holder.iv_avatar = (ImageView) convertView.findViewById(R.id.iv_userhead);
+                    holder.iv_avatar = (SimpleDraweeView) convertView.findViewById(R.id.iv_userhead);
                     holder.tv = (TextView) convertView.findViewById(R.id.percentage);
                     holder.pb = (ProgressBar) convertView.findViewById(R.id.progressBar);
                     holder.staus_iv = (ImageView) convertView.findViewById(R.id.msg_status);
@@ -320,7 +321,7 @@ public class MessageAdapter extends BaseAdapter {
                 try {
                     holder.pb = (ProgressBar) convertView.findViewById(R.id.pb_sending);
                     holder.staus_iv = (ImageView) convertView.findViewById(R.id.msg_status);
-                    holder.iv_avatar = (ImageView) convertView.findViewById(R.id.iv_userhead);
+                    holder.iv_avatar = (SimpleDraweeView) convertView.findViewById(R.id.iv_userhead);
                     // 这里是文字内容
                     holder.tv = (TextView) convertView.findViewById(R.id.tv_chatcontent);
                     holder.tv_usernick = (TextView) convertView.findViewById(R.id.tv_userid);
@@ -337,7 +338,7 @@ public class MessageAdapter extends BaseAdapter {
             } else if (message.getType() == EMMessage.Type.VOICE) {
                 try {
                     holder.iv = ((ImageView) convertView.findViewById(R.id.iv_voice));
-                    holder.iv_avatar = (ImageView) convertView.findViewById(R.id.iv_userhead);
+                    holder.iv_avatar = (SimpleDraweeView) convertView.findViewById(R.id.iv_userhead);
                     holder.tv = (TextView) convertView.findViewById(R.id.tv_length);
                     holder.pb = (ProgressBar) convertView.findViewById(R.id.pb_sending);
                     holder.staus_iv = (ImageView) convertView.findViewById(R.id.msg_status);
@@ -347,7 +348,7 @@ public class MessageAdapter extends BaseAdapter {
                 }
             } else if (message.getType() == EMMessage.Type.LOCATION) {
                 try {
-                    holder.iv_avatar = (ImageView) convertView.findViewById(R.id.iv_userhead);
+                    holder.iv_avatar = (SimpleDraweeView) convertView.findViewById(R.id.iv_userhead);
                     holder.tv = (TextView) convertView.findViewById(R.id.tv_location);
                     holder.pb = (ProgressBar) convertView.findViewById(R.id.pb_sending);
                     holder.staus_iv = (ImageView) convertView.findViewById(R.id.msg_status);
@@ -357,7 +358,7 @@ public class MessageAdapter extends BaseAdapter {
             } else if (message.getType() == EMMessage.Type.VIDEO) {
                 try {
                     holder.iv = ((ImageView) convertView.findViewById(R.id.chatting_content_iv));
-                    holder.iv_avatar = (ImageView) convertView.findViewById(R.id.iv_userhead);
+                    holder.iv_avatar = (SimpleDraweeView) convertView.findViewById(R.id.iv_userhead);
                     holder.tv = (TextView) convertView.findViewById(R.id.percentage);
                     holder.pb = (ProgressBar) convertView.findViewById(R.id.progressBar);
                     holder.staus_iv = (ImageView) convertView.findViewById(R.id.msg_status);
@@ -371,7 +372,7 @@ public class MessageAdapter extends BaseAdapter {
                 }
             } else if (message.getType() == EMMessage.Type.FILE) {
                 try {
-                    holder.iv_avatar = (ImageView) convertView.findViewById(R.id.iv_userhead);
+                    holder.iv_avatar = (SimpleDraweeView) convertView.findViewById(R.id.iv_userhead);
                     holder.tv_file_name = (TextView) convertView.findViewById(R.id.tv_file_name);
                     holder.tv_file_size = (TextView) convertView.findViewById(R.id.tv_file_size);
                     holder.pb = (ProgressBar) convertView.findViewById(R.id.pb_sending);
@@ -573,12 +574,12 @@ public class MessageAdapter extends BaseAdapter {
      * @param message
      * @param imageView
      */
-    private void setUserAvatar(EMMessage message, ImageView imageView) {
+    private void setUserAvatar(EMMessage message, SimpleDraweeView imageView) {
         if (message.direct == Direct.SEND) {
             //显示自己头像
-            EMChatEntity.setUserAvatar(context, EMChatManager.getInstance().getCurrentUser(), imageView);
+            EMChatEntity.setUserAvatar(EMChatManager.getInstance().getCurrentUser(), imageView);
         } else {
-            EMChatEntity.setUserAvatar(context, message.getFrom(), imageView);
+            EMChatEntity.setUserAvatar(message.getFrom(), imageView);
         }
     }
 
@@ -1452,7 +1453,7 @@ public class MessageAdapter extends BaseAdapter {
         TextView tv;
         ProgressBar pb;
         ImageView staus_iv;
-        ImageView iv_avatar;
+        SimpleDraweeView iv_avatar;
         TextView tv_usernick;
         ImageView playBtn;
         TextView timeLength;

@@ -9,17 +9,17 @@ import android.widget.LinearLayout;
 
 import com.badou.mworking.BackWebActivity;
 import com.badou.mworking.R;
-import com.badou.mworking.entity.chatter.Chatter;
 import com.badou.mworking.entity.chatter.UrlContent;
-import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.util.DensityUtil;
+import com.badou.mworking.util.UriUtil;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class ChatterUrlView extends LinearLayout {
     @Bind(R.id.content_image_view)
-    ImageView mContentImageView;
+    SimpleDraweeView mContentImageView;
     @Bind(R.id.content_text_view)
     EllipsizeTextView mContentTextView;
 
@@ -38,7 +38,7 @@ public class ChatterUrlView extends LinearLayout {
         if (urlContent != null) {
             this.mUrl = urlContent.getUrl();
             mContentTextView.setText(urlContent.getDescription());
-            ImageViewLoader.setSquareImageViewResource(mContentImageView, R.drawable.icon_chatter_url_default, urlContent.getUrl(), DensityUtil.getInstance().getIconSizeSmall());
+            mContentImageView.setImageURI(UriUtil.getHttpUri(urlContent.getUrl()));
             setEnabled(true);
             setOnClickListener(new OnClickListener() {
                 @Override

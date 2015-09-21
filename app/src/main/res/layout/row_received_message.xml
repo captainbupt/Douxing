@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:myattr="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -10,22 +12,23 @@
         style="@style/chat_text_date_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_chat_activity">
 
-        <ImageView
+        <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/iv_userhead"
             android:layout_width="@dimen/size_avatar"
             android:layout_height="@dimen/size_avatar"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="@dimen/margin_chat_activity"
-            android:scaleType="centerCrop"
-            android:src="@drawable/icon_emchat_single" />
+            myattr:actualImageScaleType="centerCrop"
+            myattr:placeholderImage="@drawable/icon_emchat_single"
+            myattr:placeholderImageScaleType="centerCrop"/>
 
         <TextView
             android:id="@+id/tv_userid"
@@ -34,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="@dimen/offset_small"
-            android:layout_toRightOf="@id/iv_userhead" />
+            android:layout_toRightOf="@id/iv_userhead"/>
 
         <TextView
             android:id="@+id/tv_chatcontent"
@@ -43,11 +46,11 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_userid"
             android:layout_marginLeft="@dimen/margin_chat_activity"
-            android:maxWidth="225dp"
             android:layout_toRightOf="@id/iv_userhead"
             android:autoLink="web"
             android:background="@drawable/chatfrom_bg_normal"
-            android:gravity="left|center" />
+            android:gravity="left|center"
+            android:maxWidth="225dp"/>
     </RelativeLayout>
 
 </LinearLayout>

@@ -114,8 +114,7 @@
 -dontwarn com.baidu.**
 
 # 自高容僕
--libraryjars libs/jpush-sdk-release1.8.1.jar
--dontwarn cn.jpush.**
+-dontwarn cn.jpush.s**
 -keep class cn.jpush.** { *; }
 
 # 嗔男
@@ -137,8 +136,10 @@ public static final int *;
 -keep class com.handmark.pulltorefresh.**{*;}
 
 # nineoldandroid
-#-libraryjars libs/nineoldandroids-2.4.0.jar
--keep class com.nineoldandroids.**{*;}
+-keep class com.nineoldandroids.animation.** { *; }
+-keep interface com.nineoldandroids.animation.** { *; }
+-keep class com.nineoldandroids.view.** { *; }
+-keep interface com.nineoldandroids.view.** { *; }
 
 # butterknife
 -keep class butterknife.** { *; }
@@ -239,3 +240,11 @@ public static final int *;
 
 -dontwarn okio.**
 -dontwarn javax.annotation.**
+
+# Share SDK
+-keep class cn.sharesdk.**{*;}
+-keep class com.sina.**{*;}
+-keep class **.R$* {*;}
+-keep class **.R{*;}
+-dontwarn cn.sharesdk.**
+-dontwarn **.R$*

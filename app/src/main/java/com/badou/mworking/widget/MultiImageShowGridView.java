@@ -2,6 +2,8 @@ package com.badou.mworking.widget;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +16,11 @@ import android.widget.LinearLayout;
 import com.badou.mworking.MultiPhotoActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
-import com.badou.mworking.net.bitmap.ImageViewLoader;
+import com.badou.mworking.util.UriUtil;
+import com.facebook.drawee.drawable.ScalingUtils;
+import com.facebook.drawee.generic.GenericDraweeHierarchy;
+import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
 
@@ -62,20 +68,32 @@ public class MultiImageShowGridView extends GridView {
 
     static class MultiImageShowAdapter extends MyBaseAdapter<String> {
 
+        GenericDraweeHierarchy hierarchy;
+
         public MultiImageShowAdapter(Context context) {
             super(context);
+            GenericDraweeHierarchyBuilder builder = new GenericDraweeHierarchyBuilder(context.getResources());
+            hierarchy = builder
+                    .setPlaceholderImage(ContextCompat.getDrawable(context, R.drawable.icon_image_default), ScalingUtils.ScaleType.CENTER_CROP)
+                    .setActualImageScaleType(ScalingUtils.ScaleType.CENTER_CROP)
+                    .build();
         }
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
-            String imgUrl = (String) getItem(i);
+            String imgUrl = getItem(i);
             int size = mContext.getResources().getDimensionPixelSize(R.dimen.image_size_content);
             if (view == null) {
-                view = new ImageView(mContext);
+                view = new SimpleDraweeView(mContext);
                 view.setLayoutParams(new AbsListView.LayoutParams(size, size));
-                ((ImageView) view).setScaleType(ImageView.ScaleType.CENTER_CROP);
+                GenericDraweeHierarchyBuilder builder = new GenericDraweeHierarchyBuilder(mContext.getResources());
+                GenericDraweeHierarchy hierarchy = builder
+                        .setPlaceholderImage(ContextCompat.getDrawable(mContext, R.drawable.icon_image_default), ScalingUtils.ScaleType.CENTER_CROP)
+                        .setActualImageScaleType(ScalingUtils.ScaleType.CENTER_CROP)
+                        .build();
+                ((SimpleDraweeView) view).setHierarchy(hierarchy);
             }
-            ImageViewLoader.setSquareImageViewResource((ImageView) view, R.drawable.icon_image_default, imgUrl, size);
+            ((SimpleDraweeView) view).setImageURI(UriUtil.getHttpUri(imgUrl));
             return view;
         }
     }

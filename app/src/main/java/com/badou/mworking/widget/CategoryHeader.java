@@ -11,14 +11,10 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
 import com.badou.mworking.R;
-import com.badou.mworking.net.bitmap.BitmapLruCache;
-import com.badou.mworking.net.volley.MyVolley;
-import com.badou.mworking.util.BitmapUtil;
-import com.badou.mworking.util.DensityUtil;
+import com.badou.mworking.util.UriUtil;
 import com.captainhwz.layout.HeaderHandler;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.nineoldandroids.view.ViewHelper;
 
 import butterknife.Bind;
@@ -40,7 +36,7 @@ public class CategoryHeader extends RelativeLayout implements HeaderHandler {
     @Bind(R.id.title_container)
     LinearLayout mTitleContainer;
     @Bind(R.id.background_image_view)
-    ImageView mBackgroundImageView;
+    SimpleDraweeView mBackgroundImageView;
 
     Context mContext;
     final int leftOffset;
@@ -86,30 +82,11 @@ public class CategoryHeader extends RelativeLayout implements HeaderHandler {
         mBackgroundImageView.setImageBitmap(bitmap);
     }
 
-    public void setBackgroundImageView(final String url){
+    public void setBackgroundImageView(final String url) {
         if (TextUtils.isEmpty(url)) {
             return;
         }
-        Bitmap bitmap = BitmapLruCache.getBitmapLruCache().getOriginBitmap(url);
-        if (!BitmapUtil.isEmpty(bitmap)) {
-            setBackgroundImageView(bitmap);
-        } else {
-            MyVolley.getImageLoader().get(url, new ImageLoader.ImageListener() {
-                @Override
-                public void onResponse(ImageLoader.ImageContainer imageContainer, boolean b) {
-                    Bitmap bitmap = imageContainer.getBitmap();
-                    if (!BitmapUtil.isEmpty(bitmap)) {
-                        BitmapLruCache.getBitmapLruCache().putOriginBitmap(url, bitmap);
-                        setBackgroundImageView(bitmap);
-                    }
-                }
-
-                @Override
-                public void onErrorResponse(VolleyError volleyError) {
-
-                }
-            }, DensityUtil.getInstance().getScreenWidth(), getResources().getDimensionPixelSize(R.dimen.category_header_height));
-        }
+        mBackgroundImageView.setImageURI(UriUtil.getHttpUri(url));
     }
 
 }

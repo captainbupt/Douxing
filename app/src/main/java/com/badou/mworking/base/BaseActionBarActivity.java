@@ -1,7 +1,9 @@
 package com.badou.mworking.base;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -14,8 +16,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.badou.mworking.R;
-import com.badou.mworking.net.bitmap.ImageViewLoader;
+import com.badou.mworking.util.UriUtil;
 import com.badou.mworking.widget.WaitProgressDialog;
+import com.facebook.drawee.drawable.ScalingUtils;
+import com.facebook.drawee.generic.GenericDraweeHierarchy;
+import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 public class BaseActionBarActivity extends BaseNoTitleActivity {
 
@@ -145,13 +151,18 @@ public class BaseActionBarActivity extends BaseNoTitleActivity {
         return textView;
     }
 
-    public static ImageView getDefaultLogoImageView(Context context, String url) {
-        ImageView logoImage = new ImageView(context);
-        logoImage.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, context.getResources().getDimensionPixelOffset(R.dimen.height_title_bar)));
-        logoImage.setScaleType(ImageView.ScaleType.FIT_CENTER);
+    public static SimpleDraweeView getDefaultLogoImageView(Context context, String url) {
+        SimpleDraweeView logoImage = new SimpleDraweeView(context);
+        logoImage.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, context.getResources().getDimensionPixelOffset(R.dimen.height_title_bar)));
+        GenericDraweeHierarchyBuilder builder = new GenericDraweeHierarchyBuilder(context.getResources());
+        GenericDraweeHierarchy hierarchy = builder
+                .setPlaceholderImage(ContextCompat.getDrawable(context, R.drawable.logo), ScalingUtils.ScaleType.FIT_CENTER)
+                .setActualImageScaleType(ScalingUtils.ScaleType.FIT_CENTER)
+                .build();
+        logoImage.setHierarchy(hierarchy);
         int padding = context.getResources().getDimensionPixelOffset(R.dimen.offset_lless);
         logoImage.setPadding(padding, padding, padding, padding);
-        ImageViewLoader.setImageViewResource(logoImage, R.drawable.logo, url);
+        logoImage.setImageURI(UriUtil.getHttpUri(url));
         return logoImage;
     }
 }

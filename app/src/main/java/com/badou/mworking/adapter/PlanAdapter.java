@@ -11,7 +11,6 @@ import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.Plan;
-import com.badou.mworking.net.bitmap.ImageViewLoader;
 import com.badou.mworking.util.DensityUtil;
 import com.badou.mworking.util.UriUtil;
 import com.facebook.drawee.view.SimpleDraweeView;

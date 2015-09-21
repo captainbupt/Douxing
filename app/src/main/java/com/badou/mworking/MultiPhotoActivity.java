@@ -3,6 +3,7 @@ package com.badou.mworking;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -10,17 +11,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
 import com.badou.mworking.base.BaseNoTitleActivity;
-import com.badou.mworking.net.bitmap.ImageViewLoader;
-import com.badou.mworking.net.volley.MyVolley;
 import com.badou.mworking.presenter.MultiPhotoPresenter;
 import com.badou.mworking.presenter.Presenter;
 import com.badou.mworking.util.BitmapUtil;
 import com.badou.mworking.util.DensityUtil;
-import com.badou.mworking.util.ToastUtil;
+import com.badou.mworking.util.UriUtil;
 import com.badou.mworking.view.MultiPhotoView;
+import com.facebook.common.executors.CallerThreadExecutor;
+import com.facebook.common.references.CloseableReference;
+import com.facebook.datasource.DataSource;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.imagepipeline.core.ImagePipeline;
+import com.facebook.imagepipeline.datasource.BaseBitmapDataSubscriber;
+import com.facebook.imagepipeline.image.CloseableImage;
+import com.facebook.imagepipeline.request.ImageRequest;
+import com.facebook.imagepipeline.request.ImageRequestBuilder;
 
 import java.util.List;
 
@@ -84,18 +90,25 @@ public class MultiPhotoActivity extends BaseNoTitleActivity implements MultiPhot
             for (int ii = 0; ii < urls.length; ii++) {
                 mPhotoViews[ii] = new PhotoView(mContext);
                 final int finalIi = ii;
-                ImageViewLoader.setPhotoView(mPhotoViews[ii], urls[ii], new ImageLoader.ImageListener() {
+                ImageRequest request = ImageRequestBuilder
+                        .newBuilderWithSource(UriUtil.getHttpUri(urls[ii]))
+                        .setLowestPermittedRequestLevel(ImageRequest.RequestLevel.FULL_FETCH)
+                        .build();
+                ImagePipeline imagePipeline = Fresco.getImagePipeline();
+                DataSource<CloseableReference<CloseableImage>>
+                        dataSource = imagePipeline.fetchDecodedImage(request, mContext);
+                dataSource.subscribe(new BaseBitmapDataSubscriber() {
                     @Override
-                    public void onResponse(ImageLoader.ImageContainer imageContainer, boolean b) {
-                        mBitmaps[finalIi] = imageContainer.getBitmap();
-                        mPhotoViews[finalIi].setImageBitmap(imageContainer.getBitmap());
+                    protected void onNewResultImpl(Bitmap bitmap) {
+                        mPhotoViews[finalIi].setImageDrawable(new BitmapDrawable(bitmap));
                         mPhotoViews[finalIi].setZoomable(true);
                     }
 
                     @Override
-                    public void onErrorResponse(VolleyError volleyError) {
+                    protected void onFailureImpl(DataSource<CloseableReference<CloseableImage>> dataSource) {
+                        showToast(R.string.error_service);
                     }
-                });
+                }, CallerThreadExecutor.getInstance());
             }
             mPhotoViewPagerAdapter = new PhotoViewPagerAdapter(mPhotoViews);
             mImageViewPager.setAdapter(mPhotoViewPagerAdapter);

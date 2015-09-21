@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:myattr="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/color_white"
@@ -11,7 +13,7 @@
         android:id="@+id/view_adapter_comment_divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/color_border_grey" />
+        android:background="@color/color_border_grey"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,12 +21,14 @@
         android:paddingBottom="@dimen/offset_less"
         android:paddingTop="@dimen/offset_less">
 
-        <ImageView
+        <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/iv_adapter_comment_head"
             android:layout_width="@dimen/icon_head_size_middle"
             android:layout_height="@dimen/icon_head_size_middle"
-            android:scaleType="centerInside"
-            android:src="@drawable/icon_user_detail_default_head" />
+            myattr:actualImageScaleType="centerInside"
+            myattr:placeholderImage="@drawable/icon_user_detail_default_head"
+            myattr:placeholderImageScaleType="centerInside"
+            myattr:roundAsCircle="true"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -38,14 +42,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/color_text_grey"
-                android:textSize="@dimen/text_size_less" />
+                android:textSize="@dimen/text_size_less"/>
 
             <TextView
                 android:id="@+id/tv_adapter_comment_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/color_text_black"
-                android:textSize="@dimen/text_size_medium" />
+                android:textSize="@dimen/text_size_medium"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -58,7 +62,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/offset_less"
                     android:textColor="@color/color_text_grey"
-                    android:textSize="@dimen/text_size_small" />
+                    android:textSize="@dimen/text_size_small"/>
 
                 <TextView
                     android:id="@+id/tv_adapter_comment_date"
@@ -66,7 +70,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textColor="@color/color_text_grey"
-                    android:textSize="@dimen/text_size_small" />
+                    android:textSize="@dimen/text_size_small"/>
 
                 <TextView
                     android:id="@+id/tv_adapter_comment_delete"
@@ -75,7 +79,7 @@
                     android:paddingLeft="@dimen/offset_less"
                     android:text="@string/operation_delete"
                     android:textColor="@color/color_blue"
-                    android:textSize="@dimen/text_size_small" />
+                    android:textSize="@dimen/text_size_small"/>
             </LinearLayout>
         </LinearLayout>
 

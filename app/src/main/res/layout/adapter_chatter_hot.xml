@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:myattr="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
@@ -9,12 +11,14 @@
     android:paddingRight="@dimen/text_size_medium"
     android:paddingTop="@dimen/text_size_less">
 
-    <ImageView
+    <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/head_image_view"
         android:layout_width="@dimen/icon_head_size_middle"
         android:layout_height="@dimen/icon_head_size_middle"
-        android:scaleType="centerInside"
-        android:src="@drawable/icon_user_detail_default_head" />
+        myattr:actualImageScaleType="centerInside"
+        myattr:placeholderImage="@drawable/icon_user_detail_default_head"
+        myattr:placeholderImageScaleType="centerInside"
+        myattr:roundAsCircle="true"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -29,7 +33,7 @@
             android:ellipsize="end"
             android:singleLine="true"
             android:textColor="@color/color_text_black"
-            android:textSize="@dimen/text_size_medium" />
+            android:textSize="@dimen/text_size_medium"/>
 
         <TextView
             android:id="@+id/data_text_view"
@@ -39,7 +43,7 @@
             android:ellipsize="end"
             android:singleLine="true"
             android:textColor="@color/color_text_grey"
-            android:textSize="@dimen/text_size_less" />
+            android:textSize="@dimen/text_size_less"/>
     </LinearLayout>
 
     <com.badou.mworking.widget.LevelTextView
@@ -48,13 +52,13 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="@dimen/offset_small"
         android:textColor="#ffffff"
-        android:textSize="@dimen/text_size_small" />
+        android:textSize="@dimen/text_size_small"/>
 
     <ImageView
         android:id="@+id/rank_image_view"
         android:layout_width="@dimen/around_icon_hot_rank_width"
         android:layout_height="wrap_content"
-        android:scaleType="centerInside" />
+        android:scaleType="centerInside"/>
 
     <TextView
         android:id="@+id/rank_text_view"
@@ -62,6 +66,6 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textColor="@color/color_text_black"
-        android:textSize="@dimen/text_size_medium" />
+        android:textSize="@dimen/text_size_medium"/>
 
 </LinearLayout>

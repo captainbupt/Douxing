@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:myattr="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingLeft="@dimen/offset_small"
     android:paddingRight="@dimen/offset_small">
 
-    <ImageView
+    <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/iv_avatar"
         android:layout_width="@dimen/icon_size_medium"
         android:layout_height="@dimen/icon_size_medium"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/smiley_add_btn" />
+        myattr:actualImageScaleType="centerCrop"
+        myattr:placeholderImage="@drawable/smiley_add_btn"
+        myattr:placeholderImageScaleType="centerCrop"/>
 
     <TextView
         android:id="@+id/tv_name"
@@ -23,7 +26,7 @@
         android:layout_marginTop="@dimen/offset_micro"
         android:ellipsize="end"
         android:singleLine="true"
-        android:textSize="@dimen/text_size_less" />
+        android:textSize="@dimen/text_size_less"/>
 
     <ImageView
         android:id="@+id/badge_delete"
@@ -34,6 +37,6 @@
         android:layout_marginLeft="-5dp"
         android:layout_marginTop="-5dp"
         android:src="@drawable/icon_multi_image_edit_delete"
-        android:visibility="invisible" />
+        android:visibility="invisible"/>
 
 </RelativeLayout>
