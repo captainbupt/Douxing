@@ -1,6 +1,7 @@
 package com.badou.mworking.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -9,11 +10,13 @@ import android.widget.TextView;
 
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
+import com.badou.mworking.base.MyBaseRecyclerAdapter;
 import com.badou.mworking.database.AskResManager;
 import com.badou.mworking.entity.Ask;
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.util.TimeTransfer;
 import com.badou.mworking.util.UriUtil;
+import com.easemob.chatuidemo.adapter.MessageAdapter;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import butterknife.Bind;
@@ -22,7 +25,7 @@ import butterknife.ButterKnife;
 /**
  * 问答详情页面
  */
-public class AskAnswerAdapter extends MyBaseAdapter<Ask> {
+public class AskAnswerAdapter extends MyBaseRecyclerAdapter<Ask,AskAnswerAdapter.MyViewHolder> {
 
     private String mAid;
     private int mReplyCount;
@@ -50,21 +53,20 @@ public class AskAnswerAdapter extends MyBaseAdapter<Ask> {
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
-        if (convertView != null) {
-            holder = (ViewHolder) convertView.getTag(R.id.tag_holder);
-        } else {
-            convertView = mInflater.inflate(R.layout.adapter_ask_answer, parent, false);
-            holder = new ViewHolder(convertView);
-            convertView.setTag(R.id.tag_holder, holder);
-            holder.praiseCountTextView.setOnClickListener(mPraiseListener);
-            holder.praiseImageView.setOnClickListener(mPraiseListener);
-            holder.contentImageView.setOnClickListener(mFullImageListener);
-            convertView.setOnClickListener(mReplyListener);
-            convertView.setOnLongClickListener(mCopyListener);
-        }
-        final Ask ask = (Ask) getItem(position);
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = mInflater.inflate(R.layout.adapter_ask_answer, parent, false);
+        MyViewHolder holder = new MyViewHolder(view);
+        holder.praiseCountTextView.setOnClickListener(mPraiseListener);
+        holder.praiseImageView.setOnClickListener(mPraiseListener);
+        holder.contentImageView.setOnClickListener(mFullImageListener);
+        view.setOnClickListener(mReplyListener);
+        view.setOnLongClickListener(mCopyListener);
+        return holder;
+    }
+
+    @Override
+    public void onBindViewHolder(MyViewHolder holder, int position) {
+        final Ask ask = getItem(position);
         holder.nameTextView.setText(ask.getUserName());
         holder.contentTextView.setText(ask.getContent());
         holder.dateTextView.setText(TimeTransfer.long2StringDetailDate(mContext, ask.getCreateTime()));
@@ -93,11 +95,10 @@ public class AskAnswerAdapter extends MyBaseAdapter<Ask> {
         holder.praiseCountTextView.setTag(position);
         holder.praiseImageView.setTag(position);
         holder.contentImageView.setTag(position);
-        convertView.setTag(R.id.tag_position, position);
-        return convertView;
+        holder.parentView.setTag(position);
     }
 
-    class ViewHolder {
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.head_image_view)
         SimpleDraweeView headImageView;
         @Bind(R.id.name_text_view)
@@ -116,8 +117,11 @@ public class AskAnswerAdapter extends MyBaseAdapter<Ask> {
         TextView praiseCountTextView;
         @Bind(R.id.reply_image_view)
         ImageView replyImageView;
+        View parentView;
 
-        ViewHolder(View view) {
+        MyViewHolder(View view) {
+            super(view);
+            parentView = view;
             ButterKnife.bind(this, view);
         }
     }

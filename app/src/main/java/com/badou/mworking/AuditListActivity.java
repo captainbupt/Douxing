@@ -33,7 +33,7 @@ public class AuditListActivity extends BaseBackActionBarActivity implements Audi
 
     @Bind(R.id.content_list_view)
     AnimatedExpandableListView mContentListView;
-    @Bind(R.id.pull_to_refresh_layout)
+    @Bind(R.id.ptr_classic_frame_layout)
     PtrClassicFrameLayout mPullToRefreshLayout;
     @Bind(R.id.none_result_view)
     NoneResultView mNoneResultView;

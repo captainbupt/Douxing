@@ -3,6 +3,8 @@ package com.badou.mworking;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -17,22 +19,24 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.badou.mworking.factory.CategoryAdapterFactory;
+import com.badou.mworking.adapter.CategoryBaseAdapter;
 import com.badou.mworking.adapter.ClassificationAdapter;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.base.MyBaseAdapter;
+import com.badou.mworking.base.MyBaseRecyclerAdapter;
 import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.Classification;
+import com.badou.mworking.factory.CategoryAdapterFactory;
+import com.badou.mworking.presenter.Presenter;
 import com.badou.mworking.presenter.category.CategoryListPresenter;
 import com.badou.mworking.presenter.category.ExamListPresenter;
-import com.badou.mworking.presenter.Presenter;
 import com.badou.mworking.presenter.category.SurveyListPresenter;
 import com.badou.mworking.presenter.category.TrainingListPresenter;
 import com.badou.mworking.util.DensityUtil;
 import com.badou.mworking.view.category.CategoryListView;
+import com.badou.mworking.widget.DividerItemDecoration;
 import com.badou.mworking.widget.NoneResultView;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.badou.mworking.widget.VerticalSpaceItemDecoration;
 
 import java.util.List;
 
@@ -40,14 +44,15 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnItemClick;
 import butterknife.OnTouch;
+import in.srain.cube.views.ptr.PtrClassicFrameLayout;
+import in.srain.cube.views.ptr.PtrDefaultHandler2;
+import in.srain.cube.views.ptr.PtrFrameLayout;
 
 public class CategoryListActivity extends BaseBackActionBarActivity implements CategoryListView {
 
     public static final String KEY_CATEGORY = "category";
     public static final String KEY_IS_DONE = "done";
 
-    @Bind(R.id.content_list_view)
-    PullToRefreshListView mContentListView;
     @Bind(R.id.none_result_view)
     NoneResultView mNoneResultView;
     @Bind(R.id.classification_main_list)
@@ -58,6 +63,10 @@ public class CategoryListActivity extends BaseBackActionBarActivity implements C
     LinearLayout mClassificationContainer;
     @Bind(R.id.classification_background)
     FrameLayout mClassificationBackground;
+    @Bind(R.id.content_list_view)
+    RecyclerView mContentListView;
+    @Bind(R.id.ptr_classic_frame_layout)
+    PtrClassicFrameLayout mPtrClassicFrameLayout;
 
     private ImageView mTitleTriangleImageView;
     private View mTitleLayout;
@@ -65,7 +74,7 @@ public class CategoryListActivity extends BaseBackActionBarActivity implements C
 
     private ClassificationAdapter mMainClassificationAdapter = null;
     private ClassificationAdapter mMoreClassificationAdapter = null;
-    protected MyBaseAdapter<Category> mCategoryAdapter = null;
+    protected CategoryBaseAdapter mCategoryAdapter = null;
     private int mCategoryIndex;
 
     CategoryListPresenter mPresenter;
@@ -180,28 +189,38 @@ public class CategoryListActivity extends BaseBackActionBarActivity implements C
         mClassificationMainList.setAdapter(mMainClassificationAdapter);
     }
 
+    protected RecyclerView.ItemDecoration getItemDecoration() {
+        if (mCategoryIndex == Category.CATEGORY_TRAINING || mCategoryIndex == Category.CATEGORY_SHELF) {
+            return new VerticalSpaceItemDecoration(DensityUtil.getInstance().getOffsetLless());
+        } else {
+            return new DividerItemDecoration(mContext);
+        }
+    }
+
     private void initListView() {
+        mContentListView.setLayoutManager(new LinearLayoutManager(mContext));
+        mContentListView.addItemDecoration(getItemDecoration());
+        mContentListView.setHasFixedSize(true);
 
-        mCategoryAdapter = CategoryAdapterFactory.getAdapter(mContext, mCategoryIndex);
-
-        mContentListView.setAdapter(mCategoryAdapter);
-        mContentListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
-            @Override
-            public void onPullDownToRefresh(PullToRefreshBase refreshView) {
-                mPresenter.refresh();
-            }
+        mCategoryAdapter = CategoryAdapterFactory.getAdapter(mContext, mCategoryIndex, new View.OnClickListener() {
 
             @Override
-            public void onPullUpToRefresh(PullToRefreshBase refreshView) {
-                mPresenter.loadMore();
+            public void onClick(View v) {
+                int position = (int) v.getTag();
+                mPresenter.onItemClick(mCategoryAdapter.getItem(position), position);
             }
         });
-        mContentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+        mContentListView.setAdapter(mCategoryAdapter);
+        mPtrClassicFrameLayout.setPtrHandler(new PtrDefaultHandler2() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                position--;
-                Category category = mCategoryAdapter.getItem(position);
-                mPresenter.onItemClick(category, position);
+            public void onLoadMoreBegin(PtrFrameLayout frame) {
+                mPresenter.loadMore();
+            }
+
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                mPresenter.refresh();
             }
         });
     }
@@ -251,31 +270,28 @@ public class CategoryListActivity extends BaseBackActionBarActivity implements C
 
     @Override
     public void disablePullUp() {
-        mContentListView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
+        mPtrClassicFrameLayout.setMode(PtrFrameLayout.Mode.REFRESH);
     }
 
     @Override
     public void enablePullUp() {
-        mContentListView.setMode(PullToRefreshBase.Mode.BOTH);
+        mPtrClassicFrameLayout.setMode(PtrFrameLayout.Mode.BOTH);
     }
 
     @Override
     public void startRefreshing() {
-        // 当上拉一次后，setRefreshing默认会继续上拉，导致错误。因此设置强制下拉。这个控件不是特别好用，要换了。。
-        mContentListView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
-        mContentListView.setRefreshing(true);
-        mContentListView.setMode(PullToRefreshBase.Mode.BOTH);
+        mPtrClassicFrameLayout.autoRefresh();
     }
 
     @Override
     public boolean isRefreshing() {
-        return mContentListView.isRefreshing();
+        return mPtrClassicFrameLayout.isRefreshing();
     }
 
     @Override
     public void refreshComplete() {
         hideProgressBar();
-        mContentListView.onRefreshComplete();
+        mPtrClassicFrameLayout.refreshComplete();
     }
 
     @Override
@@ -290,7 +306,7 @@ public class CategoryListActivity extends BaseBackActionBarActivity implements C
 
     @Override
     public int getDataCount() {
-        return mCategoryAdapter.getCount();
+        return mCategoryAdapter.getItemCount();
     }
 
     @Override

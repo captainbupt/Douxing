@@ -1,24 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:myattr="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/color_layout_bg">
+             xmlns:myattr="http://schemas.android.com/apk/res-auto"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:background="@color/color_layout_bg">
 
 
     <com.badou.mworking.widget.NoneResultView
         android:id="@+id/none_result_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         myattr:imgSrc="@drawable/background_none_result_ask"
-        myattr:tipText="@string/none_result_ask"
-        android:layout_gravity="center"/>
+        myattr:tipText="@string/none_result_ask"/>
 
-    <com.handmark.pulltorefresh.library.PullToRefreshListView
-        android:id="@+id/content_list_view"
+    <in.srain.cube.views.ptr.PtrClassicFrameLayout
+        android:id="@+id/ptr_classic_frame_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/transparent"
-        android:divider="@null"
-        android:scrollbars="none" />
+        android:background="@color/transparent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/content_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none"/>
+    </in.srain.cube.views.ptr.PtrClassicFrameLayout>
+
 </FrameLayout>

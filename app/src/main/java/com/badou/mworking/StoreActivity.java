@@ -2,9 +2,9 @@ package com.badou.mworking;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 import com.badou.mworking.adapter.StoreAdapter;
 import com.badou.mworking.base.BaseBackActionBarActivity;
@@ -12,19 +12,23 @@ import com.badou.mworking.entity.Store;
 import com.badou.mworking.presenter.Presenter;
 import com.badou.mworking.presenter.StoreListPresenter;
 import com.badou.mworking.view.StoreListView;
+import com.badou.mworking.widget.DividerItemDecoration;
 import com.badou.mworking.widget.NoneResultView;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import in.srain.cube.views.ptr.PtrClassicFrameLayout;
+import in.srain.cube.views.ptr.PtrDefaultHandler2;
+import in.srain.cube.views.ptr.PtrFrameLayout;
 
 public class StoreActivity extends BaseBackActionBarActivity implements StoreListView {
 
+    @Bind(R.id.ptr_classic_frame_layout)
+    PtrClassicFrameLayout mPtrClassicFrameLayout;
     @Bind(R.id.content_list_view)
-    PullToRefreshListView mContentListView;
+    RecyclerView mContentListView;
     @Bind(R.id.none_result_view)
     NoneResultView mNoneResultView;
 
@@ -52,6 +56,12 @@ public class StoreActivity extends BaseBackActionBarActivity implements StoreLis
         mStoreAdapter = new StoreAdapter(mContext, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int position = (int) v.getTag();
+                mPresenter.onItemClick(mStoreAdapter.getItem(position), position);
+            }
+        }, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 mPresenter.deleteStore(mStoreAdapter.getItem((Integer) v.getTag()), (Integer) v.getTag());
             }
         }, new View.OnClickListener() {
@@ -60,22 +70,18 @@ public class StoreActivity extends BaseBackActionBarActivity implements StoreLis
                 mPresenter.praiseStore(mStoreAdapter.getItem((Integer) v.getTag()), (Integer) v.getTag());
             }
         });
-        mContentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                mPresenter.onItemClick((Store) adapterView.getAdapter().getItem(i), i - 1);
-            }
-        });
+        mContentListView.setLayoutManager(new LinearLayoutManager(mContext));
+        mContentListView.addItemDecoration(new DividerItemDecoration(mContext));
         mContentListView.setAdapter(mStoreAdapter);
-        mContentListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+        mPtrClassicFrameLayout.setPtrHandler(new PtrDefaultHandler2() {
             @Override
-            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                mPresenter.refresh();
+            public void onLoadMoreBegin(PtrFrameLayout frame) {
+                mPresenter.loadMore();
             }
 
             @Override
-            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-                mPresenter.loadMore();
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                mPresenter.refresh();
             }
         });
     }
@@ -97,31 +103,27 @@ public class StoreActivity extends BaseBackActionBarActivity implements StoreLis
 
     @Override
     public void disablePullUp() {
-        mContentListView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
+        mPtrClassicFrameLayout.setMode(PtrFrameLayout.Mode.REFRESH);
     }
 
     @Override
     public void enablePullUp() {
-        mContentListView.setMode(PullToRefreshBase.Mode.BOTH);
+        mPtrClassicFrameLayout.setMode(PtrFrameLayout.Mode.BOTH);
     }
 
     @Override
     public void startRefreshing() {
-        mContentListView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
-        mContentListView.setRefreshing();
-        mContentListView.setMode(PullToRefreshBase.Mode.BOTH);
-        showProgressBar();
+        mPtrClassicFrameLayout.autoRefresh();
     }
 
     @Override
     public boolean isRefreshing() {
-        return mContentListView.isRefreshing();
+        return mPtrClassicFrameLayout.isRefreshing();
     }
 
     @Override
     public void refreshComplete() {
-        mContentListView.onRefreshComplete();
-        hideProgressBar();
+        mPtrClassicFrameLayout.refreshComplete();
     }
 
     @Override
@@ -136,7 +138,7 @@ public class StoreActivity extends BaseBackActionBarActivity implements StoreLis
 
     @Override
     public int getDataCount() {
-        return mStoreAdapter.getCount();
+        return mStoreAdapter.getItemCount();
     }
 
     @Override

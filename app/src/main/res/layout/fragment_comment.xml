@@ -11,11 +11,19 @@
         android:layout_height="wrap_content"
         android:layout_weight="1">
 
-        <com.handmark.pulltorefresh.library.PullToRefreshListView
-            android:id="@+id/content_list_view"
+        <in.srain.cube.views.ptr.PtrClassicFrameLayout
+            android:id="@+id/ptr_classic_frame_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:divider="@null" />
+            android:background="@color/transparent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/content_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none"/>
+
+        </in.srain.cube.views.ptr.PtrClassicFrameLayout>
 
 
         <com.badou.mworking.widget.NoneResultView

@@ -40,14 +40,14 @@ import com.badou.mworking.net.HttpClientRepository;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.widget.FullScreenVideoView;
 
-import org.apache.http.Header;
-
 import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * 功能描述: 同事圈视屏播放页面

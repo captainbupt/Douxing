@@ -20,67 +20,59 @@ import com.facebook.drawee.view.SimpleDraweeView;
 /**
  * 功能描述: 微培训adapter
  */
-public class TrainAdapter extends MyBaseAdapter<Category> {
-
-    private int mIconWidth;
-    private int mIconHeight;
+public class TrainAdapter extends CategoryBaseAdapter {
 
     /**
      * 微培训/我的学习
      *
      * @param mContext
      */
-    public TrainAdapter(Context mContext) {
-        super(mContext);
-        mIconWidth = mContext.getResources().getDimensionPixelSize(R.dimen.list_item_train_pic_width);
-        mIconHeight = mContext.getResources().getDimensionPixelSize(R.dimen.list_item_train_pic_height);
+    public TrainAdapter(Context mContext, View.OnClickListener onClickListener) {
+        super(mContext, onClickListener);
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
-        final ViewHolder holder;
-        /** 微培训列表页显示的布局 **/
-        if (convertView != null) {
-            holder = (ViewHolder) convertView.getTag();
-        } else {
-            convertView = mInflater.inflate(R.layout.adapter_training_item, parent, false);
-            holder = new ViewHolder(convertView);
-            convertView.setTag(holder);
-        }
+    public BaseViewHolder onCreateChildViewHolder(ViewGroup parent, int viewType) {
+        return new MyViewHolder(mInflater.inflate(R.layout.adapter_training_item, parent, false));
+    }
+
+    @Override
+    public void onBindViewHolder(BaseViewHolder holder, int position) {
+        super.onBindViewHolder(holder, position);
         final Train train = (Train) getItem(position);
+        MyViewHolder viewHolder = (MyViewHolder) holder;
         if (!TextUtils.isEmpty(train.getImg())) {
-            holder.logoImageView.setImageURI(UriUtil.getHttpUri(train.getImg()));
-        }else{
-            holder.logoImageView.setImageURI(UriUtil.getResourceUri(R.drawable.icon_training_item_default));
+            viewHolder.logoImageView.setImageURI(UriUtil.getHttpUri(train.getImg()));
+        } else {
+            viewHolder.logoImageView.setImageURI(UriUtil.getResourceUri(R.drawable.icon_training_item_default));
         }
 
         // 显示标题
-        holder.subjectTextView.setText(train.getSubject());
+        viewHolder.subjectTextView.setText(train.getSubject());
         // 显示时间和部门
-        holder.dateTextView.setText(TimeTransfer.long2StringDetailDate(mContext, train.getTime()));
+        viewHolder.dateTextView.setText(TimeTransfer.long2StringDetailDate(mContext, train.getTime()));
         // 显示评分人数
-        holder.ratingNumberTextView.setText(" (" + train.getRatingNumber() + ")");
+        viewHolder.ratingNumberTextView.setText(" (" + train.getRatingNumber() + ")");
         // 显示评分星星
         if (train.getRatingNumber() != 0) {
-            holder.ratingbar.setRating((float) train.getRatingTotalValue() / train.getRatingNumber());
+            viewHolder.ratingbar.setRating((float) train.getRatingTotalValue() / train.getRatingNumber());
         }
         // 该课件是否已读
         if (!train.isUnread()) {
-            holder.unreadTextView.setVisibility(View.GONE);
+            viewHolder.unreadTextView.setVisibility(View.GONE);
         } else {
-            holder.unreadTextView.setVisibility(View.VISIBLE);
+            viewHolder.unreadTextView.setVisibility(View.VISIBLE);
         }
         /** 显示是否置顶 **/
         if (train.isTop()) {
-            holder.topImageView.setVisibility(View.VISIBLE);
+            viewHolder.topImageView.setVisibility(View.VISIBLE);
         } else {
-            holder.topImageView.setVisibility(View.GONE);
+            viewHolder.topImageView.setVisibility(View.GONE);
         }
-        holder.commentNumberTextView.setText(train.getCommentNumber() + "");
-        return convertView;
+        viewHolder.commentNumberTextView.setText(train.getCommentNumber() + "");
     }
 
-    static class ViewHolder {
+    public static class MyViewHolder extends BaseViewHolder {
 
         TextView subjectTextView;
         TextView dateTextView;   //显示部门和时间
@@ -91,7 +83,8 @@ public class TrainAdapter extends MyBaseAdapter<Category> {
         TextView commentNumberTextView;
         TextView unreadTextView;
 
-        public ViewHolder(View view) {
+        public MyViewHolder(View view) {
+            super(view);
             topImageView = (ImageView) view.findViewById(R.id.iv_adapter_training_item_top);
             logoImageView = (SimpleDraweeView) view.findViewById(R.id.iv_adapter_training_item_logo);
             subjectTextView = (TextView) view

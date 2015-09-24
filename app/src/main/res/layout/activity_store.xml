@@ -6,12 +6,19 @@
     android:background="@color/color_layout_bg"
     android:orientation="vertical">
 
-    <com.handmark.pulltorefresh.library.PullToRefreshListView
-        android:id="@+id/content_list_view"
+    <in.srain.cube.views.ptr.PtrClassicFrameLayout
+        android:id="@+id/ptr_classic_frame_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:divider="@color/transparent"
-        android:scrollbars="none" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/transparent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/content_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none"/>
+    </in.srain.cube.views.ptr.PtrClassicFrameLayout>
 
     <com.badou.mworking.widget.NoneResultView
         android:id="@+id/none_result_view"

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/color_bg_grey"
-    android:gravity="center_horizontal"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/color_bg_grey"
+              android:gravity="center_horizontal"
+              android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
             android:layout_alignParentTop="true"
             android:padding="@dimen/offset_less"
             android:scaleType="centerInside"
-            android:src="@drawable/button_title_bar_back_normal" />
+            android:src="@drawable/button_title_bar_back_normal"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -29,7 +29,7 @@
             android:gravity="center"
             android:text="@string/user_center_my_study_progress"
             android:textColor="@color/color_white"
-            android:textSize="@dimen/text_size_title_bar_title" />
+            android:textSize="@dimen/text_size_title_bar_title"/>
 
         <TextView
             android:id="@+id/description_text_view"
@@ -39,7 +39,7 @@
             android:layout_centerHorizontal="true"
             android:padding="@dimen/offset_less"
             android:textColor="@android:color/white"
-            android:textSize="50sp" />
+            android:textSize="50sp"/>
 
         <TextView
             android:id="@+id/rank_text_view"
@@ -48,7 +48,7 @@
             android:layout_below="@id/description_text_view"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/offset_large"
-            android:textSize="@dimen/text_size_medium" />
+            android:textSize="@dimen/text_size_medium"/>
 
     </RelativeLayout>
 
@@ -60,16 +60,21 @@
         android:padding="@dimen/offset_less"
         android:text="@string/user_progress_middle_training"
         android:textColor="@color/color_blue"
-        android:textSize="@dimen/text_size_large" />
+        android:textSize="@dimen/text_size_large"/>
 
-    <com.handmark.pulltorefresh.library.PullToRefreshListView
-        android:id="@+id/content_list_view"
+    <in.srain.cube.views.ptr.PtrClassicFrameLayout
+        android:id="@+id/ptr_classic_frame_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@android:color/transparent"
-        android:divider="@null"
-        android:scrollbars="none" />
+        android:background="@color/transparent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/content_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none"/>
+    </in.srain.cube.views.ptr.PtrClassicFrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -90,7 +95,7 @@
             android:paddingTop="@dimen/offset_less"
             android:text="@string/user_progress_bottom_training"
             android:textColor="@color/color_button_text_red"
-            android:textSize="@dimen/text_size_large" />
+            android:textSize="@dimen/text_size_large"/>
 
     </LinearLayout>
 

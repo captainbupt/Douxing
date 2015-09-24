@@ -3,6 +3,8 @@ package com.badou.mworking;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,15 +18,18 @@ import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.user.UserDetail;
 import com.badou.mworking.presenter.Presenter;
 import com.badou.mworking.presenter.UserProgressPresenter;
+import com.badou.mworking.util.DensityUtil;
 import com.badou.mworking.view.BaseListView;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.badou.mworking.widget.VerticalSpaceItemDecoration;
 
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import in.srain.cube.views.ptr.PtrClassicFrameLayout;
+import in.srain.cube.views.ptr.PtrDefaultHandler2;
+import in.srain.cube.views.ptr.PtrFrameLayout;
 
 public class MyExamActivity extends BaseNoTitleActivity implements BaseListView<Category> {
 
@@ -36,8 +41,10 @@ public class MyExamActivity extends BaseNoTitleActivity implements BaseListView<
     TextView mDescriptionTextView;
     @Bind(R.id.rank_text_view)
     TextView mRankTextView;
+    @Bind(R.id.ptr_classic_frame_layout)
+    PtrClassicFrameLayout mPtrClassicFrameLayout;
     @Bind(R.id.content_list_view)
-    PullToRefreshListView mContentListView;
+    RecyclerView mContentListView;
     @Bind(R.id.bottom_button)
     TextView mBottomButton;
 
@@ -62,24 +69,24 @@ public class MyExamActivity extends BaseNoTitleActivity implements BaseListView<
     }
 
     private void initView() {
-        mCategoryAdapter = new UserProgressAdapter(mContext, Category.CATEGORY_EXAM);
-        mContentListView.setAdapter(mCategoryAdapter);
-        mContentListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+        mCategoryAdapter = new UserProgressAdapter(mContext, Category.CATEGORY_EXAM, new View.OnClickListener() {
             @Override
-            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                mPresenter.refresh();
-            }
-
-            @Override
-            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-                mPresenter.loadMore();
+            public void onClick(View v) {
+                mPresenter.onItemClick(mCategoryAdapter.getItem((int) v.getTag()), (int) v.getTag());
             }
         });
-
-        mContentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mContentListView.setLayoutManager(new LinearLayoutManager(mContext));
+        mContentListView.addItemDecoration(new VerticalSpaceItemDecoration(DensityUtil.getInstance().getOffsetLess()));
+        mContentListView.setAdapter(mCategoryAdapter);
+        mPtrClassicFrameLayout.setPtrHandler(new PtrDefaultHandler2() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mPresenter.onItemClick((Category) parent.getAdapter().getItem(position), position - 1);
+            public void onLoadMoreBegin(PtrFrameLayout frame) {
+                mPresenter.loadMore();
+            }
+
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                mPresenter.refresh();
             }
         });
     }
@@ -125,32 +132,31 @@ public class MyExamActivity extends BaseNoTitleActivity implements BaseListView<
 
     @Override
     public void disablePullUp() {
-        mContentListView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
+        mPtrClassicFrameLayout.setMode(PtrFrameLayout.Mode.REFRESH);
     }
 
     @Override
     public void enablePullUp() {
-        mContentListView.setMode(PullToRefreshBase.Mode.BOTH);
+        mPtrClassicFrameLayout.setMode(PtrFrameLayout.Mode.BOTH);
     }
 
     @Override
     public void startRefreshing() {
-        mContentListView.setRefreshing();
+        mPtrClassicFrameLayout.autoRefresh();
     }
 
     @Override
     public boolean isRefreshing() {
-        return mContentListView.isRefreshing();
+        return mPtrClassicFrameLayout.isRefreshing();
     }
 
     @Override
     public void refreshComplete() {
-        mContentListView.onRefreshComplete();
+        mPtrClassicFrameLayout.refreshComplete();
     }
 
     @Override
     public void setData(List<Category> data) {
-        System.out.println("set data");
         mCategoryAdapter.setList(data);
     }
 
@@ -161,7 +167,7 @@ public class MyExamActivity extends BaseNoTitleActivity implements BaseListView<
 
     @Override
     public int getDataCount() {
-        return mCategoryAdapter.getCount();
+        return mCategoryAdapter.getItemCount();
     }
 
     @Override

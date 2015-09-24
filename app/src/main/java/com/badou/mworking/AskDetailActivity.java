@@ -3,6 +3,8 @@ package com.badou.mworking;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -23,15 +25,19 @@ import com.badou.mworking.util.DensityUtil;
 import com.badou.mworking.util.TimeTransfer;
 import com.badou.mworking.util.UriUtil;
 import com.badou.mworking.view.ask.AskDetailView;
+import com.badou.mworking.widget.DividerItemDecoration;
+import com.badou.mworking.widget.HeaderViewRecyclerAdapter;
 import com.badou.mworking.widget.NoneResultView;
+import com.badou.mworking.widget.VerticalSpaceItemDecoration;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import in.srain.cube.views.ptr.PtrClassicFrameLayout;
+import in.srain.cube.views.ptr.PtrDefaultHandler2;
+import in.srain.cube.views.ptr.PtrFrameLayout;
 
 /**
  * 问答详情页面
@@ -42,10 +48,6 @@ public class AskDetailActivity extends BaseBackActionBarActivity implements AskD
 
     AskAnswerAdapter mAnswerAdapter;
 
-    PullToRefreshListView mContentListView;
-    LinearLayout mBottomReplyLayout;  //回复
-
-    NoneResultView mNoneResultView;
     AskDetailPresenter mPresenter;
     @Bind(R.id.subject_text_view)
     TextView mSubjectTextView;
@@ -65,6 +67,12 @@ public class AskDetailActivity extends BaseBackActionBarActivity implements AskD
     TextView mDeleteTextView;
     ImageView mStoreImageView;
 
+    RecyclerView mContentListView;
+    NoneResultView mNoneResultView;
+    PtrClassicFrameLayout mPtrClassicFrameLayout;
+    LinearLayout mReplyLayout;
+
+
     public static Intent getIntent(Context context, String aid) {
         Intent intent = new Intent(context, AskDetailActivity.class);
         intent.putExtra(KEY_ASK, aid);
@@ -76,6 +84,7 @@ public class AskDetailActivity extends BaseBackActionBarActivity implements AskD
         super.onCreate(savedInstanceState);
         setActionbarTitle(R.string.ask_title_detail);
         setContentView(R.layout.activity_ask_detail);
+        ButterKnife.bind(this);
         initView();
         mPresenter = (AskDetailPresenter) super.mPresenter;
         mPresenter.attachView(this);
@@ -92,50 +101,51 @@ public class AskDetailActivity extends BaseBackActionBarActivity implements AskD
      * 初始化
      */
     private void initView() {
-        mContentListView = (PullToRefreshListView) findViewById(R.id.content_list_view);
-        mBottomReplyLayout = (LinearLayout) findViewById(R.id.reply_layout);
+        mContentListView = (RecyclerView) findViewById(R.id.content_list_view);
+        mReplyLayout = (LinearLayout) findViewById(R.id.reply_layout);
+        mPtrClassicFrameLayout = (PtrClassicFrameLayout) findViewById(R.id.ptr_classic_frame_layout);
 
-        mNoneResultView = new NoneResultView(mContext);
-        mNoneResultView.setContent(-1, R.string.none_result_reply);
-        mNoneResultView.setGravity(Gravity.CENTER_HORIZONTAL);
-        mNoneResultView.setPadding(0, DensityUtil.getInstance().getOffsetXlarge(), 0, DensityUtil.getInstance().getOffsetXlarge());
-        mContentListView.getRefreshableView().addFooterView(mNoneResultView, null, false);
-
-        mContentListView.getRefreshableView().addHeaderView(getHeaderView(mContentListView.getRefreshableView()), null, false);
-
-        mContentListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+        mPtrClassicFrameLayout.setPtrHandler(new PtrDefaultHandler2() {
             @Override
-            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                mPresenter.refresh();
+            public void onLoadMoreBegin(PtrFrameLayout frame) {
+                mPresenter.loadMore();
             }
 
             @Override
-            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-                mPresenter.loadMore();
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                mPresenter.refresh();
             }
         });
 
-        mBottomReplyLayout.setOnClickListener(new OnClickListener() {
+        mReplyLayout.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 mPresenter.submitReply();
             }
         });
+
+        mContentListView.setLayoutManager(new LinearLayoutManager(mContext));
+        mContentListView.addItemDecoration(new DividerItemDecoration(mContext));
     }
 
-    /**
-     * 功能描述:发送回复TextView设置监听,pullToRefreshScrollView设置下拉刷新监听
-     */
     private View getHeaderView(ViewGroup parentView) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.header_ask_detail, parentView, false);
         ButterKnife.bind(this, view);
         return view;
     }
 
+    private View getFooterView() {
+        NoneResultView noneResultView = new NoneResultView(mContext);
+        noneResultView.setContent(-1, R.string.none_result_reply);
+        noneResultView.setGravity(Gravity.CENTER_HORIZONTAL);
+        noneResultView.setPadding(0, DensityUtil.getInstance().getOffsetXlarge(), 0, DensityUtil.getInstance().getOffsetXlarge());
+        return noneResultView;
+    }
+
     @Override
     public void setData(Ask ask) {
         mStoreImageView = getDefaultImageView(mContext, ask.isStore() ? R.drawable.button_title_store_checked : R.drawable.button_title_store_unchecked);
-        addTitleRightView(mStoreImageView, new View.OnClickListener() {
+        addTitleRightView(mStoreImageView, new OnClickListener() {
             @Override
             public void onClick(View v) {
                 mPresenter.onStoreClicked();
@@ -144,7 +154,7 @@ public class AskDetailActivity extends BaseBackActionBarActivity implements AskD
         mAnswerAdapter = new AskAnswerAdapter(AskDetailActivity.this, ask.getAid(), ask.getCount(), new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                mPresenter.copy(getItem((int) v.getTag(R.id.tag_position)));
+                mPresenter.copy(getItem((int) v.getTag()));
                 return true;
             }
         }, new OnClickListener() {
@@ -160,10 +170,14 @@ public class AskDetailActivity extends BaseBackActionBarActivity implements AskD
         }, new OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.submitReply(getItem((int) v.getTag(R.id.tag_position)));
+                mPresenter.submitReply(getItem((int) v.getTag()));
             }
         });
-        mContentListView.setAdapter(mAnswerAdapter);
+        HeaderViewRecyclerAdapter headerViewRecyclerAdapter = new HeaderViewRecyclerAdapter(mAnswerAdapter);
+        headerViewRecyclerAdapter.addHeaderView(getHeaderView(mContentListView));
+        mNoneResultView = (NoneResultView) getFooterView();
+        headerViewRecyclerAdapter.addFooterView(mNoneResultView);
+        mContentListView.setAdapter(headerViewRecyclerAdapter);
 
         mSubjectTextView.setText(ask.getSubject());
         mContentTextView.setText(ask.getContent());
@@ -226,40 +240,38 @@ public class AskDetailActivity extends BaseBackActionBarActivity implements AskD
 
     @Override
     public void showNoneResult() {
-        mContentListView.getRefreshableView().addFooterView(mNoneResultView, null, false);
+        mNoneResultView.setVisibility(View.GONE);
     }
 
     @Override
     public void hideNoneResult() {
-        mContentListView.getRefreshableView().removeFooterView(mNoneResultView);
+        mNoneResultView.setVisibility(View.GONE);
     }
 
     @Override
     public void disablePullUp() {
-        mContentListView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
+        mPtrClassicFrameLayout.setMode(PtrFrameLayout.Mode.REFRESH);
     }
 
     @Override
     public void enablePullUp() {
-        mContentListView.setMode(PullToRefreshBase.Mode.BOTH);
+        mPtrClassicFrameLayout.setMode(PtrFrameLayout.Mode.BOTH);
     }
 
     @Override
     public void startRefreshing() {
-        mContentListView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
-        mContentListView.setRefreshing();
-        mContentListView.setMode(PullToRefreshBase.Mode.BOTH);
+        mPtrClassicFrameLayout.autoRefresh();
         showProgressBar();
     }
 
     @Override
     public boolean isRefreshing() {
-        return mContentListView.isRefreshing();
+        return mPtrClassicFrameLayout.isRefreshing();
     }
 
     @Override
     public void refreshComplete() {
-        mContentListView.onRefreshComplete();
+        mPtrClassicFrameLayout.refreshComplete();
         hideProgressBar();
     }
 
@@ -275,7 +287,7 @@ public class AskDetailActivity extends BaseBackActionBarActivity implements AskD
 
     @Override
     public int getDataCount() {
-        return mAnswerAdapter.getCount();
+        return mAnswerAdapter.getItemCount();
     }
 
     @Override

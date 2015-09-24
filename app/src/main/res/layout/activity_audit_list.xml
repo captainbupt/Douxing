@@ -15,7 +15,7 @@
         myattr:tipText="@string/none_result_audit"/>
 
     <in.srain.cube.views.ptr.PtrClassicFrameLayout
-        android:id="@+id/pull_to_refresh_layout"
+        android:id="@+id/ptr_classic_frame_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">

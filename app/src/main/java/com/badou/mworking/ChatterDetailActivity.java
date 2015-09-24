@@ -3,32 +3,35 @@ package com.badou.mworking;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.ListView;
 
 import com.badou.mworking.adapter.CommentAdapter;
 import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.entity.chatter.Chatter;
 import com.badou.mworking.entity.comment.ChatterComment;
 import com.badou.mworking.entity.comment.Comment;
-import com.badou.mworking.presenter.chatter.ChatterDetailPresenter;
 import com.badou.mworking.presenter.Presenter;
+import com.badou.mworking.presenter.chatter.ChatterDetailPresenter;
 import com.badou.mworking.util.DensityUtil;
 import com.badou.mworking.view.chatter.ChatterDetailView;
 import com.badou.mworking.widget.BottomSendMessageView;
 import com.badou.mworking.widget.ChatterItemView;
+import com.badou.mworking.widget.DividerItemDecoration;
+import com.badou.mworking.widget.HeaderViewRecyclerAdapter;
 import com.badou.mworking.widget.NoneResultView;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import in.srain.cube.views.ptr.PtrClassicFrameLayout;
+import in.srain.cube.views.ptr.PtrDefaultHandler2;
+import in.srain.cube.views.ptr.PtrFrameLayout;
 
 /**
  * 功能描述: 同事圈详情
@@ -37,15 +40,16 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity implements 
 
     private static final String KEY_QID = "qid";
 
-    @Bind(R.id.content_list_view)
-    PullToRefreshListView mContentListView;
     @Bind(R.id.bottom_send_view)
     BottomSendMessageView mBottomSendView;
+    @Bind(R.id.content_list_view)
+    RecyclerView mContentListView;
+    @Bind(R.id.ptr_classic_frame_layout)
+    PtrClassicFrameLayout mPtrClassicFrameLayout;
 
     ImageView mStoreImageView;
 
     CommentAdapter mReplyAdapter;// 同事圈list
-
     NoneResultView mNoneResultView;
     ChatterItemView mChatterItemView;
     ChatterDetailPresenter mPresenter;
@@ -77,8 +81,10 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity implements 
      * 功能描述:实例化自定义listview,设置显示的内容
      */
     protected void initView() {
+        mContentListView.setLayoutManager(new LinearLayoutManager(mContext));
+        mContentListView.addItemDecoration(new DividerItemDecoration(mContext));
         mChatterItemView = new ChatterItemView(mContext);
-        mContentListView.getRefreshableView().addHeaderView(mChatterItemView, null, false);
+
         mNoneResultView = new NoneResultView(mContext);
         mNoneResultView.setContent(-1, R.string.none_result_reply);
         mNoneResultView.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -101,26 +107,18 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity implements 
                 mPresenter.deleteChatter();
             }
         });
-        mContentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mPtrClassicFrameLayout.setPtrHandler(new PtrDefaultHandler2() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ChatterComment chatterComment = (ChatterComment) parent.getAdapter().getItem(position);
-                mPresenter.onItemClick(chatterComment, position - 1);
-            }
-        });
-
-        mContentListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
-
-            @Override
-            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                mPresenter.refresh();
-            }
-
-            @Override
-            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+            public void onLoadMoreBegin(PtrFrameLayout frame) {
                 mPresenter.loadMore();
             }
+
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                mPresenter.refresh();
+            }
         });
+
         mBottomSendView.setOnSubmitListener(new BottomSendMessageView.OnSubmitListener() {
             @Override
             public void onSubmit(String content) {
@@ -144,7 +142,7 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity implements 
     @Override
     public void setData(Chatter chatter) {
         mStoreImageView = getDefaultImageView(mContext, chatter.isStore() ? R.drawable.button_title_store_checked : R.drawable.button_title_store_unchecked);
-        addTitleRightView(mStoreImageView, new View.OnClickListener() {
+        addTitleRightView(mStoreImageView, new OnClickListener() {
             @Override
             public void onClick(View v) {
                 mPresenter.onStoreClicked();
@@ -153,11 +151,21 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity implements 
         mReplyAdapter = new CommentAdapter(mContext, chatter.getQid(), chatter.isDeletable(), new OnClickListener() {
             @Override
             public void onClick(View v) {
+                int position = (int) v.getTag();
+                ChatterComment chatterComment = (ChatterComment) mReplyAdapter.getItem(position);
+                mPresenter.onItemClick(chatterComment, position);
+            }
+        }, new OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 mPresenter.deleteChatterReply((int) v.getTag());
             }
         });
-        mContentListView.setAdapter(mReplyAdapter);
+        HeaderViewRecyclerAdapter headerViewRecyclerAdapter = new HeaderViewRecyclerAdapter(mReplyAdapter);
         mChatterItemView.setData(chatter, true, 0);
+        headerViewRecyclerAdapter.addHeaderView(mChatterItemView);
+        headerViewRecyclerAdapter.addFooterView(mNoneResultView);
+        mContentListView.setAdapter(headerViewRecyclerAdapter);
     }
 
     @Override
@@ -186,40 +194,38 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity implements 
 
     @Override
     public void showNoneResult() {
-        mContentListView.getRefreshableView().addFooterView(mNoneResultView, null, false);
+        mNoneResultView.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideNoneResult() {
-        mContentListView.getRefreshableView().removeFooterView(mNoneResultView);
+        mNoneResultView.setVisibility(View.GONE);
     }
 
     @Override
     public void disablePullUp() {
-        mContentListView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
+        mPtrClassicFrameLayout.setMode(PtrFrameLayout.Mode.REFRESH);
     }
 
     @Override
     public void enablePullUp() {
-        mContentListView.setMode(PullToRefreshBase.Mode.BOTH);
+        mPtrClassicFrameLayout.setMode(PtrFrameLayout.Mode.BOTH);
     }
 
     @Override
     public void startRefreshing() {
-        mContentListView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
-        mContentListView.setRefreshing();
-        mContentListView.setMode(PullToRefreshBase.Mode.BOTH);
+        mPtrClassicFrameLayout.autoRefresh();
         showProgressBar();
     }
 
     @Override
     public boolean isRefreshing() {
-        return mContentListView.isRefreshing();
+        return mPtrClassicFrameLayout.isRefreshing();
     }
 
     @Override
     public void refreshComplete() {
-        mContentListView.onRefreshComplete();
+        mPtrClassicFrameLayout.refreshComplete();
         hideProgressBar();
     }
 
@@ -235,7 +241,7 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity implements 
 
     @Override
     public int getDataCount() {
-        return mReplyAdapter.getCount();
+        return mReplyAdapter.getItemCount();
     }
 
     @Override

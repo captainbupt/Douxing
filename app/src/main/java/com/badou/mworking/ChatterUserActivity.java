@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -64,6 +65,7 @@ public class ChatterUserActivity extends BaseNoTitleActivity {
 
     private View getHeaderView(final UserChatterInfo userInfo) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.header_user_center, null);
+        view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         ButterKnife.bind(this, view);
         mAboutImageView.setVisibility(View.GONE);
         String selfUid = UserInfo.getUserInfo().getUid();

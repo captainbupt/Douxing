@@ -14,67 +14,58 @@ import com.badou.mworking.entity.category.Task;
 import com.badou.mworking.util.TimeTransfer;
 
 
-public class TaskAdapter extends MyBaseAdapter<Category> {
+public class TaskAdapter extends CategoryBaseAdapter {
 
 
-    public TaskAdapter(Context context) {
-        super(context);
+    public TaskAdapter(Context context, View.OnClickListener onClickListener) {
+        super(context, onClickListener);
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
-        if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.adapter_task_item, null);
-            holder = new ViewHolder(convertView);
-            convertView.setTag(holder);
-        } else {
-            holder = (ViewHolder) convertView.getTag();
-        }
-        Task task = (Task) getItem(position);
+    public BaseViewHolder onCreateChildViewHolder(ViewGroup parent, int viewType) {
+        return new MyViewHolder(mInflater.inflate(R.layout.adapter_task_item, null));
+    }
 
-        int size = mContext.getResources().getDimensionPixelSize(R.dimen.offset_lless);
-        if (position == 0) {
-            convertView.setPadding(0, size, 0, 0);
-        } else {
-            convertView.setPadding(0, 0, 0, 0);
-        }
+    @Override
+    public void onBindViewHolder(BaseViewHolder holder, int position) {
+        super.onBindViewHolder(holder, position);
+        Task task = (Task) getItem(position);
+        MyViewHolder viewHolder = (MyViewHolder) holder;
         // 一定要保证else if 语句的顺序，应为在这一块，优先级别  已签到>已过期>未签到   然后 因为未过期  可能已经签过到了，
         //也可能没有，  如果已经签过到了，显示已签到，如果没有，才显示已过期，所以要注意else if语句的顺序
         // 先判断read字段， 已签到
         if (!task.isUnread()) {
-            holder.unreadTextView.setVisibility(View.GONE);
-            holder.iconImageView.setImageResource(R.drawable.icon_task_item_read);
+            viewHolder.unreadTextView.setVisibility(View.GONE);
+            viewHolder.iconImageView.setImageResource(R.drawable.icon_task_item_read);
         } else {
-            holder.unreadTextView.setVisibility(View.VISIBLE);
+            viewHolder.unreadTextView.setVisibility(View.VISIBLE);
             if (task.isOffline()) { //判断 offline字段， 已过期
-                holder.iconImageView.setImageResource(R.drawable.icon_task_item_read);
-                holder.unreadTextView.setTextColor(mContext.getResources().getColor(R.color.color_text_grey));
-                holder.unreadTextView.setBackgroundColor(mContext.getResources().getColor(R.color.transparent));
-                holder.unreadTextView.setText(R.string.category_expired);
+                viewHolder.iconImageView.setImageResource(R.drawable.icon_task_item_read);
+                viewHolder.unreadTextView.setTextColor(mContext.getResources().getColor(R.color.color_text_grey));
+                viewHolder.unreadTextView.setBackgroundColor(mContext.getResources().getColor(R.color.transparent));
+                viewHolder.unreadTextView.setText(R.string.category_expired);
             } else { // 未签到
-                holder.iconImageView.setImageResource(R.drawable.icon_task_item_unread);
-                holder.unreadTextView.setTextColor(mContext.getResources().getColor(R.color.color_white));
-                holder.unreadTextView.setBackgroundResource(R.drawable.flag_category_unread);
-                holder.unreadTextView.setText(R.string.category_unsign);
+                viewHolder.iconImageView.setImageResource(R.drawable.icon_task_item_unread);
+                viewHolder.unreadTextView.setTextColor(mContext.getResources().getColor(R.color.color_white));
+                viewHolder.unreadTextView.setBackgroundResource(R.drawable.flag_category_unread);
+                viewHolder.unreadTextView.setText(R.string.category_unsign);
             }
         }
         if (!TextUtils.isEmpty(task.getPlace()) && !" ".equals(task.getPlace())) {
-            holder.addressTextView.setText(task.getPlace() + "");
+            viewHolder.addressTextView.setText(task.getPlace() + "");
         } else {
-            holder.addressTextView.setText(R.string.sign_in_task_address_empty);
+            viewHolder.addressTextView.setText(R.string.sign_in_task_address_empty);
         }
-        holder.subjectTextView.setText(task.getSubject() + "");
-        holder.dateTextView.setText("" + TimeTransfer.long2StringDetailDate(mContext, task.getTime()));
+        viewHolder.subjectTextView.setText(task.getSubject() + "");
+        viewHolder.dateTextView.setText("" + TimeTransfer.long2StringDetailDate(mContext, task.getTime()));
         if (task.isTop()) {
-            holder.topImageView.setVisibility(View.VISIBLE);
+            viewHolder.topImageView.setVisibility(View.VISIBLE);
         } else {
-            holder.topImageView.setVisibility(View.GONE);
+            viewHolder.topImageView.setVisibility(View.GONE);
         }
-        return convertView;
     }
 
-    static class ViewHolder {
+    static class MyViewHolder extends BaseViewHolder {
         TextView subjectTextView;
         TextView dateTextView;
         ImageView iconImageView;
@@ -82,7 +73,8 @@ public class TaskAdapter extends MyBaseAdapter<Category> {
         ImageView topImageView;
         TextView addressTextView;
 
-        public ViewHolder(View view) {
+        public MyViewHolder(View view) {
+            super(view);
             topImageView = (ImageView) view.findViewById(R.id.iv_adapter_task_top);
             subjectTextView = (android.widget.TextView) view.findViewById(R.id.tv_adapter_task_subject);
             dateTextView = (android.widget.TextView) view.findViewById(R.id.tv_adapter_task_date);

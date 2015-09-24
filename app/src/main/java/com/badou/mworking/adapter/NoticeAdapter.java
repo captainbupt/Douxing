@@ -7,64 +7,54 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.badou.mworking.R;
-import com.badou.mworking.base.MyBaseAdapter;
-import com.badou.mworking.entity.category.Category;
 import com.badou.mworking.entity.category.Notice;
-import com.badou.mworking.util.DensityUtil;
 import com.badou.mworking.util.TimeTransfer;
 
 /**
  * 功能描述: 通知公告adapter
  */
-public class NoticeAdapter extends MyBaseAdapter<Category> {
+public class NoticeAdapter extends CategoryBaseAdapter {
 
-    public NoticeAdapter(Context context) {
-        super(context);
+    public NoticeAdapter(Context context, View.OnClickListener onClickListener) {
+        super(context, onClickListener);
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
-        if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.adapter_notice_item, null);
-            holder = new ViewHolder(convertView);
-            convertView.setTag(holder);
-        } else {
-            holder = (ViewHolder) convertView.getTag();
-        }
-        final Notice notice = (Notice) getItem(position);
-        int size = DensityUtil.getInstance().getOffsetLess();
-        // 使得第一条上端有一段空白
-        if (position == 0) {
-            convertView.setPadding(0, size, 0, 0);
-        } else {
-            convertView.setPadding(0, 0, 0, 0);
-        }
-        if (!notice.isUnread()) {
-            holder.iconImageView.setImageResource(R.drawable.icon_notice_item_read);
-            holder.unreadTextView.setVisibility(View.GONE);
-        } else {
-            holder.iconImageView.setImageResource(R.drawable.icon_notice_item_unread);
-            holder.unreadTextView.setVisibility(View.VISIBLE);
-        }
-        holder.subjectTextView.setText(notice.getSubject());
-        holder.dateTextView.setText(TimeTransfer.long2StringDetailDate(mContext, notice.getTime()));
-        if (notice.isTop()) {
-            holder.topImageView.setVisibility(View.VISIBLE);
-        } else {
-            holder.topImageView.setVisibility(View.GONE);
-        }
-        return convertView;
+    public BaseViewHolder onCreateChildViewHolder(ViewGroup parent, int viewType) {
+        View convertView = mInflater.inflate(R.layout.adapter_notice_item, parent, false);
+        return new MyViewHolder(convertView);
     }
 
-    static class ViewHolder {
+    @Override
+    public void onBindViewHolder(BaseViewHolder holder, int position) {
+        super.onBindViewHolder(holder, position);
+        final Notice notice = (Notice) getItem(position);
+        MyViewHolder viewHolder = (MyViewHolder) holder;
+        if (!notice.isUnread()) {
+            viewHolder.iconImageView.setImageResource(R.drawable.icon_notice_item_read);
+            viewHolder.unreadTextView.setVisibility(View.GONE);
+        } else {
+            viewHolder.iconImageView.setImageResource(R.drawable.icon_notice_item_unread);
+            viewHolder.unreadTextView.setVisibility(View.VISIBLE);
+        }
+        viewHolder.subjectTextView.setText(notice.getSubject());
+        viewHolder.dateTextView.setText(TimeTransfer.long2StringDetailDate(mContext, notice.getTime()));
+        if (notice.isTop()) {
+            viewHolder.topImageView.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.topImageView.setVisibility(View.GONE);
+        }
+    }
+
+    public static class MyViewHolder extends BaseViewHolder{
         TextView subjectTextView;
         TextView dateTextView;
         ImageView iconImageView;
         TextView unreadTextView;
         ImageView topImageView;
 
-        public ViewHolder(View view) {
+        public MyViewHolder(View view) {
+            super(view);
             topImageView = (ImageView) view.findViewById(R.id.iv_adapter_notice_top);
             subjectTextView = (TextView) view.findViewById(R.id.tv_adapter_notice_subject);
             dateTextView = (TextView) view.findViewById(R.id.tv_adapter_notice_date);

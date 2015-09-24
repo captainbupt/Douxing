@@ -1,114 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:myattr="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/background_white_grey"
     android:orientation="vertical"
-    android:padding="@dimen/offset_less">
+    android:paddingBottom="@dimen/offset_less"
+    android:paddingLeft="@dimen/offset_less"
+    android:paddingRight="@dimen/offset_lless"
+    android:paddingTop="@dimen/offset_less">
 
-    <!-- 垂直的父控件用于在adapter中手动添加分割线-->
-    <RelativeLayout
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/head_image_view"
+        android:layout_width="@dimen/icon_head_size_middle"
+        android:layout_height="@dimen/icon_head_size_middle"
+        android:layout_marginRight="@dimen/offset_medium"
+        myattr:actualImageScaleType="centerInside"
+        myattr:placeholderImage="@drawable/icon_user_detail_default_head"
+        myattr:placeholderImageScaleType="centerInside"
+        myattr:roundAsCircle="true"/>
+
+    <TextView
+        android:id="@+id/name_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingRight="@dimen/offset_less">
+        android:layout_toRightOf="@id/head_image_view"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textColor="@color/color_text_grey"
+        android:textSize="@dimen/text_size_medium"/>
 
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/head_image_view"
-            android:layout_width="@dimen/icon_head_size_middle"
-            android:layout_height="@dimen/icon_head_size_middle"
-            android:layout_marginRight="@dimen/offset_medium"
-            myattr:actualImageScaleType="centerInside"
-            myattr:placeholderImage="@drawable/icon_user_detail_default_head"
-            myattr:placeholderImageScaleType="centerInside"
-            myattr:roundAsCircle="true"/>
+    <TextView
+        android:id="@+id/content_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/name_text_view"
+        android:layout_marginTop="@dimen/offset_small"
+        android:layout_toRightOf="@id/head_image_view"
+        android:textColor="@color/color_text_black"
+        android:textSize="@dimen/text_size_medium"/>
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/content_image_view"
+        android:layout_width="@dimen/icon_size_xlarge"
+        android:layout_height="@dimen/icon_size_xlarge"
+        android:layout_below="@id/content_text_view"
+        android:layout_marginTop="@dimen/offset_small"
+        android:layout_toRightOf="@id/head_image_view"
+        android:horizontalSpacing="@dimen/offset_less"
+        android:verticalSpacing="@dimen/offset_less"
+        myattr:actualImageScaleType="centerCrop"
+        myattr:placeholderImage="@drawable/icon_image_default"
+        myattr:placeholderImageScaleType="centerCrop"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/content_image_view"
+        android:layout_marginTop="@dimen/offset_small"
+        android:layout_toRightOf="@id/head_image_view"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/name_text_view"
-            android:layout_width="match_parent"
+            android:id="@+id/floor_text_view"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/head_image_view"
-            android:ellipsize="end"
-            android:singleLine="true"
+            android:layout_marginRight="@dimen/offset_less"
             android:textColor="@color/color_text_grey"
-            android:textSize="@dimen/text_size_medium"/>
+            android:textSize="@dimen/text_size_less"/>
 
         <TextView
-            android:id="@+id/content_text_view"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/name_text_view"
-            android:layout_marginTop="@dimen/offset_small"
-            android:layout_toRightOf="@id/head_image_view"
-            android:textColor="@color/color_text_black"
-            android:textSize="@dimen/text_size_medium"/>
+            android:layout_marginRight="@dimen/offset_less"
+            android:text="·"
+            android:textColor="@color/color_text_grey"
+            android:textSize="@dimen/text_size_less"/>
 
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/content_image_view"
-            android:layout_width="@dimen/icon_size_xlarge"
-            android:layout_height="@dimen/icon_size_xlarge"
-            android:layout_below="@id/content_text_view"
-            android:layout_marginTop="@dimen/offset_small"
-            android:layout_toRightOf="@id/head_image_view"
-            android:horizontalSpacing="@dimen/offset_less"
-            android:verticalSpacing="@dimen/offset_less"
-            myattr:actualImageScaleType="centerCrop"
-            myattr:placeholderImage="@drawable/icon_image_default"
-            myattr:placeholderImageScaleType="centerCrop"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/date_text_view"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/content_image_view"
-            android:layout_marginTop="@dimen/offset_small"
-            android:layout_toRightOf="@id/head_image_view"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:layout_weight="1"
+            android:textColor="@color/color_text_grey"
+            android:textSize="@dimen/text_size_less"/>
 
-            <TextView
-                android:id="@+id/floor_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/offset_less"
-                android:textColor="@color/color_text_grey"
-                android:textSize="@dimen/text_size_less"/>
+        <ImageView
+            android:id="@+id/praise_image_view"
+            android:layout_width="@dimen/around_icon_reply_width"
+            android:layout_height="@dimen/around_icon_reply_width"
+            android:src="@drawable/icon_praise_unchecked"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/offset_less"
-                android:text="·"
-                android:textColor="@color/color_text_grey"
-                android:textSize="@dimen/text_size_less"/>
+        <TextView
+            android:id="@+id/praise_count_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_text_blue"
+            android:textSize="@dimen/text_size_less"/>
 
-            <TextView
-                android:id="@+id/date_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textColor="@color/color_text_grey"
-                android:textSize="@dimen/text_size_less"/>
-
-            <ImageView
-                android:id="@+id/praise_image_view"
-                android:layout_width="@dimen/around_icon_reply_width"
-                android:layout_height="@dimen/around_icon_reply_width"
-                android:src="@drawable/icon_praise_unchecked"/>
-
-            <TextView
-                android:id="@+id/praise_count_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/color_text_blue"
-                android:textSize="@dimen/text_size_less"/>
-
-            <ImageView
-                android:id="@+id/reply_image_view"
-                android:layout_width="@dimen/around_icon_reply_width"
-                android:layout_height="@dimen/around_icon_reply_width"
-                android:layout_marginLeft="@dimen/offset_small"
-                android:src="@drawable/icon_comment"/>
-        </LinearLayout>
-    </RelativeLayout>
-</LinearLayout>
+        <ImageView
+            android:id="@+id/reply_image_view"
+            android:layout_width="@dimen/around_icon_reply_width"
+            android:layout_height="@dimen/around_icon_reply_width"
+            android:layout_marginLeft="@dimen/offset_small"
+            android:src="@drawable/icon_comment"/>
+    </LinearLayout>
+</RelativeLayout>

@@ -20,44 +20,43 @@ import at.grabner.circleprogress.TextMode;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class PlanAdapter extends MyBaseAdapter<Category> {
+public class PlanAdapter extends CategoryBaseAdapter {
 
-    public PlanAdapter(Context context) {
-        super(context);
+    public PlanAdapter(Context context, View.OnClickListener onClickListener) {
+        super(context, onClickListener);
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
-        if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.adapter_plan_item, parent, false);
-            holder = new ViewHolder(convertView);
-            holder.circleProgressView.setTextMode(TextMode.PERCENT);
-            holder.circleProgressView.setShowUnit(true);
-            holder.circleProgressView.setTextSize((int) (DensityUtil.getInstance().getTextSizeMicro() * 0.9f));
-            holder.circleProgressView.setUnitSize((int) (DensityUtil.getInstance().getTextSizeMicro() * 0.9f));
-            convertView.setTag(holder);
-        } else {
-            holder = (ViewHolder) convertView.getTag();
-        }
-        Plan plan = (Plan) getItem(position);
-        holder.topImageView.setVisibility(plan.isTop() ? View.VISIBLE : View.INVISIBLE);
-
-        if (TextUtils.isEmpty(plan.getImg())) {
-            holder.iconImageView.setImageURI(UriUtil.getHttpUri(plan.getImg()));
-        }
-        holder.subjectTextView.setText(plan.getSubject());
-        if (plan.isOffline()) {
-            holder.stageTextView.setText(R.string.category_expired);
-        } else {
-            holder.stageTextView.setText(plan.getStage());
-        }
-        holder.infoTextView.setText(String.format("总学时:%d分钟  阶段数:%d", plan.getTotalTime(), plan.getStageNumber()));
-        holder.circleProgressView.setValue(plan.getPercent());
-        return convertView;
+    public BaseViewHolder onCreateChildViewHolder(ViewGroup parent, int viewType) {
+        MyViewHolder holder = new MyViewHolder(mInflater.inflate(R.layout.adapter_plan_item, parent, false));
+        holder.circleProgressView.setTextMode(TextMode.PERCENT);
+        holder.circleProgressView.setShowUnit(true);
+        holder.circleProgressView.setTextSize((int) (DensityUtil.getInstance().getTextSizeMicro() * 0.9f));
+        holder.circleProgressView.setUnitSize((int) (DensityUtil.getInstance().getTextSizeMicro() * 0.9f));
+        return holder;
     }
 
-    static class ViewHolder {
+    @Override
+    public void onBindViewHolder(BaseViewHolder holder, int position) {
+        super.onBindViewHolder(holder, position);
+        MyViewHolder viewHolder = (MyViewHolder) holder;
+        Plan plan = (Plan) getItem(position);
+        viewHolder.topImageView.setVisibility(plan.isTop() ? View.VISIBLE : View.INVISIBLE);
+
+        if (TextUtils.isEmpty(plan.getImg())) {
+            viewHolder.iconImageView.setImageURI(UriUtil.getHttpUri(plan.getImg()));
+        }
+        viewHolder.subjectTextView.setText(plan.getSubject());
+        if (plan.isOffline()) {
+            viewHolder.stageTextView.setText(R.string.category_expired);
+        } else {
+            viewHolder.stageTextView.setText(plan.getStage());
+        }
+        viewHolder.infoTextView.setText(String.format("总学时:%d分钟  阶段数:%d", plan.getTotalTime(), plan.getStageNumber()));
+        viewHolder.circleProgressView.setValue(plan.getPercent());
+    }
+
+    public static class MyViewHolder extends BaseViewHolder {
         @Bind(R.id.icon_image_view)
         SimpleDraweeView iconImageView;
         @Bind(R.id.circle_progress_view)
@@ -71,7 +70,8 @@ public class PlanAdapter extends MyBaseAdapter<Category> {
         @Bind(R.id.top_image_view)
         ImageView topImageView;
 
-        ViewHolder(View view) {
+        public MyViewHolder(View view) {
+            super(view);
             ButterKnife.bind(this, view);
         }
     }

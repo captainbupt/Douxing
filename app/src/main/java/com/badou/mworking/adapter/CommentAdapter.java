@@ -1,6 +1,7 @@
 package com.badou.mworking.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -8,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.badou.mworking.R;
-import com.badou.mworking.base.MyBaseAdapter;
+import com.badou.mworking.base.MyBaseRecyclerAdapter;
 import com.badou.mworking.entity.comment.Comment;
 import com.badou.mworking.util.TimeTransfer;
 import com.badou.mworking.util.UriUtil;
@@ -17,7 +18,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 /**
  * 功能描述:评论adapter
  */
-public class CommentAdapter extends MyBaseAdapter<Comment> {
+public class CommentAdapter extends MyBaseRecyclerAdapter<Comment, CommentAdapter.MyViewHolder> {
 
     boolean isChatter;
 
@@ -25,17 +26,20 @@ public class CommentAdapter extends MyBaseAdapter<Comment> {
     private String mQid;
     private boolean mDeletable;
     private OnClickListener mDeleteClickListener;
+    private OnClickListener mItemClickListener;
 
-    public CommentAdapter(Context context) {
+    public CommentAdapter(Context context, OnClickListener itemClickListener) {
         super(context);
         isChatter = false;
+        this.mItemClickListener = itemClickListener;
     }
 
-    public CommentAdapter(Context context, String qid, boolean deletable, OnClickListener deleteClickListener) {
+    public CommentAdapter(Context context, String qid, boolean deletable, OnClickListener itemClickListener,OnClickListener deleteClickListener) {
         super(context);
         isChatter = true;
         mQid = qid;
         mDeletable = deletable;
+        this.mItemClickListener = itemClickListener;
         mDeleteClickListener = deleteClickListener;
     }
 
@@ -48,86 +52,80 @@ public class CommentAdapter extends MyBaseAdapter<Comment> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        MyViewHolder viewHolder = new MyViewHolder(mInflater.inflate(R.layout.adapter_comment, parent, false));
+        viewHolder.deleteTextView.setOnClickListener(mDeleteClickListener);
+        viewHolder.parentView.setOnClickListener(mItemClickListener);
+        if (isChatter) {
+            viewHolder.deleteTextView.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.deleteTextView.setVisibility(View.GONE);
+        }
+        return viewHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(MyViewHolder holder, int position) {
         Comment comment = mItemList.get(position);
         /**加载布局**/
-        if (convertView != null) {
-            holder = (ViewHolder) convertView.getTag();
-        } else {
-            convertView = mInflater.inflate(R.layout.adapter_comment,
-                    parent, false);
-            holder = new ViewHolder(convertView, mDeleteClickListener);
-            convertView.setTag(holder);
-        }
         if (isChatter) {
             if (position == 0) {
-                convertView.setBackgroundResource(R.drawable.bg_around_detail);
+                holder.parentView.setBackgroundResource(R.drawable.bg_around_detail);
             } else {
-                convertView.setBackgroundColor(0xffdde7ec);
+                holder.parentView.setBackgroundColor(0xffdde7ec);
             }
         }
         /*获取员工号*/
         String name = comment.getName();
         if (!TextUtils.isEmpty(name)) {
-            holder.mNameTextView.setText(name);
+            holder.nameTextView.setText(name);
         }
         /*获取评论内容*/
         String content = comment.getContent();
         if (!TextUtils.isEmpty(content)) {
-            holder.mContentTextView.setText(content);
+            holder.contentTextView.setText(content);
         }
         /*获取评论时间*/
         String pubTime = TimeTransfer.long2StringDetailDate(mContext, comment.getTime());
-        holder.mDateTextView.setText(pubTime);
+        holder.dateTextView.setText(pubTime);
 
         /**设置头像**/
         holder.mHeadImageView.setImageURI(UriUtil.getHttpUri(comment.getImgUrl()));
 
 		/*设置楼数*/
         int floorNum = mAllCount - position;
-        holder.mFloorNumTextView.setText(floorNum + mContext.getResources().getString(R.string.floor_num) + "   ·");
-        if (position == 0) {
-            holder.mDividerView.setVisibility(View.GONE);
-        } else {
-            holder.mDividerView.setVisibility(View.VISIBLE);
-        }
+        holder.floorNumTextView.setText(floorNum + mContext.getResources().getString(R.string.floor_num) + "   ·");
         if (!TextUtils.isEmpty(mQid) && (mDeletable || comment.getName().equals("我"))) {
-            holder.mDeleteTextView.setVisibility(View.VISIBLE);
+            holder.deleteTextView.setVisibility(View.VISIBLE);
         } else {
-            holder.mDeleteTextView.setVisibility(View.GONE);
+            holder.deleteTextView.setVisibility(View.GONE);
         }
-        holder.mDeleteTextView.setTag(position);
-        return convertView;
+        holder.parentView.setTag(position);
+        holder.deleteTextView.setTag(position);
     }
 
-    class ViewHolder {
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
         SimpleDraweeView mHeadImageView;
-        TextView mNameTextView;
-        TextView mContentTextView;
-        TextView mDateTextView;
-        TextView mFloorNumTextView;
-        TextView mDeleteTextView;
-        View mDividerView;
+        TextView nameTextView;
+        TextView contentTextView;
+        TextView dateTextView;
+        TextView floorNumTextView;
+        TextView deleteTextView;
+        View parentView;
 
-        public ViewHolder(View view, OnClickListener deleteClickListener) {
+        public MyViewHolder(View view) {
+            super(view);
+            parentView = view;
             mHeadImageView = (SimpleDraweeView) view
                     .findViewById(R.id.iv_adapter_comment_head);
-            mNameTextView = (TextView) view
+            nameTextView = (TextView) view
                     .findViewById(R.id.tv_adapter_comment_name);
-            mContentTextView = (TextView) view
+            contentTextView = (TextView) view
                     .findViewById(R.id.tv_adapter_comment_content);
-            mDateTextView = (TextView) view
+            dateTextView = (TextView) view
                     .findViewById(R.id.tv_adapter_comment_date);
-            mFloorNumTextView = (TextView) view.findViewById(R.id.tv_adapter_comment_floor);
-            mDividerView = view.findViewById(R.id.view_adapter_comment_divider);
-            mDeleteTextView = (TextView) view.findViewById(R.id.tv_adapter_comment_delete);
-            mDeleteTextView.setOnClickListener(deleteClickListener);
-            if (isChatter) {
-                mDeleteTextView.setVisibility(View.VISIBLE);
-            } else {
-                mDeleteTextView.setVisibility(View.GONE);
-            }
+            floorNumTextView = (TextView) view.findViewById(R.id.tv_adapter_comment_floor);
+            deleteTextView = (TextView) view.findViewById(R.id.tv_adapter_comment_delete);
         }
     }
 }

@@ -2,13 +2,14 @@ package com.badou.mworking.net;
 
 import android.content.Context;
 import android.os.Environment;
+import android.preference.PreferenceActivity;
 
 import com.badou.mworking.util.FileUtils;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RangeFileAsyncHttpResponseHandler;
-
-import org.apache.http.Header;
-import org.apache.http.client.params.ClientPNames;
+import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.HttpEntity;
+import cz.msebera.android.httpclient.client.params.ClientPNames;
 
 import java.io.File;
 import java.io.IOException;

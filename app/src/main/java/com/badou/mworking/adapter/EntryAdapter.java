@@ -15,95 +15,88 @@ import com.badou.mworking.util.TimeTransfer;
 /**
  * 功能描述:  报名列表页适配器
  */
-public class EntryAdapter extends MyBaseAdapter<Category> {
+public class EntryAdapter extends CategoryBaseAdapter {
 
 
-    public EntryAdapter(Context context) {
-        super(context);
+    public EntryAdapter(Context context, View.OnClickListener onClickListener) {
+        super(context, onClickListener);
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
+    public BaseViewHolder onCreateChildViewHolder(ViewGroup parent, int viewType) {
+        return new MyViewHolder(mInflater.inflate(R.layout.adapter_notice_item, parent, false));
+    }
+
+    @Override
+    public void onBindViewHolder(BaseViewHolder holder, int position) {
+        super.onBindViewHolder(holder, position);
+        MyViewHolder viewHolder = (MyViewHolder) holder;
         Entry entry = (Entry) getItem(position);
-        if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.adapter_notice_item, parent, false);
-            holder = new ViewHolder(convertView);
-            convertView.setTag(holder);
-        } else {
-            holder = (ViewHolder) convertView.getTag();
-        }
-        int size = mContext.getResources().getDimensionPixelSize(R.dimen.offset_lless);
-        if (position == 0) {
-            convertView.setPadding(0, size, 0, 0);
-        } else {
-            convertView.setPadding(0, 0, 0, 0);
-        }
         // 图标资源，默认为已读
         int iconResId = R.drawable.icon_entry_item_read;
         if (!entry.isOffline()) {
             iconResId = R.drawable.icon_entry_item_unread;
             switch (entry.getRead()) {
                 case 0:
-                    holder.unreadTextView.setTextColor(mContext.getResources().getColor(R.color.color_white));
-                    holder.unreadTextView.setBackgroundResource(R.drawable.flag_category_unread);
-                    holder.unreadTextView.setText(R.string.category_not_sign_up);
+                    viewHolder.unreadTextView.setTextColor(mContext.getResources().getColor(R.color.color_white));
+                    viewHolder.unreadTextView.setBackgroundResource(R.drawable.flag_category_unread);
+                    viewHolder.unreadTextView.setText(R.string.category_not_sign_up);
                     break;
                 case 1:
-                    holder.unreadTextView.setTextColor(mContext.getResources().getColor(R.color.color_white));
-                    holder.unreadTextView.setBackgroundResource(R.drawable.flag_category_unread);
-                    holder.unreadTextView.setText(R.string.category_check);
+                    viewHolder.unreadTextView.setTextColor(mContext.getResources().getColor(R.color.color_white));
+                    viewHolder.unreadTextView.setBackgroundResource(R.drawable.flag_category_unread);
+                    viewHolder.unreadTextView.setText(R.string.category_check);
                     break;
                 case 2:
-                    holder.unreadTextView.setTextColor(mContext.getResources().getColor(R.color.color_text_grey));
-                    holder.unreadTextView.setBackgroundColor(mContext.getResources().getColor(R.color.transparent));
-                    holder.unreadTextView.setText(R.string.category_sign_up);
+                    viewHolder.unreadTextView.setTextColor(mContext.getResources().getColor(R.color.color_text_grey));
+                    viewHolder.unreadTextView.setBackgroundColor(mContext.getResources().getColor(R.color.transparent));
+                    viewHolder.unreadTextView.setText(R.string.category_sign_up);
                     break;
                 case 3:
-                    holder.unreadTextView.setTextColor(mContext.getResources().getColor(R.color.color_text_grey));
-                    holder.unreadTextView.setBackgroundColor(mContext.getResources().getColor(R.color.transparent));
-                    holder.unreadTextView.setText(R.string.category_check_fail);
+                    viewHolder.unreadTextView.setTextColor(mContext.getResources().getColor(R.color.color_text_grey));
+                    viewHolder.unreadTextView.setBackgroundColor(mContext.getResources().getColor(R.color.transparent));
+                    viewHolder.unreadTextView.setText(R.string.category_check_fail);
                     break;
             }
         } else {
             iconResId = R.drawable.icon_entry_item_read;
-            holder.unreadTextView.setTextColor(mContext.getResources().getColor(R.color.color_text_grey));
-            holder.unreadTextView.setBackgroundColor(mContext.getResources().getColor(R.color.transparent));
+            viewHolder.unreadTextView.setTextColor(mContext.getResources().getColor(R.color.color_text_grey));
+            viewHolder.unreadTextView.setBackgroundColor(mContext.getResources().getColor(R.color.transparent));
             switch (entry.getRead()) {
                 case 0:
-                    holder.unreadTextView.setText(R.string.category_expired);
+                    viewHolder.unreadTextView.setText(R.string.category_expired);
                     break;
                 case 1:
-                    holder.unreadTextView.setText(R.string.category_check_fail);
+                    viewHolder.unreadTextView.setText(R.string.category_check_fail);
                     break;
                 case 2:
-                    holder.unreadTextView.setText(R.string.category_sign_up);
+                    viewHolder.unreadTextView.setText(R.string.category_sign_up);
                     break;
                 case 3:
-                    holder.unreadTextView.setText(R.string.category_check_fail);
+                    viewHolder.unreadTextView.setText(R.string.category_check_fail);
                     break;
             }
         }
 
-        holder.iconImageView.setImageResource(iconResId);
+        viewHolder.iconImageView.setImageResource(iconResId);
         if (entry.isTop()) {
-            holder.topImageView.setVisibility(View.VISIBLE);
+            viewHolder.topImageView.setVisibility(View.VISIBLE);
         } else {
-            holder.topImageView.setVisibility(View.INVISIBLE);
+            viewHolder.topImageView.setVisibility(View.INVISIBLE);
         }
-        holder.subjectTextView.setText(entry.getSubject());
-        holder.dateTextView.setText(TimeTransfer.long2StringDetailDate(mContext, entry.getTime()));
-        return convertView;
+        viewHolder.subjectTextView.setText(entry.getSubject());
+        viewHolder.dateTextView.setText(TimeTransfer.long2StringDetailDate(mContext, entry.getTime()));
     }
 
-    static class ViewHolder {
+    public static class MyViewHolder extends BaseViewHolder {
         TextView subjectTextView;
         TextView dateTextView;
         ImageView iconImageView;
         TextView unreadTextView;
         ImageView topImageView;
 
-        public ViewHolder(View view) {
+        public MyViewHolder(View view) {
+            super(view);
             topImageView = (ImageView) view.findViewById(R.id.iv_adapter_notice_top);
             subjectTextView = (TextView) view.findViewById(R.id.tv_adapter_notice_subject);
             dateTextView = (TextView) view.findViewById(R.id.tv_adapter_notice_date);

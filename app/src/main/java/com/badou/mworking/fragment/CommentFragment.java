@@ -1,47 +1,40 @@
 package com.badou.mworking.fragment;
 
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 import com.badou.mworking.R;
 import com.badou.mworking.adapter.CommentAdapter;
 import com.badou.mworking.base.BaseFragment;
 import com.badou.mworking.entity.comment.Comment;
-import com.badou.mworking.presenter.category.CategoryCommentPresenter;
 import com.badou.mworking.presenter.CommentPresenter;
+import com.badou.mworking.presenter.category.CategoryCommentPresenter;
 import com.badou.mworking.view.CommentView;
 import com.badou.mworking.widget.BottomSendMessageView;
 import com.badou.mworking.widget.CategoryTabContent;
 import com.badou.mworking.widget.NoneResultView;
 import com.captainhwz.layout.DefaultContentHandler;
 import com.captainhwz.layout.MaterialHeaderLayout;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.nineoldandroids.view.ViewHelper;
 
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import in.srain.cube.views.ptr.PtrClassicFrameLayout;
+import in.srain.cube.views.ptr.PtrDefaultHandler2;
+import in.srain.cube.views.ptr.PtrFrameLayout;
 
 public class CommentFragment extends BaseFragment implements CommentView, CategoryTabContent.ScrollableContent {
 
     public static final String KEY_RID = "rid";
-
-    public static CommentFragment getFragment(String rid) {
-        CommentFragment fragment = new CommentFragment();
-        Bundle argument = new Bundle();
-        argument.putString(KEY_RID, rid);
-        fragment.setArguments(argument);
-        return fragment;
-    }
-
     @Bind(R.id.content_list_view)
-    PullToRefreshListView mContentListView;//下拉刷新
+    RecyclerView mContentListView;
+    @Bind(R.id.ptr_classic_frame_layout)
+    PtrClassicFrameLayout mPtrClassicFrameLayout;
     @Bind(R.id.none_result_view)
     NoneResultView mNoneResultView;  // 没有内容时的提示
     @Bind(R.id.bottom_view)
@@ -51,6 +44,20 @@ public class CommentFragment extends BaseFragment implements CommentView, Catego
     CommentAdapter mCommentAdapter;
 
     OnCommentCountChangedListener mOnCommentCountChangedListener;
+
+    public static CommentFragment getFragment(String rid) {
+        CommentFragment fragment = new CommentFragment();
+        Bundle argument = new Bundle();
+        argument.putString(KEY_RID, rid);
+        fragment.setArguments(argument);
+        return fragment;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
 
     public interface OnCommentCountChangedListener {
         void onCommentCountChanged(int count);
@@ -68,7 +75,14 @@ public class CommentFragment extends BaseFragment implements CommentView, Catego
         mPresenter = new CategoryCommentPresenter(mContext, bundle.getString(KEY_RID));
         mPresenter.attachView(this);
 
-        mCommentAdapter = new CommentAdapter(mContext);
+        mCommentAdapter = new CommentAdapter(mContext, new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                int position = (int) v.getTag();
+                Comment question = mCommentAdapter.getItem(position );
+                mPresenter.onItemClick(question, position );
+            }
+        });
         mContentListView.setAdapter(mCommentAdapter);
         initListener();
         return view;
@@ -88,27 +102,19 @@ public class CommentFragment extends BaseFragment implements CommentView, Catego
                 mPresenter.onSubmitClicked(content);
             }
         });
-        mContentListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
-            @Override
-            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                mPresenter.refresh();
-            }
 
+        mPtrClassicFrameLayout.setPtrHandler(new PtrDefaultHandler2() {
             @Override
-            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+            public void onLoadMoreBegin(PtrFrameLayout frame) {
                 mPresenter.loadMore();
             }
-        });
-
-        mContentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
-            public void onItemClick(AdapterView<?> adapter, View v, int position,
-                                    long arg3) {
-                Comment question = mCommentAdapter.getItem(position - 1);
-                mPresenter.onItemClick(question, position - 1);
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                mPresenter.refresh();
             }
         });
+
     }
 
     @Override
@@ -128,29 +134,27 @@ public class CommentFragment extends BaseFragment implements CommentView, Catego
 
     @Override
     public void disablePullUp() {
-        mContentListView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
+        mPtrClassicFrameLayout.setMode(PtrFrameLayout.Mode.REFRESH);
     }
 
     @Override
     public void enablePullUp() {
-        mContentListView.setMode(PullToRefreshBase.Mode.BOTH);
+        mPtrClassicFrameLayout.setMode(PtrFrameLayout.Mode.BOTH);
     }
 
     @Override
     public void startRefreshing() {
-        mContentListView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
-        mContentListView.setRefreshing(true);
-        mContentListView.setMode(PullToRefreshBase.Mode.BOTH);
+        mPtrClassicFrameLayout.autoRefresh();
     }
 
     @Override
     public boolean isRefreshing() {
-        return mContentListView.isRefreshing();
+        return mPtrClassicFrameLayout.isRefreshing();
     }
 
     @Override
     public void refreshComplete() {
-        mContentListView.onRefreshComplete();
+        mPtrClassicFrameLayout.refreshComplete();
     }
 
     @Override
@@ -165,7 +169,7 @@ public class CommentFragment extends BaseFragment implements CommentView, Catego
 
     @Override
     public int getDataCount() {
-        return mCommentAdapter.getCount();
+        return mCommentAdapter.getItemCount();
     }
 
     @Override
@@ -217,7 +221,7 @@ public class CommentFragment extends BaseFragment implements CommentView, Catego
 
     @Override
     public boolean checkCanDoRefresh(MaterialHeaderLayout frame, View content, View header) {
-        return DefaultContentHandler.checkContentCanBePulledDown(frame, mContentListView.getRefreshableView(), header);
+        return DefaultContentHandler.checkContentCanBePulledDown(frame, mContentListView, header);
     }
 
     @Override

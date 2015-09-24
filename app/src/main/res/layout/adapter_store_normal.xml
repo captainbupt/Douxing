@@ -1,78 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.swipe.delete.SwipeLayout
+    android:id="@+id/swipe_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <com.swipe.delete.SwipeLayout
-        android:id="@+id/swipe_layout"
-        android:layout_width="match_parent"
+    <!-- SwipeLayout 强制要求ViewGroup -->
+    <FrameLayout
+        android:layout_width="wrap_content"
         android:layout_height="match_parent">
 
-        <!-- SwipeLayout 强制要求ViewGroup -->
-        <FrameLayout
+        <TextView
+            android:id="@+id/delete_text_view"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="@color/color_red"
+            android:gravity="center"
+            android:paddingBottom="@dimen/offset_medium"
+            android:paddingLeft="@dimen/offset_large"
+            android:paddingRight="@dimen/offset_large"
+            android:paddingTop="@dimen/offset_medium"
+            android:src="@drawable/icon_adapter_swipe_delete"
+            android:text="@string/operation_delete"
+            android:textColor="@color/color_white"/>
+    </FrameLayout>
 
-            <TextView
-                android:id="@+id/delete_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:background="@color/color_red"
-                android:gravity="center"
-                android:paddingBottom="@dimen/offset_medium"
-                android:paddingLeft="@dimen/offset_large"
-                android:paddingRight="@dimen/offset_large"
-                android:paddingTop="@dimen/offset_medium"
-                android:src="@drawable/icon_adapter_swipe_delete"
-                android:text="@string/operation_delete"
-                android:textColor="@color/color_white" />
-        </FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/offset_medium">
+
+        <ImageView
+            android:id="@+id/type_image_view"
+            android:layout_width="@dimen/icon_head_size_middle"
+            android:layout_height="@dimen/icon_head_size_middle"
+            android:layout_marginRight="@dimen/offset_less"
+            android:scaleType="centerInside"
+            android:src="@drawable/icon_user_detail_default_head"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/color_white"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="@dimen/offset_medium">
+            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/type_image_view"
-                android:layout_width="@dimen/icon_head_size_middle"
-                android:layout_height="@dimen/icon_head_size_middle"
-                android:layout_marginRight="@dimen/offset_less"
-                android:scaleType="centerInside"
-                android:src="@drawable/icon_user_detail_default_head" />
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/subject_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textColor="@color/color_text_black"
+                android:textSize="@dimen/text_size_medium"/>
 
-                <TextView
-                    android:id="@+id/subject_text_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:singleLine="true"
-                    android:textColor="@color/color_text_black"
-                    android:textSize="@dimen/text_size_medium" />
-
-                <TextView
-                    android:id="@+id/time_text_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/color_text_grey"
-                    android:textSize="@dimen/text_size_less" />
-            </LinearLayout>
+            <TextView
+                android:id="@+id/time_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_text_grey"
+                android:textSize="@dimen/text_size_less"/>
         </LinearLayout>
-    </com.swipe.delete.SwipeLayout>
-
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/color_border_grey" />
-</LinearLayout>
+    </LinearLayout>
+</com.swipe.delete.SwipeLayout>

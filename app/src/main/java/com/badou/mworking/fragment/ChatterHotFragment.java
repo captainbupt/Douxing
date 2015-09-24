@@ -1,6 +1,8 @@
 package com.badou.mworking.fragment;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,19 +15,23 @@ import com.badou.mworking.base.BaseFragment;
 import com.badou.mworking.entity.chatter.ChatterHot;
 import com.badou.mworking.presenter.chatter.ChatterHotPresenter;
 import com.badou.mworking.view.chatter.ChatterHotListView;
+import com.badou.mworking.widget.DividerItemDecoration;
 import com.badou.mworking.widget.NoneResultView;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import in.srain.cube.views.ptr.PtrClassicFrameLayout;
+import in.srain.cube.views.ptr.PtrDefaultHandler2;
+import in.srain.cube.views.ptr.PtrFrameLayout;
 
 public class ChatterHotFragment extends BaseFragment implements ChatterHotListView {
 
+    @Bind(R.id.ptr_classic_frame_layout)
+    PtrClassicFrameLayout mPtrClassicFrameLayout;
     @Bind(R.id.content_list_view)
-    PullToRefreshListView mContentListView;
+    RecyclerView mContentListView;
     @Bind(R.id.none_result_view)
     NoneResultView mNoneResultView;
 
@@ -45,24 +51,26 @@ public class ChatterHotFragment extends BaseFragment implements ChatterHotListVi
     }
 
     private void initialize() {
-        mContentListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+        mPtrClassicFrameLayout.setPtrHandler(new PtrDefaultHandler2() {
             @Override
-            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                mPresenter.refresh();
+            public void onLoadMoreBegin(PtrFrameLayout frame) {
+                mPresenter.loadMore();
             }
 
             @Override
-            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-                mPresenter.loadMore();
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                mPresenter.refresh();
             }
         });
-        mContentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mContentListView.setLayoutManager(new LinearLayoutManager(mContext));
+        mContentListView.addItemDecoration(new DividerItemDecoration(mContext));
+        mChatterAdapter = new ChatterHotAdapter(mContext, new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                mPresenter.onItemClick((ChatterHot) adapterView.getAdapter().getItem(i), i - 1);
+            public void onClick(View v) {
+                int position = (int) v.getTag();
+                mPresenter.onItemClick(mChatterAdapter.getItem(position), position - 1);
             }
         });
-        mChatterAdapter = new ChatterHotAdapter(mContext);
         mContentListView.setAdapter(mChatterAdapter);
     }
 
@@ -84,29 +92,27 @@ public class ChatterHotFragment extends BaseFragment implements ChatterHotListVi
 
     @Override
     public void disablePullUp() {
-        mContentListView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
+        mPtrClassicFrameLayout.setMode(PtrFrameLayout.Mode.REFRESH);
     }
 
     @Override
     public void enablePullUp() {
-        mContentListView.setMode(PullToRefreshBase.Mode.BOTH);
+        mPtrClassicFrameLayout.setMode(PtrFrameLayout.Mode.BOTH);
     }
 
     @Override
     public void startRefreshing() {
-        mContentListView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
-        mContentListView.setRefreshing();
-        mContentListView.setMode(PullToRefreshBase.Mode.BOTH);
+        mPtrClassicFrameLayout.autoRefresh();
     }
 
     @Override
     public boolean isRefreshing() {
-        return mContentListView.isRefreshing();
+        return mPtrClassicFrameLayout.isRefreshing();
     }
 
     @Override
     public void refreshComplete() {
-        mContentListView.onRefreshComplete();
+        mPtrClassicFrameLayout.refreshComplete();
     }
 
     @Override
@@ -121,7 +127,7 @@ public class ChatterHotFragment extends BaseFragment implements ChatterHotListVi
 
     @Override
     public int getDataCount() {
-        return mChatterAdapter.getCount();
+        return mChatterAdapter.getItemCount();
     }
 
     @Override

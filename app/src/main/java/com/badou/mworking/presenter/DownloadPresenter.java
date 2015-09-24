@@ -12,11 +12,11 @@ import com.badou.mworking.util.NetUtils;
 import com.badou.mworking.view.BaseView;
 import com.badou.mworking.view.DownloadView;
 
-import org.apache.http.Header;
-
 import java.io.File;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import cz.msebera.android.httpclient.Header;
 
 public class DownloadPresenter extends Presenter {
 

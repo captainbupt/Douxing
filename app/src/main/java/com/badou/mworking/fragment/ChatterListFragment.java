@@ -2,6 +2,8 @@ package com.badou.mworking.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -17,16 +19,18 @@ import com.badou.mworking.entity.chatter.Chatter;
 import com.badou.mworking.presenter.chatter.ChatterListPresenter;
 import com.badou.mworking.util.DensityUtil;
 import com.badou.mworking.view.chatter.ChatterListView;
+import com.badou.mworking.widget.DividerItemDecoration;
+import com.badou.mworking.widget.HeaderViewRecyclerAdapter;
 import com.badou.mworking.widget.NoneResultView;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.badou.mworking.widget.VerticalSpaceItemDecoration;
 
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import in.srain.cube.views.ptr.PtrClassicFrameLayout;
+import in.srain.cube.views.ptr.PtrDefaultHandler2;
+import in.srain.cube.views.ptr.PtrFrameLayout;
 
 /**
  * 功能描述: 同事圈列表页
@@ -38,12 +42,14 @@ public class ChatterListFragment extends BaseFragment implements ChatterListView
     private static final String KEY_ARGUMENT_HEAD = "head";
     private static final String KEY_ARGUMENT_LEVEL = "level";
 
+    @Bind(R.id.ptr_classic_frame_layout)
+    PtrClassicFrameLayout mPtrClassicFrameLayout;
     @Bind(R.id.content_list_view)
-    PullToRefreshListView mContentListView;
+    RecyclerView mContentListView;
     @Bind(R.id.none_result_view)
     NoneResultView mNoneResultView;
 
-    int mHeaderCount = 0;
+    HeaderViewRecyclerAdapter mHeaderViewRecyclerAdapter;
     ChatterListAdapter mChatterAdapter;
     ChatterListPresenter mPresenter;
 
@@ -98,22 +104,21 @@ public class ChatterListFragment extends BaseFragment implements ChatterListView
         mNoneResultView.setGravity(Gravity.CENTER_HORIZONTAL);
         mNoneResultView.setContent(R.drawable.background_none_result_chatter, R.string.none_result_chatter);
         mNoneResultView.setPadding(0, DensityUtil.getInstance().getOffsetXlarge(), 0, DensityUtil.getInstance().getOffsetXlarge());
-        mContentListView.getRefreshableView().addFooterView(mNoneResultView, null, false);
+        mHeaderViewRecyclerAdapter.addFooterView(mNoneResultView);
     }
 
     public void setHeaderView(View view) {
-        mContentListView.getRefreshableView().addHeaderView(view, null, false);
-        mHeaderCount++;
+        mHeaderViewRecyclerAdapter.addHeaderView(view);
     }
 
     private void initListener() {
-        mContentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mChatterAdapter = new ChatterListAdapter(mContext, new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                mPresenter.onItemClick((Chatter) adapterView.getAdapter().getItem(i), i - 1 - mHeaderCount);
+            public void onClick(View v) {
+                int position = (int) v.getTag();
+                mPresenter.onItemClick(mChatterAdapter.getItem(position), position);
             }
         });
-        mChatterAdapter = new ChatterListAdapter(mContext);
         Bundle argument = getArguments();
         if (argument == null || !argument.containsKey(KEY_ARGUMENT_UID)) { // 进入某人同事圈，不需要点击头像事件
             mChatterAdapter.setHeadClickListener(new View.OnClickListener() {
@@ -129,16 +134,19 @@ public class ChatterListFragment extends BaseFragment implements ChatterListView
                 mPresenter.praise(getItem((int) v.getTag()), (int) v.getTag());
             }
         });
-        mContentListView.setAdapter(mChatterAdapter);
-        mContentListView.setOnRefreshListener(new OnRefreshListener2<ListView>() {
+        mContentListView.setLayoutManager(new LinearLayoutManager(mContext));
+        mContentListView.addItemDecoration(new VerticalSpaceItemDecoration(DensityUtil.getInstance().getOffsetLess()));
+        mHeaderViewRecyclerAdapter = new HeaderViewRecyclerAdapter(mChatterAdapter);
+        mContentListView.setAdapter(mHeaderViewRecyclerAdapter);
+        mPtrClassicFrameLayout.setPtrHandler(new PtrDefaultHandler2() {
             @Override
-            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                mPresenter.refresh();
+            public void onLoadMoreBegin(PtrFrameLayout frame) {
+                mPresenter.loadMore();
             }
 
             @Override
-            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-                mPresenter.loadMore();
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                mPresenter.refresh();
             }
         });
     }
@@ -168,29 +176,27 @@ public class ChatterListFragment extends BaseFragment implements ChatterListView
 
     @Override
     public void disablePullUp() {
-        mContentListView.setMode(Mode.PULL_FROM_START);
+        mPtrClassicFrameLayout.setMode(PtrFrameLayout.Mode.REFRESH);
     }
 
     @Override
     public void enablePullUp() {
-        mContentListView.setMode(Mode.BOTH);
+        mPtrClassicFrameLayout.setMode(PtrFrameLayout.Mode.BOTH);
     }
 
     @Override
     public void startRefreshing() {
-        mContentListView.setMode(Mode.PULL_FROM_START);
-        mContentListView.setRefreshing();
-        mContentListView.setMode(Mode.BOTH);
+        mPtrClassicFrameLayout.autoRefresh();
     }
 
     @Override
     public boolean isRefreshing() {
-        return mContentListView.isRefreshing();
+        return mPtrClassicFrameLayout.isRefreshing();
     }
 
     @Override
     public void refreshComplete() {
-        mContentListView.onRefreshComplete();
+        mPtrClassicFrameLayout.refreshComplete();
     }
 
     @Override
@@ -205,7 +211,7 @@ public class ChatterListFragment extends BaseFragment implements ChatterListView
 
     @Override
     public int getDataCount() {
-        return mChatterAdapter.getCount();
+        return mChatterAdapter.getItemCount();
     }
 
     @Override

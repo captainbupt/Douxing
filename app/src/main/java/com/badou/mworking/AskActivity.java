@@ -2,8 +2,9 @@ package com.badou.mworking;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ListView;
 
 import com.badou.mworking.adapter.AskAdapter;
 import com.badou.mworking.base.BaseBackActionBarActivity;
@@ -12,16 +13,19 @@ import com.badou.mworking.entity.main.Shuffle;
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.presenter.Presenter;
 import com.badou.mworking.presenter.ask.AskPresenter;
+import com.badou.mworking.util.DensityUtil;
 import com.badou.mworking.view.ask.AskListView;
+import com.badou.mworking.widget.DividerItemDecoration;
 import com.badou.mworking.widget.NoneResultView;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.badou.mworking.widget.VerticalSpaceItemDecoration;
 
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import in.srain.cube.views.ptr.PtrClassicFrameLayout;
+import in.srain.cube.views.ptr.PtrDefaultHandler2;
+import in.srain.cube.views.ptr.PtrFrameLayout;
 
 /**
  * 问答页面
@@ -31,7 +35,9 @@ public class AskActivity extends BaseBackActionBarActivity implements AskListVie
     @Bind(R.id.none_result_view)
     NoneResultView mNoneResultView;
     @Bind(R.id.content_list_view)
-    PullToRefreshListView mContentListView;
+    RecyclerView mContentListView;
+    @Bind(R.id.ptr_classic_frame_layout)
+    PtrClassicFrameLayout mPtrClassicFrameLayout;
 
     AskAdapter mAskAdapter;
 
@@ -60,12 +66,22 @@ public class AskActivity extends BaseBackActionBarActivity implements AskListVie
                 mPresenter.publishAsk();
             }
         });
-        mContentListView.setMode(Mode.BOTH);
+        mPtrClassicFrameLayout.setPtrHandler(new PtrDefaultHandler2() {
+            @Override
+            public void onLoadMoreBegin(PtrFrameLayout frame) {
+                mPresenter.loadMore();
+            }
+
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                mPresenter.refresh();
+            }
+        });
         // 单点和长按会冲突，只能在adapter里面加
         mAskAdapter = new AskAdapter(mContext, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int position = (int) v.getTag(R.id.tag_position);
+                int position = (int) v.getTag();
                 mPresenter.onItemClick(mAskAdapter.getItem(position), position);
             }
         }, new View.OnLongClickListener() {
@@ -75,18 +91,9 @@ public class AskActivity extends BaseBackActionBarActivity implements AskListVie
                 return true;
             }
         });
+        mContentListView.setLayoutManager(new LinearLayoutManager(mContext));
+        mContentListView.addItemDecoration(new VerticalSpaceItemDecoration(DensityUtil.getInstance().getOffsetLess()));
         mContentListView.setAdapter(mAskAdapter);
-        mContentListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
-            @Override
-            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                mPresenter.refresh();
-            }
-
-            @Override
-            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-                mPresenter.loadMore();
-            }
-        });
     }
 
     @Override
@@ -107,30 +114,28 @@ public class AskActivity extends BaseBackActionBarActivity implements AskListVie
 
     @Override
     public void disablePullUp() {
-        mContentListView.setMode(Mode.PULL_FROM_START);
+        mPtrClassicFrameLayout.setMode(PtrFrameLayout.Mode.REFRESH);
     }
 
     @Override
     public void enablePullUp() {
-        mContentListView.setMode(Mode.BOTH);
+        mPtrClassicFrameLayout.setMode(PtrFrameLayout.Mode.BOTH);
     }
 
     @Override
     public void startRefreshing() {
         showProgressBar();
-        mContentListView.setMode(Mode.PULL_FROM_START);
-        mContentListView.setRefreshing();
-        mContentListView.setMode(Mode.BOTH);
+        mPtrClassicFrameLayout.autoRefresh();
     }
 
     @Override
     public boolean isRefreshing() {
-        return mContentListView.isRefreshing();
+        return mPtrClassicFrameLayout.isRefreshing();
     }
 
     @Override
     public void refreshComplete() {
-        mContentListView.onRefreshComplete();
+        mPtrClassicFrameLayout.refreshComplete();
         hideProgressBar();
     }
 
@@ -146,7 +151,7 @@ public class AskActivity extends BaseBackActionBarActivity implements AskListVie
 
     @Override
     public int getDataCount() {
-        return mAskAdapter.getCount();
+        return mAskAdapter.getItemCount();
     }
 
     @Override

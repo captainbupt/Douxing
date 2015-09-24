@@ -13,9 +13,9 @@ import com.badou.mworking.net.HttpClientRepository;
 import com.badou.mworking.view.BaseView;
 import com.loopj.android.http.RangeFileAsyncHttpResponseHandler;
 
-import org.apache.http.Header;
-
 import java.io.File;
+
+import cz.msebera.android.httpclient.Header;
 
 public class DialogUtil {
     /**

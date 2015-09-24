@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.badou.mworking.widget.ChatterItemView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/chatter_item_view"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingTop="@dimen/offset_less">
+    android:layout_height="wrap_content"/>
+<!-- 必须要加，不然会出现事件传递混乱-->
+<!-- SwipeLayout对事件传递做了特殊处理？可以使得点击事件被ListView处理-->
+<!--
+<com.swipe.delete.SwipeLayout
+    android:id="@+id/swipe_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-    <!-- 必须要加，不然会出现事件传递混乱-->
-    <!-- SwipeLayout对事件传递做了特殊处理？可以使得点击事件被ListView处理-->
-    <com.swipe.delete.SwipeLayout
-        android:id="@+id/swipe_layout"
+    &lt;!&ndash; SwipeLayout 强制要求ViewGroup &ndash;&gt;
+    <FrameLayout
+        android:layout_width="0.5dp"
+        android:layout_height="match_parent">
+
+    </FrameLayout>
+
+    <com.badou.mworking.widget.ChatterItemView
+        android:id="@+id/chatter_item_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <!-- SwipeLayout 强制要求ViewGroup -->
-        <FrameLayout
-            android:layout_width="0.5dp"
-            android:layout_height="match_parent">
-
-        </FrameLayout>
-
-        <com.badou.mworking.widget.ChatterItemView
-            android:id="@+id/chatter_item_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </com.swipe.delete.SwipeLayout>
-</LinearLayout>
+        android:layout_height="wrap_content"/>
+</com.swipe.delete.SwipeLayout>-->
