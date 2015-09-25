@@ -62,8 +62,8 @@ public class TaskSignActivity extends CategoryBaseActivity implements TaskSignVi
     // 初始化全局 bitmap 信息，不用时及时 recycle
     BitmapDescriptor bdA = BitmapDescriptorFactory.fromResource(R.drawable.icon_gcoding);
 
-    public static Intent getIntent(Context context, String rid, String planTitle) {
-        return CategoryBaseActivity.getIntent(context, TaskSignActivity.class, rid, planTitle);
+    public static Intent getIntent(Context context, String rid,  PlanInfo planInfo) {
+        return CategoryBaseActivity.getIntent(context, TaskSignActivity.class, rid, planInfo);
     }
 
     @Override

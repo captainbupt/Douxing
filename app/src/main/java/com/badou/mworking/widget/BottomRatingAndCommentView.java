@@ -100,7 +100,7 @@ public class BottomRatingAndCommentView extends LinearLayout {
     }
 
     public void setRatingData(int ratingNumber) {
-        mRatingNumberTextView.setText(String.format("(%d)", ratingNumber));
+        mRatingNumberTextView.setText(String.format("%d", ratingNumber));
     }
 
     public void setIsRated(boolean isRated) {
@@ -112,6 +112,6 @@ public class BottomRatingAndCommentView extends LinearLayout {
     }
 
     public void setCommentData(int commentNumber) {
-        mCommentNumberTextView.setText(String.format("(%d)", commentNumber));
+        mCommentNumberTextView.setText(String.format("%d", commentNumber));
     }
 }

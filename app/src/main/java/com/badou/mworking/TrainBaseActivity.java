@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.View;
@@ -41,8 +42,8 @@ public class TrainBaseActivity extends CategoryBaseActivity {
     private Bundle mSavedInstanceState;
     private boolean isTraining = true;
 
-    public static Intent getIntent(Context context, String rid, boolean isTraining, String planTitle) {
-        Intent intent = CategoryBaseActivity.getIntent(context, TrainBaseActivity.class, rid, planTitle);
+    public static Intent getIntent(Context context, String rid, boolean isTraining, PlanInfo planInfo) {
+        Intent intent = CategoryBaseActivity.getIntent(context, TrainBaseActivity.class, rid, planInfo);
         intent.putExtra(KEY_TRAINING, isTraining);
         return intent;
     }
@@ -139,22 +140,32 @@ public class TrainBaseActivity extends CategoryBaseActivity {
     }
 
     public void showMusic(String rid, String url, String subject) {
-        TrainMusicFragment trainMusicFragment = TrainMusicFragment.getFragment(rid, url, subject);
+        final TrainMusicFragment trainMusicFragment = TrainMusicFragment.getFragment(rid, url, subject);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.content_container, trainMusicFragment);
         transaction.commit();
         if (mPlanInfo != null) {
-            trainMusicFragment.setOnStatusChangedListener(mOnStatusChangedListener);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    trainMusicFragment.setOnStatusChangedListener(mOnStatusChangedListener);
+                }
+            }, 200);
         }
     }
 
     public void showVideo(String rid, String url, String subject) {
-        TrainVideoFragment trainVideoFragment = TrainVideoFragment.getFragment(rid, url, subject);
+        final TrainVideoFragment trainVideoFragment = TrainVideoFragment.getFragment(rid, url, subject);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.content_container, trainVideoFragment);
         transaction.commit();
         if (mPlanInfo != null) {
-            trainVideoFragment.setOnStatusChangedListener(mOnStatusChangedListener);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    trainVideoFragment.setOnStatusChangedListener(mOnStatusChangedListener);
+                }
+            }, 200);
         }
     }
 
@@ -199,11 +210,13 @@ public class TrainBaseActivity extends CategoryBaseActivity {
 
     @Override
     public void setMaxPeriod(int minute) {
+        System.out.println("minute: " + minute);
         mBottomTimingView.setTotalTime(minute);
     }
 
     @Override
     public void setCurrentPeriod(int currentSecond) {
+        System.out.println("currentSecond: " + currentSecond);
         mBottomTimingView.setCurrentTime(currentSecond);
     }
 

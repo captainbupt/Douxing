@@ -38,7 +38,7 @@ public class ChatterUrlView extends LinearLayout {
         if (urlContent != null) {
             this.mUrl = urlContent.getUrl();
             mContentTextView.setText(urlContent.getDescription());
-            mContentImageView.setImageURI(UriUtil.getHttpUri(urlContent.getUrl()));
+            mContentImageView.setImageURI(UriUtil.getHttpUri(urlContent.getImg()));
             setEnabled(true);
             setOnClickListener(new OnClickListener() {
                 @Override

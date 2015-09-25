@@ -84,7 +84,6 @@ public class AskDetailActivity extends BaseBackActionBarActivity implements AskD
         super.onCreate(savedInstanceState);
         setActionbarTitle(R.string.ask_title_detail);
         setContentView(R.layout.activity_ask_detail);
-        ButterKnife.bind(this);
         initView();
         mPresenter = (AskDetailPresenter) super.mPresenter;
         mPresenter.attachView(this);
@@ -139,6 +138,7 @@ public class AskDetailActivity extends BaseBackActionBarActivity implements AskD
         noneResultView.setContent(-1, R.string.none_result_reply);
         noneResultView.setGravity(Gravity.CENTER_HORIZONTAL);
         noneResultView.setPadding(0, DensityUtil.getInstance().getOffsetXlarge(), 0, DensityUtil.getInstance().getOffsetXlarge());
+        noneResultView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         return noneResultView;
     }
 

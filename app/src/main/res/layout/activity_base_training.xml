@@ -15,6 +15,7 @@
 
     <com.badou.mworking.widget.BottomTimingView
         android:id="@+id/bottom_timing_view"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"/>

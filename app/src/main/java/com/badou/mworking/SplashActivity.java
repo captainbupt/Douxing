@@ -29,18 +29,10 @@ public class SplashActivity extends BaseNoTitleActivity implements SplashView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
-        init();
         disableSwipeBack();
         DensityUtil.init(mActivity);
         SplashPresenter splashPresenter = new SplashPresenter(mContext);
         splashPresenter.attachView(this);
-    }
-
-    private void init() {
-        String flashUrl = SPHelper.getFlashUrl();
-        if (!TextUtils.isEmpty(flashUrl)) {
-            mBackgroundImageView.setImageURI(UriUtil.getHttpUri(flashUrl));
-        }
     }
 
     @Override
@@ -55,6 +47,13 @@ public class SplashActivity extends BaseNoTitleActivity implements SplashView {
         super.onResume();
         // 极光推送
         JPushInterface.onResume(this);
+    }
+
+    @Override
+    public void setBackgroundImage(String url) {
+        if (!TextUtils.isEmpty(url)) {
+            mBackgroundImageView.setImageURI(UriUtil.getHttpUri(url));
+        }
     }
 }
 

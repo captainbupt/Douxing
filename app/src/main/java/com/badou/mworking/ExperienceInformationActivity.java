@@ -105,13 +105,13 @@ public class ExperienceInformationActivity extends BaseNoTitleActivity implement
     @Override
     public void enableConfirmButton() {
         mConfirmTextView.setEnableMode();
-        mConfirmTextView.setEnabled(true);
+        // mConfirmTextView.setEnabled(true);
     }
 
     @Override
     public void disableConfirmButton() {
         mConfirmTextView.setDisableMode();
-        mConfirmTextView.setEnabled(false);
+        // mConfirmTextView.setEnabled(false);
     }
 
     @Override

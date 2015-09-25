@@ -7,6 +7,7 @@ import android.preference.PreferenceActivity;
 import com.badou.mworking.util.FileUtils;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RangeFileAsyncHttpResponseHandler;
+
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.HttpEntity;
 import cz.msebera.android.httpclient.client.params.ClientPNames;
@@ -97,6 +98,6 @@ public class HttpClientRepository {
         isForceStopped = true;
         client.cancelRequests(context, true);
         // request取消后会导致重定向选项被关闭，比许手动开启
-        client.getHttpClient().getParams().setParameter(ClientPNames.ALLOW_CIRCULAR_REDIRECTS, true);
+        client.setEnableRedirects(true, true, true);
     }
 }

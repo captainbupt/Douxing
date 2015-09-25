@@ -23,8 +23,8 @@ public class SurveyBaseActivity extends CategoryBaseActivity {
     FrameLayout mContentContainer;
 
 
-    public static Intent getIntent(Context context, String rid, String planTitle) {
-        return CategoryBaseActivity.getIntent(context, SurveyBaseActivity.class, rid, planTitle);
+    public static Intent getIntent(Context context, String rid,  PlanInfo planInfo) {
+        return CategoryBaseActivity.getIntent(context, SurveyBaseActivity.class, rid, planInfo);
     }
 
     @Override

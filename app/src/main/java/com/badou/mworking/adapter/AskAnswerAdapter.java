@@ -2,6 +2,7 @@ package com.badou.mworking.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -25,7 +26,7 @@ import butterknife.ButterKnife;
 /**
  * 问答详情页面
  */
-public class AskAnswerAdapter extends MyBaseRecyclerAdapter<Ask,AskAnswerAdapter.MyViewHolder> {
+public class AskAnswerAdapter extends MyBaseRecyclerAdapter<Ask, AskAnswerAdapter.MyViewHolder> {
 
     private String mAid;
     private int mReplyCount;
@@ -72,7 +73,12 @@ public class AskAnswerAdapter extends MyBaseRecyclerAdapter<Ask,AskAnswerAdapter
         holder.dateTextView.setText(TimeTransfer.long2StringDetailDate(mContext, ask.getCreateTime()));
 
         holder.headImageView.setImageURI(UriUtil.getHttpUri(ask.getUserHeadUrl()));
-        holder.contentImageView.setImageURI(UriUtil.getHttpUri(ask.getContentImageUrl()));
+        if (!TextUtils.isEmpty(ask.getContentImageUrl())) {
+            holder.contentImageView.setImageURI(UriUtil.getHttpUri(ask.getContentImageUrl()));
+            holder.contentImageView.setVisibility(View.VISIBLE);
+        } else {
+            holder.contentImageView.setVisibility(View.GONE);
+        }
 
         /** 设置点赞的check **/
         if (AskResManager.isSelect(mAid, ask.getCreateTime())) {

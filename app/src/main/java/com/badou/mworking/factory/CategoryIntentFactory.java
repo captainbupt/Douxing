@@ -13,6 +13,7 @@ import com.badou.mworking.TaskSignActivity;
 import com.badou.mworking.TrainBaseActivity;
 import com.badou.mworking.domain.category.MarkReadUseCase;
 import com.badou.mworking.entity.category.Category;
+import com.badou.mworking.entity.category.PlanInfo;
 import com.badou.mworking.net.BaseSubscriber;
 import com.badou.mworking.util.SPHelper;
 import com.badou.mworking.util.ToastUtil;
@@ -23,11 +24,11 @@ public class CategoryIntentFactory {
         return getIntent(context, type, rid, false, null);
     }
 
-    public static Intent getIntentForPlan(Context context, int type, String rid, String title) {
-        return getIntent(context, type, rid, false, title);
+    public static Intent getIntentForPlan(Context context, int type, String rid, PlanInfo planInfo) {
+        return getIntent(context, type, rid, false, planInfo);
     }
 
-    public static Intent getIntent(Context context, int type, String rid, boolean isUnread, String planTitle) {
+    public static Intent getIntent(Context context, int type, String rid, boolean isUnread, PlanInfo planInfo) {
         if (type == Category.CATEGORY_NOTICE || type == Category.CATEGORY_TRAINING || type == Category.CATEGORY_SHELF) {
             if (isUnread) {
                 SPHelper.reduceUnreadNumberByOne(type);
@@ -39,19 +40,19 @@ public class CategoryIntentFactory {
             });
         }
         if (type == Category.CATEGORY_NOTICE) {
-            return NoticeBaseActivity.getIntent(context, rid, planTitle);
+            return NoticeBaseActivity.getIntent(context, rid, planInfo);
         } else if (type == Category.CATEGORY_TRAINING || type == Category.CATEGORY_SHELF) {
-            return TrainBaseActivity.getIntent(context, rid, type == Category.CATEGORY_TRAINING, planTitle);
+            return TrainBaseActivity.getIntent(context, rid, type == Category.CATEGORY_TRAINING, planInfo);
         } else if (type == Category.CATEGORY_EXAM) {
-            return ExamBaseActivity.getIntent(context, rid, planTitle);
+            return ExamBaseActivity.getIntent(context, rid, planInfo);
         } else if (type == Category.CATEGORY_TASK) {
-            return TaskSignActivity.getIntent(context, rid, planTitle);
+            return TaskSignActivity.getIntent(context, rid, planInfo);
         } else if (type == Category.CATEGORY_ENTRY) {
-            return EntryActivity.getIntent(context, rid, planTitle);
+            return EntryActivity.getIntent(context, rid, planInfo);
         } else if (type == Category.CATEGORY_PLAN) {//学习计划跳转
-            return PlanActivity.getIntent(context, rid, planTitle);
+            return PlanActivity.getIntent(context, rid, planInfo);
         } else if (type == Category.CATEGORY_SURVEY) {//学习计划跳转
-            return SurveyBaseActivity.getIntent(context, rid, planTitle);
+            return SurveyBaseActivity.getIntent(context, rid, planInfo);
         } else {
             ToastUtil.showToast(context, R.string.category_unsupport_type);
             return null;

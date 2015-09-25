@@ -167,23 +167,21 @@ ADDED from AndroidManifest.xml:58:5
 		ADDED from AndroidManifest.xml:59:9
 application
 ADDED from AndroidManifest.xml:62:5
+MERGED from com.android.support:support-v4:23.0.1:22:5
 MERGED from com.android.support:appcompat-v7:22.2.1:22:5
-MERGED from com.android.support:support-v4:22.2.1:22:5
-MERGED from com.android.support:support-v4:22.2.1:22:5
-MERGED from Douxing:Pulltorefresh:unspecified:11:5
+MERGED from com.android.support:support-v4:23.0.1:22:5
 MERGED from me.imid.swipebacklayout.lib:SwipeBackLayout:1.0.0:11:5
-MERGED from com.android.support:support-v4:22.2.1:22:5
+MERGED from com.android.support:support-v4:23.0.1:22:5
 MERGED from Douxing:PseudoMaterialHeader:unspecified:11:5
 MERGED from Douxing:QRCodeScan:unspecified:20:5
 MERGED from com.github.chrisbanes.photoview:library:1.2.3:4:5
-MERGED from com.android.support:support-v4:22.2.1:22:5
-MERGED from com.android.support:support-v4:22.2.1:22:5
-MERGED from com.android.support:support-v4:22.2.1:22:5
-MERGED from com.android.support:support-v4:22.2.1:22:5
+MERGED from com.android.support:support-v4:23.0.1:22:5
+MERGED from com.android.support:support-v4:23.0.1:22:5
+MERGED from com.android.support:support-v4:23.0.1:22:5
 MERGED from com.bignerdranch.android:expandablerecyclerview:1.0.3:11:5
-MERGED from com.android.support:support-v4:22.2.1:22:5
-MERGED from Douxing:UltraPullToRefreshWithLoadMore:unspecified:11:5
+MERGED from com.android.support:support-v4:23.0.1:22:5
 MERGED from Douxing:CircleProgressView:unspecified:11:5
+MERGED from Douxing:Ultra-Pull-To-Refresh-With-Load-More:unspecified:11:5
 	android:label
 		ADDED from AndroidManifest.xml:66:9
 	android:hardwareAccelerated
@@ -860,32 +858,30 @@ ADDED from AndroidManifest.xml:444:9
 		ADDED from AndroidManifest.xml:445:13
 uses-sdk
 INJECTED from AndroidManifest.xml:0:0 reason: use-sdk injection requested
+MERGED from com.android.support:recyclerview-v7:23.0.1:20:5
+MERGED from com.android.support:support-v4:23.0.1:20:5
 MERGED from com.android.support:appcompat-v7:22.2.1:20:5
-MERGED from com.android.support:support-v4:22.2.1:20:5
-MERGED from com.android.support:support-v4:22.2.1:20:5
-MERGED from Douxing:Pulltorefresh:unspecified:7:5
+MERGED from com.android.support:support-v4:23.0.1:20:5
 MERGED from me.imid.swipebacklayout.lib:SwipeBackLayout:1.0.0:7:5
-MERGED from com.android.support:support-v4:22.2.1:20:5
+MERGED from com.android.support:support-v4:23.0.1:20:5
 MERGED from se.emilsjolander:stickylistheaders:2.7.0:7:5
 MERGED from Douxing:PseudoMaterialHeader:unspecified:7:5
 MERGED from Douxing:QRCodeScan:unspecified:7:5
 MERGED from com.github.chrisbanes.photoview:library:1.2.3:2:5
-MERGED from com.android.support:support-v4:22.2.1:20:5
+MERGED from com.android.support:support-v4:23.0.1:20:5
 MERGED from com.facebook.fresco:fresco:0.7.0:5:5
 MERGED from com.facebook.fresco:imagepipeline:0.7.0:5:5
 MERGED from com.facebook.fresco:fbcore:0.7.0:5:5
-MERGED from com.android.support:support-v4:22.2.1:20:5
+MERGED from com.android.support:support-v4:23.0.1:20:5
 MERGED from com.facebook.fresco:drawee:0.7.0:5:5
 MERGED from com.facebook.fresco:fbcore:0.7.0:5:5
-MERGED from com.android.support:support-v4:22.2.1:20:5
+MERGED from com.android.support:support-v4:23.0.1:20:5
 MERGED from com.facebook.fresco:fbcore:0.7.0:5:5
-MERGED from com.android.support:recyclerview-v7:22.2.1:20:5
-MERGED from com.android.support:support-v4:22.2.1:20:5
 MERGED from com.bignerdranch.android:expandablerecyclerview:1.0.3:7:5
-MERGED from com.android.support:recyclerview-v7:22.2.1:20:5
-MERGED from com.android.support:support-v4:22.2.1:20:5
-MERGED from Douxing:UltraPullToRefreshWithLoadMore:unspecified:7:5
+MERGED from com.android.support:recyclerview-v7:23.0.1:20:5
+MERGED from com.android.support:support-v4:23.0.1:20:5
 MERGED from Douxing:CircleProgressView:unspecified:7:5
+MERGED from Douxing:Ultra-Pull-To-Refresh-With-Load-More:unspecified:7:5
 	android:targetSdkVersion
 		INJECTED from AndroidManifest.xml:0:0
 		INJECTED from AndroidManifest.xml:0:0

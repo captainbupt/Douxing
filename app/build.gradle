@@ -83,5 +83,5 @@ dependencies {
     compile files('src/main/libs/ShareSDK-Wechat-Moments-2.6.3.jar')
     compile files('src/main/libs/umeng-analytics-v5.5.3.jar')
     compile project(':CircleProgressView')
-    compile project(':Ultra-PullToRefreshWithLoadMore')
+    compile project(':Ultra-Pull-To-Refresh-With-Load-More')
 }

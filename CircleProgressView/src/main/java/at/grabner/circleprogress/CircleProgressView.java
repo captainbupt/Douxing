@@ -53,14 +53,14 @@ public class CircleProgressView extends View {
 
     //region members
     //value animation
-    float mCurrentValue = 42;
+    float mCurrentValue = 0;
     float mValueTo = 0;
     float mValueFrom = 0;
     float mMaxValue = 100;
 
     // spinner animation
     float mSpinningBarLengthCurrent = 0;
-    float mSpinningBarLengthOrig = 42;
+    float mSpinningBarLengthOrig = 0;
     float mCurrentSpinnerDegreeValue = 0;
 
 
@@ -1118,7 +1118,12 @@ public class CircleProgressView extends View {
             drawDebug(canvas);
         }
 
-        float degrees = (360f / mMaxValue * mCurrentValue);
+        float degrees;
+        if (mMaxValue == 0 || mMaxValue < mCurrentValue) {
+            degrees = 360f;
+        } else {
+            degrees = (360f / mMaxValue * mCurrentValue);
+        }
 
         //Draw the background circle
         if (mBackgroundCircleColor != 0) {
@@ -1224,7 +1229,12 @@ public class CircleProgressView extends View {
                 text = mText != null ? mText : "";
                 break;
             case PERCENT:
-                int percent = Math.round(100f / mMaxValue * mCurrentValue);
+                int percent;
+                if (mMaxValue == 0 || mMaxValue < mCurrentValue) {
+                    percent = 100;
+                } else {
+                    percent = Math.round(100f / mMaxValue * mCurrentValue);
+                }
                 text = String.valueOf(percent);
                 break;
             case VALUE:

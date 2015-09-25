@@ -15,172 +15,187 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginLeft="@dimen/offset_large"
-        android:layout_marginRight="@dimen/offset_large"
-        android:background="@drawable/background_corner_radius_medium_f8ffffff"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/offset_large"
+            android:layout_marginRight="@dimen/offset_large"
+            android:background="@drawable/background_corner_radius_medium_f8ffffff"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/business_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/offset_xlarge"
+                android:layout_marginLeft="@dimen/offset_medium"
+                android:layout_marginRight="@dimen/offset_medium"
+                android:layout_marginTop="@dimen/offset_xlarge"
+                android:background="@drawable/background_border_radius_small_grey_transparent"
+                android:paddingBottom="@dimen/offset_micro"
+                android:paddingLeft="@dimen/offset_medium"
+                android:paddingRight="@dimen/offset_medium"
+                android:paddingTop="@dimen/offset_micro"
+                android:text="@string/experience_business_tip"
+                android:textColor="@color/color_border_grey"
+                android:textSize="@dimen/text_size_medium"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="@dimen/offset_medium"
+                android:layout_marginRight="@dimen/offset_medium"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/all_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/offset_medium"
+                    android:background="@drawable/background_border_radius_small_grey_transparent"
+                    android:paddingBottom="@dimen/offset_micro"
+                    android:paddingLeft="@dimen/offset_medium"
+                    android:paddingRight="@dimen/offset_medium"
+                    android:paddingTop="@dimen/offset_micro"
+                    android:text="@string/experience_business_all"
+                    android:textColor="@color/color_border_grey"
+                    android:textSize="@dimen/text_size_medium"/>
+
+                <TextView
+                    android:id="@+id/vehicle_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_border_radius_small_grey_transparent"
+                    android:paddingBottom="@dimen/offset_micro"
+                    android:paddingLeft="@dimen/offset_medium"
+                    android:paddingRight="@dimen/offset_medium"
+                    android:paddingTop="@dimen/offset_micro"
+                    android:text="@string/experience_business_vehicle"
+                    android:textColor="@color/color_border_grey"
+                    android:textSize="@dimen/text_size_medium"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="@dimen/offset_medium"
+                android:layout_marginRight="@dimen/offset_medium"
+                android:layout_marginTop="@dimen/offset_medium"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/advertisement_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/offset_medium"
+                    android:background="@drawable/background_border_radius_small_grey_transparent"
+                    android:paddingBottom="@dimen/offset_micro"
+                    android:paddingLeft="@dimen/offset_medium"
+                    android:paddingRight="@dimen/offset_medium"
+                    android:paddingTop="@dimen/offset_micro"
+                    android:text="@string/experience_business_advertisement"
+                    android:textColor="@color/color_border_grey"
+                    android:textSize="@dimen/text_size_medium"/>
+
+                <TextView
+                    android:id="@+id/o2o_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/offset_medium"
+                    android:background="@drawable/background_border_radius_small_grey_transparent"
+                    android:paddingBottom="@dimen/offset_micro"
+                    android:paddingLeft="@dimen/offset_medium"
+                    android:paddingRight="@dimen/offset_medium"
+                    android:paddingTop="@dimen/offset_micro"
+                    android:text="@string/experience_business_o2o"
+                    android:textColor="@color/color_border_grey"
+                    android:textSize="@dimen/text_size_medium"/>
+
+                <TextView
+                    android:id="@+id/consumption_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_border_radius_small_grey_transparent"
+                    android:paddingBottom="@dimen/offset_micro"
+                    android:paddingLeft="@dimen/offset_medium"
+                    android:paddingRight="@dimen/offset_medium"
+                    android:paddingTop="@dimen/offset_micro"
+                    android:text="@string/experience_business_consumption"
+                    android:textColor="@color/color_border_grey"
+                    android:textSize="@dimen/text_size_medium"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="@dimen/offset_medium"
+                android:layout_marginRight="@dimen/offset_medium"
+                android:layout_marginTop="@dimen/offset_medium"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/economic_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_border_radius_small_grey_transparent"
+                    android:paddingBottom="@dimen/offset_micro"
+                    android:paddingLeft="@dimen/offset_medium"
+                    android:paddingRight="@dimen/offset_medium"
+                    android:paddingTop="@dimen/offset_micro"
+                    android:text="@string/experience_business_economic"
+                    android:textColor="@color/color_border_grey"
+                    android:textSize="@dimen/text_size_medium"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/offset_medium"
+                android:layout_marginLeft="@dimen/offset_medium"
+                android:layout_marginRight="@dimen/offset_medium"
+                android:layout_marginTop="@dimen/offset_xxlarge"
+                android:orientation="horizontal">
+
+                <com.badou.mworking.widget.CornerRadiusButton
+                    android:id="@+id/back_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/offset_medium"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="@dimen/offset_less"
+                    android:text="&lt;"
+                    android:textColor="@color/color_white"
+                    android:textSize="@dimen/text_size_medium"/>
+
+                <com.badou.mworking.widget.CornerRadiusButton
+                    android:id="@+id/confirm_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:gravity="center"
+                    android:padding="@dimen/offset_less"
+                    android:text="@string/experience_business_next"
+                    android:textColor="@color/color_white"
+                    android:textSize="@dimen/text_size_medium"
+                    myattr:backgroundColor="@color/color_blue"/>
+            </LinearLayout>
+        </LinearLayout>
+
         <TextView
-            android:id="@+id/business_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/offset_xlarge"
-            android:layout_marginLeft="@dimen/offset_medium"
-            android:layout_marginRight="@dimen/offset_medium"
-            android:layout_marginTop="@dimen/offset_xlarge"
-            android:background="@drawable/background_border_radius_small_grey_transparent"
-            android:paddingBottom="@dimen/offset_micro"
-            android:paddingLeft="@dimen/offset_medium"
-            android:paddingRight="@dimen/offset_medium"
-            android:paddingTop="@dimen/offset_micro"
-            android:text="@string/experience_business_tip"
-            android:textColor="@color/color_border_grey"
+            android:layout_marginTop="@dimen/offset_medium"
+            android:gravity="center"
+            android:text="@string/experience_business_bottom"
+            android:textColor="@color/color_white"
             android:textSize="@dimen/text_size_medium"/>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="@dimen/offset_medium"
-            android:layout_marginRight="@dimen/offset_medium"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/all_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/offset_medium"
-                android:background="@drawable/background_border_radius_small_grey_transparent"
-                android:paddingBottom="@dimen/offset_micro"
-                android:paddingLeft="@dimen/offset_medium"
-                android:paddingRight="@dimen/offset_medium"
-                android:paddingTop="@dimen/offset_micro"
-                android:text="@string/experience_business_all"
-                android:textColor="@color/color_border_grey"
-                android:textSize="@dimen/text_size_medium"/>
-
-            <TextView
-                android:id="@+id/vehicle_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/background_border_radius_small_grey_transparent"
-                android:paddingBottom="@dimen/offset_micro"
-                android:paddingLeft="@dimen/offset_medium"
-                android:paddingRight="@dimen/offset_medium"
-                android:paddingTop="@dimen/offset_micro"
-                android:text="@string/experience_business_vehicle"
-                android:textColor="@color/color_border_grey"
-                android:textSize="@dimen/text_size_medium"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="@dimen/offset_medium"
-            android:layout_marginRight="@dimen/offset_medium"
-            android:layout_marginTop="@dimen/offset_medium"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/advertisement_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/offset_medium"
-                android:background="@drawable/background_border_radius_small_grey_transparent"
-                android:paddingBottom="@dimen/offset_micro"
-                android:paddingLeft="@dimen/offset_medium"
-                android:paddingRight="@dimen/offset_medium"
-                android:paddingTop="@dimen/offset_micro"
-                android:text="@string/experience_business_advertisement"
-                android:textColor="@color/color_border_grey"
-                android:textSize="@dimen/text_size_medium"/>
-
-            <TextView
-                android:id="@+id/o2o_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/offset_medium"
-                android:background="@drawable/background_border_radius_small_grey_transparent"
-                android:paddingBottom="@dimen/offset_micro"
-                android:paddingLeft="@dimen/offset_medium"
-                android:paddingRight="@dimen/offset_medium"
-                android:paddingTop="@dimen/offset_micro"
-                android:text="@string/experience_business_o2o"
-                android:textColor="@color/color_border_grey"
-                android:textSize="@dimen/text_size_medium"/>
-
-            <TextView
-                android:id="@+id/consumption_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/background_border_radius_small_grey_transparent"
-                android:paddingBottom="@dimen/offset_micro"
-                android:paddingLeft="@dimen/offset_medium"
-                android:paddingRight="@dimen/offset_medium"
-                android:paddingTop="@dimen/offset_micro"
-                android:text="@string/experience_business_consumption"
-                android:textColor="@color/color_border_grey"
-                android:textSize="@dimen/text_size_medium"/>
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="@dimen/offset_medium"
-            android:layout_marginRight="@dimen/offset_medium"
-            android:layout_marginTop="@dimen/offset_medium"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/economic_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/background_border_radius_small_grey_transparent"
-                android:paddingBottom="@dimen/offset_micro"
-                android:paddingLeft="@dimen/offset_medium"
-                android:paddingRight="@dimen/offset_medium"
-                android:paddingTop="@dimen/offset_micro"
-                android:text="@string/experience_business_economic"
-                android:textColor="@color/color_border_grey"
-                android:textSize="@dimen/text_size_medium"/>
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/offset_medium"
-            android:layout_marginLeft="@dimen/offset_medium"
-            android:layout_marginRight="@dimen/offset_medium"
-            android:layout_marginTop="@dimen/offset_xxlarge"
-            android:orientation="horizontal">
-
-            <com.badou.mworking.widget.CornerRadiusButton
-                android:id="@+id/back_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/offset_medium"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="@dimen/offset_less"
-                android:text="&lt;"
-                android:textColor="@color/color_white"
-                android:textSize="@dimen/text_size_medium"/>
-
-            <com.badou.mworking.widget.CornerRadiusButton
-                android:id="@+id/confirm_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:gravity="center"
-                android:padding="@dimen/offset_less"
-                myattr:backgroundColor="@color/color_blue"
-                android:text="@string/experience_business_next"
-                android:textColor="@color/color_white"
-                android:textSize="@dimen/text_size_medium"/>
-        </LinearLayout>
     </LinearLayout>
 </FrameLayout>

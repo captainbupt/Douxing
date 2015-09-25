@@ -22,6 +22,7 @@
     <string name="experience_business_economic">金融保险</string>
     <string name="experience_business_next">下一步</string>
     <string name="experience_business_empty">请选择你所在的行业</string>
+    <string name="experience_business_bottom">不同行业，不同内容！\n选择一个与您相匹配的行业吧！</string>
 
     <string name="experience_information_cancel">不了，谢谢</string>
     <string name="experience_information_title">高级账户体验</string>

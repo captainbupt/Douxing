@@ -26,8 +26,8 @@ public class NoticeBaseActivity extends CategoryBaseActivity {
     @Bind(R.id.bottom_view)
     BottomRatingAndCommentView mBottomView;
 
-    public static Intent getIntent(Context context, String rid, String planTitle) {
-        return CategoryBaseActivity.getIntent(context, NoticeBaseActivity.class, rid, planTitle);
+    public static Intent getIntent(Context context, String rid, PlanInfo planInfo) {
+        return CategoryBaseActivity.getIntent(context, NoticeBaseActivity.class, rid, planInfo);
     }
 
     @Override

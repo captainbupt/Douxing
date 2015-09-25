@@ -16,6 +16,6 @@ public class UriUtil {
     }
 
     public static Uri getResourceUri(int resId){
-        return Uri.parse("android.resource://com.badou.mworking/" + resId);
+        return Uri.parse("res:///" + resId);
     }
 }

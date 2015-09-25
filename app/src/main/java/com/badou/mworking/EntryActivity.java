@@ -37,8 +37,8 @@ public class EntryActivity extends BaseNoTitleActivity implements EntryView {
     ImageView mStoreImageView;
     ImageView statisticalImageView;
 
-    public static Intent getIntent(Context context, String rid, String planTitle) {
-        return CategoryBaseActivity.getIntent(context, EntryActivity.class, rid, planTitle);
+    public static Intent getIntent(Context context, String rid,  PlanInfo planInfo) {
+        return CategoryBaseActivity.getIntent(context, EntryActivity.class, rid, planInfo);
     }
 
     @Override

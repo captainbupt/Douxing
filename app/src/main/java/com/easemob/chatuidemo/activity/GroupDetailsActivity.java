@@ -43,6 +43,7 @@ import com.badou.mworking.base.BaseBackActionBarActivity;
 import com.badou.mworking.entity.emchat.EMChatEntity;
 import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.util.DensityUtil;
+import com.badou.mworking.util.UriUtil;
 import com.easemob.applib.controller.HXSDKHelper;
 import com.easemob.applib.model.DefaultHXSDKModel;
 import com.easemob.chat.EMChatManager;
@@ -641,7 +642,7 @@ public class GroupDetailsActivity extends BaseBackActionBarActivity implements O
             if (position == super.getCount() + 1) {
                 holder.textView.setText("");
                 // 设置成删除按钮
-                holder.imageView.setImageResource(R.drawable.smiley_minus_btn);
+                holder.imageView.setImageURI(UriUtil.getResourceUri(R.drawable.smiley_minus_btn));
 //				button.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.smiley_minus_btn, 0, 0);
                 if (isInDeleteMode) {
                     // 正处于删除模式下，隐藏删除按钮
@@ -662,7 +663,7 @@ public class GroupDetailsActivity extends BaseBackActionBarActivity implements O
                 });
             } else if (position == super.getCount()) { // 添加群组成员按钮
                 holder.textView.setText("");
-                holder.imageView.setImageResource(R.drawable.smiley_add_btn);
+                holder.imageView.setImageURI(UriUtil.getResourceUri(R.drawable.smiley_add_btn));
 //				button.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.smiley_add_btn, 0, 0);
                 // 如果不是创建者或者没有相应权限
                 if (!group.isAllowInvites() && !group.getOwner().equals(EMChatManager.getInstance().getCurrentUser())) {

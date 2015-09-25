@@ -7,6 +7,8 @@ import android.text.TextUtils;
 import com.badou.mworking.LoginActivity;
 import com.badou.mworking.R;
 import com.badou.mworking.domain.ExperienceInfoUseCase;
+import com.badou.mworking.entity.user.Business;
+import com.badou.mworking.entity.user.UserInfo;
 import com.badou.mworking.net.BaseSubscriber;
 import com.badou.mworking.util.ToastUtil;
 import com.badou.mworking.view.BaseView;
@@ -53,6 +55,7 @@ public class ExperienceInformationPresenter extends LoginPresenter {
 
     public void onConfirmed(String name, String phone, String company, String job) {
         if (TextUtils.isEmpty(name) || TextUtils.isEmpty(phone) || phone.length() != 11 || TextUtils.isEmpty(company) || TextUtils.isEmpty(job)) {
+            mExperienceInformationView.showToast("录入完整信息，有助于兜行为你匹配一个充实、具体的体验环境");
             return;
         }
         mExperienceInformationView.showProgressDialog();
@@ -78,7 +81,8 @@ public class ExperienceInformationPresenter extends LoginPresenter {
     }
 
     public void onCancel() {
-        mContext.startActivity(LoginActivity.getIntent(mContext));
+        Business business = UserInfo.ANONYMOUS_BUSINESS.get(0);
+        login(business.getAccount(), business.getPassword());
     }
 
     public void onBack() {

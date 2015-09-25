@@ -13,9 +13,9 @@
         android:id="@+id/content_image_view"
         android:layout_width="@dimen/icon_size_small"
         android:layout_height="@dimen/icon_size_small"
-        myattr:actualImageScaleType="centerInside"
+        myattr:actualImageScaleType="centerCrop"
         myattr:placeholderImage="@drawable/icon_chatter_url_default"
-        myattr:placeholderImageScaleType="centerInside"/>
+        myattr:placeholderImageScaleType="centerCrop"/>
 
     <com.badou.mworking.widget.EllipsizeTextView
         android:id="@+id/content_text_view"

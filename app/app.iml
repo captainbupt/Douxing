@@ -146,10 +146,10 @@
     <orderEntry type="library" exported="" name="umeng-analytics-v5.5.3" level="project" />
     <orderEntry type="library" exported="" name="android-async-http-1.4.9" level="project" />
     <orderEntry type="library" exported="" name="okhttp-urlconnection-2.0.0" level="project" />
-    <orderEntry type="module" module-name="Ultra-PullToRefreshWithLoadMore" exported="" />
     <orderEntry type="module" module-name="QRCodeScan" exported="" />
     <orderEntry type="module" module-name="SwipeBackLayout" exported="" />
     <orderEntry type="module" module-name="PseudoMaterialHeader" exported="" />
+    <orderEntry type="module" module-name="Ultra-Pull-To-Refresh-With-Load-More" exported="" />
     <orderEntry type="module" module-name="CircleProgressView" exported="" />
   </component>
 </module>

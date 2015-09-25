@@ -43,7 +43,7 @@ public class PlanAdapter extends CategoryBaseAdapter {
         Plan plan = (Plan) getItem(position);
         viewHolder.topImageView.setVisibility(plan.isTop() ? View.VISIBLE : View.INVISIBLE);
 
-        if (TextUtils.isEmpty(plan.getImg())) {
+        if (!TextUtils.isEmpty(plan.getImg())) {
             viewHolder.iconImageView.setImageURI(UriUtil.getHttpUri(plan.getImg()));
         }
         viewHolder.subjectTextView.setText(plan.getSubject());

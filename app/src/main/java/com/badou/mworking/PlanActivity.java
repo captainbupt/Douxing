@@ -38,8 +38,8 @@ public class PlanActivity extends BaseNoTitleActivity implements PlanView {
     ImageView mStatisticalImageView;
     ImageView mSettingImageView;
 
-    public static Intent getIntent(Context context, String rid, String planTitle) {
-        return CategoryBaseActivity.getIntent(context, PlanActivity.class, rid, planTitle);
+    public static Intent getIntent(Context context, String rid,  PlanInfo planInfo) {
+        return CategoryBaseActivity.getIntent(context, PlanActivity.class, rid, planInfo);
     }
 
     @Override

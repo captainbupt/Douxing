@@ -28,14 +28,14 @@ public abstract class CategoryBaseActivity extends BaseBackActionBarActivity imp
     PlanInfo mPlanInfo;
 
     public static Intent getIntent(Context context, Class clz, String rid) {
-        return getIntent(context, clz, rid, "");
+        return getIntent(context, clz, rid, null);
     }
 
-    public static Intent getIntent(Context context, Class clz, String rid, String planTitle) {
+    public static Intent getIntent(Context context, Class clz, String rid, PlanInfo planInfo) {
         Intent intent = new Intent(context, clz);
         intent.putExtra(KEY_RID, rid);
-        if (!TextUtils.isEmpty(planTitle))
-            intent.putExtra(KEY_PLAN_INFO, planTitle);
+        if (planInfo != null)
+            intent.putExtra(KEY_PLAN_INFO, GsonUtil.toJson(planInfo));
         return intent;
     }
 

@@ -79,7 +79,7 @@ public class PlanStagePresenter extends ListPresenter<CategoryBase> {
             } else {
                 planInfo = new PlanInfo(mPlanStage.getSubject(), mCategoryDetail.getPlan().getCurrentCoursePeriod() * 60, mPlanStage.getPeriod().get(mCategoryDetail.getPlan().getNow().getResourceIndex()));
             }
-            mFragment.startActivityForResult(CategoryIntentFactory.getIntentForPlan(mContext, data.getType(), data.getRid(), GsonUtil.toJson(planInfo)), REQUEST_DETAIL);
+            mFragment.startActivityForResult(CategoryIntentFactory.getIntentForPlan(mContext, data.getType(), data.getRid(), planInfo), REQUEST_DETAIL);
         } else {
             mPlanStageView.showToast(R.string.plan_resource_unreadable);
         }

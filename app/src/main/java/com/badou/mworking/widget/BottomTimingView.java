@@ -53,7 +53,7 @@ public class BottomTimingView extends RelativeLayout {
 
     public void setCurrentTime(int totalSecond) {
         if (totalSecond >= mMaxTime) {
-            mCircleProgressView.setValue(mMaxTime - 0.001f);
+            mCircleProgressView.setValue(mMaxTime);
             SpannableString spannableString = new SpannableString("学习进度:已完成");
             spannableString.setSpan(new ForegroundColorSpan(0xfff79355), 5, spannableString.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
             mCurrentTimeTextView.setText(spannableString);

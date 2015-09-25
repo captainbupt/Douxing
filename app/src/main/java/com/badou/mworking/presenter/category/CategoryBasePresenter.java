@@ -255,7 +255,7 @@ public class CategoryBasePresenter extends Presenter {
         oks.setText(mCategoryDetail.getSubject());
         oks.setImageUrl("http://ops.mworking.cn/webview/public/img/app_wxshare_icon.png");
         oks.setUrl(mCategoryDetail.getShareUrl());
-
+        oks.setDialogMode();
         // 启动分享GUI
         oks.show(mContext);
     }
