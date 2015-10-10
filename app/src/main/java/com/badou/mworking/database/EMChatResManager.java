@@ -18,8 +18,8 @@ public class EMChatResManager {
     public static void insertDepartments(List<Department> departments) {
         String userNum = UserInfo.getUserInfo().getAccount();
         MTrainingDBHelper mTrainingDBHelper = MTrainingDBHelper.getMTrainingDBHelper();
-        mTrainingDBHelper.clear(MTrainingDBHelper.TBL_NAME_EMCHAT_DEPARTMENT + userNum.replace("@", ""));
         SQLiteDatabase dbWriter = mTrainingDBHelper.getDatabase();
+        dbWriter.delete(MTrainingDBHelper.TBL_NAME_EMCHAT_DEPARTMENT + userNum.replace("@", ""), null, null);
         for (Department department : departments) {
             ContentValues contentValues = new ContentValues();
             contentValues.put(MTrainingDBHelper.PRIMARY_ID, department.getId());
@@ -90,8 +90,8 @@ public class EMChatResManager {
     public static void insertRoles(List<Role> roles) {
         String userNum = UserInfo.getUserInfo().getAccount();
         MTrainingDBHelper mTrainingDBHelper = MTrainingDBHelper.getMTrainingDBHelper();
-        mTrainingDBHelper.clear(MTrainingDBHelper.TBL_NAME_EMCHAT_ROLE + userNum.replace("@", ""));
         SQLiteDatabase dbWriter = mTrainingDBHelper.getDatabase();
+        dbWriter.delete(MTrainingDBHelper.TBL_NAME_EMCHAT_ROLE + userNum.replace("@", ""), null, null);
         for (Role role : roles) {
             ContentValues contentValues = new ContentValues();
             contentValues.put(MTrainingDBHelper.PRIMARY_ID, role.getId());
@@ -121,8 +121,8 @@ public class EMChatResManager {
     public static void insertContacts(List<User> contacts) {
         String userNum = UserInfo.getUserInfo().getAccount();
         MTrainingDBHelper mTrainingDBHelper = MTrainingDBHelper.getMTrainingDBHelper();
-        mTrainingDBHelper.clear(MTrainingDBHelper.TBL_NAME_EMCHAT_USER + userNum.replace("@", ""));
         SQLiteDatabase dbWriter = mTrainingDBHelper.getDatabase();
+        dbWriter.delete(MTrainingDBHelper.TBL_NAME_EMCHAT_USER + userNum.replace("@", ""), null, null);
         for (User contact : contacts) {
             ContentValues contentValues = new ContentValues();
             contentValues.put(MTrainingDBHelper.EMCHAT_USER_NAME, contact.getUsername());

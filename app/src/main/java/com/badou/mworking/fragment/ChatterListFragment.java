@@ -49,6 +49,7 @@ public class ChatterListFragment extends BaseFragment implements ChatterListView
     @Bind(R.id.none_result_view)
     NoneResultView mNoneResultView;
 
+    VerticalSpaceItemDecoration mVerticalSpaceItemDecoration;
     HeaderViewRecyclerAdapter mHeaderViewRecyclerAdapter;
     ChatterListAdapter mChatterAdapter;
     ChatterListPresenter mPresenter;
@@ -109,6 +110,9 @@ public class ChatterListFragment extends BaseFragment implements ChatterListView
 
     public void setHeaderView(View view) {
         mHeaderViewRecyclerAdapter.addHeaderView(view);
+        mContentListView.removeItemDecoration(mVerticalSpaceItemDecoration);
+        mVerticalSpaceItemDecoration = new VerticalSpaceItemDecoration(DensityUtil.getInstance().getOffsetLess(), false);
+        mContentListView.addItemDecoration(mVerticalSpaceItemDecoration);
     }
 
     private void initListener() {
@@ -135,7 +139,8 @@ public class ChatterListFragment extends BaseFragment implements ChatterListView
             }
         });
         mContentListView.setLayoutManager(new LinearLayoutManager(mContext));
-        mContentListView.addItemDecoration(new VerticalSpaceItemDecoration(DensityUtil.getInstance().getOffsetLess()));
+        mVerticalSpaceItemDecoration = new VerticalSpaceItemDecoration(DensityUtil.getInstance().getOffsetLess());
+        mContentListView.addItemDecoration(mVerticalSpaceItemDecoration);
         mHeaderViewRecyclerAdapter = new HeaderViewRecyclerAdapter(mChatterAdapter);
         mContentListView.setAdapter(mHeaderViewRecyclerAdapter);
         mPtrClassicFrameLayout.setPtrHandler(new PtrDefaultHandler2() {
@@ -171,7 +176,7 @@ public class ChatterListFragment extends BaseFragment implements ChatterListView
 
     @Override
     public void hideNoneResult() {
-        mNoneResultView.setVisibility(View.INVISIBLE);
+        mNoneResultView.setVisibility(View.GONE);
     }
 
     @Override

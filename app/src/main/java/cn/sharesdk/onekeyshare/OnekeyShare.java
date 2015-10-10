@@ -103,8 +103,7 @@ public class OnekeyShare implements PlatformActionListener, Callback {
 			e.printStackTrace();
 			return;
 		}
-
-		platformListFakeActivity.setDialogMode(dialogMode);
+		platformListFakeActivity.setDialogMode(true);
 		platformListFakeActivity.setShareParamsMap(shareParamsMap);
 		platformListFakeActivity.setSilent(silent);
 		platformListFakeActivity.setCustomerLogos(customers);

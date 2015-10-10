@@ -87,7 +87,7 @@ public class ChatterDetailActivity extends BaseBackActionBarActivity implements 
         mChatterItemView = new ChatterItemView(mContext);
         mChatterItemView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         mNoneResultView = new NoneResultView(mContext);
-        mChatterItemView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        mNoneResultView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         mNoneResultView.setContent(-1, R.string.none_result_reply);
         mNoneResultView.setGravity(Gravity.CENTER_HORIZONTAL);
         mNoneResultView.setPadding(0, DensityUtil.getInstance().getOffsetXlarge(), 0, 0);

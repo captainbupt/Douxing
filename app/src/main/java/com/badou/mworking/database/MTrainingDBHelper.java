@@ -134,48 +134,4 @@ public class MTrainingDBHelper extends SQLiteOpenHelper {
             mDatabase.close();
         }
     }
-
-
-    public void clear(String tableName) {
-        String sql = "DELETE FROM " + tableName + ";";
-        SQLiteDatabase db = getDatabase();
-        db.execSQL(sql);
-        revertSeq(tableName);
-        closeDatabase();
-    }
-
-    private void revertSeq(String tableName) {
-        String sql = "update sqlite_sequence set seq=0 where name='" + tableName + "'";
-        SQLiteDatabase db = getDatabase();
-        db.execSQL(sql);
-        closeDatabase();
-    }
-
-    /**
-     * 功能描述:  删除表中数据
-     *
-     * @param tableName 表名
-     * @param column    需要匹配的表的字段    数据库表中id字段
-     * @param id        需要匹配的表的字段 的数据     该条数据id
-     */
-    public void del(String tableName, String column, String id) {
-        SQLiteDatabase db = getDatabase();
-        db.delete(tableName, column + "=?", new String[]{id + ""});
-        closeDatabase();
-    }
-
-    /**
-     * 功能描述:   通过表名删除数据库表
-     *
-     * @param tableName 表名
-     */
-    public void dropTable(String tableName) {
-        try {
-            SQLiteDatabase db = getDatabase();
-            db.execSQL("DROP TABLE " + tableName);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        closeDatabase();
-    }
 }

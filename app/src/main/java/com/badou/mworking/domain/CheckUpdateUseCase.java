@@ -37,9 +37,9 @@ public class CheckUpdateUseCase extends UseCase {
 
     public static class Body {
         @SerializedName("button_vlogo")
-        String button_vlogo;
+        String button_vlogo = "";
         @SerializedName("button_vlogin")
-        String button_vlogin;
+        String button_vlogin = "";
         @SerializedName("button_vflash")
         String button_vflash = "";
         @SerializedName("banner")
@@ -50,9 +50,9 @@ public class CheckUpdateUseCase extends UseCase {
         String credit = "";
 
         public Body() {
-            button_vlogin = SPHelper.getLoginMd5();
+/*            button_vlogin = SPHelper.getLoginMd5();
             button_vlogo = SPHelper.getLogoMd5();
-            button_vflash = SPHelper.getFlashMd5();
+            button_vflash = SPHelper.getFlashMd5();*/
         }
     }
 }

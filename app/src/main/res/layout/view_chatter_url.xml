@@ -4,7 +4,7 @@
     xmlns:myattr="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/color_light_grey"
+    android:background="#f0f0f0"
     android:gravity="center_vertical"
     android:orientation="horizontal"
     android:padding="@dimen/offset_small">
@@ -13,9 +13,9 @@
         android:id="@+id/content_image_view"
         android:layout_width="@dimen/icon_size_small"
         android:layout_height="@dimen/icon_size_small"
-        myattr:actualImageScaleType="centerCrop"
+        myattr:actualImageScaleType="fitCenter"
         myattr:placeholderImage="@drawable/icon_chatter_url_default"
-        myattr:placeholderImageScaleType="centerCrop"/>
+        myattr:placeholderImageScaleType="fitCenter"/>
 
     <com.badou.mworking.widget.EllipsizeTextView
         android:id="@+id/content_text_view"

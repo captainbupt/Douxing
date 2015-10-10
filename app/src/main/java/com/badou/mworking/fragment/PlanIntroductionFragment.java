@@ -42,6 +42,7 @@ public class PlanIntroductionFragment extends BaseFragment implements PlanIntrod
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        setRetainInstance(true);
         mParentScrollView = (ScrollView) inflater.inflate(R.layout.fragment_plan_introduction, container, false);
         ButterKnife.bind(this, mParentScrollView);
         Bundle argument = getArguments();

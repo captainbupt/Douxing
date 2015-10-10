@@ -159,17 +159,20 @@ public class DensityUtil {
     public static DensityUtil getInstance() {
         if (densityUtil != null)
             return densityUtil;
-        else
-            throw new IllegalStateException("DensityUtil not initialized");
+        else{
+            Activity activity = AppManager.getAppManager().currentActivity();
+            init(activity);
+            return densityUtil;
+        }
     }
 
-    public static final int getHeightInPx(Activity activity) {
+    public static int getHeightInPx(Activity activity) {
         DisplayMetrics dm = new DisplayMetrics();
         activity.getWindowManager().getDefaultDisplay().getMetrics(dm);
         return dm.heightPixels;
     }
 
-    public static final int getWidthInPx(Activity activity) {
+    public static int getWidthInPx(Activity activity) {
         DisplayMetrics dm = new DisplayMetrics();
         activity.getWindowManager().getDefaultDisplay().getMetrics(dm);
         return dm.widthPixels;

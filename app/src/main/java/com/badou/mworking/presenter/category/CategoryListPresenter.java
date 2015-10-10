@@ -86,9 +86,11 @@ public class CategoryListPresenter extends ListPresenter<Category> {
 
     @Override
     public void onResponseItem(int position, Serializable item) {
-        Category category = mCategoryListView.getItem(position);
-        category.updateData((CategoryDetail) item);
-        mCategoryListView.setItem(position, category);
+        if(item != null) {
+            Category category = mCategoryListView.getItem(position);
+            category.updateData((CategoryDetail) item);
+            mCategoryListView.setItem(position, category);
+        }
     }
 
     // 功能描述:通过网络获取 类别 列表

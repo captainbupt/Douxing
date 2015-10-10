@@ -24,7 +24,7 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
      */
     public DividerItemDecoration(Context context) {
         //mDivider = ContextCompat.getDrawable(context, R.drawable.divider);
-        mDivider = new ColorDrawable(ContextCompat.getColor(context,R.color.color_border_grey));
+        mDivider = new ColorDrawable(ContextCompat.getColor(context,R.color.color_border));
     }
 
     /**

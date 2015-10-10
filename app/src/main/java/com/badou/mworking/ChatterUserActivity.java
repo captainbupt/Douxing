@@ -57,8 +57,8 @@ public class ChatterUserActivity extends BaseNoTitleActivity {
         new Handler().postDelayed(new Runnable() {  // 等待fragment渲染完成
             @Override
             public void run() {
-                chatterListFragment.setHeaderView(getHeaderView(userInfo));
                 chatterListFragment.setFooterViewNone();
+                chatterListFragment.setHeaderView(getHeaderView(userInfo));
             }
         }, 200);
     }

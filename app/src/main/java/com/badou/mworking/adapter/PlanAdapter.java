@@ -45,6 +45,8 @@ public class PlanAdapter extends CategoryBaseAdapter {
 
         if (!TextUtils.isEmpty(plan.getImg())) {
             viewHolder.iconImageView.setImageURI(UriUtil.getHttpUri(plan.getImg()));
+        }else{
+            viewHolder.iconImageView.setImageURI(UriUtil.getResourceUri(R.drawable.icon_plan_item));
         }
         viewHolder.subjectTextView.setText(plan.getSubject());
         if (plan.isOffline()) {

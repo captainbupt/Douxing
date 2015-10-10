@@ -55,8 +55,9 @@ public class MessageCenterResManager {
 
     public static void deleteAll() {
         MTrainingDBHelper mTrainingDBHelper = MTrainingDBHelper.getMTrainingDBHelper();
+        SQLiteDatabase dbWriter = mTrainingDBHelper.getDatabase();
         String userNum = UserInfo.getUserInfo().getAccount();
-        mTrainingDBHelper.clear(MTrainingDBHelper.TBL_NAME_MESSAGE_CENTER + userNum.replace("@", ""));
+        dbWriter.delete(MTrainingDBHelper.TBL_NAME_MESSAGE_CENTER + userNum.replace("@", ""), null, null);
         mTrainingDBHelper.closeDatabase();
     }
 }

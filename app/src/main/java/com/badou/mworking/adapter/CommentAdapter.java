@@ -6,11 +6,13 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseRecyclerAdapter;
 import com.badou.mworking.entity.comment.Comment;
+import com.badou.mworking.util.DensityUtil;
 import com.badou.mworking.util.TimeTransfer;
 import com.badou.mworking.util.UriUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -34,7 +36,7 @@ public class CommentAdapter extends MyBaseRecyclerAdapter<Comment, CommentAdapte
         this.mItemClickListener = itemClickListener;
     }
 
-    public CommentAdapter(Context context, String qid, boolean deletable, OnClickListener itemClickListener,OnClickListener deleteClickListener) {
+    public CommentAdapter(Context context, String qid, boolean deletable, OnClickListener itemClickListener, OnClickListener deleteClickListener) {
         super(context);
         isChatter = true;
         mQid = qid;
@@ -74,6 +76,9 @@ public class CommentAdapter extends MyBaseRecyclerAdapter<Comment, CommentAdapte
             } else {
                 holder.parentView.setBackgroundColor(0xffdde7ec);
             }
+            FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            lp.setMargins(DensityUtil.getInstance().getOffsetLess(), 0, DensityUtil.getInstance().getOffsetLess(), 0);
+            holder.parentView.setLayoutParams(lp);
         }
         /*获取员工号*/
         String name = comment.getName();
@@ -115,7 +120,7 @@ public class CommentAdapter extends MyBaseRecyclerAdapter<Comment, CommentAdapte
 
         public MyViewHolder(View view) {
             super(view);
-            parentView = view;
+            parentView = view.findViewById(R.id.parent_view);
             mHeadImageView = (SimpleDraweeView) view
                     .findViewById(R.id.iv_adapter_comment_head);
             nameTextView = (TextView) view

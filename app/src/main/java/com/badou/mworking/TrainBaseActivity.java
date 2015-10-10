@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -121,6 +121,28 @@ public class TrainBaseActivity extends CategoryBaseActivity {
                 showToast(R.string.category_unsupport_type);
                 finish();
             }
+        } else {
+            mPresenter.onRestoreInstanceState(mSavedInstanceState);
+            final Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.content_container);
+            if (Constant.MWKG_FORAMT_TYPE_MPEG == categoryDetail.getFmt()) { // 返回MP4格式
+                if (mPlanInfo != null) {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            ((TrainVideoFragment) fragment).setOnStatusChangedListener(mOnStatusChangedListener);
+                        }
+                    }, 200);
+                }
+            } else if (Constant.MWKG_FORAMT_TYPE_MP3 == categoryDetail.getFmt()) { // 返回MP3格式
+                if (mPlanInfo != null) {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            ((TrainMusicFragment) fragment).setOnStatusChangedListener(mOnStatusChangedListener);
+                        }
+                    }, 200);
+                }
+            }
         }
     }
 
@@ -177,10 +199,15 @@ public class TrainBaseActivity extends CategoryBaseActivity {
     };
 
     public void setBottomViewVisible(boolean visible) {
-        if (mPlanInfo == null) {
-            mBottomView.setVisibility(visible ? View.VISIBLE : View.GONE);
+        if (!visible) {
+            mBottomView.setVisibility(View.GONE);
+            mBottomTimingView.setVisibility(View.GONE);
         } else {
-            mBottomTimingView.setVisibility(visible ? View.VISIBLE : View.GONE);
+            if (mPlanInfo == null) {
+                mBottomView.setVisibility(View.VISIBLE);
+            } else {
+                mBottomTimingView.setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -201,6 +228,8 @@ public class TrainBaseActivity extends CategoryBaseActivity {
 
     @Override
     public void showTimingView() {
+        if (mBottomView.getVisibility() == View.GONE)
+            return;
         mBottomView.setVisibility(View.GONE);
         mBottomTimingView.setVisibility(View.VISIBLE);
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -210,18 +239,17 @@ public class TrainBaseActivity extends CategoryBaseActivity {
 
     @Override
     public void setMaxPeriod(int minute) {
-        System.out.println("minute: " + minute);
         mBottomTimingView.setTotalTime(minute);
     }
 
     @Override
     public void setCurrentPeriod(int currentSecond) {
-        System.out.println("currentSecond: " + currentSecond);
         mBottomTimingView.setCurrentTime(currentSecond);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+        mPresenter.onSaveInstanceState(outState);
         super.onSaveInstanceState(outState);
     }
 }

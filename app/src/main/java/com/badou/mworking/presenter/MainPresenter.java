@@ -155,10 +155,7 @@ public class MainPresenter extends Presenter {
     private void initData() {
         mMainView.setBannerData(SPHelper.getMainBanner());
         updateMessageCenter();
-        if (SPHelper.isFirstLoginToday()) {
-            checkUpdate();
-        }
-        SPHelper.setIsFirstLoginToday();
+        checkUpdate();
         if (!mUserInfo.isAnonymous()) {
             new Thread(new Runnable() {
                 @Override
@@ -337,7 +334,7 @@ public class MainPresenter extends Presenter {
             @Override
             public void onResponseSuccess(MainData data) {
                 // 有遮罩则不提示更新
-                if (((AppCompatActivity) mContext).getSupportFragmentManager().getFragments() == null) {
+                if (((AppCompatActivity) mContext).getSupportFragmentManager().getFragments() == null && SPHelper.isFirstLoginToday()) {
                     if (data.getNewVersion() != null && data.getNewVersion().hasNewVersion()) {
                         DialogUtil.apkUpdate(mContext, mMainView, data.getNewVersion());
                     }
@@ -351,6 +348,7 @@ public class MainPresenter extends Presenter {
                 mMainView.setBannerData(data.getBanner());
                 // 保存banner信息数据到sp
                 SPHelper.setMainBanner(data.getBanner());
+                SPHelper.setIsFirstLoginToday();
             }
         });
     }

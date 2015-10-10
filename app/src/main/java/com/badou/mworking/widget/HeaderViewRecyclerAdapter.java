@@ -117,7 +117,8 @@ public class HeaderViewRecyclerAdapter extends RecyclerView.Adapter<RecyclerView
      */
     public void addHeaderView(View view) {
         mHeaderViews.add(view);
-        notifyItemInserted(mHeaderViews.size() - 1);
+        //notifyItemInserted(mHeaderViews.size() - 1);
+        notifyDataSetChanged();
     }
 
     /**
@@ -128,7 +129,8 @@ public class HeaderViewRecyclerAdapter extends RecyclerView.Adapter<RecyclerView
      */
     public void addFooterView(View view) {
         mFooterViews.add(view);
-        notifyItemInserted(getItemCount() - 1);
+        //notifyItemInserted(getItemCount() - 1);
+        notifyDataSetChanged();
     }
 
     @Override

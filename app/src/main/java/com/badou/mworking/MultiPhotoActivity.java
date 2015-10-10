@@ -100,7 +100,8 @@ public class MultiPhotoActivity extends BaseNoTitleActivity implements MultiPhot
                 dataSource.subscribe(new BaseBitmapDataSubscriber() {
                     @Override
                     protected void onNewResultImpl(Bitmap bitmap) {
-                        mPhotoViews[finalIi].setImageDrawable(new BitmapDrawable(bitmap));
+                        mBitmaps[finalIi] = bitmap;
+                        mPhotoViews[finalIi].setImageBitmap(bitmap);
                         mPhotoViews[finalIi].setZoomable(true);
                     }
 

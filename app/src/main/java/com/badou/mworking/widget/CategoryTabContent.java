@@ -179,8 +179,12 @@ public class CategoryTabContent extends LinearLayout implements ContentHandler {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            if (position >= 0 && position < mFragmentList.size()) {
-                return mFragmentList.get(position).getTitle();
+            try {
+                if (position >= 0 && position < mFragmentList.size()) {
+                    return mFragmentList.get(position).getTitle();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
             }
             return super.getPageTitle(position);
         }

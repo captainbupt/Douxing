@@ -69,7 +69,7 @@ public class MyStudyActivity extends BaseNoTitleActivity implements BaseListView
     }
 
     private void initView() {
-        mCategoryAdapter = new UserProgressAdapter(mContext, Category.CATEGORY_EXAM, new View.OnClickListener() {
+        mCategoryAdapter = new UserProgressAdapter(mContext, Category.CATEGORY_TRAINING, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mPresenter.onItemClick(mCategoryAdapter.getItem((int) v.getTag()), (int) v.getTag());

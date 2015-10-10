@@ -45,6 +45,8 @@ public class EntryIntroductionPresenter extends Presenter {
                     mEntryIntroductionView.showToast(R.string.entry_tip_enroll_success);
                     mEntryIntroductionView.setStatusText(R.string.entry_action_enroll_cancel, true, R.string.entry_status_check_ing);
                     mCategoryDetail.getEntry().setIn(1);
+                    mCategoryDetail.getEntry().incrementEnroll();
+                    mEntryIntroductionView.setData(mCategoryDetail);
                 }
             });
         } else if (mCategoryDetail.getEntry().isStarted() && !mCategoryDetail.getEntry().isOffline() && mCategoryDetail.getEntry().getIn() == 1) {
@@ -59,6 +61,8 @@ public class EntryIntroductionPresenter extends Presenter {
                     mEntryIntroductionView.showToast(R.string.entry_tip_enroll_cancel_success);
                     mEntryIntroductionView.setStatusText(R.string.entry_action_enroll, true, -1);
                     mCategoryDetail.getEntry().setIn(0);
+                    mCategoryDetail.getEntry().decrementEnroll();
+                    mEntryIntroductionView.setData(mCategoryDetail);
                 }
             });
         }

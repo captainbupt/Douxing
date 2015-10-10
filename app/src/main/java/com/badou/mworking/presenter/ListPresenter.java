@@ -109,6 +109,7 @@ public abstract class ListPresenter<T> extends Presenter {
     }
 
     protected boolean setList(List<T> data, int index) {
+
         mBaseListView.refreshComplete();
         if (index == 1) {
             if (data == null || data.size() == 0) {
@@ -131,9 +132,7 @@ public abstract class ListPresenter<T> extends Presenter {
                 int begin = (index - 1) * Constant.LIST_ITEM_NUM;
                 if (mBaseListView.getDataCount() <= begin) {
                     mBaseListView.addData(data);
-                    System.out.println("3333--------------------------------");
                 } else {
-                    System.out.println("4444--------------------------------");
                     List<T> tmp = new ArrayList<>();
                     for (int ii = 0; ii < data.size(); ii++) {
                         if (ii < mBaseListView.getDataCount() - begin) {

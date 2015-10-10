@@ -81,8 +81,7 @@ public class ExperienceInformationPresenter extends LoginPresenter {
     }
 
     public void onCancel() {
-        Business business = UserInfo.ANONYMOUS_BUSINESS.get(0);
-        login(business.getAccount(), business.getPassword());
+        login(mUsername, mPassword);
     }
 
     public void onBack() {

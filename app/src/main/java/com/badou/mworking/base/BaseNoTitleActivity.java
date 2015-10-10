@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.badou.mworking.R;
+import com.badou.mworking.entity.emchat.EMChatEntity;
 import com.badou.mworking.presenter.Presenter;
 import com.badou.mworking.util.AppManager;
 import com.badou.mworking.util.ToastUtil;
@@ -81,6 +82,8 @@ public class BaseNoTitleActivity extends AppCompatActivity implements SwipeBackA
         mPresenter.resume();
         MobclickAgent.onResume(this);
         // onresume时，取消notification显示
+        if (HXSDKHelper.getInstance() == null)
+            EMChatEntity.init(getApplication());
         HXSDKHelper.getInstance().getNotifier().reset();
         super.onResume();
     }

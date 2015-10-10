@@ -114,6 +114,7 @@ public class StoreActivity extends BaseBackActionBarActivity implements StoreLis
     @Override
     public void startRefreshing() {
         mPtrClassicFrameLayout.autoRefresh();
+        showProgressBar();
     }
 
     @Override
@@ -124,6 +125,7 @@ public class StoreActivity extends BaseBackActionBarActivity implements StoreLis
     @Override
     public void refreshComplete() {
         mPtrClassicFrameLayout.refreshComplete();
+        hideProgressBar();
     }
 
     @Override

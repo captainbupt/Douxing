@@ -20,11 +20,11 @@ public class UserInfo {
 
     public static final List<Business> ANONYMOUS_BUSINESS = new ArrayList<Business>() {{
         add(new Business(R.string.experience_business_all, "anonymous", "anonymous"));
-        add(new Business(R.string.experience_business_vehicle, "vistor_QCTY", "123456"));
-        add(new Business(R.string.experience_business_advertisement, "vistor_CMTY", "123456"));
-        add(new Business(R.string.experience_business_o2o, "vistor_O2OTY", "123456"));
-        add(new Business(R.string.experience_business_consumption, "vistor_XFTY", "123456"));
-        add(new Business(R.string.experience_business_economic, "vistor_BXTY", "123456"));
+        add(new Business(R.string.experience_business_vehicle, "admin@QCTY", "123456"));
+        add(new Business(R.string.experience_business_advertisement, "admin@CMTY", "123456"));
+        add(new Business(R.string.experience_business_o2o, "admin@O2OTY", "123456"));
+        add(new Business(R.string.experience_business_consumption, "admin@XFTY", "123456"));
+        add(new Business(R.string.experience_business_economic, "admin@BXTY", "123456"));
     }};
 
     private static UserInfo userInfo;

@@ -43,6 +43,8 @@ public class BottomTimingView extends RelativeLayout {
         ButterKnife.bind(this);
         mCircleProgressView.setTextSize((int) (DensityUtil.getInstance().getTextSizeMicro() * 0.7f));
         mCircleProgressView.setUnitSize((int) (DensityUtil.getInstance().getTextSizeMicro() * 0.7f));
+        mCircleProgressView.setMaxValue(100);
+        mCircleProgressView.setValue(0);
     }
 
     public void setTotalTime(int minute) {

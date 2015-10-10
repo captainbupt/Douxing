@@ -88,6 +88,7 @@ public class TrainVideoFragment extends BaseFragment implements DownloadView {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        setRetainInstance(true);
         View view = inflater.inflate(R.layout.fragment_train_video_player, container, false);
         ButterKnife.bind(this, view);
         Bundle argument = getArguments();
@@ -180,7 +181,7 @@ public class TrainVideoFragment extends BaseFragment implements DownloadView {
         mDownloadingProgressBar.setVisibility(View.GONE);
         mRotationCheckBox.setVisibility(View.GONE);
         mProgressSeekBar.setEnabled(false);// 下载中禁止用户拖动
-        mProgressSeekBar.setThumb(new ColorDrawable(android.R.color.transparent));
+        mProgressSeekBar.setThumb(new ColorDrawable(0x00000000));
     }
 
     /**
@@ -211,7 +212,7 @@ public class TrainVideoFragment extends BaseFragment implements DownloadView {
         mDownloadingProgressBar.setVisibility(View.VISIBLE);
         mRotationCheckBox.setVisibility(View.GONE);
         mProgressSeekBar.setEnabled(false);// 下载中禁止用户拖动
-        mProgressSeekBar.setThumb(new ColorDrawable(android.R.color.transparent));
+        mProgressSeekBar.setThumb(new ColorDrawable(0x00000000));
     }
 
     @Override

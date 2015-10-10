@@ -3,6 +3,7 @@ package com.badou.mworking.presenter.category;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 
@@ -284,5 +285,18 @@ public class CategoryBasePresenter extends Presenter {
         if (mSecondRunnable != null)
             mPeriodHandler.postDelayed(mSecondRunnable, 1000);
         isPaused = false;
+    }
+
+    private final String KEY_TIME = "timer";
+
+    public void onSaveInstanceState(Bundle outState) {
+        if (mPlanInfo != null)
+            outState.putInt(KEY_TIME, mPlanInfo.currentTimeSecond);
+    }
+
+    public void onRestoreInstanceState(Bundle outState) {
+        if (outState != null && mPlanInfo != null) {
+            mPlanInfo.currentTimeSecond = outState.getInt(KEY_TIME, 0);
+        }
     }
 }

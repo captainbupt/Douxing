@@ -180,15 +180,25 @@ public class SPHelper {
         if (mainData.getButton_vlogo().hasNewVersion()) {
             SP.putStringSP(applicationContext, SP.DEFAULTCACHE, LOGO_URL, mainData.getButton_vlogo().getUrl());
             SP.putStringSP(applicationContext, SP.DEFAULTCACHE, LOGO_MD5, mainData.getButton_vlogo().getMd5());
+        }else{
+            SP.removeSP(applicationContext, SP.DEFAULTCACHE, LOGO_URL);
+            SP.removeSP(applicationContext, SP.DEFAULTCACHE, LOGO_MD5);
         }
         if (mainData.getButton_vlogin().hasNewVersion()) {
             SP.putStringSP(applicationContext, SP.DEFAULTCACHE, LOGIN_URL, mainData.getButton_vlogin().getUrl());
             SP.putStringSP(applicationContext, SP.DEFAULTCACHE, LOGIN_MD5, mainData.getButton_vlogin().getMd5());
             SP.putStringSP(applicationContext, SP.DEFAULTCACHE, LOGIN_CONTENT, mainData.getButton_vlogin().getContent());
+        }else{
+            SP.removeSP(applicationContext, SP.DEFAULTCACHE, LOGIN_URL);
+            SP.removeSP(applicationContext, SP.DEFAULTCACHE, LOGIN_MD5);
+            SP.removeSP(applicationContext, SP.DEFAULTCACHE, LOGIN_CONTENT);
         }
         if (mainData.getButton_vflash().hasNewVersion()) {
             SP.putStringSP(applicationContext, SP.DEFAULTCACHE, FLASH_URL, mainData.getButton_vflash().getUrl());
             SP.putStringSP(applicationContext, SP.DEFAULTCACHE, FLASH_MD5, mainData.getButton_vflash().getMd5());
+        }else{
+            SP.removeSP(applicationContext, SP.DEFAULTCACHE, FLASH_URL);
+            SP.removeSP(applicationContext, SP.DEFAULTCACHE, FLASH_MD5);
         }
     }
 

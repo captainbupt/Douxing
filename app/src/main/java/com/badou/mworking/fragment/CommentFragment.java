@@ -1,6 +1,7 @@
 package com.badou.mworking.fragment;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.badou.mworking.presenter.category.CategoryCommentPresenter;
 import com.badou.mworking.view.CommentView;
 import com.badou.mworking.widget.BottomSendMessageView;
 import com.badou.mworking.widget.CategoryTabContent;
+import com.badou.mworking.widget.DividerItemDecoration;
 import com.badou.mworking.widget.NoneResultView;
 import com.captainhwz.layout.DefaultContentHandler;
 import com.captainhwz.layout.MaterialHeaderLayout;
@@ -69,20 +71,23 @@ public class CommentFragment extends BaseFragment implements CommentView, Catego
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        setRetainInstance(true);
         final View view = inflater.inflate(R.layout.fragment_comment, container, false);
         ButterKnife.bind(this, view);
         Bundle bundle = getArguments();
         mPresenter = new CategoryCommentPresenter(mContext, bundle.getString(KEY_RID));
         mPresenter.attachView(this);
 
-        mCommentAdapter = new CommentAdapter(mContext, new View.OnClickListener(){
+        mCommentAdapter = new CommentAdapter(mContext, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int position = (int) v.getTag();
-                Comment question = mCommentAdapter.getItem(position );
-                mPresenter.onItemClick(question, position );
+                Comment question = mCommentAdapter.getItem(position);
+                mPresenter.onItemClick(question, position);
             }
         });
+        mContentListView.setLayoutManager(new LinearLayoutManager(mContext));
+        mContentListView.addItemDecoration(new DividerItemDecoration(mContext));
         mContentListView.setAdapter(mCommentAdapter);
         initListener();
         return view;
@@ -231,14 +236,15 @@ public class CommentFragment extends BaseFragment implements CommentView, Catego
 
     @Override
     public void onChange(float ratio, float offsetY) {
-        ViewHelper.setTranslationY(mBottomView, ViewHelper.getTranslationY(mBottomView) - offsetY);
+        if (mBottomView != null)
+            ViewHelper.setTranslationY(mBottomView, ViewHelper.getTranslationY(mBottomView) - offsetY);
     }
 
     boolean isFirst = true;
 
     @Override
     public void onOffsetCalculated(int offset) {
-        if (isFirst) {
+        if (isFirst && mBottomView != null) {
             ViewHelper.setTranslationY(mBottomView, -offset);
             isFirst = false;
         }

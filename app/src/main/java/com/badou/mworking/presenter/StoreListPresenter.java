@@ -77,15 +77,12 @@ public class StoreListPresenter extends ListPresenter<Store> {
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        System.out.println("on activity result: " + mClickPosition);
         if (requestCode == REQUEST_DETAIL && resultCode == Activity.RESULT_OK && mClickPosition >= 0 && mClickPosition < mBaseListView.getDataCount()) {
             if (data.getBooleanExtra(RESULT_DELETED, false)) {
-                System.out.println("deleted");
                 Store store = mBaseListView.getItem(mClickPosition);
                 store.setDeleted();
                 mBaseListView.setItem(mClickPosition, store);
             } else {
-                System.out.println("response item");
                 Serializable item = data.getSerializableExtra(RESULT_DATA);
                 if (item != null) {
                     onResponseItem(mClickPosition, item);

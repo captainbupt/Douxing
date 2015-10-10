@@ -31,6 +31,7 @@ public class UserProgressAdapter extends MyBaseRecyclerAdapter<Category, UserPro
         } else {
             viewHolder.scoreTextView.setVisibility(View.GONE);
         }
+        viewHolder.parentView.setOnClickListener(mOnItemClickListener);
         return viewHolder;
     }
 
@@ -42,15 +43,18 @@ public class UserProgressAdapter extends MyBaseRecyclerAdapter<Category, UserPro
         if (mType == Category.CATEGORY_EXAM) {
             holder.scoreTextView.setText(((Exam) category).getScore() + mContext.getResources().getString(R.string.text_score));
         }
+        holder.parentView.setTag(position);
     }
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView subjectTextView;
         TextView timeTextView;
         TextView scoreTextView;
+        View parentView;
 
         MyViewHolder(View view) {
             super(view);
+            parentView = view;
             subjectTextView = (TextView) view.findViewById(R.id.tv_adapter_user_progress_subject);
             timeTextView = (TextView) view.findViewById(R.id.tv_adapter_user_progress_time);
             scoreTextView = (TextView) view.findViewById(R.id.tv_adapter_user_progress_score);

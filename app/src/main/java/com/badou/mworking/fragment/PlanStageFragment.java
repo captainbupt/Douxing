@@ -46,6 +46,7 @@ public class PlanStageFragment extends BaseFragment implements PlanStageView, Ca
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        setRetainInstance(true);
         View view = inflater.inflate(R.layout.fragment_entry_operation, container, false);
         ButterKnife.bind(this, view);
         initView();

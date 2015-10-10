@@ -3,6 +3,7 @@ package com.badou.mworking.fragment;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -128,7 +129,7 @@ public class TrainMusicFragment extends BaseFragment implements DownloadView {
         mCurrentTimeTextView.setVisibility(View.GONE);
         mDownloadingProgressBar.setVisibility(View.GONE);
         mProgressSeekBar.setEnabled(false);// 下载中禁止用户拖动
-        mProgressSeekBar.setThumb(new ColorDrawable(android.R.color.transparent));
+        mProgressSeekBar.setThumb(new ColorDrawable(0x00000000));
     }
 
     /**
@@ -157,7 +158,7 @@ public class TrainMusicFragment extends BaseFragment implements DownloadView {
         mCurrentTimeTextView.setVisibility(View.GONE);
         mDownloadingProgressBar.setVisibility(View.VISIBLE);
         mProgressSeekBar.setEnabled(false);// 下载中禁止用户拖动
-        mProgressSeekBar.setThumb(new ColorDrawable(android.R.color.transparent));
+        mProgressSeekBar.setThumb(new ColorDrawable(0x00000000));
     }
 
     /**

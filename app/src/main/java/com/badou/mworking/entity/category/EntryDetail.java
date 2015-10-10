@@ -64,6 +64,14 @@ public class EntryDetail implements Serializable {
         return enroll;
     }
 
+    public void incrementEnroll() {
+        enroll++;
+    }
+
+    public void decrementEnroll() {
+        enroll--;
+    }
+
     public int getIn() {
         return in;
     }
