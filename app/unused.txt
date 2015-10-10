@@ -13,6 +13,10 @@ android.support.v4.app.ActionBarDrawerToggleJellybeanMR2:
     28:28:ActionBarDrawerToggleJellybeanMR2()
 android.support.v4.app.ActivityCompat21:
     32:80:ActivityCompat21()
+android.support.v4.app.ActivityCompat22:
+    22:22:ActivityCompat22()
+android.support.v4.app.ActivityCompatApi23:
+    21:22:ActivityCompatApi23()
 android.support.v4.app.ActivityCompatHoneycomb:
     27:27:ActivityCompatHoneycomb()
     34:35:static void dump(android.app.Activity,java.lang.String,java.io.FileDescriptor,java.io.PrintWriter,java.lang.String[])
@@ -30,8 +34,13 @@ android.support.v4.app.BackStackRecord:
     static final int OP_SHOW
     static final int OP_DETACH
     static final int OP_ATTACH
-    977:977:public int getTransition()
-    981:981:public int getTransitionStyle()
+    975:975:public int getTransition()
+    979:979:public int getTransitionStyle()
+android.support.v4.app.BundleCompatDonut:
+    private static final java.lang.String TAG
+    29:29:BundleCompatDonut()
+android.support.v4.app.BundleCompatJellybeanMR2:
+    25:25:BundleCompatJellybeanMR2()
 android.support.v4.app.BundleUtil:
     11:11:BundleUtil()
 android.support.v4.app.DialogFragment:
@@ -47,6 +56,7 @@ android.support.v4.app.FragmentManagerImpl:
     static final java.lang.String TARGET_STATE_TAG
     static final java.lang.String VIEW_STATE_TAG
     static final java.lang.String USER_VISIBLE_HINT_TAG
+    android.support.v4.app.FragmentController mController
     static final int ANIM_DUR
     public static final int ANIM_STYLE_OPEN_ENTER
     public static final int ANIM_STYLE_OPEN_EXIT
@@ -58,7 +68,7 @@ android.support.v4.app.FragmentManagerImpl$FragmentTag:
     public static final int Fragment_id
     public static final int Fragment_name
     public static final int Fragment_tag
-    2216:2216:FragmentManagerImpl$FragmentTag()
+    2289:2289:FragmentManagerImpl$FragmentTag()
 android.support.v4.app.FragmentPagerAdapter:
     private static final java.lang.String TAG
     private static final boolean DEBUG
@@ -66,7 +76,7 @@ android.support.v4.app.FragmentStatePagerAdapter:
     private static final java.lang.String TAG
     private static final boolean DEBUG
 android.support.v4.app.FragmentTransitionCompat21:
-    35:380:FragmentTransitionCompat21()
+    31:450:FragmentTransitionCompat21()
 android.support.v4.app.INotificationSideChannel$Stub:
     private static final java.lang.String DESCRIPTOR
     static final int TRANSACTION_notify
@@ -224,6 +234,8 @@ android.support.v4.app.TaskStackBuilderJellybean
 android.support.v4.content.AsyncTaskLoader:
     static final java.lang.String TAG
     static final boolean DEBUG
+android.support.v4.content.ContentResolverCompatJellybean:
+    24:24:ContentResolverCompatJellybean()
 android.support.v4.content.ContextCompat:
     private static final java.lang.String TAG
     private static final java.lang.String DIR_ANDROID
@@ -233,6 +245,8 @@ android.support.v4.content.ContextCompat:
     private static final java.lang.String DIR_CACHE
 android.support.v4.content.ContextCompatApi21:
     24:24:ContextCompatApi21()
+android.support.v4.content.ContextCompatApi23:
+    25:25:ContextCompatApi23()
 android.support.v4.content.ContextCompatFroyo:
     23:23:ContextCompatFroyo()
 android.support.v4.content.ContextCompatHoneycomb:
@@ -241,6 +255,8 @@ android.support.v4.content.ContextCompatJellybean:
     23:23:ContextCompatJellybean()
 android.support.v4.content.ContextCompatKitKat:
     23:23:ContextCompatKitKat()
+android.support.v4.content.EditorCompatGingerbread:
+    22:22:EditorCompatGingerbread()
 android.support.v4.content.FileProvider:
     private static final java.lang.String META_DATA_FILE_PROVIDER_PATHS
     private static final java.lang.String TAG_ROOT_PATH
@@ -264,14 +280,13 @@ android.support.v4.content.ModernAsyncTask:
     private static final int KEEP_ALIVE
     private static final int MESSAGE_POST_RESULT
     private static final int MESSAGE_POST_PROGRESS
-    106:107:public static void init()
-    111:112:public static void setDefaultExecutor(java.util.concurrent.Executor)
-    169:169:public final android.support.v4.content.ModernAsyncTask$Status getStatus()
-    321:321:public final java.lang.Object get()
-    341:341:public final java.lang.Object get(long,java.util.concurrent.TimeUnit)
-    371:371:public final varargs android.support.v4.content.ModernAsyncTask execute(java.lang.Object[])
-    433:434:public static void execute(java.lang.Runnable)
-    451:455:protected final varargs void publishProgress(java.lang.Object[])
+    116:117:public static void setDefaultExecutor(java.util.concurrent.Executor)
+    174:174:public final android.support.v4.content.ModernAsyncTask$Status getStatus()
+    326:326:public final java.lang.Object get()
+    346:346:public final java.lang.Object get(long,java.util.concurrent.TimeUnit)
+    376:376:public final varargs android.support.v4.content.ModernAsyncTask execute(java.lang.Object[])
+    438:439:public static void execute(java.lang.Runnable)
+    456:460:protected final varargs void publishProgress(java.lang.Object[])
 android.support.v4.content.WakefulBroadcastReceiver:
     private static final java.lang.String EXTRA_WAKE_LOCK_ID
 android.support.v4.content.res.ResourcesCompatApi21:
@@ -289,20 +304,29 @@ android.support.v4.graphics.ColorUtils:
     private static final int MIN_ALPHA_SEARCH_PRECISION
 android.support.v4.graphics.drawable.DrawableCompatApi22:
     24:24:DrawableCompatApi22()
+android.support.v4.graphics.drawable.DrawableCompatApi23:
+    24:24:DrawableCompatApi23()
 android.support.v4.graphics.drawable.DrawableCompatBase:
     26:26:DrawableCompatBase()
 android.support.v4.graphics.drawable.DrawableCompatHoneycomb:
     26:26:DrawableCompatHoneycomb()
+android.support.v4.graphics.drawable.DrawableCompatJellybeanMr1:
+    private static final java.lang.String TAG
+    30:30:DrawableCompatJellybeanMr1()
 android.support.v4.graphics.drawable.DrawableCompatKitKat:
     26:26:DrawableCompatKitKat()
 android.support.v4.graphics.drawable.DrawableCompatLollipop:
-    27:27:DrawableCompatLollipop()
+    28:28:DrawableCompatLollipop()
 android.support.v4.graphics.drawable.RoundedBitmapDrawable:
     private static final int DEFAULT_PAINT_FLAGS
 android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory:
     private static final java.lang.String TAG
 android.support.v4.hardware.display.DisplayManagerJellybeanMr1:
     22:22:DisplayManagerJellybeanMr1()
+android.support.v4.media.MediaDescriptionCompatApi23:
+    24:29:MediaDescriptionCompatApi23()
+android.support.v4.media.MediaDescriptionCompatApi23$Builder:
+    29:29:MediaDescriptionCompatApi23$Builder()
 android.support.v4.media.MediaMetadataCompat:
     private static final java.lang.String TAG
     private static final int METADATA_TYPE_LONG
@@ -325,7 +349,6 @@ android.support.v4.media.TransportPerformer:
     static final int AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK
 android.support.v4.media.VolumeProviderCompatApi21:
     21:41:VolumeProviderCompatApi21()
-    38:39:public static void setCurrentVolume(java.lang.Object,int)
 android.support.v4.media.routing.MediaRouterJellybean:
     private static final java.lang.String TAG
     public static final int ROUTE_TYPE_LIVE_AUDIO
@@ -388,6 +411,7 @@ android.support.v4.media.session.IMediaSession$Stub:
     static final int TRANSACTION_play
     static final int TRANSACTION_playFromMediaId
     static final int TRANSACTION_playFromSearch
+    static final int TRANSACTION_playFromUri
     static final int TRANSACTION_skipToQueueItem
     static final int TRANSACTION_pause
     static final int TRANSACTION_stop
@@ -405,7 +429,7 @@ android.support.v4.media.session.IMediaSession$Stub:
     static final int TRANSACTION_getExtras
     static final int TRANSACTION_getRatingType
 android.support.v4.media.session.IMediaSession$Stub$Proxy:
-    408:408:public java.lang.String getInterfaceDescriptor()
+    429:429:public java.lang.String getInterfaceDescriptor()
 android.support.v4.media.session.MediaControllerCompat:
     private static final java.lang.String TAG
 android.support.v4.media.session.MediaControllerCompat$Callback$MessageHandler:
@@ -417,12 +441,16 @@ android.support.v4.media.session.MediaControllerCompat$Callback$MessageHandler:
     private static final int MSG_UPDATE_QUEUE_TITLE
     private static final int MSG_UPDATE_EXTRAS
     private static final int MSG_DESTROYED
+android.support.v4.media.session.MediaControllerCompat$MediaControllerImplApi23:
+    1359:1360:public MediaControllerCompat$MediaControllerImplApi23(android.content.Context,android.support.v4.media.session.MediaSessionCompat$Token)
 android.support.v4.media.session.MediaControllerCompatApi21:
     36:254:MediaControllerCompatApi21()
 android.support.v4.media.session.MediaControllerCompatApi21$PlaybackInfo:
     private static final int FLAG_SCO
     private static final int STREAM_BLUETOOTH_SCO
     private static final int STREAM_SYSTEM_ENFORCED
+android.support.v4.media.session.MediaControllerCompatApi23:
+    23:25:MediaControllerCompatApi23()
 android.support.v4.media.session.MediaSessionCompat$MediaSessionImplBase$MessageHandler:
     private static final int MSG_PLAY
     private static final int MSG_PLAY_MEDIA_ID
@@ -441,7 +469,10 @@ android.support.v4.media.session.MediaSessionCompat$MediaSessionImplBase$Message
     private static final int MSG_COMMAND
     private static final int MSG_ADJUST_VOLUME
     private static final int MSG_SET_VOLUME
-    1731:1732:public void post(int,java.lang.Object,int)
+    private static final int MSG_PLAY_URI
+    private static final int KEYCODE_MEDIA_PAUSE
+    private static final int KEYCODE_MEDIA_PLAY
+    1778:1779:public void post(int,java.lang.Object,int)
 android.support.v4.media.session.MediaSessionCompatApi14:
     static final int RCC_PLAYSTATE_NONE
     static final int STATE_NONE
@@ -492,6 +523,8 @@ android.support.v4.media.session.MediaSessionCompatApi21$QueueItem:
     237:237:MediaSessionCompatApi21$QueueItem()
 android.support.v4.media.session.MediaSessionCompatApi22:
     20:20:MediaSessionCompatApi22()
+android.support.v4.media.session.MediaSessionCompatApi23:
+    22:32:MediaSessionCompatApi23()
 android.support.v4.media.session.PlaybackStateCompatApi21:
     26:79:PlaybackStateCompatApi21()
 android.support.v4.media.session.PlaybackStateCompatApi21$CustomAction:
@@ -508,6 +541,8 @@ android.support.v4.net.TrafficStatsCompatIcs:
     27:27:TrafficStatsCompatIcs()
 android.support.v4.os.AsyncTaskCompatHoneycomb:
     24:24:AsyncTaskCompatHoneycomb()
+android.support.v4.os.CancellationSignalCompatJellybean:
+    19:19:CancellationSignalCompatJellybean()
 android.support.v4.os.EnvironmentCompat:
     private static final java.lang.String TAG
 android.support.v4.os.EnvironmentCompatKitKat:
@@ -552,9 +587,11 @@ android.support.v4.text.BidiFormatter:
     private static final int DIR_RTL
 android.support.v4.text.BidiFormatter$DirectionalityEstimator:
     private static final int DIR_TYPE_CACHE_SIZE
+android.support.v4.text.ICUCompatApi23:
+    private static final java.lang.String TAG
 android.support.v4.text.ICUCompatIcs:
     private static final java.lang.String TAG
-    24:24:ICUCompatIcs()
+    25:25:ICUCompatIcs()
 android.support.v4.text.TextDirectionHeuristicsCompat:
     private static final int STATE_TRUE
     private static final int STATE_FALSE
@@ -635,12 +672,12 @@ android.support.v4.view.ViewCompat:
     private static final java.lang.String TAG
     private static final long FAKE_FRAME_TIME
 android.support.v4.view.ViewCompat$BaseViewCompatImpl:
-    453:453:public boolean isImportantForAccessibility(android.view.View)
-    712:712:public void setPivotY(android.view.View,float)
+    457:457:public boolean isImportantForAccessibility(android.view.View)
+    721:721:public void setPivotY(android.view.View,float)
 android.support.v4.view.ViewCompat$HCViewCompatImpl:
-    1068:1069:public void setPivotY(android.view.View,float)
+    1086:1087:public void setPivotY(android.view.View,float)
 android.support.v4.view.ViewCompat$LollipopViewCompatImpl:
-    1458:1458:public boolean isImportantForAccessibility(android.view.View)
+    1493:1493:public boolean isImportantForAccessibility(android.view.View)
 android.support.v4.view.ViewCompat$ViewCompatImpl:
     public abstract boolean isImportantForAccessibility(android.view.View)
     public abstract void setPivotY(android.view.View,float)
@@ -661,6 +698,8 @@ android.support.v4.view.ViewCompatJB:
     26:26:ViewCompatJB()
 android.support.v4.view.ViewCompatJellybeanMr1:
     25:25:ViewCompatJellybeanMr1()
+android.support.v4.view.ViewCompatJellybeanMr2:
+    25:25:ViewCompatJellybeanMr2()
 android.support.v4.view.ViewCompatKitKat:
     24:24:ViewCompatKitKat()
 android.support.v4.view.ViewCompatLollipop:
@@ -692,7 +731,7 @@ android.support.v4.view.ViewPager:
     private static final int DRAW_ORDER_DEFAULT
     private static final int DRAW_ORDER_FORWARD
     private static final int DRAW_ORDER_REVERSE
-    815:816:void smoothScrollTo(int,int)
+    816:817:void smoothScrollTo(int,int)
 android.support.v4.view.ViewParentCompatKitKat:
     22:22:ViewParentCompatKitKat()
 android.support.v4.view.ViewParentCompatLollipop:
@@ -718,46 +757,28 @@ android.support.v4.view.accessibility.AccessibilityEventCompatKitKat:
     21:21:AccessibilityEventCompatKitKat()
 android.support.v4.view.accessibility.AccessibilityManagerCompatIcs:
     28:30:AccessibilityManagerCompatIcs()
-android.support.v4.view.accessibility.AccessibilityNodeInfoCompat$AccessibilityNodeInfoApi22Impl:
-    1256:1261:public android.support.v4.view.accessibility.AccessibilityNodeInfoCompat getTraversalBefore(java.lang.Object)
-    1266:1267:public void setTraversalBefore(java.lang.Object,android.view.View)
-    1271:1272:public void setTraversalBefore(java.lang.Object,android.view.View,int)
-    1276:1281:public android.support.v4.view.accessibility.AccessibilityNodeInfoCompat getTraversalAfter(java.lang.Object)
-    1286:1287:public void setTraversalAfter(java.lang.Object,android.view.View)
-    1291:1292:public void setTraversalAfter(java.lang.Object,android.view.View,int)
-android.support.v4.view.accessibility.AccessibilityNodeInfoCompat$AccessibilityNodeInfoImpl:
-    public abstract android.support.v4.view.accessibility.AccessibilityNodeInfoCompat getTraversalBefore(java.lang.Object)
-    public abstract void setTraversalBefore(java.lang.Object,android.view.View)
-    public abstract void setTraversalBefore(java.lang.Object,android.view.View,int)
-    public abstract android.support.v4.view.accessibility.AccessibilityNodeInfoCompat getTraversalAfter(java.lang.Object)
-    public abstract void setTraversalAfter(java.lang.Object,android.view.View)
-    public abstract void setTraversalAfter(java.lang.Object,android.view.View,int)
-android.support.v4.view.accessibility.AccessibilityNodeInfoCompat$AccessibilityNodeInfoStubImpl:
-    718:718:public android.support.v4.view.accessibility.AccessibilityNodeInfoCompat getTraversalBefore(java.lang.Object)
-    723:723:public void setTraversalBefore(java.lang.Object,android.view.View)
-    727:727:public void setTraversalBefore(java.lang.Object,android.view.View,int)
-    731:731:public android.support.v4.view.accessibility.AccessibilityNodeInfoCompat getTraversalAfter(java.lang.Object)
-    736:736:public void setTraversalAfter(java.lang.Object,android.view.View)
-    740:740:public void setTraversalAfter(java.lang.Object,android.view.View,int)
 android.support.v4.view.accessibility.AccessibilityNodeInfoCompatApi21:
-    28:66:AccessibilityNodeInfoCompatApi21()
+    28:82:AccessibilityNodeInfoCompatApi21()
 android.support.v4.view.accessibility.AccessibilityNodeInfoCompatApi21$CollectionItemInfo:
-    66:66:AccessibilityNodeInfoCompatApi21$CollectionItemInfo()
-android.support.v4.view.accessibility.AccessibilityNodeInfoCompatApi22
+    82:82:AccessibilityNodeInfoCompatApi21$CollectionItemInfo()
+android.support.v4.view.accessibility.AccessibilityNodeInfoCompatApi22:
+    25:25:AccessibilityNodeInfoCompatApi22()
 android.support.v4.view.accessibility.AccessibilityNodeInfoCompatIcs:
     28:28:AccessibilityNodeInfoCompatIcs()
 android.support.v4.view.accessibility.AccessibilityNodeInfoCompatJellyBean:
     26:26:AccessibilityNodeInfoCompatJellyBean()
+android.support.v4.view.accessibility.AccessibilityNodeInfoCompatJellybeanMr1:
+    22:22:AccessibilityNodeInfoCompatJellybeanMr1()
 android.support.v4.view.accessibility.AccessibilityNodeInfoCompatJellybeanMr2:
-    21:21:AccessibilityNodeInfoCompatJellybeanMr2()
+    23:23:AccessibilityNodeInfoCompatJellybeanMr2()
 android.support.v4.view.accessibility.AccessibilityNodeInfoCompatKitKat:
-    24:110:AccessibilityNodeInfoCompatKitKat()
+    25:151:AccessibilityNodeInfoCompatKitKat()
 android.support.v4.view.accessibility.AccessibilityNodeInfoCompatKitKat$CollectionInfo:
-    74:74:AccessibilityNodeInfoCompatKitKat$CollectionInfo()
+    115:115:AccessibilityNodeInfoCompatKitKat$CollectionInfo()
 android.support.v4.view.accessibility.AccessibilityNodeInfoCompatKitKat$CollectionItemInfo:
-    88:88:AccessibilityNodeInfoCompatKitKat$CollectionItemInfo()
+    129:129:AccessibilityNodeInfoCompatKitKat$CollectionItemInfo()
 android.support.v4.view.accessibility.AccessibilityNodeInfoCompatKitKat$RangeInfo:
-    110:110:AccessibilityNodeInfoCompatKitKat$RangeInfo()
+    151:151:AccessibilityNodeInfoCompatKitKat$RangeInfo()
 android.support.v4.view.accessibility.AccessibilityNodeProviderCompatJellyBean:
     28:29:AccessibilityNodeProviderCompatJellyBean()
 android.support.v4.view.accessibility.AccessibilityNodeProviderCompatKitKat:
@@ -768,6 +789,10 @@ android.support.v4.view.accessibility.AccessibilityRecordCompatIcsMr1:
     24:24:AccessibilityRecordCompatIcsMr1()
 android.support.v4.view.accessibility.AccessibilityRecordCompatJellyBean:
     25:25:AccessibilityRecordCompatJellyBean()
+android.support.v4.view.accessibility.AccessibilityWindowInfoCompat:
+    private static final int UNDEFINED
+android.support.v4.view.accessibility.AccessibilityWindowInfoCompatApi21:
+    25:25:AccessibilityWindowInfoCompatApi21()
 android.support.v4.view.animation.PathInterpolatorCompatApi21:
     28:30:private PathInterpolatorCompatApi21()
 android.support.v4.view.animation.PathInterpolatorCompatBase:
@@ -793,19 +818,27 @@ android.support.v4.widget.CircleImageView:
     private static final float SHADOW_RADIUS
     private static final int SHADOW_ELEVATION
     117:118:public void setBackgroundColorRes(int)
+android.support.v4.widget.CompoundButtonCompatApi23:
+    25:25:CompoundButtonCompatApi23()
+android.support.v4.widget.CompoundButtonCompatDonut:
+    private static final java.lang.String TAG
+    27:27:CompoundButtonCompatDonut()
+android.support.v4.widget.CompoundButtonCompatLollipop:
+    23:23:CompoundButtonCompatLollipop()
 android.support.v4.widget.ContentLoadingProgressBar:
     private static final int MIN_SHOW_TIME
     private static final int MIN_DELAY
 android.support.v4.widget.DrawerLayout:
     private static final java.lang.String TAG
     private static final int MIN_DRAWER_MARGIN
+    private static final int DRAWER_ELEVATION
     private static final int DEFAULT_SCRIM_COLOR
     private static final int PEEK_DELAY
     private static final int MIN_FLING_VELOCITY
     private static final boolean ALLOW_EDGE_LOCK
     private static final boolean CHILDREN_DISALLOW_INTERCEPT
     private static final float TOUCH_SLOP_SENSITIVITY
-    745:754:void moveDrawerToOffset(android.view.View,float)
+    817:826:void moveDrawerToOffset(android.view.View,float)
 android.support.v4.widget.DrawerLayoutCompatApi21:
     31:86:DrawerLayoutCompatApi21()
 android.support.v4.widget.EdgeEffectCompatIcs:
@@ -846,6 +879,13 @@ android.support.v4.widget.NestedScrollView:
     private static final int INVALID_POINTER
 android.support.v4.widget.PopupMenuCompatKitKat:
     25:25:PopupMenuCompatKitKat()
+android.support.v4.widget.PopupWindowCompatApi21:
+    private static final java.lang.String TAG
+    24:24:PopupWindowCompatApi21()
+android.support.v4.widget.PopupWindowCompatApi23:
+    21:21:PopupWindowCompatApi23()
+android.support.v4.widget.PopupWindowCompatGingerbread:
+    26:26:PopupWindowCompatGingerbread()
 android.support.v4.widget.PopupWindowCompatKitKat:
     27:27:PopupWindowCompatKitKat()
 android.support.v4.widget.ScrollerCompat:
@@ -882,6 +922,7 @@ android.support.v4.widget.SwipeRefreshLayout:
     private static final int ANIMATE_TO_START_DURATION
     private static final int CIRCLE_BG_LIGHT
     private static final int DEFAULT_CIRCLE_TARGET
+    1024:1033:private void peek(int,android.view.animation.Animation$AnimationListener)
 android.support.v4.widget.TextViewCompatJbMr1:
     25:25:TextViewCompatJbMr1()
 android.support.v4.widget.TextViewCompatJbMr2:
@@ -1095,6 +1136,21 @@ android.support.v7.internal.widget.ToolbarWidgetWrapper:
     private static final int AFFECTS_LOGO_MASK
 android.support.v7.internal.widget.ViewUtils:
     private static final java.lang.String TAG
+android.support.v7.util.AsyncListUtil:
+    private static final java.lang.String TAG
+    private static final boolean DEBUG
+    76:77:private varargs void log(java.lang.String,java.lang.Object[])
+android.support.v7.util.AsyncListUtil$2:
+    437:438:private varargs void log(java.lang.String,java.lang.Object[])
+android.support.v7.util.MessageThreadUtil$1:
+    private static final int UPDATE_ITEM_COUNT
+    private static final int ADD_TILE
+    private static final int REMOVE_TILE
+android.support.v7.util.MessageThreadUtil$2:
+    private static final int REFRESH
+    private static final int UPDATE_RANGE
+    private static final int LOAD_TILE
+    private static final int RECYCLE_TILE
 android.support.v7.util.SortedList:
     private static final int MIN_CAPACITY
     private static final int CAPACITY_GROWTH
@@ -1156,8 +1212,8 @@ android.support.v7.widget.LinearLayoutManager:
     private static final java.lang.String TAG
     private static final boolean DEBUG
     private static final float MAX_SCROLL_FACTOR
-    1756:1763:private void logChildren()
-    1776:1813:void validateChildOrder()
+    1763:1770:private void logChildren()
+    1783:1820:void validateChildOrder()
 android.support.v7.widget.LinearLayoutManager$LayoutState:
     static final java.lang.String TAG
     static final int LAYOUT_START
@@ -1166,7 +1222,7 @@ android.support.v7.widget.LinearLayoutManager$LayoutState:
     static final int ITEM_DIRECTION_HEAD
     static final int ITEM_DIRECTION_TAIL
     static final int SCOLLING_OFFSET_NaN
-    2021:2023:void log()
+    2034:2036:void log()
 android.support.v7.widget.LinearSmoothScroller:
     private static final java.lang.String TAG
     private static final boolean DEBUG
@@ -1196,12 +1252,12 @@ android.support.v7.widget.RecyclerView:
     private static final int INVALID_POINTER
 android.support.v7.widget.RecyclerView$RecycledViewPool:
     private static final int DEFAULT_MAX_SCRAP
-    4069:4076:int size()
+    4204:4211:int size()
 android.support.v7.widget.RecyclerView$Recycler:
     private static final int DEFAULT_CACHE_SIZE
-    4529:4530:void recycleViewInternal(android.view.View)
+    4664:4665:void recycleViewInternal(android.view.View)
 android.support.v7.widget.RecyclerView$State:
-    9080:9086:android.support.v7.widget.RecyclerView$State reset()
+    9415:9421:android.support.v7.widget.RecyclerView$State reset()
 android.support.v7.widget.RecyclerView$ViewHolder:
     static final int FLAG_BOUND
     static final int FLAG_UPDATE
@@ -1213,6 +1269,7 @@ android.support.v7.widget.RecyclerView$ViewHolder:
     static final int FLAG_IGNORE
     static final int FLAG_TMP_DETACHED
     static final int FLAG_ADAPTER_POSITION_UNKNOWN
+    static final int FLAG_ADAPTER_FULLUPDATE
 android.support.v7.widget.ScrollbarHelper:
     23:23:ScrollbarHelper()
 android.support.v7.widget.SearchView:
@@ -1227,11 +1284,11 @@ android.support.v7.widget.StaggeredGridLayoutManager:
 android.support.v7.widget.StaggeredGridLayoutManager$LazySpanLookup:
     private static final int MIN_SIZE
 android.support.v7.widget.StaggeredGridLayoutManager$LazySpanLookup$FullSpanItem:
-    2625:2626:public void invalidateSpanGaps()
+    2633:2634:public void invalidateSpanGaps()
 android.support.v7.widget.StaggeredGridLayoutManager$Span:
     static final int INVALID_LINE
-    2275:2289:int getNormalizedOffset(int,int,int)
-    2301:2309:boolean isEmpty(int,int)
+    2283:2297:int getNormalizedOffset(int,int,int)
+    2309:2317:boolean isEmpty(int,int)
 android.support.v7.widget.SuggestionsAdapter:
     private static final boolean DBG
     private static final java.lang.String LOG_TAG
@@ -1276,7 +1333,7 @@ at.grabner.circleprogress.CircleProgressView:
     private static final java.lang.String TAG
     private static final boolean DEBUG
     368:369:private float calcTextSizeForCircle(java.lang.String,android.graphics.Paint,android.graphics.RectF)
-    1184:1190:private void drawDebug(android.graphics.Canvas)
+    1189:1195:private void drawDebug(android.graphics.Canvas)
 bolts.AndroidExecutors:
     static final long KEEP_ALIVE_TIME
     97:106:public static java.util.concurrent.ExecutorService newCachedThreadPool(java.util.concurrent.ThreadFactory)
@@ -1477,6 +1534,11 @@ com.badou.mworking.widget.CategoryHeader:
 com.badou.mworking.widget.EllipsizeTextView:
     private static final java.lang.String ELLIPSIS
     private static final java.lang.String TAG
+com.badou.mworking.widget.HeaderViewRecyclerAdapter:
+    private static final int HEADERS_START
+    private static final int FOOTERS_START
+    private static final int ITEMS_START
+    private static final int ADAPTER_MAX_TYPES
 com.bignerdranch.expandablerecyclerview.Adapter.ExpandableRecyclerAdapter:
     private static final java.lang.String STABLE_ID_MAP
     private static final java.lang.String STABLE_ID_LIST
@@ -1875,6 +1937,193 @@ com.zbar.lib.decode.InactivityTimer:
 com.zbar.qrscan.CaptureActivity:
     private static final float BEEP_VOLUME
     private static final long VIBRATE_DURATION
+cz.msebera.android.httpclient.client.entity.DecompressingEntity:
+    private static final int BUFFER_SIZE
+cz.msebera.android.httpclient.client.entity.GzipCompressingEntity:
+    private static final java.lang.String GZIP_CODEC
+cz.msebera.android.httpclient.client.protocol.RequestClientConnControl:
+    private static final java.lang.String PROXY_CONN_DIRECTIVE
+cz.msebera.android.httpclient.client.utils.DateUtils$DateFormatHolder:
+    200:200:DateUtils$DateFormatHolder()
+cz.msebera.android.httpclient.client.utils.Rfc3492Idn:
+    private static final int base
+    private static final int tmin
+    private static final int tmax
+    private static final int skew
+    private static final int damp
+    private static final int initial_bias
+    private static final int initial_n
+    private static final char delimiter
+    private static final java.lang.String ACE_PREFIX
+cz.msebera.android.httpclient.client.utils.URLEncodedUtils:
+    private static final char QP_SEP_A
+    private static final char QP_SEP_S
+    private static final java.lang.String NAME_VALUE_SEPARATOR
+    private static final int RADIX
+cz.msebera.android.httpclient.conn.EofSensorInputStream:
+    91:91:boolean isSelfClosed()
+    95:95:java.io.InputStream getWrappedStream()
+cz.msebera.android.httpclient.conn.scheme.SocketFactoryAdaptor:
+    74:74:public cz.msebera.android.httpclient.conn.scheme.SchemeSocketFactory getFactory()
+cz.msebera.android.httpclient.conn.ssl.SSLConnectionSocketFactory:
+    296:296:cz.msebera.android.httpclient.conn.ssl.X509HostnameVerifier getHostnameVerifier()
+cz.msebera.android.httpclient.conn.ssl.SSLContextBuilder:
+    static final java.lang.String TLS
+    static final java.lang.String SSL
+cz.msebera.android.httpclient.conn.util.InetAddressUtils:
+    private static final java.lang.String IPV4_BASIC_PATTERN_STRING
+    private static final char COLON_CHAR
+    private static final int MAX_COLON_COUNT
+cz.msebera.android.httpclient.entity.mime.AbstractMultipartForm:
+    118:119:public AbstractMultipartForm(java.lang.String,java.lang.String)
+    122:122:public java.lang.String getSubType()
+    126:126:public java.nio.charset.Charset getCharset()
+cz.msebera.android.httpclient.entity.mime.MultipartEntityBuilder:
+    private static final java.lang.String DEFAULT_SUBTYPE
+cz.msebera.android.httpclient.entity.mime.MultipartFormEntity:
+    56:56:cz.msebera.android.httpclient.entity.mime.AbstractMultipartForm getMultipart()
+cz.msebera.android.httpclient.extras.Base64$Coder:
+    public abstract boolean process(byte[],int,int,boolean)
+    public abstract int maxOutputSize(int)
+cz.msebera.android.httpclient.extras.Base64$Decoder:
+    private static final int SKIP
+    private static final int EQUALS
+    254:254:public int maxOutputSize(int)
+cz.msebera.android.httpclient.extras.Base64$Encoder:
+    public static final int LINE_GROUPS
+    600:600:public int maxOutputSize(int)
+cz.msebera.android.httpclient.extras.PRNGFixes:
+    private static final int VERSION_CODE_JELLY_BEAN
+    private static final int VERSION_CODE_JELLY_BEAN_MR2
+cz.msebera.android.httpclient.impl.auth.DigestScheme:
+    private static final int QOP_UNKNOWN
+    private static final int QOP_MISSING
+    private static final int QOP_AUTH_INT
+    private static final int QOP_AUTH
+    435:435:java.lang.String getCnonce()
+    439:439:java.lang.String getA1()
+    443:443:java.lang.String getA2()
+cz.msebera.android.httpclient.impl.auth.NTLMEngineImpl:
+    protected static final int FLAG_REQUEST_UNICODE_ENCODING
+    protected static final int FLAG_REQUEST_TARGET
+    protected static final int FLAG_REQUEST_SIGN
+    protected static final int FLAG_REQUEST_SEAL
+    protected static final int FLAG_REQUEST_LAN_MANAGER_KEY
+    protected static final int FLAG_REQUEST_NTLMv1
+    protected static final int FLAG_DOMAIN_PRESENT
+    protected static final int FLAG_WORKSTATION_PRESENT
+    protected static final int FLAG_REQUEST_ALWAYS_SIGN
+    protected static final int FLAG_REQUEST_NTLM2_SESSION
+    protected static final int FLAG_REQUEST_VERSION
+    protected static final int FLAG_TARGETINFO_PRESENT
+    protected static final int FLAG_REQUEST_128BIT_KEY_EXCH
+    protected static final int FLAG_REQUEST_EXPLICIT_KEY_EXCH
+    protected static final int FLAG_REQUEST_56BIT_ENCRYPTION
+    static final java.lang.String DEFAULT_CHARSET
+    120:127:final java.lang.String getResponseFor(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String)
+    176:176:java.lang.String getCredentialCharset()
+    184:185:void setCredentialCharset(java.lang.String)
+    49:49:static synthetic int access$1100(byte[],int)
+cz.msebera.android.httpclient.impl.auth.NTLMEngineImpl$HMACMD5:
+    1642:1643:void update(byte[],int,int)
+cz.msebera.android.httpclient.impl.auth.NTLMEngineImpl$NTLMMessage:
+    876:876:protected int getPreambleLength()
+    886:889:protected byte readByte(int)
+    902:902:protected int readUShort(int)
+cz.msebera.android.httpclient.impl.client.cache.AsynchronousValidationRequest:
+    167:167:java.lang.String getIdentifier()
+cz.msebera.android.httpclient.impl.client.cache.AsynchronousValidator:
+    67:68:public AsynchronousValidator(cz.msebera.android.httpclient.impl.client.cache.CacheConfig)
+    148:148:java.util.Set getScheduledIdentifiers()
+cz.msebera.android.httpclient.impl.client.cache.BasicHttpCache:
+    279:280:public cz.msebera.android.httpclient.HttpResponse cacheAndReturnResponse(cz.msebera.android.httpclient.HttpHost,cz.msebera.android.httpclient.HttpRequest,cz.msebera.android.httpclient.HttpResponse,java.util.Date,java.util.Date)
+cz.msebera.android.httpclient.impl.client.cache.BasicIdGenerator:
+    81:83:public java.lang.String generate()
+cz.msebera.android.httpclient.impl.client.cache.CacheValidityPolicy:
+    public static final long MAX_AGE
+    114:115:public boolean isRevalidatable(cz.msebera.android.httpclient.client.cache.HttpCacheEntry)
+    181:181:protected java.util.Date getDateValue(cz.msebera.android.httpclient.client.cache.HttpCacheEntry)
+cz.msebera.android.httpclient.impl.client.cache.CachedResponseSuitabilityChecker:
+    71:72:CachedResponseSuitabilityChecker(cz.msebera.android.httpclient.impl.client.cache.CacheConfig)
+cz.msebera.android.httpclient.impl.client.cache.CachingExec:
+    private static final boolean SUPPORTS_RANGE_AND_CONTENT_RANGE_HEADERS
+    98:188:CachingExec(cz.msebera.android.httpclient.impl.execchain.ClientExecChain,cz.msebera.android.httpclient.impl.client.cache.HttpCache,cz.msebera.android.httpclient.impl.client.cache.CacheValidityPolicy,cz.msebera.android.httpclient.impl.client.cache.ResponseCachingPolicy,cz.msebera.android.httpclient.impl.client.cache.CachedHttpResponseGenerator,cz.msebera.android.httpclient.impl.client.cache.CacheableRequestPolicy,cz.msebera.android.httpclient.impl.client.cache.CachedResponseSuitabilityChecker,cz.msebera.android.httpclient.impl.client.cache.ConditionalRequestBuilder,cz.msebera.android.httpclient.impl.client.cache.ResponseProtocolCompliance,cz.msebera.android.httpclient.impl.client.cache.RequestProtocolCompliance,cz.msebera.android.httpclient.impl.client.cache.CacheConfig,cz.msebera.android.httpclient.impl.client.cache.AsynchronousValidator)
+cz.msebera.android.httpclient.impl.client.cache.DefaultFailureCache:
+    static final int DEFAULT_MAX_SIZE
+    static final int MAX_UPDATE_TRIES
+cz.msebera.android.httpclient.impl.client.cache.HttpCache:
+    public abstract cz.msebera.android.httpclient.HttpResponse cacheAndReturnResponse(cz.msebera.android.httpclient.HttpHost,cz.msebera.android.httpclient.HttpRequest,cz.msebera.android.httpclient.HttpResponse,java.util.Date,java.util.Date)
+cz.msebera.android.httpclient.impl.client.cache.IOUtils:
+    41:41:IOUtils()
+cz.msebera.android.httpclient.impl.client.cache.ImmediateSchedulingStrategy:
+    86:87:void awaitTermination(long,java.util.concurrent.TimeUnit)
+cz.msebera.android.httpclient.impl.client.cache.InternalURIUtils:
+    61:62:private InternalURIUtils()
+cz.msebera.android.httpclient.impl.client.cache.Proxies:
+    42:42:Proxies()
+cz.msebera.android.httpclient.impl.client.cache.ResponseProtocolCompliance:
+    private static final java.lang.String UNEXPECTED_100_CONTINUE
+    private static final java.lang.String UNEXPECTED_PARTIAL_CONTENT
+cz.msebera.android.httpclient.impl.client.cache.Variant:
+    45:45:public java.lang.String getVariantKey()
+cz.msebera.android.httpclient.impl.client.cache.WarningValue:
+    private static final java.lang.String TOPLABEL
+    private static final java.lang.String DOMAINLABEL
+    private static final java.lang.String HOSTNAME
+    private static final java.lang.String IPV4ADDRESS
+    private static final java.lang.String HOST
+    private static final java.lang.String PORT
+    private static final java.lang.String HOSTPORT
+    private static final java.lang.String MONTH
+    private static final java.lang.String WEEKDAY
+    private static final java.lang.String WKDAY
+    private static final java.lang.String TIME
+    private static final java.lang.String DATE3
+    private static final java.lang.String DATE2
+    private static final java.lang.String DATE1
+    private static final java.lang.String ASCTIME_DATE
+    private static final java.lang.String RFC850_DATE
+    private static final java.lang.String RFC1123_DATE
+    private static final java.lang.String HTTP_DATE
+    private static final java.lang.String WARN_DATE
+    54:55:WarningValue(java.lang.String)
+    322:322:public int getWarnCode()
+    329:329:public java.lang.String getWarnAgent()
+    342:342:public java.lang.String getWarnText()
+cz.msebera.android.httpclient.impl.conn.BasicHttpClientConnectionManager:
+    164:164:cz.msebera.android.httpclient.conn.routing.HttpRoute getRoute()
+    168:168:java.lang.Object getState()
+cz.msebera.android.httpclient.impl.conn.HttpClientConnectionOperator:
+    static final java.lang.String SOCKET_FACTORY_REGISTRY
+cz.msebera.android.httpclient.impl.conn.ManagedClientConnectionImpl:
+    257:261:public java.lang.Object getAttribute(java.lang.String)
+    266:270:public java.lang.Object removeAttribute(java.lang.String)
+    275:279:public void setAttribute(java.lang.String,java.lang.Object)
+cz.msebera.android.httpclient.impl.conn.PoolingHttpClientConnectionManager:
+    90:167:PoolingHttpClientConnectionManager(cz.msebera.android.httpclient.impl.conn.CPool,cz.msebera.android.httpclient.config.Lookup,cz.msebera.android.httpclient.conn.SchemePortResolver,cz.msebera.android.httpclient.conn.DnsResolver)
+cz.msebera.android.httpclient.impl.cookie.PublicSuffixListParser:
+    private static final int MAX_LINE_LEN
+    48:50:PublicSuffixListParser(cz.msebera.android.httpclient.impl.cookie.PublicSuffixFilter)
+cz.msebera.android.httpclient.impl.execchain.RequestEntityProxy:
+    83:83:public cz.msebera.android.httpclient.HttpEntity getOriginal()
+cz.msebera.android.httpclient.impl.io.AbstractMessageParser:
+    private static final int HEAD_LINE
+    private static final int HEADERS
+cz.msebera.android.httpclient.impl.io.ChunkedInputStream:
+    private static final int CHUNK_LEN
+    private static final int CHUNK_DATA
+    private static final int CHUNK_CRLF
+    private static final int BUFFER_SIZE
+cz.msebera.android.httpclient.impl.io.ContentLengthInputStream:
+    private static final int BUFFER_SIZE
+cz.msebera.android.httpclient.message.BasicHeaderValueParser:
+    private static final char PARAM_DELIMITER
+    private static final char ELEM_DELIMITER
+cz.msebera.android.httpclient.pool.RouteSpecificPool:
+    57:57:public final java.lang.Object getRoute()
+cz.msebera.android.httpclient.protocol.ChainBuilder:
+    83:89:public cz.msebera.android.httpclient.protocol.ChainBuilder addAllFirst(java.util.Collection)
+    103:109:public cz.msebera.android.httpclient.protocol.ChainBuilder addAllLast(java.util.Collection)
 de.measite.smack.Sasl:
     private static final java.lang.String CLIENTFACTORYSRV
     private static final java.lang.String SERVERFACTORYSRV

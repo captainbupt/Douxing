@@ -248,3 +248,6 @@ public static final int *;
 -keep class **.R{*;}
 -dontwarn cn.sharesdk.**
 -dontwarn **.R$*
+
+-dontskipnonpubliclibraryclassmembers
+-ignorewarnings

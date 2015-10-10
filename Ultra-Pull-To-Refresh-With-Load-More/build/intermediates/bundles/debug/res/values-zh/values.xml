@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/E:/AndroidstudioProjects/android-Ultra-Pull-To-Refresh-With-Load-More/ptr-lib/res/values-zh/cube_ptr_string.xml -->
+    <!-- From: file:/E:/AndroidstudioProjects/Douxing/Ultra-Pull-To-Refresh-With-Load-More/res/values-zh/cube_ptr_string.xml -->
     <eat-comment/>
     <string name="cube_ptr_hours_ago"> 小时之前</string>
     <string name="cube_ptr_last_update">上次更新: </string>

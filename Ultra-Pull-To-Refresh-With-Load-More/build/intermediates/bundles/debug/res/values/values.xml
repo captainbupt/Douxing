@@ -2,7 +2,7 @@
 <resources>
     <declare-styleable name="PtrClassicHeader"><attr format="integer" name="ptr_rotate_ani_time"/></declare-styleable>
     <declare-styleable name="PtrFrameLayout"><attr format="reference" name="ptr_header"/><attr format="reference" name="ptr_content"/><attr format="reference" name="ptr_footer"/><attr format="float" name="ptr_resistance"/><attr format="float" name="ptr_ratio_of_header_height_to_refresh"/><attr format="integer" name="ptr_duration_to_close"/><attr format="integer" name="ptr_duration_to_close_header"/><attr format="boolean" name="ptr_pull_to_fresh"/><attr format="boolean" name="ptr_keep_header_when_refresh"/><attr format="enum" name="ptr_mode"><enum name="none" value="0"/><enum name="refresh" value="1"/><enum name="loadMore" value="2"/><enum name="both" value="3"/></attr></declare-styleable>
-    <!-- From: file:/E:/AndroidstudioProjects/android-Ultra-Pull-To-Refresh-With-Load-More/ptr-lib/res/values/cube_ptr_string.xml -->
+    <!-- From: file:/E:/AndroidstudioProjects/Douxing/Ultra-Pull-To-Refresh-With-Load-More/res/values/cube_ptr_string.xml -->
     <eat-comment/>
     <string name="cube_ptr_hours_ago"> hours ago</string>
     <string name="cube_ptr_last_update">last update: </string>

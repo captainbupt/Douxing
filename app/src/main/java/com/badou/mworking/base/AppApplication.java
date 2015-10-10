@@ -43,7 +43,7 @@ public class AppApplication extends Application {
     public static final String SYSVERSION = android.os.Build.VERSION.RELEASE;
     public static final String SYSPARAM = SYSTYPE + SYSVERSION;
     public static boolean isInitialized = false;
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = false;
 
     @Override
     public void onCreate() {
