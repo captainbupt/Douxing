@@ -46,7 +46,7 @@ public class PtrFrameLayout extends ViewGroup {
     private int mFooterId = 0;
     // config
     private Mode mMode = Mode.BOTH;
-    private int mDurationToClose = 200;
+    private int mDurationToClose = 100;
     private int mDurationToCloseHeader = 1000;
     private boolean mKeepHeaderWhenRefresh = true;
     private boolean mPullToRefresh = false;

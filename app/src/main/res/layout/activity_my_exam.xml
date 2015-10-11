@@ -27,7 +27,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:gravity="center"
-            android:text="@string/user_center_my_study_progress"
+            android:text="@string/user_center_my_exam"
             android:textColor="@color/color_white"
             android:textSize="@dimen/text_size_title_bar_title" />
 

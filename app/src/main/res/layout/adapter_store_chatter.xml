@@ -26,9 +26,9 @@
             android:textColor="@color/color_white"/>
     </FrameLayout>
 
+
     <com.badou.mworking.widget.ChatterItemView
         android:id="@+id/chatter_item_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-
 </com.swipe.delete.SwipeLayout>
