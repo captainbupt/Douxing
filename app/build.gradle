@@ -19,6 +19,7 @@ android {
         targetSdkVersion Integer.parseInt(project.ANDROID_BUILD_TARGET_SDK_VERSION)
         versionCode 22
         versionName '1.6.6'
+        multiDexEnabled true
     }
 
     productFlavors {
@@ -42,6 +43,11 @@ android {
     }
     sourceSets.main {
         jniLibs.srcDir 'src/main/jniLibs' // <-- Set your folder here!
+    }
+
+    dexOptions {
+        incremental true
+        javaMaxHeapSize "2048M"
     }
 
     compileOptions {
@@ -85,4 +91,6 @@ dependencies {
     compile files('src/main/libs/umeng-analytics-v5.5.3.jar')
     compile project(':CircleProgressView')
     compile project(':Ultra-Pull-To-Refresh-With-Load-More')
+    compile 'com.android.support:multidex:1.0.1'
+    compile "com.daimajia.swipelayout:library:1.2.0@aar"
 }

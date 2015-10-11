@@ -12,6 +12,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.support.multidex.MultiDexApplication;
 import android.util.DisplayMetrics;
 
 import com.badou.mworking.LoginActivity;
@@ -35,7 +36,7 @@ import cn.sharesdk.framework.ShareSDK;
 /**
  * 功能描述: 程序入口application类
  */
-public class AppApplication extends Application {
+public class AppApplication extends MultiDexApplication {
 
     // tag
     public static String appVersion;
