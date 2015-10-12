@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.entity.MessageCenter;
-import com.swipe.delete.SwipeLayout;
+import com.daimajia.swipe.SwipeLayout;
 
 import java.text.SimpleDateFormat;
 

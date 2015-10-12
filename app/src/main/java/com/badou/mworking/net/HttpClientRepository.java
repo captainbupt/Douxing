@@ -23,15 +23,8 @@ public class HttpClientRepository {
     private static AsyncHttpClient client = new AsyncHttpClient();
 
     public static void doUpdateMTraning(final Context context, final String url, final DownloadListener httpResponseHandler) {
-        File file;
-        try {
-            file = File.createTempFile("update.apk", "tmp");
-        } catch (IOException e) {
-            final String path = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + "update.apk.tmp";
-            file = new File(path);
-            e.printStackTrace();
-        }
-        file.deleteOnExit(); // 仅当次登录有效
+        final String path = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + "update.apk.tmp";
+        File file = new File(path);
         client.get(url, new RangeFileAsyncHttpResponseHandler(file) {
             @Override
             public void onProgress(long bytesWritten, long totalSize) {
@@ -46,8 +39,7 @@ public class HttpClientRepository {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, File response) {
-                FileUtils.renameFile(response.getParent(), "update.apk.tmp", "update.apk");
-                httpResponseHandler.onSuccess(statusCode, headers, response);
+                httpResponseHandler.onSuccess(statusCode, headers, FileUtils.renameFile(response.getParent(), "update.apk.tmp", "update.apk"));
             }
         });
     }

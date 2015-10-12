@@ -394,6 +394,7 @@ public class PtrFrameLayout extends ViewGroup {
         if (!isEnabled() || mContent == null || mHeaderView == null) {
             return dispatchTouchEventSupper(e);
         }
+        boolean result = dispatchTouchEventSupper(e);
         int action = e.getAction();
         switch (action) {
             case MotionEvent.ACTION_UP:
@@ -408,9 +409,9 @@ public class PtrFrameLayout extends ViewGroup {
                         sendCancelEvent();
                         return true;
                     }
-                    return dispatchTouchEventSupper(e);
+                    return result;
                 } else {
-                    return dispatchTouchEventSupper(e);
+                    return result;
                 }
 
             case MotionEvent.ACTION_DOWN:
@@ -460,38 +461,38 @@ public class PtrFrameLayout extends ViewGroup {
                 if (!canMoveUp && !canMoveDown) {
                     // disable move when header not reach top
                     if (moveDown && !canHeaderMoveDown) {
-                        return dispatchTouchEventSupper(e);
+                        return result;
                     }
                     if (moveUp && !canFooterMoveUp) {
-                        return dispatchTouchEventSupper(e);
+                        return result;
                     }
 
                     // should show up header
                     if (moveDown) {
                         moveHeaderPos(offsetY);
-                        return true;
+                        return result;
                     }
 
                     // should show up footer
                     if (moveUp) {
                         moveFooterPos(offsetY);
-                        return true;
+                        return result;
                     }
                 }
 
                 // if header is showing, then no need to move footer
                 if (canMoveUp) {
                     moveHeaderPos(offsetY);
-                    return true;
+                    return result;
                 }
 
                 // if footer is showing, then no need to move header
                 if (canMoveDown) {
                     moveFooterPos(offsetY);
-                    return true;
+                    return result;
                 }
         }
-        return dispatchTouchEventSupper(e);
+        return result;
     }
 
     private void moveFooterPos(float deltaY) {
@@ -541,10 +542,10 @@ public class PtrFrameLayout extends ViewGroup {
         boolean isUnderTouch = mPtrIndicator.isUnderTouch();
 
         // once moved, cancel event will be sent to child
-        if (isUnderTouch && !mHasSendCancelEvent && mPtrIndicator.hasMovedAfterPressedDown()) {
+/*        if (isUnderTouch && !mHasSendCancelEvent && mPtrIndicator.hasMovedAfterPressedDown()) {
             mHasSendCancelEvent = true;
             sendCancelEvent();
-        }
+        }*/
 
         // leave initiated position or just refresh complete
         if ((mPtrIndicator.hasJustLeftStartPosition() && mStatus == PTR_STATUS_INIT) ||

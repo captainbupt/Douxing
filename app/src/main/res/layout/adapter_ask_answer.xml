@@ -105,6 +105,6 @@
             android:layout_width="@dimen/around_icon_reply_width"
             android:layout_height="@dimen/around_icon_reply_width"
             android:layout_marginLeft="@dimen/offset_small"
-            android:src="@drawable/icon_comment"/>
+            android:src="@drawable/icon_bottom_comment"/>
     </LinearLayout>
 </RelativeLayout>

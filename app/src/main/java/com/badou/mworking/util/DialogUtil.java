@@ -39,6 +39,7 @@ public class DialogUtil {
                                         @Override
                                         public void onSuccess(int statusCode, Header[] headers, File file) {
                                             baseView.hideProgressDialog();
+                                            System.out.println(file.getAbsolutePath());
                                             Intent intent = new Intent();
                                             intent.setAction(Intent.ACTION_VIEW);
                                             intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.swipe.delete.SwipeLayout
+<com.daimajia.swipe.SwipeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:myattr="http://schemas.android.com/apk/res-auto"
     android:id="@+id/sl_adapter_message_center"
@@ -107,4 +107,4 @@
                 android:textSize="@dimen/text_size_less" />
         </RelativeLayout>
     </RelativeLayout>
-</com.swipe.delete.SwipeLayout>
+</com.daimajia.swipe.SwipeLayout>

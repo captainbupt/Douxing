@@ -24,6 +24,7 @@ import android.widget.TextView.BufferType;
 import com.badou.mworking.R;
 import com.badou.mworking.base.MyBaseAdapter;
 import com.badou.mworking.entity.emchat.EMChatEntity;
+import com.daimajia.swipe.SwipeLayout;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMConversation.EMConversationType;
@@ -38,7 +39,6 @@ import com.easemob.chatuidemo.utils.DateUtils;
 import com.easemob.chatuidemo.utils.SmileUtils;
 import com.easemob.util.EMLog;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.swipe.delete.SwipeLayout;
 
 import java.util.Date;
 

@@ -1,58 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.daimajia.swipe.SwipeLayout
+    android:id="@+id/sl_adapter_message_center"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <com.swipe.delete.SwipeLayout
-        android:id="@+id/sl_adapter_message_center"
-        android:layout_width="match_parent"
+    <!-- SwipeLayout 强制要求ViewGroup -->
+    <FrameLayout
+        android:layout_width="wrap_content"
         android:layout_height="match_parent">
 
-        <!-- SwipeLayout 强制要求ViewGroup -->
-        <FrameLayout
+        <ImageView
+            android:id="@+id/iv_adapter_message_center_delete"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/color_red"
+            android:paddingBottom="@dimen/offset_medium"
+            android:paddingLeft="@dimen/offset_large"
+            android:paddingRight="@dimen/offset_large"
+            android:paddingTop="@dimen/offset_medium"
+            android:src="@drawable/icon_adapter_swipe_delete"/>
+    </FrameLayout>
 
-            <ImageView
-                android:id="@+id/iv_adapter_message_center_delete"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:background="@color/color_red"
-                android:paddingBottom="@dimen/offset_medium"
-                android:paddingLeft="@dimen/offset_large"
-                android:paddingRight="@dimen/offset_large"
-                android:paddingTop="@dimen/offset_medium"
-                android:src="@drawable/icon_adapter_swipe_delete" />
-        </FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_white"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:padding="@dimen/offset_medium">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/tv_adapter_message_center_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/color_white"
-            android:gravity="center_vertical"
-            android:orientation="vertical"
-            android:padding="@dimen/offset_medium">
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textColor="@color/color_text_black"
+            android:textSize="@dimen/text_size_medium"/>
 
-            <TextView
-                android:id="@+id/tv_adapter_message_center_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:singleLine="true"
-                android:textColor="@color/color_text_black"
-                android:textSize="@dimen/text_size_medium" />
+        <TextView
+            android:id="@+id/tv_adapter_message_center_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textColor="@color/color_text_grey"
+            android:textSize="@dimen/text_size_less"/>
 
-            <TextView
-                android:id="@+id/tv_adapter_message_center_time"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:singleLine="true"
-                android:textColor="@color/color_text_grey"
-                android:textSize="@dimen/text_size_less" />
-
-        </LinearLayout>
-    </com.swipe.delete.SwipeLayout>
-
-</LinearLayout>
+    </LinearLayout>
+</com.daimajia.swipe.SwipeLayout>

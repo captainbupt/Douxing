@@ -860,6 +860,7 @@ ADDED from AndroidManifest.xml:445:9
 		ADDED from AndroidManifest.xml:446:13
 uses-sdk
 INJECTED from AndroidManifest.xml:0:0 reason: use-sdk injection requested
+MERGED from com.android.support:multidex:1.0.1:18:5
 MERGED from com.android.support:recyclerview-v7:23.0.1:20:5
 MERGED from com.android.support:support-v4:23.0.1:20:5
 MERGED from com.android.support:appcompat-v7:22.2.1:20:5
@@ -884,6 +885,8 @@ MERGED from com.android.support:recyclerview-v7:23.0.1:20:5
 MERGED from com.android.support:support-v4:23.0.1:20:5
 MERGED from Douxing:CircleProgressView:unspecified:7:5
 MERGED from Douxing:Ultra-Pull-To-Refresh-With-Load-More:unspecified:7:5
+MERGED from com.android.support:multidex:1.0.1:18:5
+MERGED from com.daimajia.swipelayout:library:1.2.0:6:5
 	android:targetSdkVersion
 		INJECTED from AndroidManifest.xml:0:0
 		INJECTED from AndroidManifest.xml:0:0

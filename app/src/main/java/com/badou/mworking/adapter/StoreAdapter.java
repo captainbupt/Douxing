@@ -17,52 +17,47 @@ import com.badou.mworking.entity.Store;
 import com.badou.mworking.util.DensityUtil;
 import com.badou.mworking.util.TimeTransfer;
 import com.badou.mworking.widget.ChatterItemView;
-import com.swipe.delete.SwipeLayout;
+import com.daimajia.swipe.SwipeLayout;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 
-public class StoreAdapter extends MyBaseRecyclerAdapter<Store, StoreAdapter.BaseSwipeViewHolder> {
+public class StoreAdapter extends MyBaseAdapter<Store> {
 
-    private final int TYPE_NORMAL = 1;
-    private final int TYPE_CHATTER = 2;
+    private final int TYPE_NORMAL = 0;
+    private final int TYPE_CHATTER = 1;
 
-    View.OnClickListener mItemClickListener;
     View.OnClickListener mDeleteClickListener;
     View.OnClickListener mPraiseClickListener;
 
-    static int width;
 
-    public StoreAdapter(Context context, View.OnClickListener itemClickListener, View.OnClickListener deleteClickListener, View.OnClickListener praiseClickListener) {
+    public StoreAdapter(Context context, View.OnClickListener deleteClickListener, View.OnClickListener praiseClickListener) {
         super(context);
-        width = DensityUtil.getWidthInPx((Activity) context);
-        this.mItemClickListener = itemClickListener;
         this.mDeleteClickListener = deleteClickListener;
         this.mPraiseClickListener = praiseClickListener;
     }
 
     @Override
-    public BaseSwipeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public View getView(int position, View convertView, ViewGroup parent) {
         BaseSwipeViewHolder holder;
-        if (viewType == TYPE_NORMAL) {
-            NormalViewHolder viewHolder = new NormalViewHolder(mInflater.inflate(R.layout.adapter_store_normal, parent, false));
-            viewHolder.deleteTextView.setOnClickListener(mDeleteClickListener);
-            viewHolder.contentLayout.setOnClickListener(mItemClickListener);
-            holder = viewHolder;
-        } else {
-            ChatterViewHolder viewHolder = new ChatterViewHolder(mInflater.inflate(R.layout.adapter_store_chatter, parent, false));
-            viewHolder.deleteTextView.setOnClickListener(mDeleteClickListener);
-            viewHolder.chatterItemView.setOnClickListener(mItemClickListener);
-            holder = viewHolder;
+        if(convertView == null) {
+            if (getItemViewType(position) == TYPE_NORMAL) {
+                convertView = mInflater.inflate(R.layout.adapter_store_normal, parent, false);
+                NormalViewHolder viewHolder = new NormalViewHolder(convertView);
+                viewHolder.deleteTextView.setOnClickListener(mDeleteClickListener);
+                holder = viewHolder;
+            } else {
+                convertView = mInflater.inflate(R.layout.adapter_store_chatter, parent, false);
+                ChatterViewHolder viewHolder = new ChatterViewHolder(convertView);
+                viewHolder.deleteTextView.setOnClickListener(mDeleteClickListener);
+                viewHolder.chatterItemView.setPraiseListener(mPraiseClickListener);
+                holder = viewHolder;
+            }
+            convertView.setTag(holder);
+        }else{
+            holder = (BaseSwipeViewHolder) convertView.getTag();
         }
-        //((ViewGroup) holder.parentView).setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
-        // holder.parentView.setOnClickListener(mItemClickListener);
-        return holder;
-    }
-
-    @Override
-    public void onBindViewHolder(BaseSwipeViewHolder holder, int position) {
         Store store = getItem(position);
         if (holder instanceof NormalViewHolder) {
             NormalViewHolder viewHolder = (NormalViewHolder) holder;
@@ -79,12 +74,16 @@ public class StoreAdapter extends MyBaseRecyclerAdapter<Store, StoreAdapter.Base
         } else {
             ChatterViewHolder viewHolder = (ChatterViewHolder) holder;
             viewHolder.chatterItemView.setData(store.getChatter(), false, position);
-            viewHolder.chatterItemView.setPraiseListener(mPraiseClickListener);
             viewHolder.deleteTextView.setTag(position);
             viewHolder.chatterItemView.setTag(position);
             viewHolder.swipeLayout.close(true);
         }
-        // holder.parentView.setTag(position);
+        return convertView;
+    }
+
+    @Override
+    public int getViewTypeCount() {
+        return 2;
     }
 
     @Override
@@ -127,7 +126,6 @@ public class StoreAdapter extends MyBaseRecyclerAdapter<Store, StoreAdapter.Base
 
         BaseSwipeViewHolder(View view) {
             super(view);
-            view.setLayoutParams(new SwipeLayout.LayoutParams(width, ViewGroup.LayoutParams.WRAP_CONTENT));
             ButterKnife.bind(this, view);
         }
     }

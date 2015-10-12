@@ -2,9 +2,9 @@ package com.badou.mworking;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
 import com.badou.mworking.adapter.StoreAdapter;
 import com.badou.mworking.base.BaseBackActionBarActivity;
@@ -28,7 +28,7 @@ public class StoreActivity extends BaseBackActionBarActivity implements StoreLis
     @Bind(R.id.ptr_classic_frame_layout)
     PtrClassicFrameLayout mPtrClassicFrameLayout;
     @Bind(R.id.content_list_view)
-    RecyclerView mContentListView;
+    ListView mContentListView;
     @Bind(R.id.none_result_view)
     NoneResultView mNoneResultView;
 
@@ -56,12 +56,6 @@ public class StoreActivity extends BaseBackActionBarActivity implements StoreLis
         mStoreAdapter = new StoreAdapter(mContext, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int position = (int) v.getTag();
-                mPresenter.onItemClick(mStoreAdapter.getItem(position), position);
-            }
-        }, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
                 mPresenter.deleteStore(mStoreAdapter.getItem((Integer) v.getTag()), (Integer) v.getTag());
             }
         }, new View.OnClickListener() {
@@ -70,8 +64,6 @@ public class StoreActivity extends BaseBackActionBarActivity implements StoreLis
                 mPresenter.praiseStore(mStoreAdapter.getItem((Integer) v.getTag()), (Integer) v.getTag());
             }
         });
-        mContentListView.setLayoutManager(new LinearLayoutManager(mContext));
-        mContentListView.addItemDecoration(new DividerItemDecoration(mContext));
         mContentListView.setAdapter(mStoreAdapter);
         mPtrClassicFrameLayout.setPtrHandler(new PtrDefaultHandler2() {
             @Override
@@ -82,6 +74,12 @@ public class StoreActivity extends BaseBackActionBarActivity implements StoreLis
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
                 mPresenter.refresh();
+            }
+        });
+        mContentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mPresenter.onItemClick(mStoreAdapter.getItem(position), position);
             }
         });
     }
@@ -140,7 +138,7 @@ public class StoreActivity extends BaseBackActionBarActivity implements StoreLis
 
     @Override
     public int getDataCount() {
-        return mStoreAdapter.getItemCount();
+        return mStoreAdapter.getCount();
     }
 
     @Override

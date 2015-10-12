@@ -20,11 +20,11 @@ import com.badou.mworking.R;
 import com.badou.mworking.database.MessageCenterResManager;
 import com.badou.mworking.entity.MessageCenter;
 import com.badou.mworking.util.TimeTransfer;
+import com.daimajia.swipe.SwipeLayout;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
 import com.easemob.chatuidemo.Constant;
 import com.easemob.chatuidemo.adapter.ChatAllHistoryAdapter;
-import com.swipe.delete.SwipeLayout;
 
 import org.jivesoftware.smack.Chat;
 

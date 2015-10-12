@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:myattr="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/color_layout_bg"
-    android:orientation="vertical">
+             xmlns:myattr="http://schemas.android.com/apk/res-auto"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:background="@color/color_layout_bg"
+             android:orientation="vertical">
 
     <in.srain.cube.views.ptr.PtrClassicFrameLayout
         android:id="@+id/ptr_classic_frame_layout"
@@ -12,10 +12,12 @@
         android:layout_height="match_parent"
         android:background="@color/transparent">
 
-        <android.support.v7.widget.RecyclerView
+        <ListView
             android:id="@+id/content_list_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:divider="@color/color_border_grey"
+            android:dividerHeight="1dp"
             android:scrollbars="none"/>
     </in.srain.cube.views.ptr.PtrClassicFrameLayout>
 
@@ -26,5 +28,5 @@
         android:layout_gravity="center"
         android:visibility="gone"
         myattr:imgSrc="@drawable/background_none_result_store"
-        myattr:tipText="@string/none_result_store" />
+        myattr:tipText="@string/none_result_store"/>
 </FrameLayout>
