@@ -31,6 +31,7 @@ public class ResourceIntentFactory {
                 || message.getType().equals(MessageCenter.TYPE_TRAINING) || message.getType().equals(MessageCenter.TYPE_TASK)
                 || message.getType().equals(MessageCenter.TYPE_SHELF) || message.getType().equals(MessageCenter.TYPE_ENTRY)
                 || message.getType().equals(MessageCenter.TYPE_PLAN) || message.getType().equals(MessageCenter.TYPE_SURVEY)) {
+            System.out.println("type: " + message.getType() + ", type int" + message.getCategoryType());
             return CategoryIntentFactory.getIntent(context, message.getCategoryType(), message.getAdd(), true, null);
         } else if (message.getType().equals(MessageCenter.TYPE_CHATTER)) {
             return ChatterDetailActivity.getIntent(context, message.getAdd());

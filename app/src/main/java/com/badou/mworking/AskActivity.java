@@ -87,7 +87,7 @@ public class AskActivity extends BaseBackActionBarActivity implements AskListVie
         }, new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                mPresenter.copy(mAskAdapter.getItem((int) v.getTag(R.id.tag_position)));
+                mPresenter.copy(mAskAdapter.getItem((Integer) v.getTag()));
                 return true;
             }
         });
